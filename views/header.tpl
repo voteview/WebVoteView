@@ -1,3 +1,4 @@
+<!-- Header.tpl: Contains the navigation / header. No templating code in here. -->
 
 <div class="container">
   <div id="wbv-header" class="row">

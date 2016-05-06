@@ -1,6 +1,6 @@
-% STATIC_URL = "static/"
+% STATIC_URL = "/static/"
 % setdefault('title','UCLA')
-% setdefault('extra_head','')
+% setdefault('extra_css','')
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +32,9 @@
 
         <script src="{{STATIC_URL}}js/modernizr.custom.74326.js"></script>
 
+	% for extra in extra_css:
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}" type="text/css" />
+	% end
     </head>
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
         <!--[if lt IE 8]>

@@ -2,6 +2,8 @@
 
 % include('header.tpl')
 
+<!-- About.tpl: This is the template for an about us / help page. All the templating is done but we haven't written a message yet -->
+
 <div class="container">
 
     <div class="row">
