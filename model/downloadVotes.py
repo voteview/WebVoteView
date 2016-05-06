@@ -6,7 +6,7 @@ db = client["voteview"]
 
 def _get_yeanayabs(vote_id):
 	"""
-	Map vote ids with the propper values
+	Map vote ids with the proper values
 	Yea -> [1..3], Nay -> [4..6], Abs -> [7..9]
 	"""
 	if vote_id < 4:
