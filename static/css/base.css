@@ -1,0 +1,168 @@
+#scatter-container {
+    width: 600px;
+    height: 600px;
+    position: relative;
+}
+
+#scatter-bg, 
+#scatter-chart {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#scatter-chart {
+    z-index: 10;
+}
+
+#home-header {
+    background: url(/static/img/blue.jpg) 50% 0% repeat-x;
+    height: 440px;
+    text-align: center;
+    padding-top: 10%;
+    margin-bottom: 3%;
+}
+
+#home-header p {
+    color:white;
+    text-shadow: 0 -1px 8px rgba(0,0,0,0.9);
+    font-size: 140%;
+}
+
+ #home-header h1 {
+    color: white;
+    text-shadow: 0 -1px 8px rgba(0,0,0,0.9);
+    font-size: 320%;
+    font-weight: 700;
+ }
+
+#images-section .row {
+  margin-bottom: 20px;
+}
+
+.imageAndText {position: relative;} 
+.imageAndText p {position: absolute; z-index: 1; bottom: 0; left: 50; color:white; font-size: 200%;}
+
+#content {
+  display: none;
+}
+
+#home-search-form {
+  width: 60%;
+  margin: 0 auto;
+}
+
+#search-examples {
+    padding-top: 10px;
+}
+
+#search-bar-container {
+  padding-bottom: 25px;
+}
+
+#results-page-container {
+    padding-top: 10px;
+}
+
+#results-list {
+    padding-top: 10px;
+}
+
+#next-page {
+  margin:30px 0;
+}
+
+#wbv-header {
+  padding-top: 20px;
+  border-bottom:thin solid #DDD;
+  margin-bottom: 20px;
+}
+
+#wbv-header h1 {
+  font-size: 25px;
+  padding-bottom: 19px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+}
+
+#loading-container {
+  padding-top: 40px;
+  text-align: center;
+}
+
+
+/* Maps and charts */
+.dc-chart g.row text {
+  fill: black;
+}
+
+#loading {
+ float: none;
+ margin: 0 auto;
+ text-align: center;
+ display: none;
+}
+
+#map-container {
+  width: 700px; 
+}
+
+.axis {
+    font-family:verdana;
+    font-size:9pt;
+}
+
+line.cutline {
+    stroke-width: 3;
+    stroke: #FFF;
+}
+
+.wvv-tooltip  {
+  color: #222; 
+  background: #fff; 
+  padding: 0.2em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  opacity: 0.9; 
+  position: absolute;
+  font-size: 90%;
+  line-height: 80%; 
+  min-width:13em;
+}
+
+.wvv-tooltip img {
+  float:left;
+}
+
+.wvv-tooltip.hidden {
+  display: none;
+}
+
+/*Hacky way to remove the axis while https://github.com/dc-js/dc.js/issues/548 is solved*/
+#scatter-chart .axis {
+  display: none;
+}
+
+#download-btn {
+  position:fixed;
+  right: 12px;
+  bottom:12px;
+  display: none;
+}
+
+#sort-label {
+  text-align: right;
+  padding-top: 10px;
+}
+
+#brand a {
+  text-decoration: none;
+}
+
+.dc-table-label {
+  font-weight: 600;
+  font-size: 130%;
+}

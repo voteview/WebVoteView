@@ -1,0 +1,22 @@
+
+<div class="container">
+  <div id="wbv-header" class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-pills pull-right">
+        <!-- <li><a href="/">Home</a></li> -->
+        <li><a href="{% url 'search' %}">search</a></li>
+        <li>
+          <a data-toggle="dropdown" href="#">explore</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <li><a href="{% url 'explore-senate' %}">Senate</a></li>
+              <li><a href="{% url 'explore-house' %}">House</a></li>
+            </ul>
+        </li>
+        <li><a href="{% url 'data' %}">data</a></li>
+        <li><a href="{% url 'research' %}">research</a></li>
+        <li><a href="{% url 'about' %}">about</a></li>
+      </ul>
+      <h1 id="brand"><a href="/">voteview</a></h1>
+    </div>
+  </div>
+</div>
