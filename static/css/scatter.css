@@ -1,0 +1,58 @@
+svg.scatter {
+    position: relative;
+    top: -25px;
+    left: 0px;
+    z-index: 0;
+    background: #000;
+}
+
+.scatter-axis {
+	stroke:#000; 
+	stroke-width:1; 
+	fill:none
+}
+
+.yeanay {
+	text-anchor:middle; 
+	font-size: 5em; 
+	fill:#999; 
+	font-family:verdana;
+}
+
+.fitbox {
+	text-anchor:bottom;
+	font-family:verdana;
+	font-size:9pt
+}
+
+.yeanay-line {
+	stroke:#999; 
+	stroke-dasharray:4 2;
+	stroke-width:2; 
+	fill:none;
+}
+
+#cutline {
+	stroke:#000; 
+	stroke-width:2; 
+	clip-path:url(#scatterclip);
+}
+
+#dashed-circle {
+	stroke:#333;
+//	stroke-dasharray:3 4;
+	stroke-width:0.5;
+	fill:none;
+}
+
+#yea-semi {
+	stroke:none; 
+	fill:#FFFFED;
+	clip-path:url(#scatterclip);
+}
+
+#outer-circle {
+	stroke:#333;
+	stroke-width:0;
+	fill:#FFF;
+}
