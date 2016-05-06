@@ -27,6 +27,10 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	elif apitype=="R":
 		apiVersion = "R 2016-02"
 
+	if not rollcall_id or len(rollcall_id)==0:
+		response = {'errormessage': 'No rollcall id specified.', 'apitype': apiVersion}
+		return response
+
 	 # Split multiple ID requests into list
 	if "," in rollcall_id:
 		rollcall_ids = [x.strip() for x in rollcall_id.split(",")]
@@ -41,16 +45,27 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	rollcall_results = [] # Stores top level rollcall results, one per vote
 	errormessage = "" # String storing error text
 	errormeta = [] # List storing failed IDs
-	for search_rollcall_id in rollcall_ids: # Loop through everything
-		rollcall = rollcalls_col.find_one({'id': search_rollcall_id}) # Query
+
+	found = {}
+	for rid in rollcall_ids:
+		found[rid] = 0
+	print found
+
+	rollcalls = rollcalls_col.find({'id': {'$in': rollcall_ids}})
+	for rollcall in rollcalls:
 		result = []
 		try: # Lazy way to verify the rollcall is real
+			# Pull all members in a single query.
+			memberSet = []
 			for vote in rollcall['votes']:
-				member = members_col.find_one({'id': vote})
+				memberSet.append(vote)
+			members = members_col.find({'id': {'$in': memberSet}})
+
+			for member in members:
 				# Web returns different fields than R
 				if apitype=="Web":
 					v = {
-						'vote': _get_yeanayabs(rollcall['votes'][vote]),
+						'vote': _get_yeanayabs(rollcall['votes'][member["id"]]),
 						'name': member['fname'],
 						'id': member['id'],
 						'party': member['partyname'],
@@ -67,7 +82,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 					result.append(v)
 				elif apitype=="R":
 					v = {
-						'vote': rollcall['votes'][vote],
+						'vote': rollcall['votes'][member["id"]],
 						'name': member['fname'],
 						'id':member['id'],
 						'icpsr': member['icpsr'],
@@ -87,13 +102,20 @@ def downloadAPI(rollcall_id, apitype="Web"):
 				nominate = {k: rollcall['nominate'][k] for k in ['intercept', 'slope']}
 
 			# Top level rollcall item.
+			found[rollcall["id"]] = 1
 			rollcall_results.append({'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
 						'session': rollcall['session'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
-						'description': rollcall['description'], 'id': str(search_rollcall_id)})
+						'description': rollcall['description'], 'id': rollcall['id']})
 		except: # Invalid vote id
 			print traceback.format_exc()
-			errormessage = "Invalid Rollcall IDs."
-			errormeta.append(str(search_rollcall_id))
+			errormessage = "Invalid Rollcall ID specified."
+			errormeta.append(str(rollcall["id"]))
+
+	if rollcalls.count() != len(rollcall_ids):
+		errormessage = "Invalid Rollcall ID specified."
+		for voteID, num in found.iteritems():
+			if num==0:
+				errormeta.append(str(voteID))
 
 	endtime = time.time()
 	response = {}
@@ -108,5 +130,5 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	return response
 
 if __name__=="__main__":
-	print downloadAPI("H1050998,H1050997,H1050996")
+	print downloadAPI("H1050998,H1050997,H1050996,BLORPY")
 
