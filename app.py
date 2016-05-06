@@ -44,18 +44,40 @@ def callback(path):
 # Index
 @app.route("/")
 def index():
-    return "VoteView server..."
+	return "VoteView server"
 
-# Other Web sites
+# Static Pages with no arguments, just passthrough the template. 
+# Really we should just cache these, but anyway.
 @app.route("/about")
 def about():
-    output = bottle.template('views/about')
-    return output
+	output = bottle.template('views/about')
+	return output
+
+@app.route("/data")
+def data():
+	output = bottle.template("views/data")
+	return output
 
 @app.route("/search_query")
 def search_query():
-    output = bottle.template('views/search')
-    return output
+	output = bottle.template('views/search')
+	return output
+
+@app.route("/research")
+def research():
+	output = bottle.template("views/research")
+	return output
+
+# Pages that have arguments
+@app.route("/explore")
+@app.route("/explore/<chamber:re:house|senate>")
+def explore(chamber="house"):
+	chamber = defaultValue(bottle.request.params.chamber,"house")
+	if chamber is not "senate": # Security to prevent the argument being passed through being malicious.
+		chamber = "house"
+
+	output = bottle.template("views/explore",chamber=chamber)
+	return output
 
 #
 #
@@ -97,10 +119,6 @@ def downloadAPI():
     apitype = defaultValue(bottle.request.params.apitype,"Web")
     res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
     return(res)
-
-# This is a helper method for the XLS download file
-def _memberinfo(self,m):
-    return( [vars(m)[f[0]] for f in self.infofields] )
 
 @app.route("/api/downloadXLS")
 def download():
