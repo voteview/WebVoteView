@@ -1,3 +1,7 @@
 git add *
-git commit -m "$*"
-#git push origin master
+if [ $# -eq 0 ] ; then
+	git commit
+else
+	git commit -m "$*"
+fi
+git push origin master
