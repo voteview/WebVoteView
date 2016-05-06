@@ -1,11 +1,4 @@
-% rebase("base.tpl")
-% STATIC_URL = "static/"
-
-{% load compress %}
-
-{% block title %}Search{% endblock %}
-
-{% block content %}
+% rebase("base.tpl", title="Search")
 
 % include('header.tpl')
 <div class="container">
@@ -278,6 +271,3 @@
   </div>
 
   <script type="text/javascript" src="{{ STATIC_URL }}/js/search.js"></script>
-
-{% endblock %}
-

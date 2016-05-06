@@ -1,15 +1,12 @@
-{% extends 'base.html' %}
-
-{% block title %}Search results{% endblock %}
+% rebase('base.tpl',title='Search results'}
 
 {% block extra_head %}
     <link href="{{ STATIC_URL }}css/map.css" media="all" rel="stylesheet" type="text/css" />
     <link href="{{ STATIC_URL }}css/scatter.css" media="all" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block content %}
+% include 'header.tpl'
 
-{% include 'header.html' %}
 <div class="container">
   <div class="row">
       <div class="col-md-12">
