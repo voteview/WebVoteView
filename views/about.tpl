@@ -1,8 +1,4 @@
-% rebase('base.tpl')
-
-{% block title %}About us{% endblock %}
-
-{% block content %}
+% rebase('base.tpl',title='About us')
 
 % include('header.tpl')
 
@@ -25,5 +21,3 @@
     </div>
 
 </div>
-
-{% endblock %}

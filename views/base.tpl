@@ -1,9 +1,12 @@
 % STATIC_URL = "static/"
+% setdefault('title','UCLA')
+% setdefault('extra_head','')
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>VoteView | {% block title %}{% endblock title %}</title>
+        <title>VoteView | {{ title }}</title>
 
         <meta http-equiv="X-UA-Compatible" content="chrome=IE7" />
 
@@ -29,7 +32,6 @@
 
         <script src="{{STATIC_URL}}js/modernizr.custom.74326.js"></script>
 
-        {% block extra_head %}{% endblock extra_head %}
     </head>
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
         <!--[if lt IE 8]>
