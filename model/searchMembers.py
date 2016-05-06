@@ -61,7 +61,6 @@ def memberLookup(qDict, maxResults=50):
 		else:
 			searchQuery["cqlabel"] = "("+cqlabel+")"
 
-	# Need to port mongo collection connection
 	response = []
 	errormessage = ""
 	i = 0
