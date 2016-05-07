@@ -1,7 +1,8 @@
 % STATIC_URL = "/static/"
 % setdefault('title','UCLA')
 % setdefault('extra_css','')
-
+% setdefault('body_id', '')
+% setdefault('body_class', '')
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -36,7 +37,7 @@
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}" type="text/css" />
 	% end
     </head>
-    <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+    <body id="{{ body_id }}" class="{{ body_class }}{% block body_class %}">
         <!--[if lt IE 8]>
             <div class="chromeframe">
                     <p>Hi. It looks like you're using an older browser.<br/>
