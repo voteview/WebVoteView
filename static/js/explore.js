@@ -46,6 +46,7 @@ var xhr = d3.json("/static/explorejson/"+chamber_param+".json")
         timeChart
             .width(1180)
             .height(180)
+	    .margins({top: 10, right: 50, bottom: 30, left: 40})
             .dimension(yearlyDimension)
             .group(yearlyGroup)
             .elasticX(true)

@@ -29,6 +29,8 @@ def downloadXLS(ids):
 
 	if not ids or not len(ids):
 		return [-1, "Error: No rollcall IDs specified."]
+	if len(ids)>100:
+		return [-1, "Error: API abuse. Too many rollcall IDs requested."]
 
 	rollcalls = [['vote']+[f[1] for f in descriptionfields]] # Header row for rollcalls
 	results = db.voteview_rollcalls.find({"id": {"$in": ids}}).sort([("id",1)])
