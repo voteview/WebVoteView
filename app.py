@@ -79,6 +79,22 @@ def explore(chamber="house"):
 	output = bottle.template("views/explore",chamber=chamber)
 	return output
 
+@app.route("/person")
+@app.route("/person/<icpsr>")
+def person(icpsr=0):
+	if not icpsr:
+		icpsr = defaultValue(bottle.request.params.icpsr,0)
+
+	# Pull by ICPSR
+	person = memberLookup({"icpsr": icpsr}, 1)
+
+	# If there's no result, load an error template.
+	if "errormessage" in person:
+		return(person)
+	# If there's a result, load the person template.
+	else:
+		output = bottle.template("views/person",person=person["results"][0], votes=[])
+		return(output)
 #
 #
 # API methods
