@@ -5,6 +5,7 @@ import bottle
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.searchMembers import memberLookup, getMembersBySession
+from model.bioData import yearsOfService, checkForPartySwitch
 from model.downloadXLS import downloadXLS
 import datetime
 
@@ -94,10 +95,20 @@ def person(icpsr=0):
 		# Look up votes
 
 		# Check if bio image exists
-		if not os.path.isfile("static/img/bio/"+str(person["icpsr"]).zfill(6)+".jpg"):
+		if not os.path.isfile("static/img/bios/"+str(person["icpsr"]).zfill(6)+".jpg"):
 			person["bioImg"] = "silhouette.png"
 		else:
 			person["bioImg"] = str(person["icpsr"]).zfill(6)+".jpg"	
+
+		person["yearsOfService"] = yearsOfService(person["icpsr"])
+	
+		altICPSRs = checkForPartySwitch(person)
+		person["altPeople"] = []
+		for alt in altICPSRs:
+			altPerson = memberLookup({"icpsr": alt}, 1)
+			if not "errormessage" in altPerson:
+				altPerson["yearsOfService"] = yearsOfService(alt)
+			person["altPeople"].append(altPerson)
 
 		output = bottle.template("views/person",person=person, votes=[])
 		return(output)

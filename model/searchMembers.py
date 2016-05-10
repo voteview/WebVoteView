@@ -70,7 +70,7 @@ def memberLookup(qDict, maxResults=50):
 		if i>maxResults:
 			break
 
-	if len(response)>maxResults:
+	if len(response)>maxResults and maxResults>1: # For regular searches get mad if we have more than max results.
 		errormessage = "Capping number of responses at "+str(maxResults)+"."
 
 	if len(response)==0:
