@@ -747,7 +747,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
 		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"]):
+		"descriptionShort", "descriptionShortLiteral"], icpsr=None, page=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -764,12 +764,18 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		Error handling will change S to Senate or H to House
 	flds: list
 		List of fields it wants returned? Parameter is depricated
+	icpsr: int
+		Taking ICPSR number as possible argument to directly passthrough the person's votes.
+	page: int
+		Default 0. Used for intermediate APIs to throttle the votes returned.
 
 	Returns
 	-------
 	dict
 		Dict of results to be run through json.dumps for later output
 	"""
+
+	baseRowLimit = 5000
 
 	print qtext
 	beginTime = time.time()
@@ -838,6 +844,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			queryDict = z
 		except:
 			pass
+
+	if icpsr is not None:
+		queryDict["votes."+icpsr] = {"$exists": 1}		
 
 	# Get results
 	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"session":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1}

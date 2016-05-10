@@ -88,13 +88,23 @@ def person(icpsr=0):
 	# Pull by ICPSR
 	person = memberLookup({"icpsr": icpsr}, 1)
 
-	# If there's no result, load an error template.
-	if "errormessage" in person:
-		return(person)
-	# If there's a result, load the person template.
-	else:
-		output = bottle.template("views/person",person=person["results"][0], votes=[])
+	# If we have no error, follow through
+	if not "errormessage" in person:
+		person = person["results"][0]
+		# Look up votes
+
+		# Check if bio image exists
+		if not os.path.isfile("static/img/bio/"+str(person["icpsr"]).zfill(6)+".jpg"):
+			person["bioImg"] = "silhouette.png"
+		else:
+			person["bioImg"] = str(person["icpsr"]).zfill(6)+".jpg"	
+
+		output = bottle.template("views/person",person=person, votes=[])
 		return(output)
+
+	# If we have an error, return an error page
+	else:
+		return(person)
 #
 #
 # API methods
