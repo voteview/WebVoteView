@@ -38,7 +38,7 @@ def sessionToYear(session, endDate):
 	return 1787 + 2*session + 2*endDate
 
 def checkForPartySwitch(person):
-	if not person["icpsr"]:
+	if not "icpsr" in person or not person["icpsr"]:
 		return -1
 
 	baseIcpsr = str(person["icpsr"]).zfill(6)
@@ -89,4 +89,4 @@ if __name__=="__main__":
 	yearsOfService(99369)
 	yearsOfService(14240)
 
-	print checkForPartySwitch(memberLookup({'icpsr': 99369},1)["results"][0])
+	print checkForPartySwitch(memberLookup({'icpsr': 9369},1)["results"][0])

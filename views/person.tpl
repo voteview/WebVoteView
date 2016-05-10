@@ -19,10 +19,32 @@
 				, 
 			% end
 			{{chunk[0]}}-{{chunk[1]}}
+			% z = z + 1
 		% end
 	    </h4>
 	    % if len(person["altPeople"]):
-	    <h5>Served as another person.</h5>
+	    <h5>
+		% k = 0
+		% for alt in person["altPeople"]:
+			% if alt["yearsOfService"][0][0]>=person["yearsOfService"][-1][1]:
+			Subsequently served as 
+			% elif alt["yearsOfService"][-1][1]<=person["yearsOfService"][0][0]:
+			Previously served as 
+			% end
+			% if k>0:
+				, 
+			% end
+	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["partyname"] }}</a> (
+			% z = 0
+			% for chunk in alt["yearsOfService"]:
+				% if z > 0:
+					, 
+				% end
+				{{chunk[0]}}-{{chunk[1]}}
+			% end
+		 )
+		% k = k + 1
+		% end
 	    % end
         </div>
     </div>

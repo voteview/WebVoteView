@@ -103,12 +103,13 @@ def person(icpsr=0):
 		person["yearsOfService"] = yearsOfService(person["icpsr"])
 	
 		altICPSRs = checkForPartySwitch(person)
-		person["altPeople"] = []
-		for alt in altICPSRs:
-			altPerson = memberLookup({"icpsr": alt}, 1)
-			if not "errormessage" in altPerson:
-				altPerson["yearsOfService"] = yearsOfService(alt)
-			person["altPeople"].append(altPerson)
+		if "results" in altICPSRs:
+			person["altPeople"] = []
+			for alt in altICPSRs["results"]:
+				altPerson = memberLookup({"icpsr": alt}, 1)["results"][0]
+				if not "errormessage" in altPerson:
+					altPerson["yearsOfService"] = yearsOfService(altPerson["icpsr"])
+					person["altPeople"].append(altPerson)
 
 		output = bottle.template("views/person",person=person, votes=[])
 		return(output)
