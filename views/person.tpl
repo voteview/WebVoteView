@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-md-2">
-            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}">
+            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;">
         </div>
         <div class="col-md-9">
             <h2>{{ person["fname"] }}</h2>
