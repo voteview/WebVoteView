@@ -12,6 +12,18 @@
             <h2>{{ person["fname"] }}</h2>
             <h4>{{ person["partyname"] }}</h4>
             <h4>{{ person["stateName"] }}, {{ person["stateAbbr"] }}</h4>
+	    <h4>Served
+		% z = 0
+		% for chunk in person["yearsOfService"]:
+			% if z>0:
+				, 
+			% end
+			{{chunk[0]}}-{{chunk[1]}}
+		% end
+	    </h4>
+	    % if len(person["altPeople"]):
+	    <h5>Served as another person.</h5>
+	    % end
         </div>
     </div>
     <div class="row">
