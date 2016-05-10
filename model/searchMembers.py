@@ -67,7 +67,7 @@ def memberLookup(qDict, maxResults=50):
 	for m in db.voteview_members.find(searchQuery,{'_id': 0}):
 		response.append(m)
 		i=i+1
-		if i>maxResults:
+		if i>=maxResults:
 			break
 
 	if len(response)>maxResults and maxResults>1: # For regular searches get mad if we have more than max results.
@@ -84,5 +84,6 @@ def getMembersBySession(session):
 	return(memberLookup({"session": session}, 1000))
 
 if __name__ == "__main__":
-	print memberLookup({"name": "Cruz, Ted"})
-	print getMembersBySession(110)
+	#print memberLookup({"name": "Cruz, Ted"})
+	print len(memberLookup({"icpsr": 99369}, 1)["results"])
+	#print getMembersBySession(110)
