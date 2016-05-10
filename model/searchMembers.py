@@ -74,7 +74,7 @@ def memberLookup(qDict, maxResults=50):
 		errormessage = "Capping number of responses at "+str(maxResults)+"."
 
 	if len(response)==0:
-		return({'errormessage': 'No results'})
+		return({'errormessage': 'No members found matching your search query.'})
 	elif errormessage:
 		return({'errormessage': errormessage, 'results': response})
 	else:
