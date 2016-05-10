@@ -29,7 +29,7 @@ def memberLookup(qDict, maxResults=50):
 		searchQuery["stateAbbr"] = state.upper() # States are all stored upper-case
 	if session:
 		try:
-			session = int(session)
+			session = str(int(session))
 		except:
 			return({"errormessage": "Invalid Session ID supplied."})
 
@@ -71,7 +71,7 @@ def memberLookup(qDict, maxResults=50):
 			break
 
 	if len(response)>maxResults:
-		errormessage = "Capping number of responses at 50."
+		errormessage = "Capping number of responses at "+str(maxResults)+"."
 
 	if len(response)==0:
 		return({'errormessage': 'No results'})
