@@ -95,28 +95,42 @@ def person(icpsr=0):
 		# Look up votes
 
 		# Check if bio image exists
+		bioFound = 0
 		if not os.path.isfile("static/img/bios/"+str(person["icpsr"]).zfill(6)+".jpg"):
+			# If not, use the default silhouette
 			person["bioImg"] = "silhouette.png"
 		else:
 			person["bioImg"] = str(person["icpsr"]).zfill(6)+".jpg"	
+			bioFound = 1
 
+		# Get years of service
 		person["yearsOfService"] = yearsOfService(person["icpsr"])
 	
+		# Find out if we have any other ICPSRs that are this person for another party
 		altICPSRs = checkForPartySwitch(person)
 		if "results" in altICPSRs:
 			person["altPeople"] = []
+			# Iterate through them
 			for alt in altICPSRs["results"]:
+				# Look up this one
 				altPerson = memberLookup({"icpsr": alt}, 1)["results"][0]
 				if not "errormessage" in altPerson:
+					# Get their years of service
 					altPerson["yearsOfService"] = yearsOfService(altPerson["icpsr"])
+					# If we don't have a bio image for main guy, borrow from his previous/subsequent incarnations
+					if not bioFound and os.path.isfile("static/img/bios/"+str(altPerson["icpsr"]).zfill(6)+".jpg"):
+						person["bioImg"] = str(altPerson["icpsr"]).zfill(6)+".jpg"
+						bioFound = 1
 					person["altPeople"].append(altPerson)
 
+		# Go to the template.
 		output = bottle.template("views/person",person=person, votes=[])
 		return(output)
 
 	# If we have an error, return an error page
 	else:
-		return(person)
+		output = bottle.template("views/error", errorMessage=person["errormessage"])
+		return(output)
 #
 #
 # API methods
