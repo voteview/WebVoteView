@@ -258,7 +258,6 @@
             <a id="download-btn" class="btn btn-info" onclick="$('#download-rollcalls-form').submit(); unselectAll();">Download selected roll calls to Excel</a>
             <form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
               <div id="results-list">
-                {# List of rollcalls goes here #}
               </div>
               <a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a> 
             </form>

@@ -908,6 +908,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	returnDict = {}
 	returnDict["rollcalls"] = mr
 	returnDict["recordcount"] = len(mr)
+	returnDict["recordcountTotal"] = resCount
 	returnDict["apiversion"] = "Q2"
 	if resCount>rowLimit:
 		returnDict["rollcalls"] = mr[0:rowLimit]

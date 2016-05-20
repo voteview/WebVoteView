@@ -23,7 +23,6 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" media="screen, projection"/>
         <!--[if lt IE 8]><link rel="stylesheet" href="{{STATIC_URL}}css/ie.css" type="text/css" media="screen, projection"><![endif]-->
         
-        <!--<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/jquery-1.11.1.min.js"></script>
 
          <!--[if (gte IE 6)&(lte IE 8)]>
