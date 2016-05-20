@@ -31,18 +31,18 @@
       <div class="col-md-9">
 	<h4 style="float:left;clear:none;vertical-align:middle;">Vote Map</h4>
           <span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;">
-              <a class="reset" href="javascript:mapChart.filterAll();dc.redrawAll();" style="display: none;"> Select All</a>
-              <span class="reset" style="display: none;"> | Current Selection: <span class="filter"></span></span>
+	      <span id="suppressMapControls" style="display:none;">
+		<span class="filter"></span>
+	      </span>
           </span>
       </div>
       <div class="col-md-3">
           <div id="party-chart" style="position:absolute;">
               <strong>Votes</strong>
-              <a class="reset" href="javascript:votePartyChart.filterAll();dc.redrawAll();" style="display: none;">Select All</a>
-              <div class="clearfix"></div>
+	      <span id="suppressVoteChartControls" style="display:none;">
+		<span class="filter"></span>
+	      </span>
           </div>
-              <div id="bogus-chart">
-              </div>
       </div>
   </div>
 
@@ -55,34 +55,42 @@
                   </svg> 
               </div>
 	      <div id="scatter-chart">
+			<span id="suppressNominateControls" style="display:none;">
+				<span class="filter"></span>
+			</span>
               </div>
 	  </div>
       </div>
   </div>
 
+<!--
   <div class="row">
       <div class="col-md-12">
-          <div id="data-count">
-		<h4>Vote Table</h4>
-              <span class="filter-count"></span> of <span class="total-count"></span> voters selected | <a
-                  href="javascript:dc.filterAll(); dc.renderAll(); decorateNominate(nominateScatterChart, globalData);">Select All</a>
-          </div>
+	<h4>Vote Table</h4>
           <table class="table table-hover dc-data-table">
               <thead>
               <tr class="header">
                   <th>Name</th>
                   <th>Party</th>
-                  <!--<th>Vote</th>
-                  <th>State</th>-->
                   <th>Profile</th>
               </tr>
               </thead>
           </table>
       </div>
   </div>
-
+-->
 
 	</div>
+</div>
+
+<div id="selectionFilterBar" style="z-index: 99;position:fixed; bottom:0px; height:40px; left:0px; width:100%; background-color:#EEEEEE; padding: 10px; border-top:1px solid black; display:none; ">
+	<strong>Selected:</strong> 
+	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span> </span>
+	<span id="map-chart-controls" style="display:none;">from <span class="filter"></span> </span> 
+	<span id="vote-chart-controls" style="display:none;">including <span class="filter"></span> </span>
+	<span id="nominate-chart-controls" style="display:none;">with NOMINATE scores within <span class="filter"></span></em> </span>
+	. 
+	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
 </div>
 
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
@@ -333,6 +341,7 @@ function drawWidgets(error, geodata, data) {
 		{
 			case "Democrat": score=score+2; break;
 			case "Republican": score=score+1; break;
+			default: score=score+0; break;
 		}
 		return -score;
 	})
@@ -531,6 +540,8 @@ function drawWidgets(error, geodata, data) {
 
 
     decorateNominate(nominateScatterChart,data);
+
+    window.setInterval(pollFilters, 1100);
 }
 
 // Blend an array of colors
@@ -548,16 +559,18 @@ function blendColors(members) {
     return d3.rgb(r,g,b).toString();
 }
 
-/* Updates the Vote chart to have categories */
+// Use this to extract offsets from vote party chart in order to insert category labels.
 function splitTranslate(text)
 {
 	return(parseInt(text.split(",")[1].split(")")[0]));
 }
 
+// Update vote party chart in order to insert category labels.
 function updateVoteChart() 
 {
 	var voteChartSVG = $("#party-chart > svg");
 	var scanFor = ["Yea", "Nay", "Abs", "NA end"];
+	var scanMap = ["Voting Yea", "Voting Nay", "Absent", ""];
 	var scanIndex = 0;
 	var translateAdj = 0;
 	var newMax = 0;
@@ -565,8 +578,8 @@ function updateVoteChart()
 		var tChildren = $(this).children("title").text();
 		if(tChildren.length && tChildren.startsWith(scanFor[scanIndex]))
 		{
-			var currentTranslate = splitTranslate($(this).attr("transform"));
-			$('<g class="label _0" transform="translate(0,'+currentTranslate+')"><text fill="#000000;" font-size="12px" x="10" y="'+(currentTranslate+2)+'" dy="0.35em">'+scanFor[scanIndex]+'</text></g>').insertBefore($(this));
+			var currentTranslate = splitTranslate($(this).attr("transform")) + translateAdj;
+			$('<g class="label _0" transform="translate(0,'+currentTranslate+')"><text fill="#000000;" font-size="12px" x="6" y="12" dy="0.35em" transform>'+scanMap[scanIndex]+'</text></g>').insertBefore($(this));
 			translateAdj = translateAdj+34;
 			scanIndex=scanIndex+1;
 		}
@@ -575,6 +588,134 @@ function updateVoteChart()
 	});
 	voteChartSVG.children("g").children(".axis").attr("transform","translate(0,"+(newMax+34)+")");
 	voteChartSVG.attr("height",(newMax+68));
+	$("#party-chart").html($("#party-chart").html());
+	return 0;
+}
+
+// Polls filters every second to ensure filter changes are reflected in bottom bar.
+function pollFilters()
+{
+	// Proper diction for text
+	if(chamber=="House")
+	{
+		var districtName = "districts";
+		var voterName = "representatives";
+	}
+	else
+	{
+		var districtName = "states";
+		var voterName = "senators";
+	}
+	$("#votertype").text(voterName);
+
+	var baseFilters = 0;
+
+	// Filters for map unit selection
+	var mapFilter = $("#suppressMapControls > .filter").text();
+	if(mapFilter.length)
+	{
+		// Collapse the text, it's too long
+		if(mapFilter.length>20)
+		{
+			var selectCount = (mapFilter.match(/,/g) || []).length;
+			mapFilter = mapFilter.split(", ")[0] + " and "+(selectCount-1)+" other "+districtName;
+		}
+		$("#map-chart-controls > .filter").text(mapFilter);
+		$("#map-chart-controls").show();
+		baseFilters = baseFilters+1;
+	}
+	else
+	{
+		$("#map-chart-controls").hide();
+	}
+
+	// Filters for party/vote selection
+	var voteFilter = $("#suppressVoteChartControls > .filter").text();
+	if(voteFilter.length)
+	{
+		var selected = voteFilter.split(", ");
+		var newDict = {};
+		// Rewrite into Party->Vote dict for sentence construction.
+		for(var i=0;i!=selected.length;i++)
+		{
+			var vote = selected[i].substr(0,3);
+			var party = selected[i].substr(3);
+			if(newDict[party] != undefined)
+			{
+				newDict[party].push(vote);
+			}
+			else
+			{
+				newDict[party] = [vote];
+			}
+		}
+
+		var baseString = "";
+		var p=0;
+		for(var party in newDict)
+		{
+			if(p) { baseString+= "; "; }
+			baseString += party+"s voting ";
+			var z=0;
+			for(var voteType in newDict[party])
+			{
+				if(z && z+1==newDict[party].length) { baseString += ", and "; }
+				else if(z) { baseString += ", "; }
+				baseString += newDict[party][voteType];
+				z+=1;
+			}
+			p+=1;
+		}
+		$("#vote-chart-controls > .filter").text(baseString);
+		$("#vote-chart-controls").show();
+		baseFilters=baseFilters+1;
+	}
+	else
+	{
+		$("#vote-chart-controls").hide();
+	}
+
+	// Filters for NOMINATE selection
+	var nominateFilter = $("#suppressNominateControls > .filter").text();
+	if(nominateFilter.length)
+	{
+		// Round coordinates to 2 sig figs.
+		var coordSets = nominateFilter.split(" -> ");
+		var initXY = coordSets[0].split(",");
+		var endXY = coordSets[1].split(",");
+		initXY[0] = parseFloat(initXY[0].substr(1)).toPrecision(2);
+		initXY[1] = parseFloat(initXY[1]).toPrecision(2);
+		endXY[0] = parseFloat(endXY[0].substr(0,endXY[0].length-1)).toPrecision(2);
+		endXY[1] = parseFloat(endXY[1]).toPrecision(2);
+		var resultText = "("+initXY[0]+", "+initXY[1]+") to ("+endXY[0]+", "+endXY[1]+")";
+		$("#nominate-chart-controls > .filter").text(resultText);
+		$("#nominate-chart-controls").show();
+		baseFilters=baseFilters+1;
+	}
+	else
+	{
+		$("#nominate-chart-controls").hide();
+	}
+
+	// Hide or show the full bar.
+	if(baseFilters)
+	{
+		$("#selectionFilterBar").slideDown();
+	}
+	else
+	{
+		$("#selectionFilterBar").slideUp();
+	}
+	
+}
+
+// Easier to update steps to take on a full filter reset by running this.
+function doFullFilterReset()
+{
+	$("#selectionFilterBar").slideUp();
+	dc.filterAll();
+	dc.redrawAll();
+	decorateNominate(nominateScatterChart, globalData);
 }
 
 /*
