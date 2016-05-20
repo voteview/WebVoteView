@@ -15,7 +15,7 @@ infofields = [('icpsr','icpsr'),
 		('party','party')]
 	
 descriptionfields = [('chamber','chamber'),
-			('session','congress'),
+			('congress','congress'),
 			('date','date'),
 			('rollnumber','rollnumber'),
 			('description','description')]

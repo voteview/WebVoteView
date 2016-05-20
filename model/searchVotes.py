@@ -11,7 +11,7 @@ client = pymongo.MongoClient()
 db = client["voteview"]
 
 fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
-		"description": "flexstr", "session": "int", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
+		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
 		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter"}
 
 # Simple tab-based pretty-printer to output debug info.
@@ -554,9 +554,9 @@ def parseFreeformQuery(qtext):
 
 	if error==0:
 		queryDict, needScore, errorMessage = assembleQueryChunk(queryDict, queryField, queryWords)
-		return [queryDict, needScore, ""]
 		if errorMessage:
 			return [-1, 0, errorMessage]
+		return [queryDict, needScore, ""]
 	else: # Got an error in a chunk
 		return [-1, 0, errorMessage]
 
@@ -629,7 +629,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 	# INT can be searched by integer or range
 	elif fieldType=="int":
 		if queryField == "congress":
-			queryField = "session"
+			queryField = "congress"
 
 		if " " not in queryWords:
 			try:
@@ -747,7 +747,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
 		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"], icpsr=None, page=0):
+		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, page=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -775,7 +775,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		Dict of results to be run through json.dumps for later output
 	"""
 
-	baseRowLimit = 5000
+	baseRowLimit = rowLimit
 
 	print qtext
 	beginTime = time.time()
@@ -849,7 +849,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		queryDict["votes."+icpsr] = {"$exists": 1}		
 
 	# Get results
-	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"session":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1}
+	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1}
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
 
@@ -858,7 +858,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	if needScore:
 		try:
 			resCount = votes.find(queryDict,fieldReturns).count()
-			rowLimit = 5000
+			rowLimit = baseRowLimit
 			results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
@@ -877,7 +877,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	else:
 		try:
 			resCount = votes.find(queryDict,fieldReturns).count()
-			rowLimit = 5000
+			rowLimit = baseRowLimit
 			results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
@@ -920,23 +920,26 @@ if __name__ == "__main__":
 		query(args)		
 	else:
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
-		#query("((((((((((description:tax) OR session:113) OR yea:55) OR support:[50 to 100]) OR session:111))))))") # Error in stage 1: Excessive depth
-		#query("(description:tax OR session:1))(") # Error in stage 1: Mish-mash parenthesis
+		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
+		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
 		#query("OR description:tax OR") # Error in stage 2: OR at wrong part of message.
 		#query("iraq war test")
 		#query("\"iraq war test\"")
 		#query("description:tax",startdate="1972-01-01",enddate="1973-01-01",chamber="senate")
-		#query("shortdescription:Iraq session:113", chamber = "house")
-		#query("shortdescription:Iraq session:[112 to 113]", startdate="1800-01-01", enddate="2200-01-01", chamber="house")
-		#query("shortdescription:Iraq session:112 113", chamber = "house")
-		#query("estate tax session:113")
+		#query("shortdescription:Iraq congress:113", chamber = "house")
+		#query("shortdescription:Iraq congress:[112 to 113]", startdate="1800-01-01", enddate="2200-01-01", chamber="house")
+		#query("shortdescription:Iraq congress:112 113", chamber = "house")
+		#query("estate tax congress:113")
 		#query("alltext:tax")
 		#query("rhodesia bonker amendment")
-		query("\"estate tax\" session:110")
+		#query("\"estate tax\" congress:110")
 		#query("codes:energy")
-		#query("session: ")
-		#query("((description: \"tax\" session: 113) OR session:114 OR (voter:MH085001 AND session:112) OR session:[55 to 58]) AND support:[58 to 100]")
-		#query("((description: \"tax\" session: 113) OR session:114 OR (voter:MH085001 AND session:112) OR session:[55 to 58]) AND description:\"iraq\"")
-		#query("voter: MS05269036 MS02793036 MS02393036 OR session:[113 to ]")
+		#query("congress: ")
+		#query("((description: \"tax\" congress: 113) OR congress:114 OR (voter:MH085001 AND congress:112) OR congress:[55 to 58]) AND support:[58 to 100]")
+		#query("((description: \"tax\" congress: 113) OR congress:114 OR (voter:MH085001 AND congress:112) OR congress:[55 to 58]) AND description:\"iraq\"")
+		#query("voter: MS05269036 MS02793036 MS02393036 OR congress:[113 to ]")
 		#query("iraq war")
-		#query("iraq war AND session:113")
+		#query("iraq war AND congress:113")
+		#query("\"war on terrorism\"")
+		#query('"war on terrorism" iraq')
+		query("alltext:afghanistan iraq OR codes:defense")

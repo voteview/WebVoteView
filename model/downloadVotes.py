@@ -104,8 +104,8 @@ def downloadAPI(rollcall_id, apitype="Web"):
 			# Top level rollcall item.
 			found[rollcall["id"]] = 1
 			rollcall_results.append({'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
-						'session': rollcall['session'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
-						'description': rollcall['description'], 'id': rollcall['id']})
+						'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
+						'description': rollcall['description'], 'id': rollcall['id'], 'code': rollcall["code"]})
 		except: # Invalid vote id
 			print traceback.format_exc()
 			errormessage = "Invalid Rollcall ID specified."

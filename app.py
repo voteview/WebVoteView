@@ -4,7 +4,7 @@ import json
 import bottle
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
-from model.searchMembers import memberLookup, getMembersBySession
+from model.searchMembers import memberLookup, getMembersByCongress
 from model.bioData import yearsOfService, checkForPartySwitch
 from model.downloadXLS import downloadXLS
 import datetime
@@ -28,7 +28,7 @@ infofields = [('icpsr','icpsr'),
               ('party','party')]
 
 descriptionfields = [('chamber','chamber'),
-                     ('session','congress'),
+                     ('congress','congress'),
                      ('date','date'),
                      ('rollnumber','rollnumber'),
                      ('description','description')]
@@ -92,6 +92,7 @@ def person(icpsr=0):
 	# If we have no error, follow through
 	if not "errormessage" in person:
 		person = person["results"][0]
+		votes = []
 		# Look up votes
 
 		# Check if bio image exists
@@ -123,25 +124,51 @@ def person(icpsr=0):
 						bioFound = 1
 					person["altPeople"].append(altPerson)
 
+					
+		voteQuery = query(qtext="voter: "+str(person["id"]), rowLimit=25)
+		#return(voteQuery)
+		if not "errorMessage" in voteQuery and "rollcalls" in voteQuery:
+			votes = voteQuery["rollcalls"]
+		else:
+			votes = []
+
 		# Go to the template.
-		output = bottle.template("views/person",person=person, votes=[])
+		output = bottle.template("views/person",person=person, votes=votes)
 		return(output)
 
 	# If we have an error, return an error page
 	else:
 		output = bottle.template("views/error", errorMessage=person["errormessage"])
 		return(output)
+
+@app.route("/rollcall")
+@app.route("/rollcall/<rollcall_id>")
+def rollcall(rollcall_id=""):
+	if not rollcall_id:
+		output = bottle.template("views/error", errorMessage="You did not provide a rollcall ID.")
+		return(output)
+	elif "," in rollcall_id:
+		output = bottle.template("views/error", errorMessage="You may only view one rollcall ID at a time.")
+		return(output)
+
+	rollcall = model.downloadVotes.downloadAPI(rollcall_id,"Web")
+	if not "rollcalls" in rollcall or "errormessage" in rollcall:
+		output = bottle.template("views/error", errorMessage=rollcall["errormessage"])
+		return(output)			
+
+	output = bottle.template("views/dc_rollcall", rollcall=rollcall["rollcalls"][0])
+	return(output)
 #
 #
 # API methods
 #
 #
 
-@app.route("/api/getmembersbysession",method="POST")
-@app.route("/api/getmembersbysession")
-def getmembersbysession():
-    session = defaultValue(bottle.request.params.session,0)
-    return(getMembersBySession(session))
+@app.route("/api/getmembersbycongress",method="POST")
+@app.route("/api/getmembersbycongress")
+def getmembersbycongress():
+    congress = defaultValue(bottle.request.params.congress,0)
+    return(getMembersByCongress(congress))
 
 @app.route("/api/getmembers",method="POST")
 @app.route("/api/getmembers")
@@ -160,17 +187,20 @@ def search():
     startdate = defaultValue(bottle.request.params.startdate)
     enddate = defaultValue(bottle.request.params.enddate)
     chamber = defaultValue(bottle.request.params.chamber) 
+    icpsr = defaultValue(bottle.request.params.icpsr)
 
-    res = query(q,startdate,enddate,chamber)
+    res = query(q,startdate,enddate,chamber, icpsr=icpsr)
     return(res)
 
 @app.route("/api/download",method="POST")
 @app.route("/api/download")
-def downloadAPI():
-    rollcall_id = defaultValue(bottle.request.params.rollcall_id)
-    apitype = defaultValue(bottle.request.params.apitype,"Web")
-    res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
-    return(res)
+@app.route("/api/download/<rollcall_id>")
+def downloadAPI(rollcall_id=""):
+	if not rollcall_id:
+		rollcall_id = defaultValue(bottle.request.params.rollcall_id)
+	apitype = defaultValue(bottle.request.params.apitype,"Web")
+	res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
+	return(res)
 
 @app.route("/api/downloadXLS")
 def download():
