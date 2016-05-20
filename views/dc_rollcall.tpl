@@ -3,82 +3,66 @@
 % include('header.tpl')
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 <div class="container">
-  <div class="row">
-      <div class="col-md-12">
-        <h3>
-                <abbr title="Congress">{{ rcSuffix(rollcall["congress"]) }} Congress</abbr> &gt;
-                <abbr title="Chamber">{{ rollcall["chamber"] }}</abbr> &gt;
-                <abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr> </h3>
-        <p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
-        <p style="float:left;">
-                <strong>Vote Subject Matter:</strong> {{ rollcall["code"]["Clausen"][0] }} / {{ rollcall["code"]["Peltzman"][0] }}
-        </p>
-        <p style="clear:both;">{{ rollcall["description"] }}</p>
-    </div>
-  </div>
-
-
- <div class="row" id="loadBar">
-	<div class="col-md-12">
-		<h4>Loading</h4>
-		We are currently constructing the map and plots you requested, please wait...
+	<div class="row">
+		<div class="col-md-12">
+			<h3>
+				<abbr title="Congress"><a href="/search/?congress={{ rollcall["congress"] }}">{{ rcSuffix(rollcall["congress"]) }} Congress</a></abbr> &gt;
+				<abbr title="Chamber"><a href="/search/?congress={{ rollcall["congress"] }}&chamber={{ rollcall["chamber"] }}">{{ rollcall["chamber"] }}</a></abbr> &gt;
+				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr>
+			</h3>
+			<p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
+			<p style="float:left;">
+				<strong>Vote Subject Matter:</strong> {{ rollcall["code"]["Clausen"][0] }} / {{ rollcall["code"]["Peltzman"][0] }}
+			</p>
+			<p style="clear:both;">{{ rollcall["description"] }}</p>
+		</div>
 	</div>
- </div>
+
+	<div class="row" id="loadBar">
+		<div class="col-md-12">
+			<h4>
+				Loading 
+				<img src="/static/img/loading.gif" style="margin-left:10px;width:24px;vertical-align:middle;">
+			</h4>
+			We are currently constructing the map and plots you requested, please wait...
+		</div>
+	</div>
 
 	<div style="display:none;" id="loadedContent">
 
- <div class="row">
-      <div class="col-md-9">
-	<h4 style="float:left;clear:none;vertical-align:middle;">Vote Map</h4>
-          <span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;">
-	      <span id="suppressMapControls" style="display:none;">
-		<span class="filter"></span>
-	      </span>
-          </span>
-      </div>
-      <div class="col-md-3">
-          <div id="party-chart" style="position:absolute;">
-              <strong>Votes</strong>
-	      <span id="suppressVoteChartControls" style="display:none;">
-		<span class="filter"></span>
-	      </span>
-          </div>
-      </div>
-  </div>
+		<div class="row">
+			<div class="col-md-9">
+				<h4 style="float:left;clear:none;vertical-align:middle;">
+					Vote Map 
+					%if int(rollcall["congress"])<86:
+						<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" data-toggle="tooltip" data-position="bottom" data-html="true" title="<u>Note</u><br/>Map Includes States as of the {{ rcSuffix(rollcall["congress"]) }} Congress.">
+					%end
+				</h4>
+				<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;">
+					<span id="suppressMapControls" style="display:none;"><span class="filter"></span></span>
+				</span>
+			</div>
+			<div class="col-md-3">
+				<div id="party-chart" style="position:absolute;">
+					<strong>Votes</strong>
+					<span id="suppressVoteChartControls" style="display:none;"><span class="filter"></span></span>
+				</div>
+			</div>
+		</div>
 
-  <div class="row">
-      <div class="col-md-12">
-          <h4>DW-Nominate Cut-Line for Vote</h4>
-          <div id="scatter-container" style="margin:0 auto 0 auto;">
-              <div id="scatter-bg">
-                  <svg id="svg-bg"> 
-                  </svg> 
-              </div>
-	      <div id="scatter-chart">
-			<span id="suppressNominateControls" style="display:none;">
-				<span class="filter"></span>
-			</span>
-              </div>
-	  </div>
-      </div>
-  </div>
-
-<!--
-  <div class="row">
-      <div class="col-md-12">
-	<h4>Vote Table</h4>
-          <table class="table table-hover dc-data-table">
-              <thead>
-              <tr class="header">
-                  <th>Name</th>
-                  <th>Party</th>
-                  <th>Profile</th>
-              </tr>
-              </thead>
-          </table>
-      </div>
-  </div>
--->
+		<div class="row">
+			<div class="col-md-12">
+				<h4>DW-Nominate Cut-Line for Vote</h4>
+				<div id="scatter-container" style="margin:0 auto 0 auto;">
+					<div id="scatter-bg">
+						<svg id="svg-bg"></svg> 
+					</div>
+					<div id="scatter-chart">
+						<span id="suppressNominateControls" style="display:none;"><span class="filter"></span></span>
+					</div>
+				</div>
+			</div>
+		</div>
 
 	</div>
 </div>
@@ -155,6 +139,8 @@ var mapChart = dc.geoChoroplethChart("#map-chart");
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var debugDimensions;
 var globalData;
+
+$(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
 
 (function loadData() {
     if (chamber == "House") {

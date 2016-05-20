@@ -19,21 +19,6 @@ app = application = bottle.Bottle()
 def defaultValue(x,value = None):
     return x is not "" and x or value
 
-# These are only used for XLS writing
-infofields = [('icpsr','icpsr'),
-              ('state','state'),
-              ('districtCode','district'),
-              ('cqlabel','cqlabel'),
-              ('name','name'),
-              ('party','party')]
-
-descriptionfields = [('chamber','chamber'),
-                     ('congress','congress'),
-                     ('date','date'),
-                     ('rollnumber','rollnumber'),
-                     ('description','description')]
-
-
 #
 # Web pages
 #
@@ -207,6 +192,7 @@ def searchAssemble():
 	if "errormessage" in res:
 		out = "error loading vote"
 	else:
+		bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
 		out = bottle.template("views/search_list", rollcalls = res["rollcalls"]) 
 	return(out)
 

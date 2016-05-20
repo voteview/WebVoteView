@@ -1259,8 +1259,18 @@ dd {
 }
 abbr[title],
 abbr[data-original-title] {
-  cursor: help;
+  cursor: pointer;
   border-bottom: 1px dotted #777777;
+}
+abbr a {
+	cursor: inherit;
+	color: inherit;
+	text-decoration: inherit;
+}
+abbr a:hover {
+	cursor: inherit;
+	color: inherit;
+	text-decoration: inherit;
 }
 .initialism {
   font-size: 90%;

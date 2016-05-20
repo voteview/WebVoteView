@@ -1,19 +1,29 @@
-  $(document).ready(
-    function(){
+function numberWithCommas(x) 
+{
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+  $(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip(); 
       var page = 1;
 
       // Get the initial list of rollcalls and replace all elements in the container with them
       function getRollcalls(){
+
         $.ajax({
           type: "POST",
-          url: "api/searchAssemble",
+          url: "/api/searchAssemble",
           data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + "&jsapi=1",
           beforeSend:function(){
             $('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
           },
           success: function(res, status, xhr) {
-            $("#results-number").html(xhr.getResponseHeader("rollcall_number") + " rollcalls");
-            $("#results-list").html(res);
+            $("#results-number").html(numberWithCommas(xhr.getResponseHeader("Rollcall-Number")) + " search results");
+	    $("#results-list").fadeOut(50, function(){
+	            $("#results-list").html(res);
+		    $("#results-list").fadeIn();
+		    $('[data-toggle="tooltip"]').tooltip(); 
+		});
            }
           });
           $("#download-btn").fadeOut();
@@ -23,7 +33,7 @@
       function getRollcallsPage(){
         $.ajax({
           type: "POST",
-          url: "api/searchAssemble",
+          url: "/api/searchAssemble",
           data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + '&page=' + page + "&jsapi=1",
           beforeSend:function(){
             $('#next-page').html('Loading...').attr('disabled', 'disabled');
@@ -31,6 +41,7 @@
           success: function(res, status, xhr) {
             $("#results-list").append(res);
             $('#next-page').html('Load more').removeAttr('disabled');
+	    $('[data-toggle="tooltip"]').tooltip(); 
            }
           });
         }
