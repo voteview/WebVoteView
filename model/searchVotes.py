@@ -747,7 +747,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
 		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, page=0):
+		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, page=1, jsapi=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -775,6 +775,11 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		Dict of results to be run through json.dumps for later output
 	"""
 
+	try:
+		page = int(page)
+	except:
+		page = 1
+	
 	baseRowLimit = rowLimit
 
 	print qtext
@@ -783,7 +788,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	queryDict = {}
 	needScore = 0
 	# Process the date
-	if startdate is None and enddate is None and chamber is None and qtext is None:
+	if startdate is None and enddate is None and chamber is None and qtext is None and not jsapi:
 		return { 'recordcount':0,'rollcalls':[],'errormessage':"No query specified."}
 
 	if startdate is not None or enddate is not None:
@@ -854,12 +859,13 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		fieldReturns["score"] = {"$meta": "textScore"}
 
 	votes = db.voteview_rollcalls
+	skipNum = int(page-1)*50
 	# Need to sort by text score
 	if needScore:
 		try:
 			resCount = votes.find(queryDict,fieldReturns).count()
 			rowLimit = baseRowLimit
-			results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).limit(rowLimit+5)
+			results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(skipNum).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -878,7 +884,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		try:
 			resCount = votes.find(queryDict,fieldReturns).count()
 			rowLimit = baseRowLimit
-			results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
+			results = votes.find(queryDict,fieldReturns).skip(skipNum).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -905,7 +911,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	returnDict["apiversion"] = "Q2"
 	if resCount>rowLimit:
 		returnDict["rollcalls"] = mr[0:rowLimit]
-		returnDict["errormessage"] = "Error: Query returns more than "+("{:,d}".format(rowLimit))+" results."
+		if not jsapi:
+			returnDict["errormessage"] = "Error: Query returns more than "+("{:,d}".format(rowLimit))+" results."
 	endTime = time.time()
 	elapsedTime = endTime - beginTime
 	returnDict["elapsedTime"] = round(elapsedTime,3)

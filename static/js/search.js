@@ -6,25 +6,25 @@
       function getRollcalls(){
         $.ajax({
           type: "POST",
-          url: "api/search/",
-          data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val(),
+          url: "api/searchAssemble",
+          data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + "&jsapi=1",
           beforeSend:function(){
-            $('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="{{ STATIC_URL }}img/loading.gif" alt="Loading..." /></div>');
+            $('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
           },
           success: function(res, status, xhr) {
             $("#results-number").html(xhr.getResponseHeader("rollcall_number") + " rollcalls");
             $("#results-list").html(res);
            }
           });
-          $("#download-btn").hide();
+          $("#download-btn").fadeOut();
         }
 
       // Get a rollcalls page and append them to the container
       function getRollcallsPage(){
         $.ajax({
           type: "POST",
-          url: "api/search/",
-          data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + '&page=' + page,
+          url: "api/searchAssemble",
+          data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + '&page=' + page + "&jsapi=1",
           beforeSend:function(){
             $('#next-page').html('Loading...').attr('disabled', 'disabled');
           },
@@ -65,11 +65,10 @@
 
       function showDownload () {
         if ($("#download-rollcalls-form input:checkbox:checked").length > 0) {
-            $("#download-btn").show();
+            $("#download-btn").fadeIn();
         }
         else {
-          console.log("pirate");
-            $("#download-btn").hide();
+            $("#download-btn").fadeOut();
         }
       }
 
@@ -101,3 +100,9 @@
         $("#facet-session").collapse('show');
       }
   });
+
+function unselectAll()
+{
+	$("input[name='ids']").attr('checked', false);
+	$("#download-btn").fadeOut();
+}

@@ -44,8 +44,10 @@ def callback(path):
 
 # Index
 @app.route("/")
+@app.route("/search/")
 def index():
-	return "VoteView server"
+	output = bottle.template("views/search")
+	return output
 
 # Static Pages with no arguments, just passthrough the template. 
 # Really we should just cache these, but anyway.
@@ -180,17 +182,45 @@ def getmembers():
 
 	return(memberLookup(qDict))
 
+@app.route("/api/searchAssemble", method="POST")
+@app.route("/api/searchAssemble")
+def searchAssemble():
+	q = defaultValue(bottle.request.params.q)
+	startdate = defaultValue(bottle.request.params.startdate)
+	enddate = defaultValue(bottle.request.params.enddate)
+
+	try:
+		chamber = bottle.request.params.getall("chamber")
+		if len(chamber)>1:
+			chamber = None
+		elif type(chamber)==type([]):
+			chamber = chamber[0]
+	except:
+		chamber = None
+	#chamber = defaultValue(bottle.request.params.chamber) 
+
+	page = defaultValue(bottle.request.params.page)
+	icpsr = defaultValue(bottle.request.params.icpsr)
+	jsapi = 1
+	rowLimit = 50
+	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, page=page)
+	if "errormessage" in res:
+		out = "error loading vote"
+	else:
+		out = bottle.template("views/search_list", rollcalls = res["rollcalls"]) 
+	return(out)
+
 @app.route("/api/search",method="POST")
 @app.route("/api/search")
 def search():
-    q = defaultValue(bottle.request.params.q)
-    startdate = defaultValue(bottle.request.params.startdate)
-    enddate = defaultValue(bottle.request.params.enddate)
-    chamber = defaultValue(bottle.request.params.chamber) 
-    icpsr = defaultValue(bottle.request.params.icpsr)
+	q = defaultValue(bottle.request.params.q)
+	startdate = defaultValue(bottle.request.params.startdate)
+	enddate = defaultValue(bottle.request.params.enddate)
+	chamber = defaultValue(bottle.request.params.chamber) 
+	icpsr = defaultValue(bottle.request.params.icpsr)
 
-    res = query(q,startdate,enddate,chamber, icpsr=icpsr)
-    return(res)
+	res = query(q,startdate,enddate,chamber, icpsr=icpsr)
+	return(res)
 
 @app.route("/api/download",method="POST")
 @app.route("/api/download")
@@ -202,9 +232,16 @@ def downloadAPI(rollcall_id=""):
 	res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
 	return(res)
 
+@app.route("/api/downloadXLS",method="POST")
 @app.route("/api/downloadXLS")
 def download():
-	ids = defaultValue(bottle.request.query.ids)
+	ids = bottle.request.params.getall("ids")
+	try:
+		if type(ids)==type([]):
+			ids = ",".join(ids)
+	except:
+		pass
+		
 	xls = True
 	statusCode, result = downloadXLS(ids)
 	if xls:

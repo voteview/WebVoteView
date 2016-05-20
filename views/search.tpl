@@ -255,9 +255,8 @@
                 </div>
               </div>
           </div>
-            <a id="download-btn" class="btn btn-info" onclick="$('#download-rollcalls-form').submit()">Download selected roll calls to Excel</a>
-            <form id="download-rollcalls-form" action="{% url 'download_excel' %}" method="post">
-              <!--input id="url" name="url" type="hidden" value="{x{ request.get_full_path }x}" -->
+            <a id="download-btn" class="btn btn-info" onclick="$('#download-rollcalls-form').submit(); unselectAll();">Download selected roll calls to Excel</a>
+            <form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
               <div id="results-list">
                 {# List of rollcalls goes here #}
               </div>
@@ -268,4 +267,4 @@
       </div>
   </div>
 
-  <script type="text/javascript" src="{{ STATIC_URL }}/js/search.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
