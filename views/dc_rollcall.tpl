@@ -35,7 +35,7 @@
 				<h4 style="float:left;clear:none;vertical-align:middle;">
 					Vote Map 
 					%if int(rollcall["congress"])<86:
-						<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" data-toggle="tooltip" data-position="bottom" data-html="true" title="<u>Note</u><br/>Map Includes States as of the {{ rcSuffix(rollcall["congress"]) }} Congress.">
+						<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" data-toggle="tooltip" data-position="bottom" data-html="true" title="<u>Note</u><br/>States as of {{ rcSuffix(rollcall["congress"]) }} Congress.">
 					%end
 				</h4>
 				<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;">
@@ -43,8 +43,8 @@
 				</span>
 			</div>
 			<div class="col-md-3">
-				<div id="party-chart" style="position:absolute;">
-					<strong>Votes</strong>
+				<h4>Votes</h4>
+				<div id="party-chart">
 					<span id="suppressVoteChartControls" style="display:none;"><span class="filter"></span></span>
 				</div>
 			</div>
@@ -64,6 +64,11 @@
 			</div>
 		</div>
 
+		<div class="row" style="margin-bottom:50px;">
+			<div class="col-md-12">
+				<h4>Votes</h4>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -398,13 +403,9 @@ function drawWidgets(error, geodata, data) {
             /* Initialize tooltip */
             var houseMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
               var result = "<p>" + d.key + "</p>";
-		//console.log(p);
-		//console.log(d);
-		//console.log(d.value);
               for (var i = 0; i < d.value.members.length; i++) {
 		var colorVote = partyColors[d.value.members[i].vote + d.value.members[i].party];
 		// Tooltip data display:
-		// result += "<p>" + d.value.members[i].name + "  ("+d.value.members[i].party[0].toUpperCase()+"-"+d.value.members[i].district+"): <span style='color:" + colorVote + "'> " + d.value.members[i].vote + "</span></p>";
                 result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "white" + "'> " + d.value.members[i].vote +"</span></p>";				  
               }
               return result;
@@ -437,12 +438,6 @@ function drawWidgets(error, geodata, data) {
                           .call(houseMapTip)
                           .on('mouseover',function(d, i){
 				var districtSet = c.data();
-				//console.log(districtSet[271]);
-				//console.log(districtSet.length);
-				for(i=0;i!=districtSet.length;i++)
-				{
-					//console.log(i+" - "+districtSet[i].key);
-				}
                             var result = $.grep(c.data(), function(e){
 				return e.key == d.id; 
 				});
