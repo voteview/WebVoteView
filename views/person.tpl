@@ -1,7 +1,7 @@
 % STATIC_URL = "/static/"
 % rebase("base.tpl",title="Person details")
 % include('header.tpl')
-% current_page_number = 0
+% current_page_number = 1
 <div class="container">
 
     <div class="row">
@@ -22,7 +22,7 @@
 			% z = z + 1
 		% end
 	    </h4>
-	    % if len(person["altPeople"]):
+	    % if "altPeople" in person and len(person["altPeople"]):
 	    <h5>
 		% k = 0
 		% for alt in person["altPeople"]:
@@ -61,12 +61,11 @@
                     </thead>
                     % for vote in votes:
                         <tr>
-                            <td>{{ vote.date }}</td>
-                            <td>{{ vote.shortdescription }}</td>
-                            <td><a class="btn btn-primary btn-sm" href="/rollcall/{{vote.id}}">See vote</a></td>
+                            <td>{{ vote["date"] }}</td>
+                            <td>{{ vote["shortdescription"] }}</td>
+                            <td><a class="btn btn-primary btn-sm" href="/rollcall/{{vote["id"]}}">See vote</a></td>
                         </tr>
                     % end
-                    
                 </table>
             <nav>
             <ul class="pager">

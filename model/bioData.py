@@ -1,6 +1,6 @@
 from searchMembers import memberLookup
 
-def sessionsOfService(icpsr):
+def congressesOfService(icpsr):
 	if type(icpsr)!=type(str("")) or len(icpsr)<6:
 		icpsr = str(icpsr).zfill(6)
 
@@ -8,46 +8,46 @@ def sessionsOfService(icpsr):
 	if not "results" in terms:
 		return -1
 
-	sessionNums = sorted([x["session"] for x in terms["results"]])
-	sessionChunks = []
+	congressNums = sorted([x["congress"] for x in terms["results"]])
+	congressChunks = []
 	start=0
 	last=0
-	for session in sessionNums:
+	for congress in congressNums:
 		if start==0:
-			start = session
+			start = congress
 			last = start
-		elif session==last+1:
-			last = session
+		elif congress==last+1:
+			last = congress
 		else:
-			sessionChunks.append([start, last])
-			start = session
+			congressChunks.append([start, last])
+			start = congress
 			last = start
-	sessionChunks.append([start, last])
+	congressChunks.append([start, last])
 
-	return sessionChunks
+	return congressChunks
 
 def yearsOfService(icpsr):
-	sessionsSet = sessionsOfService(icpsr)
+	congressesSet = congressesOfService(icpsr)
 	yearChunks = []
-	for s in sessionsSet:
-		yearChunks.append([sessionToYear(s[0],0),sessionToYear(s[1],1)])
+	for s in congressesSet:
+		yearChunks.append([congressToYear(s[0],0),congressToYear(s[1],1)])
 
 	return yearChunks
 
-def sessionToYear(session, endDate):
-	return 1787 + 2*session + 2*endDate
+def congressToYear(congress, endDate):
+	return 1787 + 2*congress + 2*endDate
 
 def checkForPartySwitch(person):
 	if not "icpsr" in person or not person["icpsr"]:
 		return -1
 
 	baseIcpsr = str(person["icpsr"]).zfill(6)
-	sessions = sessionsOfService(person["icpsr"])
-	searchBoundaries = [sessions[0][0]-1, sessions[-1][1]+1]
+	congresses = congressesOfService(person["icpsr"])
+	searchBoundaries = [congresses[0][0]-1, congresses[-1][1]+1]
 
 	otherIcpsrs = []
-	for session in searchBoundaries:
-		lookup = memberLookup({'session': session, 'name': person["fname"]},1)
+	for congress in searchBoundaries:
+		lookup = memberLookup({'congress': congress, 'name': person["fname"]},1)
 		if "errormessage" in lookup:
 			continue
 		else:

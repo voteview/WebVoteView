@@ -1,5 +1,5 @@
+% STATIC_URL = "/static/"
 % rebase("base.tpl", title="Search")
-
 % include('header.tpl')
 <div class="container">
 
@@ -22,7 +22,6 @@
             </div>    
           </div>
 
-          {% csrf_token %} 
           <div id="results-selects" class="col-md-3">
 
             <div id="panel-chamber" class="panel panel-primary">
@@ -258,7 +257,6 @@
           </div>
             <a id="download-btn" class="btn btn-info" onclick="$('#download-rollcalls-form').submit()">Download selected roll calls to Excel</a>
             <form id="download-rollcalls-form" action="{% url 'download_excel' %}" method="post">
-                {% csrf_token %} 
               <!--input id="url" name="url" type="hidden" value="{x{ request.get_full_path }x}" -->
               <div id="results-list">
                 {# List of rollcalls goes here #}

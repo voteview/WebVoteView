@@ -3,16 +3,16 @@ import pymongo
 client = pymongo.MongoClient()
 db = client["voteview"]
 
-def memberLookup(qDict, maxResults=50):
+def memberLookup(qDict, maxResults=50, distinct=0):
 	# Setup so that the bottle call to this API doesn't need to know parameters we accept explicitly
 	name = qDict["name"] if "name" in qDict else ""
 	icpsr = qDict["icpsr"] if "icpsr" in qDict else ""
 	state = qDict["state"] if "state" in qDict else ""
-	session = qDict["session"] if "session" in qDict else ""
+	congress = qDict["congress"] if "congress" in qDict else ""
 	cqlabel = qDict["cqlabel"] if "cqlabel" in qDict else ""
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state and not session and not cqlabel:
+	if not name and not icpsr and not state and not congress and not cqlabel:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
@@ -20,34 +20,39 @@ def memberLookup(qDict, maxResults=50):
 	if icpsr:
 		try:
 			icpsr = int(icpsr)
+			searchQuery["icpsr"] = icpsr
 		except:
-			return({"errormessage": "Invalid ICPSR number supplied."})
+			try:
+				if icpsr[0]=="M":
+					print "hello world"
+					searchQuery["id"] = icpsr
+			except:
+				return({"errormessage": "Invalid ICPSR number supplied."})
 
-		searchQuery["icpsr"] = icpsr
 	if state:
 		state = str(state)
 		searchQuery["stateAbbr"] = state.upper() # States are all stored upper-case
-	if session:
+	if congress:
 		try:
-			session = str(int(session))
+			congress = str(int(congress))
 		except:
-			return({"errormessage": "Invalid Session ID supplied."})
+			return({"errormessage": "Invalid congress ID supplied."})
 
-		if not " " in session: # Session is just a number
-			session = int(session)
-			searchQuery["session"] = session
-		elif "[" in session and "]" in session and "to" in session: # Session is a range
-			valText = session[1:-1]
+		if not " " in congress: # congress is just a number
+			congress = int(congress)
+			searchQuery["congress"] = congress
+		elif "[" in congress and "]" in congress and "to" in congress: # congress is a range
+			valText = congress[1:-1]
 			min, max = valText.split(" to ")
-			searchQuery["session"] = {}
+			searchQuery["congress"] = {}
 			if len(min):
-				searchQuery["session"]["$gte"] = int(min) # From min
+				searchQuery["congress"]["$gte"] = int(min) # From min
 			if len(max):
-				searchQuery["session"]["$lte"] = int(max) # To max
-		else: # Session is a series of integers, use $in
-			vals = [int(val) for val in session.split(" ")]
-			searchQuery["session"] = {}
-			searchQuery["session"]["$in"] = vals
+				searchQuery["congress"]["$lte"] = int(max) # To max
+		else: # congress is a series of integers, use $in
+			vals = [int(val) for val in congress.split(" ")]
+			searchQuery["congress"] = {}
+			searchQuery["congress"]["$in"] = vals
 	if name:
 		name = str(name)
 		if not " " in name: # Last name only
@@ -80,10 +85,10 @@ def memberLookup(qDict, maxResults=50):
 	else:
 		return({'results': response})
 
-def getMembersBySession(session):
-	return(memberLookup({"session": session}, 1000))
+def getMembersByCongress(congress):
+	return(memberLookup({"congress": congress}, 1000))
 
 if __name__ == "__main__":
 	#print memberLookup({"name": "Cruz, Ted"})
 	print len(memberLookup({"icpsr": 99369}, 1)["results"])
-	#print getMembersBySession(110)
+	#print getMembersBycongress(110)

@@ -6,18 +6,18 @@
   <div class="row">
       <div class="col-md-12">
         <h3>
-                <abbr title="Congress">{{ rcSuffix(rollcall["congress"]) }} Congress</abbr> &gt;
-                <abbr title="Chamber">{{ rollcall["chamber"] }}</abbr> &gt;
-                <abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr> </h3>
+		<abbr title="Session">{{ rcSuffix(rollcall["session"]) }} Congress</abbr> &gt; 
+		<abbr title="Chamber">{{ rollcall["chamber"] }}</abbr> &gt; 
+		<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr> </h3> 
         <p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
         <p style="float:left;">
-                <strong>Vote Subject Matter:</strong> {{ rollcall["code"]["Clausen"][0] }} / {{ rollcall["code"]["Peltzman"][0] }}
-        </p>
+		<strong>Vote Subject Matter:</strong> {{ rollcall["code"]["Clausen"][0] }} / {{ rollcall["code"]["Peltzman"][0] }} 
+	</p>
         <p style="clear:both;">{{ rollcall["description"] }}</p>
     </div>
   </div>
 
- <div class="row">
+  <div class="row">
       <div class="col-md-9">
 	<h4 style="float:left;clear:none;vertical-align:middle;">Vote Map</h4>
           <span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;">
@@ -38,7 +38,7 @@
 
   <div class="row">
       <div class="col-md-12">
-          <div id="scatter-container" style="margin:0 auto 0 auto;">
+          <div id="scatter-container">
               <h4>DW-Nominate Cut-Line for Vote</h4>
               <div id="scatter-bg">
                   <svg id="svg-bg"> 
@@ -62,8 +62,8 @@
               <tr class="header">
                   <th>Name</th>
                   <th>Party</th>
-                  <!--<th>Vote</th>
-                  <th>State</th>-->
+                  <th>Vote</th>
+                  <th>State</th>
                   <th>Profile</th>
               </tr>
               </thead>
@@ -137,12 +137,12 @@ var debugDimensions;
 (function loadData() {
     if (chamber == "House") {
         queue()
-          .defer(d3.json, sprintf("{{ STATIC_URL }}json/districts%03d.json", {{ rollcall["congress"] }}))
+          .defer(d3.json, sprintf("/static/json/districts%03d.json", {{ rollcall["session"] }}))
           .defer(d3.json, "/api/download/{{ rollcall["id"] }}")
           .await(drawWidgets);
     } else if (chamber == "Senate") {
         queue()
-          .defer(d3.json, sprintf("{{ STATIC_URL }}json/states%03d.json", {{ rollcall["congress"] }}))
+          .defer(d3.json, sprintf("/static/json/states%03d.json", {{ rollcall["session"] }}))
           .defer(d3.json, "/api/download/{{ rollcall["id"] }}")
           .await(drawWidgets);
     }
@@ -289,7 +289,7 @@ function drawWidgets(error, geodata, data) {
 
     votePartyChart
         .width(320)
-        .height(320)
+        .height(480)
         .dimension(votePartyDimension)
         .group(votePartyGroup)
         .elasticX(true)
@@ -297,29 +297,6 @@ function drawWidgets(error, geodata, data) {
             //console.log(d);
             return partyColors[d.key];
         })
-	.fixedBarHeight(24).gap(10)
-	.labelOffsetX(40)
-	.label(function(d)
-	{
-		var textLabel = d.key.substr(3,d.key.length)+": "+d.key.substr(0,3)
-		return textLabel
-	})
-	.ordering(function(d){ // Sort Yea-to-Nay, Alphabetically, set independents separately.
-		var score = 0
-		switch(d.key.substr(0,3))
-		{
-			case "Yea": score = 9; break;
-			case "Nay": score = 6; break;
-			case "Abs": score = 3; break
-		}
-		switch(d.key.substr(3,d.key.length))
-		{
-			case "Democrat": score=score+2; break;
-			case "Republican": score=score+1; break;
-		}
-		return -score;
-	})
-	.transitionDuration(200)
         .xAxis().ticks(4);
 
     nominateScatterChart
@@ -351,21 +328,12 @@ function drawWidgets(error, geodata, data) {
     dc.dataTable(".dc-data-table")
         .dimension(voteDimension)
         .group(function (d) {
-            return d.vote;
+            return d.party;
         })
         .size(436)
         .columns([
             function (d) {
-		var cqlabel=""
-		if(d.party) { cqlabel=d.party.substr(0,1); }
-		else { cqlabel="?"; }
-
-		if(chamber=="House") { 
-			if(d.district) { cqlabel+="-"+d.district; }
-			else if(d.state=="POTUS") { cqlabel +="-POTUS"; }
-		} else { cqlabel+="-"+d.state; }
-		
-                return "<a href=\"/person/"+d["id"]+"\">"+d["name"] + "</a> ("+cqlabel+")";
+                return d.name;
             },
             function (d) {
 		if(d.party)
@@ -375,6 +343,24 @@ function drawWidgets(error, geodata, data) {
 		else
 		{
 			return "Data Error";
+		}
+            },
+            function (d) {
+                return d.vote;
+            },
+            function (d) {
+		//console.log(d);
+                if (chamber == "House") {
+			if(d.district)
+			{
+				return d.district;
+			}
+			else if(d.state=="POTUS")
+			{
+				return "POTUS";
+			}
+                } else if (chamber == "Senate") {
+                    return d.state;
 		}
             },
             function (d) {
@@ -579,7 +565,7 @@ function decorateNominate(oc,data) {
 
    // Hacky way to shade region where yea vote is expected...
    var angle = vn.slope == null ? NaN : vn.slope;		    
-   var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
+   var cs = (angle>0?1:0) + 2*(vn.zml[0]>0?1:0);
    switch( cs ) {
      case 0:
         var polyData = [ [ circleCenter.x+radius*vn.x[0]/scale,
@@ -717,13 +703,13 @@ function decorateNominate(oc,data) {
      // before the brush group does it. --JBL	  
      var ggg = ocSVG.insert("g",".brush");
 
-     if (vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
-       var ynpts =  [circleCenter.x + radius/scale*(vn.mid[0]+vn.spread[0]/2),
-                     circleCenter.y - radius/scale*(vn.mid[1]+vn.spread[1]/2),
-                     circleCenter.x + radius/scale*(vn.mid[0]-vn.spread[0]/2),
-                     circleCenter.y - radius/scale*(vn.mid[1]-vn.spread[1]/2)];
-       var angle = 57.295*Math.atan((vn.spread[1])/(vn.spread[0]));
-       var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
+     if (vn.dl[0] * vn.dl[0] != 0) { // Only drawn if there is a cutline!
+       var ynpts =  [circleCenter.x + radius/scale*(vn.dl[0]+vn.zml[0]/2),
+                     circleCenter.y - radius/scale*(vn.dl[1]+vn.zml[1]/2),
+                     circleCenter.x + radius/scale*(vn.dl[0]-vn.zml[0]/2),
+                     circleCenter.y - radius/scale*(vn.dl[1]-vn.zml[1]/2)];
+       var angle =   57.295*Math.atan((vn.zml[1])/(vn.zml[0]));
+       var cs = (angle>0?1:0) + 2*(vn.zml[0]>0?1:0);
        switch( cs ) {
          case 0:
            angle = 90-angle;
