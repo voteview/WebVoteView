@@ -548,6 +548,35 @@ function blendColors(members) {
     return d3.rgb(r,g,b).toString();
 }
 
+/* Updates the Vote chart to have categories */
+function splitTranslate(text)
+{
+	return(parseInt(text.split(",")[1].split(")")[0]));
+}
+
+function updateVoteChart() 
+{
+	var voteChartSVG = $("#party-chart > svg");
+	var scanFor = ["Yea", "Nay", "Abs", "NA end"];
+	var scanIndex = 0;
+	var translateAdj = 0;
+	var newMax = 0;
+	voteChartSVG.children("g").children("g").each(function(index, item) {
+		var tChildren = $(this).children("title").text();
+		if(tChildren.length && tChildren.startsWith(scanFor[scanIndex]))
+		{
+			var currentTranslate = splitTranslate($(this).attr("transform"));
+			$('<g class="label _0" transform="translate(0,'+currentTranslate+')"><text fill="#000000;" font-size="12px" x="10" y="'+(currentTranslate+2)+'" dy="0.35em">'+scanFor[scanIndex]+'</text></g>').insertBefore($(this));
+			translateAdj = translateAdj+34;
+			scanIndex=scanIndex+1;
+		}
+		newMax = splitTranslate($(this).attr("transform"))+translateAdj;
+		$(this).attr("transform","translate(0,"+newMax+")");
+	});
+	voteChartSVG.children("g").children(".axis").attr("transform","translate(0,"+(newMax+34)+")");
+	voteChartSVG.attr("height",(newMax+68));
+}
+
 /*
     Draws the background circles, labels and text for the scatter chart
 */

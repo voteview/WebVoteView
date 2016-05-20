@@ -37,7 +37,7 @@
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}" type="text/css" />
 	% end
     </head>
-    <body id="{{ body_id }}" class="{{ body_class }}{% block body_class %}">
+    <body id="{{ body_id }}" class="{{ body_class }}">
         <!--[if lt IE 8]>
             <div class="chromeframe">
                     <p>Hi. It looks like you're using an older browser.<br/>
