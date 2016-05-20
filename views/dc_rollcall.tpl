@@ -17,6 +17,16 @@
     </div>
   </div>
 
+
+ <div class="row" id="loadBar">
+	<div class="col-md-12">
+		<h4>Loading</h4>
+		We are currently constructing the map and plots you requested, please wait...
+	</div>
+ </div>
+
+	<div style="display:none;" id="loadedContent">
+
  <div class="row">
       <div class="col-md-9">
 	<h4 style="float:left;clear:none;vertical-align:middle;">Vote Map</h4>
@@ -38,8 +48,8 @@
 
   <div class="row">
       <div class="col-md-12">
+          <h4>DW-Nominate Cut-Line for Vote</h4>
           <div id="scatter-container" style="margin:0 auto 0 auto;">
-              <h4>DW-Nominate Cut-Line for Vote</h4>
               <div id="scatter-bg">
                   <svg id="svg-bg"> 
                   </svg> 
@@ -55,7 +65,7 @@
           <div id="data-count">
 		<h4>Vote Table</h4>
               <span class="filter-count"></span> of <span class="total-count"></span> voters selected | <a
-                  href="javascript:dc.filterAll(); dc.renderAll();">Select All</a>
+                  href="javascript:dc.filterAll(); dc.renderAll(); decorateNominate(nominateScatterChart, globalData);">Select All</a>
           </div>
           <table class="table table-hover dc-data-table">
               <thead>
@@ -70,6 +80,9 @@
           </table>
       </div>
   </div>
+
+
+	</div>
 </div>
 
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
@@ -133,6 +146,7 @@ var votePartyChart = dc.rowChart("#party-chart");
 var mapChart = dc.geoChoroplethChart("#map-chart");
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var debugDimensions;
+var globalData;
 
 (function loadData() {
     if (chamber == "House") {
@@ -149,6 +163,9 @@ var debugDimensions;
 })();
 
 function drawWidgets(error, geodata, data) {
+	globalData = data;
+    $("#loadBar").slideToggle();
+    $("#loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
     var ndx = crossfilter(data.rollcalls[0].votes); 
     var all = ndx.groupAll();
   // Test points for figure calibration, JBL
@@ -227,7 +244,7 @@ function drawWidgets(error, geodata, data) {
         });
 
     var districtDimension = ndx.dimension(function(d) { 
-	console.log(d.name+"/"+d.district);
+	//console.log(d.name+"/"+d.district);
 	return d.district; 
 	});
 	debugDimensions = districtDimension;
@@ -236,39 +253,39 @@ function drawWidgets(error, geodata, data) {
     // Array of colors for each district
     var districtGroup = districtDimension.group().reduce(
         function (p, d) {
-		console.log("To group: ");
+		//console.log("To group: ");
 		var pcopy = p;
-		console.log(pcopy);
-		console.log("Trying to add district: ");
-		console.log(d);
-		console.log("Extant length: "+p.members.length);
+		//console.log(pcopy);
+		//console.log("Trying to add district: ");
+		//console.log(d);
+		//console.log("Extant length: "+p.members.length);
             // Add at large members
             var atlargecode = d.state + "00";
             var atlarge = $.grep(data.rollcalls[0].votes, function(e)
 		{
 			if(e.district==atlargecode)
 			{
-				console.log(e.district);
+				//console.log(e.district);
 			}
 			return e.district==atlargecode;
 		});
-		console.log("At large found: "+atlarge.length);
+		//console.log("At large found: "+atlarge.length);
             $.each(atlarge, function(member) {
                 p.members.push(atlarge[member]);
             });
-		console.log("New extant length: "+p.members.length);
+		//console.log("New extant length: "+p.members.length);
             p.members.push(d);
-		console.log("Final extant length: "+p.members.length);
+		//console.log("Final extant length: "+p.members.length);
 		if(p.members.length!=1)
 		{
-			console.log(p);
+			//console.log(p);
 		}
-		console.log("=====");
+		//console.log("=====");
             return p;
         },
 
         function (p, d) {
-		console.log('huh');
+		//console.log('huh');
             // Remove at large members
             var atlargecode = d.state + "00";
             var atlarge = $.grep(data.rollcalls[0].votes, function(e){return e.district == atlargecode; });
