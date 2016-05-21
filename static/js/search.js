@@ -1,33 +1,66 @@
 function numberWithCommas(x) 
 {
+	if(x == null) { return 0; }
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-  $(document).ready(function(){
+function toggleAdvancedSearch(instant)
+{
+	if(!instant)
+	{
+		if($('#results-selects').is(':visible'))
+		{
+			$('#results-selects').animate({width: 'toggle', opacity: 'toggle'},125,function()
+			{
+				$('#resultsHolder').animate({width: '100%'},125);
+			});
+		}
+		else
+		{
+			$('#resultsHolder').animate({width: '75%'},125, function()
+			{
+				$('#results-selects').animate({width: 'toggle', opacity: 'toggle'},125, 'linear');
+			});
+		}
+	}
+	else
+	{
+		if(!$('#results-selects').is(':visible')) 
+		{ 
+			$('#resultsHolder').css('width', '75%'); 
+		}
+		else { $('#resultsHolder').css('width', '100%'); }
+		$('#results-selects').toggle();
+	}
+}
+
+$(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
-      var page = 1;
+	var page = 1;
 
-      // Get the initial list of rollcalls and replace all elements in the container with them
-      function getRollcalls(){
-
-        $.ajax({
-          type: "POST",
-          url: "/api/searchAssemble",
-          data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + "&jsapi=1",
-          beforeSend:function(){
-            $('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
-          },
-          success: function(res, status, xhr) {
-            $("#results-number").html(numberWithCommas(xhr.getResponseHeader("Rollcall-Number")) + " search results");
-	    $("#results-list").fadeOut(50, function(){
-	            $("#results-list").html(res);
-		    $("#results-list").fadeIn();
-		    $('[data-toggle="tooltip"]').tooltip(); 
+	// Get the initial list of rollcalls and replace all elements in the container with them
+	function getRollcalls()
+	{
+		$.ajax({
+			type: "POST",
+			url: "/api/searchAssemble",
+			data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + "&jsapi=1",
+			beforeSend:function(){
+				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
+			},
+			success: function(res, status, xhr) 
+			{
+				$("#results-number").html(numberWithCommas(xhr.getResponseHeader("Rollcall-Number")) + " search results");
+				$("#results-list").fadeOut(50, function()
+				{
+					$("#results-list").html(res);
+					$("#results-list").fadeIn();
+					$('[data-toggle="tooltip"]').tooltip(); 
+				});
+			}
 		});
-           }
-          });
-          $("#download-btn").fadeOut();
-        }
+		$("#download-btn").fadeOut();
+	}
 
       // Get a rollcalls page and append them to the container
       function getRollcallsPage(){
@@ -46,28 +79,30 @@ function numberWithCommas(x)
           });
         }
 
-      // Initial call to the function
-      getRollcalls();
+	getRollcalls();
 
-      // Pagination
-      $("#next-page").click(function(e){
-        e.preventDefault();
-        page = page + 1;
-        getRollcallsPage();
-      });
+	// Pagination
+	$("#next-page").click(function(e)
+	{
+		e.preventDefault();
+		page = page + 1;
+		getRollcallsPage();
+	});
 
-      // On form change we reset the search and do the initial AJAX call
-      $("#faceted-search-form input:not(#searchTextInput), #sorting-select").change(function() {
-          page = 1;
-          getRollcalls();
-      });
+	// On form change we reset the search and do the initial AJAX call
+	$("#faceted-search-form input:not(#searchTextInput), #sorting-select").change(function() 
+	{
+		page = 1;
+		getRollcalls();
+	});
 
-      // Prevent to do a AJAX call everytime we update the search bar
-      $("#faceted-search-form").submit(function(event) {
-        event.preventDefault();
-        page = 1;
-        getRollcalls();
-      });
+	// Prevent to do a AJAX call everytime we update the search bar
+	$("#faceted-search-form").submit(function(event) 
+	{
+		event.preventDefault();
+		page = 1;	
+		getRollcalls();
+	});
 
       // Display the download excel button
       $(document.body).on("change", "#download-rollcalls-form :input", function() {
@@ -107,8 +142,8 @@ function numberWithCommas(x)
       if($('#fromDate').val()  || $("#toDate").val()) {
         $("#facet-date").collapse('show');
       }
-      if($('#fromSession').val()  || $("#toSession").val()) {
-        $("#facet-session").collapse('show');
+      if($('#fromCongress').val()  || $("#toCongress").val()) {
+        $("#facet-congress").collapse('show');
       }
   });
 

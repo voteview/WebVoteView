@@ -1,33 +1,37 @@
 % STATIC_URL = "/static/"
 % rebase("base.tpl", title="Search")
 % include('header.tpl')
+% setdefault('args',{})
 <div class="container">
 
-  <div class="row">
-    <div class="col-xs-12">
-      <h3>Browse US roll calls</h3>
-    </div>
-  </div>
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>Search UCLA VoteView</h3>
+		</div>
+	</div>
 
-  <div id="results-page-container">
-      <div class="row">
-          <form id="faceted-search-form" action="." method="post" class="form-horizontal">
+	<div id="results-page-container">
+		<div class="row">
+			<form id="faceted-search-form" action="." method="post" class="form-horizontal">
 
-          <div id="search-bar-container" class="col-md-12">
-            <div class="input-group">
-              <input name="search-string" type="text" class="form-control" id="searchTextInput" placeholder="Enter a term to search for">
-                <div class="input-group-btn">
-                  <button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
-                </div>
-            </div>    
-          </div>
+				<div id="search-bar-container" class="col-md-12">
+					<div class="input-group">
+						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a term to search for">
+						<div class="input-group-btn">
+							<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+						</div>
+						<span style="display:table-cell;width:125px;vertical-align:middle;padding-left:10px; font-size:0.9em;">
+							<a href="#" onclick="javascript:toggleAdvancedSearch(0);return false;">advanced search</a>
+						</span>
+					</div>
+				</div>
 
-          <div id="results-selects" class="col-md-3">
+				<div id="results-selects" class="col-md-3" style="display:none;">
+					<div id="panel-chamber" class="panel panel-primary">
+						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-chamber">
+							<h3 class="panel-title">Chamber <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+						</div>
 
-            <div id="panel-chamber" class="panel panel-primary">
-              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-chamber">
-                <h3 class="panel-title">Chamber <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
-              </div>
               <div id="facet-chamber" class="panel-collapse facet-content collapse">
                 <div class="panel-body">
                   <div class="checkbox">
@@ -215,21 +219,21 @@
             </div>
 
             <div class="panel panel-primary">
-              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-session">
-                <h3 class="panel-title">Session range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-congress">
+                <h3 class="panel-title">Congress range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
               </div>
-              <div id="facet-session" class="panel-collapse facet-content collapse">
+              <div id="facet-congress" class="panel-collapse facet-content collapse">
                 <div class="panel-body">
                   <div class="form-group">
-                    <label for="fromSession" class="col-sm-5 control-label">From</label>
+                    <label for="fromCongress" class="col-sm-5 control-label">From</label>
                     <div class="col-sm-6">
-                      <input name="from-session" type="text" class="form-control" id="fromSession" placeholder="From">
+                      <input name="fromCongress" type="text" class="form-control" id="fromCongress" placeholder="From">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="toSession" class="col-sm-5 control-label">To</label>
+                    <label for="toCongress" class="col-sm-5 control-label">To</label>
                     <div class="col-sm-6">
-                      <input name="to-session" type="text" class="form-control" id="toSession" placeholder="To">
+                      <input name="toCongress" type="text" class="form-control" id="toCongress" placeholder="To">
                     </div>
                   </div>
                 </div>
@@ -239,7 +243,7 @@
           </div>
         </form>
 
-          <div class="col-md-9">
+	  <div id="resultsHolder" class="col-md-12" style="float:right;">
             <div class="form-group">
               <div class="row">
               <div class="col-md-7">
@@ -250,7 +254,7 @@
                   <select id="sorting-select" name="sort" class="form-control">
                     <option value="date-desc" selected>date: newest first</option> 
                     <option value="date-asc">date: oldest first</option> 
-                    <option value="session">session</option>
+                    <option value="congress">congress</option>
                   </select>
                 </div>
               </div>
@@ -266,4 +270,26 @@
       </div>
   </div>
 
-  <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>
+
+<script>
+	$(document).ready(function()
+	{
+		% if "q" in args:
+		$("input[name='q']").val("{{args["q"]}}");
+		% end
+
+		% if "chamber" in args:
+		$("input[value={{args["chamber"]}}]").attr("checked",true);
+		
+		% end
+		% if "congress" in args:
+		$("input[name='fromCongress']").val({{args["congress"]}});
+		$("input[name='toCongress']").val({{args["congress"]}});
+		% end
+
+		% if "chamber" in args or "congress" in args:
+		toggleAdvancedSearch(1);
+		% end
+	});		
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>

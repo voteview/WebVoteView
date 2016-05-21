@@ -1,4 +1,5 @@
 #import sys
+import traceback
 import os
 import json
 import bottle
@@ -31,7 +32,13 @@ def callback(path):
 @app.route("/")
 @app.route("/search/")
 def index():
-	output = bottle.template("views/search")
+	try:
+		argDict = {}
+		for k,v in bottle.request.params.iteritems():
+			argDict[k] = v
+	except:
+		pass
+	output = bottle.template("views/search", args=argDict)
 	return output
 
 # Static Pages with no arguments, just passthrough the template. 
@@ -44,11 +51,6 @@ def about():
 @app.route("/data")
 def data():
 	output = bottle.template("views/data")
-	return output
-
-@app.route("/search_query")
-def search_query():
-	output = bottle.template('views/search')
 	return output
 
 @app.route("/research")
@@ -182,18 +184,36 @@ def searchAssemble():
 			chamber = chamber[0]
 	except:
 		chamber = None
-	#chamber = defaultValue(bottle.request.params.chamber) 
+
+	try:
+		fromCongress = int(defaultValue(bottle.request.params["fromCongress"],0))
+		toCongress = int(defaultValue(bottle.request.params["toCongress"],0))
+		if q is None and (fromCongress or toCongress):
+			q = ""
+
+		if fromCongress or toCongress:
+			if fromCongress == toCongress:
+				q = q + " congress:"+str(fromCongress)
+			elif fromCongress and not toCongress:
+				q = q + " congress:["+str(fromCongress)+" to ]"
+			elif toCongress and not fromCongress:
+				q = q + " congress:[ to "+str(toCongress)+"]"
+			else:
+				q = q + " congress:["+str(fromCongress)+" to "+str(toCongress)+"]"
+	except:
+		pass
 
 	page = defaultValue(bottle.request.params.page)
 	icpsr = defaultValue(bottle.request.params.icpsr)
 	jsapi = 1
 	rowLimit = 50
 	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, page=page)
+
 	if "errormessage" in res:
-		out = "error loading vote"
+		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"])
 	else:
 		bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
-		out = bottle.template("views/search_list", rollcalls = res["rollcalls"]) 
+		out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="") 
 	return(out)
 
 @app.route("/api/search",method="POST")
