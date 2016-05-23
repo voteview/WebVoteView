@@ -1,6 +1,7 @@
 % STATIC_URL = "/static/"
 % setdefault('title','UCLA')
 % setdefault('extra_css','')
+% setdefault('extra_js', '')
 % setdefault('body_id', '')
 % setdefault('body_class', '')
 <!DOCTYPE html>
@@ -31,7 +32,9 @@
         <![endif]-->
 
         <script src="{{STATIC_URL}}js/modernizr.custom.74326.js"></script>
-
+	% for extra in extra_js:
+		<script type="text/javascript" src="{{extra}}" type="text/css"></script>
+	% end
 	% for extra in extra_css:
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}" type="text/css" />
 	% end
@@ -39,10 +42,8 @@
     <body id="{{ body_id }}" class="{{ body_class }}">
         <!--[if lt IE 8]>
             <div class="chromeframe">
-                    <p>Hi. It looks like you're using an older browser.<br/>
-                    Please <a href="http://browsehappy.com/">upgrade your browser</a> 
-                    or <a href="http://www.google.com/chromeframe/?redirect=true">activate 
-                        Google Chrome Frame</a> to improve your experience.
+                    <p>Hi. It looks like you're using an older browser that does not support VoteView.<br/>
+                    Please <a href="http://whatbrowser.org/">upgrade your browser</a>.
                     </p>
             </div>
         <![endif]-->
