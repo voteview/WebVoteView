@@ -870,7 +870,10 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		try:
 			resCount = votes.find(queryDict,fieldReturns).count()
 			rowLimit = baseRowLimit
-			results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(skipNum).limit(rowLimit+5)
+			if not jsapi:
+				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(skipNum).limit(rowLimit+5)
+			else:
+				results = votes.find(queryDict,fieldReturns).sort("date", -1).skip(skipNum).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -889,7 +892,10 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		try:
 			resCount = votes.find(queryDict,fieldReturns).count()
 			rowLimit = baseRowLimit
-			results = votes.find(queryDict,fieldReturns).skip(skipNum).limit(rowLimit+5)
+			if not jsapi:
+				results = votes.find(queryDict,fieldReturns).skip(skipNum).limit(rowLimit+5)
+			else:
+				results = votes.find(queryDict, fieldReturns).sort("date", -1).skip(skipNum).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")

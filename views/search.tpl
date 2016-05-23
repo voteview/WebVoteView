@@ -240,35 +240,31 @@
               </div>
             </div>
 
-          </div>
-        </form>
+				</div>
+			</form>
 
-	  <div id="resultsHolder" class="col-md-12" style="float:right;">
-            <div class="form-group">
-              <div class="row">
-              <div class="col-md-7">
-                 <h4 id="results-number"></h4>
-              </div>
-                <label id="sort-label" for="sort" class="col-md-2 control-label">Sort by</label>
-                <div class="col-md-3">
-                  <select id="sorting-select" name="sort" class="form-control">
-                    <option value="date-desc" selected>date: newest first</option> 
-                    <option value="date-asc">date: oldest first</option> 
-                    <option value="congress">congress</option>
-                  </select>
-                </div>
-              </div>
-          </div>
-            <a id="download-btn" class="btn btn-info" onclick="$('#download-rollcalls-form').submit(); unselectAll();">Download selected roll calls to Excel</a>
-            <form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
-              <div id="results-list">
-              </div>
-              <a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a> 
-            </form>
-          </div>
-        </div>
-      </div>
-  </div>
+			<div id="resultsHolder" class="col-md-12" style="float:right;">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-7">
+							<h4 id="results-number"></h4>
+						</div>
+						<label id="sort-label" for="sort" class="col-md-2 control-label">Sort by</label>
+						<div class="col-md-3">
+							<a href="#">Newest</a> / <a href="#">Oldest</a>
+						</div>
+					</div>
+				</div>
+				<a id="download-btn" class="btn btn-info" onclick="$('#download-rollcalls-form').submit(); unselectAll();">Download selected roll calls to Excel</a>
+				<form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
+					<div id="results-list">
+					</div>
+					<a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a> 
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <script>
