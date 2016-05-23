@@ -4,7 +4,7 @@
   <div id="wbv-header" class="row">
     <div class="col-md-12">
       <ul class="nav nav-pills pull-right">
-        <li><a href="/search_query">search</a></li>
+        <li><a href="/">search</a></li>
         <li>
           <a data-toggle="dropdown" href="#">explore</a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">

@@ -12,7 +12,7 @@ db = client["voteview"]
 
 fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
 		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
-		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter"}
+		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter", "chamber": "chamber"}
 
 # Simple tab-based pretty-printer to output debug info.
 def pPrint(printStr, depth=0,debug=0):
@@ -628,9 +628,6 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 		queryDict = addToQueryDict(queryDict, queryField, queryWords.upper())
 	# INT can be searched by integer or range
 	elif fieldType=="int":
-		if queryField == "congress":
-			queryField = "congress"
-
 		if " " not in queryWords:
 			try:
 				queryDict[queryField] = int(queryWords)
@@ -675,6 +672,14 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 				return [queryDict, 0, errorMessage]
 			else:
 				queryDict = addToQueryDict(queryDict, "votes."+str(name), {"$exists": 1})
+	# CHAMBER type: Senate or House?
+	elif fieldType=="chamber":
+		chamber = queryWords.strip()
+		if not any(x == chamber.lower() for x in ["senate", "house"]):
+			errorMessage = "Error: invalid chamberprovided in search."
+			return [queryDict, 0, errorMessage]
+		else:
+			queryDict = addToQueryDict(queryDict, "chamber", queryWords.title())
 	else:
 		errorMessage = "Error: invalid field for search: "+queryField
 		return [queryDict, 0, errorMessage]
