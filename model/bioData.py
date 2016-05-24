@@ -16,7 +16,7 @@ def congressesOfService(icpsr):
 		if start==0:
 			start = congress
 			last = start
-		elif congress==last+1:
+		elif congress<=last+1:
 			last = congress
 		else:
 			congressChunks.append([start, last])
@@ -83,10 +83,11 @@ def levenshtein(s1, s2):
 
 	
 if __name__=="__main__":
-	yearsOfService("006071")
-	yearsOfService("049101")
-	yearsOfService(29754)
-	yearsOfService(99369)
-	yearsOfService(14240)
+	print yearsOfService(14400)
+	#yearsOfService("006071")
+	#yearsOfService("049101")
+	#yearsOfService(29754)
+	#yearsOfService(99369)
+	#yearsOfService(14240)
 
-	print checkForPartySwitch(memberLookup({'icpsr': 9369},1)["results"][0])
+	#print checkForPartySwitch(memberLookup({'icpsr': 9369},1)["results"][0])
