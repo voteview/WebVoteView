@@ -396,39 +396,6 @@ function drawWidgets(error, geodata, data)
         .dimension(ndx)
         .group(all);
 
-/*	dc.dataTable(".dc-data-table")
-	.dimension(voteDimension)
-	.group(function (d) { return d.vote; })
-	.size(436)
-	.columns([
-            function (d) {
-		var cqlabel=""
-		if(d.party) { cqlabel=d.party.substr(0,1); }
-		else { cqlabel="?"; }
-
-		if(chamber=="House") { 
-			if(d.district) { cqlabel+="-"+d.district; }
-			else if(d.state=="POTUS") { cqlabel +="-POTUS"; }
-		} else { cqlabel+="-"+d.state; }
-		
-                return "<a href=\"/person/"+d["id"]+"\">"+d["name"] + "</a> ("+cqlabel+")";
-            },
-            function (d) {
-		if(d.party)
-		{
-	                return d.party;
-		}
-		else
-		{
-			return "Data Error";
-		}
-            },
-            function (d) {
-              return "<a class='btn btn-primary btn-sm' href='/person/" + d.id + "'>See profile</a>"
-            }
-        ]);*/
-
-
 	if (chamber == "House")
 	{
 		/* Initialize tooltip */
@@ -605,7 +572,7 @@ function outVotes(groupBy="party")
 			}
 			
 			var p = $("<p></p>");
-			$("<a></a>").attr("href","/person/"+person["id"]+"/")
+			$("<a></a>").attr("href","/person/"+person["id"])
 					.html(outLabel).appendTo(p);
 			p.appendTo(partyLabel);
 		}

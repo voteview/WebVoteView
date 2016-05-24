@@ -114,7 +114,7 @@ def person(icpsr=0):
 					person["altPeople"].append(altPerson)
 
 					
-		voteQuery = query(qtext="voter: "+str(person["id"]), rowLimit=25)
+		voteQuery = query(qtext="voter: "+str(person["id"]), rowLimit=25, jsapi=1)
 		#return(voteQuery)
 		if not "errorMessage" in voteQuery and "rollcalls" in voteQuery:
 			votes = voteQuery["rollcalls"]
