@@ -36,7 +36,7 @@ function toggleAdvancedSearch(instant)
 
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
-	var page = 1;
+	var nextId = "";
 
 	// Get the initial list of rollcalls and replace all elements in the container with them
 	function getRollcalls()
@@ -51,6 +51,15 @@ $(document).ready(function(){
 			success: function(res, status, xhr) 
 			{
 				$("#results-number").html(numberWithCommas(xhr.getResponseHeader("Rollcall-Number")) + " search results");
+				nextId = xhr.getResponseHeader("Nextid");
+				if(!nextId.length)
+				{
+					$("#next-page").html("End of Results").attr("disabled","disabled");
+				}
+				else
+				{
+					$("#next-page").html("Next page").removeAttr("disabled");
+				}
 				$("#results-list").fadeOut(50, function()
 				{
 					$("#results-list").html(res);
@@ -62,22 +71,31 @@ $(document).ready(function(){
 		$("#download-btn").fadeOut();
 	}
 
-      // Get a rollcalls page and append them to the container
-      function getRollcallsPage(){
-        $.ajax({
-          type: "POST",
-          url: "/api/searchAssemble",
-          data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + '&page=' + page + "&jsapi=1",
-          beforeSend:function(){
-            $('#next-page').html('Loading...').attr('disabled', 'disabled');
-          },
-          success: function(res, status, xhr) {
-            $("#results-list").append(res);
-            $('#next-page').html('Load more').removeAttr('disabled');
-	    $('[data-toggle="tooltip"]').tooltip(); 
-           }
-          });
-        }
+	// Get a rollcalls page and append them to the container
+	function getRollcallsPage()
+	{
+		$.ajax({
+			type: "POST",
+			url: "/api/searchAssemble",
+			data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + '&nextId=' + nextId + "&jsapi=1",
+			beforeSend:function(){
+				$('#next-page').html('Loading...').attr('disabled', 'disabled');
+			},
+			success: function(res, status, xhr) {
+				$("#results-list").append(res);
+				nextId = xhr.getResponseHeader("Nextid");
+				if(!nextId.length)
+				{
+					$("#next-page").html("End of Results").attr("disabled","disabled");
+				}
+				else
+				{
+					$("#next-page").html("Next page").removeAttr("disabled");
+				}
+				$('[data-toggle="tooltip"]').tooltip(); 
+			}
+		});
+	}
 
 	getRollcalls();
 
@@ -85,14 +103,16 @@ $(document).ready(function(){
 	$("#next-page").click(function(e)
 	{
 		e.preventDefault();
-		page = page + 1;
-		getRollcallsPage();
+		if(nextId.length)
+		{
+			getRollcallsPage();
+		}
 	});
 
 	// On form change we reset the search and do the initial AJAX call
 	$("#faceted-search-form input:not(#searchTextInput), #sorting-select").change(function() 
 	{
-		page = 1;
+		nextId = "";
 		getRollcalls();
 	});
 
@@ -100,7 +120,7 @@ $(document).ready(function(){
 	$("#faceted-search-form").submit(function(event) 
 	{
 		event.preventDefault();
-		page = 1;	
+		nextId = "";
 		getRollcalls();
 	});
 

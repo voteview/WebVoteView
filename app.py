@@ -203,16 +203,17 @@ def searchAssemble():
 	except:
 		pass
 
-	page = defaultValue(bottle.request.params.page)
+	nextId = defaultValue(bottle.request.params.nextId,"")
 	icpsr = defaultValue(bottle.request.params.icpsr)
 	jsapi = 1
 	rowLimit = 50
-	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, page=page)
+	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortSkip=nextId)
 
 	if "errormessage" in res:
 		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"])
 	else:
 		bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
+		bottle.response.headers["nextId"] = res["nextId"]
 		out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="") 
 	return(out)
 

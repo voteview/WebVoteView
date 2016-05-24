@@ -1,5 +1,6 @@
 # Imports
 from datetime import date
+from bson.objectid import ObjectId
 import pymongo
 from pprint import pprint
 import sys
@@ -752,7 +753,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
 		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, page=1, jsapi=0):
+		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -771,20 +772,22 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		List of fields it wants returned? Parameter is depricated
 	icpsr: int
 		Taking ICPSR number as possible argument to directly passthrough the person's votes.
-	page: int
-		Default 0. Used for intermediate APIs to throttle the votes returned.
-
+	jsapi: int
+		Is this an API call from the Javascript API?
+		We do this to determine whether we should be returning paginated data
+		or returning as much as we can and erroring if the rowLimit is violated.
+	sortDir: int
+		Sort by date reversed or sort by date ascending
+	sortSkip: int
+		Pagination is slow as hell in MongoDB, so we can take a maximum ID to make
+		mock pagination. Then, we should return a "nextID" parameter for the next page.
+	
 	Returns
 	-------
 	dict
 		Dict of results to be run through json.dumps for later output
 	"""
 
-	try:
-		page = int(page)
-	except:
-		page = 1
-	
 	baseRowLimit = rowLimit
 
 	print qtext
@@ -859,21 +862,26 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		queryDict["votes."+icpsr] = {"$exists": 1}		
 
 	# Get results
-	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1}
+	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 1, "id": 1}
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
 
 	votes = db.voteview_rollcalls
-	skipNum = int(page-1)*50
+	if len(sortSkip) and not needScore:
+		if sortDir==-1:
+			queryDict["_id"] = {"$lt": ObjectId(sortSkip)}
+		else:
+			queryDict["_id"] = {"$gt", ObjectId(sortSkip)}
+
 	# Need to sort by text score
 	if needScore:
 		try:
 			resCount = votes.find(queryDict,fieldReturns).count()
 			rowLimit = baseRowLimit
 			if not jsapi:
-				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(skipNum).limit(rowLimit+5)
+				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).limit(rowLimit+5)
 			else:
-				results = votes.find(queryDict,fieldReturns).sort("date", -1).skip(skipNum).limit(rowLimit+5)
+				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -893,9 +901,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			resCount = votes.find(queryDict,fieldReturns).count()
 			rowLimit = baseRowLimit
 			if not jsapi:
-				results = votes.find(queryDict,fieldReturns).skip(skipNum).limit(rowLimit+5)
+				results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
 			else:
-				results = votes.find(queryDict, fieldReturns).sort("date", -1).skip(skipNum).limit(rowLimit+5)
+				results = votes.find(queryDict, fieldReturns).sort("_id", sortDir).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -909,10 +917,13 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	# Mongo lazy-allocates results, so we need to loop to pull them in
 	mr = []
+	nextId = ""
 	for res in results:
 		if len(mr)<rowLimit:
+			del res["_id"]
 			mr.append(res)
 		else:
+			nextId = str(res["_id"])
 			break
 
 	# Get ready to output
@@ -921,6 +932,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	returnDict["recordcount"] = len(mr)
 	returnDict["recordcountTotal"] = resCount
 	returnDict["apiversion"] = "Q2"
+	returnDict["nextId"] = nextId 
 	if resCount>rowLimit:
 		returnDict["rollcalls"] = mr[0:rowLimit]
 		if not jsapi:
