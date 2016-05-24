@@ -753,7 +753,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
 		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0):
+		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=""):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
