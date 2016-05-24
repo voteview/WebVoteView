@@ -2,6 +2,12 @@
 % rebase("base.tpl",title="Person details")
 % include('header.tpl')
 % current_page_number = 1
+% import datetime
+% if len(person["yearsOfService"]) and person["yearsOfService"][-1][1]>datetime.datetime.now().year:
+%	label = "Serving"
+% else:
+%	label = "Served"
+% end
 <div class="container">
 
     <div class="row">
@@ -12,7 +18,7 @@
             <h2>{{ person["fname"] }}</h2>
             <h4>{{ person["partyname"] }}</h4>
             <h4>{{ person["stateName"] }}, {{ person["stateAbbr"] }}</h4>
-	    <h4>Served
+	    <h4>{{ label }}
 		% z = 0
 		% for chunk in person["yearsOfService"]:
 			% if z>0:
