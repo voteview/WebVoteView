@@ -23,7 +23,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	starttime = time.time()
 	# Setup API version response
 	if apitype=="Web":
-		apiVersion = "Web 2016-02"
+		apiVersion = "Web 2016-05"
 	elif apitype=="R":
 		apiVersion = "R 2016-02"
 
@@ -75,10 +75,14 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						v['x'] = member['nominate']['oneDimNominate']
 						v['y'] = member['nominate']['twoDimNominate']
 
-					if member['districtCode'] > 70:
+					if member['stateAbbr'] == "POTUS":
+						v['district'] = "POTUS"
+					elif member['districtCode'] > 70:
 						v['district'] = "%s00" % member['stateAbbr']
 					elif member['districtCode'] and member['districtCode'] <= 70:
 						v['district'] = "%s%02d" % (member['stateAbbr'], member['districtCode'])
+					if not "district" in v: # We do this to force null districts to exist so as to avoid breaking DC_rollcall
+						v["district"] = ""
 					result.append(v)
 				elif apitype=="R":
 					v = {
@@ -130,5 +134,5 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	return response
 
 if __name__=="__main__":
-	print downloadAPI("H1050998,H1050997,H1050996,BLORPY")
+	print downloadAPI("H1121599")
 

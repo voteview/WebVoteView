@@ -557,21 +557,28 @@ function updateVoteChart()
 	var scanIndex = 0;
 	var translateAdj = 0;
 	var newMax = 0;
+	var labelSet = []
 	voteChartSVG.children("g").children("g").each(function(index, item) {
 		var tChildren = $(this).children("title").text();
 		if(tChildren.length && tChildren.startsWith(scanFor[scanIndex]))
 		{
 			var currentTranslate = splitTranslate($(this).attr("transform")) + translateAdj;
-			$('<g class="label _0" transform="translate(0,'+currentTranslate+')"><text fill="#000000;" font-size="12px" x="6" y="12" dy="0.35em" transform>'+scanMap[scanIndex]+'</text></g>').insertBefore($(this));
+			labelSet.push($('<g class="label _0" transform="translate(0,'+currentTranslate+')"><text fill="#000000;" font-size="12px" x="6" y="12" dy="0.35em" transform>'+scanMap[scanIndex]+'</text></g>'));
+			//labelSet.push([currentTranslate, scanMap[scanIndex]]);
 			translateAdj = translateAdj+34;
 			scanIndex=scanIndex+1;
 		}
 		newMax = splitTranslate($(this).attr("transform"))+translateAdj;
 		$(this).attr("transform","translate(0,"+newMax+")");
 	});
+	$.each(labelSet, function(index, item) {
+		//var labelBox = d3.select(voteChartSVG).append("g").attr("class","label _0").attr("transform", "translate(0"+item[0]+")");
+		//labelBox.selectAll("text").append("text").attr("fill","#000000").attr("font-size","12px").attr("x","6").attr("y","12").attr("dy","0.35em").text(item[1]);
+		item.appendTo(voteChartSVG.children("g"));
+	});
 	voteChartSVG.children("g").children(".axis").attr("transform","translate(0,"+(newMax+34)+")");
 	voteChartSVG.attr("height",(newMax+68));
-	$("#party-chart").html($("#party-chart").html());
+	//$("#party-chart").html($("#party-chart").html());
 	return 0;
 }
 
@@ -689,7 +696,7 @@ function pollFilters()
 	{
 		$("#selectionFilterBar").slideUp();
 	}
-	
+	//updateVoteChart();	
 }
 
 // Easier to update steps to take on a full filter reset by running this.
@@ -699,6 +706,7 @@ function doFullFilterReset()
 	dc.filterAll();
 	dc.redrawAll();
 	decorateNominate(nominateScatterChart, globalData);
+	updateVoteChart();
 }
 
 /*
