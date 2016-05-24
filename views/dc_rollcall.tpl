@@ -92,11 +92,11 @@
 
 <div id="selectionFilterBar" style="z-index: 99;position:fixed; bottom:0px; height:40px; left:0px; width:100%; background-color:#EEEEEE; padding: 10px; border-top:1px solid black; display:none; ">
 	<strong>Selected:</strong> 
-	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span> </span>
-	<span id="map-chart-controls" style="display:none;">from <span class="filter"></span> </span> 
-	<span id="vote-chart-controls" style="display:none;">including <span class="filter"></span> </span>
-	<span id="nominate-chart-controls" style="display:none;">with NOMINATE scores within <span class="filter"></span></em> </span>
-	. 
+	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span></span>
+	<span id="map-chart-controls" style="display:none;"> from <span class="filter"></span></span>
+	<span id="vote-chart-controls" style="display:none;"> including <span class="filter"></span></span>
+	<span id="nominate-chart-controls" style="display:none;"> with NOMINATE scores within <span class="filter"></span></em></span>. 
+	<span id="sparse-selection" style="display:none;"></span>
 	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
 </div>
 
@@ -578,7 +578,6 @@ function outVotes(groupBy="party")
 		}
 		partyLabel.appendTo(td);
 		rowCount+= parseInt(j)+1;
-		console.log(rowCount);
 		if(rowCount>25)
 		{
 			rowCount=0;
@@ -637,7 +636,7 @@ function updateVoteChart()
 	$.each(labelSet, function(index, item) {
 		//var labelBox = d3.select(voteChartSVG).append("g").attr("class","label _0").attr("transform", "translate(0"+item[0]+")");
 		//labelBox.selectAll("text").append("text").attr("fill","#000000").attr("font-size","12px").attr("x","6").attr("y","12").attr("dy","0.35em").text(item[1]);
-		item.appendTo(voteChartSVG.children("g"));
+		//item.appendTo(voteChartSVG.children("g"));
 	});
 	voteChartSVG.children("g").children(".axis").attr("transform","translate(0,"+(newMax+34)+")");
 	voteChartSVG.attr("height",(newMax+68));
@@ -650,7 +649,7 @@ function pollFilters(chart, filter)
 {
 	// Because this runs before the filters are applied, we delay it.
 	// We can try directly accessing the filters through the .filters() method if we must avoid this.
-	setTimeout(pollFilters2, 30);
+	setTimeout(pollFilters2, 1);
 	outVotes();
 }
 
@@ -672,6 +671,7 @@ function pollFilters2()
 	var baseFilters = 0;
 
 	// Filters for map unit selection
+	
 	var mapFilter = $("#suppressMapControls > .filter").text();
 	if(mapFilter.length)
 	{
@@ -715,16 +715,19 @@ function pollFilters2()
 		var p=0;
 		for(var party in newDict)
 		{
+			var pString = "";
 			if(p) { baseString+= "; "; }
-			baseString += party+"s voting ";
+			pString += party+"s voting ";
 			var z=0;
 			for(var voteType in newDict[party])
 			{
-				if(z && z+1==newDict[party].length) { baseString += ", and "; }
-				else if(z) { baseString += ", "; }
-				baseString += newDict[party][voteType];
+				if(z && z+1==newDict[party].length) { pString += ", and "; }
+				else if(z) { pString += ", "; }
+				pString += newDict[party][voteType];
 				z+=1;
 			}
+			if(z==3) pString = party+"s voting";
+			baseString += pString;
 			p+=1;
 		}
 		$("#vote-chart-controls > .filter").text(baseString);
@@ -758,6 +761,18 @@ function pollFilters2()
 		$("#nominate-chart-controls").hide();
 	}
 
+	var filteredVotes = globalPartyDimension.top(Infinity);
+	if(filteredVotes.length==1)
+	{
+		var splitNames = filteredVotes[0]["name"].split(", ");
+		var recoveredName = splitNames[1]+" "+splitNames[0]
+		$("#sparse-selection").html("Selected: "+recoveredName).show();
+	}
+	else
+	{
+		$("#sparse-selection").html("").hide();
+	}
+
 	// Hide or show the full bar.
 	if(baseFilters)
 	{
@@ -767,7 +782,6 @@ function pollFilters2()
 	{
 		$("#selectionFilterBar").slideUp();
 	}
-	//updateVoteChart();	
 }
 
 // Easier to update steps to take on a full filter reset by running this.
