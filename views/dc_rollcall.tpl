@@ -570,7 +570,8 @@ function outVotes(groupBy="party")
 			"name": filteredVotes[i]["name"], 
 			"party": filteredVotes[i]["party"], 
 			"vote": filteredVotes[i]["vote"], 
-			"state": filteredVotes[i]["state"]
+			"state": filteredVotes[i]["state"],
+			"id": filteredVotes[i]["id"]
 		};
 		if(groupings[filteredVotes[i][groupBy]] != undefined) {groupings[filteredVotes[i][groupBy]].push(voteSubset); }
 		else { groupings[filteredVotes[i][groupBy]] = [voteSubset]; }
@@ -602,7 +603,11 @@ function outVotes(groupBy="party")
 			{
 				outLabel = person["name"]+" ("+person["party"].substr(0,1) + "-" +person["state"] + ")";
 			}
-			$("<p></p>").html(outLabel).appendTo(partyLabel);
+			
+			var p = $("<p></p>");
+			$("<a></a>").attr("href","/person/"+person["id"]+"/")
+					.html(outLabel).appendTo(p);
+			p.appendTo(partyLabel);
 		}
 		partyLabel.appendTo(td);
 		rowCount+= parseInt(j)+1;
