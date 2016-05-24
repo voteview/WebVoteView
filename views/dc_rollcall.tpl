@@ -30,6 +30,13 @@
 		</div>
 	</div>
 
+	<div class="row" id="errorContent" style="display:none;">
+		<div class="col-md-12">
+			<h4>Error!</h4>
+			<div class="errorMessage"></div>
+		</div>
+	</div>
+
 	<div style="display:none;" id="loadedContent">
 
 		<div class="row">
@@ -45,14 +52,14 @@
 				</span>
 			</div>
 			<div class="col-md-3">
-				<h4>Votes</h4>
+				<h4>Votes</h4> 
 				<div id="party-chart">
 					<span id="suppressVoteChartControls" style="display:none;"><span class="filter"></span></span>
 				</div>
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" style="margin-bottom:20px;">
 			<div class="col-md-12">
 				<h4>DW-Nominate Cut-Line for Vote</h4>
 				<div id="scatter-container" style="margin:0 auto 0 auto;">
@@ -68,7 +75,16 @@
 
 		<div class="row" style="margin-bottom:50px;">
 			<div class="col-md-12">
-				<h4>Votes</h4>
+				<div>
+					<h4 style="float:left;padding-right:20px;">Vote List</h4>
+					<span style="vertical-align:bottom;">
+						(Sort by 
+						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 
+						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>, 
+						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>)
+					</span>
+				</div>
+				<div id="voteList"></div>
 			</div>
 		</div>
 	</div>
@@ -98,10 +114,10 @@
 /* jshint globalstrict: true */
 /* global dc,d3,crossfilter,colorbrewer */
 
+// Pass this in.
 var chamber = "{{ rollcall["chamber"] }}";
 
-// TODO: Define the colors used for the cloropeth
-// dc_rollcall
+// This is a hack to match colours to votes.
 var partyColors = {
     "YeaFederalist": "#0000FF",
     "NayFederalist": "#AAAAFF",
@@ -141,15 +157,18 @@ var partyColors = {
     "AbsUnionist": "#A62F01"
 };
 
+// All of our charts are now accessible globally.
 var votePartyChart = dc.rowChart("#party-chart");
 var mapChart = dc.geoChoroplethChart("#map-chart");
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
-var debugDimensions;
+var globalPartyDimension = null;
 var globalData;
 
+// Makes the bootstrap tooltip run for votes from before states were contiguous.
 $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
 
-(function loadData() {
+// Initial asynchronous load
+(function loadData(){
     if (chamber == "House") {
         queue()
           .defer(d3.json, sprintf("{{ STATIC_URL }}json/districts%03d.json", {{ rollcall["congress"] }}))
@@ -163,127 +182,137 @@ $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
     }
 })();
 
-function drawWidgets(error, geodata, data) {
-	globalData = data;
-    $("#loadBar").slideToggle();
-    $("#loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
-    var ndx = crossfilter(data.rollcalls[0].votes); 
-    var all = ndx.groupAll();
-  // Test points for figure calibration, JBL
-  if (false) {
-    data.rollcalls[0].votes[0].x = 0;
-    data.rollcalls[0].votes[0].y = 1;
-    data.rollcalls[0].votes[1].x = 0;
-    data.rollcalls[0].votes[1].y = -1;
-    data.rollcalls[0].votes[2].x = 1;
-    data.rollcalls[0].votes[2].y = 0;
-    data.rollcalls[0].votes[3].x = -1;
-    data.rollcalls[0].votes[3].y = 0;
-    for (var i=4;i< data.rollcalls[0].votes.length;i++) {
-	data.rollcalls[0].votes[i].x=0;
-	data.rollcalls[0].votes[i].y=0;
-    }
-  }
-
-    var voteDimension = ndx.dimension(function(d) { return d.vote; });
-    var voteGroup = voteDimension.group();
-
-    var partyDimension = ndx.dimension(function(d) { return d.party; });
-    var partyGroup = partyDimension.group();
-
-    var votePartyDimension = ndx.dimension(function(d) { return d.vote + d.party; });
-    var votePartyGroup = votePartyDimension.group();
-    var xDimension = ndx.dimension(
-                //Project outlying ideal points onto the outer circle (Radius=1.2)... 		    
-		function(d) {
-		    var x = d.x;  var y = d.y;
-		    var R = Math.sqrt(x*x + y*y);
-		    if (R>1.2) {
-                       x = x*1.2/R;
-                       y = y*1.2/R;
-                    }
-		    return [x, y];
-		 }
-         );
-
-    var xGroup = xDimension.group().reduce(
-        function (p, d) {
-           p.members.push(d);
-            return p;
-        },
-
-        function (p, d) {
-            var index = p.members.indexOf(d);
-            if (index > -1) {
-              p.members.splice(index, 1);
-            }
-            return p;
-        },
-
-        function () {
-            return {members: []} ;
-        });
-
-    var stateDimension = ndx.dimension(function(d) { return d.state; });
-    // Array of colors for each district
-    var stateGroup = stateDimension.group().reduce(
-        function (p, d) {
-            p.members.push(d);
-            return p;
-        },
-
-        function (p, d) {
-            var index = p.members.indexOf(d);
-            if (index > -1) {
-              p.members.splice(index, 1);
-            }
-            return p;
-        },
-
-        function () {
-            return {members: []} ;
-        });
-
-    var districtDimension = ndx.dimension(function(d) { 
-	//console.log(d.name+"/"+d.district);
-	return d.district; 
-	});
-	debugDimensions = districtDimension;
-
-
-    // Array of colors for each district
-    var districtGroup = districtDimension.group().reduce(
-        function (p, d) {
-		//console.log("To group: ");
-		var pcopy = p;
-		//console.log(pcopy);
-		//console.log("Trying to add district: ");
-		//console.log(d);
-		//console.log("Extant length: "+p.members.length);
-            // Add at large members
-            var atlargecode = d.state + "00";
-            var atlarge = $.grep(data.rollcalls[0].votes, function(e)
+function drawWidgets(error, geodata, data)
+{
+	$("#loadBar").slideToggle();
+	if(data==undefined || geodata==undefined)
+	{
+		var errorMessage = "Unknown error loading vote data.";
+		if(error.status==404 && error.responseURL.indexOf(".json")!=-1)
 		{
-			if(e.district==atlargecode)
-			{
-				//console.log(e.district);
-			}
-			return e.district==atlargecode;
-		});
-		//console.log("At large found: "+atlarge.length);
-            $.each(atlarge, function(member) {
-                p.members.push(atlarge[member]);
-            });
-		//console.log("New extant length: "+p.members.length);
-            p.members.push(d);
-		//console.log("Final extant length: "+p.members.length);
-		if(p.members.length!=1)
-		{
-			//console.log(p);
+			errorMessage = "Unable to download geographic data for this session.";
 		}
-		//console.log("=====");
-            return p;
-        },
+		$("#errorContent > div > div.errorMessage").html(errorMessage);
+		$("#errorContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
+		return(0);
+	}
+	globalData = data;
+	$("#loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
+
+	var ndx = crossfilter(data.rollcalls[0].votes);
+	var all = ndx.groupAll();
+
+	// Test points for figure calibration, JBL
+	if (false) 
+	{
+		data.rollcalls[0].votes[0].x = 0;
+		data.rollcalls[0].votes[0].y = 1;
+		data.rollcalls[0].votes[1].x = 0;
+		data.rollcalls[0].votes[1].y = -1;
+		data.rollcalls[0].votes[2].x = 1;
+		data.rollcalls[0].votes[2].y = 0;
+		data.rollcalls[0].votes[3].x = -1;
+		data.rollcalls[0].votes[3].y = 0;
+		for (var i=4;i< data.rollcalls[0].votes.length;i++)
+		{
+			data.rollcalls[0].votes[i].x=0;
+			data.rollcalls[0].votes[i].y=0;
+		}
+	}
+
+	// Dimension 1: What type of vote you cast
+	var voteDimension = ndx.dimension(function(d) { return d.vote; });
+	var voteGroup = voteDimension.group(); // Grouping is exact
+
+	// Dimension 2: What party you are in
+	var partyDimension = ndx.dimension(function(d) { return d.party; });
+	var partyGroup = partyDimension.group(); // Grouping is exact
+	globalPartyDimension = partyDimension;
+
+	// Dimension 3: What type of vote you cast and what party you are in.
+	var votePartyDimension = ndx.dimension(function(d) { return d.vote + d.party; });
+	var votePartyGroup = votePartyDimension.group(); // Grouping is exact
+
+	// Dimension 4: Coordinates of vote
+	var xDimension = ndx.dimension(
+		//Project outlying ideal points onto the outer circle (Radius=1.2)... 		    
+		function(d) {
+			var x = d.x;  var y = d.y;
+			var R = Math.sqrt(x*x + y*y);
+			if (R>1.2) 
+			{
+				x = x*1.2/R;
+				y = y*1.2/R;
+			}
+			return [x, y];
+		}
+	);
+	var xGroup = xDimension.group().reduce(
+		function (p, d) 
+		{
+			p.members.push(d);
+			return p;
+		},
+
+		function (p, d) 
+		{
+			var index = p.members.indexOf(d);
+			if (index > -1) 
+			{
+				p.members.splice(index, 1);
+			}
+			return p;
+		},
+
+		function ()
+		{
+			return {members: []} ;
+		}); // This is not super clear to me.
+
+	// Dimension 5: What state you're from.
+	var stateDimension = ndx.dimension(function(d) { return d.state; });
+	var stateGroup = stateDimension.group().reduce(
+		function (p, d)
+		{
+			p.members.push(d);
+			return p;
+		},
+
+		function (p, d) 
+		{
+			var index = p.members.indexOf(d);
+			if (index > -1) {
+				p.members.splice(index, 1);
+			}
+			return p;
+		},
+
+		function ()
+		{
+			return {members: []} ;
+		});
+
+	// Dimension 6: Which district you are from
+	var districtDimension = ndx.dimension(function(d) { 
+		return d.district; 
+	});
+
+
+	var districtGroup = districtDimension.group().reduce(
+		function (p, d) 
+		{
+			// Add at large members
+			var atlargecode = d.state + "00";
+			var atlarge = $.grep(data.rollcalls[0].votes, function(e)
+			{
+				return e.district==atlargecode;
+			});
+			$.each(atlarge, function(member) {
+				p.members.push(atlarge[member]);
+			});
+			p.members.push(d);
+			return p;
+		},
 
         function (p, d) {
 		//console.log('huh');
@@ -305,75 +334,73 @@ function drawWidgets(error, geodata, data) {
             return {members: []} ;
         });
 
-    votePartyChart
-        .width(320)
-        .height(320)
-        .dimension(votePartyDimension)
-        .group(votePartyGroup)
-        .elasticX(true)
-        .colorCalculator(function (d) {
-            //console.log(d);
-            return partyColors[d.key];
-        })
-	.fixedBarHeight(24).gap(10)
-	.labelOffsetX(40)
-	.label(function(d)
-	{
-		var textLabel = d.key.substr(3,d.key.length)+": "+d.key.substr(0,3)
-		return textLabel
-	})
-	.ordering(function(d){ // Sort Yea-to-Nay, Alphabetically, set independents separately.
-		var score = 0
-		switch(d.key.substr(0,3))
-		{
-			case "Yea": score = 9; break;
-			case "Nay": score = 6; break;
-			case "Abs": score = 3; break
-		}
-		switch(d.key.substr(3,d.key.length))
-		{
-			case "Democrat": score=score+2; break;
-			case "Republican": score=score+1; break;
-			default: score=score+0; break;
-		}
-		return -score;
-	})
-	.transitionDuration(200)
-        .xAxis().ticks(4);
+	// DIMENSIONS HAVE BEEN DEFINED =========
 
-    nominateScatterChart
-        .width(600)
-        .height(600)
-        .margins({top:25,right:25,bottom:75,left:75})
-        .dimension(xDimension)
-        .mouseZoomable(false)
-        .group(xGroup)
-        .symbolSize(7)
-        .colorCalculator(function (d) { 
-            var color = "#CCC";
-            try {
-                if(d.value.members.length > 0){   
-                    color = blendColors(d.value.members);
-                }
-            }catch(e){
-           }
-            return color; 
-        })
-        .highlightedSize(10)
-        .x(d3.scale.linear().domain([-1.2, 1.2])) 
-        .y(d3.scale.linear().domain([-1.2, 1.2]));
+	// NOW BEGIN CHART SPECIFICATIONS =======
+	votePartyChart
+		.width(320).height(320)
+		.dimension(votePartyDimension).group(votePartyGroup)
+		.elasticX(true)
+		.colorCalculator(function (d) {
+			return partyColors[d.key];
+		})
+		.fixedBarHeight(24).gap(10)
+		.labelOffsetX(40)
+		.label(function(d)
+		{
+			var textLabel = d.key.substr(3,d.key.length)+": "+d.key.substr(0,3)
+			return textLabel
+		})
+		.ordering(function(d){ // Sort Yea-to-Nay, Alphabetically, set independents separately.
+			var score = 0
+			switch(d.key.substr(0,3))
+			{
+				case "Yea": score = 9; break;
+				case "Nay": score = 6; break;
+				case "Abs": score = 3; break
+			}
+			switch(d.key.substr(3,d.key.length))
+			{
+				case "Democrat": score=score+2; break;
+				case "Republican": score=score+1; break;
+				default: score=score+0; break;
+			}
+			return -score;
+		})
+		.transitionDuration(200)
+        	.xAxis().ticks(4);
+
+	nominateScatterChart
+		.width(600)
+		.height(600)
+		.margins({top:25,right:25,bottom:75,left:75})
+		.dimension(xDimension)
+		.mouseZoomable(false)
+		.group(xGroup)
+		.symbolSize(7)
+		.colorCalculator(function (d) { 
+			var color = "#CCC";
+			try {
+				if(d.value.members.length > 0){   
+				color = blendColors(d.value.members);
+				}
+			}catch(e){
+			}
+			return color; 
+		})
+		.highlightedSize(10)
+		.x(d3.scale.linear().domain([-1.2, 1.2])) 
+		.y(d3.scale.linear().domain([-1.2, 1.2]));
     
     dc.dataCount("#data-count")
         .dimension(ndx)
         .group(all);
 
-    dc.dataTable(".dc-data-table")
-        .dimension(voteDimension)
-        .group(function (d) {
-            return d.vote;
-        })
-        .size(436)
-        .columns([
+/*	dc.dataTable(".dc-data-table")
+	.dimension(voteDimension)
+	.group(function (d) { return d.vote; })
+	.size(436)
+	.columns([
             function (d) {
 		var cqlabel=""
 		if(d.party) { cqlabel=d.party.substr(0,1); }
@@ -399,64 +426,64 @@ function drawWidgets(error, geodata, data) {
             function (d) {
               return "<a class='btn btn-primary btn-sm' href='/person/" + d.id + "'>See profile</a>"
             }
-        ]);
-
-        if (chamber == "House") {
-            /* Initialize tooltip */
-            var houseMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
-              var result = "<p>" + d.key + "</p>";
-              for (var i = 0; i < d.value.members.length; i++) {
-		var colorVote = partyColors[d.value.members[i].vote + d.value.members[i].party];
-		// Tooltip data display:
-                result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "white" + "'> " + d.value.members[i].vote +"</span></p>";				  
-              }
-              return result;
-            });
+        ]);*/
 
 
-            var mapTopo = topojson.feature(geodata, geodata.objects.districts).features;
-            mapChart.width(890)
-                    .height(500)
-                    .dimension(districtDimension)
-                    .group(districtGroup)
-                    .colorCalculator(function (d) { 
-                        var color = "#CCC";
-		        try {
-	                    //console.log(d);
-                            if(d.members.length > 0){
-                                color = blendColors(d.members);
-                            }
-                        }catch(e){
-                            //console.log("MC: " + e);
-                        }
-                        return color; 
-                    })
-                    .overlayGeoJson(mapTopo, "district", function (d) {
-                        return d.id;
-                    })
-                    .on("postRender", function(c){
-                        c.svg()
-                          .selectAll("path")
-                          .call(houseMapTip)
-                          .on('mouseover',function(d, i){
-				var districtSet = c.data();
-                            var result = $.grep(c.data(), function(e){
-				return e.key == d.id; 
-				});
+	if (chamber == "House")
+	{
+		/* Initialize tooltip */
+		var houseMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
+			var result = "<p>" + d.key + "</p>";
+			for (var i = 0; i < d.value.members.length; i++) 
+			{
+				var colorVote = partyColors[d.value.members[i].vote + d.value.members[i].party];
+				// Tooltip data display:
+				result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "white" + "'> " + d.value.members[i].vote +"</span></p>";				  
+			}
+			return result;
+		});
 
-                            houseMapTip.attr('class','d3-tip animate')
-                            .show(d, result[0])}
-                            )
-                          .on('mouseout',function(d, i){
-                            var result = $.grep(c.data(), function(e){ return e.key == d.id; });
-                            houseMapTip.attr('class','d3-tip').show(d, result[0])
-                            houseMapTip.hide()
-                          })
-                    });
+		var mapTopo = topojson.feature(geodata, geodata.objects.districts).features;
+		mapChart
+			.width(890).height(500)
+			.dimension(districtDimension)
+			.group(districtGroup)
+			.colorCalculator(function (d) { 
+				var color = "#CCC";
+				try {
+					if(d.members.length > 0){
+						color = blendColors(d.members);
+					}
+				}catch(e){
+					//console.log("MC: " + e);
+				}
+				return color; 
+			})
+			.overlayGeoJson(mapTopo, "district", function (d) {
+				return d.id;
+			})
+			.on("postRender", function(c){
+				c.svg()
+					.selectAll("path")
+					.call(houseMapTip)
+					.on('mouseover',function(d, i){
+						var districtSet = c.data();
+						var result = $.grep(c.data(), function(e){
+							return e.key == d.id; 
+						});
 
-
-
-        } else if (chamber == "Senate") {
+						houseMapTip.attr('class','d3-tip animate')
+						.show(d, result[0]);
+					})
+					.on('mouseout',function(d, i){
+						var result = $.grep(c.data(), function(e){ return e.key == d.id; });
+						houseMapTip.attr('class','d3-tip').show(d, result[0])
+						houseMapTip.hide();
+					})
+			});
+	} 
+	else if (chamber == "Senate") 
+	{
 
             /* Initialize tooltip */
             var senateMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
@@ -486,7 +513,7 @@ function drawWidgets(error, geodata, data) {
                     .overlayGeoJson(mapTopo, "state", function (d) {
                         return d.id;
                     })
-                    .on("postRender", function(c){
+	           .on("postRender", function(c){
                         c.svg()
                           .selectAll("path")
                           .call(senateMapTip)
@@ -504,27 +531,91 @@ function drawWidgets(error, geodata, data) {
                     });
         }
 
+	// We are done defining everything, now let's just run our ancillary functions.
+	dc.renderAll();
 
+	/*
+	var gtest = d3.select("#map-chart svg g")
+			.call(d3.behavior.zoom()
+			.scaleExtent([1, 10])
+			.on("zoom", zoom));
 
+	function zoom()
+	{
+			gtest.attr("transform", "translate("
+				+ d3.event.translate
+				+ ")scale(" + d3.event.scale + ")");
+			gtest.style("stroke-width", 1.2 / d3.event.scale + "px");
+	}*/
 
-    dc.renderAll();
+	decorateNominate(nominateScatterChart,data);
+	mapChart.on("filtered", pollFilters);
+	votePartyChart.on("filtered", pollFilters);
+	nominateScatterChart.on("filtered", pollFilters);
+	outVotes();
+}
 
-    var gtest = d3.select("#map-chart svg g")
-        .call(d3.behavior.zoom()
-        .scaleExtent([1, 10])
-        .on("zoom", zoom));
+function outVotes(groupBy="party")
+{
+	// Check that we're grouping by something valid.
+	if(["party", "vote", "state"].indexOf(groupBy)==-1) { groupBy = "party"; }
+	// Pull out every filtered bit of data.
+	var filteredVotes = globalPartyDimension.top(Infinity);
+	var groupings = {};
 
-    function zoom() {
-        gtest.attr("transform", "translate("
-                + d3.event.translate
-                + ")scale(" + d3.event.scale + ")");
-        gtest.style("stroke-width", 1.2 / d3.event.scale + "px");
-    }
+	// Iterate through the people, adding them to a dict of arrays by party
+	for(var i=0;i!=filteredVotes.length;i++)
+	{
+		var voteSubset = {
+			"name": filteredVotes[i]["name"], 
+			"party": filteredVotes[i]["party"], 
+			"vote": filteredVotes[i]["vote"], 
+			"state": filteredVotes[i]["state"]
+		};
+		if(groupings[filteredVotes[i][groupBy]] != undefined) {groupings[filteredVotes[i][groupBy]].push(voteSubset); }
+		else { groupings[filteredVotes[i][groupBy]] = [voteSubset]; }
+	}
 
-
-    decorateNominate(nominateScatterChart,data);
-
-    window.setInterval(pollFilters, 1100);
+	// Output table
+	var sortedKeys = Object.keys(groupings).sort();
+	var baseTable = $("<table><tr></tr></table>").css("width","100%");
+	var td = $("<td></td>");
+	var rowCount=0;
+	for(var key in sortedKeys)
+	{
+		groupings[sortedKeys[key]] = groupings[sortedKeys[key]].sort(function(a,b){return a["name"] < b["name"] ? -1 : (a["name"] > b["name"] ? 1 : 0);});
+		var partyLabel = $("<div></div>").css("padding-bottom","20px");
+		$("<p><strong>"+groupBy+": "+sortedKeys[key]+"</strong></p>").css("text-decoration","underline").appendTo(partyLabel);
+		for(var j in groupings[sortedKeys[key]])
+		{
+			var person = groupings[sortedKeys[key]][j];
+			var outLabel = "";
+			if(groupBy=="party")
+			{
+				outLabel = person["name"]+" ("+person["state"]+"): "+person["vote"];
+			}
+			else if(groupBy=="state")
+			{
+				outLabel = person["name"]+" ("+person["party"].substr(0,1)+"): "+person["vote"];
+			}
+			else
+			{
+				outLabel = person["name"]+" ("+person["party"].substr(0,1) + "-" +person["state"] + ")";
+			}
+			$("<p></p>").html(outLabel).appendTo(partyLabel);
+		}
+		partyLabel.appendTo(td);
+		rowCount+= parseInt(j)+1;
+		console.log(rowCount);
+		if(rowCount>25)
+		{
+			rowCount=0;
+			td.appendTo(baseTable)
+			td = $("<td></td>");
+		}
+		td.appendTo(baseTable);
+	}
+	$("#voteList").html(baseTable);
 }
 
 // Blend an array of colors
@@ -582,8 +673,16 @@ function updateVoteChart()
 	return 0;
 }
 
-// Polls filters every second to ensure filter changes are reflected in bottom bar.
-function pollFilters()
+// Poll Filter: Basically, use DC's on filtered method to call this function when a filter changes.
+function pollFilters(chart, filter)
+{
+	// Because this runs before the filters are applied, we delay it.
+	// We can try directly accessing the filters through the .filters() method if we must avoid this.
+	setTimeout(pollFilters2, 30);
+	outVotes();
+}
+
+function pollFilters2()
 {
 	// Proper diction for text
 	if(chamber=="House")
