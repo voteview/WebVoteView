@@ -1,4 +1,4 @@
-% rebase('base.tpl',title='About us', extra_js=["https://www.google.com/recaptcha/api.js"])
+% rebase('base.tpl',title='About us', extra_js=["https://www.google.com/recaptcha/api.js", "/static/js/contact.js"])
 
 % include('header.tpl')
 
@@ -26,11 +26,14 @@
 			</ul>
 
 			<h3>Contact Us</h3>
-			<form>
+			<form id="contact-form">
 				<p>
-					Subject: <input type="text" placeholder="Question about VoteView.com" style="width:63%;">
+					Your Email Address: <input name="email" type="text" placeholder="example@email.com" style="width:53%;">
 				</p>
-				<textarea style="width:70%;height:250px;" placeholder="Type your message here. Please allow 48-72 hours for a response."></textarea>
+				<p>
+					Subject: <input type="text" name="title" placeholder="Question about VoteView.com" style="width:63%;">
+				</p>
+				<textarea style="width:70%;height:250px;" name="body" placeholder="Type your message here. Please allow 48-72 hours for a response."></textarea>
 				<script>
 					function showSubmit() { $("#captcha_hide_submit").slideDown(); $("#captcha_click").slideUp(); }
 				</script>
@@ -39,9 +42,10 @@
 					<div class="g-recaptcha" data-sitekey="6LetoCATAAAAAL3gjPGCEEFgf8iU9aM_m_RjgShd" data-callback="showSubmit"></div>
 				</div>
 				<div id="captcha_hide_submit" style="display:none;">
-					<input type="submit" />
+					<input type="submit" onclick="javascript:submitForm(); return false;" />
 				</div>
 			</form>
+			<div id="result" style="display:none;"></div>
 			
 			<h3>Licence and Code</h3>
 		

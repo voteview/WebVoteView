@@ -5,6 +5,7 @@ import json
 import bottle
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
+from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress
 from model.bioData import yearsOfService, checkForPartySwitch
 from model.downloadXLS import downloadXLS
@@ -260,6 +261,21 @@ def download():
 			return(result)
 		else: # Non-zero status code.
 			return({"errormessage": result}) 
+
+@app.route("/api/contact",method="POST")
+@app.route("/api/contact")
+def contact():
+	try:
+		title = bottle.request.params.title
+		body = bottle.request.params.body
+		email = bottle.request.params.email
+		recaptcha = bottle.request.params["g-recaptcha-response"]
+		ip = bottle.request.get("REMOTE_ADDR")
+		res = sendEmail(title, body, email, recaptcha, ip)
+		return(res)
+	except:
+		return(traceback.format_exc())
+		return({"error": "You must fill out the entire form before submitting."})
 
 @app.route("/api/version")
 def apiVersion():
