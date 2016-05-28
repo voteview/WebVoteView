@@ -203,7 +203,7 @@ def searchAssemble():
 	except:
 		pass
 
-	nextId = defaultValue(bottle.request.params.nextId,"")
+	nextId = defaultValue(bottle.request.params.nextId,0)
 	icpsr = defaultValue(bottle.request.params.icpsr)
 	jsapi = 1
 	rowLimit = 50

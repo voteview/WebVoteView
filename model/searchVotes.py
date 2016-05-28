@@ -753,7 +753,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
 		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=""):
+		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -862,16 +862,21 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		queryDict["votes."+icpsr] = {"$exists": 1}		
 
 	# Get results
-	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 1, "id": 1}
+	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1, "synthID": 1}
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
 
 	votes = db.voteview_rollcalls
-	if len(sortSkip) and not needScore:
+	try:
+		sortSkip = int(sortSkip)
+	except:
+		sortSkip = 0
+
+	if sortSkip and not needScore:
 		if sortDir==-1:
-			queryDict["_id"] = {"$lt": ObjectId(sortSkip)}
+			queryDict["synthID"] = {"$lt": sortSkip}
 		else:
-			queryDict["_id"] = {"$gt", ObjectId(sortSkip)}
+			queryDict["synthID"] = {"$gt", sortSkip}
 
 	# Need to sort by text score
 	if needScore:
@@ -903,7 +908,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			if not jsapi:
 				results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
 			else:
-				results = votes.find(queryDict, fieldReturns).sort("_id", sortDir).limit(rowLimit+5)
+				results = votes.find(queryDict, fieldReturns).sort("synthID", sortDir).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -917,13 +922,13 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	# Mongo lazy-allocates results, so we need to loop to pull them in
 	mr = []
-	nextId = ""
+	nextId = 0
 	for res in results:
 		if len(mr)<rowLimit:
-			del res["_id"]
+			del res["synthID"]
 			mr.append(res)
 		else:
-			nextId = str(res["_id"])
+			nextId = str(res["synthID"])
 			break
 
 	# Get ready to output

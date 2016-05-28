@@ -25,10 +25,9 @@
 	</div>
 % end
 
-% if not len(rollcalls):
+% if not len(rollcalls) and not errormessage:
 	<h2>No rollcalls with those parameters found</h2>
-% end
-% if errormessage:
+% elif errormessage:
 	<h2>Error completing search!</h2>
 	{{ errormessage }}
 % end

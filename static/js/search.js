@@ -36,7 +36,7 @@ function toggleAdvancedSearch(instant)
 
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
-	var nextId = "";
+	var nextId = 0;
 
 	// Get the initial list of rollcalls and replace all elements in the container with them
 	function getRollcalls()
@@ -52,8 +52,10 @@ $(document).ready(function(){
 			{
 				$("#results-number").html(numberWithCommas(xhr.getResponseHeader("Rollcall-Number")) + " search results");
 				nextId = xhr.getResponseHeader("Nextid");
-				if(!nextId.length)
+				console.log(nextId);
+				if(nextId==0)
 				{
+					console.log("here");
 					$("#next-page").html("End of Results").attr("disabled","disabled");
 				}
 				else
@@ -84,7 +86,7 @@ $(document).ready(function(){
 			success: function(res, status, xhr) {
 				$("#results-list").append(res);
 				nextId = xhr.getResponseHeader("Nextid");
-				if(!nextId.length)
+				if(nextId==0)
 				{
 					$("#next-page").html("End of Results").attr("disabled","disabled");
 				}
@@ -103,7 +105,7 @@ $(document).ready(function(){
 	$("#next-page").click(function(e)
 	{
 		e.preventDefault();
-		if(nextId.length)
+		if(nextId!=0)
 		{
 			getRollcallsPage();
 		}
