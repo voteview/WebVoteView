@@ -8,13 +8,18 @@ import email_validator
 def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 	if test:
 		authData = json.load(open("auth.json","r"))
+		emailList = [x.strip() for x in open("email/emails.txt","r").read().split("\n")]
 	else:
 		authData = json.load(open("./model/auth.json","r"))
+		emailList = [x.strip() for x in open("./model/email/emails.txt","r").read().split("\n")]
 
 	try:
 		validated = email_validator.validate_email(userEmail)
 	except:
 		return({"error": "The email you have entered cannot be verified."})
+
+	if any(x.lower() in userEmail.lower() for x in emailList):
+		return({"error": "We do not allow contact from disposable email address services."})
 
 	if len(title) > 200: 
 		title = title[0:200]
