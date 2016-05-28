@@ -59,6 +59,14 @@
 				<li><a href="http://www.flaticon.com/packs/thin-line-ui">Eleonor Wang Thin UI Pack</a></li>
 			</ul>
 
+			<p>External code libraries:</p>
+			<ul>
+				<li><a href="https://github.com/twbs/bootstrap">Bootstrap.js</a> by Twitter, Inc.</li>
+				<li><a href="https://github.com/dc-js/dc.js">DC.js</a></li>
+				<li><a href="https://github.com/jquery/jquery">jQuery</a> by jQuery Foundation</li>
+				<li><a href="https://github.com/exupero/saveSvgAsPng">saveSvgAsPng</a> by Eric Shull</li>
+			</ul>
+
 
 			<br/><br/><br/>
 		</div>		

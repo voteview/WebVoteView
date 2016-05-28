@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase('base.tpl',title='Plot Vote', extra_css=["map.css","scatter.css"])
+% rebase('base.tpl',title='Plot Vote', extra_css=["map.css","scatter.css"], extra_js=["/static/js/saveSvgAsPng.js"])
 % include('header.tpl')
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 <div class="container">
@@ -46,7 +46,15 @@
 					%if int(rollcall["congress"])<86:
 						<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" data-toggle="tooltip" data-position="bottom" data-html="true" title="<u>Note</u><br/>States as of {{ rcSuffix(rollcall["congress"]) }} Congress.">
 					%end
+
+					<!--Zoom: 
+					<button id="zoomOut">-</a> 
+					<button id="zoomIn">+</a>-->
 				</h4>
+				<span style="float:right;">
+					<a href="#" onclick="javascript:saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">Save</a>
+				</span>
+
 				<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;">
 					<span id="suppressMapControls" style="display:none;"><span class="filter"></span></span>
 				</span>
@@ -61,7 +69,10 @@
 
 		<div class="row" style="margin-bottom:20px;">
 			<div class="col-md-12">
-				<h4>DW-Nominate Cut-Line for Vote</h4>
+				<span style="float:right;">
+					<a href="#" onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">Save</a>
+				</span>
+				<h4>DW-Nominate Cut-Line for Vote</h4> 
 				<div id="scatter-container" style="margin:0 auto 0 auto;">
 					<div id="scatter-bg">
 						<svg id="svg-bg"></svg> 
@@ -163,6 +174,7 @@ var mapChart = dc.geoChoroplethChart("#map-chart");
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var globalPartyDimension = null;
 var globalData;
+var zoomLevel = 1;
 
 // Makes the bootstrap tooltip run for votes from before states were contiguous.
 $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
@@ -501,13 +513,13 @@ function drawWidgets(error, geodata, data)
 	// We are done defining everything, now let's just run our ancillary functions.
 	dc.renderAll();
 
-	/*
-	var gtest = d3.select("#map-chart svg g")
-			.call(d3.behavior.zoom()
-			.scaleExtent([1, 10])
-			.on("zoom", zoom));
+	
+	//var gtest = d3.select("#map-chart svg g")
+	//		.call(d3.behavior.zoom()
+	//		.scaleExtent([1, 10]));
+	//		.on("zoom", zoom));
 
-	function zoom()
+	/*function zoom()
 	{
 			gtest.attr("transform", "translate("
 				+ d3.event.translate
@@ -520,6 +532,28 @@ function drawWidgets(error, geodata, data)
 	votePartyChart.on("filtered", pollFilters);
 	nominateScatterChart.on("filtered", pollFilters);
 	outVotes();
+
+	d3.selectAll('button').on('click',doZoom);
+	var zoom = d3.behavior.zoom().scaleExtent([1, 8]);
+}
+
+function doZoom()
+{
+	//console.log(d3.event.target);
+	
+	d3.event.preventDefault();
+	return false;
+	/*zoomLevel=zoomLevel + 0.25*dir;
+	if(zoomLevel>3) zoomLevel=3;
+	if(zoomLevel<1) zoomLevel=1;
+
+	var mapG = d3.select("#map-chart svg g");
+	var translation = -500 * zoomLevel;
+	console.log(translation);
+	var translation = "-50%";
+	mapG.transition().duration(350).attr("transform","translate("+translation+", 0)");
+	// scale("+zoomLevel+")");
+	return false;*/
 }
 
 function outVotes(groupBy="party")
@@ -791,7 +825,7 @@ function doFullFilterReset()
 	dc.filterAll();
 	dc.redrawAll();
 	decorateNominate(nominateScatterChart, globalData);
-	updateVoteChart();
+	//updateVoteChart();
 }
 
 /*

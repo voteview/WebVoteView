@@ -250,7 +250,7 @@
 							<h4 id="results-number"></h4>
 						</div>
 						<label id="sort-label" for="sort" class="col-md-2 control-label">Sort by</label>
-						<div class="col-md-3">
+						<div class="col-md-3" style="padding-top:10px;">
 							<a href="#">Newest</a> / <a href="#">Oldest</a>
 						</div>
 					</div>
