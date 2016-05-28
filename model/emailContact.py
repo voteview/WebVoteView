@@ -3,12 +3,18 @@ import requests
 import datetime
 import hashlib
 import traceback
+import email_validator
 
 def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 	if test:
 		authData = json.load(open("auth.json","r"))
 	else:
 		authData = json.load(open("./model/auth.json","r"))
+
+	try:
+		validated = email_validator.validate_email()
+	except:
+		return({"error": "The email you have entered cannot be verified."})
 
 	if len(title) > 200: 
 		title = title[0:200]
@@ -29,7 +35,7 @@ def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 			return {"error": "Error sending mail. Please try again later."}
 
 	headers = {"Authorization": "Bearer "+authData["sendgrid"], "Content-Type": "application/json"}
-	topost = {"personalizations": [{"to": [{"email": authData["contact"]}], "subject": title}], "from": {"email": "contact@voteview.polisci.ucla.edu"}, "content": [{"type": "text", "value": body}]}
+	topost = {"personalizations": [{"to": [{"email": authData["contact"]}], "subject": title}], "from": {"email": userEmail}, "content": [{"type": "text/plain", "value": body}]}
 	req = requests.post("https://api.sendgrid.com/v3/mail/send/beta", headers=headers, json=topost, verify=False)
 	results = req.text
 
