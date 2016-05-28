@@ -12,7 +12,7 @@ def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 		authData = json.load(open("./model/auth.json","r"))
 
 	try:
-		validated = email_validator.validate_email()
+		validated = email_validator.validate_email(userEmail)
 	except:
 		return({"error": "The email you have entered cannot be verified."})
 
