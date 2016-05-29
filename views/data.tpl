@@ -5,11 +5,10 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 
 % include('header.tpl')
 <div class="container">
+	<div class="row">
+		<div class="col-md-9">
 
-    <div class="row">
-        <div class="col-md-9">
-
-            <h3>NOMINATE and Related Data</h3>
+			<h3>NOMINATE and Related Data</h3>
             <p>
     <a href="rank_orders_all_congresses.htm">Rank Orderings all Houses and Senates -- 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
 
@@ -41,7 +40,16 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
         Scores) </a><BR>
 </p>
 
-        </div>
-    </div>
-    
+			<h3>Complete Database</h3>
+			<p>
+				<a href="/static/db/current.zip">Complete database</a> (approx. 100MB zipped).<br/>
+				Our database is available in MongoDB bson/json format. This release is updated weekly.
+			<p>
+			<p>
+				<a href="/static/db/">Browser prior database releases</a><br/>
+				We retain a year worth of archival data online. Archival releases may be missing new rollcall or member data,
+				and may also be missing corrections made to existing data.
+			</p>
+		</div>
+	</div>
 </div>
