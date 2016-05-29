@@ -2,8 +2,6 @@
 
 % include('header.tpl')
 
-<!-- About.tpl: This is the template for an about us / help page. All the templating is done but we haven't written a message yet -->
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-9">
@@ -19,7 +17,7 @@
 
 			<h3>Project Staff</h3>
 			<ul>
-				<li>Project Lead: Jeff Lewis, UCLA</li>
+				<li>Project Lead: <a href="http://www.polisci.ucla.edu/people/jeffrey-b-lewis">Prof. Jeff Lewis, UCLA</a></li>
 				<li>Adam Boche, UCLA</li>
 				<li>Aaron Rudkin, UCLA</li>
 				<li>Luke Sonnet, UCLA</li>
@@ -54,6 +52,12 @@
 				<li><a href="https://github.com/JeffreyBLewis/congressional-district-boundaries">Congressional District Boundaries JSON data</a></li>
 				<li><a href="https://github.com/JeffreyBLewis/Rvoteview">Rvoteview R Package</a></li>
 				<li><a href="https://github.com/JeffreyBLewis/WebVoteView">WebVoteView site source</a></li>
+			</ul>
+
+			<p>VoteView data:</p>
+			<ul>
+				<li><a href="/static/db/current.zip">Current (generated weekly) backup of complete VoteView database</a> (50-100MB, MongoDB bson and json format)</li>
+				<li><a href="/static/db/">Older backup archives</a></li>
 			</ul>
 
 			<p>Some graphics used under license:</p>
