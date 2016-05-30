@@ -29,3 +29,17 @@ svg.map {
   pointer-events: none;
   font-size: 80%;
 }
+
+#selectionFilterBar
+{
+	z-index: 99;
+	position:fixed; 
+	bottom:0px; 
+	height:40px; 
+	left:0px; 
+	width:100%; 
+	background-color:#EEEEEE; 
+	padding: 10px; 
+	border-top:1px solid black; 
+	display:none; 
+}
