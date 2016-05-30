@@ -64,7 +64,9 @@
 				</span>
 			</div>
 			<div class="col-md-3">
-				<h4>Votes <a href="#" onclick="javascript:updateVoteChart();">(Test)</a></h4> 
+				<h4>Votes 
+					<!--<a href="#" onclick="javascript:updateVoteChart();">(Test)</a>-->
+				</h4> 
 				<div id="party-chart">
 					<span id="suppressVoteChartControls" style="display:none;"><span class="filter"></span></span>
 				</div>
@@ -94,7 +96,7 @@
 			<div class="col-md-12">
 				<div>
 					<h4 style="float:left;padding-right:20px;">Vote List</h4>
-					<span style="vertical-align:bottom;">
+					<span>
 						(Sort by 
 						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 
 						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>, 
@@ -107,7 +109,7 @@
 	</div>
 </div>
 
-<div id="selectionFilterBar" style="z-index: 99;position:fixed; bottom:0px; height:40px; left:0px; width:100%; background-color:#EEEEEE; padding: 10px; border-top:1px solid black; display:none; ">
+<div id="selectionFilterBar" style="display:none;">
 	<strong>Selected:</strong> 
 	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span></span>
 	<span id="map-chart-controls" style="display:none;"> from <span class="filter"></span></span>

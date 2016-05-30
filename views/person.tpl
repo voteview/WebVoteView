@@ -8,6 +8,17 @@
 % else:
 %	label = "Served"
 % end
+% if "born" in person and "died" in person:
+% 	lifeString = "("+str(person["born"])+"-"+str(person["died"])+")"
+% elif "born" in person and not "died" in person and person["born"]<1900:
+%	lifeString = "("+str(person["born"])+"-??)"
+% elif "born" in person and not "died" in person:
+%	lifeString = "("+str(person["born"])+"- )"
+% elif "died" in person:
+%	lifeString = "(??-"+str(person["died"])+")"
+% else:
+%	lifeString = ""
+% end
 <div class="container">
 
     <div class="row">
@@ -15,7 +26,10 @@
             <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;">
         </div>
         <div class="col-md-9">
-            <h2>{{ person["fname"] }}</h2>
+		<h2>
+			{{ person["fname"] }} {{lifeString}}
+		</h2>
+
             <h4>{{ person["partyname"] }}</h4>
             <h4>{{ person["stateName"] }}, {{ person["stateAbbr"] }}</h4>
 	    <h4>{{ label }}
