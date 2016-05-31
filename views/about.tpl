@@ -64,6 +64,7 @@
 			<ul>
 				<li><a href="http://www.flaticon.com/packs/arrows-pack/">Freepik Arrows Pack</a></li>
 				<li><a href="http://www.flaticon.com/packs/packs/data-analytics">Freepik Data Analytics Pack</a></li>
+				<li><a href="http://www.flaticon.com/packs/file-format-collection">Freepik File Format Pack</a></li>
 				<li><a href="http://www.flaticon.com/packs/thin-line-ui">Eleonor Wang Thin UI Pack</a></li>
 			</ul>
 

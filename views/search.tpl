@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl", title="Search")
+% rebase("base.tpl", title="Search", extra_js=["https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.1.0/bootstrap-slider.min.js"], extra_css=["bootstrap-slider.css"])
 % include('header.tpl')
 % setdefault('args',{})
 <div class="container">
@@ -51,25 +51,93 @@
             </div>
 
 
+
+            <div class="panel panel-primary">
+              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-date">
+                <h3 class="panel-title">Date range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+              </div>
+              <div id="facet-date" class="panel-collapse facet-content collapse">
+                <div class="panel-body">
+                  <div class="form-group">
+
+                    <label for="fromDate" class="col-sm-5 control-label">From</label>
+                    <div class="col-sm-6">
+                      <input name="fromDate" type="text" class="form-control" id="fromDate" placeholder="From">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="toDate" class="col-sm-5 control-label">To</label>
+                    <div class="col-sm-6">
+                      <input name="toDate" type="text" class="form-control" id="toDate" placeholder="To">
+                    </div>
+                  </div>
+		  <div align="center"><small><em>Format: YYYY-MM-DD or YYYY</em></small></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-primary">
+              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-congress">
+                <h3 class="panel-title">Congress range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+              </div>
+              <div id="facet-congress" class="panel-collapse facet-content collapse">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label for="fromCongress" class="col-sm-5 control-label">From</label>
+                    <div class="col-sm-6">
+                      <input name="fromCongress" type="text" class="form-control" id="fromCongress" placeholder="From">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="toCongress" class="col-sm-5 control-label">To</label>
+                    <div class="col-sm-6">
+                      <input name="toCongress" type="text" class="form-control" id="toCongress" placeholder="To">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-primary">
+              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-support">
+                <h3 class="panel-title">Vote Outcome <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+              </div>
+              <div id="facet-support" class="panel-collapse facet-content collapse">
+                <div class="panel-body">
+                  <div class="form-group">
+			<label for="support" class="col-sm-10 control-label">Percentage Support:</label>
+
+			<div style="padding:30px;padding-bottom:0px;">
+				<input id="support" name="support" type="text" class="span2" value="" 
+					data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-ticks="[0, 50, 100]" data-slider-value="[0,100]"
+					data-slider-ticks-labels="['0%', '50%', '100%']" data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
+					data-slider-id="support" >
+			</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
             <div class="panel panel-primary">
               <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-clausen">
-                <h3 class="panel-title">Clausen <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+                <h3 class="panel-title">Subject Matter <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
               </div>
               <div id="facet-clausen" class="panel-collapse facet-content collapse">
                 <div class="panel-body">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Government Management" name="clausen">
-                        Government Management
-                      </label>
-                                      </div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" value="Government Management" name="clausen">
+					Government Management
+				</label>
+			</div>
 
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Miscellaneous Policy" name="clausen">
-                        Miscellaneous Policy
-                      </label>
-                                      </div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" value="Miscellaneous Policy" name="clausen">
+					Miscellaneous Policy
+				</label>
+			</div>
 
                     <div class="checkbox">
                       <label>
@@ -98,18 +166,6 @@
                         Civil Liberties
                       </label>
                     </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="panel panel-primary">
-              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-peltzman">
-                <h3 class="panel-title">Peltzman <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
-              </div>
-              <div id="facet-peltzman" class="panel-collapse facet-content collapse">
-                <div class="panel-body">
-
 
                     <div class="checkbox">
                       <label>
@@ -138,8 +194,7 @@
                     </div>
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" value="Regulation Special Interest
-" name="peltzman">
+                        <input type="checkbox" value="Regulation Special Interest" name="peltzman">
                         Regulation Special Interest
                       </label>
                     </div>
@@ -191,51 +246,7 @@
                         D. C.
                       </label>
                     </div>
-                </div>
-              </div>
-            </div>
 
-
-            <div class="panel panel-primary">
-              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-date">
-                <h3 class="panel-title">Date range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
-              </div>
-              <div id="facet-date" class="panel-collapse facet-content collapse">
-                <div class="panel-body">
-                  <div class="form-group">
-                    <label for="fromDate" class="col-sm-5 control-label">From (year)</label>
-                    <div class="col-sm-6">
-                      <input name="from-date" type="text" class="form-control" id="fromDate" placeholder="From">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="toDate" class="col-sm-5 control-label">To (year)</label>
-                    <div class="col-sm-6">
-                      <input name="to-date" type="text" class="form-control" id="toDate" placeholder="To">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="panel panel-primary">
-              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-congress">
-                <h3 class="panel-title">Congress range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
-              </div>
-              <div id="facet-congress" class="panel-collapse facet-content collapse">
-                <div class="panel-body">
-                  <div class="form-group">
-                    <label for="fromCongress" class="col-sm-5 control-label">From</label>
-                    <div class="col-sm-6">
-                      <input name="fromCongress" type="text" class="form-control" id="fromCongress" placeholder="From">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="toCongress" class="col-sm-5 control-label">To</label>
-                    <div class="col-sm-6">
-                      <input name="toCongress" type="text" class="form-control" id="toCongress" placeholder="To">
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -255,7 +266,7 @@
 						</div>
 					</div>
 				</div>
-				<a id="download-btn" class="btn btn-info" onclick="$('#download-rollcalls-form').submit(); unselectAll();">Download selected roll calls to Excel</a>
+				<a id="download-btn" class="btn btn-info" onclick="javascript:exportVote(); $('#download-rollcalls-form').submit(); unselectAll();">Download selected roll calls to Excel</a>
 				<form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
 					<div id="results-list">
 					</div>
@@ -270,20 +281,25 @@
 <script>
 	$(document).ready(function()
 	{
+		$("#support").slider({});//tooltip_position:'bottom'});
+		//$("#support").slider().refresh();
 		% if "q" in args:
 		$("input[name='q']").val("{{args["q"]}}");
 		% end
-
 		% if "chamber" in args:
 		$("input[value={{args["chamber"]}}]").attr("checked",true);
-		
 		% end
 		% if "congress" in args:
 		$("input[name='fromCongress']").val({{args["congress"]}});
 		$("input[name='toCongress']").val({{args["congress"]}});
 		% end
-
-		% if "chamber" in args or "congress" in args:
+		% if "fromDate" in args:
+		$("input[name='fromDate']").val('{{args["fromDate"]}}');
+		% end
+		% if "toDate" in args:
+		$("input[name='toDate']").val('{{args["toDate"]}}');
+		% end
+		% if "chamber" in args or "congress" in args or "fromDate" in args or "toDate" in args:
 		toggleAdvancedSearch(1);
 		% end
 	});		

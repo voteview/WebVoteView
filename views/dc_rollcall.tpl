@@ -64,7 +64,9 @@
 				</span>
 			</div>
 			<div class="col-md-3">
-				<h4>Votes 
+				<h4>Votes
+					<a href="/api/download?rollcall_id={{rollcall["id"]}}"><img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as JSON."></a>
+					<a href="/api/downloadXLS?ids={{rollcall["id"]}}"><img src="/static/img/xls.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS."></a>
 					<!--<a href="#" onclick="javascript:updateVoteChart();">(Test)</a>-->
 				</h4> 
 				<div id="party-chart">

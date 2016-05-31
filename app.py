@@ -1,4 +1,5 @@
 #import sys
+import re
 import traceback
 import os
 import json
@@ -39,7 +40,23 @@ def index():
 			argDict[k] = v
 	except:
 		pass
-	output = bottle.template("views/search", args=argDict)
+
+	try:
+		if "fromDate" in argDict:
+			argDict["fromDate"] = argDict["fromDate"].replace("/","-")
+			argDict["fromDate"] = re.sub(r"[^0-9\-\ ]","",argDict["fromDate"])
+		if "toDate" in argDict:
+			argDict["toDate"] = argDict["toDate"].replace("/","-")
+			argDict["toDate"] = re.sub(r"[^0-9\-\ ]","",argDict["toDate"])
+		if "fromCongress" in argDict:
+			argDict["fromCongress"] = int(argDict["fromCongress"])
+		if "toCongress" in argDict:
+			argDict["toCongress"] = int(argDict["toCongress"])
+		output = bottle.template("views/search", args=argDict)
+	except:
+		output = bottle.template("views/error", errorMessage = traceback.format_exc())
+		#errorMessage="Error: One or more of the parameters you used to call this page was misspecified.")
+	
 	return output
 
 # Static Pages with no arguments, just passthrough the template. 
@@ -174,8 +191,8 @@ def getmembers():
 @app.route("/api/searchAssemble")
 def searchAssemble():
 	q = defaultValue(bottle.request.params.q)
-	startdate = defaultValue(bottle.request.params.startdate)
-	enddate = defaultValue(bottle.request.params.enddate)
+	startdate = defaultValue(bottle.request.params["fromDate"])
+	enddate = defaultValue(bottle.request.params["toDate"])
 
 	try:
 		chamber = bottle.request.params.getall("chamber")
@@ -201,6 +218,24 @@ def searchAssemble():
 				q = q + " congress:[ to "+str(toCongress)+"]"
 			else:
 				q = q + " congress:["+str(fromCongress)+" to "+str(toCongress)+"]"
+	except:
+		pass
+
+	try:
+		support = bottle.request.params["support"]
+		if "," in support:
+			try:
+				min, max = [int(x) for x in support.split(",")]
+				if min!=0 and max!=100:
+					q = q + " support:["+str(min)+" to "+str(max)+"]"
+			except:
+				pass				
+		else:
+			try:
+				support = int(support)
+				q = q + " support:["+str(support-1)+" to "+str(support+1)+"]"
+			except:
+				pass
 	except:
 		pass
 
