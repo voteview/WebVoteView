@@ -15,9 +15,21 @@
 			</span>
 		</div>
 		<div class="panel-body" style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';">
+			% if "yea" in rollcall and "nay" in rollcall:
+			<p>
+				<small>
+					<strong>Vote:</strong> {{ rollcall["yea"] }}-{{ rollcall["nay"] }}
+				% if rollcall["yea"]>rollcall["nay"]:
+					(Carried)
+				% else:
+					(Defeated)
+				% end
+				</small>
+			</p>
 			% if len(rollcall["code"]["Clausen"])>0:
 			<p><small><strong>Vote Categories</strong>: {{ rollcall["code"]["Clausen"][0] }}, {{ rollcall["code"]["Peltzman"][0] }}</small></p>
 			% end
+			%
 			<p>{{ " ".join(rollcall["description"].split()[0:50]) }}</p>
 
 			<a href="/rollcall/{{ rollcall["id"] }}" style="float:right;"><img src="/static/img/graph.png" style="width:32px;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>

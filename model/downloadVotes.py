@@ -83,6 +83,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						v['district'] = "%s%02d" % (member['stateAbbr'], member['districtCode'])
 					if not "district" in v: # We do this to force null districts to exist so as to avoid breaking DC_rollcall
 						v["district"] = ""
+					
 					result.append(v)
 				elif apitype=="R":
 					v = {
@@ -109,7 +110,8 @@ def downloadAPI(rollcall_id, apitype="Web"):
 			found[rollcall["id"]] = 1
 			rollcall_results.append({'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
 						'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
-						'description': rollcall['description'], 'id': rollcall['id'], 'code': rollcall["code"]})
+						'description': rollcall['description'], 'id': rollcall['id'], 'code': rollcall["code"],
+						'yea': rollcall["yea"], 'nay': rollcall["nay"]})
 		except: # Invalid vote id
 			print traceback.format_exc()
 			errormessage = "Invalid Rollcall ID specified."
