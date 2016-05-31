@@ -46,7 +46,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 				Our database is available in MongoDB bson/json format. This release is updated weekly.
 			<p>
 			<p>
-				<a href="/static/db/">Browser prior database releases</a><br/>
+				<a href="/static/db/">Browse prior database releases</a><br/>
 				We retain a year worth of archival data online. Archival releases may be missing new rollcall or member data,
 				and may also be missing corrections made to existing data.
 			</p>

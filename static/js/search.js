@@ -111,11 +111,26 @@ $(document).ready(function(){
 		}
 	});
 
+	var globalQueueRequests = 0;
+	var requestQueue;
 	// On form change we reset the search and do the initial AJAX call
 	$("#faceted-search-form input:not(#searchTextInput), #sorting-select").change(function() 
 	{
-		nextId = "";
-		getRollcalls();
+		if(!globalQueueRequests)
+		{
+			console.log('got first request');
+			globalQueueRequests = 1;
+			nextId = "";
+			requestQueue = setTimeout(getRollcalls, 50);
+		}
+		else
+		{
+			console.log('got another one, clearing.');
+			clearTimeout(requestQueue);
+			nextID = "";
+			requestQueue = setTimeout(getRollcalls, 50);
+		}
+		//getRollcalls();
 	});
 
 	// Prevent to do a AJAX call everytime we update the search bar
@@ -173,4 +188,10 @@ function unselectAll()
 {
 	$("input[name='ids']").attr('checked', false);
 	$("#download-btn").fadeOut();
+}
+
+
+function exportVote()
+{
+	console.log($('#download-rollcalls-form').serialize());
 }
