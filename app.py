@@ -171,6 +171,7 @@ def rollcall(rollcall_id=""):
 		return(output)
 
 	rollcall = model.downloadVotes.downloadAPI(rollcall_id,"Web")
+
 	if not "rollcalls" in rollcall or "errormessage" in rollcall:
 		output = bottle.template("views/error", errorMessage=rollcall["errormessage"])
 		return(output)			

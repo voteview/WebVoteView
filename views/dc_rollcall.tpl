@@ -2,6 +2,14 @@
 % rebase('base.tpl',title='Plot Vote', extra_css=["map.css","scatter.css"], extra_js=["/static/js/saveSvgAsPng.js"])
 % include('header.tpl')
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+% if int(rollcall["congress"]<20):
+% 	noteText = "<strong><u>NOTE</u></strong><br/><ul><li>Republicans listed are 'Democratic-Republicans' or 'Jeffersonian Republicans', not today's 'Republican Party'.</li><li>State Boundaries as of the "+rcSuffix(rollcall["congress"])+" Congress.</li><li>Some states may contain At-Large districts with more than one representative.</li></ul>"
+% elif int(rollcall["congress"]<86):
+%	noteText = "<strong><u>NOTE</u></strong><br/><ul><li>State Boundaries as of the "+rcSuffix(rollcall["congress"])+" Congress.</li><li>Some states may contain At-Large districts with more than one representative.</li></ul>"
+% elif int(rollcall["congress"]<91):
+% 	noteText = "<strong><u>NOTE</u></strong><br/><ul><li>Some states may contain At-Large districts with more than one representative.</li></ul>"
+% end
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -59,8 +67,8 @@
 						<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 					</a>
 
-					%if int(rollcall["congress"])<86:
-						<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" data-toggle="tooltip" data-position="bottom" data-html="true" title="<u>Note</u><br/>States as of {{ rcSuffix(rollcall["congress"]) }} Congress.">
+					%if int(rollcall["congress"])<91:
+						<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" class="left-tooltip" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
 					%end
 
 					<!--Zoom: 
@@ -72,6 +80,10 @@
 
 				<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;">
 					<span id="suppressMapControls" style="display:none;"><span class="filter"></span></span>
+				</span>
+				<span id="warnParty" style="display:none;">
+					Note: This map combines minor parties to increase visual clarity. 
+					<a href="/rollcall/{{rollcall["id"]}}">Click here to view all parties separately.</a>
 				</span>
 			</div>
 			<div class="col-md-3">
@@ -90,7 +102,7 @@
 			<div class="col-md-12">
 				<h4>DW-Nominate Cut-Line for Vote
 					<a href="#" onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">
-						<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
+						<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
 					</a>
 				</h4>
 
@@ -146,6 +158,7 @@ var rcID = "{{ rollcall["id"] }}";
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.v1.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/setupDC.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/dc_filterbar.js"></script>

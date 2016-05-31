@@ -3,45 +3,49 @@
 /* jshint globalstrict: true */
 /* global dc,d3,crossfilter,colorbrewer */
 
-// This is a hack to match colours to votes.
-var partyColors = {
-    "YeaFederalist": "#0000FF",
-    "NayFederalist": "#AAAAFF",
-    "AbsFederalist": "#DDD",
-    "YeaDemocrat": "#0000FF",
-    "NayDemocrat": "#AAAAFF",
-    "AbsDemocrat": "#EEE",
-    "YeaFarmer-Labor": "#0000FF",
-    "NayFarmer-Labor": "#AAAAFF",
-    "AbsFarmer-Labor": "#DDD",
-    "YeaProgressive": "#0000FF",
-    "NayProgressive": "#AAAAFF",
-    "AbsProgressive": "#DDD",
-    "YeaRepublican": "#FF0000",
-    "NayRepublican": "#FFAAAA",
-    "AbsRepublican": "#EEE",
-    "YeaIndependent": "#FFDD00",
-    "NayIndependent": "#FFDDAA",
-    "AbsIndependent": "#DDD",
-    "YeaJackson": "#024959",
-    "NayJackson": "#F24C27",
-    "AbsJackson": "#5F5448",
-    "YeaAnti-Jackson": "#5F5448",
-    "NayAnti-Jackson": "#0092B2",
-    "AbsAnti-Jackson": "#A8C545",
-    "YeaConservative": "#5F5448",
-    "NayConservative": "#0092B2",
-    "AbsConservative": "#A8C545",
-    "YeaAmerican": "#0092B2",
-    "NayAmerican": "#B6E548",
-    "AbsAmerican": "#FF530D",
-    "YeaPopulist": "#D93D4A",
-    "NayPopulist": "#0367A6",
-    "AbsPopulist": "#F2CB05",
-    "YeaUnionist": "#01A55B",
-    "NayUnionist": "#F4A104",
-    "AbsUnionist": "#A62F01"
-};
+var partyMapping = {
+	"Liberal": "Democrat",
+	"Ind. Democrat": "Democrat",
+	"Law and Order": "Whig",
+	"Ind. Whig": "Whig",
+	"Ind. Republican": "Republican",
+	"American Labor": "Independent",
+	"Crawford Republican": "Republican",
+	"Adams-Clay Republican": "Republican",
+	"Jackson Republican": "Republican",
+	"Adams-Clay Federalist": "Federalist",
+	"Jackson Federalist": "Federalist",
+	"Crawford Federalist": "Federalist",
+	"Liberty": "Independent",
+	"Anti-Lecompton Democrat": "Democrat",
+	"Union": "Unionist",
+	"Constitutional Unionist": "Unionist",
+	"Unconditional Unionist": "Unionist",
+	"Conservative Republican": "Republican",
+	"Liberal Republican": "Republican",
+	"Silver Republican": "Republican",
+	"Silver": "Democrat"
+}
+if(congressNum==24) { partyMapping["States Rights"] = "Nullifier"; }
+if(congressNum==34) { partyMapping["Republican"] = "Oppsition"; }
+
+var mapParties = 1;
+function partyNameSimplify(partyName)
+{
+	if(mapParties)
+	{
+		if(partyMapping[partyName] != undefined) 
+		{ 
+			$("#warnParty").show();
+			return partyMapping[partyName]; 
+		}
+		else { return partyName; }
+	} 
+	else
+	{
+		return partyName;
+	}
+}
 
 // All of our charts are now accessible globally.
 var votePartyChart = dc.rowChart("#party-chart");
@@ -112,12 +116,12 @@ function drawWidgets(error, geodata, data)
 	var voteGroup = voteDimension.group(); // Grouping is exact
 
 	// Dimension 2: What party you are in
-	var partyDimension = ndx.dimension(function(d) { return d.party; });
+	var partyDimension = ndx.dimension(function(d) { return partyNameSimplify(d.party); });
 	var partyGroup = partyDimension.group(); // Grouping is exact
 	globalPartyDimension = partyDimension;
 
 	// Dimension 3: What type of vote you cast and what party you are in.
-	var votePartyDimension = ndx.dimension(function(d) { return d.vote + d.party; });
+	var votePartyDimension = ndx.dimension(function(d) { return d.vote + partyNameSimplify(d.party); });
 	var votePartyGroup = votePartyDimension.group(); // Grouping is exact
 
 	// Dimension 4: Coordinates of vote
@@ -189,10 +193,10 @@ function drawWidgets(error, geodata, data)
 		function (p, d) 
 		{
 			// Add at large members
-			var atlargecode = d.state + "00";
+			var atlargecodes = [d.state + "00", d.state+"98", d.state+"99"];
 			var atlarge = $.grep(data.rollcalls[0].votes, function(e)
 			{
-				return e.district==atlargecode;
+				return e.district==atlargecodes[0] || e.district==atlargecodes[1] || e.district==atlargecodes[2];
 			});
 			$.each(atlarge, function(member) {
 				p.members.push(atlarge[member]);
@@ -288,11 +292,37 @@ function drawWidgets(error, geodata, data)
 		/* Initialize tooltip */
 		var houseMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
 			var result = "<p>" + d.key + "</p>";
+			var nays=0;
+			var yeas=0;
+			var abs=0;
 			for (var i = 0; i < d.value.members.length; i++) 
 			{
-				var colorVote = partyColors[d.value.members[i].vote + d.value.members[i].party];
+				var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
 				// Tooltip data display:
-				result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "white" + "'> " + d.value.members[i].vote +"</span></p>";				  
+				if(i<5)
+				{
+					result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "white" + "'> " + d.value.members[i].vote +"</span></p>";				  
+				}
+				else
+				{
+					if(d.value.members[i].vote=="Nay") { nays=nays+1; }
+					else if(d.value.members[i].vote=="Yea") { yeas=yeas+1; }
+					else { abs=abs+1; }
+				}
+			}
+			if(i>=5)
+			{
+				result += "<p>+";
+				if(yeas) { result += yeas+" other Yea"+(yeas!=1?"s":""); }
+				if(nays) { 
+					if(yeas) { result += ", "; }
+					result += nays+" other Nay"+(nays!=1?"s":""); 
+				}
+				if(abs) 
+				{
+					if(yeas || nays) { result += ", "; } 
+					result += abs+" other Abs"; 
+				} 
 			}
 			return result;
 		});
@@ -303,7 +333,7 @@ function drawWidgets(error, geodata, data)
 			.dimension(districtDimension)
 			.group(districtGroup)
 			.colorCalculator(function (d) { 
-				var color = "#CCC";
+				var color = "#eee";
 				try {
 					if(d.members.length > 0){
 						color = blendColors(d.members);
@@ -343,8 +373,8 @@ function drawWidgets(error, geodata, data)
             var senateMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
               var result = "<p>" + d.key + "</p>";
               for (var i = 0; i < d.value.members.length; i++) {
-                 var colorVote = partyColors[d.value.members[i].vote + d.value.members[i].party];
-                  result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + colorVote + "'> " + d.value.members[i].vote + " / " + d.value.members[i].party +"</span></p>";
+                 var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
+                  result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + colorVote + "'> " + d.value.members[i].vote + " / " + partyNameSimplify(d.value.members[i].party) +"</span></p>";
               }
               return result;
             });
@@ -355,7 +385,7 @@ function drawWidgets(error, geodata, data)
                     .dimension(stateDimension)
                     .group(stateGroup)
                     .colorCalculator(function (d) { 
-                        var color = "#CCC";
+                        var color = "#eee";
                         try {
                             if(d.members.length > 0){   
                                 color = blendColors(d.members);
@@ -411,22 +441,6 @@ function drawWidgets(error, geodata, data)
 	var zoom = d3.behavior.zoom().scaleExtent([1, 8]);
 }
 
-// Blend an array of colors
-function blendColors(members)
-{
-	var r = 0, g = 0 , b = 0, i, rgbColor;
-	for (i = 0; i < members.length; i++) 
-	{
-		rgbColor = d3.rgb(partyColors[members[i].vote + members[i].party]);
-		r = r + rgbColor.r;
-		g = g + rgbColor.g;
-		b = b + rgbColor.b; 
-	}
-	r = r / members.length;
-	g = g / members.length;
-	b = b / members.length;
-	return d3.rgb(r,g,b).toString();
-}
 
 // Easier to update steps to take on a full filter reset by running this.
 function doFullFilterReset()
