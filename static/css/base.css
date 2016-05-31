@@ -166,3 +166,8 @@ line.cutline {
   font-weight: 600;
   font-size: 130%;
 }
+
+
+.tooltip > .tooltip-inner { opacity: 0.9; }
+.tooltip > .tooltip-arrow { opacity: 0.9; }
+.left-tooltip + .tooltip > .tooltip-inner { text-align:left; min-width:400px;}

@@ -8,8 +8,9 @@ svg.map {
 
 .state, 
 .district {
-  stroke: #fff; 
+  stroke: #000; 
   stroke-linejoin: round; 
+  stroke-opacity: 0.5;
   opacity: 1;
 }
 
