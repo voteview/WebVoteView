@@ -111,7 +111,7 @@
 				<input id="support" name="support" type="text" class="span2" value="" 
 					data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-ticks="[0, 50, 100]" data-slider-value="[0,100]"
 					data-slider-ticks-labels="['0%', '50%', '100%']" data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
-					data-slider-id="support" >
+					data-slider-id="support-bucket" >
 			</div>
                   </div>
                 </div>
@@ -281,8 +281,6 @@
 <script>
 	$(document).ready(function()
 	{
-		$("#support").slider({});//tooltip_position:'bottom'});
-		//$("#support").slider().refresh();
 		% if "q" in args:
 		$("input[name='q']").val("{{args["q"]}}");
 		% end
@@ -299,8 +297,18 @@
 		% if "toDate" in args:
 		$("input[name='toDate']").val('{{args["toDate"]}}');
 		% end
-		% if "chamber" in args or "congress" in args or "fromDate" in args or "toDate" in args:
+		% if "supportMin" in args and "supportMax" in args:
+		$("#support").slider({value: [{{args["supportMin"]}},{{args["supportMax"]}}]});
+		% elif "supportMin" in args and not "supportMax" in args:
+		$("#support").slider({value: [{{args["supportMin"]}},100]});
+		% elif "supportMax" in args and not "supportMin" in args:
+		$("#support").slider({value: [0,{{args["supportMax"]}}]});
+		% else:
+		$("#support").slider({});
+		% end
+		% if "chamber" in args or "congress" in args or "fromDate" in args or "toDate" in args or "supportMin" in args or "supportMax" in args:
 		toggleAdvancedSearch(1);
+		$("#support").slider('refresh');
 		% end
 	});		
 </script>

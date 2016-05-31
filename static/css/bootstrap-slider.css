@@ -256,6 +256,6 @@
 }
 
 
-#support .slider-handle { background: #a06081; }
-#support .slider-tick { background: #b3809a; }
-#support .slider-selection { background: #c6a0b3; }
+#support-bucket .slider-handle { background: #a06081; }
+#support-bucket .slider-tick { background: #b3809a; }
+#support-bucket .slider-selection { background: #c6a0b3; }

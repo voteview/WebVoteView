@@ -20,6 +20,7 @@ function toggleAdvancedSearch(instant)
 			$('#resultsHolder').animate({width: '75%'},125, function()
 			{
 				$('#results-selects').animate({width: 'toggle', opacity: 'toggle'},125, 'linear');
+				$('#support').slider('refresh');
 			});
 		}
 	}
@@ -31,6 +32,7 @@ function toggleAdvancedSearch(instant)
 		}
 		else { $('#resultsHolder').css('width', '100%'); }
 		$('#results-selects').toggle();
+		setTimeout(function(){$('#support').slider('refresh');}, 20);
 	}
 }
 
@@ -173,14 +175,14 @@ $(document).ready(function(){
       if($('#facet-clausen input[type=checkbox]:checked').length) {
         $("#facet-clausen").collapse('show');
       }
-      if($('#facet-peltzman input[type=checkbox]:checked').length) {
-        $("#facet-peltzman").collapse('show');
-      }
       if($('#fromDate').val()  || $("#toDate").val()) {
         $("#facet-date").collapse('show');
       }
       if($('#fromCongress').val()  || $("#toCongress").val()) {
         $("#facet-congress").collapse('show');
+      }
+      if($('#support').slider('getValue')!=[0,100]) {
+	$('#facet-support').collapse('show');
       }
   });
 
