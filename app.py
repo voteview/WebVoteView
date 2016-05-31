@@ -52,6 +52,18 @@ def index():
 			argDict["fromCongress"] = int(argDict["fromCongress"])
 		if "toCongress" in argDict:
 			argDict["toCongress"] = int(argDict["toCongress"])
+		if "support" in argDict and "," in argDict["support"]:
+			try:
+				argDict["supportMin"], argDict["supportMax"] = [int(x) for x in argDict["support"].split(",")]
+			except:
+				pass
+		elif "support" in argDict:
+			try:
+				support = int(argDict["support"])
+				argDict["supportMin"] = support - 1
+				argDict["supportMax"] = support + 1
+			except:
+				pass
 		output = bottle.template("views/search", args=argDict)
 	except:
 		output = bottle.template("views/error", errorMessage = traceback.format_exc())
@@ -223,10 +235,13 @@ def searchAssemble():
 
 	try:
 		support = bottle.request.params["support"]
+		if q is None and (support):
+			q = ""
+
 		if "," in support:
 			try:
 				min, max = [int(x) for x in support.split(",")]
-				if min!=0 and max!=100:
+				if min!=0 or max!=100:
 					q = q + " support:["+str(min)+" to "+str(max)+"]"
 			except:
 				pass				
