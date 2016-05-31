@@ -254,11 +254,18 @@ def searchAssemble():
 	except:
 		pass
 
+	sortD = int(defaultValue(bottle.request.params.sortD,-1))
+	try:
+		if sortD!=-1 and sortD!=1:
+			sortD = -1
+	except:
+		sortD = -1
+
 	nextId = defaultValue(bottle.request.params.nextId,0)
 	icpsr = defaultValue(bottle.request.params.icpsr)
 	jsapi = 1
 	rowLimit = 50
-	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortSkip=nextId)
+	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId)
 
 	if "errormessage" in res:
 		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"])
