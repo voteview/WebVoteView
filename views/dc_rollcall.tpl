@@ -11,6 +11,17 @@
 				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr>
 			</h3>
 			<p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
+			% if "yea" in rollcall and "nay" in rollcall:
+			<p style="float:left;margin-right:20px;">
+				<strong>Result:</strong> 
+				{{ rollcall["yea"] }}-{{ rollcall["nay"] }}
+				% if rollcall["yea"]>rollcall["nay"]:
+				 (Carried)
+				% else:
+				 (Defeated)
+				% end
+			</p>
+			% end
 			% if len(rollcall["code"]["Clausen"]):
 			<p style="float:left;">
 				<strong>Vote Subject Matter:</strong> {{ rollcall["code"]["Clausen"][0] }} / {{ rollcall["code"]["Peltzman"][0] }}
