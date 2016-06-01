@@ -171,12 +171,13 @@ def rollcall(rollcall_id=""):
 		return(output)
 
 	rollcall = model.downloadVotes.downloadAPI(rollcall_id,"Web")
+	mapParties = int(defaultValue(bottle.request.params.mapParties,1))
 
 	if not "rollcalls" in rollcall or "errormessage" in rollcall:
 		output = bottle.template("views/error", errorMessage=rollcall["errormessage"])
 		return(output)			
 
-	output = bottle.template("views/dc_rollcall", rollcall=rollcall["rollcalls"][0])
+	output = bottle.template("views/dc_rollcall", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
 	return(output)
 #
 #

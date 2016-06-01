@@ -29,7 +29,6 @@ var partyMapping = {
 if(congressNum==24) { partyMapping["States Rights"] = "Nullifier"; }
 if(congressNum==34) { partyMapping["Republican"] = "Oppsition"; }
 
-var mapParties = 1;
 function partyNameSimplify(partyName)
 {
 	if(mapParties)
