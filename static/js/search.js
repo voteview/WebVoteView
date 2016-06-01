@@ -106,7 +106,8 @@ $(document).ready(function(){
       if($('#fromCongress').val()  || $("#toCongress").val()) {
         $("#facet-congress").collapse('show');
       }
-      if($('#support').slider('getValue')!=[0,100]) {
+      if($('#support').slider('getValue')[0]!=0 || $('#support').slider('getValue')[1]!=100) {
+	console.log($('#support').slider('getValue'));
 	$('#facet-support').collapse('show');
       }
   });
@@ -117,13 +118,13 @@ function updateRequest()
 	{
 		globalQueueRequests = 1;
 		nextId = "";
-		requestQueue = setTimeout(getRollcalls, 50);
+		requestQueue = setTimeout(getRollcalls, 200);
 	}
 	else
 	{
 		clearTimeout(requestQueue);
 		nextID = "";
-		requestQueue = setTimeout(getRollcalls, 50);
+		requestQueue = setTimeout(getRollcalls, 200);
 	}
 }
 
