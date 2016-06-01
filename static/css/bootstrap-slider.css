@@ -229,6 +229,7 @@
   filter: none;
   opacity: 0.8;
   border: 0px solid transparent;
+  vertical-align:middle;
 }
 .slider-tick.round {
   border-radius: 50%;
@@ -254,7 +255,7 @@
 }
 
 #support-bucket .slider-handle { background: #a06081; }
-#support-bucket .slider-tick { background: #b3809a; }
+#support-bucket .slider-tick { background: #b3809a; width:16px; height:16px; margin-top:-3px;}
 #support-bucket .slider-selection { background: #c6a0b3; }
 
 #panY { height:500px; vertical-align:top; position:absolute; left:900px; top:40px; }
