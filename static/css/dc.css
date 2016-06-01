@@ -45,8 +45,8 @@ div.dc-chart {
 }
 
 .dc-chart .selected path {
-    stroke-width: 3;
-    stroke: #ccc;
+    stroke-width: 2;
+    stroke: black;
     fill-opacity: 1;
 }
 
@@ -175,7 +175,8 @@ div.dc-chart {
 }
 
 .dc-chart g.deselected path {
-    fill: grey;
+    fill: #f7f7f7;
+    stroke: black;
 }
 
 .dc-chart g.selected text {

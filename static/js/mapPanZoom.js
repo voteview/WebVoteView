@@ -5,6 +5,12 @@
 	var panY = 0;
 	var panThrottle = 0;
 
+	function resetZoom()
+	{
+		zoom=1;
+		doZoom(0);
+	}
+
 	function doZoom(dir)
 	{
 		extentXOld = dimX/zoom;
@@ -13,7 +19,7 @@
 		centerY = panY+(extentYOld/2);
 
 		if(dir==1) { zoom=zoom+0.25; }
-		else { zoom=zoom-0.25; }
+		else if(dir==-1) { zoom=zoom-0.25; }
 		if(zoom<=0.25) { zoom=0.25; $("#zoomOut").fadeOut(); }
 		else { $("#zoomOut").fadeIn(); }
 		if(zoom>=3) { zoom=3; $("#zoomIn").fadeOut(); }

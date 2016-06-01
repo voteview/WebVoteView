@@ -1,5 +1,6 @@
 var globalQueueRequests = 0;
 var requestQueue;
+var nextId = 0;
 
 function numberWithCommas(x) 
 {
@@ -41,7 +42,6 @@ function toggleAdvancedSearch(instant)
 
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
-	var nextId = 0;
 
 	getRollcalls();
 

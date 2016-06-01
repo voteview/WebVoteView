@@ -2,14 +2,25 @@
 % rebase('base.tpl',title='Plot Vote', extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.js"])
 % include('header.tpl')
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% if int(rollcall["congress"]<20):
-% 	noteText = "<strong><u>NOTE</u></strong><br/><ul><li>Republicans listed are 'Democratic-Republicans' or 'Jeffersonian Republicans', not today's 'Republican Party'.</li><li>State Boundaries as of the "+rcSuffix(rollcall["congress"])+" Congress.</li><li>Some states may contain At-Large districts with more than one representative.</li></ul>"
-% elif int(rollcall["congress"]<86):
-%	noteText = "<strong><u>NOTE</u></strong><br/><ul><li>State Boundaries as of the "+rcSuffix(rollcall["congress"])+" Congress.</li><li>Some states may contain At-Large districts with more than one representative.</li></ul>"
-% elif int(rollcall["congress"]<91):
-% 	noteText = "<strong><u>NOTE</u></strong><br/><ul><li>Some states may contain At-Large districts with more than one representative.</li></ul>"
+% notes = []
+% if int(rollcall["congress"])<86:
+%	notes.append("State Boundaries depicted are as of the "+rcSuffix(rollcall["congress"])+" Congress.")
 % end
-
+% if int(rollcall["congress"])<91 and rollcall["chamber"]=="House":
+%	notes.append("Some states contain At-Large districts with more than one representative.")
+% end
+% if int(rollcall["congress"])>=4 and int(rollcall["congress"]<=18):
+%	notes.append("Republicans listed are 'Democratic-Republicans' or 'Jeffersonian Republicans', not today's Republican Party.")
+% end
+% if len(notes):
+%	noteText = "<strong><u>NOTE</u></strong><br/><ul>"
+%	for note in notes:
+%		noteText += "<li>"+note+"</li>"
+%	end
+%	noteText += "</ul>"
+% else:
+% 	noteText = ""
+% end
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -58,16 +69,16 @@
 
 	<div style="display:none;" id="loadedContent">
 
-		<div class="row" style="padding-bottom:60px;">
+		<div class="row" style="padding-bottom:40px;">
 			<div class="col-md-9" style="margin-right:40px;">
 				<h4 style="float:left;clear:none;vertical-align:middle;">
 					Vote Map 
 
-					<a href="#" onclick="javascript:saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">						
+					<a href="#" onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">						
 						<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 					</a>
 
-					%if int(rollcall["congress"])<91:
+					%if len(noteText):
 						<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" class="left-tooltip" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
 					%end
 
@@ -84,10 +95,10 @@
 							data-slider-step="1" data-slider-tooltip="hide" data-slider-handle="custom">
 					<span id="suppressMapControls" style="display:none;"><span class="filter"></span></span>
 				</span>
-				<span id="warnParty" style="display:none;">
-					Note: This map combines minor parties to increase visual clarity. 
-					<a href="/rollcall/{{rollcall["id"]}}">Click here to view all parties separately.</a>
-				</span>
+				<div class="alert alert-danger" role="alert" id="warnParty" style="display:none;">
+					<strong>Note:</strong> This map combines minor parties to increase visual clarity. 
+					<a href="/rollcall/{{rollcall["id"]}}?mapParties=0">Click here to view all parties separately.</a>
+				</div>
 			</div>
 			<div class="col-md-2">
 				<h4>Votes
@@ -152,6 +163,7 @@
 var chamber = "{{ rollcall["chamber"] }}";
 var congressNum = "{{ str(rollcall["congress"]).zfill(3) }}";
 var rcID = "{{ rollcall["id"] }}";
+var mapParties = {{ mapParties }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>

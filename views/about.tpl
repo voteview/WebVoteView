@@ -77,7 +77,6 @@
 				<li><a href="https://github.com/seiyria/bootstrap-slider">bootstrap-slider</a> by Kyle Kemp and Rohit Kalkur</li>
 			</ul>
 
-
 			<br/><br/><br/>
 		</div>		
 	</div>
