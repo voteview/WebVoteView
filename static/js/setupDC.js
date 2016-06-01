@@ -53,7 +53,6 @@ var mapChart = dc.geoChoroplethChart("#map-chart");
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var globalPartyDimension = null;
 var globalData;
-var zoomLevel = 1;
 
 // Makes the bootstrap tooltip run for votes from before states were contiguous.
 $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
@@ -418,27 +417,12 @@ function drawWidgets(error, geodata, data)
 	// We are done defining everything, now let's just run our ancillary functions.
 	dc.renderAll();
 
-	//var gtest = d3.select("#map-chart svg g")
-	//		.call(d3.behavior.zoom()
-	//		.scaleExtent([1, 10]));
-	//		.on("zoom", zoom));
-
-	/*function zoom()
-	{
-			gtest.attr("transform", "translate("
-				+ d3.event.translate
-				+ ")scale(" + d3.event.scale + ")");
-			gtest.style("stroke-width", 1.2 / d3.event.scale + "px");
-	}*/
-
 	decorateNominate(nominateScatterChart,data);
 	mapChart.on("filtered", pollFilters);
 	votePartyChart.on("filtered", pollFilters);
 	nominateScatterChart.on("filtered", pollFilters);
 	outVotes();
 
-	d3.selectAll('button').on('click',doZoom);
-	var zoom = d3.behavior.zoom().scaleExtent([1, 8]);
 }
 
 

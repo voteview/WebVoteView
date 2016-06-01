@@ -41,7 +41,6 @@ function genPartyColors()
 	{
 		if(colorSchemes[partyColorMap[key]] != undefined)
 		{
-			console.log(colorSchemes[partyColorMap[key]]);
 			partyColors["Yea"+key] = colorSchemes[partyColorMap[key]][0];
 			partyColors["Nay"+key] = colorSchemes[partyColorMap[key]][1];
 			partyColors["Abs"+key] = colorSchemes[partyColorMap[key]][2];
