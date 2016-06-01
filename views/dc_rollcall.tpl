@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase('base.tpl',title='Plot Vote', extra_css=["map.css","scatter.css"], extra_js=["/static/js/saveSvgAsPng.js"])
+% rebase('base.tpl',title='Plot Vote', extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.js"])
 % include('header.tpl')
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % if int(rollcall["congress"]<20):
@@ -58,8 +58,8 @@
 
 	<div style="display:none;" id="loadedContent">
 
-		<div class="row">
-			<div class="col-md-9">
+		<div class="row" style="padding-bottom:60px;">
+			<div class="col-md-9" style="margin-right:40px;">
 				<h4 style="float:left;clear:none;vertical-align:middle;">
 					Vote Map 
 
@@ -71,14 +71,17 @@
 						<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" class="left-tooltip" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
 					%end
 
-					<!--Zoom: 
-					<button id="zoomOut">-</a> 
-					<button id="zoomIn">+</a>-->
-
 				</h4>
 				</span>
 
 				<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;">
+					<button id="zoomIn" style="position:absolute;left:25px;top:40px;" onClick="javascript:doZoom(1);return false;">+</button>
+					<button id="zoomOut" style="position:absolute;left:55px;top:40px;" onClick="javascript:doZoom(-1);return false;">-</button>
+
+					<input id="ex1" data-slider-id="panY" type="text" data-slider-min="0" data-slider-max="500" data-slider-step="1"
+							data-slider-orientation="vertical" data-slider-tooltip="hide" data-slider-handle="custom">
+					<input id="ex2" data-slider-id="panX" type="text" data-slider-min="0" data-slider-max="890"
+							data-slider-step="1" data-slider-tooltip="hide" data-slider-handle="custom">
 					<span id="suppressMapControls" style="display:none;"><span class="filter"></span></span>
 				</span>
 				<span id="warnParty" style="display:none;">
@@ -86,7 +89,7 @@
 					<a href="/rollcall/{{rollcall["id"]}}">Click here to view all parties separately.</a>
 				</span>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-2">
 				<h4>Votes
 					<a href="/api/download?rollcall_id={{rollcall["id"]}}"><img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as JSON."></a>
 					<a href="/api/downloadXLS?ids={{rollcall["id"]}}"><img src="/static/img/xls.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS."></a>
@@ -157,31 +160,13 @@ var rcID = "{{ rollcall["id"] }}";
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.v1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/mapPanZoom.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/setupDC.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/dc_filterbar.js"></script>
 <script type="text/javascript">
-function doZoom()
-{
-	//console.log(d3.event.target);
-	
-	d3.event.preventDefault();
-	return false;
-	/*zoomLevel=zoomLevel + 0.25*dir;
-	if(zoomLevel>3) zoomLevel=3;
-	if(zoomLevel<1) zoomLevel=1;
-
-	var mapG = d3.select("#map-chart svg g");
-	var translation = -500 * zoomLevel;
-	console.log(translation);
-	var translation = "-50%";
-	mapG.transition().duration(350).attr("transform","translate("+translation+", 0)");
-	// scale("+zoomLevel+")");
-	return false;*/
-}
-
 // Use this to extract offsets from vote party chart in order to insert category labels.
 function splitTranslate(text)
 {
