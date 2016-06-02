@@ -11,7 +11,7 @@
 			on {{ rollcall["date"] }}
 			<span class="pull-right">
 				<input type="checkbox" name="ids" value="{{ rollcall["id"] }}"> 
-				<img src="/static/img/export.png" style="cursor:pointer;width:24px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:$('input[value={{ rollcall["id"] }}]').attr('checked',true);">
+				<img src="/static/img/export.png" style="cursor:pointer;width:24px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
 			</span>
 		</div>
 		<div class="panel-body" style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';">

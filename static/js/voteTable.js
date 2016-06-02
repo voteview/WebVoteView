@@ -22,9 +22,11 @@ function outVotes(groupBy="party")
 
 	// Output table
 	var sortedKeys = Object.keys(groupings).sort();
-	var baseTable = $("<table><tr></tr></table>").css("width","100%");
-	var td = $("<td></td>");
+	var baseTable = $("<table></table>").css("width","100%");
+	var tr = $("<tr></tr>");
+	var td = $("<td></td>").attr("valign","top");
 	var rowCount=0;
+	var i=0; var colCount=0;
 	for(var key in sortedKeys)
 	{
 		groupings[sortedKeys[key]] = groupings[sortedKeys[key]].sort(function(a,b){return a["name"] < b["name"] ? -1 : (a["name"] > b["name"] ? 1 : 0);});
@@ -54,13 +56,20 @@ function outVotes(groupBy="party")
 		}
 		partyLabel.appendTo(td);
 		rowCount+= parseInt(j)+1;
-		if(rowCount>25)
+		i=i+1;
+		if(rowCount>(filteredVotes.length/4) || (colCount==0 && i==sortedKeys.length-1))
 		{
+			colCount=colCount+1;
 			rowCount=0;
-			td.appendTo(baseTable)
-			td = $("<td></td>");
+			td.appendTo(tr)
+			td = $("<td></td>").attr("valign","top");
 		}
-		td.appendTo(baseTable);
+		else { console.log(rowCount); console.log(colCount); console.log(filteredVotes.length); console.log(i); console.log(sortedKeys.length); }
 	}
+	if(td.html().length)
+	{
+		td.appendTo(tr);
+	}
+	tr.appendTo(baseTable);
 	$("#voteList").html(baseTable);
 }
