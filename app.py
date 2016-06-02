@@ -205,9 +205,12 @@ def getmembers():
 @app.route("/api/searchAssemble")
 def searchAssemble():
 	q = defaultValue(bottle.request.params.q)
+
+	# Date facet
 	startdate = defaultValue(bottle.request.params["fromDate"])
 	enddate = defaultValue(bottle.request.params["toDate"])
 
+	# Chamber facet
 	try:
 		chamber = bottle.request.params.getall("chamber")
 		if len(chamber)>1:
@@ -217,6 +220,7 @@ def searchAssemble():
 	except:
 		chamber = None
 
+	# Congress facet
 	try:
 		fromCongress = int(defaultValue(bottle.request.params["fromCongress"],0))
 		toCongress = int(defaultValue(bottle.request.params["toCongress"],0))
@@ -235,6 +239,7 @@ def searchAssemble():
 	except:
 		pass
 
+	# Support facet
 	try:
 		support = bottle.request.params["support"]
 		if q is None and (support):
@@ -256,6 +261,31 @@ def searchAssemble():
 	except:
 		pass
 
+	# Code facet
+	try:
+		clausen = bottle.request.params.getall("clausen")
+	except:
+		clausen = []
+
+	try:
+		peltzman = bottle.request.params.getall("peltzman")
+	except:
+		peltzman = []
+	codeString = ""
+	if len(clausen):
+		for cCode in clausen:
+			codeString += "code.Clausen: "+cCode+" OR "
+	if len(peltzman):
+		for pCode in peltzman:
+			codeString += "code.Peltzman: "+pCode+" OR "
+	if len(codeString):
+		codeString = codeString[0:-4]
+		if q is None:
+			q = codeString
+		else:	
+			q += " ("+codeString+")"
+
+	# Sort facet
 	sortD = int(defaultValue(bottle.request.params.sortD,-1))
 	try:
 		if sortD!=-1 and sortD!=1:

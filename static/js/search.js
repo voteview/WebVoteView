@@ -201,3 +201,11 @@ function exportVote()
 {
 	console.log($('#download-rollcalls-form').serialize());
 }
+
+function checkBox(id)
+{
+	console.log(id);
+	var cb = $("input[value='"+id+"']");
+	cb.prop('checked', !cb.prop('checked'));
+	cb.trigger('change');
+}
