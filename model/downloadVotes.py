@@ -108,10 +108,20 @@ def downloadAPI(rollcall_id, apitype="Web"):
 
 			# Top level rollcall item.
 			found[rollcall["id"]] = 1
+
+			# Collapse codes for R
+			if apitype=="Web":
+				codes = rollcall["code"]
+			elif apitype=="R":
+				codes = rollcall["code"]
+				for key, value in codes.iteritems():
+					codes[key] = '; '.join(value)
+				
 			rollcall_results.append({'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
 						'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
-						'description': rollcall['description'], 'id': rollcall['id'], 'code': rollcall["code"],
+						'description': rollcall['description'], 'id': rollcall['id'], 'code': codes,
 						'yea': rollcall["yea"], 'nay': rollcall["nay"]})
+
 		except: # Invalid vote id
 			print traceback.format_exc()
 			errormessage = "Invalid Rollcall ID specified."
@@ -136,5 +146,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	return response
 
 if __name__=="__main__":
-	print downloadAPI("H1121599")
+#	print downloadAPI("H1121599")
+	print downloadAPI("H1030301", "R")
+
 
