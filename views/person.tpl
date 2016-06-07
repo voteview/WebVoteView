@@ -165,28 +165,29 @@ function drawHist(error, data)
 		}
 	});
 
-	
+	console.log(100*ctGreater/ctTotal);
+
 	if(memberIdealBucket<0)
 	{
-		if(Math.round(100*ctGreater/ctTotal,1)==100)
+		if(Math.floor(100*ctGreater/ctTotal,1)==100)
 		{
 			var label = "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		else
 		{
-			var label = "More liberal than "+Math.round(100*ctGreater/ctTotal,1)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More liberal than "+Math.round(100*ctPartyGreater/ctPartyTotal,1)+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
+			var label = "More liberal than "+Math.floor(100*ctGreater/ctTotal,1)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More liberal than "+Math.floor(100*ctPartyGreater/ctPartyTotal,1)+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		
 	}
 	else
 	{
-		if(Math.round(100*ctGreater/ctTotal,1)==0)
+		if(Math.ceil(100*ctGreater/ctTotal,1)==0)
 		{
 			var label = "The most conservative member of the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		else
 		{
-			var label = "More conservative than "+(100-Math.round(100*ctGreater/ctTotal,1))+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More conservative than "+(100-Math.round(100*ctPartyGreater/ctPartyTotal,1))+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
+			var label = "More conservative than "+(100-Math.ceil(100*ctGreater/ctTotal,1))+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More conservative than "+(100-Math.ceil(100*ctPartyGreater/ctPartyTotal,1))+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 	}
 	console.log(label);
