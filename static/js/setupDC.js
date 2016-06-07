@@ -344,6 +344,7 @@ function drawWidgets(error, geodata, data)
 			.overlayGeoJson(mapTopo, "district", function (d) {
 				return d.id;
 			})
+			.renderTitle(false)
 			.on("postRender", function(c){
 				c.svg()
 					.selectAll("path")
@@ -395,6 +396,7 @@ function drawWidgets(error, geodata, data)
                     .overlayGeoJson(mapTopo, "state", function (d) {
                         return d.id;
                     })
+		   .renderTitle(false)
 	           .on("postRender", function(c){
                         c.svg()
                           .selectAll("path")
