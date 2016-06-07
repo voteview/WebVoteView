@@ -17,7 +17,9 @@
 
 			<h3>Project Staff</h3>
 			<ul>
-				<li>Project Lead: <a href="http://www.polisci.ucla.edu/people/jeffrey-b-lewis">Prof. Jeff Lewis, UCLA</a></li>
+				<li>Project Lead: <a href="http://www.polisci.ucla.edu/people/jeffrey-b-lewis">Jeffrey B. Lewis, UCLA</a></li>
+				<li>Keith Poole, University of Georgia</li>
+				<li>Howard Rosenthal, New York University</li>
 				<li>Adam Boche, UCLA</li>
 				<li>Aaron Rudkin, UCLA</li>
 				<li>Luke Sonnet, UCLA</li>
