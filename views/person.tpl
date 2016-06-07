@@ -126,17 +126,23 @@ function drawHist(error, data)
 
 	var ctGreater=0;
 	var ctTotal=0;
+	var ctPartyGreater=0;
+	var ctPartyTotal=0;
 	var oneDims = [];
 	console.log(memberIdeal);
 	data["results"].forEach(function (d) {
 		oneDims.push(d.nominate.oneDimNominate);
 		ctTotal+=1;
 		if(d.nominate.oneDimNominate>memberIdeal) { ctGreater+=1; }
+		if(d.party=={{person["party"]}})
+		{
+			ctPartyTotal+=1;
+			if(d.nominate.oneDimNominate>memberIdeal) { ctPartyGreater+=1; }
+		}
 	});
 
-	// ctGreater/ctTotal = More liberal than <n>%
-	// 1-(ctGreater/ctTotal) = More conservative than <n>%
-
+	var label = "More liberal than "+Math.round(100*ctGreater/ctTotal,1)+"% of members in the "+congress+" Congress.\nMore liberal than "+Math.round(100*ctPartyGreater/ctPartyTotal,1)+"% of co-partisans in the "+congress+" Congress.";
+	//var labelTip = d3.tip().attr('class', 'd3-tip').html(label);
 	var ndx = crossfilter(oneDims);
 	var oneDimDimension = ndx.dimension(function(d) { return d; });
 	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*10); });
