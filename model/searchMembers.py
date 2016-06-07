@@ -1,4 +1,5 @@
 import pymongo
+import traceback
 
 client = pymongo.MongoClient()
 db = client["voteview"]
@@ -24,8 +25,9 @@ def memberLookup(qDict, maxResults=50, distinct=0):
 		except:
 			try:
 				if icpsr[0]=="M":
-					print "hello world"
-					searchQuery["id"] = icpsr
+					for r in db.voteview_members.find({'id': icpsr}, {'icpsr': 1, '_id': 0}):
+						searchQuery["icpsr"] = r["icpsr"]
+						break
 			except:
 				return({"errormessage": "Invalid ICPSR number supplied."})
 
@@ -69,7 +71,7 @@ def memberLookup(qDict, maxResults=50, distinct=0):
 	response = []
 	errormessage = ""
 	i = 0
-	for m in db.voteview_members.find(searchQuery,{'_id': 0}):
+	for m in db.voteview_members.find(searchQuery,{'_id': 0}).sort('congress', -1):
 		response.append(m)
 		i=i+1
 		if i>=maxResults:
@@ -90,5 +92,6 @@ def getMembersByCongress(congress):
 
 if __name__ == "__main__":
 	#print memberLookup({"name": "Cruz, Ted"})
+	print memberLookup({"icpsr": "MS29386112"}, 1)
 	print len(memberLookup({"icpsr": 99369}, 1)["results"])
 	#print getMembersBycongress(110)
