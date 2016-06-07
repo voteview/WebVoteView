@@ -6,7 +6,7 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h3>Search UCLA VoteView</h3>
+			<h3>Search VoteView.com</h3>
 		</div>
 	</div>
 

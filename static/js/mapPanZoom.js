@@ -1,3 +1,5 @@
+	var maxZoom = 5; // Set this to override max/min zoom
+	var minZoom = 0.25; // Set this to override max/min zoom
 	var zoom = 1;
 	var dimX = 890;
 	var dimY = 500;
@@ -20,9 +22,9 @@
 
 		if(dir==1) { zoom=zoom+0.25; }
 		else if(dir==-1) { zoom=zoom-0.25; }
-		if(zoom<=0.25) { zoom=0.25; $("#zoomOut").fadeOut(); }
+		if(zoom<=minZoom) { zoom=minZoom; $("#zoomOut").fadeOut(); }
 		else { $("#zoomOut").fadeIn(); }
-		if(zoom>=3) { zoom=3; $("#zoomIn").fadeOut(); }
+		if(zoom>=maxZoom) { zoom=maxZoom; $("#zoomIn").fadeOut(); }
 		else { $("#zoomIn").fadeIn(); }
 		extentX = dimX/zoom;
 		extentY = dimY/zoom
