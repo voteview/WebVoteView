@@ -22,6 +22,7 @@ def memberLookup(qDict, maxResults=50, distinct=0):
 		try:
 			icpsr = int(icpsr)
 			searchQuery["icpsr"] = icpsr
+			print searchQuery
 		except:
 			try:
 				if icpsr[0]=="M":
@@ -92,6 +93,6 @@ def getMembersByCongress(congress):
 
 if __name__ == "__main__":
 	#print memberLookup({"name": "Cruz, Ted"})
-	print memberLookup({"icpsr": "MS29386112"}, 1)
+	print memberLookup({"icpsr": "00001"}, 1)
 	print len(memberLookup({"icpsr": 99369}, 1)["results"])
 	#print getMembersBycongress(110)

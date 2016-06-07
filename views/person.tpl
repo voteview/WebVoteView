@@ -27,7 +27,11 @@
         </div>
         <div class="col-md-5">
 		<h2>
-			{{ person["fname"] }} {{lifeString}}
+			% if "bioName" in person:
+				{{ person["bioName"] }} {{lifeString}}
+			% else:
+				{{ person["fname"] }} {{lifeString}}
+			% end
 		</h2>
 
             <h4>{{ person["partyname"] }}</h4>
@@ -73,6 +77,15 @@
 		</div>
 	</div>
     </div>
+	% if "bio" in person:
+	<div class="row">
+		<div class="col-md-9 col-md-offset-2">
+			<h3>Member Biography</h3>
+			{{ person["bio"] }}
+			<br/><small><em>Courtesy of <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></em></small>
+		</div>
+	</div>
+	% end
     <div class="row">
         <div class="col-md-9 col-md-offset-2">
             <h3>Vote history</h3>
@@ -110,13 +123,15 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script>
-var congress = {{person["congress"]}};
+var mapParties=1;
+var congressNum = {{person["congress"]}};
 var memberIdeal = {{person["nominate"]["oneDimNominate"]}};
 var memberIdealBucket = Math.floor({{person["nominate"]["oneDimNominate"]}}*10);
+var memberPartyName = "{{person["partyname"]}}";
 
 (function loadData()
 {
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congress).await(drawHist);	
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum).await(drawHist);	
 })();
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
@@ -155,11 +170,11 @@ function drawHist(error, data)
 	{
 		if(Math.round(100*ctGreater/ctTotal,1)==100)
 		{
-			var label = "The most liberal member of the "+getGetOrdinal(congress)+" Congress.";
+			var label = "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		else
 		{
-			var label = "More liberal than "+Math.round(100*ctGreater/ctTotal,1)+"% of the "+getGetOrdinal(congress)+" Congress.<br/>More liberal than "+Math.round(100*ctPartyGreater/ctPartyTotal,1)+"% of co-partisans in the "+getGetOrdinal(congress)+" Congress.";
+			var label = "More liberal than "+Math.round(100*ctGreater/ctTotal,1)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More liberal than "+Math.round(100*ctPartyGreater/ctPartyTotal,1)+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		
 	}
@@ -167,11 +182,11 @@ function drawHist(error, data)
 	{
 		if(Math.round(100*ctGreater/ctTotal,1)==0)
 		{
-			var label = "The most conservative member of the "+getGetOrdinal(congress)+" Congress.";
+			var label = "The most conservative member of the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		else
 		{
-			var label = "More conservative than "+(100-Math.round(100*ctGreater/ctTotal,1))+"% of the "+getGetOrdinal(congress)+" Congress.<br/>More conservative than "+(100-Math.round(100*ctPartyGreater/ctPartyTotal,1))+"% of co-partisans in the "+getGetOrdinal(congress)+" Congress.";
+			var label = "More conservative than "+(100-Math.round(100*ctGreater/ctTotal,1))+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More conservative than "+(100-Math.round(100*ctPartyGreater/ctPartyTotal,1))+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 	}
 	console.log(label);
@@ -191,8 +206,10 @@ function drawHist(error, data)
 	.dimension(oneDimDimension).group(oneDimGroup).elasticY(true).brushOn(false)
 	.colorCalculator(function(d) 
 			 { 
-				if(d.key==memberIdealBucket && d.key>0) { return "#CC0000"; } 
-				else if(d.key==memberIdealBucket) { return "#0000CC"; }
+				if(d.key==memberIdealBucket)
+				{
+					return colorSchemes[partyColorMap[partyNameSimplify(memberPartyName)]][0];
+				}
 				else { return "#CCCCCC"; } 
 			 })
 	.renderTitle(false)
@@ -218,3 +235,4 @@ function drawHist(error, data)
 	dc.renderAll();
 }
 </script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
