@@ -1,5 +1,6 @@
 % rebase('base.tpl',title='About us', extra_js=["https://www.google.com/recaptcha/api.js", "/static/js/contact.js"])
-
+% import json
+% authData = json.load(open("model/auth.json","r"))
 % include('header.tpl')
 
 <div class="container">
@@ -39,7 +40,7 @@
 				</script>
 				<div id="captcha_click">
 					Before you contact us, please click the box below to verify you are human:
-					<div class="g-recaptcha" data-sitekey="6LetoCATAAAAAL3gjPGCEEFgf8iU9aM_m_RjgShd" data-callback="showSubmit"></div>
+					<div class="g-recaptcha" data-sitekey="{{authData["recaptchaPublic"]}}" data-callback="showSubmit"></div>
 				</div>
 				<div id="captcha_hide_submit" style="display:none;">
 					<input type="submit" onclick="javascript:submitForm(); return false;" />
