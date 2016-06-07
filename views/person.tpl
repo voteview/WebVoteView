@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl",title="Person details")
+% rebase("base.tpl",title="Person details", extra_css=["map.css"])
 % include('header.tpl')
 % current_page_number = 1
 % import datetime
@@ -69,6 +69,7 @@
         </div>
 	<div class="col-md-4">
 		<div id="nominateHist" class="dc-chart">
+			<h5 style="padding-top:20px;padding-bottom:0px;">Ideology</h5>
 		</div>
 	</div>
     </div>
@@ -107,6 +108,7 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script>
 var congress = {{person["congress"]}};
 var memberIdeal = {{person["nominate"]["oneDimNominate"]}};
@@ -116,6 +118,13 @@ var memberIdealBucket = Math.floor({{person["nominate"]["oneDimNominate"]}}*10);
 {
 	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congress).await(drawHist);	
 })();
+
+// From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
+function getGetOrdinal(n) {
+    var s=["th","st","nd","rd"],
+    v=n%100;
+    return n+(s[(v-20)%10]||s[v]||s[0]);
+ }
 
 function drawHist(error, data)
 {
@@ -141,18 +150,67 @@ function drawHist(error, data)
 		}
 	});
 
-	var label = "More liberal than "+Math.round(100*ctGreater/ctTotal,1)+"% of members in the "+congress+" Congress.\nMore liberal than "+Math.round(100*ctPartyGreater/ctPartyTotal,1)+"% of co-partisans in the "+congress+" Congress.";
-	//var labelTip = d3.tip().attr('class', 'd3-tip').html(label);
+	
+	if(memberIdealBucket<0)
+	{
+		if(Math.round(100*ctGreater/ctTotal,1)==100)
+		{
+			var label = "The most liberal member of the "+getGetOrdinal(congress)+" Congress.";
+		}
+		else
+		{
+			var label = "More liberal than "+Math.round(100*ctGreater/ctTotal,1)+"% of the "+getGetOrdinal(congress)+" Congress.<br/>More liberal than "+Math.round(100*ctPartyGreater/ctPartyTotal,1)+"% of co-partisans in the "+getGetOrdinal(congress)+" Congress.";
+		}
+		
+	}
+	else
+	{
+		if(Math.round(100*ctGreater/ctTotal,1)==0)
+		{
+			var label = "The most conservative member of the "+getGetOrdinal(congress)+" Congress.";
+		}
+		else
+		{
+			var label = "More conservative than "+(100-Math.round(100*ctGreater/ctTotal,1))+"% of the "+getGetOrdinal(congress)+" Congress.<br/>More conservative than "+(100-Math.round(100*ctPartyGreater/ctPartyTotal,1))+"% of co-partisans in the "+getGetOrdinal(congress)+" Congress.";
+		}
+	}
+	console.log(label);
+	var labelTip = d3.tip().attr('class', 'd3-tip').html(
+		function(d)
+		{
+			if(d.x==memberIdealBucket) { return(label); }
+			else { return(""); }
+		});
+
 	var ndx = crossfilter(oneDims);
 	var oneDimDimension = ndx.dimension(function(d) { return d; });
 	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*10); });
 
 	var nominateHist = dc.barChart("#nominateHist");
-	nominateHist.width(420).height(150).margins({top: 30, right:10, bottom: 30, left:20})
-	.dimension(oneDimDimension).group(oneDimGroup).elasticX(true).elasticY(true).brushOn(false)
-	.colorCalculator(function(d) { if(d.key==memberIdealBucket) { return "#CC0000"; } else { return "#CCCCCC"; } })
+	nominateHist.width(420).height(130).margins({top: 10, right:10, bottom: 30, left:20})
+	.dimension(oneDimDimension).group(oneDimGroup).elasticY(true).brushOn(false)
+	.colorCalculator(function(d) 
+			 { 
+				if(d.key==memberIdealBucket && d.key>0) { return "#CC0000"; } 
+				else if(d.key==memberIdealBucket) { return "#0000CC"; }
+				else { return "#CCCCCC"; } 
+			 })
 	.renderTitle(false)
-	.x(d3.scale.linear().domain([-10, 10])).xAxis().ticks(20).tickFormat(function(v) { return ""; });
+	.x(d3.scale.linear().domain([-10, 10]))
+	.xAxis().ticks(20).tickFormat(function(v) 
+	{
+		if(v==-9) return "Liberal";
+		else if(v==9) return "Conservative";
+	});
+
+	nominateHist.on("postRender", function(c){
+		c.svg()
+		.selectAll("rect")
+		.call(labelTip)
+		.on('mouseover', function(d) { if(d.x==memberIdealBucket) { labelTip.attr('class','d3-tip animate').show(d); }}) 
+		.on('mouseout', function(d) { labelTip.attr('class','d3-tip').hide(); })
+	});
+
 	nominateHist.yAxis().ticks(0);
 
 	nominateHist.filter = function() { };
