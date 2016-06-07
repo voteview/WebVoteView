@@ -25,7 +25,7 @@
         <div class="col-md-2">
             <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;">
         </div>
-        <div class="col-md-9">
+        <div class="col-md-5">
 		<h2>
 			{{ person["fname"] }} {{lifeString}}
 		</h2>
@@ -67,6 +67,10 @@
 		% end
 	    % end
         </div>
+	<div class="col-md-4">
+		<div id="nominateHist" class="dc-chart">
+		</div>
+	</div>
     </div>
     <div class="row">
         <div class="col-md-9 col-md-offset-2">
@@ -99,3 +103,54 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.js"></script>
+<script>
+var congress = {{person["congress"]}};
+var memberIdeal = {{person["nominate"]["oneDimNominate"]}};
+var memberIdealBucket = Math.floor({{person["nominate"]["oneDimNominate"]}}*10);
+
+(function loadData()
+{
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congress).await(drawHist);	
+})();
+
+function drawHist(error, data)
+{
+	if(data==undefined)
+	{
+		return(0);
+	}
+
+	var ctGreater=0;
+	var ctTotal=0;
+	var oneDims = [];
+	console.log(memberIdeal);
+	data["results"].forEach(function (d) {
+		oneDims.push(d.nominate.oneDimNominate);
+		ctTotal+=1;
+		if(d.nominate.oneDimNominate>memberIdeal) { ctGreater+=1; }
+	});
+
+	// ctGreater/ctTotal = More liberal than <n>%
+	// 1-(ctGreater/ctTotal) = More conservative than <n>%
+
+	var ndx = crossfilter(oneDims);
+	var oneDimDimension = ndx.dimension(function(d) { return d; });
+	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*10); });
+
+	var nominateHist = dc.barChart("#nominateHist");
+	nominateHist.width(420).height(150).margins({top: 30, right:10, bottom: 30, left:20})
+	.dimension(oneDimDimension).group(oneDimGroup).elasticX(true).elasticY(true).brushOn(false)
+	.colorCalculator(function(d) { if(d.key==memberIdealBucket) { return "#CC0000"; } else { return "#CCCCCC"; } })
+	.renderTitle(false)
+	.x(d3.scale.linear().domain([-10, 10])).xAxis().ticks(20).tickFormat(function(v) { return ""; });
+	nominateHist.yAxis().ticks(0);
+
+	nominateHist.filter = function() { };
+
+	dc.renderAll();
+}
+</script>

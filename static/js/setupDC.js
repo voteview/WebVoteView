@@ -230,7 +230,6 @@ function drawWidgets(error, geodata, data)
 		.width(320).height(320)
 		.dimension(votePartyDimension).group(votePartyGroup)
 		.elasticX(true)
-		.renderTitle(false)
 		.colorCalculator(function (d) {
 			return partyColors[d.key];
 		})
@@ -331,7 +330,6 @@ function drawWidgets(error, geodata, data)
 			.width(890).height(500)
 			.dimension(districtDimension)
 			.group(districtGroup)
-			.renderTitle(false)
 			.colorCalculator(function (d) { 
 				var color = "#eee";
 				try {
@@ -369,44 +367,37 @@ function drawWidgets(error, geodata, data)
 	else if (chamber == "Senate") 
 	{
 
-		/* Initialize tooltip */
-		var senateMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) 
-		{
-			var result = "<p>" + d.key + "</p>";
-			for (var i = 0; i < d.value.members.length; i++)
-			{
-				var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
-				result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + colorVote + "'> " + d.value.members[i].vote + " / " + partyNameSimplify(d.value.members[i].party) +"</span></p>";
-			}
-			return result;
-		});
+            /* Initialize tooltip */
+            var senateMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
+              var result = "<p>" + d.key + "</p>";
+              for (var i = 0; i < d.value.members.length; i++) {
+                 var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
+                  result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + colorVote + "'> " + d.value.members[i].vote + " / " + partyNameSimplify(d.value.members[i].party) +"</span></p>";
+              }
+              return result;
+            });
 
-		var mapTopo = topojson.feature(geodata, geodata.objects.states).features;
-		mapChart.width(890)
-			.height(500)
-			.dimension(stateDimension)
-			.group(stateGroup)
-			.renderTitle(false)
-			.colorCalculator(function (d)
-			{ 
-				var color = "#eee";
-				try 
-				{
-					if(d.members.length > 0)
-					{   
-						color = blendColors(d.members);
-					}
-				}catch(e){}
-				return color;
-			})
-			.overlayGeoJson(mapTopo, "state", function (d)
-			{
-				return d.id;
-			}
-			.on("postRender", function(c)
-			{
-				c.svg()
-					.selectAll("path") // tabbed to here
+            var mapTopo = topojson.feature(geodata, geodata.objects.states).features;
+            mapChart.width(890)
+                    .height(500)
+                    .dimension(stateDimension)
+                    .group(stateGroup)
+                    .colorCalculator(function (d) { 
+                        var color = "#eee";
+                        try {
+                            if(d.members.length > 0){   
+                                color = blendColors(d.members);
+                            }
+                        }catch(e){
+                       }
+                        return color;
+                    })
+                    .overlayGeoJson(mapTopo, "state", function (d) {
+                        return d.id;
+                    })
+	           .on("postRender", function(c){
+                        c.svg()
+                          .selectAll("path")
                           .call(senateMapTip)
                           .on('mouseover',function(d, i){
                             var result = $.grep(c.data(), function(e){ return e.key == d.id; });
