@@ -199,7 +199,7 @@ function drawHist(error, data)
 	.x(d3.scale.linear().domain([-10, 10]))
 	.xAxis().ticks(20).tickFormat(function(v) 
 	{
-		if(v==-9) return "Liberal";
+		if(v==-10) return "Liberal";
 		else if(v==9) return "Conservative";
 	});
 
