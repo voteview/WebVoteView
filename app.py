@@ -151,6 +151,9 @@ def person(icpsr=0):
 		else:
 			votes = []
 
+		if "bio" in person:
+			person["bio"] = person["bio"].replace("a Representative","Representative")			
+
 		# Go to the template.
 		output = bottle.template("views/person",person=person, votes=votes)
 		return(output)

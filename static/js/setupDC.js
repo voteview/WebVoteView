@@ -3,48 +3,6 @@
 /* jshint globalstrict: true */
 /* global dc,d3,crossfilter,colorbrewer */
 
-var partyMapping = {
-	"Liberal": "Democrat",
-	"Ind. Democrat": "Democrat",
-	"Law and Order": "Whig",
-	"Ind. Whig": "Whig",
-	"Ind. Republican": "Republican",
-	"American Labor": "Independent",
-	"Crawford Republican": "Republican",
-	"Adams-Clay Republican": "Republican",
-	"Jackson Republican": "Republican",
-	"Adams-Clay Federalist": "Federalist",
-	"Jackson Federalist": "Federalist",
-	"Crawford Federalist": "Federalist",
-	"Liberty": "Independent",
-	"Anti-Lecompton Democrat": "Democrat",
-	"Union": "Unionist",
-	"Constitutional Unionist": "Unionist",
-	"Unconditional Unionist": "Unionist",
-	"Conservative Republican": "Republican",
-	"Liberal Republican": "Republican",
-	"Silver Republican": "Republican",
-	"Silver": "Democrat"
-}
-if(congressNum==24) { partyMapping["States Rights"] = "Nullifier"; }
-if(congressNum==34) { partyMapping["Republican"] = "Oppsition"; }
-
-function partyNameSimplify(partyName)
-{
-	if(mapParties)
-	{
-		if(partyMapping[partyName] != undefined) 
-		{ 
-			$("#warnParty").show();
-			return partyMapping[partyName]; 
-		}
-		else { return partyName; }
-	} 
-	else
-	{
-		return partyName;
-	}
-}
 
 // All of our charts are now accessible globally.
 var votePartyChart = dc.rowChart("#party-chart");
