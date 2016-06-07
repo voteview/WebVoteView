@@ -9,7 +9,9 @@
 				<abbr title="Rollnumber"><a href="/rollcall/{{ rollcall["id"] }}">Vote {{ rollcall["rollnumber"] }}</a></abbr>
 			</strong>
 			on {{ rollcall["date"] }}
-			<span class="pull-right">
+			<span style="float:right;">
+				<a href="/rollcall/{{ rollcall["id"] }}"><img src="/static/img/graph.png" style="width:24px;margin-right:16px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
+
 				<input type="checkbox" name="ids" value="{{ rollcall["id"] }}"> 
 				<img src="/static/img/export.png" style="cursor:pointer;width:24px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
 			</span>
@@ -20,9 +22,9 @@
 				<small>
 					<strong>Vote:</strong> {{ rollcall["yea"] }}-{{ rollcall["nay"] }}
 				% if rollcall["yea"]>rollcall["nay"]:
-					(Carried)
+					(Passed)
 				% else:
-					(Defeated)
+					(Failed)
 				% end
 				</small>
 			</p>
@@ -32,7 +34,6 @@
 			%
 			<p>{{ " ".join(rollcall["description"].split()[0:50]) }}</p>
 
-			<a href="/rollcall/{{ rollcall["id"] }}" style="float:right;"><img src="/static/img/graph.png" style="width:32px;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 		</div>
 	</div>
 % end
