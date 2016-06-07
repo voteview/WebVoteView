@@ -57,11 +57,14 @@ def memberLookup(qDict, maxResults=50, distinct=0):
 			searchQuery["congress"] = {}
 			searchQuery["congress"]["$in"] = vals
 	if name:
-		name = str(name)
+		try:
+			name = str(name)
+		except:
+			pass
 		if not " " in name: # Last name only
 			searchQuery["name"] = {'$regex': name, '$options': 'i'}
 		elif ", " in name: # Last, First
-			last, rest = name.split(", ")
+			last, rest = name.split(", ",1)
 			searchQuery["fname"] = {'$regex': last+", "+rest, '$options': 'i'}
 	if cqlabel:
 		if cqlabel[0]=="(" and cqlabel[-1]==")": # Ensure beginning/end () to match
