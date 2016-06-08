@@ -11,7 +11,10 @@ function outVotes(groupBy="party")
 	var dedupeLastNames = []
 	for(var i=0;i!=filteredVotes.length;i++)
 	{
+		if(filteredVotes[i]["name"]==undefined) { console.log(filteredVotes[i]); continue; }
+
 		var lastName = filteredVotes[i]["name"].split(",")[0];
+
 		if(lastNames.indexOf(lastName)==-1)
 		{
 			lastNames.push(lastName);
@@ -24,6 +27,7 @@ function outVotes(groupBy="party")
 
 	for(var i=0;i!=filteredVotes.length;i++)
 	{
+		if(filteredVotes[i]["name"] == undefined) { continue; }
 		var voteSubset = {
 			"party": filteredVotes[i]["party"], 
 			"vote": filteredVotes[i]["vote"], 

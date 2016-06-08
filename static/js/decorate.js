@@ -12,7 +12,7 @@ function decorateNominate(oc,data) {
   var tickLength = width/10;
   var scale = 1.2; // sets radius of the outer circle in nominate units
   var vn = data.rollcalls[0].nominate;
-		    
+
   var ocSVG = d3.select(oc.g()[0][0]);
   ocSVG.selectAll(".axis").remove();
 
@@ -45,6 +45,14 @@ function decorateNominate(oc,data) {
       .attr("id","outer-circle");
 
    // Hacky way to shade region where yea vote is expected...
+
+	// Hack to gracefully fail when we don't have nominate data. AR
+	if(vn.x==undefined) 
+	{ 
+		console.log('No valid nominate data.'); 
+		return;
+	}
+
    var angle = vn.slope == null ? NaN : vn.slope;		    
    var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
    switch( cs ) {

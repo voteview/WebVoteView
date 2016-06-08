@@ -7,6 +7,7 @@
 // All of our charts are now accessible globally.
 var votePartyChart = dc.rowChart("#party-chart");
 var mapChart = dc.geoChoroplethChart("#map-chart");
+var mapChart = undefined;
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var globalPartyDimension = null;
 var globalData;
@@ -18,31 +19,43 @@ $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
 (function loadData(){
     if (chamber == "House") {
         queue()
-          .defer(d3.json, "/static/json/districts"+congressNum+".json")
           .defer(d3.json, "/api/download/"+rcID)
+          .defer(d3.json, "/static/json/districts"+congressNum+".json")
           .await(drawWidgets);
     } else if (chamber == "Senate") {
         queue()
-          .defer(d3.json, "/static/json/states"+congressNum+".json")
           .defer(d3.json, "/api/download/"+rcID)
+          .defer(d3.json, "/static/json/states"+congressNum+".json")
           .await(drawWidgets);
     }
 })();
 
-function drawWidgets(error, geodata, data)
+function drawWidgetsFailMap(error, data)
 {
-	$("#loadBar").slideToggle();
-	if(data==undefined || geodata==undefined)
+	drawWidgets(error, data, undefined);
+}
+
+var failedMapLoad=0;
+function drawWidgets(error, data, geodata)
+{
+	if(failedMapLoad==0 && (data==undefined || geodata==undefined))
 	{
 		var errorMessage = "Unknown error loading vote data.";
 		if(error.status==404 && error.responseURL.indexOf(".json")!=-1)
 		{
 			errorMessage = "Unable to download geographic data for this session.";
+			queue().defer(d3.json, "/api/download/"+rcID).await(drawWidgetsFailMap);
 		}
 		$("#errorContent > div > div.errorMessage").html(errorMessage);
 		$("#errorContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
+		$("#geoMap").hide();
+		$("#map-chart").attr("id","junk");
+		console.log(data);
+		failedMapLoad = 1;
+		dc.chartRegistry.deregister(dc.chartRegistry.list()[1]);
 		return(0);
 	}
+	$("#loadBar").slideToggle();
 	globalData = data;
 	$("#loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
 
@@ -243,6 +256,9 @@ function drawWidgets(error, geodata, data)
         .dimension(ndx)
         .group(all);
 
+	if(!failedMapLoad)
+	{
+
 	if (chamber == "House")
 	{
 		/* Initialize tooltip */
@@ -373,11 +389,13 @@ function drawWidgets(error, geodata, data)
                     });
         }
 
+	}
+
 	// We are done defining everything, now let's just run our ancillary functions.
 	dc.renderAll();
-
+	console.log(data);
 	decorateNominate(nominateScatterChart,data);
-	mapChart.on("filtered", pollFilters);
+	if(!failedMapLoad) mapChart.on("filtered", pollFilters);
 	votePartyChart.on("filtered", pollFilters);
 	nominateScatterChart.on("filtered", pollFilters);
 	outVotes();

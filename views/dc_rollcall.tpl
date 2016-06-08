@@ -68,7 +68,7 @@
 	</div>
 
 	<div style="display:none;" id="loadedContent">
-
+		<div id="geoMap">
 		<div class="row" style="padding-bottom:40px;">
 			<div class="col-md-9" style="margin-right:40px;">
 				<h4 style="float:left;clear:none;vertical-align:middle;">
@@ -110,6 +110,7 @@
 					<span id="suppressVoteChartControls" style="display:none;"><span class="filter"></span></span>
 				</div>
 			</div>
+		</div>
 		</div>
 
 		<div class="row" style="margin-bottom:20px;">
