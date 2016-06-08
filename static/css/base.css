@@ -171,3 +171,10 @@ line.cutline {
 .tooltip > .tooltip-inner { opacity: 0.9; }
 .tooltip > .tooltip-arrow { opacity: 0.9; }
 .left-tooltip + .tooltip > .tooltip-inner { text-align:left; min-width:400px;}
+
+#memberResultBox
+{
+	cursor: pointer;
+	height: 85px;
+	margin-bottom: 5px;
+}
