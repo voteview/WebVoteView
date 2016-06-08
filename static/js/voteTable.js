@@ -54,7 +54,9 @@ function outVotes(groupBy="party")
 		
 		// Category header
 		var partyLabel = $("<li></li>").css("padding-bottom","5px");
-		$("<strong>"+sortedKeys[key]+"</strong>").css("text-decoration","underline").appendTo(partyLabel);
+		var headerLabel = sortedKeys[key];
+		if(headerLabel=="Abs") { headerLabel="Absent"; }
+		$("<strong>"+headerLabel+"</strong>").css("text-decoration","underline").appendTo(partyLabel);
 		partyLabel.appendTo(baseList);
 
 		// Loop through everything in the category

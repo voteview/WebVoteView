@@ -40,8 +40,7 @@
 			% end
 		</h2>
 
-            <h4>{{ person["partyname"] }}</h4>
-            <h4>{{ person["stateName"] }}, {{ person["stateAbbr"] }}</h4>
+            <h4>{{ person["partyname"] }} ({{ person["stateName"] }}, {{ person["stateAbbr"] }})</h4>
 	    <h4>{{ label }}
 		% z = 0
 		% for chunk in person["yearsOfService"]:
@@ -78,6 +77,10 @@
 		 )
 		% k = k + 1
 		% end
+	    </h5>
+	    % end
+	    % if "website" in person:
+		<h5>Web: <a href="{{person["website"]}}" target="_blank">{{person["website"]}}</a></h5>
 	    % end
         </div>
 	% if plotIdeology:
