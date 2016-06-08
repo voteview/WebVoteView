@@ -12,6 +12,7 @@
               <li><a href="/explore/house">House</a></li>
             </ul>
         </li>
+	<li><a href="http://voteviewblog.com/" target="_blank">blog</a></li>
         <li><a href="/data">data</a></li>
         <li><a href="/research">research</a></li>
         <li><a href="/about">about</a></li>
