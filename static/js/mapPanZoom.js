@@ -24,8 +24,12 @@
 		else if(dir==-1) { zoom=zoom-0.25; }
 		if(zoom<=minZoom) { zoom=minZoom; $("#zoomOut").fadeOut(); }
 		else { $("#zoomOut").fadeIn(); }
-		if(zoom>=maxZoom) { zoom=maxZoom; $("#zoomIn").fadeOut(); }
-		else { $("#zoomIn").fadeIn(); }
+		if(zoom>=maxZoom) 
+		{ 
+			zoom=maxZoom; 
+			$("#zoomIn").prop('disabled',true).delay(4000).fadeOut(); 
+		}
+		else { $("#zoomIn").prop('disabled',false).fadeIn(); }
 		extentX = dimX/zoom;
 		extentY = dimY/zoom
 
