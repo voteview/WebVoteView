@@ -49,7 +49,6 @@ function drawWidgets(error, data, geodata)
 		$("#errorContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
 		$("#geoMap").hide();
 		$("#map-chart").attr("id","junk");
-		console.log(data);
 		failedMapLoad = 1;
 		dc.chartRegistry.deregister(dc.chartRegistry.list()[1]);
 		return(0);
@@ -261,8 +260,8 @@ function drawWidgets(error, data, geodata)
 	if (chamber == "House")
 	{
 		/* Initialize tooltip */
-		var houseMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
-			var result = "<p>" + d.key + "</p>";
+		var houseMapTip = d3.tip().attr('class', 'd3-tip').direction('n').html(function(p, d) {
+			var result = "<p><strong>" + d.key + "</strong></p>";
 			var nays=0;
 			var yeas=0;
 			var abs=0;
@@ -272,7 +271,7 @@ function drawWidgets(error, data, geodata)
 				// Tooltip data display:
 				if(i<5)
 				{
-					result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "white" + "'> " + d.value.members[i].vote +"</span></p>";				  
+					result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "black" + "'> " + d.value.members[i].vote +"</span></p>";				  
 				}
 				else
 				{
@@ -322,18 +321,23 @@ function drawWidgets(error, data, geodata)
 				c.svg()
 					.selectAll("path")
 					.call(houseMapTip)
-					.on('mouseover',function(d, i){
+					.on('mousemove', function(d, i){
 						var districtSet = c.data();
 						var result = $.grep(c.data(), function(e){
 							return e.key == d.id; 
 						});
+						if(result[0]==undefined) { return; } // Don't tooltip null results.
 
-						houseMapTip.attr('class','d3-tip animate')
-						.show(d, result[0]);
+						// event.pageX, event.pageY have mouse coordinates on page.
+						// Need to subtract SVG top left from this.
+						//var svgBound = d3.event.path[0].getBoundingClientRect();
+						//var elementHeight = svgBound.bottom - svgBound.top;
+						var xOffset = event.pageX - $(this).offset().left;//svgBound.left;
+						var yOffset = event.pageY - $(this).offset().top;//svgBound.top;
+						houseMapTip.offset([yOffset-20,xOffset-20]);
+						houseMapTip.show(d, result[0]);
 					})
 					.on('mouseout',function(d, i){
-						var result = $.grep(c.data(), function(e){ return e.key == d.id; });
-						houseMapTip.attr('class','d3-tip').show(d, result[0])
 						houseMapTip.hide();
 					})
 			});
@@ -343,7 +347,7 @@ function drawWidgets(error, data, geodata)
 
             /* Initialize tooltip */
             var senateMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
-              var result = "<p>" + d.key + "</p>";
+              var result = "<p><strong>" + d.key + "</strong></p>";
               for (var i = 0; i < d.value.members.length; i++) {
                  var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
                   result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + colorVote + "'> " + d.value.members[i].vote + " / " + partyNameSimplify(d.value.members[i].party) +"</span></p>";
@@ -392,7 +396,6 @@ function drawWidgets(error, data, geodata)
 
 	// We are done defining everything, now let's just run our ancillary functions.
 	dc.renderAll();
-	console.log(data);
 	decorateNominate(nominateScatterChart,data);
 	if(!failedMapLoad) mapChart.on("filtered", pollFilters);
 	votePartyChart.on("filtered", pollFilters);
