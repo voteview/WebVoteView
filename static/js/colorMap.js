@@ -73,7 +73,8 @@ var partyColorMap = {
 	"Populist": "brown",
 	"Whig": "pinkpurple",
 	"Socialist": "pinkpurple",
-	"Farmer-Labor": "green"			
+	"Farmer-Labor": "green",
+	"Anti Masonic": "orange"
 }
 if(congressNum<20) { partyColorMap["Republican"] = "blue"; }
 
