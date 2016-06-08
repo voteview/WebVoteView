@@ -19,6 +19,10 @@
 % else:
 %	lifeString = ""
 % end
+% plotIdeology=0
+% if "nominate" in person and "oneDimNominate" in person["nominate"] and person["nominate"]["oneDimNominate"] is not None:
+%	plotIdeology = 1
+% end
 <div class="container">
 
     <div class="row">
@@ -41,6 +45,9 @@
 	    <h4>{{ label }}
 		% z = 0
 		% for chunk in person["yearsOfService"]:
+			% if chunk[1]>2016:
+			% chunk[1] = "Present"
+			% end
 			% if z>0:
 				, 
 			% end
@@ -73,11 +80,13 @@
 		% end
 	    % end
         </div>
+	% if plotIdeology:
 	<div class="col-md-4">
 		<div id="nominateHist" class="dc-chart">
 			<h5 style="padding-top:20px;padding-bottom:0px;">Ideology</h5>
 		</div>
 	</div>
+	% end
     </div>
 	% if "bio" in person:
 	<div class="row">
@@ -119,6 +128,7 @@
         </div>
     </div>
 </div>
+% if plotIdeology:
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.js"></script>
@@ -239,3 +249,4 @@ function drawHist(error, data)
 }
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
+% end
