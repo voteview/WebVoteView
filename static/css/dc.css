@@ -171,6 +171,10 @@ div.dc-chart {
     stroke: white;
 }
 
+.dc-chart g.district { cursor:pointer; }
+.dc-chart g.district :hover { fill-opacity: .8; }
+.dc-chart g.district path { stroke: white; }
+
 .dc-chart g.selected path {
 }
 
