@@ -106,6 +106,9 @@ def person(icpsr=0):
 	if not icpsr:
 		icpsr = defaultValue(bottle.request.params.icpsr,0)
 
+	# Easter Egg
+	keith = defaultValue(bottle.request.params.keith, 0)
+
 	# Pull by ICPSR
 	person = memberLookup({"icpsr": icpsr}, 1)
 
@@ -119,7 +122,10 @@ def person(icpsr=0):
 		bioFound = 0
 		if not os.path.isfile("static/img/bios/"+str(person["icpsr"]).zfill(6)+".jpg"):
 			# If not, use the default silhouette
-			person["bioImg"] = "silhouette.png"
+			if not keith:
+				person["bioImg"] = "silhouette.png"
+			else:
+				person["bioImg"] = "keith.png"
 		else:
 			person["bioImg"] = str(person["icpsr"]).zfill(6)+".jpg"	
 			bioFound = 1
