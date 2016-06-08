@@ -7,7 +7,6 @@
 // All of our charts are now accessible globally.
 var votePartyChart = dc.rowChart("#party-chart");
 var mapChart = dc.geoChoroplethChart("#map-chart");
-var mapChart = undefined;
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var globalPartyDimension = null;
 var globalData;
