@@ -4,6 +4,9 @@ import traceback
 import os
 import json
 import bottle
+from fuzzywuzzy import fuzz
+from operator import attrgetter
+
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
@@ -208,10 +211,47 @@ def getmembers():
 @app.route("/api/searchAssemble")
 def searchAssemble():
 	q = defaultValue(bottle.request.params.q)
+	nextId = defaultValue(bottle.request.params.nextId,0)
+
+	# Member search
+	resultMembers = []
+
+	if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
+		memberSearch = memberLookup({"name": q}, 8, distinct=1)
+		if "results" in memberSearch:
+			for member in memberSearch["results"]:
+				memName = ""
+				resultType = 0
+				if "bioName" in member and member["bioName"] is not None:
+					memName = member["bioName"]
+					resultType=1
+				elif "fname" in member and member["fname"] is not None:
+					memName = member["fname"]
+					resultType=2
+				else:
+					memName = member["name"]
+					resultType=3
+
+				try:
+					memName = memName.replace(",","").lower()
+				except:
+					memName = memName.lower()
+
+				member["scoreMatch"] = fuzz.token_set_ratio(memName, q.replace(",","").lower())
+				if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
+					member["bioImg"] = "silhouette.png"
+				else:
+					member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"	
+				member["yearsOfService"] = yearsOfService(member["icpsr"])
+
+				resultMembers.append(member)
+	resultMembers.sort(key=lambda x: -x["scoreMatch"])
+	if len(resultMembers) and resultMembers[0]["scoreMatch"]==100:
+		resultMembers = [x for x in resultMembers if x["scoreMatch"]==100]
 
 	# Date facet
-	startdate = defaultValue(bottle.request.params["fromDate"])
-	enddate = defaultValue(bottle.request.params["toDate"])
+	startdate = defaultValue(bottle.request.params.fromDate)
+	enddate = defaultValue(bottle.request.params.toDate)
 
 	# Chamber facet
 	try:
@@ -227,7 +267,7 @@ def searchAssemble():
 	try:
 		fromCongress = int(defaultValue(bottle.request.params["fromCongress"],0))
 		toCongress = int(defaultValue(bottle.request.params["toCongress"],0))
-		if q is None and (fromCongress or toCongress):
+		if (q is None or q=="") and (fromCongress or toCongress):
 			q = ""
 
 		if fromCongress or toCongress:
@@ -245,7 +285,7 @@ def searchAssemble():
 	# Support facet
 	try:
 		support = bottle.request.params["support"]
-		if q is None and (support):
+		if (q is None or q=="") and (support):
 			q = ""
 
 		if "," in support:
@@ -283,7 +323,7 @@ def searchAssemble():
 			codeString += "code.Peltzman: "+pCode+" OR "
 	if len(codeString):
 		codeString = codeString[0:-4]
-		if q is None:
+		if q is None or q=="":
 			q = codeString
 		else:	
 			q += " ("+codeString+")"
@@ -296,18 +336,18 @@ def searchAssemble():
 	except:
 		sortD = -1
 
-	nextId = defaultValue(bottle.request.params.nextId,0)
 	icpsr = defaultValue(bottle.request.params.icpsr)
 	jsapi = 1
 	rowLimit = 50
 	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId)
 
 	if "errormessage" in res:
-		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"])
+		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers)
 	else:
 		bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
+		bottle.response.headers["member_number"] = len(resultMembers)
 		bottle.response.headers["nextId"] = res["nextId"]
-		out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="") 
+		out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="", resultMembers=resultMembers) 
 	return(out)
 
 @app.route("/api/search",method="POST")

@@ -1,6 +1,7 @@
 from searchMembers import memberLookup
 
 def congressesOfService(icpsr):
+	print icpsr
 	if type(icpsr)!=type(str("")) or len(icpsr)<6:
 		icpsr = str(icpsr).zfill(6)
 
@@ -13,6 +14,7 @@ def congressesOfService(icpsr):
 	start=0
 	last=0
 	for congress in congressNums:
+		print congress
 		if start==0:
 			start = congress
 			last = start
@@ -88,7 +90,7 @@ def levenshtein(s1, s2):
 
 	
 if __name__=="__main__":
-	print yearsOfService(14400)
+	print yearsOfService(49101)
 	#yearsOfService("006071")
 	#yearsOfService("049101")
 	#yearsOfService(29754)

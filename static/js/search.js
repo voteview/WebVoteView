@@ -141,7 +141,20 @@ function updateRequest()
 			},
 			success: function(res, status, xhr) 
 			{
-				$("#results-number").html(numberWithCommas(xhr.getResponseHeader("Rollcall-Number")) + " search results");
+				var resultsNumber = xhr.getResponseHeader("Rollcall-Number")
+				var memberNumber = xhr.getResponseHeader("Member-Number")
+				var memLabelText = "members";
+				var voteLabelText = "votes";
+				if(memberNumber==1) { memLabelText = "member"; }
+				if(resultsNumber==1) { voteLabelText = "vote"; }
+				if(memberNumber>0 && resultsNumber>0)
+				{
+					$("#results-number").html(numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
+				} 
+				else
+				{
+					$("#results-number").html(numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
+				}
 				nextId = xhr.getResponseHeader("Nextid");
 				console.log(nextId);
 				if(nextId==0)

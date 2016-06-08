@@ -27,10 +27,12 @@
         </div>
         <div class="col-md-5">
 		<h2>
-			% if "bioName" in person:
+			% if "bioName" in person and person["bioName"] is not None:
 				{{ person["bioName"] }} {{lifeString}}
-			% else:
+			% elif "fname" in person and person["fname"] is not None:
 				{{ person["fname"] }} {{lifeString}}
+			% else:
+				{{ person["name"] }} {{lifeString}}
 			% end
 		</h2>
 
