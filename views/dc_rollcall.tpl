@@ -134,15 +134,15 @@
 		<div class="row" style="margin-bottom:50px;">
 			<div class="col-md-12">
 				<div>
-					<h4 style="float:left;padding-right:20px;">Vote List</h4>
-					<span>
+					<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">Vote List</div>
+					<div style="text-align:middle;padding-top:3px;">
 						(Sort by 
 						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 
-						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>, 
+						<a href="#" onclick="javascript:outVotes('stateLong');return false;">State</a>, 
 						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>)
-					</span>
+					</div>
 				</div>
-				<div id="voteList"></div>
+				<div id="voteList" style="margin-top:15px;"></div>
 			</div>
 		</div>
 	</div>

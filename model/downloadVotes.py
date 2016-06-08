@@ -69,7 +69,8 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						'name': member['fname'],
 						'id': member['id'],
 						'party': member['partyname'],
-						'state': member['stateAbbr']
+						'state': member['stateAbbr'],
+						'stateLong': member['stateName']
 					}
 					if member['nominate']['oneDimNominate']:
 						v['x'] = member['nominate']['oneDimNominate']

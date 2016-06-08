@@ -44,3 +44,9 @@ svg.map {
 	border-top:1px solid black; 
 	display:none; 
 }
+
+ul.voteTable li.dotted:before 
+{ 
+	float:left; width:0; white-space: nowrap;
+	content: "\00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \0087  \0087  \0087  \0087";
+}
