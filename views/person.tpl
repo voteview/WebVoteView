@@ -59,9 +59,9 @@
 	    <h5>
 		% k = 0
 		% for alt in person["altPeople"]:
-			% if alt["yearsOfService"][0][0]>=person["yearsOfService"][-1][1]:
+			% if alt["yearsOfService"][0][0]>=person["yearsOfService"][-1][0]:
 			Subsequently served as 
-			% elif alt["yearsOfService"][-1][1]<=person["yearsOfService"][0][0]:
+			% elif alt["yearsOfService"][-1][1]<=person["yearsOfService"][0][1]:
 			Previously served as 
 			% end
 			% if k>0:
