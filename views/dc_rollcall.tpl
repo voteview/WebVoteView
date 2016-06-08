@@ -35,9 +35,9 @@
 				<strong>Result:</strong> 
 				{{ rollcall["yea"] }}-{{ rollcall["nay"] }}
 				% if rollcall["yea"]>rollcall["nay"]:
-				 (Carried)
+				 (Passed)
 				% else:
-				 (Defeated)
+				 (Failed)
 				% end
 			</p>
 			% end
