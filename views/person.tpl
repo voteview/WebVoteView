@@ -13,7 +13,7 @@
 % elif "born" in person and not "died" in person and person["born"]<1900:
 %	lifeString = "("+str(person["born"])+"-??)"
 % elif "born" in person and not "died" in person:
-%	lifeString = "("+str(person["born"])+"- )"
+%	lifeString = "("+str(person["born"])+"-)"
 % elif "died" in person:
 %	lifeString = "(??-"+str(person["died"])+")"
 % else:
@@ -30,7 +30,7 @@
             <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;">
         </div>
         <div class="col-md-5">
-		<h2>
+		<h2 style="word-wrap:break-word;">
 			% if "bioName" in person and person["bioName"] is not None:
 				{{ person["bioName"] }} {{lifeString}}
 			% elif "fname" in person and person["fname"] is not None:
