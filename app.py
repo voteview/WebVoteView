@@ -5,8 +5,6 @@ import os
 import json
 import bottle
 from fuzzywuzzy import fuzz
-from operator import attrgetter
-
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
@@ -221,16 +219,12 @@ def searchAssemble():
 		if "results" in memberSearch:
 			for member in memberSearch["results"]:
 				memName = ""
-				resultType = 0
 				if "bioName" in member and member["bioName"] is not None:
 					memName = member["bioName"]
-					resultType=1
 				elif "fname" in member and member["fname"] is not None:
 					memName = member["fname"]
-					resultType=2
 				else:
 					memName = member["name"]
-					resultType=3
 
 				try:
 					memName = memName.replace(",","").lower()
