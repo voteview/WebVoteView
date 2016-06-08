@@ -131,10 +131,16 @@ function pollFilters2()
 	// Hide or show the full bar.
 	if(baseFilters)
 	{
-		$("#selectionFilterBar").slideDown();
+		$("#selectionFilterBar").slideDown(300,function()
+		{
+			$("#selectionFilterClose").fadeIn(200);
+		});
 	}
 	else
 	{
-		$("#selectionFilterBar").slideUp();
+		$("#selectionFilterClose").fadeOut(100,function()
+		{
+			$("#selectionFilterBar").slideUp(300);
+		});
 	}
 }

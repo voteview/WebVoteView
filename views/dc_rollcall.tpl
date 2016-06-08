@@ -157,6 +157,7 @@
 	<span id="sparse-selection" style="display:none;"></span>
 	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
 </div>
+<img id="selectionFilterClose" style="display:none;width:32px;cursor:pointer;" onClick="javacript:doFullFilterReset();" src="/static/img/close.png">
 
 <script type="text/javascript">
 // Pass this in.
