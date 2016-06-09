@@ -115,9 +115,9 @@ def person(icpsr=0):
 	# If we have no error, follow through
 	if not "errormessage" in person:
 		person = person["results"][0]
-		if "bioName" in person:
+		if "bioName" in person and person["bioName"] is not None:
 			person["canonicalName"] = person["bioName"]
-		elif "fname" in person:
+		elif "fname" in person and person["fname"] is not None:
 			person["canonicalName"] = person["fname"]
 		else:
 			person["canonicalName"] = person["name"]

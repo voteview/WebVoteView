@@ -257,7 +257,7 @@ function drawHist(error, data)
 		c.svg()
 		.selectAll("rect")
 		.call(labelTip)
-		.on('mouseover', function(d) { if(d.x==memberIdealBucket) { labelTip.attr('class','d3-tip animate').show(d); }}) 
+		.on('mouseover', function(d) { if(d.x==memberIdealBucket) { labelTip.attr('class','d3-tip animate').offset([-10,0]).show(d); }}) 
 		.on('mouseout', function(d) { labelTip.attr('class','d3-tip').hide(); })
 	});
 
