@@ -10,6 +10,8 @@ function pollFilters(chart, filter)
 
 function pollFilters2()
 {
+	zoomCSS();
+
 	// Proper diction for text
 	if(chamber=="House")
 	{
