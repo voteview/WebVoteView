@@ -3,6 +3,24 @@
 /* jshint globalstrict: true */
 /* global dc,d3,crossfilter,colorbrewer */
 
+var stateMap = {
+	"AL": "Alabama", "AK": "Alaska", "AS": "American Samoa", "AZ": "Arizona",
+	"AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut",
+	"DE": "Delaware", "DC": "District Of Columbia", "FM": "Federated States Of Micronesia",
+	"FL": "Florida", "GA": "Georgia", "GU": "Guam", "HI": "Hawaii", 
+	"ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa",
+	"KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine",
+	"MH": "Marshall Islands", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan",
+	"MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana",
+	"NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey",
+	"NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota",
+	"MP": "Northern Mariana Islands", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon",
+	"PW": "Palau", "PA": "Pennsylvania", "PR": "Puerto Rico", "RI": "Rhode Island",
+	"SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas",
+	"UT": "Utah", "VT": "Vermont", "VI": "Virgin Islands", "VA": "Virginia",
+	"WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming",
+	"POTUS": "President"
+}
 
 // All of our charts are now accessible globally.
 var votePartyChart = dc.rowChart("#party-chart");
@@ -347,7 +365,7 @@ function drawWidgets(error, data, geodata)
 
             /* Initialize tooltip */
             var senateMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
-              var result = "<p><strong>" + d.key + "</strong></p>";
+              var result = "<p><strong>" + stateMap[d.key] + "</strong></p>";
               for (var i = 0; i < d.value.members.length; i++) {
                  var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
                   result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + colorVote + "'> " + d.value.members[i].vote + " / " + partyNameSimplify(d.value.members[i].party) +"</span></p>";
