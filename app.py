@@ -9,7 +9,7 @@ from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress
-from model.bioData import yearsOfService, checkForPartySwitch
+from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.downloadXLS import downloadXLS
 import datetime
 
@@ -132,6 +132,11 @@ def person(icpsr=0):
 
 		# Get years of service
 		person["yearsOfService"] = yearsOfService(person["icpsr"])
+		person["congressesOfService"] = congressesOfService(person["icpsr"])
+		person["congressLabels"] = {}
+		for congressChunk in person["congressesOfService"]:
+			for cong in range(congressChunk[0], congressChunk[1]+1):
+				person["congressLabels"][cong] = str(cong)+"th Congress ("+str(congressToYear(cong,0))+"-"+str(congressToYear(cong,1))+")"
 	
 		# Find out if we have any other ICPSRs that are this person for another party
 		altICPSRs = checkForPartySwitch(person)
