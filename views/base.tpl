@@ -33,7 +33,7 @@
 
         <script src="{{STATIC_URL}}js/modernizr.custom.74326.js"></script>
 	% for extra in extra_js:
-		<script type="text/javascript" src="{{extra}}" type="text/css"></script>
+		<script type="text/javascript" src="{{extra}}"></script>
 	% end
 	% for extra in extra_css:
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}" type="text/css" />
