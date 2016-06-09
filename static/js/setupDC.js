@@ -71,6 +71,9 @@ function drawWidgets(error, data, geodata)
 		dc.chartRegistry.deregister(dc.chartRegistry.list()[1]);
 		return(0);
 	}
+
+	//$("#vote_chart_float").stick_in_parent({offset_top: 20});
+
 	$("#loadBar").slideToggle();
 	globalData = data;
 	$("#loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
@@ -214,7 +217,7 @@ function drawWidgets(error, data, geodata)
 
 	// NOW BEGIN CHART SPECIFICATIONS =======
 	votePartyChart
-		.width(320).height(320)
+		.width(280).height(320)
 		.dimension(votePartyDimension).group(votePartyGroup)
 		.elasticX(true)
 		.colorCalculator(function (d) {
