@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl",title="Person details", extra_css=["map.css"])
+% rebase("base.tpl",title=person["canonicalName"], extra_css=["map.css"])
 % include('header.tpl')
 % current_page_number = 1
 % import datetime
@@ -31,13 +31,7 @@
         </div>
         <div class="col-md-5">
 		<h2 style="word-wrap:break-word;">
-			% if "bioName" in person and person["bioName"] is not None:
-				{{ person["bioName"] }} {{lifeString}}
-			% elif "fname" in person and person["fname"] is not None:
-				{{ person["fname"] }} {{lifeString}}
-			% else:
-				{{ person["name"] }} {{lifeString}}
-			% end
+			{{ person["canonicalName"] }} {{lifeString}}
 		</h2>
 
             <h4>{{ person["partyname"] }} ({{ person["stateName"] }}, {{ person["stateAbbr"] }})</h4>
@@ -204,15 +198,16 @@ function drawHist(error, data)
 
 	console.log(100*ctGreater/ctTotal);
 
+	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(NOMINATE first dimension)</em><br/><br/>";
 	if(memberIdealBucket<0)
 	{
 		if(Math.floor(100*ctGreater/(ctTotal-1),1)==100)
 		{
-			var label = "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress.";
+			label += "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		else
 		{
-			var label = "More liberal than "+Math.floor(100*ctGreater/(ctTotal-1),1)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More liberal than "+Math.floor(100*ctPartyGreater/(ctPartyTotal-1),1)+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
+			label += "More liberal than "+Math.floor(100*ctGreater/(ctTotal-1),1)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More liberal than "+Math.floor(100*ctPartyGreater/(ctPartyTotal-1),1)+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		
 	}
@@ -220,11 +215,11 @@ function drawHist(error, data)
 	{
 		if(Math.ceil(100*ctGreater/(ctTotal-1),1)==0)
 		{
-			var label = "The most conservative member of the "+getGetOrdinal(congressNum)+" Congress.";
+			label += "The most conservative member of the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		else
 		{
-			var label = "More conservative than "+(100-Math.ceil(100*ctGreater/(ctTotal-1),1))+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More conservative than "+(100-Math.ceil(100*ctPartyGreater/(ctPartyTotal-1),1))+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
+			label += "More conservative than "+(100-Math.ceil(100*ctGreater/(ctTotal-1),1))+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More conservative than "+(100-Math.ceil(100*ctPartyGreater/(ctPartyTotal-1),1))+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 	}
 	console.log(label);

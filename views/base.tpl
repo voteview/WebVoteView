@@ -8,7 +8,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>VoteView | {{ title }}</title>
+        <title>Voteview | {{ title }}</title>
 
         <meta http-equiv="X-UA-Compatible" content="chrome=IE7" />
 
