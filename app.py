@@ -115,6 +115,13 @@ def person(icpsr=0):
 	# If we have no error, follow through
 	if not "errormessage" in person:
 		person = person["results"][0]
+		if "bioName" in person:
+			person["canonicalName"] = person["bioName"]
+		elif "fname" in person:
+			person["canonicalName"] = person["fname"]
+		else:
+			person["canonicalName"] = person["name"]
+
 		votes = []
 		# Look up votes
 
