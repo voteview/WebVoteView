@@ -73,7 +73,7 @@
 			<div class="col-md-9" style="margin-right:35px;"> <!-- this is the left column containing the map and the NOMINATE graph -->
 				<div id="geoMap" style="padding-bottom:40px;"> <!-- This div contains the map header and map -->
 					<h4 style="float:left;clear:none;vertical-align:middle;">
-						Vote Map 
+						Map 
 	
 						<a href="#" onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">						
 							<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
@@ -87,8 +87,8 @@
 					</span>
 	
 					<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;"> <!-- This span tells DC where to put the map -->
-						<button id="zoomIn" style="position:absolute;left:25px;top:40px;" onClick="javascript:doZoom(1);return false;">+</button>
-						<button id="zoomOut" style="position:absolute;left:55px;top:40px;" onClick="javascript:doZoom(-1);return false;">-</button>
+						<button id="zoomIn" style="position:absolute;left:25px;top:40px;width:30px;height:30px;font-weight:700;font-size:18px;" onClick="javascript:doZoom(1);return false;">+</button>
+						<button id="zoomOut" style="position:absolute;left:25px;top:70px;width:30px;height:30px;font-weight:700;font-size:18px;" onClick="javascript:doZoom(-1);return false;">-</button>
 	
 						<input id="ex1" data-slider-id="panY" type="text" data-slider-min="0" data-slider-max="500" data-slider-step="1"
 								data-slider-orientation="vertical" data-slider-tooltip="hide" data-slider-handle="custom">
@@ -133,7 +133,7 @@
 		<div class="row" style="margin-bottom:50px;">
 			<div class="col-md-12">
 				<div>
-					<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">Vote List</div>
+					<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">List of Votes</div>
 					<div style="text-align:middle;padding-top:3px;">
 						(Sort by 
 						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 

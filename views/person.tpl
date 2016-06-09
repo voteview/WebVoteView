@@ -121,7 +121,7 @@
                     </tr>
                     </thead>
                     % for vote in votes:
-                        <tr>
+                        <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
                             <td>{{ vote["date"] }}</td>
                             <td>{{ vote["shortdescription"] }}</td>
                             <td><a class="btn btn-primary btn-sm" href="/rollcall/{{vote["id"]}}">See vote</a></td>
