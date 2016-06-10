@@ -67,30 +67,24 @@ function drawHist(error, data)
 	});
 
 	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(NOMINATE first dimension)</em><br/><br/>";
-	if(Math.floor(100*ctGreater/(ctTotal-1),1)>50)
-	{
-		if(Math.floor(100*ctGreater/(ctTotal-1),1)==100)
-		{
-			label += "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress.";
-		}
-		else
-		{
-			label += "More liberal than "+Math.floor(100*ctGreater/(ctTotal-1),1)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>";
-			label += "More liberal than "+Math.floor(100*ctPartyGreater/(ctPartyTotal-1),1)+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress.";
-		}
-		
-	}
+	var libPercentage = Math.floor(100*ctGreater/(ctTotal-1),1);
+	var libPartyPercentage = Math.floor(100*ctPartyGreater/(ctPartyTotal-1),1);
+	if(libPercentage==100) { label += "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress."; }
+	else if(libPercentage==0) { label += "The most conservative member of the "+getGetOrdinal(congressNum)+" Congress."; }
 	else
 	{
-		if(Math.ceil(100*ctGreater/(ctTotal-1),1)==0)
+		if(libPercentage>50) { label += "More liberal than "+libPercentage+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>"; }
+		else { 	label += "More conservative than "+(100-libPercentage)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>"; }
+
+		if(ctPartyTotal>1)
 		{
-			label += "The most conservative member of the "+getGetOrdinal(congressNum)+" Congress.";
-		}
-		else
-		{
-			label += "More conservative than "+(100-Math.ceil(100*ctGreater/(ctTotal-1),1))+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More conservative than "+(100-Math.ceil(100*ctPartyGreater/(ctPartyTotal-1),1))+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
+			if(libPartyPercentage==100) { label += "The most liberal "+memberPartyName+" of the "+getGetOrdinal(congressNum)+" Congress."; }
+			else if(libPartyPercentage==0) { label += "The most conservative "+memberPartyName+" of the "+getGetOrdinal(congressNum)+" Congress."; }
+			else if(libPartyPercentage>50) { label += "More liberal than "+libPartyPercentage+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
+			else { label += "More conservative than "+(100-libPartyPercentage)+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
 		}
 	}
+
 	var labelTip = d3.tip().attr('class', 'd3-tip').html(
 		function(d)
 		{
