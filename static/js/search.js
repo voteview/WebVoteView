@@ -60,9 +60,9 @@ $(document).ready(function(){
 	});
 	
 	$.ajax({
-		dataType: "json",
+		dataType: "JSON",
 		url: "/static/search/suggested.json",
-		success: function(data, status)
+		success: function(data, status, xhr)
 		{
 			suggestions = data["suggestions"];
 			console.log("Pre-loaded "+suggestions.length+" search suggestions.");

@@ -3,13 +3,15 @@
 		"germany", "france", "japan", "korea", "china", "australia", "canada", "mexico",
 		"european union", "united kingdom", "brazil", "taiwan", "india", "netherlands",
 		"saudi arabia", "italy", "belgium", "switzerland", "hong kong", "singapore",
-		"malaysia", "ireland", "israel", "vietnam", "iraq", "iran", "cuba", "27th amendment",
+		"malaysia", "ireland", "israel", "vietnam", "iraq", "iran", "cuba", 
+
 		"john kerry", "mitch mcconnell", "washington", "harry reid", "nancy pelosi", "paul ryan", "barack obama", "hillary clinton", "bernie sanders",
-		"rand paul", "john cornyn", "orrin hatch", "joe biden", "tip o'neill", "john caldwell calhoun", "henry clay", "robert taft", "daniel webster",
-		"davy crockett", "marco rubio", "kirsten gillibrand",
-		'"deter and punish terrorist acts" congress:107', "voting rights act 1965 congress:89", "attorney general confirmation",
+		"rand paul", "john cornyn", "orrin hatch", "joe biden", "marco rubio", "kirsten gillibrand",
+
+		"tip o'neill", "john caldwell calhoun", "henry clay", "robert taft", "daniel webster", "davy crockett",
+		"\"deter and punish terrorist acts\" congress:107", "voting rights act 1965 congress:89", "attorney general confirmation",
 		"associate justice confirmation", "support: [0 to 49]", "alltext: iraq war authorization", "codes: Civil Liberties", "impeach chamber:Senate",
-		"alien and sedition congress: 5", "nobel peace prize", "elect as speaker of the house", "condemn", 'alltext: "h.r. 14232" congress: 94',
-		"gulf of tonkin congress: 88", "bill:1145","lend-lease bill:1776 congress:77" 
+		"alien and sedition congress: 5", "nobel peace prize", "elect as speaker of the house", "condemn", "alltext: \"h.r. 14232\" congress: 94",
+		"gulf of tonkin congress: 88", "bill:1145","lend-lease bill:1776 congress:77", "27th amendment"
 	]
 }
