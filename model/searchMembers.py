@@ -82,13 +82,13 @@ def memberLookup(qDict, maxResults=50, distinct=0):
 	else:
 		res = db.voteview_members.find(searchQuery,{'_id': 0})
 
-	if res.count()>1000:
-		return({"errormessage": "Too many results found."})
 
 	if "$text" in searchQuery:
 		sortedRes = res.sort([('score', {'$meta': 'textScore'})])
 	else:
 		sortedRes = res.sort('congress', -1)
+		if sortedRes.count()>1000:
+			return({"errormessage": "Too many results found."})
 
 	currentICPSRs = []
 	for m in sortedRes:
@@ -116,8 +116,8 @@ def getMembersByCongress(congress):
 	return(memberLookup({"congress": congress}, 1000))
 
 if __name__ == "__main__":
-	memberLookup({"name": "Ted Cruz"}, 5)
-
+	#memberLookup({"name": "Ted Cruz"}, 5)
+	#print memberLookup({"name": "John Kerry"}, 5, 1)
 	#print memberLookup({"name": "Cruz, Ted"})
 	#print memberLookup({"name": "Ted Cruz"}, 5)
 	#print memberLookup({"icpsr": "00001"}, 1)
