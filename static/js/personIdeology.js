@@ -55,22 +55,19 @@ function drawHist(error, data)
 	var ctPartyGreater=0;
 	var ctPartyTotal=0;
 	var oneDims = [];
-	console.log(memberIdeal);
 	data["results"].forEach(function (d) {
 		oneDims.push(d.nominate.oneDimNominate);
 		ctTotal+=1;
 		if(d.nominate.oneDimNominate>memberIdeal) { ctGreater+=1; }
-		if(d.party==memberPartyName)
+		if(d.partyname==memberPartyName)
 		{
 			ctPartyTotal+=1;
 			if(d.nominate.oneDimNominate>memberIdeal) { ctPartyGreater+=1; }
 		}
 	});
 
-	console.log(100*ctGreater/ctTotal);
-
 	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(NOMINATE first dimension)</em><br/><br/>";
-	if(memberIdealBucket<0)
+	if(Math.floor(100*ctGreater/(ctTotal-1),1)>50)
 	{
 		if(Math.floor(100*ctGreater/(ctTotal-1),1)==100)
 		{
@@ -78,7 +75,8 @@ function drawHist(error, data)
 		}
 		else
 		{
-			label += "More liberal than "+Math.floor(100*ctGreater/(ctTotal-1),1)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More liberal than "+Math.floor(100*ctPartyGreater/(ctPartyTotal-1),1)+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
+			label += "More liberal than "+Math.floor(100*ctGreater/(ctTotal-1),1)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>";
+			label += "More liberal than "+Math.floor(100*ctPartyGreater/(ctPartyTotal-1),1)+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 		
 	}
@@ -93,7 +91,6 @@ function drawHist(error, data)
 			label += "More conservative than "+(100-Math.ceil(100*ctGreater/(ctTotal-1),1))+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>More conservative than "+(100-Math.ceil(100*ctPartyGreater/(ctPartyTotal-1),1))+"% of co-partisans in the "+getGetOrdinal(congressNum)+" Congress.";
 		}
 	}
-	console.log(label);
 	var labelTip = d3.tip().attr('class', 'd3-tip').html(
 		function(d)
 		{
