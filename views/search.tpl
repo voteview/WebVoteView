@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.js"], extra_css=["bootstrap-slider.css"])
+% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.min.js"], extra_css=["bootstrap-slider.css"])
 % include('header.tpl')
 % setdefault('args',{})
 <div class="container">

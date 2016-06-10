@@ -1,7 +1,7 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % plotTitle = "Plot Vote: "+rcSuffix(rollcall["congress"])+" Congress > "+rollcall["chamber"]+" > "+str(rollcall["rollnumber"])
-% rebase('base.tpl',title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.js","/static/js/libs/sticky-kit.min.js"])
+% rebase('base.tpl',title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js","/static/js/libs/sticky-kit.min.js"])
 % include('header.tpl')
 % notes = []
 % if int(rollcall["congress"])<86:
@@ -171,7 +171,7 @@ var mapParties = {{ mapParties }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.v1.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/mapPanZoom.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
