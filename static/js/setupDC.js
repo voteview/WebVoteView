@@ -52,6 +52,53 @@ function drawWidgetsFailMap(error, data)
 	drawWidgets(error, data, undefined);
 }
 
+var eW = 0; var eH = 0;
+function houseToolTip(d)
+{
+	var nays=0; var yeas=0; var abs=0;
+	var result = "<p><strong>" + d.key + "</strong></p>";
+	for(var i=0; i<d.value.members.length; i++)
+	{
+		var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
+		// Tooltip data display:
+		if(i<5) { result += "<p>" + d.value.members[i].name + " - <span>"+d.value.members[i].vote+"</span></p>"; }
+		else
+		{
+			if(d.value.members[i].vote=="Nay") { nays=nays+1; }	
+			else if(d.value.members[i].vote=="Yea") { yeas=yeas+1; }
+			else { abs=abs+1; }
+		}
+	}
+	if(i>=5)
+	{
+		result+= "<p>+";
+		if(yeas) { result += yeas+" other Yea"+(yeas!=1?"s":""); }
+		if(nays)
+		{
+			if(yeas) { result += ", "; }
+			result += nays+" other Nay"+(nays!=1?"s":"");
+		}
+		if(abs)
+		{
+			if(yeas || nays) { result += ", "; }
+			result += abs+" other Abs";
+		}
+	}
+	return(result);
+}
+
+function senateTooltip(d)
+{
+	var result = "<p><strong>" + stateMap[d.key] + "</strong></p>";
+	for(var i=0; i < d.value.members.length; i++)
+	{
+		var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
+		result += "<p>" + d.value.members[i].name + " ("+partyNameSimplify(d.value.members[i].party)+") - <span>" + d.value.members[i].vote + "</span></p>";
+	}
+	return result;
+}
+
+
 var failedMapLoad=0;
 function drawWidgets(error, data, geodata)
 {
@@ -278,46 +325,10 @@ function drawWidgets(error, data, geodata)
 	if(!failedMapLoad)
 	{
 
+	var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
+
 	if (chamber == "House")
 	{
-		/* Initialize tooltip */
-		var houseMapTip = d3.tip().attr('class', 'd3-tip').direction('n').html(function(p, d) {
-			var result = "<p><strong>" + d.key + "</strong></p>";
-			var nays=0;
-			var yeas=0;
-			var abs=0;
-			for (var i = 0; i < d.value.members.length; i++) 
-			{
-				var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
-				// Tooltip data display:
-				if(i<5)
-				{
-					result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "black" + "'> " + d.value.members[i].vote +"</span></p>";				  
-				}
-				else
-				{
-					if(d.value.members[i].vote=="Nay") { nays=nays+1; }
-					else if(d.value.members[i].vote=="Yea") { yeas=yeas+1; }
-					else { abs=abs+1; }
-				}
-			}
-			if(i>=5)
-			{
-				result += "<p>+";
-				if(yeas) { result += yeas+" other Yea"+(yeas!=1?"s":""); }
-				if(nays) { 
-					if(yeas) { result += ", "; }
-					result += nays+" other Nay"+(nays!=1?"s":""); 
-				}
-				if(abs) 
-				{
-					if(yeas || nays) { result += ", "; } 
-					result += abs+" other Abs"; 
-				} 
-			}
-			return result;
-		});
-
 		var mapTopo = topojson.feature(geodata, geodata.objects.districts).features;
 		mapChart
 			.width(890).height(500)
@@ -341,40 +352,28 @@ function drawWidgets(error, data, geodata)
 			.on("postRender", function(c){
 				c.svg()
 					.selectAll("path")
-					.call(houseMapTip)
-					.on('mousemove', function(d, i){
+					.on('mouseover', function(d,i)
+					{ 
 						var districtSet = c.data();
 						var result = $.grep(c.data(), function(e){
 							return e.key == d.id; 
 						});
 						if(result[0]==undefined) { return; } // Don't tooltip null results.
-
-						// event.pageX, event.pageY have mouse coordinates on page.
-						// Need to subtract SVG top left from this.
-						//var svgBound = d3.event.path[0].getBoundingClientRect();
-						//var elementHeight = svgBound.bottom - svgBound.top;
-						var xOffset = event.pageX - $(this).offset().left;//svgBound.left;
-						var yOffset = event.pageY - $(this).offset().top;//svgBound.top;
-						houseMapTip.offset([yOffset-20,xOffset-20]);
-						houseMapTip.show(d, result[0]);
+						baseToolTip.html(houseToolTip(result[0]));
+						eH = baseToolTip.style("height");
+						eW = baseToolTip.style("width");
+						baseToolTip.style("visibility","visible"); 
 					})
-					.on('mouseout',function(d, i){
-						houseMapTip.hide();
-					})
+					.on('mouseout', function() { baseToolTip.style("visibility","hidden"); })
+					.on('mousemove', function(d, i){
+						baseToolTip.style("top",(event.pageY-parseInt(eH.substr(0,eH.length-2))-10)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+					});
 			});
 	} 
 	else if (chamber == "Senate") 
 	{
 
             /* Initialize tooltip */
-            var senateMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
-              var result = "<p><strong>" + stateMap[d.key] + "</strong></p>";
-              for (var i = 0; i < d.value.members.length; i++) {
-                 var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
-                  result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + colorVote + "'> " + d.value.members[i].vote + " / " + partyNameSimplify(d.value.members[i].party) +"</span></p>";
-              }
-              return result;
-            });
 
             var mapTopo = topojson.feature(geodata, geodata.objects.states).features;
             mapChart.width(890)
@@ -396,21 +395,25 @@ function drawWidgets(error, data, geodata)
                     })
 		   .renderTitle(false)
 	           .on("postRender", function(c){
-                        c.svg()
-                          .selectAll("path")
-                          .call(senateMapTip)
-                          .on('mouseover',function(d, i){
-                            var result = $.grep(c.data(), function(e){ return e.key == d.id; });
-
-                            senateMapTip.attr('class','d3-tip animate')
-                            .show(d, result[0])}
-                            )
-                          .on('mouseout',function(d, i){
-                            var result = $.grep(c.data(), function(e){ return e.key == d.id; });
-                            senateMapTip.attr('class','d3-tip').show(d, result[0])
-                            senateMapTip.hide()
-                          })
-                    });
+				c.svg()
+					.selectAll("path")
+					.on('mouseover', function(d,i)
+					{ 
+						var districtSet = c.data();
+						var result = $.grep(c.data(), function(e){
+							return e.key == d.id; 
+						});
+						if(result[0]==undefined) { return; } // Don't tooltip null results.
+						baseToolTip.html(senateTooltip(result[0]));
+						eH = baseToolTip.style("height");
+						eW = baseToolTip.style("width");
+						baseToolTip.style("visibility","visible"); 
+					})
+					.on('mouseout', function() { baseToolTip.style("visibility","hidden"); })
+					.on('mousemove', function(d, i){
+						baseToolTip.style("top",(event.pageY-parseInt(eH.substr(0,eH.length-2))-10)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+					});
+			});
         }
 
 	}
