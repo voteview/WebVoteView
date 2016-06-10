@@ -50,9 +50,9 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.js"></script>
 <script language="javascript">var chamber_param = "{{ chamber }}";</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/explore.js"></script>
 
