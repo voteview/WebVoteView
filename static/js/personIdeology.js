@@ -2,7 +2,7 @@ $("#congSelector").change(reloadIdeology);
 
 (function loadData()
 {
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum).await(drawHist);	
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHist);	
 })();
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
@@ -15,7 +15,7 @@ function getGetOrdinal(n) {
 function reloadIdeology()
 {
 	congressNum = $("#congSelector").val();
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum).await(drawHistWrap);
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHistWrap);
 }
 
 // Wrapper to update default loadings for the person's ideal point.

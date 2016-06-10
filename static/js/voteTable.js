@@ -1,7 +1,7 @@
 function outVotes(groupBy)
 {
 	// Check that we're grouping by something valid.
-	if(["party", "vote", "stateLong"].indexOf(groupBy)==-1) { groupBy = "party"; }
+	if(["party", "vote", "state"].indexOf(groupBy)==-1) { groupBy = "party"; }
 	// Pull out every filtered bit of data.
 	var filteredVotes = globalPartyDimension.top(Infinity);
 	var groupings = {};
@@ -31,7 +31,6 @@ function outVotes(groupBy)
 		var voteSubset = {
 			"party": filteredVotes[i]["party"], 
 			"vote": filteredVotes[i]["vote"], 
-			"stateLong": filteredVotes[i]["stateLong"],
 			"state": filteredVotes[i]["state"],
 			"id": filteredVotes[i]["id"]
 		};
@@ -60,6 +59,7 @@ function outVotes(groupBy)
 		var partyLabel = $("<li></li>").css("padding-bottom","5px");
 		var headerLabel = sortedKeys[key];
 		if(headerLabel=="Abs") { headerLabel="Absent"; }
+		if(groupBy=="state") { headerLabel = stateMap[headerLabel]; }
 		$("<strong>"+headerLabel+"</strong>").css("text-decoration","underline").appendTo(partyLabel);
 		partyLabel.appendTo(baseList);
 
@@ -70,7 +70,7 @@ function outVotes(groupBy)
 			var outLabel = "";
 			// Text label vary by facet
 			if(groupBy=="party") outLabel = person["name"]+" ("+person["state"]+") ";
-			else if(groupBy=="stateLong") outLabel = person["name"]+" ("+person["party"].substr(0,1)+") ";
+			else if(groupBy=="state") outLabel = person["name"]+" ("+person["party"].substr(0,1)+") ";
 			else outLabel = person["name"]+" ("+person["party"].substr(0,1) + "-" +person["state"] + ")";
 			
 			// Style and assemble list item

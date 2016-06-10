@@ -210,8 +210,9 @@ def rollcall(rollcall_id=""):
 @app.route("/api/getmembersbycongress",method="POST")
 @app.route("/api/getmembersbycongress")
 def getmembersbycongress():
-    congress = defaultValue(bottle.request.params.congress,0)
-    return(getMembersByCongress(congress))
+	congress = defaultValue(bottle.request.params.congress,0)
+	api = defaultValue(bottle.request.params.api,"")
+	return(getMembersByCongress(congress,api))
 
 @app.route("/api/getmembers",method="POST")
 @app.route("/api/getmembers")
@@ -233,7 +234,7 @@ def searchAssemble():
 	resultMembers = []
 
 	if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
-		memberSearch = memberLookup({"name": q}, 8, distinct=1)
+		memberSearch = memberLookup({"name": q}, 8, distinct=1, api="Web_FP_Search")
 		if "results" in memberSearch:
 			for member in memberSearch["results"]:
 				memName = ""

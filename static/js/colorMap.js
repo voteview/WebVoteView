@@ -45,14 +45,15 @@ function partyNameSimplify(partyName)
 // Yellow: From YellowOrangeRed. Yea: 5-class 2nd yellow; Nay: 5-class 1st yellow; Abs: 7-class 1st yellow, blended with #f7f7f7
 var colorSchemes = {
 	"red": ["#ca0020", "#f4a582", "#fae9df"],
-	"blue": ["#0571b0", "#92c5de", "#e4eef4"],
-	"green": ["#008837", "#a6dba0", "#e8f4e5"],
 	"orange": ["#e66101", "#fdb863", "#fbecd7"],
-	"grey": ["#404040", "#bababa", "#ececec"],
-	"pinkpurple": ["#d01c8b", "#f1b6da", "#faecf3"],
-	"brown": ["#a6611a", "#dfc27d", "#f7f0dd"],
-	"teal": ["#018571", "#b0cdc1", "#dff1ee"],
 	"yellow": ["#fecc5c", "#ffffb2", "#fbfbd5"],
+	"green": ["#008837", "#a6dba0", "#e8f4e5"],
+	"teal": ["#018571", "#b0cdc1", "#dff1ee"],
+	"blue": ["#0571b0", "#92c5de", "#e4eef4"],
+	"purple": ["#7b3294", "#c2a5cf", "#EFE6F0"],
+	"pinkpurple": ["#d01c8b", "#f1b6da", "#faecf3"],
+	"grey": ["#404040", "#bababa", "#ececec"],
+	"brown": ["#a6611a", "#dfc27d", "#f7f0dd"],
 } 
 
 var partyColorMap = {
@@ -75,7 +76,9 @@ var partyColorMap = {
 	"Socialist": "pinkpurple",
 	"Farmer-Labor": "green",
 	"Anti Masonic": "orange",
-	"National Greenbacker": "green"
+	"National Greenbacker": "green",
+	"Silver": "grey",
+	"Silver Republican": "grey"
 }
 if(congressNum<20) { partyColorMap["Republican"] = "blue"; }
 
