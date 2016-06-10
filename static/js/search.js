@@ -42,22 +42,34 @@ function toggleAdvancedSearch(instant)
 
 function startPulseSuggested()
 {
-	var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
 	$("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); 
 }
 
+var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
 var suggestedPulse;
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
 
+	// Setup suggested searches
 	suggestedPulse = setInterval(startPulseSuggested,5000);
-	$("#searchTextInput").change(function() 
+	$("#searchTextInput").on('input',function() 
 	{ 
 		clearInterval(suggestedPulse); 
 		$("#searchTextInput").attr("placeholder","Enter a term to search for"); 
 		suggestedPulse = setInterval(startPulseSuggested, 5000);
 	});
+	
+	$.ajax({
+		dataType: "json",
+		url: "/static/search/suggested.json",
+		success: function(data, status)
+		{
+			suggestions = data["suggestions"];
+			console.log("Pre-loaded "+suggestions.length+" search suggestions.");
+		}
+	});
 
+	// Do initial search
 	getRollcalls();
 
 	// Pagination
