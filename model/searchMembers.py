@@ -4,7 +4,7 @@ import traceback
 client = pymongo.MongoClient()
 db = client["voteview"]
 
-def memberLookup(qDict, maxResults=50, distinct=0):
+def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	# Setup so that the bottle call to this API doesn't need to know parameters we accept explicitly
 	name = qDict["name"] if "name" in qDict else ""
 	icpsr = qDict["icpsr"] if "icpsr" in qDict else ""
@@ -77,11 +77,17 @@ def memberLookup(qDict, maxResults=50, distinct=0):
 	i = 0
 	print searchQuery
 
-	if "$text" in searchQuery:
-		res = db.voteview_members.find(searchQuery,{'_id': 0, 'score': {'$meta': 'textScore'}})
+	# Field return specifications, allows us to return less than all our data to searches.
+	if api=="Web_PI":
+		fieldSet = {"nominate.oneDimNominate": 1, "partyname": 1, "icpsr": 1, "_id": 0}
+	elif api=="Web_FP_Search":
+		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0}
 	else:
-		res = db.voteview_members.find(searchQuery,{'_id': 0})
+		fieldSet = {"_id": 0}
+	if "$text" in searchQuery:
+		fieldSet["score"] = {"$meta": "textScore"}
 
+	res = db.voteview_members.find(searchQuery, fieldSet)
 
 	if "$text" in searchQuery:
 		sortedRes = res.sort([('score', {'$meta': 'textScore'})])
@@ -112,15 +118,15 @@ def memberLookup(qDict, maxResults=50, distinct=0):
 	else:
 		return({'results': response})
 
-def getMembersByCongress(congress):
-	return(memberLookup({"congress": congress}, 1000))
+def getMembersByCongress(congress, api="Web"):
+	return(memberLookup({"congress": congress}, maxResults=1000, distinct=0, api=api))
 
 if __name__ == "__main__":
-	#memberLookup({"name": "Ted Cruz"}, 5)
-	#print memberLookup({"name": "John Kerry"}, 5, 1)
+	print memberLookup({"name": "Ted Cruz"}, 5)
+	print memberLookup({"name": "John Kerry"}, 5, 1)
 	#print memberLookup({"name": "Cruz, Ted"})
 	#print memberLookup({"name": "Ted Cruz"}, 5)
 	#print memberLookup({"icpsr": "00001"}, 1)
 	#print len(memberLookup({"icpsr": 99369}, 1)["results"])
-	#print getMembersByCongress(110)
+	print getMembersByCongress(110,"Web_PI")
 	pass

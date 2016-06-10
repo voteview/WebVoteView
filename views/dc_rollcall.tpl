@@ -97,7 +97,7 @@
 								data-slider-step="1" data-slider-tooltip="hide" data-slider-handle="custom">
 						<span id="suppressMapControls" style="display:none;"><span class="filter"></span></span>
 					</span>
-					<div class="alert alert-danger" role="alert" id="warnParty" style="display:none;"> <!-- This div warns about party combining -->
+					<div class="alert alert-info" role="alert" id="warnParty" style="display:none;"> <!-- This div warns about party combining -->
 						<strong>Note:</strong> This map combines minor parties to increase visual clarity. 
 						<a href="/rollcall/{{rollcall["id"]}}?mapParties=0">Click here to view all parties separately.</a>
 					</div>
@@ -138,7 +138,7 @@
 					<div style="text-align:middle;padding-top:3px;">
 						(Sort by 
 						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 
-						<a href="#" onclick="javascript:outVotes('stateLong');return false;">State</a>, 
+						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>, 
 						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>)
 					</div>
 				</div>
