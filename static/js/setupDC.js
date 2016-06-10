@@ -53,15 +53,16 @@ function drawWidgetsFailMap(error, data)
 }
 
 var eW = 0; var eH = 0;
-function houseToolTip(d)
+function tooltipText(d)
 {
 	var nays=0; var yeas=0; var abs=0;
-	var result = "<p><strong>" + d.key + "</strong></p>";
+	if(chamber=="House") { var result = "<p><strong>" + d.key + "</strong></p>"; }
+	else { var result = "<p><strong>" + stateMap[d.key] + "</strong></p>"; }
 	for(var i=0; i<d.value.members.length; i++)
 	{
 		var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
 		// Tooltip data display:
-		if(i<5) { result += "<p>" + d.value.members[i].name + " - <span>"+d.value.members[i].vote+"</span></p>"; }
+		if(i<5) { result += "<p>" + d.value.members[i].name + " ("+partyNameSimplify(d.value.members[i].party).substr(0,1)+") - <span>"+d.value.members[i].vote+"</span></p>"; }
 		else
 		{
 			if(d.value.members[i].vote=="Nay") { nays=nays+1; }	
@@ -86,18 +87,6 @@ function houseToolTip(d)
 	}
 	return(result);
 }
-
-function senateTooltip(d)
-{
-	var result = "<p><strong>" + stateMap[d.key] + "</strong></p>";
-	for(var i=0; i < d.value.members.length; i++)
-	{
-		var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
-		result += "<p>" + d.value.members[i].name + " ("+partyNameSimplify(d.value.members[i].party)+") - <span>" + d.value.members[i].vote + "</span></p>";
-	}
-	return result;
-}
-
 
 var failedMapLoad=0;
 function drawWidgets(error, data, geodata)
@@ -324,98 +313,48 @@ function drawWidgets(error, data, geodata)
 
 	if(!failedMapLoad)
 	{
-
-	var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
-
-	if (chamber == "House")
-	{
-		var mapTopo = topojson.feature(geodata, geodata.objects.districts).features;
+		var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
+		var geoFeature = (chamber=="House")?geodata.objects.districts:geodata.objects.states;
+		var mapTopo = topojson.feature(geodata, geoFeature).features;
 		mapChart
-			.width(890).height(500)
-			.dimension(districtDimension)
-			.group(districtGroup)
-			.colorCalculator(function (d) { 
-				var color = "#eee";
-				try {
-					if(d.members.length > 0){
-						color = blendColors(d.members);
-					}
-				}catch(e){
-					//console.log("MC: " + e);
+		.width(890).height(500)
+		.dimension((chamber=="House")?districtDimension:stateDimension)
+		.group((chamber=="House")?districtGroup:stateGroup)
+		.colorCalculator(function (d) { 
+			var color = "#eee";
+			try {
+				if(d.members.length > 0){
+					color = blendColors(d.members);
 				}
-				return color; 
-			})
-			.overlayGeoJson(mapTopo, "district", function (d) {
-				return d.id;
-			})
-			.renderTitle(false)
-			.on("postRender", function(c){
-				c.svg()
-					.selectAll("path")
-					.on('mouseover', function(d,i)
-					{ 
-						var districtSet = c.data();
-						var result = $.grep(c.data(), function(e){
-							return e.key == d.id; 
-						});
-						if(result[0]==undefined) { return; } // Don't tooltip null results.
-						baseToolTip.html(houseToolTip(result[0]));
-						eH = baseToolTip.style("height");
-						eW = baseToolTip.style("width");
-						baseToolTip.style("visibility","visible"); 
-					})
-					.on('mouseout', function() { baseToolTip.style("visibility","hidden"); })
-					.on('mousemove', function(d, i){
-						baseToolTip.style("top",(event.pageY-parseInt(eH.substr(0,eH.length-2))-10)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+			}catch(e){
+				//console.log("MC: " + e);
+			}
+			return color; 
+		})
+		.overlayGeoJson(mapTopo, (chamber=="House")?"district":"state", function (d) {
+			return d.id;
+		})
+		.renderTitle(false)
+		.on("postRender", function(c){
+			c.svg()
+				.selectAll("path")
+				.on('mouseover', function(d,i)
+				{ 
+					var districtSet = c.data();
+					var result = $.grep(c.data(), function(e){
+						return e.key == d.id; 
 					});
-			});
-	} 
-	else if (chamber == "Senate") 
-	{
-
-            /* Initialize tooltip */
-
-            var mapTopo = topojson.feature(geodata, geodata.objects.states).features;
-            mapChart.width(890)
-                    .height(500)
-                    .dimension(stateDimension)
-                    .group(stateGroup)
-                    .colorCalculator(function (d) { 
-                        var color = "#eee";
-                        try {
-                            if(d.members.length > 0){   
-                                color = blendColors(d.members);
-                            }
-                        }catch(e){
-                       }
-                        return color;
-                    })
-                    .overlayGeoJson(mapTopo, "state", function (d) {
-                        return d.id;
-                    })
-		   .renderTitle(false)
-	           .on("postRender", function(c){
-				c.svg()
-					.selectAll("path")
-					.on('mouseover', function(d,i)
-					{ 
-						var districtSet = c.data();
-						var result = $.grep(c.data(), function(e){
-							return e.key == d.id; 
-						});
-						if(result[0]==undefined) { return; } // Don't tooltip null results.
-						baseToolTip.html(senateTooltip(result[0]));
-						eH = baseToolTip.style("height");
-						eW = baseToolTip.style("width");
-						baseToolTip.style("visibility","visible"); 
-					})
-					.on('mouseout', function() { baseToolTip.style("visibility","hidden"); })
-					.on('mousemove', function(d, i){
-						baseToolTip.style("top",(event.pageY-parseInt(eH.substr(0,eH.length-2))-10)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
-					});
-			});
-        }
-
+					if(result[0]==undefined) { return; } // Don't tooltip null results.
+					baseToolTip.html(tooltipText(result[0]));
+					eH = baseToolTip.style("height");
+					eW = baseToolTip.style("width");
+					baseToolTip.style("visibility","visible"); 
+				})
+				.on('mouseout', function() { baseToolTip.style("visibility","hidden"); })
+				.on('mousemove', function(d, i){
+					baseToolTip.style("top",(event.pageY-parseInt(eH.substr(0,eH.length-2))-10)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+				});
+		});
 	}
 
 	// We are done defining everything, now let's just run our ancillary functions.

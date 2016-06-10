@@ -19,7 +19,7 @@ var partyMapping = {
 	"Conservative Republican": "Republican",
 	"Liberal Republican": "Republican",
 	"Silver Republican": "Republican",
-	"Silver": "Democrat"
+	"Silver": "Democrat",
 }
 if(congressNum==24) { partyMapping["States Rights"] = "Nullifier"; }
 if(congressNum==34) { partyMapping["Republican"] = "Oppsition"; }
@@ -74,7 +74,8 @@ var partyColorMap = {
 	"Whig": "pinkpurple",
 	"Socialist": "pinkpurple",
 	"Farmer-Labor": "green",
-	"Anti Masonic": "orange"
+	"Anti Masonic": "orange",
+	"National Greenbacker": "green"
 }
 if(congressNum<20) { partyColorMap["Republican"] = "blue"; }
 
