@@ -1,4 +1,4 @@
-function outVotes(groupBy="party")
+function outVotes(groupBy)
 {
 	// Check that we're grouping by something valid.
 	if(["party", "vote", "stateLong"].indexOf(groupBy)==-1) { groupBy = "party"; }

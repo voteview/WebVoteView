@@ -10,6 +10,7 @@
 
 	function zoomCSS()
 	{
+		console.log(zoom);
 		if(zoom>=10) { d3.selectAll(".district").style("stroke-width", "0.05px"); }
 		else if(zoom>=4) { d3.selectAll(".district").style("stroke-width", "0.2px"); }
 		else if(zoom>=2) { d3.selectAll(".district").style("stroke-width", "0.6px"); }

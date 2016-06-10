@@ -3,15 +3,13 @@ function pollFilters(chart, filter)
 {
 	// Because this runs before the filters are applied, we delay it.
 	// We can try directly accessing the filters through the .filters() method if we must avoid this.
-	updateVoteChart();
+	//updateVoteChart();
 	setTimeout(pollFilters2, 1);
-	outVotes();
+	outVotes("party");
 }
 
 function pollFilters2()
 {
-	zoomCSS();
-
 	// Proper diction for text
 	if(chamber=="House")
 	{
