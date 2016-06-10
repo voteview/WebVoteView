@@ -62,11 +62,19 @@ def downloadAPI(rollcall_id, apitype="Web"):
 			members = members_col.find({'id': {'$in': memberSet}})
 
 			for member in members:
+				bestName = ""
+				if "bioName" in member and member["bioName"] is not None:
+					bestName = member["bioName"]
+				elif "fname" in member and member["fname"] is not None:
+					bestName = member["fname"]
+				else:
+					bestName = member["name"]
+
 				# Web returns different fields than R
 				if apitype=="Web":
 					v = {
 						'vote': _get_yeanayabs(rollcall['votes'][member["id"]]),
-						'name': member['fname'],
+						'name': bestName,
 						'id': member['id'],
 						'party': member['partyname'],
 						'state': member['stateAbbr'],
