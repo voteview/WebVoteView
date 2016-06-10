@@ -19,7 +19,7 @@
         <!-- <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" media="screen, projection"/> -->
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
 
-        <link rel="stylesheet" href="{{ STATIC_URL }}less/custombootstrap.css" media="screen, projection"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection"/>
         <link href="{{ STATIC_URL }}css/dc.css" media="all" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" media="screen, projection"/>
         <!--[if lt IE 8]><link rel="stylesheet" href="{{STATIC_URL}}css/ie.css" type="text/css" media="screen, projection"><![endif]-->

@@ -76,6 +76,7 @@
 			<ul>
 				<li><a href="https://github.com/twbs/bootstrap">Bootstrap.js</a> by Twitter, Inc.</li>
 				<li><a href="https://github.com/dc-js/dc.js">DC.js</a></li>
+				<li><a href="https://github.com/Caged/d3-tip">D3-tip</a> by Justin Palmer</li>
 				<li><a href="https://github.com/jquery/jquery">jQuery</a> by jQuery Foundation</li>
 				<li><a href="https://github.com/exupero/saveSvgAsPng">saveSvgAsPng</a> by Eric Shull</li>
 				<li><a href="https://github.com/seiyria/bootstrap-slider">bootstrap-slider</a> by Kyle Kemp and Rohit Kalkur</li>
