@@ -148,6 +148,7 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script>
 var mapParties=1;
+var memberICPSR = {{person["icpsr"]}};
 var congressNum = {{person["congress"]}};
 var memberIdeal = {{person["nominate"]["oneDimNominate"]}};
 var memberIdealBucket = Math.floor({{person["nominate"]["oneDimNominate"]}}*10);
@@ -169,7 +170,30 @@ function getGetOrdinal(n) {
 function reloadIdeology()
 {
 	congressNum = $("#congSelector").val();
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum).await(drawHist);
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum).await(drawHistWrap);
+}
+
+// Wrapper to update default loadings for the person's ideal point.
+function drawHistWrap(error, data)
+{
+	// Fail if we didn't get data.
+	if(data==undefined) { return(0); }
+	// Loop until you find the person.
+	var foundRep = 0;
+	data["results"].forEach(function(d) {
+		if(!foundRep && d.icpsr==memberICPSR)
+		{
+			memberIdeal = d.nominate.oneDimNominate;
+			memberPartyName = d.partyname;
+			memberIdealBucket = Math.floor(memberIdeal*10);
+			foundRep=1;
+			return false;
+		}
+		return false;
+	});
+
+	// Now call the actual plotting function.
+	drawHist(error, data);
 }
 
 function drawHist(error, data)

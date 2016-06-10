@@ -70,7 +70,7 @@
 	</div>
 
 	<div style="display:none;" id="loadedContent"> <!-- loadedContent ensures none of our plots appear until after the JSON load. -->
-		<div class="row" style="margin-bottom: 20px; width:100%;overflow:hidden;"> <!-- this row contains the bounding box for the scrolling vote table -->
+		<div class="row" style="margin-bottom: 20px; "> <!-- this row contains the bounding box for the scrolling vote table -->
 			<div class="col-md-9" style="margin-right:35px;"> <!-- this is the left column containing the map and the NOMINATE graph -->
 				<div id="geoMap" style="padding-bottom:40px;"> <!-- This div contains the map header and map -->
 					<h4 style="float:left;clear:none;vertical-align:middle;">
