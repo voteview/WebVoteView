@@ -22,6 +22,7 @@
 % else:
 % 	noteText = ""
 % end
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -147,6 +148,7 @@
 	</div>
 </div>
 
+<!-- The hidden filter bar code -->
 <div id="selectionFilterBar" style="display:none;">
 	<strong>Selected:</strong> 
 	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span></span>
@@ -159,7 +161,7 @@
 <img id="selectionFilterClose" style="display:none;width:32px;cursor:pointer;" onClick="javacript:doFullFilterReset();" src="/static/img/close.png">
 
 <script type="text/javascript">
-// Pass this in.
+// Pass these variables from server-side script to the JS that expects they are set.
 var chamber = "{{ rollcall["chamber"] }}";
 var congressNum = "{{ str(rollcall["congress"]).zfill(3) }}";
 var rcID = "{{ rollcall["id"] }}";
@@ -177,59 +179,4 @@ var mapParties = {{ mapParties }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/setupDC.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/dc_filterbar.js"></script>
-<script type="text/javascript">
-// Use this to extract offsets from vote party chart in order to insert category labels.
-function splitTranslate(text)
-{
-	return(parseInt(text.split(",")[1].split(")")[0]));
-}
-
-// Update vote party chart in order to insert category labels.
-function updateVoteChart() 
-{
-	return;
-	var voteChartSVG = $("#party-chart > svg");
-	if(d3.selectAll("#party-chart > svg > g >g.label").length)
-	{
-		d3.selectAll("#party-chart > svg > g > g.label").remove();	
-	}
-
-	var scanFor = ["Yea", "Nay", "Abs", "NA end"];
-	var scanMap = ["Voting Yea", "Voting Nay", "Absent", ""];
-	var scanIndex = 0;
-	var translateAdj = 0;
-	var newMax = 0;
-	voteChartSVG.children("g").children("g").each(function(index, item) {
-		var tChildren = $(this).children("title").text();
-		if(tChildren.length && tChildren.startsWith(scanFor[scanIndex]))
-		{
-			var currentTranslate = splitTranslate($(this).attr("transform")) + translateAdj;
-			d3.select("#party-chart > svg > g").insert("g")
-				.attr("class","label").attr("transform","translate(0,"+currentTranslate+")")
-				.append("text").attr("font-size","12px").attr("x","6").attr("y","12").attr("dy","0.35em").html(scanMap[scanIndex]);
-			translateAdj = translateAdj+34;
-			scanIndex=scanIndex+1;
-		}
-		if($(this).attr("class")!="label")
-		{
-			newMax = splitTranslate($(this).attr("transform"))+translateAdj;
-			$(this).attr("transform","translate(0,"+newMax+")");
-		}
-	});
-
-	voteChartSVG.children("g").children(".axis").attr("transform","translate(0,"+(newMax+34)+")");
-	voteChartSVG.attr("height",(newMax+68));
-	return 0;
-}
-
-// Easier to update steps to take on a full filter reset by running this.
-function doFullFilterReset()
-{
-	$("#selectionFilterBar").slideUp();
-	dc.filterAll();
-	dc.redrawAll();
-	decorateNominate(nominateScatterChart, globalData);
-	//updateVoteChart();
-}
-
-</script>
+<!--<script type="text/javascript" src="{{ STATIC_URL }}js/voteChartDecorate.js"></script> -->

@@ -229,7 +229,7 @@ function drawWidgets(error, data, geodata)
 			return p;
 		},
 
-        function (p, d) {
+	function (p, d) {
 		//console.log('huh');
             // Remove at large members
             var atlargecode = d.state + "00";
@@ -285,6 +285,7 @@ function drawWidgets(error, data, geodata)
 		.transitionDuration(200)
         	.xAxis().ticks(4);
 
+	// Nominate scatter chart setup
 	nominateScatterChart
 		.width(600)
 		.height(600)
@@ -306,55 +307,59 @@ function drawWidgets(error, data, geodata)
 		.highlightedSize(10)
 		.x(d3.scale.linear().domain([-1.2, 1.2])) 
 		.y(d3.scale.linear().domain([-1.2, 1.2]));
-    
-    dc.dataCount("#data-count")
-        .dimension(ndx)
-        .group(all);
 
+	// Updates the total number of units selected on the selection bar.
+	dc.dataCount("#data-count")
+		.dimension(ndx)
+		.group(all);
+
+	// Setting up the map chart only if we load geo data.
 	if(!failedMapLoad)
 	{
+		// Add the tooltip to the body and hide it.
 		var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
-		var geoFeature = (chamber=="House")?geodata.objects.districts:geodata.objects.states;
-		var mapTopo = topojson.feature(geodata, geoFeature).features;
+		// Set up topographic data
+		var mapTopo = topojson.feature(geodata, (chamber=="House")?geodata.objects.districts:geodata.objects.states).features;
+		// Define the chart
 		mapChart
-		.width(890).height(500)
-		.dimension((chamber=="House")?districtDimension:stateDimension)
-		.group((chamber=="House")?districtGroup:stateGroup)
-		.colorCalculator(function (d) { 
-			var color = "#eee";
-			try {
-				if(d.members.length > 0){
-					color = blendColors(d.members);
+			.width(890).height(500) // Basic dimensions
+			.dimension((chamber=="House")?districtDimension:stateDimension) // How the data are separated and grouped.
+			.group((chamber=="House")?districtGroup:stateGroup)
+			.colorCalculator(function (d) { // What color does each unit use
+				var color = "#eee";
+				try {
+					if(d.members.length > 0){ // If there are any members here, blend their colours.
+						color = blendColors(d.members);
+					}
+				}catch(e){
+					//console.log("MC: " + e);
 				}
-			}catch(e){
-				//console.log("MC: " + e);
-			}
-			return color; 
-		})
-		.overlayGeoJson(mapTopo, (chamber=="House")?"district":"state", function (d) {
-			return d.id;
-		})
-		.renderTitle(false)
-		.on("postRender", function(c){
-			c.svg()
-				.selectAll("path")
-				.on('mouseover', function(d,i)
-				{ 
-					var districtSet = c.data();
-					var result = $.grep(c.data(), function(e){
-						return e.key == d.id; 
+				return color; 
+			})
+			.overlayGeoJson(mapTopo, (chamber=="House")?"district":"state", function (d) { // Folds in the data.
+				return d.id;
+			})
+			.renderTitle(false) // No default tooltips if you mouse over the map.
+			.on("postRender", function(c){ // Attach the tooltip code.
+				c.svg() // Chart SVG
+					.selectAll("path") // Attach the listeners to every path (district) item in the SVG
+					.on('mouseover', function(d,i) // When you mouseover, it's a new district, set up the tooltip and make it visible
+					{ 
+						var districtSet = c.data();
+						var result = $.grep(c.data(), function(e){
+							return e.key == d.id; 
+						});
+						if(result[0]==undefined) { return; } // Don't tooltip null results.
+						baseToolTip.html(tooltipText(result[0]));
+						eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
+						eW = baseToolTip.style("width");
+						baseToolTip.style("visibility","visible"); 
+					})
+					.on('mouseout', function() { baseToolTip.style("visibility","hidden"); }) // If you mouse out of the districts, hide the tooltip
+					.on('mousemove', function(d, i){ // If you move your mouse within the district, update the position of the tooltip.
+						baseToolTip.style("top",(event.pageY-parseInt(eH.substr(0,eH.length-2))-10)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
 					});
-					if(result[0]==undefined) { return; } // Don't tooltip null results.
-					baseToolTip.html(tooltipText(result[0]));
-					eH = baseToolTip.style("height");
-					eW = baseToolTip.style("width");
-					baseToolTip.style("visibility","visible"); 
-				})
-				.on('mouseout', function() { baseToolTip.style("visibility","hidden"); })
-				.on('mousemove', function(d, i){
-					baseToolTip.style("top",(event.pageY-parseInt(eH.substr(0,eH.length-2))-10)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
-				});
-		});
+			});
 	}
 
 	// We are done defining everything, now let's just run our ancillary functions.
@@ -371,9 +376,13 @@ function drawWidgets(error, data, geodata)
 // Easier to update steps to take on a full filter reset by running this.
 function doFullFilterReset()
 {
+	// Hide the bar.
 	$("#selectionFilterBar").slideUp();
+	// Deselect everything.
 	dc.filterAll();
+	// Draw the charts from scratch.
 	dc.redrawAll();
+	// Re-apply our decoration hack.
 	decorateNominate(nominateScatterChart, globalData);
 	//updateVoteChart();
 }
