@@ -170,7 +170,6 @@ var mapParties = {{ mapParties }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.v1.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/mapPanZoom.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
