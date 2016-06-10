@@ -250,6 +250,9 @@ def searchAssemble():
 					memName = memName.lower()
 
 				member["scoreMatch"] = fuzz.token_set_ratio(memName, q.replace(",","").lower())
+				if member["congress"]>=100:
+					member["scoreMatch"] += 10
+
 				if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
 					member["bioImg"] = "silhouette.png"
 				else:
@@ -257,9 +260,10 @@ def searchAssemble():
 				member["yearsOfService"] = yearsOfService(member["icpsr"])
 
 				resultMembers.append(member)
+	#return(resultMembers)
 	resultMembers.sort(key=lambda x: -x["scoreMatch"])
-	if len(resultMembers) and resultMembers[0]["scoreMatch"]==100:
-		resultMembers = [x for x in resultMembers if x["scoreMatch"]==100]
+	if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
+		resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
 
 	# Date facet
 	startdate = defaultValue(bottle.request.params.fromDate)
