@@ -19,7 +19,6 @@
 % end
 	</div><br/>
 % end
-
 % for rollcall in rollcalls:
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -48,18 +47,19 @@
 				% end
 				</small>
 			</p>
+			% end
+
 			% if len(rollcall["code"]["Clausen"])>0:
 			<p><small><strong>Vote Categories</strong>: {{ rollcall["code"]["Clausen"][0] }}, {{ rollcall["code"]["Peltzman"][0] }}</small></p>
 			% end
 			%
 			<p>{{ " ".join(rollcall["description"].split()[0:50]) }}</p>
-
 		</div>
 	</div>
 % end
 
 % if not len(rollcalls) and not errormessage:
-	<h2>No rollcalls with those parameters found</h2>
+	<h4>No votes found matching your search</h4>
 % elif errormessage:
 	<h2>Error completing search!</h2>
 	{{ errormessage }}

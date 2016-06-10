@@ -358,12 +358,16 @@ def searchAssemble():
 	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId)
 
 	if "errormessage" in res:
+		bottle.response.headers["rollcall_number"] = 999
 		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers)
 	else:
 		bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
 		bottle.response.headers["member_number"] = len(resultMembers)
 		bottle.response.headers["nextId"] = res["nextId"]
-		out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="", resultMembers=resultMembers) 
+		if not "rollcalls" in res:
+			out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers)
+		else:
+			out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="", resultMembers=resultMembers) 
 	return(out)
 
 @app.route("/api/search",method="POST")

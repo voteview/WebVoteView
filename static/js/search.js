@@ -40,8 +40,23 @@ function toggleAdvancedSearch(instant)
 	}
 }
 
+function startPulseSuggested()
+{
+	var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
+	$("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); 
+}
+
+var suggestedPulse;
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
+
+	suggestedPulse = setInterval(startPulseSuggested,5000);
+	$("#searchTextInput").change(function() 
+	{ 
+		clearInterval(suggestedPulse); 
+		$("#searchTextInput").attr("placeholder","Enter a term to search for"); 
+		suggestedPulse = setInterval(startPulseSuggested, 5000);
+	});
 
 	getRollcalls();
 
@@ -143,20 +158,20 @@ function updateRequest()
 			{
 				var resultsNumber = xhr.getResponseHeader("Rollcall-Number")
 				var memberNumber = xhr.getResponseHeader("Member-Number")
-				var memLabelText = "members";
-				var voteLabelText = "votes";
+				var memLabelText = "member"+(memberNumber!=1?"s":"");
+				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
 				if(memberNumber==1) { memLabelText = "member"; }
 				if(resultsNumber==1) { voteLabelText = "vote"; }
 				if(memberNumber>0 && resultsNumber>0)
 				{
 					$("#results-number").html(numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
-				} 
+				}
+				else if(memberNumber>0) { $("#results-number").html(numberWithCommas(memberNumber)+" "+memLabelText+" found"); } 
 				else
 				{
 					$("#results-number").html(numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
 				}
 				nextId = xhr.getResponseHeader("Nextid");
-				console.log(nextId);
 				if(nextId==0)
 				{
 					console.log("here");
