@@ -168,15 +168,12 @@ div.dc-chart {
 
 .dc-chart g.state path {
     stroke: white;
-    stroke-width: 1px;
+    //stroke-width: 1px;
 }
 
 .dc-chart g.district { cursor:pointer; }
 .dc-chart g.district :hover { fill-opacity: .8; }
-.dc-chart g.district path { stroke: white; stroke-width: 1px;}
-.dc-chart g.district.zoomed1 path { stroke-width: 0.6px; }
-.dc-chart g.district.zoomed2 path { stroke-width: 0.2px; }
-.dc-chart g.district.zoomed3 path { stroke-width: 0.05px; }
+.dc-chart g.district path { stroke: white; } //stroke-width: 1px;}
 
 .dc-chart g.selected path {
 }

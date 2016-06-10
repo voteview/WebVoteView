@@ -10,10 +10,10 @@
 
 	function zoomCSS()
 	{
-		if(zoom>=10) { d3.selectAll(".district").classed('zoomed3', true).classed('zoomed2',false); }
-		else if(zoom>=4) { d3.selectAll(".district").classed('zoomed2', true).classed('zoomed1',false).classed('zoomed3',false); }
-		else if(zoom>=2) { d3.selectAll(".district").classed('zoomed1',true).classed('zoomed2',false); }
-		else { d3.selectAll(".district").classed('zoomed1', false); }
+		if(zoom>=10) { d3.selectAll(".district").style("stroke-width", "0.05px"); }
+		else if(zoom>=4) { d3.selectAll(".district").style("stroke-width", "0.2px"); }
+		else if(zoom>=2) { d3.selectAll(".district").style("stroke-width", "0.6px"); }
+		else { d3.selectAll(".district").style("stroke-width", "1px"); }
 	}
 
 	function resetZoom()
