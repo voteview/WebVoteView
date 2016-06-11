@@ -109,7 +109,14 @@ function blendColors(members)
 	var r = 0, g = 0 , b = 0, i, rgbColor;
 	for (i = 0; i < members.length; i++) 
 	{
-		rgbColor = d3.rgb(partyColors[members[i].vote + partyNameSimplify(members[i].party)]);
+		if(members[i].vote != undefined)
+		{
+			rgbColor = d3.rgb(partyColors[members[i].vote + partyNameSimplify(members[i].party)]);
+		}
+		else
+		{
+			rgbColor = d3.rgb(partyColors["Yea"+partyNameSimplify(members[i].partyname)]);
+		}
 		r = r + rgbColor.r;
 		g = g + rgbColor.g;
 		b = b + rgbColor.b; 
