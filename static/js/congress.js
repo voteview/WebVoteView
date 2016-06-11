@@ -1,5 +1,5 @@
 var resultCache;
-var sortBy = "elected";
+var sortBy;
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
@@ -11,6 +11,7 @@ function getGetOrdinal(n) {
 
 $(document).ready(function()
 {
+	congressNum = $("#congSelector").val();	
 	$.ajax({
 		dataType: "JSON",
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
@@ -114,7 +115,7 @@ function reloadBios()
 function writeBioTable()
 {
 	rC = resultCache["results"];
-	if(sortBy=="name") { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
+	if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
 	else if(sortBy=="party") { rC.sort(function(a,b) { return (a.partyname==b.partyname)?(a.bioName>b.bioName?1:-1):(a.partyname>b.partyname?1:-1); }); }
 	else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
 	else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
@@ -129,10 +130,11 @@ function writeBioTable()
 function constructPlot(member)
 {
 	var memberBox = $("<div></div>").attr("class","col-md-3").attr("id","memberResultBox").click(function(){window.location='/person/'+member["icpsr"];})
-	var imgBox = $("<img />").css("width","80px").css("height","80px").css("padding-right","20px").css("vertical-align","middle").attr("class","pull-left")
+					.css("overflow","hidden").css("padding-right","5px");
+	var imgBox = $("<img />").css("width","80px").css("height","80px").css("padding-right","20px").attr("class","pull-left")
 					.attr("src","/static/img/bios/"+member["bioImgURL"]);
-	var bioText = $("<div></div>").css("font-size","0.9em").css("vertical-align","middle").css("padding-top","15px")
-					.html("<strong>"+member["bioName"]+"</strong><br/>"+member["partyname"]+", "+member["stateName"]+"<br/>Elected "+member["minElected"]);
+	var bioText = $("<span></span>").css("font-size","0.9em").css("padding-right","0px")
+					.html("<strong>"+member["bioName"]+"</strong> ("+member["partyname"].substr(0,1)+")<br/>"+member["stateName"]+"<br/>Elected "+member["minElected"]);
 	imgBox.appendTo(memberBox);
 	bioText.appendTo(memberBox);
 	memberBox.appendTo($("#memberList"));
