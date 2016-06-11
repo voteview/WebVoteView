@@ -78,6 +78,7 @@ function nomPlot()
 				color = blendColors(d.value.members);
 			}
 		}catch(e){
+			console.log(e);
 		}
 		return color;
 	})
