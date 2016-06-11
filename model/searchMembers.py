@@ -1,6 +1,6 @@
 import pymongo
 import traceback
-
+import os
 client = pymongo.MongoClient()
 db = client["voteview"]
 
@@ -11,6 +11,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	state = qDict["state"] if "state" in qDict else ""
 	congress = qDict["congress"] if "congress" in qDict else ""
 	cqlabel = qDict["cqlabel"] if "cqlabel" in qDict else ""
+	chamber = qDict["chamber"] if "chamber" in qDict else ""
 
 	# Check to make sure there's a query
 	if not name and not icpsr and not state and not congress and not cqlabel:
@@ -71,6 +72,11 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["cqlabel"] = cqlabel
 		else:
 			searchQuery["cqlabel"] = "("+cqlabel+")"
+	if chamber:
+		if chamber=="Senate" or chamber=="House":
+			searchQuery["chamber"] = chamber
+		else:
+			return({"errormessage": "Invalid chamber provided. Please select House or Senate."})			
 
 	response = []
 	errormessage = ""
@@ -82,6 +88,8 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		fieldSet = {"nominate.oneDimNominate": 1, "partyname": 1, "icpsr": 1, "_id": 0}
 	elif api=="Web_FP_Search":
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0}
+	elif api=="Web_Congress":
+		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1}
 	else:
 		fieldSet = {"_id": 0}
 	if "$text" in searchQuery:
@@ -118,15 +126,18 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	else:
 		return({'results': response})
 
-def getMembersByCongress(congress, api="Web"):
-	return(memberLookup({"congress": congress}, maxResults=1000, distinct=0, api=api))
+def getMembersByCongress(congress, chamber, api="Web"):
+	if not chamber:
+		return(memberLookup({"congress": congress}, maxResults=1000, distinct=0, api=api))
+	else:
+		return(memberLookup({"congress": congress, "chamber": chamber}, maxResults=1000, distinct=0, api=api))
 
 if __name__ == "__main__":
-	print memberLookup({"name": "Ted Cruz"}, 5)
-	print memberLookup({"name": "John Kerry"}, 5, 1)
+	#print memberLookup({"name": "Ted Cruz"}, 5)
+	#print memberLookup({"name": "John Kerry"}, 5, 1)
 	#print memberLookup({"name": "Cruz, Ted"})
 	#print memberLookup({"name": "Ted Cruz"}, 5)
 	#print memberLookup({"icpsr": "00001"}, 1)
 	#print len(memberLookup({"icpsr": 99369}, 1)["results"])
-	print getMembersByCongress(110,"Web_PI")
+	print getMembersByCongress(110,"","Web_PI")
 	pass
