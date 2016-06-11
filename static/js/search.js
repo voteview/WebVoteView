@@ -58,6 +58,13 @@ $(document).ready(function(){
 		$("#searchTextInput").attr("placeholder","Enter a term to search for"); 
 		suggestedPulse = setInterval(startPulseSuggested, 5000);
 	});
+	$("#searchTextInput").on('focus',function()
+	{
+		if($("#searchTextInput").attr("placeholder")!="Enter a term to search for")
+		{
+			$("#searchTextInput").val($("#searchTextInput").attr("placeholder")).select();
+		}
+	});
 	
 	$.ajax({
 		dataType: "JSON",
