@@ -8,8 +8,10 @@
         <li>
           <a data-toggle="dropdown" href="#">explore</a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-              <li><a href="/explore/senate">Senate</a></li>
-              <li><a href="/explore/house">House</a></li>
+	      <li><a href="/congress/senate">Senators</a></li>
+	      <li><a href="/congress/house">Representatives</a></li>
+              <li><a href="/explore/senate">Senate Votes</a></li>
+              <li><a href="/explore/house">House Votes</a></li>
             </ul>
         </li>
 	<li><a href="http://voteviewblog.com/" target="_blank">blog</a></li>

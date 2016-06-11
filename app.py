@@ -12,6 +12,7 @@ from model.searchMembers import memberLookup, getMembersByCongress
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.downloadXLS import downloadXLS
 import datetime
+import time
 
 # Turn this off on production:
 bottle.debug(True)
@@ -93,11 +94,19 @@ def research():
 @app.route("/explore")
 @app.route("/explore/<chamber:re:house|senate>")
 def explore(chamber="house"):
-	chamber = defaultValue(bottle.request.params.chamber,"house")
-	if chamber is not "senate": # Security to prevent the argument being passed through being malicious.
+	if chamber!="senate": # Security to prevent the argument being passed through being malicious.
 		chamber = "house"
 
 	output = bottle.template("views/explore",chamber=chamber)
+	return output
+
+@app.route("/congress")
+@app.route("/congress/<chamber:re:house|senate>")
+def congress(chamber="senate"):
+	if chamber!="senate":
+		chamber = "house"
+
+	output = bottle.template("views/congress", chamber=chamber)
 	return output
 
 @app.route("/person")
@@ -210,9 +219,28 @@ def rollcall(rollcall_id=""):
 @app.route("/api/getmembersbycongress",method="POST")
 @app.route("/api/getmembersbycongress")
 def getmembersbycongress():
+	st = time.time()
 	congress = defaultValue(bottle.request.params.congress,0)
+	chamber = defaultValue(bottle.request.params.chamber,"").title()
+	if chamber!="Senate" and chamber!="House":
+		chamber = ""
 	api = defaultValue(bottle.request.params.api,"")
-	return(getMembersByCongress(congress,api))
+	out = getMembersByCongress(congress,chamber,api)
+	if api=="Web_Congress":
+		for i in range(0,len(out["results"])):
+			memberRow = out["results"][i]
+			padICPSR = str(memberRow["icpsr"]).zfill(6)
+			if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
+				memberRow["bioImgURL"] = padICPSR+".jpg"
+			else:
+				memberRow["bioImgURL"] = "silhouette.png"
+
+			memberRow["minElected"] = 2014 #yearsOfService(memberRow["icpsr"])[0][0]
+
+			out["results"][i] = memberRow
+
+	out["timeElapsed"] = time.time()-st	
+	return out
 
 @app.route("/api/getmembers",method="POST")
 @app.route("/api/getmembers")
@@ -435,4 +463,4 @@ def apiVersion():
     return({'apiversion': 'Q2'})
 
 if __name__ == '__main__':
-    bottle.run(host='localhost',port=8080, debug=True)
+	bottle.run(host='localhost',port=8080, debug=True)
