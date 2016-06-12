@@ -1,6 +1,8 @@
 var globalQueueRequests = 0;
 var requestQueue;
-var nextId = 0;
+var nextId = 0; // What skip value we send to the next page loader.
+var metaPageloaded = 0; // How many pages we've auto-loaded on this search.
+var blockAutoscroll = 0; // If there's a load still in progress.
 
 function numberWithCommas(x) 
 {
@@ -89,6 +91,17 @@ $(document).ready(function(){
 		}
 	});
 
+	// Infinite scrolling for searches.
+	$(window).scroll(function() { // Scroll listener
+		// Load next page when scroll is >95% through the whole document, there's a next page to load,
+		// and we've loaded fewer than 10 pages already and there's not a request currently underway.
+		if($(window).scrollTop() + $(window).height() >= $(document).height()*0.95 && nextId>0 & metaPageloaded<10 & !blockAutoscroll)
+		{
+			blockAutoscroll=1;
+			getRollcallsPage();
+		}
+	});
+
 	// On form change we reset the search and do the initial AJAX call
 	$("#faceted-search-form input:not(#searchTextInput), #sort").change(function() 
 	{
@@ -141,7 +154,6 @@ $(document).ready(function(){
         $("#facet-congress").collapse('show');
       }
       if($('#support').slider('getValue')[0]!=0 || $('#support').slider('getValue')[1]!=100) {
-	console.log($('#support').slider('getValue'));
 	$('#facet-support').collapse('show');
       }
   });
@@ -175,6 +187,7 @@ function updateRequest()
 			},
 			success: function(res, status, xhr) 
 			{
+				metaPageloaded = 0; // Reset page load count. We use this for stopping auto-scroll after 10 pages.
 				var resultsNumber = xhr.getResponseHeader("Rollcall-Number")
 				var memberNumber = xhr.getResponseHeader("Member-Number")
 				var memLabelText = "member"+(memberNumber!=1?"s":"");
@@ -194,7 +207,6 @@ function updateRequest()
 				console.log('New next id: '+nextId);
 				if(nextId==0)
 				{
-					console.log("here");
 					$("#next-page").html("End of Results").attr("disabled","disabled");
 				}
 				else
@@ -223,6 +235,7 @@ function updateRequest()
 				$('#next-page').html('Loading...').attr('disabled', 'disabled');
 			},
 			success: function(res, status, xhr) {
+				metaPageloaded += 1;
 				$("#results-list").append(res);
 				nextId = xhr.getResponseHeader("Nextid");
 				console.log('New next id: '+nextId);
@@ -233,6 +246,7 @@ function updateRequest()
 				else
 				{
 					$("#next-page").html("Next page").removeAttr("disabled");
+					blockAutoscroll = 0; // Request resolved.
 				}
 				$('[data-toggle="tooltip"]').tooltip(); 
 			}
