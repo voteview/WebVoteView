@@ -12,7 +12,7 @@
 					<strong>{{member["name"]}}</strong><br/>
 				% end
 				{{member["stateName"]}}<br/>
-				<!--{{member["partyname"]}}--> Elected {{member["yearsOfService"][0][0]}}
+				<!--{{member["partyname"]}}--> Elected {{member["minElected"]}}
 			</div>
 		</div>
 % end

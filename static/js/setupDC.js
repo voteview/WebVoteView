@@ -357,7 +357,7 @@ function drawWidgets(error, data, geodata)
 					})
 					.on('mouseout', function() { baseToolTip.style("visibility","hidden"); }) // If you mouse out of the districts, hide the tooltip
 					.on('mousemove', function(d, i){ // If you move your mouse within the district, update the position of the tooltip.
-						baseToolTip.style("top",(event.pageY+20)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+						baseToolTip.style("top",(event.pageY+32)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
 					});
 			});
 	}
