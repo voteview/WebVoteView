@@ -14,16 +14,21 @@
 			<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">
 				<select id="congSelector">
 				% for i in range(114, 0, -1):
+					% if int(i)==int(congress):
+					<option value="{{i}}" SELECTED>{{rcSuffix(i)}} Congress</option>
+					% else:
 					<option value="{{i}}">{{rcSuffix(i)}} Congress</option>
+					% end
 				% end
 				</select>
-				 &gt; <abbr title="MemberType">{{memberLabel}}</abbr>
+				 &gt; <abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">{{memberLabel}}</abbr>
 			</div>
 			<div style="text-align:middle;padding-top:3px;">
 				(Sort by
 				<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
 				<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
 				<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
+				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
 				<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
 			</div>
 		</div>
@@ -53,7 +58,7 @@
 
 <script language="javascript">
 var chamber_param = "{{ chamber }}";
-var congressNum = 114;
+var congressNum = {{congress}};
 var mapParties = 1;
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>

@@ -34,7 +34,7 @@
 			{{ person["canonicalName"] }} {{lifeString}}
 		</h2>
 
-            <h4><span id="partyname">{{ person["partyname"] }}</span> ({{ person["stateName"] }}, {{ person["stateAbbr"] }})</h4>
+            <h4><span id="partyname">{{ person["partyname"] }}</span> ({{ person["stateName"] }})</h4>
 	    <h4>{{ label }}
 		% z = 0
 		% for chunk in person["yearsOfService"]:
@@ -95,6 +95,7 @@
 				% 	end
 					</select>
 				% end
+				<small style="padding-left:10px;"><a href="#" onclick="javascript:viewAllCong();return false;">View all members</a></small>
 			</h5>
 		</div>
 	</div>
@@ -111,7 +112,7 @@
 	% end
     <div class="row">
         <div class="col-md-9 col-md-offset-2">
-            <h3>Vote history</h3>
+            <h3>Recent votes</h3>
                 <table class="table table-hover dc-data-table">
                     <thead>
                     <tr class="header">
@@ -129,6 +130,7 @@
                     % end
                 </table>
             <nav>
+	<!--
             <ul class="pager">
                 % if current_page_number != 1:
                     <li class="previous"><a href="?page={{ current_page_number-1 }}"><span aria-hidden="true">&larr;</span> Previous</a></li>
@@ -136,6 +138,7 @@
 
                     <li class="next"><a href="?page={{current_page_number+1 }}">Next <span aria-hidden="true">&rarr;</span></a></li>
             </ul>
+	-->
             </nav>
         </div>
     </div>
@@ -143,6 +146,11 @@
 % if plotIdeology:
 <script>
 var mapParties=1;
+% if person["chamber"]=="House":
+	var chamber = "house";
+% else:
+	var chamber = "senate";
+% end
 var memberICPSR = {{person["icpsr"]}};
 var congressNum = {{person["congress"]}};
 var memberIdeal = {{person["nominate"]["oneDimNominate"]}};

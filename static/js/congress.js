@@ -96,6 +96,13 @@ function resort(sortB)
 	writeBioTable();	
 }
 
+function rechamber()
+{
+	if(chamber_param=="house") { chamber_param="senate"; $("#memberLabel").html("Senators"); }
+	else { chamber_param="house"; $("#memberLabel").html("Representatives"); }
+	reloadBios();
+}
+
 function reloadBios()
 {
 	congressNum = $("#congSelector").val();
@@ -120,6 +127,7 @@ function writeBioTable()
 	else if(sortBy=="party") { rC.sort(function(a,b) { return (a.partyname==b.partyname)?(a.bioName>b.bioName?1:-1):(a.partyname>b.partyname?1:-1); }); }
 	else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
 	else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
+	else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
 	$("#memberList").html("");
 	$.each(rC,function(k, v)
 	{

@@ -105,8 +105,9 @@ def explore(chamber="house"):
 def congress(chamber="senate"):
 	if chamber!="senate":
 		chamber = "house"
+	congress = defaultValue(bottle.request.params.congress,114)
 
-	output = bottle.template("views/congress", chamber=chamber)
+	output = bottle.template("views/congress", chamber=chamber, congress=congress)
 	return output
 
 @app.route("/person")
@@ -235,7 +236,7 @@ def getmembersbycongress():
 			else:
 				memberRow["bioImgURL"] = "silhouette.png"
 
-			memberRow["minElected"] = 2014 #yearsOfService(memberRow["icpsr"])[0][0]
+			memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0) 
 
 			out["results"][i] = memberRow
 
@@ -286,7 +287,7 @@ def searchAssemble():
 					member["bioImg"] = "silhouette.png"
 				else:
 					member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"	
-				member["yearsOfService"] = yearsOfService(member["icpsr"])
+				member["minElected"] = congressToYear(member["congresses"][0][0], 0)
 
 				resultMembers.append(member)
 	#return(resultMembers)

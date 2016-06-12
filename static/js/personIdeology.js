@@ -12,6 +12,11 @@ function getGetOrdinal(n) {
     return n+(s[(v-20)%10]||s[v]||s[0]);
  }
 
+function viewAllCong()
+{
+	window.location='/congress/'+chamber+'?congress='+congressNum;
+}
+
 function reloadIdeology()
 {
 	congressNum = $("#congSelector").val();
@@ -30,6 +35,7 @@ function drawHistWrap(error, data)
 		{
 			memberIdeal = d.nominate.oneDimNominate;
 			memberPartyName = d.partyname;
+			chamber = d.chamber.toLowerCase();
 			$("#partyname").html(memberPartyName);
 			memberIdealBucket = Math.floor(memberIdeal*10);
 			foundRep=1;
@@ -129,6 +135,13 @@ function drawHist(error, data)
 	nominateHist.yAxis().ticks(0);
 
 	nominateHist.filter = function() { };
-
 	dc.renderAll();
+	if(memberIdeal<0.75 && memberIdeal>-0.85)
+	{
+		setTimeout(function(){
+			var leftNumber = ((memberIdeal+1)/2) * (d3.select("svg").attr("width")-30);
+			var addTick = d3.select("svg g g.x").append("g").attr("transform","translate("+leftNumber+",13)");
+			var addTri = addTick.append("path").attr("d", d3.svg.symbol().type("triangle-up").size(30));
+		},200);
+	}
 }
