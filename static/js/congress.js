@@ -1,6 +1,8 @@
 var resultCache;
 var sortBy;
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
+var baseTip = d3.select("body").append("div").attr("class", "d3-tip").style("visibility","hidden").attr("id","mapTooltip");
+var eW;
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
 function getGetOrdinal(n) {
@@ -21,6 +23,7 @@ $(document).ready(function()
 			resultCache = data;
 			writeBioTable();
 			nomPlot();
+			compositionBar();
 		}
 	});
 
@@ -116,8 +119,42 @@ function reloadBios()
 			resultCache = data;
 			writeBioTable();
 			nomPlot();
+			compositionBar();
 		}
 	});
+}
+
+function compositionBar()
+{
+	var partyCount={}
+	$.each(resultCache["results"], function(i, d) {
+		if(partyCount[d.partyname]==undefined) { partyCount[d.partyname]=1; }
+		else { partyCount[d.partyname]++; }
+	});
+	
+	$("#partyComposition").html("");
+	var svgBucket = d3.select("#partyComposition").append("svg").attr("width",300).attr("height",21);
+	var x=0; 
+	var sorted_parties = Object.keys(partyCount).sort();
+	var baseTipT = "<strong>Party Composition of "+congressNum+"th Congress</strong><br/>"
+	for(pNi in sorted_parties)
+	{
+		pN = sorted_parties[pNi];
+		var wid = Math.round(300*(partyCount[pN]/resultCache["results"].length));
+		try {var voteCol = colorSchemes[partyColorMap[partyNameSimplify(pN)]][0]; } catch(e) { var voteCol = '#000000'; }
+		var rect = svgBucket.append("rect")
+				.attr("x",x).attr("y",3).attr("width",wid).attr("height",15)
+				.attr("fill",voteCol).attr("stroke","#000000").attr("stroke-width",1);
+		x=x+wid;
+		baseTipT += '<br/>'+pN+': '+partyCount[pN];
+	}
+	svgBucket.on('mouseover',function(d) { 
+		baseTip.html(baseTipT);
+		eW = baseTip.style('width');
+		baseTip.style('visibility','visible');
+	}).on('mousemove',function(d) {
+		baseTip.style("top",(event.pageY+20)+"px").style("left", (event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+	}).on('mouseout',function(d) { baseTip.style('visibility','hidden'); });
 }
 
 function writeBioTable()
