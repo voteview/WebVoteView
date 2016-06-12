@@ -42,7 +42,7 @@ function toggleAdvancedSearch(instant)
 
 function startPulseSuggested()
 {
-	$("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); 
+	if($("#searchTextInput").val()=="") { $("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); }
 }
 
 var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
@@ -191,6 +191,7 @@ function updateRequest()
 					$("#results-number").html(numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
 				}
 				nextId = xhr.getResponseHeader("Nextid");
+				console.log('New next id: '+nextId);
 				if(nextId==0)
 				{
 					console.log("here");
@@ -224,6 +225,7 @@ function updateRequest()
 			success: function(res, status, xhr) {
 				$("#results-list").append(res);
 				nextId = xhr.getResponseHeader("Nextid");
+				console.log('New next id: '+nextId);
 				if(nextId==0)
 				{
 					$("#next-page").html("End of Results").attr("disabled","disabled");
