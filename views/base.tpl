@@ -48,6 +48,13 @@
             </div>
         <![endif]-->
         {{!base}}
+
+
+	<div style="width:100%;height:150px;background-color:#3284bf;overflow:hidden;">
+		<span style="display:inline-block;height:100%;vertical-align:middle;"></span> 
+		<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png" style="height: 120px; vertical-align:middle;"></a>
+		
+	</div>
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/bootstrap.min.js"></script>
     </body>
 </html>
