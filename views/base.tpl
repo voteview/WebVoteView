@@ -25,7 +25,7 @@
         <!--[if lt IE 8]><link rel="stylesheet" href="{{STATIC_URL}}css/ie.css" type="text/css" media="screen, projection"><![endif]-->
         
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/jquery-1.11.1.min.js"></script>
-
+	<script type="text/javascript" src="{{ STATIC_URL }}js/footer.js"></script>
          <!--[if (gte IE 6)&(lte IE 8)]>
                 <script type="text/javascript" src="{{STATIC_URL}}js/selectivizr-min.js"></script>
                 <script type="text/javascript" src="{{STATIC_URL}}js/respond.min.js"></script>
@@ -50,10 +50,11 @@
         {{!base}}
 
 
-	<div style="width:100%;height:150px;background-color:#3284bf;overflow:hidden;">
-		<span style="display:inline-block;height:100%;vertical-align:middle;"></span> 
-		<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png" style="height: 120px; vertical-align:middle;"></a>
-		
+	<div style="width:100%;height:120px;background-color:#3284bf;overflow:hidden;margin-top:30px;display:none;" id="footer">
+		<div class="container" style="height:120px;">
+			<span style="display:inline-block;height:100%;vertical-align:middle;"></span> 
+			<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png" style="height: 96px; vertical-align:middle;"></a>
+		</div>
 	</div>
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/bootstrap.min.js"></script>
     </body>
