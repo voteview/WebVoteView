@@ -34,7 +34,7 @@
 			{{ person["canonicalName"] }} {{lifeString}}
 		</h2>
 
-            <h4>{{ person["partyname"] }} ({{ person["stateName"] }}, {{ person["stateAbbr"] }})</h4>
+            <h4><span id="partyname">{{ person["partyname"] }}</span> ({{ person["stateName"] }}, {{ person["stateAbbr"] }})</h4>
 	    <h4>{{ label }}
 		% z = 0
 		% for chunk in person["yearsOfService"]:

@@ -261,7 +261,7 @@
 						<div class="col-md-9">
 							<h4 id="results-number"></h4>
 						</div>
-						<div class="col-md-3" style="padding-top:10px;text-align:right;vertical-align:top;">
+						<div class="col-md-3" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
 							<strong>Sort by </strong>
 							<a href="#" onclick="javascript:$('#sortD').val(-1);updateRequest();return false;">Newest</a> / 
 							<a href="#" onclick="javascript:$('#sortD').val(1);updateRequest();return false;">Oldest</a>

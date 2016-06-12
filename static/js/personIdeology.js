@@ -30,6 +30,7 @@ function drawHistWrap(error, data)
 		{
 			memberIdeal = d.nominate.oneDimNominate;
 			memberPartyName = d.partyname;
+			$("#partyname").html(memberPartyName);
 			memberIdealBucket = Math.floor(memberIdeal*10);
 			foundRep=1;
 			return false;
@@ -103,7 +104,9 @@ function drawHist(error, data)
 			 { 
 				if(d.key==memberIdealBucket)
 				{
-					return colorSchemes[partyColorMap[partyNameSimplify(memberPartyName)]][0];
+					try{
+						return colorSchemes[partyColorMap[partyNameSimplify(memberPartyName)]][0];
+					} catch(e) { return "#000000"; }
 				}
 				else { return "#CCCCCC"; } 
 			 })
