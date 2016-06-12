@@ -23,13 +23,15 @@
 				</select>
 				 &gt; <abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">{{memberLabel}}</abbr>
 			</div>
-			<div style="text-align:middle;padding-top:3px;">
+			<span style="text-align:middle;padding-top:3px;">
 				(Sort by
 				<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
 				<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
 				<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
 				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
 				<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
+			</span>
+			<div style="float:right;padding-right:50px;" id="partyComposition">
 			</div>
 		</div>
 
@@ -65,6 +67,7 @@ var mapParties = 1;
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/congress.js"></script>
