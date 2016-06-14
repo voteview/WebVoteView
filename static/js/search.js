@@ -1,6 +1,8 @@
 var globalQueueRequests = 0;
 var requestQueue;
-var nextId = 0;
+var nextId = 0; // What skip value we send to the next page loader.
+var metaPageloaded = 0; // How many pages we've auto-loaded on this search.
+var blockAutoscroll = 0; // If there's a load still in progress.
 
 function numberWithCommas(x) 
 {
@@ -40,9 +42,43 @@ function toggleAdvancedSearch(instant)
 	}
 }
 
+function startPulseSuggested()
+{
+	if($("#searchTextInput").val()=="") { $("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); }
+}
+
+var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
+var suggestedPulse;
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
 
+	// Setup suggested searches
+	suggestedPulse = setInterval(startPulseSuggested,5000);
+	$("#searchTextInput").on('input',function() 
+	{ 
+		clearInterval(suggestedPulse); 
+		$("#searchTextInput").attr("placeholder","Enter a term to search for"); 
+		suggestedPulse = setInterval(startPulseSuggested, 5000);
+	});
+	$("#searchTextInput").on('focus',function()
+	{
+		if($("#searchTextInput").attr("placeholder")!="Enter a term to search for")
+		{
+			$("#searchTextInput").val($("#searchTextInput").attr("placeholder")).select();
+		}
+	});
+	
+	$.ajax({
+		dataType: "JSON",
+		url: "/static/search/suggested.json",
+		success: function(data, status, xhr)
+		{
+			suggestions = data["suggestions"];
+			console.log("Pre-loaded "+suggestions.length+" search suggestions.");
+		}
+	});
+
+	// Do initial search
 	getRollcalls();
 
 	// Pagination
@@ -51,6 +87,17 @@ $(document).ready(function(){
 		e.preventDefault();
 		if(nextId!=0)
 		{
+			getRollcallsPage();
+		}
+	});
+
+	// Infinite scrolling for searches.
+	$(window).scroll(function() { // Scroll listener
+		// Load next page when scroll is >95% through the whole document, there's a next page to load,
+		// and we've loaded fewer than 10 pages already and there's not a request currently underway.
+		if($(window).scrollTop() + $(window).height() >= $(document).height()*0.95 && nextId>0 & metaPageloaded<10 & !blockAutoscroll)
+		{
+			blockAutoscroll=1;
 			getRollcallsPage();
 		}
 	});
@@ -107,7 +154,6 @@ $(document).ready(function(){
         $("#facet-congress").collapse('show');
       }
       if($('#support').slider('getValue')[0]!=0 || $('#support').slider('getValue')[1]!=100) {
-	console.log($('#support').slider('getValue'));
 	$('#facet-support').collapse('show');
       }
   });
@@ -141,12 +187,26 @@ function updateRequest()
 			},
 			success: function(res, status, xhr) 
 			{
-				$("#results-number").html(numberWithCommas(xhr.getResponseHeader("Rollcall-Number")) + " search results");
+				metaPageloaded = 0; // Reset page load count. We use this for stopping auto-scroll after 10 pages.
+				var resultsNumber = xhr.getResponseHeader("Rollcall-Number")
+				var memberNumber = xhr.getResponseHeader("Member-Number")
+				var memLabelText = "member"+(memberNumber!=1?"s":"");
+				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
+				if(memberNumber==1) { memLabelText = "member"; }
+				if(resultsNumber==1) { voteLabelText = "vote"; }
+				if(memberNumber>0 && resultsNumber>0)
+				{
+					$("#results-number").html(numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
+				}
+				else if(memberNumber>0) { $("#results-number").html(numberWithCommas(memberNumber)+" "+memLabelText+" found"); } 
+				else
+				{
+					$("#results-number").html(numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
+				}
 				nextId = xhr.getResponseHeader("Nextid");
-				console.log(nextId);
+				console.log('New next id: '+nextId);
 				if(nextId==0)
 				{
-					console.log("here");
 					$("#next-page").html("End of Results").attr("disabled","disabled");
 				}
 				else
@@ -175,8 +235,10 @@ function updateRequest()
 				$('#next-page').html('Loading...').attr('disabled', 'disabled');
 			},
 			success: function(res, status, xhr) {
+				metaPageloaded += 1;
 				$("#results-list").append(res);
 				nextId = xhr.getResponseHeader("Nextid");
+				console.log('New next id: '+nextId);
 				if(nextId==0)
 				{
 					$("#next-page").html("End of Results").attr("disabled","disabled");
@@ -184,6 +246,7 @@ function updateRequest()
 				else
 				{
 					$("#next-page").html("Next page").removeAttr("disabled");
+					blockAutoscroll = 0; // Request resolved.
 				}
 				$('[data-toggle="tooltip"]').tooltip(); 
 			}

@@ -1,9 +1,20 @@
+	var maxZoom = 20; // Set this to override max/min zoom
+	var minZoom = 0.25; // Set this to override max/min zoom
+	var incrementZoom = 0.25;
 	var zoom = 1;
 	var dimX = 890;
 	var dimY = 500;
 	var panX = 0;
 	var panY = 0;
 	var panThrottle = 0;
+
+	function zoomCSS()
+	{
+		if(zoom>=10) { d3.selectAll(".district").style("stroke-width", "0.05px"); }
+		else if(zoom>=4) { d3.selectAll(".district").style("stroke-width", "0.2px"); }
+		else if(zoom>=2) { d3.selectAll(".district").style("stroke-width", "0.6px"); }
+		else { d3.selectAll(".district").style("stroke-width", "1px"); }
+	}
 
 	function resetZoom()
 	{
@@ -18,12 +29,25 @@
 		centerX = panX+(extentXOld/2);
 		centerY = panY+(extentYOld/2);
 
-		if(dir==1) { zoom=zoom+0.25; }
-		else if(dir==-1) { zoom=zoom-0.25; }
-		if(zoom<=0.25) { zoom=0.25; $("#zoomOut").fadeOut(); }
+		var zoomMult = 1;
+		if(zoom>=10) { zoomMult = 20; }
+		else if(zoom>=3) { zoomMult = 4; }
+		else if(zoom>=1) { zoomMult = 2; }
+		else { zoomMult = 1; }
+
+		if(dir==1) { zoom=zoom+(incrementZoom*zoomMult); }
+		else { zoom=zoom-(incrementZoom*zoomMult); }
+		if(zoom<=minZoom) { zoom=minZoom; $("#zoomOut").fadeOut(); }
 		else { $("#zoomOut").fadeIn(); }
-		if(zoom>=3) { zoom=3; $("#zoomIn").fadeOut(); }
-		else { $("#zoomIn").fadeIn(); }
+		if(zoom>=maxZoom) 
+		{ 
+			zoom=maxZoom; 
+			$("#zoomIn").prop('disabled',true).delay(4000).fadeOut(); 
+		}
+		else { $("#zoomIn").prop('disabled',false).fadeIn(); }
+
+		zoomCSS();
+
 		extentX = dimX/zoom;
 		extentY = dimY/zoom
 

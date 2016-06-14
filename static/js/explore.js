@@ -18,7 +18,6 @@ var xhr = d3.json("/static/explorejson/"+chamber_param+".json")
 
 	var clausenCats = d3.json("/static/explorejson/clausen.json").get(function(error, d2) {
 		
-        d3.select("#loading-container").style("display", "none");
         d3.select("#content").style("display", "block");
 
         var dateFormat = d3.time.format("%Y-%m-%d");
@@ -76,4 +75,5 @@ var xhr = d3.json("/static/explorejson/"+chamber_param+".json")
             .group(all);
 
         dc.renderAll();
+	$("#loading-container").delay(200).slideUp();
     });});

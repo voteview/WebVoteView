@@ -886,7 +886,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			if not jsapi:
 				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).limit(rowLimit+5)
 			else:
-				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).limit(rowLimit+5)
+				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(sortSkip).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -928,7 +928,10 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			del res["synthID"]
 			mr.append(res)
 		else:
-			nextId = str(res["synthID"])
+			if not needScore:
+				nextId = str(res["synthID"])
+			else:
+				nextId = sortSkip + rowLimit
 			break
 
 	# Get ready to output

@@ -21,12 +21,16 @@ svg.map {
 
 /** Tooltip */
 
+#mapTooltip { position: absolute; z-index: 200; }
+
 .d3-tip {
   line-height: 1;
   padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 2px 2px 5px 1px #999999;
+  color: #000;
+  border: 1px solid #666666;
+  border-radius: 2px;
   pointer-events: none;
   font-size: 80%;
 }
@@ -36,11 +40,28 @@ svg.map {
 	z-index: 99;
 	position:fixed; 
 	bottom:0px; 
-	height:40px; 
+	height:60px; 
 	left:0px; 
 	width:100%; 
 	background-color:#EEEEEE; 
 	padding: 10px; 
-	border-top:1px solid black; 
-	display:none; 
+	border-top:2px solid black; 
+	display:none;
+	vertical-align: middle; 
+	line-height:40px;
+}
+
+#selectionFilterClose
+{
+	z-index: 200;
+	background-color:white;
+	position: fixed;
+	bottom: 40px;
+	right: 20px;
+}
+
+ul.voteTable li.dotted:before 
+{ 
+	float:left; width:0; white-space: nowrap;
+	content: "\00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \0087  \0087  \0087  \0087";
 }

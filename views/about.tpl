@@ -1,5 +1,6 @@
 % rebase('base.tpl',title='About us', extra_js=["https://www.google.com/recaptcha/api.js", "/static/js/contact.js"])
-
+% import json
+% authData = json.load(open("model/auth.json","r"))
 % include('header.tpl')
 
 <div class="container">
@@ -17,7 +18,9 @@
 
 			<h3>Project Staff</h3>
 			<ul>
-				<li>Project Lead: <a href="http://www.polisci.ucla.edu/people/jeffrey-b-lewis">Prof. Jeff Lewis, UCLA</a></li>
+				<li>Project Lead: <a href="http://www.polisci.ucla.edu/people/jeffrey-b-lewis">Jeffrey B. Lewis, UCLA</a></li>
+				<li><a href="http://polisci.uga.edu/directory/faculty_staff/poole-keith">Keith Poole, University of Georgia</a></li>
+				<li><a href="http://politics.as.nyu.edu/object/HowardRosenthal">Howard Rosenthal, New York University</a></li>
 				<li>Adam Boche, UCLA</li>
 				<li>Aaron Rudkin, UCLA</li>
 				<li>Luke Sonnet, UCLA</li>
@@ -37,7 +40,7 @@
 				</script>
 				<div id="captcha_click">
 					Before you contact us, please click the box below to verify you are human:
-					<div class="g-recaptcha" data-sitekey="6LetoCATAAAAAL3gjPGCEEFgf8iU9aM_m_RjgShd" data-callback="showSubmit"></div>
+					<div class="g-recaptcha" data-sitekey="{{authData["recaptchaPublic"]}}" data-callback="showSubmit"></div>
 				</div>
 				<div id="captcha_hide_submit" style="display:none;">
 					<input type="submit" onclick="javascript:submitForm(); return false;" />
@@ -66,12 +69,14 @@
 				<li><a href="http://www.flaticon.com/packs/packs/data-analytics">Freepik Data Analytics Pack</a></li>
 				<li><a href="http://www.flaticon.com/packs/file-format-collection">Freepik File Format Pack</a></li>
 				<li><a href="http://www.flaticon.com/packs/thin-line-ui">Eleonor Wang Thin UI Pack</a></li>
+				<li><a href="http://www.flaticon.com/packs/flat-lines-circled">Eleonor Wang Flat Lines Circled Pack</a></li>
 			</ul>
 
 			<p>External code libraries:</p>
 			<ul>
 				<li><a href="https://github.com/twbs/bootstrap">Bootstrap.js</a> by Twitter, Inc.</li>
 				<li><a href="https://github.com/dc-js/dc.js">DC.js</a></li>
+				<li><a href="https://github.com/Caged/d3-tip">D3-tip</a> by Justin Palmer</li>
 				<li><a href="https://github.com/jquery/jquery">jQuery</a> by jQuery Foundation</li>
 				<li><a href="https://github.com/exupero/saveSvgAsPng">saveSvgAsPng</a> by Eric Shull</li>
 				<li><a href="https://github.com/seiyria/bootstrap-slider">bootstrap-slider</a> by Kyle Kemp and Rohit Kalkur</li>

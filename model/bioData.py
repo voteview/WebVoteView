@@ -43,11 +43,17 @@ def checkForPartySwitch(person):
 
 	baseIcpsr = str(person["icpsr"]).zfill(6)
 	congresses = congressesOfService(person["icpsr"])
-	searchBoundaries = [congresses[0][0]-1, congresses[-1][1]+1]
+	searchBoundaries = [congresses[0][0]-1, congresses[0][0], congresses[-1][1], congresses[-1][1]+1]
 
 	otherIcpsrs = []
 	for congress in searchBoundaries:
-		lookup = memberLookup({'congress': congress, 'name': person["fname"]},1)
+		if "bioName" in person:
+			lookup = memberLookup({'congress': congress, 'name': person["bioName"]},1)
+		elif "fname" in person:
+			lookup = memberLookup({'congress': congress, 'name': person["fname"]},1)
+		else:
+			lookup = memberLookup({'congress': congress, 'name': person["name"]},1)
+
 		if "errormessage" in lookup:
 			continue
 		else:
@@ -83,11 +89,11 @@ def levenshtein(s1, s2):
 
 	
 if __name__=="__main__":
-	print yearsOfService(14400)
+	#print yearsOfService(49101)
 	#yearsOfService("006071")
 	#yearsOfService("049101")
 	#yearsOfService(29754)
 	#yearsOfService(99369)
 	#yearsOfService(14240)
 
-	#print checkForPartySwitch(memberLookup({'icpsr': 9369},1)["results"][0])
+	print checkForPartySwitch(memberLookup({'icpsr': 14910},1)["results"][0])
