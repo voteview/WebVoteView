@@ -45,7 +45,6 @@ div.dc-chart {
 }
 
 .dc-chart .selected path {
-    stroke-width: 2;
     stroke: black;
     fill-opacity: 1;
 }
@@ -169,7 +168,12 @@ div.dc-chart {
 
 .dc-chart g.state path {
     stroke: white;
+    //stroke-width: 1px;
 }
+
+.dc-chart g.district { cursor:pointer; }
+.dc-chart g.district :hover { fill-opacity: .8; }
+.dc-chart g.district path { stroke: white; } //stroke-width: 1px;}
 
 .dc-chart g.selected path {
 }

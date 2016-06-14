@@ -4,13 +4,15 @@ import traceback
 import os
 import json
 import bottle
+from fuzzywuzzy import fuzz
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress
-from model.bioData import yearsOfService, checkForPartySwitch
+from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.downloadXLS import downloadXLS
 import datetime
+import time
 
 # Turn this off on production:
 bottle.debug(True)
@@ -92,11 +94,20 @@ def research():
 @app.route("/explore")
 @app.route("/explore/<chamber:re:house|senate>")
 def explore(chamber="house"):
-	chamber = defaultValue(bottle.request.params.chamber,"house")
-	if chamber is not "senate": # Security to prevent the argument being passed through being malicious.
+	if chamber!="senate": # Security to prevent the argument being passed through being malicious.
 		chamber = "house"
 
 	output = bottle.template("views/explore",chamber=chamber)
+	return output
+
+@app.route("/congress")
+@app.route("/congress/<chamber:re:house|senate>")
+def congress(chamber="senate"):
+	if chamber!="senate":
+		chamber = "house"
+	congress = defaultValue(bottle.request.params.congress,114)
+
+	output = bottle.template("views/congress", chamber=chamber, congress=congress)
 	return output
 
 @app.route("/person")
@@ -105,12 +116,22 @@ def person(icpsr=0):
 	if not icpsr:
 		icpsr = defaultValue(bottle.request.params.icpsr,0)
 
+	# Easter Egg
+	keith = defaultValue(bottle.request.params.keith, 0)
+
 	# Pull by ICPSR
 	person = memberLookup({"icpsr": icpsr}, 1)
 
 	# If we have no error, follow through
 	if not "errormessage" in person:
 		person = person["results"][0]
+		if "bioName" in person and person["bioName"] is not None:
+			person["canonicalName"] = person["bioName"]
+		elif "fname" in person and person["fname"] is not None:
+			person["canonicalName"] = person["fname"]
+		else:
+			person["canonicalName"] = person["name"]
+
 		votes = []
 		# Look up votes
 
@@ -118,13 +139,21 @@ def person(icpsr=0):
 		bioFound = 0
 		if not os.path.isfile("static/img/bios/"+str(person["icpsr"]).zfill(6)+".jpg"):
 			# If not, use the default silhouette
-			person["bioImg"] = "silhouette.png"
+			if not keith:
+				person["bioImg"] = "silhouette.png"
+			else:
+				person["bioImg"] = "keith.png"
 		else:
 			person["bioImg"] = str(person["icpsr"]).zfill(6)+".jpg"	
 			bioFound = 1
 
 		# Get years of service
 		person["yearsOfService"] = yearsOfService(person["icpsr"])
+		person["congressesOfService"] = congressesOfService(person["icpsr"])
+		person["congressLabels"] = {}
+		for congressChunk in person["congressesOfService"]:
+			for cong in range(congressChunk[0], congressChunk[1]+1):
+				person["congressLabels"][cong] = str(cong)+"th Congress ("+str(congressToYear(cong,0))+"-"+str(congressToYear(cong,1))+")"
 	
 		# Find out if we have any other ICPSRs that are this person for another party
 		altICPSRs = checkForPartySwitch(person)
@@ -150,6 +179,9 @@ def person(icpsr=0):
 			votes = voteQuery["rollcalls"]
 		else:
 			votes = []
+
+		if "bio" in person:
+			person["bio"] = person["bio"].replace("a Representative","Representative")			
 
 		# Go to the template.
 		output = bottle.template("views/person",person=person, votes=votes)
@@ -188,8 +220,28 @@ def rollcall(rollcall_id=""):
 @app.route("/api/getmembersbycongress",method="POST")
 @app.route("/api/getmembersbycongress")
 def getmembersbycongress():
-    congress = defaultValue(bottle.request.params.congress,0)
-    return(getMembersByCongress(congress))
+	st = time.time()
+	congress = defaultValue(bottle.request.params.congress,0)
+	chamber = defaultValue(bottle.request.params.chamber,"").title()
+	if chamber!="Senate" and chamber!="House":
+		chamber = ""
+	api = defaultValue(bottle.request.params.api,"")
+	out = getMembersByCongress(congress,chamber,api)
+	if api=="Web_Congress":
+		for i in range(0,len(out["results"])):
+			memberRow = out["results"][i]
+			padICPSR = str(memberRow["icpsr"]).zfill(6)
+			if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
+				memberRow["bioImgURL"] = padICPSR+".jpg"
+			else:
+				memberRow["bioImgURL"] = "silhouette.png"
+
+			memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0) 
+
+			out["results"][i] = memberRow
+
+	out["timeElapsed"] = time.time()-st	
+	return out
 
 @app.route("/api/getmembers",method="POST")
 @app.route("/api/getmembers")
@@ -205,10 +257,47 @@ def getmembers():
 @app.route("/api/searchAssemble")
 def searchAssemble():
 	q = defaultValue(bottle.request.params.q)
+	nextId = defaultValue(bottle.request.params.nextId,0)
+
+	# Member search
+	resultMembers = []
+
+	if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
+		memberSearch = memberLookup({"name": q}, 8, distinct=1, api="Web_FP_Search")
+		if "results" in memberSearch:
+			for member in memberSearch["results"]:
+				memName = ""
+				if "bioName" in member and member["bioName"] is not None:
+					memName = member["bioName"]
+				elif "fname" in member and member["fname"] is not None:
+					memName = member["fname"]
+				else:
+					memName = member["name"]
+
+				try:
+					memName = memName.replace(",","").lower()
+				except:
+					memName = memName.lower()
+
+				member["scoreMatch"] = fuzz.token_set_ratio(memName, q.replace(",","").lower())
+				if member["congress"]>=100:
+					member["scoreMatch"] += 10
+
+				if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
+					member["bioImg"] = "silhouette.png"
+				else:
+					member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"	
+				member["minElected"] = congressToYear(member["congresses"][0][0], 0)
+
+				resultMembers.append(member)
+	#return(resultMembers)
+	resultMembers.sort(key=lambda x: -x["scoreMatch"])
+	if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
+		resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
 
 	# Date facet
-	startdate = defaultValue(bottle.request.params["fromDate"])
-	enddate = defaultValue(bottle.request.params["toDate"])
+	startdate = defaultValue(bottle.request.params.fromDate)
+	enddate = defaultValue(bottle.request.params.toDate)
 
 	# Chamber facet
 	try:
@@ -224,7 +313,7 @@ def searchAssemble():
 	try:
 		fromCongress = int(defaultValue(bottle.request.params["fromCongress"],0))
 		toCongress = int(defaultValue(bottle.request.params["toCongress"],0))
-		if q is None and (fromCongress or toCongress):
+		if (q is None or q=="") and (fromCongress or toCongress):
 			q = ""
 
 		if fromCongress or toCongress:
@@ -242,7 +331,7 @@ def searchAssemble():
 	# Support facet
 	try:
 		support = bottle.request.params["support"]
-		if q is None and (support):
+		if (q is None or q=="") and (support):
 			q = ""
 
 		if "," in support:
@@ -280,7 +369,7 @@ def searchAssemble():
 			codeString += "code.Peltzman: "+pCode+" OR "
 	if len(codeString):
 		codeString = codeString[0:-4]
-		if q is None:
+		if q is None or q=="":
 			q = codeString
 		else:	
 			q += " ("+codeString+")"
@@ -293,18 +382,22 @@ def searchAssemble():
 	except:
 		sortD = -1
 
-	nextId = defaultValue(bottle.request.params.nextId,0)
 	icpsr = defaultValue(bottle.request.params.icpsr)
 	jsapi = 1
 	rowLimit = 50
 	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId)
 
 	if "errormessage" in res:
-		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"])
+		bottle.response.headers["rollcall_number"] = 999
+		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers)
 	else:
 		bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
+		bottle.response.headers["member_number"] = len(resultMembers)
 		bottle.response.headers["nextId"] = res["nextId"]
-		out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="") 
+		if not "rollcalls" in res:
+			out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers)
+		else:
+			out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="", resultMembers=resultMembers) 
 	return(out)
 
 @app.route("/api/search",method="POST")
@@ -371,4 +464,4 @@ def apiVersion():
     return({'apiversion': 'Q2'})
 
 if __name__ == '__main__':
-    bottle.run(host='localhost',port=8080, debug=True)
+	bottle.run(host='localhost',port=8080, debug=True)

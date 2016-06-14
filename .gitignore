@@ -2,3 +2,6 @@
 git-synchronize
 model/auth.json
 static/db
+static/deprecated
+**/*deprecated*
+**/deprecated/*

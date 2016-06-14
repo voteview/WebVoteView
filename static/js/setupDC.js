@@ -3,47 +3,23 @@
 /* jshint globalstrict: true */
 /* global dc,d3,crossfilter,colorbrewer */
 
-var partyMapping = {
-	"Liberal": "Democrat",
-	"Ind. Democrat": "Democrat",
-	"Law and Order": "Whig",
-	"Ind. Whig": "Whig",
-	"Ind. Republican": "Republican",
-	"American Labor": "Independent",
-	"Crawford Republican": "Republican",
-	"Adams-Clay Republican": "Republican",
-	"Jackson Republican": "Republican",
-	"Adams-Clay Federalist": "Federalist",
-	"Jackson Federalist": "Federalist",
-	"Crawford Federalist": "Federalist",
-	"Liberty": "Independent",
-	"Anti-Lecompton Democrat": "Democrat",
-	"Union": "Unionist",
-	"Constitutional Unionist": "Unionist",
-	"Unconditional Unionist": "Unionist",
-	"Conservative Republican": "Republican",
-	"Liberal Republican": "Republican",
-	"Silver Republican": "Republican",
-	"Silver": "Democrat"
-}
-if(congressNum==24) { partyMapping["States Rights"] = "Nullifier"; }
-if(congressNum==34) { partyMapping["Republican"] = "Oppsition"; }
-
-function partyNameSimplify(partyName)
-{
-	if(mapParties)
-	{
-		if(partyMapping[partyName] != undefined) 
-		{ 
-			$("#warnParty").show();
-			return partyMapping[partyName]; 
-		}
-		else { return partyName; }
-	} 
-	else
-	{
-		return partyName;
-	}
+var stateMap = {
+	"AL": "Alabama", "AK": "Alaska", "AS": "American Samoa", "AZ": "Arizona",
+	"AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut",
+	"DE": "Delaware", "DC": "District Of Columbia", "FM": "Federated States Of Micronesia",
+	"FL": "Florida", "GA": "Georgia", "GU": "Guam", "HI": "Hawaii", 
+	"ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa",
+	"KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine",
+	"MH": "Marshall Islands", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan",
+	"MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana",
+	"NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey",
+	"NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota",
+	"MP": "Northern Mariana Islands", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon",
+	"PW": "Palau", "PA": "Pennsylvania", "PR": "Puerto Rico", "RI": "Rhode Island",
+	"SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas",
+	"UT": "Utah", "VT": "Vermont", "VI": "Virgin Islands", "VA": "Virginia",
+	"WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming",
+	"POTUS": "President"
 }
 
 // All of our charts are now accessible globally.
@@ -60,31 +36,81 @@ $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
 (function loadData(){
     if (chamber == "House") {
         queue()
-          .defer(d3.json, "/static/json/districts"+congressNum+".json")
           .defer(d3.json, "/api/download/"+rcID)
+          .defer(d3.json, "/static/json/districts"+congressNum+".json")
           .await(drawWidgets);
     } else if (chamber == "Senate") {
         queue()
-          .defer(d3.json, "/static/json/states"+congressNum+".json")
           .defer(d3.json, "/api/download/"+rcID)
+          .defer(d3.json, "/static/json/states"+congressNum+".json")
           .await(drawWidgets);
     }
 })();
 
-function drawWidgets(error, geodata, data)
+function drawWidgetsFailMap(error, data)
 {
-	$("#loadBar").slideToggle();
-	if(data==undefined || geodata==undefined)
+	drawWidgets(error, data, undefined);
+}
+
+var eW = 0; var eH = 0;
+function tooltipText(d)
+{
+	var nays=0; var yeas=0; var abs=0;
+	if(chamber=="House") { var result = "<p><strong>" + d.key + "</strong></p>"; }
+	else { var result = "<p><strong>" + stateMap[d.key] + "</strong></p>"; }
+	for(var i=0; i<d.value.members.length; i++)
+	{
+		var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
+		// Tooltip data display:
+		if(i<5) { result += "<p>" + d.value.members[i].name + " ("+partyNameSimplify(d.value.members[i].party).substr(0,1)+") - <span>"+d.value.members[i].vote+"</span></p>"; }
+		else
+		{
+			if(d.value.members[i].vote=="Nay") { nays=nays+1; }	
+			else if(d.value.members[i].vote=="Yea") { yeas=yeas+1; }
+			else { abs=abs+1; }
+		}
+	}
+	if(i>=5)
+	{
+		result+= "<p>+";
+		if(yeas) { result += yeas+" other Yea"+(yeas!=1?"s":""); }
+		if(nays)
+		{
+			if(yeas) { result += ", "; }
+			result += nays+" other Nay"+(nays!=1?"s":"");
+		}
+		if(abs)
+		{
+			if(yeas || nays) { result += ", "; }
+			result += abs+" other Abs";
+		}
+	}
+	return(result);
+}
+
+var failedMapLoad=0;
+function drawWidgets(error, data, geodata)
+{
+	if(failedMapLoad==0 && (data==undefined || geodata==undefined))
 	{
 		var errorMessage = "Unknown error loading vote data.";
 		if(error.status==404 && error.responseURL.indexOf(".json")!=-1)
 		{
 			errorMessage = "Unable to download geographic data for this session.";
+			queue().defer(d3.json, "/api/download/"+rcID).await(drawWidgetsFailMap);
 		}
 		$("#errorContent > div > div.errorMessage").html(errorMessage);
 		$("#errorContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
+		$("#geoMap").hide();
+		$("#map-chart").attr("id","junk");
+		failedMapLoad = 1;
+		dc.chartRegistry.deregister(dc.chartRegistry.list()[1]);
 		return(0);
 	}
+
+	//$("#vote_chart_float").stick_in_parent({offset_top: 20});
+
+	$("#loadBar").slideToggle();
 	globalData = data;
 	$("#loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
 
@@ -203,7 +229,7 @@ function drawWidgets(error, geodata, data)
 			return p;
 		},
 
-        function (p, d) {
+	function (p, d) {
 		//console.log('huh');
             // Remove at large members
             var atlargecode = d.state + "00";
@@ -227,10 +253,9 @@ function drawWidgets(error, geodata, data)
 
 	// NOW BEGIN CHART SPECIFICATIONS =======
 	votePartyChart
-		.width(320).height(320)
+		.width(280).height(320)
 		.dimension(votePartyDimension).group(votePartyGroup)
 		.elasticX(true)
-		.renderTitle(false)
 		.colorCalculator(function (d) {
 			return partyColors[d.key];
 		})
@@ -260,6 +285,7 @@ function drawWidgets(error, geodata, data)
 		.transitionDuration(200)
         	.xAxis().ticks(4);
 
+	// Nominate scatter chart setup
 	nominateScatterChart
 		.width(600)
 		.height(600)
@@ -281,61 +307,28 @@ function drawWidgets(error, geodata, data)
 		.highlightedSize(10)
 		.x(d3.scale.linear().domain([-1.2, 1.2])) 
 		.y(d3.scale.linear().domain([-1.2, 1.2]));
-    
-    dc.dataCount("#data-count")
-        .dimension(ndx)
-        .group(all);
 
-	if (chamber == "House")
+	// Updates the total number of units selected on the selection bar.
+	dc.dataCount("#data-count")
+		.dimension(ndx)
+		.group(all);
+
+	// Setting up the map chart only if we load geo data.
+	if(!failedMapLoad)
 	{
-		/* Initialize tooltip */
-		var houseMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) {
-			var result = "<p>" + d.key + "</p>";
-			var nays=0;
-			var yeas=0;
-			var abs=0;
-			for (var i = 0; i < d.value.members.length; i++) 
-			{
-				var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
-				// Tooltip data display:
-				if(i<5)
-				{
-					result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + "white" + "'> " + d.value.members[i].vote +"</span></p>";				  
-				}
-				else
-				{
-					if(d.value.members[i].vote=="Nay") { nays=nays+1; }
-					else if(d.value.members[i].vote=="Yea") { yeas=yeas+1; }
-					else { abs=abs+1; }
-				}
-			}
-			if(i>=5)
-			{
-				result += "<p>+";
-				if(yeas) { result += yeas+" other Yea"+(yeas!=1?"s":""); }
-				if(nays) { 
-					if(yeas) { result += ", "; }
-					result += nays+" other Nay"+(nays!=1?"s":""); 
-				}
-				if(abs) 
-				{
-					if(yeas || nays) { result += ", "; } 
-					result += abs+" other Abs"; 
-				} 
-			}
-			return result;
-		});
-
-		var mapTopo = topojson.feature(geodata, geodata.objects.districts).features;
+		// Add the tooltip to the body and hide it.
+		var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
+		// Set up topographic data
+		var mapTopo = topojson.feature(geodata, (chamber=="House")?geodata.objects.districts:geodata.objects.states).features;
+		// Define the chart
 		mapChart
-			.width(890).height(500)
-			.dimension(districtDimension)
-			.group(districtGroup)
-			.renderTitle(false)
-			.colorCalculator(function (d) { 
+			.width(890).height(500) // Basic dimensions
+			.dimension((chamber=="House")?districtDimension:stateDimension) // How the data are separated and grouped.
+			.group((chamber=="House")?districtGroup:stateGroup)
+			.colorCalculator(function (d) { // What color does each unit use
 				var color = "#eee";
 				try {
-					if(d.members.length > 0){
+					if(d.members.length > 0){ // If there are any members here, blend their colours.
 						color = blendColors(d.members);
 					}
 				}catch(e){
@@ -343,90 +336,36 @@ function drawWidgets(error, geodata, data)
 				}
 				return color; 
 			})
-			.overlayGeoJson(mapTopo, "district", function (d) {
+			.overlayGeoJson(mapTopo, (chamber=="House")?"district":"state", function (d) { // Folds in the data.
 				return d.id;
 			})
-			.on("postRender", function(c){
-				c.svg()
-					.selectAll("path")
-					.call(houseMapTip)
-					.on('mouseover',function(d, i){
+			.renderTitle(false) // No default tooltips if you mouse over the map.
+			.on("postRender", function(c){ // Attach the tooltip code.
+				c.svg() // Chart SVG
+					.selectAll("path") // Attach the listeners to every path (district) item in the SVG
+					.on('mouseover', function(d,i) // When you mouseover, it's a new district, set up the tooltip and make it visible
+					{ 
 						var districtSet = c.data();
 						var result = $.grep(c.data(), function(e){
 							return e.key == d.id; 
 						});
-
-						houseMapTip.attr('class','d3-tip animate')
-						.show(d, result[0]);
+						if(result[0]==undefined) { return; } // Don't tooltip null results.
+						baseToolTip.html(tooltipText(result[0]));
+						eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
+						eW = baseToolTip.style("width");
+						baseToolTip.style("visibility","visible"); 
 					})
-					.on('mouseout',function(d, i){
-						var result = $.grep(c.data(), function(e){ return e.key == d.id; });
-						houseMapTip.attr('class','d3-tip').show(d, result[0])
-						houseMapTip.hide();
-					})
+					.on('mouseout', function() { baseToolTip.style("visibility","hidden"); }) // If you mouse out of the districts, hide the tooltip
+					.on('mousemove', function(d, i){ // If you move your mouse within the district, update the position of the tooltip.
+						baseToolTip.style("top",(event.pageY+32)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+					});
 			});
-	} 
-	else if (chamber == "Senate") 
-	{
-
-		/* Initialize tooltip */
-		var senateMapTip = d3.tip().attr('class', 'd3-tip').html(function(p, d) 
-		{
-			var result = "<p>" + d.key + "</p>";
-			for (var i = 0; i < d.value.members.length; i++)
-			{
-				var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
-				result += "<p>" + d.value.members[i].name + "  -  <span style='color:" + colorVote + "'> " + d.value.members[i].vote + " / " + partyNameSimplify(d.value.members[i].party) +"</span></p>";
-			}
-			return result;
-		});
-
-		var mapTopo = topojson.feature(geodata, geodata.objects.states).features;
-		mapChart.width(890)
-			.height(500)
-			.dimension(stateDimension)
-			.group(stateGroup)
-			.renderTitle(false)
-			.colorCalculator(function (d)
-			{ 
-				var color = "#eee";
-				try 
-				{
-					if(d.members.length > 0)
-					{   
-						color = blendColors(d.members);
-					}
-				}catch(e){}
-				return color;
-			})
-			.overlayGeoJson(mapTopo, "state", function (d)
-			{
-				return d.id;
-			}
-			.on("postRender", function(c)
-			{
-				c.svg()
-					.selectAll("path") // tabbed to here
-                          .call(senateMapTip)
-                          .on('mouseover',function(d, i){
-                            var result = $.grep(c.data(), function(e){ return e.key == d.id; });
-
-                            senateMapTip.attr('class','d3-tip animate')
-                            .show(d, result[0])}
-                            )
-                          .on('mouseout',function(d, i){
-                            var result = $.grep(c.data(), function(e){ return e.key == d.id; });
-                            senateMapTip.attr('class','d3-tip').show(d, result[0])
-                            senateMapTip.hide()
-                          })
-                    });
-        }
+	}
 
 	// We are done defining everything, now let's just run our ancillary functions.
 	dc.renderAll();
-
 	decorateNominate(nominateScatterChart,data);
-	mapChart.on("filtered", pollFilters);
+	if(!failedMapLoad) mapChart.on("filtered", pollFilters);
 	votePartyChart.on("filtered", pollFilters);
 	nominateScatterChart.on("filtered", pollFilters);
 	outVotes();
@@ -437,9 +376,13 @@ function drawWidgets(error, geodata, data)
 // Easier to update steps to take on a full filter reset by running this.
 function doFullFilterReset()
 {
+	// Hide the bar.
 	$("#selectionFilterBar").slideUp();
+	// Deselect everything.
 	dc.filterAll();
+	// Draw the charts from scratch.
 	dc.redrawAll();
+	// Re-apply our decoration hack.
 	decorateNominate(nominateScatterChart, globalData);
 	//updateVoteChart();
 }
