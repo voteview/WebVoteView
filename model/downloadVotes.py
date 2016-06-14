@@ -104,8 +104,8 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						'cqlabel': member['cqlabel']
 					}
 					if member['nominate']['oneDimNominate']:
-						v['x'] = member['nominate']['oneDimNominate']
-						v['y'] = member['nominate']['twoDimNominate']
+						v['nom1'] = member['nominate']['oneDimNominate']
+						v['nom2'] = member['nominate']['twoDimNominate']
 					result.append(v)
 
 			# Top level nominate metadata
