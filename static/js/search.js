@@ -58,8 +58,9 @@ $(document).ready(function(){
 	{ 
 		clearInterval(suggestedPulse); 
 		$("#searchTextInput").attr("placeholder","Enter a term to search for"); 
-		suggestedPulse = setInterval(startPulseSuggested, 5000);
+		suggestedPulse = setInterval(startPulseSuggested, 8000);
 	});
+	$("#searchTextInput").focus();
 	$("#searchTextInput").on('focus',function()
 	{
 		if($("#searchTextInput").attr("placeholder")!="Enter a term to search for")
