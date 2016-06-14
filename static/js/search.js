@@ -53,7 +53,8 @@ $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
 
 	// Setup suggested searches
-	suggestedPulse = setInterval(startPulseSuggested,5000);
+	suggestedPulse = setInterval(startPulseSuggested,8000);
+	$("#searchTextInput").focus();
 	$("#searchTextInput").on('input',function() 
 	{ 
 		clearInterval(suggestedPulse); 
