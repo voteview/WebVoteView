@@ -1,4 +1,6 @@
+var updateFilterTimer;
 var resultCache;
+var validSet;
 var sortBy;
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var baseTip = d3.select("body").append("div").attr("class", "d3-tip").style("visibility","hidden").attr("id","mapTooltip");
@@ -89,6 +91,21 @@ function nomPlot()
 	.x(d3.scale.linear().domain([-1.2,1.2]))
 	.y(d3.scale.linear().domain([-1.2,1.2]));
 
+	nominateScatterChart.on("filtered", function()
+	{
+		if(updateFilterTimer) { clearTimeout(updateFilterTimer); }
+		updateFilterTimer = setTimeout(function()
+		{
+			var filterSelect= xDimension.top(Infinity);
+			validSet = [];
+			for(var i in filterSelect)
+			{
+				validSet.push(filterSelect[i].icpsr);
+			}
+			hideMembersUnselected();
+		}, 300);
+	});
+
 	dc.renderAll();
 	decorateNominate(nominateScatterChart, resultCache);
 }
@@ -173,9 +190,17 @@ function writeBioTable()
 	$('#content').fadeIn();
 }
 
+function hideMembersUnselected()
+{
+	$("#memberList > div").each(function(i, d) {
+		if(validSet.indexOf(parseInt($(d).attr("id")))!=-1 || validSet.length==0) { $(d).show(); }
+		else { $(d).hide(); }
+	});
+}
+
 function constructPlot(member)
 {
-	var memberBox = $("<div></div>").attr("class","col-md-3").attr("id","memberResultBox").click(function(){window.location='/person/'+member["icpsr"];})
+	var memberBox = $("<div></div>").addClass("col-md-3").addClass("memberResultBox").attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"];})
 					.css("overflow","hidden").css("padding-right","5px");
 	var imgBox = $("<img />").css("width","80px").css("height","80px").css("padding-right","20px").attr("class","pull-left")
 					.attr("src","/static/img/bios/"+member["bioImgURL"]);

@@ -172,7 +172,7 @@ line.cutline {
 .tooltip > .tooltip-arrow { opacity: 0.9; }
 .left-tooltip + .tooltip > .tooltip-inner { text-align:left; min-width:400px;}
 
-#memberResultBox
+.memberResultBox
 {
 	cursor: pointer;
 	height: 85px;
