@@ -349,8 +349,8 @@ function drawWidgets(error, data, geodata)
 						var result = $.grep(c.data(), function(e){
 							return e.key == d.id; 
 						});
-						if(result[0]==undefined) { return; } // Don't tooltip null results.
-						baseToolTip.html(tooltipText(result[0]));
+						if(result[0]==undefined) { baseToolTip.html("<p><strong>"+d.id+"</strong></p> This district was vacant at the time of the vote."); } // Don't tooltip null results.
+						else { baseToolTip.html(tooltipText(result[0])); }
 						eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
 						eW = baseToolTip.style("width");
 						baseToolTip.style("visibility","visible"); 
