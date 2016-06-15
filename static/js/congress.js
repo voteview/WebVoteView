@@ -106,6 +106,7 @@ function nomPlot()
 		}, 300);
 	});
 
+	dc.filterAll();
 	dc.renderAll();
 	decorateNominate(nominateScatterChart, resultCache);
 }
@@ -133,6 +134,7 @@ function reloadBios()
 		success: function(data, status, xhr)
 		{
 			$("#memberList").fadeIn();
+			validSet = [];
 			resultCache = data;
 			writeBioTable();
 			nomPlot();
