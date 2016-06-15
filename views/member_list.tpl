@@ -1,7 +1,7 @@
 % if len(resultMembers):
 	<div class="row">
 % for member in resultMembers:
-		<div class="col-md-3" id="memberResultBox" onClick="javascript:window.location='/person/{{member["icpsr"]}}';">
+		<div class="col-md-3 memberResultBox" onClick="javascript:window.location='/person/{{member["icpsr"]}}';">
 			<img src="/static/img/bios/{{member["bioImg"]}}" style="width:80px;height:80px;padding-right:20px;vertical-align:middle;" class="pull-left">
 			<div style="font-size:0.9em;vertical-align:middle;padding-top:15px;">
 				% if "bioName" in member and member["bioName"] is not None:

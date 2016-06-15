@@ -144,4 +144,12 @@ function drawHist(error, data)
 			var addTri = addTick.append("path").attr("d", d3.svg.symbol().type("triangle-up").size(30));
 		},200);
 	}
+	else
+	{
+		setTimeout(function(){
+			var leftNumber = ((memberIdeal+1)/2) * (d3.select("svg").attr("width")-30);
+			var addTick = d3.select("svg g g.x").append("g").attr("transform","translate("+leftNumber+",-18)");
+			var addTri = addTick.append("path").attr("d", d3.svg.symbol().type("triangle-down").size(30));
+		},200);		
+	}
 }
