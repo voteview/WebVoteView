@@ -154,6 +154,9 @@ def person(icpsr=0):
 		for congressChunk in person["congressesOfService"]:
 			for cong in range(congressChunk[0], congressChunk[1]+1):
 				person["congressLabels"][cong] = str(cong)+"th Congress ("+str(congressToYear(cong,0))+"-"+str(congressToYear(cong,1))+")"
+
+		# Replace anyone?
+		#prevNextICPSRs = checkForOccupancy(person)
 	
 		# Find out if we have any other ICPSRs that are this person for another party
 		altICPSRs = checkForPartySwitch(person)
