@@ -67,6 +67,19 @@ def checkForPartySwitch(person):
 	else:
 		return {"results": otherIcpsrs}
 
+def checkForOccupancy(person):
+	if "occupancy" not in person or int(person["occupancy"])==0:
+		return []
+
+	return []
+	
+	if int(person["occupancy"])>1:
+		prevICPSR = memberLookup({'congress': person["congress"], 'stateName': person["stateName"], 'district': person["district"], 'occupancy': person["occupancy"]-1},1)
+	else:
+		prevICPSR = 0
+
+	return []
+
 # Wikibooks implementation of levenshtein distance using Dynamic Programming
 # https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Python
 def levenshtein(s1, s2):
