@@ -136,7 +136,7 @@ function drawHist(error, data)
 
 	nominateHist.filter = function() { };
 	dc.renderAll();
-	if(memberIdeal<0.75 && memberIdeal>-0.85)
+	if(memberIdeal<0.73 && memberIdeal>-0.85)
 	{
 		setTimeout(function(){
 			var leftNumber = ((memberIdeal+1)/2) * (d3.select("svg").attr("width")-30);
@@ -148,7 +148,7 @@ function drawHist(error, data)
 	{
 		setTimeout(function(){
 			var leftNumber = ((memberIdeal+1)/2) * (d3.select("svg").attr("width")-30);
-			var addTick = d3.select("svg g g.x").append("g").attr("transform","translate("+leftNumber+",-18)");
+			var addTick = d3.select("svg g g.x").append("g").attr("transform","translate("+leftNumber+",-28)");
 			var addTri = addTick.append("path").attr("d", d3.svg.symbol().type("triangle-down").size(30));
 		},200);		
 	}

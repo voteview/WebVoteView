@@ -414,13 +414,18 @@ def searchAssemble():
 		bottle.response.headers["rollcall_number"] = 999
 		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers)
 	else:
+		if "fulltextSearch" in res:
+			highlighter = res["fulltextSearch"]
+		else:
+			highlighter = ""
+
 		bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
 		bottle.response.headers["member_number"] = len(resultMembers)
 		bottle.response.headers["nextId"] = res["nextId"]
 		if not "rollcalls" in res:
 			out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers)
 		else:
-			out = bottle.template("views/search_list", rollcalls = res["rollcalls"], errormessage="", resultMembers=resultMembers) 
+			out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers) 
 	return(out)
 
 @app.route("/api/search",method="POST")
@@ -496,9 +501,14 @@ def stash(verb):
 def apiVersion():
     return({'apiversion': 'Q2'})
 
+
+def testFunc():
+	return "qqqqq"
+
 if __name__ == '__main__':
 	bottle.run(host='localhost',port=8080, debug=True)
 
 
 
 		
+

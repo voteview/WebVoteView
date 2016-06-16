@@ -1,5 +1,45 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+% import re
+% from stemming.porter2 import stem
 % include('member_list.tpl', resultMembers=resultMembers)
+% def doHighlight(highlighter, text):
+%	if not len(highlighter):
+%		return text
+%	end
+%	words = highlighter.split()
+%	stemSet = []
+%	reSet = r"("+highlighter+")"
+%	for word in words:
+% 		if len(word)>2:
+%			reSet += "|("+word+")"
+%			if stem(word)!=word:
+%				stemSet.append(stem(word))
+%			end
+%		end
+%	end
+%	for stemS in stemSet:
+%		if len(stemS)>2:
+%			reSet += "|("+stemS+")"
+%		end
+%	end
+%	spans = [m for m in re.finditer(reSet, text, re.I)]
+%	newS = ""
+%	last = 0
+%	for s in spans:
+%		if s.lastindex==1:
+%			ternary = ""
+%		elif s.lastindex<=1+len(stemSet):
+%			ternary = "2"
+%		else:
+%			ternary = "3"
+%		end
+%		newS += text[last:s.start()] + '<span class="searchHighlight'+(ternary)+'">'+text[s.start():s.end()]+'</span>'
+%		last = s.end()
+%	end
+%	newS += text[last:]
+%	return newS
+% end
+
 % for rollcall in rollcalls:
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -34,7 +74,7 @@
 			<p><small><strong>Vote Categories</strong>: {{ rollcall["code"]["Clausen"][0] }}, {{ rollcall["code"]["Peltzman"][0] }}</small></p>
 			% end
 			%
-			<p>{{ " ".join(rollcall["description"].split()[0:50]) }}</p>
+			<p>{{!doHighlight(highlighter, " ".join(rollcall["description"].split()[0:50])) }}</p>
 
 			% if "score" in rollcall:
 				<p style="font-size:8px;"><em>Debug: {{round(rollcall["score"],2)}}</em></p>
