@@ -178,3 +178,7 @@ line.cutline {
 	height: 85px;
 	margin-bottom: 5px;
 }
+
+.searchHighlight2  { background-color: yellow; padding: 2px; }
+.searchHighlight3  { background-color: cyan; padding: 2px; }
+.searchHighlight { background-color: pink; padding: 2px; }

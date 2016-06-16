@@ -7,12 +7,17 @@ import sys
 import traceback
 import time
 import re
+import json
 
 client = pymongo.MongoClient()
 db = client["voteview"]
 
-SCORE_THRESHOLD = 0.75
-SCORE_MULT_THRESHOLD = 0.5
+try:
+	scoreData = json.load(open("auth.json","r"))
+except:
+	scoreData = json.load(open("model/auth.json","r"))
+SCORE_THRESHOLD = scoreData["scoreThreshold"] if "scoreThreshold" in scoreData else 0.75
+SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" in scoreData else 0.5
 
 fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
 		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
@@ -966,6 +971,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	returnDict["recordcountTotal"] = resCount
 	returnDict["apiversion"] = "Q2"
 	returnDict["nextId"] = nextId 
+	if "$text" in queryDict:
+		returnDict["fulltextSearch"] = [v for k, v in queryDict["$text"].iteritems()][0]
+
 	if resCount>rowLimit:
 		returnDict["rollcalls"] = mr[0:rowLimit]
 		if not jsapi:
@@ -984,8 +992,7 @@ if __name__ == "__main__":
 		print query(args)		
 	else:
 		results = query("alltext: hello world yea: 55", rowLimit=5000)
-		if "score" in results['rollcalls'][0]:
-			print "certified fulltext"
+		print results
 
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
