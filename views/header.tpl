@@ -19,7 +19,7 @@
         <li><a href="/research">research</a></li>
         <li><a href="/about">about</a></li>
       </ul>
-      <h1 id="brand"><a href="/">voteview.com</a></h1>
+      <h1 id="brand"><a href="/">voteview.com</a> <small>beta</small></h1>
     </div>
   </div>
 </div>

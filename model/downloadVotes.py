@@ -71,9 +71,9 @@ def downloadAPI(rollcall_id, apitype="Web"):
 					bestName = member["name"]
 
 				# Web returns different fields than R
-				if apitype=="Web":
+				if apitype=="Web": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
 					v = {
-						'vote': _get_yeanayabs(rollcall['votes'][member["id"]]),
+						'vote': _get_yeanayabs(rollcall['votes'][member["id"]]), 
 						'name': bestName,
 						'id': member['id'],
 						'party': member['partyname'],
@@ -93,7 +93,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						v["district"] = ""
 					
 					result.append(v)
-				elif apitype=="R":
+				elif apitype=="R": # [m["v"] for m in rollcall["votes"] if m["id"]==member["id"]][0]
 					v = {
 						'vote': rollcall['votes'][member["id"]],
 						'name': member['fname'],

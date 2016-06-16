@@ -684,6 +684,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 				return [queryDict, 0, errorMessage]
 			else:
 				queryDict = addToQueryDict(queryDict, "votes."+str(name), {"$exists": 1})
+				# queryDict = addToQueryDict(queryDict, "votes.id", str(name)) # New vote style.
 	# CHAMBER type: Senate or House?
 	elif fieldType=="chamber":
 		chamber = queryWords.strip()
@@ -872,6 +873,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	if icpsr is not None:
 		queryDict["votes."+icpsr] = {"$exists": 1}		
+		# queryDict["votes.id"] = icpsr
 
 	# Get results
 	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1, "synthID": 1}
