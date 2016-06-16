@@ -35,6 +35,11 @@
 			% end
 			%
 			<p>{{ " ".join(rollcall["description"].split()[0:50]) }}</p>
+
+			% if "score" in rollcall:
+				<p style="font-size:8px;"><em>Debug: {{round(rollcall["score"],2)}}</em></p>
+			% end
+
 		</div>
 	</div>
 % end

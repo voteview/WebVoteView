@@ -11,6 +11,9 @@ import re
 client = pymongo.MongoClient()
 db = client["voteview"]
 
+SCORE_THRESHOLD = 0.75
+SCORE_MULT_THRESHOLD = 0.5
+
 fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
 		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
 		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter", "chamber": "chamber"}
@@ -490,7 +493,7 @@ def metaProcessFreeformQuery(query,depth=0,debug=0):
 					needScore = needScore or needScoreRet
 					qDict["$and"].append(res)
 
-	return [qDict, needScoreRet, errorMessage]
+	return [qDict, needScore, errorMessage]
 
 def parseFreeformQuery(qtext):
 	""" Takes an atomic Mongo query (no AND, no OR, no parentheses, etc. Isolates field names and dispatches the fields
@@ -517,6 +520,7 @@ def parseFreeformQuery(qtext):
 	queryField = ""
 	queryWords = ""
 	needScore = 0
+	nSMax = 0
 	queryDict = {}
 
 	#print "parsing freeform query: "+qtext
@@ -527,6 +531,8 @@ def parseFreeformQuery(qtext):
 			# Deal with whatever we've got loaded for the old field before assembling the new one.
 			if queryField:
 				queryDict, needScore, errorMessage = assembleQueryChunk(queryDict, queryField, queryWords)
+				nSMax = nSMax or needScore
+				print needScore, nSMax
 				if errorMessage:
 					error = 1
 					break
@@ -555,9 +561,12 @@ def parseFreeformQuery(qtext):
 
 	if error==0:
 		queryDict, needScore, errorMessage = assembleQueryChunk(queryDict, queryField, queryWords)
+		nSMax = nSMax or needScore
 		if errorMessage:
 			return [-1, 0, errorMessage]
-		return [queryDict, needScore, ""]
+		print "Getting ready to submit final adjudication:"
+		print nSMax
+		return [queryDict, nSMax, ""]
 	else: # Got an error in a chunk
 		return [-1, 0, errorMessage]
 
@@ -582,6 +591,8 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 	str
 		Any error message generated
 	"""
+	
+	print "asked to assemble "+queryField+" / "+queryWords
 
 	global fieldTypes
 	queryWords = queryWords.strip()
@@ -685,6 +696,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 		errorMessage = "Error: invalid field for search: "+queryField
 		return [queryDict, 0, errorMessage]
 
+	print "final ns for this tier", needScore
 	return [queryDict, needScore, ""]
 
 def addToQueryDict(queryDict, queryField, toAdd):
@@ -923,10 +935,20 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	# Mongo lazy-allocates results, so we need to loop to pull them in
 	mr = []
 	nextId = 0
+	maxScore = 0
 	for res in results:
+		if not maxScore and needScore and res["score"]>=maxScore:
+			maxScore = res["score"]
+
 		if len(mr)<rowLimit:
 			del res["synthID"]
-			mr.append(res)
+			if not needScore:
+				mr.append(res)
+			elif res["score"]>= SCORE_THRESHOLD and res["score"]>=SCORE_MULT_THRESHOLD * maxScore:
+				mr.append(res)
+			else:
+				nextId = 0
+				break
 		else:
 			if not needScore:
 				nextId = str(res["synthID"])
@@ -936,6 +958,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	# Get ready to output
 	returnDict = {}
+	returnDict["debug_search"] = needScore
 	returnDict["rollcalls"] = mr
 	returnDict["recordcount"] = len(mr)
 	returnDict["recordcountTotal"] = resCount
@@ -956,8 +979,12 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 if __name__ == "__main__":
 	if len(sys.argv)>1:
 		args = " ".join(sys.argv[1:])
-		query(args)		
+		print query(args)		
 	else:
+		results = query("alltext: hello world yea: 55", rowLimit=5000)
+		if "score" in results['rollcalls'][0]:
+			print "certified fulltext"
+
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
@@ -981,4 +1008,4 @@ if __name__ == "__main__":
 		#query("iraq war AND congress:113")
 		#query("\"war on terrorism\"")
 		#query('"war on terrorism" iraq')
-		query("alltext:afghanistan iraq OR codes:defense")
+		#query("alltext:afghanistan iraq OR codes:defense")

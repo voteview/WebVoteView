@@ -130,6 +130,34 @@ def verb(verb, id, votes):
 	elif verb=="init":
 		return initializeCart()
 
+def setSearch(id, search):
+	errorMessages = []
+
+	# User supplied invalid ID, generate a new one
+	try:
+		if len(id)!=8:
+			id = initializeCart()["id"]
+			errorMessages.append("Invalid stash ID sent from user.")
+	except:
+		id = initializeCart()["id"]
+		errorMessages.append("Invalid stash ID sent from user.")
+	
+	expires = updateExpiry()
+	res = db.stash.find_one({'id': id})
+	if res is None:
+		# We don't have one.
+		errorMessages.append("Unknown or expired stash ID sent from user.")
+		id = initializeCart()["id"]
+
+	if len(search)>300:
+		errorMessages.append("Search is too long and not authorized.")
+		search = ""
+	
+	db.stash.update({'id': id}, {'$set': {'search': search}}, upsert=False, multi=False)
+	return {"id": id, "errors": errorMessages}
+
+#def 
+
 if __name__ == "__main__":
 	id = initializeCart()["id"]
 	print id
