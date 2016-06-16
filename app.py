@@ -11,6 +11,8 @@ from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.downloadXLS import downloadXLS
+from model.raWIKI import readStatus, writeStatus
+import model.stashCart
 import datetime
 import time
 
@@ -214,6 +216,24 @@ def rollcall(rollcall_id=""):
 
 	output = bottle.template("views/dc_rollcall", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
 	return(output)
+
+# RA support stuff
+@app.route("/ra/wiki",method="POST")
+@app.route("/ra/wiki")
+def wiki():
+	prevId = defaultValue(bottle.request.params.icpsrId, 0)
+	newStatus = defaultValue(bottle.request.params.status, 0)
+	if prevId:
+		writeStatus(prevId, newStatus)
+		
+		
+	nextTry = readStatus()
+	if type(nextTry)==type(str("")):
+		return(nextTry)
+	else:
+		return bottle.template("views/raWIKI", person=nextTry)
+
+
 #
 #
 # API methods
@@ -462,9 +482,23 @@ def contact():
 		return(traceback.format_exc())
 		return({"error": "You must fill out the entire form before submitting."})
 
+@app.route("/api/stash/<verb:re:init|add|del|get>")
+def stash(verb):
+	try:
+		id = defaultValue(bottle.request.params.id,"")
+		votes = bottle.request.params.getall("votes")
+	except:
+		votes = []
+
+	return model.stashCart.verb(verb, id, votes)
+
 @app.route("/api/version")
 def apiVersion():
     return({'apiversion': 'Q2'})
 
 if __name__ == '__main__':
 	bottle.run(host='localhost',port=8080, debug=True)
+
+
+
+		
