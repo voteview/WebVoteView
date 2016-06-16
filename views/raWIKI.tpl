@@ -5,7 +5,7 @@
 
 	<div style="position:fixed;left:0px;width:300px;top:0px;height:100%;overflow:hidden;padding:10px;margin-right:10px;border-right:3px solid black;background-color:white;clear:none;z-index:100;">
 		<!--<img src="/static/img/wiki/{{str(person["icpsr"]).zfill(6)}}.jpg" style="max-height:350px;max-width:300px;margin:0 auto 0 auto;"> -->
-		<h1>{{person["bioName"]}}</h1>
+		<h1>{{person["bioName"]}} ({{person["icpsr"]}})</h1>
 		<strong>{{person["partyname"]}}</strong> {{person["stateName"]}} {{person["cqlabel"]}}<br/>
 		% if "born" in person:
 		Born: {{person["born"]}}

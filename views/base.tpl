@@ -25,6 +25,7 @@
         <!--[if lt IE 8]><link rel="stylesheet" href="{{STATIC_URL}}css/ie.css" type="text/css" media="screen, projection"><![endif]-->
         
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/libs/js.cookie.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/footer.js"></script>
          <!--[if (gte IE 6)&(lte IE 8)]>
                 <script type="text/javascript" src="{{STATIC_URL}}js/selectivizr-min.js"></script>
