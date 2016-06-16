@@ -87,7 +87,7 @@ function nomPlot()
 		}
 		return color;
 	})
-	.highlightedSize(7)
+	.highlightedSize(10)
 	.x(d3.scale.linear().domain([-1.2,1.2]))
 	.y(d3.scale.linear().domain([-1.2,1.2]));
 
