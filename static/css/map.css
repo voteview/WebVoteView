@@ -43,7 +43,7 @@ svg.map {
 	height:60px; 
 	left:0px; 
 	width:100%; 
-	background-color:#EEEEEE; 
+	background-color:#DEDEDE; 
 	padding: 10px; 
 	border-top:2px solid black; 
 	display:none;
@@ -54,7 +54,6 @@ svg.map {
 #selectionFilterClose
 {
 	z-index: 200;
-	background-color:white;
 	position: fixed;
 	bottom: 40px;
 	right: 20px;

@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.min.js"], extra_css=["bootstrap-slider.css"])
+% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.min.js"], extra_css=["bootstrap-slider.css", "search.css"])
 % include('header.tpl')
 % setdefault('args',{})
 <div class="container">
@@ -32,49 +32,46 @@
 							<h3 class="panel-title">Chamber <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
 						</div>
 
-              <div id="facet-chamber" class="panel-collapse facet-content collapse">
-                <div class="panel-body">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="chamber" id="optionsRadios1" value="Senate">
-                      Senate
-                    </label>
-                  </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="chamber" id="optionsRadios2" value="House">
-                      House
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
+						<div id="facet-chamber" class="panel-collapse facet-content collapse">
+							<div class="panel-body">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="chamber" id="optionsRadios1" value="Senate">
+										Senate
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="chamber" id="optionsRadios2" value="House">
+										House
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
 
-
-
-            <div class="panel panel-primary">
-              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-date">
-                <h3 class="panel-title">Date range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
-              </div>
-              <div id="facet-date" class="panel-collapse facet-content collapse">
-                <div class="panel-body">
-                  <div class="form-group">
-
-                    <label for="fromDate" class="col-sm-5 control-label">From</label>
-                    <div class="col-sm-6">
-                      <input name="fromDate" type="text" class="form-control" id="fromDate" placeholder="From">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="toDate" class="col-sm-5 control-label">To</label>
-                    <div class="col-sm-6">
-                      <input name="toDate" type="text" class="form-control" id="toDate" placeholder="To">
-                    </div>
-                  </div>
-		  <div align="center"><small><em>Format: YYYY-MM-DD or YYYY</em></small></div>
-                </div>
-              </div>
-            </div>
+					<div class="panel panel-primary">
+						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-date">
+							<h3 class="panel-title">Date range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+						</div>
+						<div id="facet-date" class="panel-collapse facet-content collapse">
+							<div class="panel-body">
+								<div class="form-group">
+									<label for="fromDate" class="col-sm-5 control-label">From</label>
+									<div class="col-sm-6">
+										<input name="fromDate" type="text" class="form-control" id="fromDate" placeholder="From">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="toDate" class="col-sm-5 control-label">To</label>
+									<div class="col-sm-6">
+										<input name="toDate" type="text" class="form-control" id="toDate" placeholder="To">
+									</div>
+								</div>
+								<div align="center"><small><em>Format: YYYY-MM-DD or YYYY</em></small></div>
+							</div>
+						</div>
+					</div>
 
             <div class="panel panel-primary">
               <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-congress">
@@ -279,8 +276,63 @@
 	</div>
 </div>
 
+<!-- Top left stash bar -->
+<div id="stashCartBar" class="carousel slide">
+	<div class="carousel-inner">
+		<!-- Carousel Item 1 -->
+		<div class="item active">
+			<div class="footerBig">
+				Saved: <big><strong>87</strong></big> results from previous searches.<br/>
+				+ <big><strong>231</strong></big> results from "congress: 115 support: 100"
+			</div>
+			<div class="footerBig">
+				<a href="">Add all <big><strong>18</strong></big> results from "congress: 115 support: 100"</a> <br/>
+				<a href="">Add <big><strong>3</strong></big> selected results from "congress: 115 support: 100"</a>
+			</div>
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Empty Vote Cart" onClick="javascript:closeStashCart();">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+			</div>
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Download Votes" onClick="javascript:$('.carousel').carousel(1);">
+				<span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+			</div>
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" onClick="javascript:$('.carousel').carousel(2);">
+				<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+			</div>
+		</div>
+		<div class="item">
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('.carousel').carousel(0);">
+				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			</div>
+			<div class="footerIcon">
+				Download to Excel
+			</div>
+			<div class="footerIcon">
+				Download to JSON
+			</div>
+			<div class="footerIcon">
+				Download to Format3
+			</div>
+		</div>
+		<div class="item">
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('.carousel').carousel(0);">
+				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			</div>
+			<div class="footerBig">
+				Create a permanent link for <big><strong>318</strong></big> votes: <br/>
+				http://voteview.com/s/<input type="text" placeholder="type-short-name"> 
+				<input type="submit" value="Create">
+			</div>
+			<div class="footerBig">
+				<br/>&nbsp;
+			</div>
+		</div>
+	</div>
+</div>
+<img id="stashCartClose" onClick="javacript:closeStashCart();" src="/static/img/close.png">
+
 
 <script>
+	// Pass query string arguments back into faceted search.
 	$(document).ready(function()
 	{
 		% if "q" in args:

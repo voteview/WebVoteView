@@ -10,6 +10,23 @@ function numberWithCommas(x)
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function openStashCart()
+{
+	$('.carousel').carousel(0);
+	$("#stashCartBar").slideDown(300,function()
+	{
+		$("#stashCartClose").fadeIn(100);
+	});
+}
+
+function closeStashCart()
+{
+	$("#stashCartClose").fadeOut(100,function()
+	{
+		$("#stashCartBar").slideUp(300);
+	});	
+}
+
 function toggleAdvancedSearch(instant)
 {
 	if(!instant)
@@ -51,6 +68,7 @@ var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to
 var suggestedPulse;
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
+	$('.carousel').carousel({"interval": false, "keyboard": false, "wrap": false});
 
 	// Setup suggested searches
 	suggestedPulse = setInterval(startPulseSuggested,8000);
@@ -124,10 +142,10 @@ $(document).ready(function(){
 
       function showDownload () {
         if ($("#download-rollcalls-form input:checkbox:checked").length > 0) {
-            $("#download-btn").fadeIn();
+		openStashCart();
         }
         else {
-            $("#download-btn").fadeOut();
+		closeStashCart();
         }
       }
 
