@@ -1,0 +1,51 @@
+#stashCartBar
+{
+	display:none;
+	position:fixed;
+	bottom:0px;
+	width:100%;
+	overflow:hidden;
+	height:72px;
+	background-color:#DEDEDE;
+	border-top:3px solid black;
+	line-height:25px;
+}
+
+#stashCartClose
+{
+	display:none;
+	position:fixed;
+	bottom:56px;
+	right:20px;
+	width:32px;
+	cursor:pointer;
+}
+
+.footerBig
+{
+	float:left;
+	padding-left:15px;
+	border-right:2px solid black;
+	width:35%;
+	padding-top:12px;
+	padding-bottom:12px;
+}
+
+.footerIcon
+{
+	float:left;
+	width:8%;
+	cursor:pointer;
+}
+
+div.footerIcon:hover
+{
+	background-color:#FFFFFF;
+}
+
+.footerIcon span
+{
+	font-size:48px;
+	margin:14px auto;
+	display:table;
+}
