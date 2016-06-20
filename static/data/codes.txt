@@ -1,0 +1,299 @@
+----------
+CLAUSEN CODES
+----------
+  1.  Government Management 
+       Environmental control; government regulation of business; 
+       natural resource management; government ownership of business; 
+       government control of the economy; budget balancing; tax policy; 
+       interest rates; management of the bureaucracy; etc. 
+  2.  Social Welfare 
+       Social security; public housing; urban renewal; labor 
+       regulation; education; urban affairs; employment opportunities and 
+       rewards; welfare; medicare; unemployment; minimum wage; legal 
+       services; immigration, etc. 
+  3.  Agriculture 
+       Price supports and subsidies; commodity control; acreage 
+       limitations; etc. 
+  4.  Civil Liberties 
+       Civil rights; equality; criminal procedure; privacy; 
+       guarantees of the Bill of Rights; slavery; Hatch Act; etc. 
+  5.  Foreign and Defense Policy 
+       International policy; foreign aid; aid to international 
+       organizations; armament policy; defense procurement; international 
+       trade; military pensions; etc. 
+  6.  Miscellaneous Policy 
+       Unclassifiable or unidentifiable votes; all votes concerned 
+       with internal organization of Congress; procedural motions.
+
+----------
+PELTZMAN CODES
+----------
+
+  1.  Budget General Interest 
+       Debt limit; budget targets; revenue sharing; unemployment 
+       insurance; tax rates; continuing appropriations; etc. 
+  2.  Budget Special Interest 
+       Authorization/appropriations for agencies, departments; 
+       public works; subsidized housing; NSF; parks; food stamps; etc. 
+  3.  Regulation General Interest 
+       General tariffs; minimum wage; gasoline rationing; auto 
+       emissions; water pollution; etc. 
+  4.  Regulation Special Interest 
+       Union regulations; coal mine regulations; export/import 
+       controls; fish and wildlife; etc. 
+  5.  Domestic Social Policy 
+       Abortion; school prayer; busing; criminal code and federal 
+       courts; immigration; gun control; Hatch Act; veterans preference; 
+       Legal Services Corporation; voting rights; slavery; etc. 
+ 61.  Defense Policy Budget 
+       Authorization/appropriations for military; military pensions. 
+ 71.  Defense Policy Resolutions 
+       Number of Army divisions; duties of officers; etc.  
+ 62.  Foreign Policy Budget 
+       Authorization/appropriations for State Department and 
+       international organizations; etc. 
+ 72.  Foreign Policy Resolutions 
+       Condemn/thank foreign nations; Taiwan relations; disapproval 
+       of apartheid; etc. 
+  8.  Government Organization 
+       Setting up new agencies/bureaus/commissions; civil service 
+       regulations; government reorganization; Federal Election 
+       Commission; constitutional amendments; admission of States; 
+       census; etc. 
+  9.  Internal Organization 
+       Election of Speaker; party ratios on committees; creating 
+       committees; procedural rules; disputed elections; congressional 
+       pay; etc. 
+ 10.  Indian Affairs 
+       Indian treaties; appropriations for Indian Department; Indian 
+       lands and reservations; etc. 
+ 11.  D. C. 
+       All votes dealing with the District of Columbia. 
+
+----------
+SPECIFIC ISSUE CODES
+----------
+
+* SPECIFIC ISSUE CODES SORTED BY NUMBER *
+
+  1.  Gasoline rationing/allocation
+  2.  Fish & Wildlife
+  3.  Tax rates
+  4.  Budget resolution 
+  5.  Women's Equality
+  6.  South Africa/Rhodesia
+  7.  Amnesty (all wars)
+  8.  Unemployment/Jobs
+  9.  Emergency Fuel Assistance
+ 10.  Union Regulation/Davis-Bacon/Situs Picketing
+ 11.  Coal Mining Regulation/Strip Mining/Black Lung
+ 12.  Arms Control
+ 13.  U. N.
+ 14.  Panama Canal
+ 15.  Food Stamps/Food Programs
+ 16.  Human Rights
+ 17.  Pollution and Environmental Protection
+ 18.  Welfare and Medicaid
+ 19.  OSHA
+ 20.  Civil Rights/Desegregation/Busing/Affirmative Action
+ 21.  Abortion/Care of deformed newborns
+ 22.  Homosexuality
+ 23.  B-1 Bomber and Stealth (B-2)
+ 24.  Shipping/Maritime
+ 25.  Agriculture
+ 26.  Minimum Wage
+ 27.  Breeder Reactor
+ 28.  Neutron Bomb
+ 29.  Consumer Protection Agency/Consumer Protection
+ 30.  Taiwan 
+ 31.  SST
+ 32.  MX Missile
+ 33.  School Prayer
+ 34.  Nuclear Power
+ 35.  Selective Service (The Draft)
+ 36.  Vietnam War
+ 37.  Public Lands
+ 38.  Investigations
+ 39.  Alien and Sedition Laws
+ 40.  Religion
+ 41.  Election of House Officers
+ 42.  Civil Service and Patronage
+ 43.  Election of the Speaker of the House
+ 44.  Presidential Impeachment
+ 45.  Education
+ 46.  Parks and Conservation
+ 47.  Banking and Finance
+ 48.  Campaign Contributions/House Ethics/Lobbying/Campaign Laws
+ 49.  Electoral Votes
+ 50.  Tariffs and Trade Regulation
+ 51.  Constitutional Amendments
+ 52.  Slavery
+ 53.  National Bank
+ 54.  Disputed Elections to Congress
+ 55.  Military Pensions/Veterans Benefits
+ 56.  Mediterranean Pirates
+ 57.  Whiskey Rebellion
+ 58.  Treaties
+ 59.  Immigration/Naturalization
+ 60.  Public Works
+ 61.  Voting Rights
+ 62.  Ratio of Representatives to Population
+ 63.  Congressional Pay and Benefits
+ 64.  States Rights vs. Federal Government
+ 65.  Supreme Court
+ 66.  Humanitarian Assistance (foreign)
+ 67.  Exchange Rates
+ 68.  Nullification/Secession/Reconstruction
+ 69.  Temperance and Liquor
+ 70.  U.S. Currency
+ 71.  Science and Technology
+ 72.  Workplace conditions/8 hour day
+ 73.  Minorities (non-black)
+ 74.  Judiciary
+ 75.  Impeachment of Officials Other than the President
+ 76.  Public Safety
+ 77.  Interstate Commerce/Anti-trust/Restraint of Commerce
+ 78.  Children (aid, infant mortality, etc.)
+ 79.  WWI
+ 80.  Public Health
+ 81.  Narcotics
+ 82.  Firearms
+ 83.  Radio/Television/Motion Pictures/Telecommunications
+ 84.  Airlines/Airports/Airline Industry
+ 85.  Peace Movements/Pacifism/Anti-Military
+ 86.  Social Security
+ 87.  Communists/Communism/Unamerican Activities
+ 88.  Housing/Housing Programs/Rent Control
+ 89.  Price Controls
+ 90.  Debt Ceilings
+ 91.  Nuclear Weapons
+ 92.  CIA/Spying/Intelligence
+ 93.  Korean War
+ 94.  Space Exploration/NASA
+ 95.  Handicapped
+ 96.  Energy
+ 97.  Central America
+ 98.  Iran and Iraq
+ 99.  Railroads
+100.  National Endowment for the Arts
+101.  Corp. for Public Broadcasting
+102.  Death Penalty
+103.  Medicare
+104.  Haiti
+105.  HIV & AIDS
+106.  Tobacco
+107.  Legal Services Corporation
+108.  War on Terror (After 9-11)
+109.  Bankruptcy and Pensions
+
+* SPECIFIC ISSUE CODES SORTED BY ALPHABET *
+
+ 21.  Abortion/Care of deformed newborns
+ 25.  Agriculture
+ 84.  Airlines/Airports/Airline Industry
+ 39.  Alien and Sedition Laws
+  7.  Amnesty (all wars)
+ 12.  Arms Control
+ 23.  B-1 Bomber and Stealth (B-2)
+ 47.  Banking and Finance
+109.  Bankruptcy and Pensions
+ 27.  Breeder Reactor
+  4.  Budget resolution 
+ 92.  CIA/Spying/Intelligence
+ 48.  Campaign Contributions/House Ethics/Lobbying/Campaign Laws
+ 97.  Central America
+ 78.  Children (aid, infant mortality, etc.)
+ 20.  Civil Rights/Desegregation/Busing/Affirmative Action
+ 42.  Civil Service and Patronage
+ 11.  Coal Mining Regulation/Strip Mining/Black Lung
+ 87.  Communists/Communism/Unamerican Activities
+ 63.  Congressional Pay and Benefits
+ 51.  Constitutional Amendments
+ 29.  Consumer Protection Agency/Consumer Protection
+101.  Corp. for Public Broadcasting
+102.  Death Penalty
+ 90.  Debt Ceilings
+ 54.  Disputed Elections to Congress
+ 45.  Education
+ 41.  Election of House Officers
+ 43.  Election of the Speaker of the House
+ 49.  Electoral Votes
+  9.  Emergency Fuel Assistance
+ 96.  Energy
+ 67.  Exchange Rates
+ 82.  Firearms
+  2.  Fish & Wildlife
+ 15.  Food Stamps/Food Programs
+  1.  Gasoline rationing/allocation
+104.  Haiti
+105.  HIV & AIDS
+ 95.  Handicapped
+ 22.  Homosexuality
+ 88.  Housing/Housing Programs/Rent Control
+ 16.  Human Rights
+ 66.  Humanitarian Assistance (foreign)
+ 59.  Immigration/Naturalization
+ 75.  Impeachment of Officials Other than the President
+ 38.  Investigations
+ 77.  Interstate Commerce/Anti-trust/Restraint of Commerce
+ 98.  Iran and Iraq
+ 74.  Judiciary
+ 93.  Korean War
+107.  Legal Services Corporation
+ 32.  MX Missile
+103.  Medicare
+ 56.  Mediterranean Pirates
+ 55.  Military Pensions/Veterans Benefits
+ 26.  Minimum Wage
+ 73.  Minorities (non-black)
+ 81.  Narcotics
+ 53.  National Bank
+100.  National Endowment for the Arts
+ 28.  Neutron Bomb
+ 34.  Nuclear Power
+ 91.  Nuclear Weapons
+ 68.  Nullification/Secession/Reconstruction
+ 19.  OSHA
+ 14.  Panama Canal
+ 46.  Parks and Conservation
+ 85.  Peace Movements/Pacifism/Anti-Military
+ 17.  Pollution and Environmental Protection
+ 44.  Presidential Impeachment
+ 89.  Price Controls
+ 80.  Public Health
+ 37.  Public Lands
+ 76.  Public Safety
+ 60.  Public Works
+ 83.  Radio/Television/Motion Pictures/Telecommunications
+ 99.  Railroads
+ 62.  Ratio of Representatives to Population
+ 40.  Religion
+ 31.  SST
+ 33.  School Prayer
+ 71.  Science and Technology
+ 35.  Selective Service (The Draft)
+ 24.  Shipping/Maritime
+ 52.  Slavery
+ 86.  Social Security
+  6.  South Africa/Rhodesia
+ 94.  Space Exploration/NASA
+ 64.  States Rights vs. Federal Government
+ 65.  Supreme Court
+ 30.  Taiwan 
+ 50.  Tariffs and Trade Regulation
+  3.  Tax rates
+ 69.  Temperance and Liquor
+106.  Tobacco
+ 58.  Treaties
+ 13.  U. N.
+ 70.  U.S. Currency
+  8.  Unemployment/Jobs
+ 10.  Union Regulation/Davis-Bacon/Situs Picketing
+ 36.  Vietnam War
+ 61.  Voting Rights
+108.  War on Terror (After 9-11)
+ 79.  WWI
+ 18.  Welfare and Medicaid
+ 57.  Whiskey Rebellion
+  5.  Women's Equality
+ 72.  Workplace conditions/8 hour day
