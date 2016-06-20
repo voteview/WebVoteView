@@ -66,7 +66,7 @@ def queryDispatcher(textQ):
 	# If there's no field specified then this is the generic search, and we should prepend it by doing
 	# the all text fuzzy search, then dispatch it.
 	if not ":" in textQ:
-		textQ = "description: "+textQ
+		textQ = "alltext: "+textQ
 		simpleSearch, needScore, errorMessage = parseFreeformQuery(textQ)
 		return [simpleSearch, needScore, errorMessage]
 
