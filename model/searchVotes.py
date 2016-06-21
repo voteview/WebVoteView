@@ -694,7 +694,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 	elif fieldType=="chamber":
 		chamber = queryWords.strip()
 		if not any(x == chamber.lower() for x in ["senate", "house"]):
-			errorMessage = "Error: invalid chamberprovided in search."
+			errorMessage = "Error: invalid chamber provided in search."
 			return [queryDict, 0, errorMessage]
 		else:
 			queryDict = addToQueryDict(queryDict, "chamber", queryWords.title())
