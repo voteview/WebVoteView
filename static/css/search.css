@@ -5,7 +5,7 @@
 	bottom:0px;
 	width:100%;
 	overflow:hidden;
-	height:72px;
+	height:78px;
 	background-color:#DEDEDE;
 	border-top:3px solid black;
 	line-height:25px;
@@ -15,7 +15,7 @@
 {
 	display:none;
 	position:fixed;
-	bottom:56px;
+	bottom:62px;
 	right:20px;
 	width:32px;
 	cursor:pointer;
