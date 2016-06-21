@@ -9,7 +9,13 @@ db = client["voteview"]
 # Swear filter is a combination of:
 # https://gist.github.com/jamiew/1112488
 # https://gist.github.com/tjrobinson/2366772
-swearData = json.load(open("swearFilter.json","r"))["swears"]
+try:
+	swearData = json.load(open("swearFilter.json","r"))["swears"]
+except:
+	try:
+		swearData = json.load(open("./model/swearFilter.json","r"))["swears"]
+	except:
+			swearData = []
 
 def initializeCart():
 	# What's going on here? UUID is a hash function. It generates a long unique identifier.

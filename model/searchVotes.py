@@ -77,6 +77,8 @@ def queryDispatcher(textQ):
 		textQ = re.sub("(\[[^\]]*\])","|STR_LITERAL_"+str(i)+"|",textQ,count=1)
 		i=i+1
 
+	print textQ
+
 	stage1, errorMessage = parenParser(textQ,debug=0)
 	if type(stage1)==type(0) and stage1==-1:
 		return [-1, 0, errorMessage]
@@ -88,8 +90,6 @@ def queryDispatcher(textQ):
 		return [-1, 0, errorMessage]
 
 	# Put string literals back in
-	i=0
-	print stage3
 	if len(strLiterals):
 		status, stage3Result = strLiteralParser(stage3, strLiterals)
 		if status==0:
@@ -101,7 +101,7 @@ def queryDispatcher(textQ):
 	stage4, needScore, errorMessage = metaProcessFreeformQuery(stage3Result,debug=0)
 	return [stage4, needScore, errorMessage]
 
-def strLiteralParser(searchSpace, replaceSet, debug=0):
+def strLiteralParser(searchSpace, replaceSet, i=0, debug=0):
 	""" String literal re-substitution procedure. We remove string literals contained in []
 	square braces earlier in the parsing process. This re-injects them recursively regardless of
 	how the parser has re-ordered data.
@@ -112,6 +112,8 @@ def strLiteralParser(searchSpace, replaceSet, debug=0):
 		A list of strings or lists output by step 3 of the parser
 	replaceSet : list
 		An ordered list of strings that will be injected into the search space.
+	i : int, optional
+		What place in the replaceSet you are in. Necessary for recursion to remember place in list.
 	debug : int, optional
 		Whether or not to print debug print statements (there are none in this method as of Apr 21)
 
@@ -124,12 +126,11 @@ def strLiteralParser(searchSpace, replaceSet, debug=0):
 		partially-completed task returns what it can.
 	"""
 
-	i=0
 	for litReplace in replaceSet:
 		sat=0
 		for j in xrange(0,len(searchSpace)):
 			if type(searchSpace[j])==type([]): # This chunk of query is deeper, so pass through
-				sat, searchSpace[j] = strLiteralParser(searchSpace[j], [litReplace])
+				sat, searchSpace[j] = strLiteralParser(searchSpace[j], [litReplace], i)
 				if sat==0:
 					continue
 				else:
@@ -992,9 +993,11 @@ if __name__ == "__main__":
 		args = " ".join(sys.argv[1:])
 		print query(args)		
 	else:
-		results = query("alltext: hello world yea: 55", rowLimit=5000)
+		results = query("(nay:[0 to 9] OR nay:[91 to 100] OR yea:[0 to 5]) AND congress:112", rowLimit=5000)
 		print results
 
+		#results = query('"defense commissary"')
+		#print results
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
