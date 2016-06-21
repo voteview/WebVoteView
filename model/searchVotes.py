@@ -640,9 +640,10 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 			queryWords = queryWords[1:-1]
 		queryDict = addToQueryDict(queryDict, queryField, {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"})
 
-	# STREXACT fields: this is for searching by bill number, we need to nail it exactly
+	# STREXACT fields: have to exactly match the full field, was used for 'bill' but no longer
 	elif fieldType=="strexact":
 		queryDict = addToQueryDict(queryDict, queryField, queryWords.upper())
+
 	# INT can be searched by integer or range
 	elif fieldType=="int":
 		if " " not in queryWords:
