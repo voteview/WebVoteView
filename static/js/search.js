@@ -23,6 +23,7 @@ function openStashCart()
 
 function closeStashCart()
 {
+	return; // Temporarily disabled
 	$("#stashCartClose").fadeOut(100,function()
 	{
 		$("#stashCartBar").slideUp(300);
@@ -70,6 +71,7 @@ function emptyCart()
 		success: function(data, status, xhr)
 		{
 			Cookies.set("stash_id", data["id"]);
+			console.log('Remaining ID '+data["id"]);
 			if(data["errorMessages"]==undefined)
 			{
 				cookieId = data["id"];
@@ -97,10 +99,44 @@ var suggestedPulse;
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
 	$('.carousel').carousel({"interval": false, "keyboard": false, "wrap": false});
+
+	// Load stash
 	cookieId = Cookies.get('stash_id');
-	if(cookieId == undefined)
+	console.log(cookieId);
+	// We don't have a stash, so let's ask for one.
+	if(cookieId == undefined || cookieId.length<8)
 	{
 		cookieId = "";
+		$.ajax({
+			dataType: "JSON",
+			url: '/api/stash/init',
+			success: function(data, status, xhr)
+			{
+				cookieId = data["id"];
+				Cookies.set('stash_id',cookieId);
+				console.log('Stash initialized.');
+			}
+		});
+	}
+	// We do have a stash, so let's load the votes from it.
+	else
+	{
+		console.log("We're here");
+		$.ajax({
+			dataType: "JSON",
+			url: '/api/stash/get',
+			data: 'id='+cookieId,
+			success: function(data, status, xhr)
+			{
+				console.log('And here');
+				console.log(data);
+				cachedVotes["old"] = data["old"];
+				cachedVotes["votes"] = data["votes"];
+				$('#oldCount').html(data["old"].length);
+				$('#newCount').html(data["votes"].length);
+				console.log("Loaded votes: "+cachedVotes["old"].length+" old and "+cachedVotes["votes"].length+" new");
+			}
+		});
 	}
 
 	// Setup suggested searches
@@ -161,56 +197,83 @@ $(document).ready(function(){
 		updateRequest();
 	});
 
-	// Prevent to do a AJAX call everytime we update the search bar
+	// Prevent form submission, force an AJAX call everytime we update the search bar
 	$("#faceted-search-form").submit(function(event) 
 	{
 		event.preventDefault();
 		updateRequest();
 	});
 
-      // Display the download excel button
-      $(document.body).on("change", "#download-rollcalls-form :input", function() {
-        showDownload();
-      });
+	// When we check a vote, do the appropriate stash changes.
+	$(document.body).on("change", "#download-rollcalls-form :input", function() {
+		console.log(this.checked);
+		if(this.checked)
+		{
+			$.ajax({
+				dataType: "JSON",
+				url: "/api/stash/add",
+				data: "id="+cookieId+"&votes="+this.value,
+				success: function(res, status, xhr)
+				{
+					console.log(res);
+				}
+			});
+		}
+		else
+		{
+			$.ajax({
+				dataType: "JSON",
+				url: "/api/stash/dell",
+				data: "id="+cookieId+"&votes="+this.value,
+				success: function(res, status, xhr)
+				{
+					console.log(res);
+				}
+			});
+		}
+		showDownload();
+	});
 
-      function showDownload () {
-        if ($("#download-rollcalls-form input:checkbox:checked").length > 0) {
-		$('#selectedResultNum').html($("#download-rollcalls-form input:checkbox:checked").length);
-		openStashCart();
-        }
-        else {
-		closeStashCart();
-        }
-      }
+	function showDownload ()
+	{
+		if ($("#download-rollcalls-form input:checkbox:checked").length > 0) {
+			$('#selectedResultNum').html($("#download-rollcalls-form input:checkbox:checked").length);
+			openStashCart();
+        	}
+        	else {
+			closeStashCart();
+		}
+	}
 
-      // Toggle panel icons
-      function toggleChevron(e) {
-          $(e.target)
-              .prev('.panel-heading')
-              .find('i.indicator')
-              .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-      }
-      $('.panel').on('hidden.bs.collapse', toggleChevron);
-      $('.panel').on('shown.bs.collapse', toggleChevron);
+	// Toggle panel icons
+	function toggleChevron(e)
+	{
+		$(e.target)
+		.prev('.panel-heading')
+		.find('i.indicator')
+		.toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+	}
+	$('.panel').on('hidden.bs.collapse', toggleChevron);
+	$('.panel').on('shown.bs.collapse', toggleChevron);
 
 
-      // If any panel has data display it
-      if($('#facet-chamber input[type=checkbox]:checked').length) {
-        $("#facet-chamber").collapse('show');
-      }
-      if($('#facet-clausen input[type=checkbox]:checked').length) {
-        $("#facet-clausen").collapse('show');
-      }
-      if($('#fromDate').val()  || $("#toDate").val()) {
-        $("#facet-date").collapse('show');
-      }
-      if($('#fromCongress').val()  || $("#toCongress").val()) {
-        $("#facet-congress").collapse('show');
-      }
-      if($('#support').slider('getValue')[0]!=0 || $('#support').slider('getValue')[1]!=100) {
-	$('#facet-support').collapse('show');
-      }
-  });
+	// If any panel has data display it
+	if($('#facet-chamber input[type=checkbox]:checked').length) {
+		$("#facet-chamber").collapse('show');
+	}
+	if($('#facet-clausen input[type=checkbox]:checked').length) {
+		$("#facet-clausen").collapse('show');
+	}
+	if($('#fromDate').val()  || $("#toDate").val()) {
+		$("#facet-date").collapse('show');
+	}
+	if($('#fromCongress').val()  || $("#toCongress").val()) {
+		$("#facet-congress").collapse('show');
+	}
+	if($('#support').slider('getValue')[0]!=0 || $('#support').slider('getValue')[1]!=100) {
+		$('#facet-support').collapse('show');
+	}
+});
 
 function updateRequest()
 {
@@ -238,7 +301,24 @@ function updateRequest()
 			data: $('#faceted-search-form').serialize() + "&jsapi=1",
 			beforeSend:function(){
 				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
-				$('#searchText').html($('#searchTextInput').val());
+				if($('#searchTextInput').val())
+				{
+					$('.searchText').html('"'+$('#searchTextInput').val()+'"');
+				}
+				else
+				{
+					$('.searchText').html('all votes');
+				}
+				$.ajax({
+					dataType: "JSON",
+					url: "/api/setSearch",
+					data: "id="+cookieId+"&search="+$('#searchTextInput').val(),
+					success: function(res, status, xhr)
+					{
+						console.log('Search set.');
+						console.log(res);
+					}
+				});
 			},
 			success: function(res, status, xhr) 
 			{
@@ -272,6 +352,7 @@ function updateRequest()
 				$("#results-list").fadeOut(50, function()
 				{
 					$("#results-list").html(res);
+					selectIncludedVotes();
 					$("#results-list").fadeIn();
 					$('[data-toggle="tooltip"]').tooltip(); 
 				});
@@ -293,6 +374,7 @@ function updateRequest()
 			success: function(res, status, xhr) {
 				metaPageloaded += 1;
 				$("#results-list").append(res);
+				selectIncludedVotes();
 				nextId = xhr.getResponseHeader("Nextid");
 				console.log('New next id: '+nextId);
 				if(nextId==0)
@@ -308,6 +390,18 @@ function updateRequest()
 			}
 		});
 	}
+
+function selectIncludedVotes()
+{
+	$.each(cachedVotes["old"],function(a, b)
+	{
+		$('input[value='+b+']').attr('checked',true);
+	});
+	$.each(cachedVotes["votes"],function(a, b)
+	{
+		$('input[value='+b+']').attr('checked',true);
+	});
+}
 
 function unselectAll()
 {

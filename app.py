@@ -495,6 +495,7 @@ def stash(verb):
 	except:
 		votes = []
 
+	#return {"test": "foo"}
 	return model.stashCart.verb(verb, id, votes)
 
 @app.route("/api/shareableLink")

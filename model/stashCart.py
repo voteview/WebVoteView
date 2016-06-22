@@ -186,7 +186,7 @@ def getVotes(id):
 		else:
 			search = ""
 
-			return({'id': id, 'votes': votes, 'old': old, 'search': search, 'errors': errorMessages})
+		return({'id': id, 'votes': votes, 'old': old, 'search': search, 'errors': errorMessages})
 
 def verb(verb, id, votes):
 	if verb=="get":
@@ -199,6 +199,8 @@ def verb(verb, id, votes):
 		return initializeCart()
 	elif verb=="empty":
 		return emptyCart(id)
+
+	return {"error": "Invalid verb."}
 
 def setSearch(id, search):
 	errorMessages = []
@@ -286,11 +288,10 @@ def shareableLink(id, text):
 	return {"link": link, "errors": errorMessages}
 
 if __name__ == "__main__":
-	id = initializeCart()["id"]
-	print id
-	print addVotes(id, [10, 20, 30, 40, 50, 60])
-	print delVotes(id, [40])
-	print getVotes(id)
-	addVotes(id, 14)
-	addVotes(id, [44, 48, 408, 418])
-	print getVotes(id)
+	id = "e5ed4eb1"
+	print addVotes(id, ["H1140981", "H1140953"])
+	#print delVotes(id, [40])
+	#print getVotes(id)
+	#addVotes(id, 14)
+	#addVotes(id, [44, 48, 408, 418])
+	#print getVotes(id)
