@@ -197,7 +197,8 @@ def verb(verb, id, votes):
 		return addVotes(id, votes)
 	elif verb=="init":
 		return initializeCart()
-
+	elif verb=="empty":
+		return emptyCart(id)
 
 def setSearch(id, search):
 	errorMessages = []

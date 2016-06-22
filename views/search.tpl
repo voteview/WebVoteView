@@ -282,14 +282,15 @@
 		<!-- Carousel Item 1 -->
 		<div class="item active">
 			<div class="footerBig">
-				Saved: <big><strong>87</strong></big> results from previous searches.<br/>
-				+ <big><strong>231</strong></big> results from "congress: 115 support: 100"
+				Saved: <span id="oldResults"><big><strong id="oldCount">0</strong></big> results from previous searches.<br/>
+				+</span> 
+				<span id="newResults"><big><strong id="newCount">0</strong></big> results from "congress: 115 support: 100"</span>
 			</div>
 			<div class="footerBig">
-				<a href="">Add all <big><strong>18</strong></big> results from "congress: 115 support: 100"</a> <br/>
-				<a href="">Add <big><strong>3</strong></big> selected results from "congress: 115 support: 100"</a>
+				<a href="">Add all <big><strong id="searchResultNum">0</strong></big> results from "<span id="searchText">searchText</span>"</a> <br/>
+				<a href="">Add <big><strong id="selectedResultNum">0</strong></big> selected results from "searchText"</a>
 			</div>
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Empty Vote Cart" onClick="javascript:closeStashCart();">
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Empty Vote Cart" onClick="javascript:emptyCart();">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 			</div>
 			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Download Votes" onClick="javascript:$('.carousel').carousel(1);">
@@ -318,12 +319,14 @@
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			</div>
 			<div class="footerBig">
-				Create a permanent link for <big><strong>318</strong></big> votes: <br/>
-				http://voteview.com/s/<input type="text" placeholder="type-short-name"> 
-				<input type="submit" value="Create">
+				Create a permanent link for <big><strong>0</strong></big> votes: <br/>
+				http://voteview.com/s/<span id="shareTextShort"></span><span id="shareTextInput">
+					<input id="shareLinkText" type="text" placeholder="type-short-name"> 
+					<input type="submit" value="Create" onClick="javascript:shareLink();">
+				</span>
 			</div>
 			<div class="footerBig">
-				<br/>&nbsp;
+				<span id="shareLinkStatus"></span><br/>&nbsp;
 			</div>
 		</div>
 	</div>
