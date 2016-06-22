@@ -66,7 +66,9 @@ def queryDispatcher(textQ):
 	# If there's no field specified then this is the generic search, and we should prepend it by doing
 	# the all text fuzzy search, then dispatch it.
 	if not ":" in textQ:
-		textQ = "alltext: "+textQ
+		# If there's a literal string, adding description results in a regex over just that field
+		# Otherwise it will hit the fulltext index, just like alltext would
+		textQ = "description: " + textQ
 		simpleSearch, needScore, errorMessage = parseFreeformQuery(textQ)
 		return [simpleSearch, needScore, errorMessage]
 
@@ -76,8 +78,6 @@ def queryDispatcher(textQ):
 	for sub in strLiterals:
 		textQ = re.sub("(\[[^\]]*\])","|STR_LITERAL_"+str(i)+"|",textQ,count=1)
 		i=i+1
-
-	print textQ
 
 	stage1, errorMessage = parenParser(textQ,debug=0)
 	if type(stage1)==type(0) and stage1==-1:
@@ -993,11 +993,11 @@ if __name__ == "__main__":
 		args = " ".join(sys.argv[1:])
 		print query(args)		
 	else:
-		results = query("(nay:[0 to 9] OR nay:[91 to 100] OR yea:[0 to 5]) AND congress:112", rowLimit=5000)
-		print results
-
-		#results = query('"defense commissary"')
+		#results = query("(nay:[0 to 9] OR nay:[91 to 100] OR yea:[0 to 5]) AND congress:112", rowLimit=5000)
 		#print results
+
+		results = query('"defense commissary"')
+		print results
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
