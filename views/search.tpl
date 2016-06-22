@@ -284,11 +284,11 @@
 			<div class="footerBig">
 				Saved: <span id="oldResults"><big><strong id="oldCount">0</strong></big> results from previous searches.<br/>
 				+</span> 
-				<span id="newResults"><big><strong id="newCount">0</strong></big> results from "congress: 115 support: 100"</span>
+				<span id="newResults"><big><strong id="newCount">0</strong></big> results from <span class="searchText"></span></span>
 			</div>
 			<div class="footerBig">
-				<a href="">Add all <big><strong id="searchResultNum">0</strong></big> results from "<span id="searchText">searchText</span>"</a> <br/>
-				<a href="">Add <big><strong id="selectedResultNum">0</strong></big> selected results from "searchText"</a>
+				<a href="">Add all <big><strong id="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>
+				<a href="">Add <big><strong id="selectedResultNum">0</strong></big> selected results from <span class="searchText">all votes</span></a>
 			</div>
 			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Empty Vote Cart" onClick="javascript:emptyCart();">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
