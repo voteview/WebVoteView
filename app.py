@@ -487,7 +487,7 @@ def contact():
 		return(traceback.format_exc())
 		return({"error": "You must fill out the entire form before submitting."})
 
-@app.route("/api/stash/<verb:re:init|add|del|get>")
+@app.route("/api/stash/<verb:re:init|add|del|get|empty>")
 def stash(verb):
 	try:
 		id = defaultValue(bottle.request.params.id,"")
@@ -496,6 +496,28 @@ def stash(verb):
 		votes = []
 
 	return model.stashCart.verb(verb, id, votes)
+
+@app.route("/api/shareableLink")
+@app.route("/api/shareableLink", method="POST")
+def shareLink():
+	try:
+		id = defaultValue(bottle.request.params.id,"")
+		text = defaultValue(bottle.request.params.text,"")
+	except:
+		return {"errorMessage": "Invalid ID or text"}
+
+	return model.stashCart.shareableLink(id, text)
+
+@app.route("/api/setSearch")
+@app.route("/api/setSearch", method="POST")
+def setSearch():
+	try:
+		id = defaultValue(bottle.request.params.id,"")
+		search = defaultValue(bottle.request.params.search,"")
+	except:
+		return {"errorMessage": "Invalid ID or search"}
+
+	return model.stashCart.setSearch(id, search)
 
 @app.route("/api/version")
 def apiVersion():

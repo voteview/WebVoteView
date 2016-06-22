@@ -1,3 +1,5 @@
+var cookieId = "";
+var cachedVotes = {};
 var globalQueueRequests = 0;
 var requestQueue;
 var nextId = 0; // What skip value we send to the next page loader.
@@ -59,6 +61,32 @@ function toggleAdvancedSearch(instant)
 	}
 }
 
+function emptyCart()
+{
+	$.ajax({
+		dataType: "JSON",
+		url: "/api/stash/empty",
+		data: "id="+cookieId,
+		success: function(data, status, xhr)
+		{
+			Cookies.set("stash_id", data["id"]);
+			if(data["errorMessages"]==undefined)
+			{
+				cookieId = data["id"];
+				cachedVotes = {};
+			}
+			else
+			{
+				cookieId = "";
+				cachedVotes = {};
+				console.log(data["errorMessages"]);
+			}
+			unselectAll();
+			closeStashCart();
+		}			
+	});
+}
+
 function startPulseSuggested()
 {
 	if($("#searchTextInput").val()=="") { $("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); }
@@ -69,6 +97,11 @@ var suggestedPulse;
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
 	$('.carousel').carousel({"interval": false, "keyboard": false, "wrap": false});
+	cookieId = Cookies.get('stash_id');
+	if(cookieId == undefined)
+	{
+		cookieId = "";
+	}
 
 	// Setup suggested searches
 	suggestedPulse = setInterval(startPulseSuggested,8000);
@@ -142,6 +175,7 @@ $(document).ready(function(){
 
       function showDownload () {
         if ($("#download-rollcalls-form input:checkbox:checked").length > 0) {
+		$('#selectedResultNum').html($("#download-rollcalls-form input:checkbox:checked").length);
 		openStashCart();
         }
         else {
@@ -204,6 +238,7 @@ function updateRequest()
 			data: $('#faceted-search-form').serialize() + "&jsapi=1",
 			beforeSend:function(){
 				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
+				$('#searchText').html($('#searchTextInput').val());
 			},
 			success: function(res, status, xhr) 
 			{
@@ -212,6 +247,7 @@ function updateRequest()
 				var memberNumber = xhr.getResponseHeader("Member-Number")
 				var memLabelText = "member"+(memberNumber!=1?"s":"");
 				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
+				if(resultsNumber>0) { $('#searchResultNum').html(resultsNumber); }
 				if(memberNumber==1) { memLabelText = "member"; }
 				if(resultsNumber==1) { voteLabelText = "vote"; }
 				if(memberNumber>0 && resultsNumber>0)
@@ -291,4 +327,35 @@ function checkBox(id)
 	var cb = $("input[value='"+id+"']");
 	cb.prop('checked', !cb.prop('checked'));
 	cb.trigger('change');
+}
+
+function shareLink()
+{
+	var shortLink = $('#shareLinkText').val();
+	$.ajax({
+		type: "POST",
+		url: "/api/shareableLink",
+		data: "id="+cookieId+"&text="+shortLink,
+		success: function(res, status, xhr)
+		{
+			if(res["link"]!="undefined" && res["link"]!="")
+			{
+				console.log(res);
+				$('#shareTextInput').hide();
+				$('#shareTextShort').html(res["link"]).show();
+				if(shortLink!=res["link"])
+				{
+					$("#shareLinkStatus").hide().html("Link copied to clipboard.<br/>Note: The link has been modified.").fadeIn();
+				}
+				else
+				{
+					$('#shareLinkStatus').hide().html("Link copied to clipboard.<br/>&nbsp;").fadeIn();
+				}
+			}
+			else
+			{
+				$('#shareLinkStatus').hide().html(res["errors"][0]).fadeIn();
+			}
+		}
+	});
 }
