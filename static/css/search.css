@@ -4,9 +4,8 @@
 	position:fixed;
 	bottom:0px;
 	width:100%;
-	overflow:hidden;
 	height:78px;
-	background-color:#DEDEDE;
+	background-color:#EFEFEF;
 	border-top:3px solid black;
 	line-height:25px;
 }
@@ -16,7 +15,7 @@
 	position:fixed;
 	display:none;
 	bottom:30px;
-	right:40px;
+	right:50px;
 	width:32px;
 	cursor:pointer;
 }

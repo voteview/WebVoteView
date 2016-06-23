@@ -73,47 +73,47 @@
 						</div>
 					</div>
 
-            <div class="panel panel-primary">
-              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-congress">
-                <h3 class="panel-title">Congress range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
-              </div>
-              <div id="facet-congress" class="panel-collapse facet-content collapse">
-                <div class="panel-body">
-                  <div class="form-group">
-                    <label for="fromCongress" class="col-sm-5 control-label">From</label>
-                    <div class="col-sm-6">
-                      <input name="fromCongress" type="text" class="form-control" id="fromCongress" placeholder="From">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="toCongress" class="col-sm-5 control-label">To</label>
-                    <div class="col-sm-6">
-                      <input name="toCongress" type="text" class="form-control" id="toCongress" placeholder="To">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+					<div class="panel panel-primary">
+						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-congress">
+							<h3 class="panel-title">Congress range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+						</div>
+						<div id="facet-congress" class="panel-collapse facet-content collapse">
+							<div class="panel-body">
+								<div class="form-group">
+									<label for="fromCongress" class="col-sm-5 control-label">From</label>
+									<div class="col-sm-6">
+										<input name="fromCongress" type="text" class="form-control" id="fromCongress" placeholder="From">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="toCongress" class="col-sm-5 control-label">To</label>
+									<div class="col-sm-6">
+										<input name="toCongress" type="text" class="form-control" id="toCongress" placeholder="To">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-            <div class="panel panel-primary">
-              <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-support">
-                <h3 class="panel-title">Vote Outcome <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
-              </div>
-              <div id="facet-support" class="panel-collapse facet-content collapse">
-                <div class="panel-body">
-                  <div class="form-group">
-			<label for="support" class="col-sm-10 control-label">Percentage Support:</label>
+					<div class="panel panel-primary">
+						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-support">
+							<h3 class="panel-title">Vote Outcome <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+						</div>
+						<div id="facet-support" class="panel-collapse facet-content collapse">
+							<div class="panel-body">
+								<div class="form-group">
+									<label for="support" class="col-sm-10 control-label">Percentage Support:</label>
 
-			<div style="padding:30px;padding-bottom:0px;">
-				<input id="support" name="support" type="text" class="span2" value="" 
-					data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-ticks="[0, 50, 100]" data-slider-value="[0,100]"
-					data-slider-ticks-labels="['0%', '50%', '100%']" data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
-					data-slider-id="support-bucket" >
-			</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+									<div style="padding:30px;padding-bottom:0px;">
+										<input id="support" name="support" type="text" class="span2" value="" 
+											data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-ticks="[0, 50, 100]" data-slider-value="[0,100]"
+											data-slider-ticks-labels="['0%', '50%', '100%']" data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
+											data-slider-id="support-bucket" >
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
 
             <div class="panel panel-primary">
@@ -265,7 +265,6 @@
 						</div>
 					</div>
 				</div>
-				<a id="download-btn" class="btn btn-info" onclick="javascript:exportVote(); $('#download-rollcalls-form').submit(); unselectAll();">Download selected roll calls to Excel</a>
 				<form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
 					<div id="results-list">
 					</div>
@@ -284,33 +283,40 @@
 			<div class="footerBig">
 				Saved: <span id="oldResults"><big><strong id="oldCount">0</strong></big> results from previous searches.<br/>
 				+</span> 
-				<span id="newResults"><big><strong id="newCount">0</strong></big> results from <span class="searchText"></span><br/>&nbsp;</span>
+				<span id="newResults"><big><strong id="newCount">0</strong></big> new results from <span class="searchText"></span><br/>&nbsp;</span>
 			</div>
-			<div id="addAll" class="footerBig">
-				<a href="">Add all <big><strong id="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>&nbsp;
+			<div style="display:none;" id="addAll" class="footerBig">
+				<a href="#" onClick="javascript:addAllVotes();return false;">Add all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>
+				<a href="#" onClick="javascript:delAllVotes();return false;">Delete all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a>
 			</div>
-			<div id="emptyCartIcon" class="footerIcon" data-toggle="tooltip" data-placement="top" title="Empty Vote Cart" onClick="javascript:emptyCart();">
-				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+			<div id="emptyCartIcon" class="footerIcon" onClick="javascript:emptyCart();">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Empty Saved Votes" data-container="body"></span>
 			</div>	
-			<div id="downloadVotesIcon" class="footerIcon" data-toggle="tooltip" data-placement="top" title="Download Votes" onClick="javascript:$('.carousel').carousel(1);">
-				<span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(1);">
+				<span class="glyphicon glyphicon-file" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
 			</div>
-			<div id="createLinkIcon" class="footerIcon" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" onClick="javascript:$('.carousel').carousel(2);">
-				<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+			<div id="createLinkIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(2);">
+				<span class="glyphicon glyphicon-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" data-container="body"></span>
 			</div>
 		</div>
 		<div class="item">
 			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('.carousel').carousel(0);">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			</div>
-			<div class="footerIcon">
-				Download to Excel
+			<div class="footerIcon" id="exportXLS">
+				<a href="#" onClick="javascript:exportXLS();return false;">Download to Excel</a>
 			</div>
-			<div class="footerIcon">
-				Download to JSON
+			<div class="footerIcon" id="exportJSON">
+				<a href="#" onClick="javascript:exportJSON();return false;">Download to JSON</a>
 			</div>
-			<div class="footerIcon">
+			<div class="footerIcon" id="format3">
 				Download to Format3
+			</div>
+			<div class="footerIcon">
+				<span onClick="javascript:loadSavedVotes();" class="glyphicon glyphicon-upload" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Load Votes into Search" data-container="body"></span>
+			</div>
+			<div class="footerBig" id="errorTooManyVotes" style="display:none;">
+				You can only save stashes of 250 votes or less.<br/>If you would like to download our entire vote database, <a href="/data/">Click here</a>.
 			</div>
 		</div>
 		<div class="item">
@@ -333,7 +339,7 @@
 </div>
 <img id="stashCartClose" onClick="javacript:closeStashCart();" src="/static/img/close.png">
 <div id="stashCartIcon" onClick="javascript:openStashCart();">
-	<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+	<span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Saved Votes"></span>
 </div>
 
 

@@ -20,16 +20,21 @@ descriptionfields = [('chamber','chamber'),
 			('rollnumber','rollnumber'),
 			('description','description')]
 
-def downloadXLS(ids):
+def downloadXLS(ids, apitype="Web"):
 	xls = "True"
 	try:
-		ids = [i.strip() for i in ids.split(',')]
+		if type(ids)==type(str("")):
+			ids = [i.strip() for i in ids.split(',')]
 	except:
 		return [-1, "Error: No rollcall IDs specified."]
 
 	if not ids or not len(ids):
 		return [-1, "Error: No rollcall IDs specified."]
-	if len(ids)>100:
+	maxIds = 100
+	if apitype=="exportXLS":
+		maxIds = 250
+
+	if len(ids)>maxIds:
 		return [-1, "Error: API abuse. Too many rollcall IDs requested."]
 
 	rollcalls = [['vote']+[f[1] for f in descriptionfields]] # Header row for rollcalls
@@ -68,6 +73,20 @@ def downloadXLS(ids):
 		wxls.addVotes()
 		wxls.addRollcalls()
 		return [0, wxls.render()]
+
+def downloadStash(stash):
+	if not stash:
+		return [-1, "Error: No stash ID provided."]
+	res = db.stash.find_one({"id": stash})
+	if not res or res is None:
+		return [-1, "Error: Invalid stash ID provided."]
+
+	voteIds = []
+	if "old" in res:
+		voteIds = voteIds + res["old"]
+	if "votes" in res:
+		voteIds = list(set(voteIds + res["votes"]))
+	return downloadXLS(voteIds, "exportXLS")
 
 if __name__ == "__main__":
 	print "Begin download..."
