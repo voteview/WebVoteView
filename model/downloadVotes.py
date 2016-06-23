@@ -22,8 +22,8 @@ def downloadAPI(rollcall_id, apitype="Web"):
 
 	starttime = time.time()
 	# Setup API version response
-	if apitype=="Web":
-		apiVersion = "Web 2016-05"
+	if apitype=="Web" or apitype=="exportJSON":
+		apiVersion = "Web 2016-06"
 	elif apitype=="R":
 		apiVersion = "R 2016-02"
 
@@ -32,13 +32,18 @@ def downloadAPI(rollcall_id, apitype="Web"):
 		return response
 
 	 # Split multiple ID requests into list
-	if "," in rollcall_id:
+	if type(rollcall_id)==type([""]):
+		rollcall_ids = rollcall_id
+	elif "," in rollcall_id:
 		rollcall_ids = [x.strip() for x in rollcall_id.split(",")]
 	else:
 		rollcall_ids = [rollcall_id]
 
 	 # Abuse filter
-	if len(rollcall_ids)>100:
+	maxVotes = 100
+	if apitype=="exportJSON":
+		maxVotes = 500
+	if len(rollcall_ids)>maxVotes:
 		response = {'errormessage': 'API abuse. Too many votes.', 'apitype': apiVersion}
 		return response
 
@@ -71,7 +76,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 					bestName = member["name"]
 
 				# Web returns different fields than R
-				if apitype=="Web": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
+				if apitype=="Web" or apitype=="exportJSON": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
 					v = {
 						'vote': _get_yeanayabs(rollcall['votes'][member["id"]]), 
 						'name': bestName,
@@ -109,7 +114,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 					result.append(v)
 
 			# Top level nominate metadata
-			if apitype=="Web":
+			if apitype=="Web" or apitype=="exportJSON":
 				nominate = rollcall['nominate']
 			elif apitype=="R":
 				nominate = {k: rollcall['nominate'][k] for k in ['intercept', 'slope']}
@@ -118,7 +123,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 			found[rollcall["id"]] = 1
 
 			# Collapse codes for R
-			if apitype=="Web":
+			if apitype=="Web" or apitype=="exportJSON":
 				codes = rollcall["code"]
 			elif apitype=="R":
 				codes = rollcall["code"]
@@ -131,6 +136,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						'yea': rollcall["yea"], 'nay': rollcall["nay"]})
 
 		except: # Invalid vote id
+			print member
 			print traceback.format_exc()
 			errormessage = "Invalid Rollcall ID specified."
 			errormeta.append(str(rollcall["id"]))
@@ -153,8 +159,23 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	response["elapsedTime"] = round(endtime - starttime,3)
 	return response
 
+def downloadStash(id):
+	if not id:
+		return {"errormessage": "Invalid stash id.", "rollcalls": []}
+	else:
+		res = db.stash.find_one({"id": id})
+		if not res or res is None:
+			return {"errormessage": "Invalid stash id.", "rollcalls": []}
+		else:
+			voteIds = []
+			if "old" in res:
+				voteIds = voteIds + res["old"]
+			if "votes" in res:
+				voteIds = list(set(voteIds + res["votes"]))
+			return downloadAPI(voteIds, apitype="exportJSON")			
+
 if __name__=="__main__":
+#	print downloadStash("3a5c69e7")
 #	print downloadAPI("H1121599")
-	print downloadAPI("H1030301", "R")
-
-
+#	print downloadAPI("H1030301", "R")
+	pass

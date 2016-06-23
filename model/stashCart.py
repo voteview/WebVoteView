@@ -3,6 +3,7 @@ import pymongo
 import re
 import uuid
 import time
+from searchVotes import query
 client = pymongo.MongoClient()
 db = client["voteview"]
 
@@ -31,6 +32,26 @@ def initializeCart():
 
 	# Expires
 	return({'id': uniqueUUID})
+
+def addAll(id, search):
+	results = query(qtext=search, jsapi=0, rowLimit=2000, idsOnly=1)
+	if "rollcalls" in results:
+		rcSet = []
+		for rc in results["rollcalls"]:
+			rcSet.append(rc["id"])
+		return addVotes(id, rcSet)
+	else:
+		return {"errors": ["Can't add votes; no results from search."]}
+
+def delAll(id, search):
+	results = query(qtext=search, jsapi=0, rowLimit=2000, idsOnly=1)
+	if "rollcalls" in results:
+		rcSet = []
+		for rc in results["rollcalls"]:
+			rcSet.append(rc["id"])
+		return delVotes(id, rcSet)
+	else:
+		return {"errors": ["Can't remove votes; no results from search."]}
 
 def updateExpiry():
 	# Current expiry: 7 days.

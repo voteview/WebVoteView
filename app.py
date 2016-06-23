@@ -10,8 +10,8 @@ import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
-from model.downloadXLS import downloadXLS
 from model.raWIKI import readStatus, writeStatus
+import model.downloadXLS
 import model.stashCart
 import datetime
 import time
@@ -423,7 +423,9 @@ def searchAssemble():
 	res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId)
 
 	if "errormessage" in res:
-		bottle.response.headers["rollcall_number"] = 999
+		bottle.response.headers["rollcall_number"] = -999
+		bottle.response.headers["member_number"] = 0
+		bottle.response.headers["nextId"] = 0
 		out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers)
 	else:
 		if "fulltextSearch" in res:
@@ -462,27 +464,45 @@ def downloadAPI(rollcall_id=""):
 	res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
 	return(res)
 
+@app.route("/api/exportJSON",method="POST")
+@app.route("/api/exportJSON")
+def exportJSON():
+	id = defaultValue(bottle.request.params.id,"")
+	return model.downloadVotes.downloadStash(id)
+
 @app.route("/api/downloadXLS",method="POST")
 @app.route("/api/downloadXLS")
-def download():
-	ids = bottle.request.params.getall("ids")
+def downloadXLS():
+	try:
+		stash = defaultValue(bottle.request.params.stash,"")
+	except:
+		stash = ""		
+	
+	try:
+		ids = bottle.request.params.getall("ids")
+	except:
+		ids = []
+
 	try:
 		if type(ids)==type([]):
 			ids = ",".join(ids)
 	except:
 		pass
-		
-	xls = True
-	statusCode, result = downloadXLS(ids)
-	if xls:
-		if statusCode==0:
-			bottle.response.content_type = 'application/vnd.ms-excel'
-			currentDateString = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-			outputFilename = currentDateString+"_voteview_download.xls"
-			bottle.response.headers["Content-Disposition"] = "inline; filename="+outputFilename
-			return(result)
-		else: # Non-zero status code.
-			return({"errormessage": result}) 
+
+
+	if stash:
+		statusCode, result = model.downloadXLS.downloadStash(stash)
+	else:
+		statusCode, result = model.downloadXLS.downloadXLS(ids)
+
+	if statusCode==0:
+		bottle.response.content_type = 'application/vnd.ms-excel'
+		currentDateString = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+		outputFilename = currentDateString+"_voteview_download.xls"
+		bottle.response.headers["Content-Disposition"] = "inline; filename="+outputFilename
+		return(result)
+	else: # Non-zero status code.
+		return({"errormessage": result}) 
 
 @app.route("/api/contact",method="POST")
 @app.route("/api/contact")
@@ -521,6 +541,26 @@ def shareLink():
 
 	return model.stashCart.shareableLink(id, text)
 
+@app.route("/api/addAll")
+@app.route("/api/addAll", method="POST")
+def addAll():
+	try:
+		id = defaultValue(bottle.request.params.id,"")
+		search = defaultValue(bottle.request.params.search,"")
+	except:
+		return {"errorMessage": "Invalid ID or search."}
+	return model.stashCart.addAll(id, search)
+
+@app.route("/api/delAll")
+@app.route("/api/delAll", method="POST")
+def delAll():
+	try:
+		id = defaultValue(bottle.request.params.id,"")
+		search = defaultValue(bottle.request.params.search,"")
+	except:
+		return {"errorMessage": "Invalid ID or search."}
+	return model.stashCart.delAll(id, search)
+
 @app.route("/api/setSearch")
 @app.route("/api/setSearch", method="POST")
 def setSearch():
@@ -534,7 +574,7 @@ def setSearch():
 
 @app.route("/api/version")
 def apiVersion():
-    return({'apiversion': 'Q2'})
+    return({'apiversion': 'Q3 June 22, 2016'})
 
 if __name__ == '__main__':
 	bottle.run(host='localhost',port=8080, debug=True)

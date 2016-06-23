@@ -708,7 +708,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 		savedId = queryWords.strip()
 		res = db.stash.find_one({'id': savedId})
 		if not res:
-			validIds = []
+			validIds = [-1]
 		else:
 			validIds = []
 			if "votes" in res:
@@ -790,7 +790,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
 		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0):
+		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0, idsOnly=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -900,7 +900,11 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		# queryDict["votes.id"] = icpsr
 
 	# Get results
-	fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1, "synthID": 1}
+	if not idsOnly:
+		fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1, "synthID": 1}
+	else:
+		fieldReturns = {"id": 1, "_id": 0, "synthID": 1}
+
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
 
@@ -967,7 +971,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			maxScore = res["score"]
 
 		if len(mr)<rowLimit:
-			del res["synthID"]
+			if "synthID" in res:
+				del res["synthID"]
 			if not needScore:
 				mr.append(res)
 			elif res["score"]>= SCORE_THRESHOLD and res["score"]>=SCORE_MULT_THRESHOLD * maxScore:
@@ -1012,11 +1017,11 @@ if __name__ == "__main__":
 	else:
 		#results = query("(nay:[0 to 9] OR nay:[91 to 100] OR yea:[0 to 5]) AND congress:112", rowLimit=5000)
 		#print results
-		#results = query("saved: 51ee4496 chamber:Senate")
-		#print results
-
-		results = query('"defense commissary"')
+		results = query("saved: 3a5c69e7")
 		print results
+
+		#results = query('"defense commissary"')
+		#print results
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis

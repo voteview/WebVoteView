@@ -38,6 +38,8 @@ function closeStashCart()
 	});	
 }
 
+function exportJSON() { window.location="/api/exportJSON?id="+cookieId; }
+function exportXLS() { window.location="/api/downloadXLS?stash="+cookieId; }
 
 function updateStashCart()
 {
@@ -87,14 +89,16 @@ function updateStashCart()
 	}
 
 	// Hide or show "add all" link.
-	if(resultCount && resultCount<2000)
+	if(resultCount>0 && resultCount<2000)
 	{
-		$("#searchResultNum").html(numberWithCommas(resultCount));
+		$(".searchResultNum").html(numberWithCommas(resultCount));
 		$("#addAll").fadeIn();
+		$("#delAll").fadeIn();
 	}
 	else
 	{
 		$("#addAll").fadeOut();
+		$("#delAll").fadeOut();
 	}
 
 	// Update search text
@@ -104,11 +108,67 @@ function updateStashCart()
 	}
 	else { $(".searchText").html("all votes"); }
 
+	if(mostRecentSearch.substr(0,6)=="saved:")
+	{
+		$("#addAll").hide();
+	}
+
+	if(totalVoteCount>250)
+	{
+		$("#errorTooManyVotes").fadeIn();
+		$("#exportXLS").hide();
+		$("#exportJSON").hide();
+		$("#format3").hide();
+	}
+
 	// Nuke any residual link creation stuff.
 	$("#shareLinkText").val("");
 	$("#shareTextInput").show();
 	$("#shareTextLink").html("").hide();
 	$("#shareLinkStatus").hide();
+}
+
+function addAllVotes()
+{
+	$.ajax({
+		dataType: "JSON",
+		url: "/api/addAll",
+		data: "id="+cookieId+"&search="+mostRecentSearch,
+		success: function(data, status, xhr)
+		{
+			if(data["old"]) { cachedVotes["old"] = data["old"]; }
+			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
+			updateStashCart();
+			selectIncludedVotes();						
+		}
+	});
+}
+
+function delAllVotes()
+{
+	$.ajax({
+		dataType: "JSON",
+		url: "/api/delAll",
+		data: "id="+cookieId+"&search="+mostRecentSearch,
+		success: function(data, status, xhr)
+		{
+			if(data["old"]) { cachedVotes["old"] = data["old"]; }
+			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
+			console.log(cachedVotes);
+			updateStashCart();
+			selectIncludedVotes();						
+		}
+	});
+
+}
+
+function loadSavedVotes()
+{
+	if(cookieId.length)
+	{
+		$("#searchTextInput").val("saved: "+cookieId);
+		getRollcalls();
+	}
 }
 
 function toggleAdvancedSearch(instant)
@@ -397,8 +457,8 @@ function updateRequest()
 			success: function(res, status, xhr) 
 			{
 				metaPageloaded = 0; // Reset page load count. We use this for stopping auto-scroll after 10 pages.
-				var resultsNumber = xhr.getResponseHeader("Rollcall-Number");
-				var memberNumber = xhr.getResponseHeader("Member-Number");
+				var resultsNumber = parseInt(xhr.getResponseHeader("Rollcall-Number"));
+				var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
 				resultCount = resultsNumber;
 				var memLabelText = "member"+(memberNumber!=1?"s":"");
 				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
@@ -409,9 +469,16 @@ function updateRequest()
 					$("#results-number").html(numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
 				}
 				else if(memberNumber>0) { $("#results-number").html(numberWithCommas(memberNumber)+" "+memLabelText+" found"); } 
-				else
+				else if(resultsNumber>=0)
 				{
 					$("#results-number").html(numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
+				}
+				else { $("#results-number").html("Error completing search."); }
+
+				console.log(resultsNumber);
+				if(resultsNumber<0) 
+				{
+					$("#addAll").hide(); 
 				}
 				nextId = xhr.getResponseHeader("Nextid");
 				console.log('New next id: '+nextId);
@@ -468,13 +535,15 @@ function updateRequest()
 
 function selectIncludedVotes()
 {
+	$('input[name=ids]').prop('checked',false);
+
 	$.each(cachedVotes["old"],function(a, b)
 	{
-		$('input[value='+b+']').attr('checked',true);
+		$('input[value='+b+']').prop('checked',true);
 	});
 	$.each(cachedVotes["votes"],function(a, b)
 	{
-		$('input[value='+b+']').attr('checked',true);
+		$('input[value='+b+']').prop('checked',true);
 	});
 }
 
