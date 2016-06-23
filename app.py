@@ -233,6 +233,18 @@ def wiki():
 	else:
 		return bottle.template("views/raWIKI", person=nextTry)
 
+# Stash saved links redirect
+@app.route("/s/<savedhash>")
+def savedHashRedirect(savedhash):
+	if not savedhash:
+		return bottle.template("views/error", errorMessage="Invalid redirect ID. This link is not valid. Please notify the person who provided this link to you that it is not operational.")
+	else:
+		status = model.stashCart.checkExists(savedhash.strip())["status"]
+		if not status:
+			bottle.redirect("/search/?q=saved: "+savedhash)
+		else:
+			return bottle.template("views/error", errorMessage="Invalid redirect ID. This link is not valid. Please notify the person who provided this link to you that it is not operational.")
+
 
 #
 #
@@ -523,10 +535,6 @@ def setSearch():
 @app.route("/api/version")
 def apiVersion():
     return({'apiversion': 'Q2'})
-
-
-def testFunc():
-	return "qqqqq"
 
 if __name__ == '__main__':
 	bottle.run(host='localhost',port=8080, debug=True)

@@ -1,4 +1,6 @@
 var cookieId = "";
+var mostRecentSearch = "";
+var resultCount = 0;
 var cachedVotes = {};
 var globalQueueRequests = 0;
 var requestQueue;
@@ -15,6 +17,7 @@ function numberWithCommas(x)
 function openStashCart()
 {
 	$('.carousel').carousel(0);
+	$("#stashCartIcon").fadeOut(100);
 	$("#stashCartBar").slideDown(300,function()
 	{
 		$("#stashCartClose").fadeIn(100);
@@ -23,11 +26,89 @@ function openStashCart()
 
 function closeStashCart()
 {
-	return; // Temporarily disabled
 	$("#stashCartClose").fadeOut(100,function()
 	{
-		$("#stashCartBar").slideUp(300);
+		$("#stashCartBar").slideUp(300,function()
+		{
+			if(cachedVotes["old"] || cachedVotes["votes"])
+			{
+				$("#stashCartIcon").fadeIn(100);
+			}
+		});
 	});	
+}
+
+
+function updateStashCart()
+{
+	var totalVoteCount = 0;
+	// Calculate and set total vote count.
+	if(cachedVotes["old"]) 
+	{ 
+		$("#oldCount").html(cachedVotes["old"].length);
+		if(cachedVotes["old"].length)
+		{
+			$("#oldResults").show();
+		} else { $("#oldResults").hide(); }
+		totalVoteCount += cachedVotes["old"].length; 
+	}
+	else 
+	{ 
+		$("#oldCount").html("0");
+		$("#oldResults").hide();
+		totalVoteCount=0;
+	}
+
+	if(cachedVotes["votes"]) 
+	{
+		$("#newCount").html(cachedVotes["votes"].length);
+		totalVoteCount += cachedVotes["votes"].length; 
+	}
+	else
+	{
+		$("#newCount").html("0");
+		totalVoteCount+=0;
+	}
+	$('#totalVoteNumber').html(numberWithCommas(totalVoteCount));
+
+	// Hide or show facet icons in the bar.
+	if(totalVoteCount>0)
+	{
+		$("#emptyCartIcon").fadeIn();
+		$("#downloadVotesIcon").fadeIn();
+		$("#createLinkIcon").fadeIn();
+		openStashCart();
+	}
+	else
+	{
+		$("#emptyCartIcon").fadeOut();
+		$("#downloadVotesIcon").fadeOut();
+		$("#createLinkIcon").fadeOut();
+	}
+
+	// Hide or show "add all" link.
+	if(resultCount && resultCount<2000)
+	{
+		$("#searchResultNum").html(numberWithCommas(resultCount));
+		$("#addAll").fadeIn();
+	}
+	else
+	{
+		$("#addAll").fadeOut();
+	}
+
+	// Update search text
+	if(mostRecentSearch.length)
+	{
+		$(".searchText").html('"'+mostRecentSearch+'"');
+	}
+	else { $(".searchText").html("all votes"); }
+
+	// Nuke any residual link creation stuff.
+	$("#shareLinkText").val("");
+	$("#shareTextInput").show();
+	$("#shareTextLink").html("").hide();
+	$("#shareLinkStatus").hide();
 }
 
 function toggleAdvancedSearch(instant)
@@ -84,7 +165,7 @@ function emptyCart()
 				console.log(data["errorMessages"]);
 			}
 			unselectAll();
-			closeStashCart();
+			updateStashCart();
 		}			
 	});
 }
@@ -132,9 +213,9 @@ $(document).ready(function(){
 				console.log(data);
 				cachedVotes["old"] = data["old"];
 				cachedVotes["votes"] = data["votes"];
-				$('#oldCount').html(data["old"].length);
-				$('#newCount').html(data["votes"].length);
+				updateStashCart();
 				console.log("Loaded votes: "+cachedVotes["old"].length+" old and "+cachedVotes["votes"].length+" new");
+				selectIncludedVotes();
 			}
 		});
 	}
@@ -206,44 +287,41 @@ $(document).ready(function(){
 
 	// When we check a vote, do the appropriate stash changes.
 	$(document.body).on("change", "#download-rollcalls-form :input", function() {
-		console.log(this.checked);
 		if(this.checked)
 		{
+			console.log('Adding');
 			$.ajax({
 				dataType: "JSON",
 				url: "/api/stash/add",
 				data: "id="+cookieId+"&votes="+this.value,
 				success: function(res, status, xhr)
 				{
-					console.log(res);
+					if(res["old"]) { cachedVotes["old"] = res["old"]; }
+					if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
+					console.log('added one');
+					console.log(cachedVotes);
+					updateStashCart();
 				}
 			});
 		}
 		else
 		{
+			console.log('Removing');
 			$.ajax({
 				dataType: "JSON",
-				url: "/api/stash/dell",
+				url: "/api/stash/del",
 				data: "id="+cookieId+"&votes="+this.value,
 				success: function(res, status, xhr)
 				{
-					console.log(res);
+					console.log('Removed');
+					if(res["old"]) { cachedVotes["old"] = res["old"]; }
+					if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
+					console.log(cachedVotes);
+					updateStashCart();
 				}
 			});
 		}
-		showDownload();
 	});
-
-	function showDownload ()
-	{
-		if ($("#download-rollcalls-form input:checkbox:checked").length > 0) {
-			$('#selectedResultNum').html($("#download-rollcalls-form input:checkbox:checked").length);
-			openStashCart();
-        	}
-        	else {
-			closeStashCart();
-		}
-	}
 
 	// Toggle panel icons
 	function toggleChevron(e)
@@ -301,20 +379,16 @@ function updateRequest()
 			data: $('#faceted-search-form').serialize() + "&jsapi=1",
 			beforeSend:function(){
 				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
-				if($('#searchTextInput').val())
-				{
-					$('.searchText').html('"'+$('#searchTextInput').val()+'"');
-				}
-				else
-				{
-					$('.searchText').html('all votes');
-				}
+				mostRecentSearch = $("#searchTextInput").val();
 				$.ajax({
 					dataType: "JSON",
 					url: "/api/setSearch",
 					data: "id="+cookieId+"&search="+$('#searchTextInput').val(),
 					success: function(res, status, xhr)
 					{
+						if(res["old"]) { cachedVotes["old"] = res["old"]; }
+						if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
+						updateStashCart();
 						console.log('Search set.');
 						console.log(res);
 					}
@@ -323,11 +397,11 @@ function updateRequest()
 			success: function(res, status, xhr) 
 			{
 				metaPageloaded = 0; // Reset page load count. We use this for stopping auto-scroll after 10 pages.
-				var resultsNumber = xhr.getResponseHeader("Rollcall-Number")
-				var memberNumber = xhr.getResponseHeader("Member-Number")
+				var resultsNumber = xhr.getResponseHeader("Rollcall-Number");
+				var memberNumber = xhr.getResponseHeader("Member-Number");
+				resultCount = resultsNumber;
 				var memLabelText = "member"+(memberNumber!=1?"s":"");
 				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
-				if(resultsNumber>0) { $('#searchResultNum').html(resultsNumber); }
 				if(memberNumber==1) { memLabelText = "member"; }
 				if(resultsNumber==1) { voteLabelText = "vote"; }
 				if(memberNumber>0 && resultsNumber>0)
@@ -353,6 +427,7 @@ function updateRequest()
 				{
 					$("#results-list").html(res);
 					selectIncludedVotes();
+					updateStashCart();
 					$("#results-list").fadeIn();
 					$('[data-toggle="tooltip"]').tooltip(); 
 				});
@@ -436,8 +511,9 @@ function shareLink()
 			{
 				console.log(res);
 				$('#shareTextInput').hide();
-				$('#shareTextShort').html(res["link"]).show();
-				if(shortLink!=res["link"])
+				var a = $("<a></a>").attr("href",res["link"]).html(res["link"]).appendTo("#shareTextLink");
+				$("#shareTextLink").show();
+				if("http://voteview.com/s/"+shortLink!=res["link"])
 				{
 					$("#shareLinkStatus").hide().html("Link copied to clipboard.<br/>Note: The link has been modified.").fadeIn();
 				}

@@ -21,7 +21,8 @@ SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" i
 
 fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
 		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
-		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter", "chamber": "chamber"}
+		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter", "chamber": "chamber",
+		"saved": "saved"}
 
 # Simple tab-based pretty-printer to output debug info.
 def pPrint(printStr, depth=0,debug=0):
@@ -692,6 +693,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 			else:
 				queryDict = addToQueryDict(queryDict, "votes."+str(name), {"$exists": 1})
 				# queryDict = addToQueryDict(queryDict, "votes.id", str(name)) # New vote style.
+
 	# CHAMBER type: Senate or House?
 	elif fieldType=="chamber":
 		chamber = queryWords.strip()
@@ -700,6 +702,21 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 			return [queryDict, 0, errorMessage]
 		else:
 			queryDict = addToQueryDict(queryDict, "chamber", queryWords.title())
+
+	# Saved fields: pull all the votes associated with a saved stash, and limit to those.
+	elif fieldType=="saved":
+		savedId = queryWords.strip()
+		res = db.stash.find_one({'id': savedId})
+		if not res:
+			validIds = []
+		else:
+			validIds = []
+			if "votes" in res:
+				validIds = validIds + res["votes"]
+			if "old" in res:
+				validIds = list(set(validIds + res["old"]))
+			queryDict = addToQueryDict(queryDict, "id", {"$in": validIds})
+
 	else:
 		errorMessage = "Error: invalid field for search: "+queryField
 		return [queryDict, 0, errorMessage]
@@ -994,6 +1011,8 @@ if __name__ == "__main__":
 		print query(args)		
 	else:
 		#results = query("(nay:[0 to 9] OR nay:[91 to 100] OR yea:[0 to 5]) AND congress:112", rowLimit=5000)
+		#print results
+		#results = query("saved: 51ee4496 chamber:Senate")
 		#print results
 
 		results = query('"defense commissary"')

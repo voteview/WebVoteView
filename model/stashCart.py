@@ -39,6 +39,13 @@ def updateExpiry():
 def indefExpiry():
 	return int(time.time())+(10*365*24*60*60)
 
+def checkExists(id):
+	res = db.stash.find_one({'id': id})
+	if res is None:
+		return {"status": 1}
+	else:
+		return {"status": 0}
+
 def addVotes(id, votes):
 	errorMessages = []
 
@@ -94,7 +101,7 @@ def addVotes(id, votes):
 	db.stash.update({'id': id}, {'$set': {'votes': nVotes, 'expiry': expires}}, upsert=False, multi=False)
 
 	# Return everything.
-	return {'id': id, 'votes': votes, 'old': old, 'search': search, 'errors': errorMessages}
+	return {'id': id, 'votes': nVotes, 'old': old, 'search': search, 'errors': errorMessages}
 
 def delVotes(id, votes):
 	errorMessages = []
@@ -136,7 +143,7 @@ def delVotes(id, votes):
 
 	db.stash.update({'id': id}, {'$set': {'votes': nVotes, 'old': old, 'expiry': expires}}, upsert=False, multi=False)
 
-	return {'id': id, 'votes': votes, 'errors': errorMessages, 'search': search, 'old': old}
+	return {'id': id, 'votes': nVotes, 'errors': errorMessages, 'search': search, 'old': old}
 
 def emptyCart(id):
 	errorMessages = []
@@ -237,15 +244,16 @@ def setSearch(id, search):
 		search = ""
 
 	expires = updateExpiry()
-	db.stash.update({'id': id}, {'$set': {'search': search, 'old': savedVoteIDs, 'expiry': expires}}, upsert=False, multi=False)
-	return {"id": id, "search": search, "errors": errorMessages}
+	db.stash.update({'id': id}, {'$set': {'search': search, 'old': savedVoteIDs, 'votes': [], 'expiry': expires}}, upsert=False, multi=False)
+	return {"id": id, "search": search, "errors": errorMessages, "old": savedVoteIDs, "votes": []}
 
 def shareableLink(id, text):
 	errorMessages = []
 
-	text = re.sub('[^a-zA-Z_\- ]','',text)
+	text = re.sub('[^a-zA-Z0-9_\- ]','',text)
 	text = text.replace(' ','-')
 	text = text.replace('_','-')
+	text = re.sub("\-$","",text)
 	internalText = text.lower()
 
 	if len(internalText)>30:
