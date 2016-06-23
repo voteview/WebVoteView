@@ -18,12 +18,34 @@
 
 			<h3>Project Staff</h3>
 			<ul>
-				<li>Project Lead: <a href="http://www.polisci.ucla.edu/people/jeffrey-b-lewis">Jeffrey B. Lewis, UCLA</a></li>
-				<li><a href="http://polisci.uga.edu/directory/faculty_staff/poole-keith">Keith Poole, University of Georgia</a></li>
-				<li><a href="http://politics.as.nyu.edu/object/HowardRosenthal">Howard Rosenthal, New York University</a></li>
-				<li>Adam Boche, UCLA</li>
-				<li>Aaron Rudkin, UCLA</li>
-				<li>Luke Sonnet, UCLA</li>
+				<li>
+					<strong>Project Lead:</strong>
+					<p style="padding-left:50px;">
+						<a href="http://www.polisci.ucla.edu/people/jeffrey-b-lewis">Jeffrey B. Lewis</a><br/>
+						Professor and Chair, University of California Los Angeles
+					</p>
+				</li>
+				<li>
+					<strong>Directors Emeritus:</strong>
+					<p style="padding-left:50px;">
+						<a href="http://polisci.uga.edu/directory/faculty_staff/poole-keith">Keith T. Poole</a><br/>
+						Philip H. Alston, Jr. Distinguished Professor, University of Georgia<br/>
+						Professor Emeritus, University of California San Diego
+					<p>
+					<p style="padding-left:50px;">
+						<a href="http://politics.as.nyu.edu/object/HowardRosenthal">Howard Rosenthal</a><br/>
+						Professor of Politics, New York University
+					</p>
+				</li>
+				
+				<li>
+					<strong>Programmer and Data Curator:</strong> <a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
+				</li>
+				<li>
+					<strong>Lead Programmer, Voteview.com:</strong> Aaron Rudkin, University of California Los Angeles</li>
+				<li>
+					<strong>Lead Programmer, RVoteView:</strong> <a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
+				</li>
 			</ul>
 
 			<h3>Contact Us</h3>
