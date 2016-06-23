@@ -284,19 +284,18 @@
 			<div class="footerBig">
 				Saved: <span id="oldResults"><big><strong id="oldCount">0</strong></big> results from previous searches.<br/>
 				+</span> 
-				<span id="newResults"><big><strong id="newCount">0</strong></big> results from <span class="searchText"></span></span>
+				<span id="newResults"><big><strong id="newCount">0</strong></big> results from <span class="searchText"></span><br/>&nbsp;</span>
 			</div>
-			<div class="footerBig">
-				<a href="">Add all <big><strong id="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>
-				<a href="">Add <big><strong id="selectedResultNum">0</strong></big> selected results from <span class="searchText">all votes</span></a>
+			<div id="addAll" class="footerBig">
+				<a href="">Add all <big><strong id="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>&nbsp;
 			</div>
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Empty Vote Cart" onClick="javascript:emptyCart();">
+			<div id="emptyCartIcon" class="footerIcon" data-toggle="tooltip" data-placement="top" title="Empty Vote Cart" onClick="javascript:emptyCart();">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-			</div>
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Download Votes" onClick="javascript:$('.carousel').carousel(1);">
+			</div>	
+			<div id="downloadVotesIcon" class="footerIcon" data-toggle="tooltip" data-placement="top" title="Download Votes" onClick="javascript:$('.carousel').carousel(1);">
 				<span class="glyphicon glyphicon-file" aria-hidden="true"></span>
 			</div>
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" onClick="javascript:$('.carousel').carousel(2);">
+			<div id="createLinkIcon" class="footerIcon" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" onClick="javascript:$('.carousel').carousel(2);">
 				<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
 			</div>
 		</div>
@@ -319,11 +318,12 @@
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			</div>
 			<div class="footerBig">
-				Create a permanent link for <big><strong>0</strong></big> votes: <br/>
-				http://voteview.com/s/<span id="shareTextShort"></span><span id="shareTextInput">
+				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
+				<span id="shareTextInput">http://voteview.com/s/
 					<input id="shareLinkText" type="text" placeholder="type-short-name"> 
 					<input type="submit" value="Create" onClick="javascript:shareLink();">
 				</span>
+				<span id="shareTextLink"></span>
 			</div>
 			<div class="footerBig">
 				<span id="shareLinkStatus"></span><br/>&nbsp;
@@ -332,6 +332,9 @@
 	</div>
 </div>
 <img id="stashCartClose" onClick="javacript:closeStashCart();" src="/static/img/close.png">
+<div id="stashCartIcon" onClick="javascript:openStashCart();">
+	<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+</div>
 
 
 <script>

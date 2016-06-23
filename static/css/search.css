@@ -11,6 +11,17 @@
 	line-height:25px;
 }
 
+#stashCartIcon
+{
+	position:fixed;
+	display:none;
+	bottom:30px;
+	right:40px;
+	width:32px;
+	cursor:pointer;
+}
+#stashCartIcon span { font-size:32px; }
+
 #stashCartClose
 {
 	display:none;
