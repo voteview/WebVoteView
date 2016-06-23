@@ -22,7 +22,7 @@ SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" i
 fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
 		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
 		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter", "chamber": "chamber",
-		"saved": "saved"}
+		"saved": "saved", "dates": "date", "startdate": "date", "enddate": "date"}
 
 # Simple tab-based pretty-printer to output debug info.
 def pPrint(printStr, depth=0,debug=0):
@@ -717,6 +717,10 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 				validIds = list(set(validIds + res["old"]))
 			queryDict = addToQueryDict(queryDict, "id", {"$in": validIds})
 
+	# DATE fields: handle three kinds of date searches, some exact range or values, and then greater or less than
+	elif fieldType=="date":
+		date = queryWords.strip()		
+
 	else:
 		errorMessage = "Error: invalid field for search: "+queryField
 		return [queryDict, 0, errorMessage]
@@ -842,7 +846,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			queryDict["date"] = {}
 		if startdate:
 			if startdate<"1787-01-01":
-				queryDict["date"]["gte"] = "1787-01-01"
+				queryDict["date"]["$gte"] = "1787-01-01"
 			else:
 				queryDict["date"]["$gte"] = startdate
 		if enddate:
