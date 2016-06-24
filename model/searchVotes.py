@@ -1,5 +1,6 @@
 # Imports
 from datetime import date
+from time import strptime
 from bson.objectid import ObjectId
 import pymongo
 from pprint import pprint
@@ -42,6 +43,31 @@ def pPrint(printStr, depth=0,debug=0):
 	tabChar = "\t"*depth
 	print tabChar,
 	print printStr
+
+# Simple check that dates are formatted correctly
+def checkDate(dateStr):
+	""" Checks if date is either YYYY or YYYY-MM-DD
+
+	Parameters
+	----------
+	dateStr: str
+		This is the string with the date to check
+	"""
+	
+	if len(dateStr) == 4:
+		try:
+			strptime(dateStr, "%Y")
+			return True
+		except:
+			return False
+	elif len(dateStr) == 10:
+		try:
+			strptime(dateStr, "%Y-%m-%d")
+			return True
+		except:
+			return False
+	else:
+		return False
 
 def queryDispatcher(textQ):
 	""" Oversees the query pipeline. Takes a raw text query, outputs the final goods to hit the database.
@@ -718,8 +744,69 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 			queryDict = addToQueryDict(queryDict, "id", {"$in": validIds})
 
 	# DATE fields: handle three kinds of date searches, some exact range or values, and then greater or less than
+	# todo: check if startdate and enddate entered are not in the right order
+	# have to check with Aaron about whether this will only check within a level of the query
+	# because it is OK to have a startdate be later than an enddate if the two are in different
+	# parts of the query that have been joined by an OR
 	elif fieldType=="date":
-		date = queryWords.strip()		
+		dateQuery = queryWords.strip()
+		nextyear = str(date.today().year + 1)
+
+		if " " not in dateQuery:
+			if checkDate(queryWords):
+				if queryField == "dates":
+					queryDict["date"] = dateQuery
+				elif queryField == "startdate":
+					if "date" not in queryDict:
+						queryDict["date"] = {}
+					if queryWords < "1787-01-01":
+						queryDict["date"]["$gte"] = "1787-01-01"
+					else:
+						queryDict["date"]["$gte"] = dateQuery
+				elif queryField == "enddate":
+					if "date" not in queryDict:
+						queryDict["date"] = {}
+					if dateQuery > nextyear + "-01-01":
+						queryDict["date"]["$lte"] = nextyear + "-01-01"
+					else:
+						queryDict["date"]["$lte"] = dateQuery
+			else:
+				return [queryDict, 0, "Error: Date field not formatted properly. Remember, use YYYY or YYYY-MM-DD."]
+		elif queryField != "dates":
+			return [queryDict, 0, "Error: 'startdate' and 'enddate' only take a single date as YYYY or YYYY-MM-DD."]
+	
+		elif dateQuery[0]=="[" and dateQuery[-1]=="]" and "to" in dateQuery:
+			rangeSet = dateQuery[1:-1]
+			min, max = [x.strip() for x in rangeSet.split(" to ")]
+			if "date" in queryDict:
+				return [queryDict, 0, "Error: only use the range in 'dates' or 'startdate' and 'enddate', not both"]
+			else:
+				queryDict["date"] = {}
+			if len(min):
+				if checkDate(min):
+					queryDict["date"]["$gte"] = min
+				else:
+					return [queryDict, 0, "Error: Date field not formatted properly. Remember, use YYYY or YYYY-MM-DD."]
+			else:
+				min = "0000"
+			if len(max):
+				if checkDate(max):
+					queryDict["date"]["$lte"] = max
+				else:
+					return [queryDict, 0, "Error: Date field not formatted properly. Remember, use YYYY or YYYY-MM-DD."]
+			else:
+				max = "9999"
+
+			if max < min:
+				return [queryDict, 0, "Error: Maximum value of field "+str(queryField)+" cannot be lower than minimum value."]
+				
+                else:
+			if all([checkDate(d) for d in dateQuery.split()]):
+				dates = dateQuery.split()	
+			else:
+				return [queryDict, 0, "Error: A date is not formatted properly. Remember, use YYYY or YYYY-MM-DD."]
+			queryDict["date"] = {}
+			queryDict["date"]["$in"] = dates
 
 	else:
 		errorMessage = "Error: invalid field for search: "+queryField
@@ -1021,9 +1108,15 @@ if __name__ == "__main__":
 	else:
 		#results = query("(nay:[0 to 9] OR nay:[91 to 100] OR yea:[0 to 5]) AND congress:112", rowLimit=5000)
 		#print results
-		results = query("saved: 3a5c69e7")
-		print results
+		#results = query("saved: 3a5c69e7")
+		#print results
 
+		#results1 = query("tax", startdate = "2010")
+		#results2 = query("tax startdate:2010")
+
+
+		results3 = query("tax", startdate = "2008-04-07", enddate = "2013-03-03")
+		results4 = query("tax startdate:2008-04-07 enddate:2013-03-03 dates:[2013 to 2015]")
 		#results = query('"defense commissary"')
 		#print results
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
