@@ -287,8 +287,8 @@ function drawWidgets(error, data, geodata)
 
 	// Nominate scatter chart setup
 	nominateScatterChart
-		.width(600)
-		.height(600)
+		.width(890)
+		.height(424)
 		.margins({top:25,right:25,bottom:75,left:75})
 		.dimension(xDimension)
 		.mouseZoomable(false)
