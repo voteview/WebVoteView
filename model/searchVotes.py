@@ -75,7 +75,7 @@ def queryDispatcher(textQ):
 	Parameters
 	----------
 	textQ: str
-		This is the text string that we use to query
+nn		This is the text string that we use to query
 
 	Returns
 	-------
@@ -1017,8 +1017,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			resCount = votes.find(queryDict,fieldReturns).count()
 			rowLimit = baseRowLimit
 			if not jsapi:
-				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).limit(rowLimit+5)
-			else:
+				results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
+                        else:
 				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(sortSkip).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
@@ -1115,10 +1115,8 @@ if __name__ == "__main__":
 		#results2 = query("tax startdate:2010")
 
 
-		results3 = query("tax", startdate = "2008-04-07", enddate = "2013-03-03")
-		results4 = query("tax startdate:2008-04-07 enddate:2013-03-03 dates:[2013 to 2015]")
-		#results = query('"defense commissary"')
-		#print results
+		results = query('estate tax')
+                print results
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
