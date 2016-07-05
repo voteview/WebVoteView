@@ -69,8 +69,8 @@ function nomPlot()
 	);
 
 	nominateScatterChart
-	.width(600)
-	.height(600)
+	.width(890)
+	.height(432)
 	.margins({top:25,right:25,bottom:75,left:75})
 	.dimension(xDimension)
 	.mouseZoomable(false)

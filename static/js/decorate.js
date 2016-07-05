@@ -163,7 +163,8 @@ function decorateNominate(oc,data) {
 		.append("circle")
 			.attr("cx", circleCenter.x)
 			.attr("cy", circleCenter.y)
-			.attr("r", radius/scale)
+			.attr("rx", radiusX/scale)
+	                .attr("ry", radiusY/scale)
 			.attr("id", "dashed-circle");		
 	}
 

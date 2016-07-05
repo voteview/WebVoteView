@@ -717,8 +717,8 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 				errorMessage = "Error: invalid member ID in voter search."
 				return [queryDict, 0, errorMessage]
 			else:
-				queryDict = addToQueryDict(queryDict, "votes."+str(name), {"$exists": 1})
-				# queryDict = addToQueryDict(queryDict, "votes.id", str(name)) # New vote style.
+				#queryDict = addToQueryDict(queryDict, "votes."+str(name), {"$exists": 1})
+				queryDict = addToQueryDict(queryDict, "votes.id", str(name)) # New vote style.
 
 	# CHAMBER type: Senate or House?
 	elif fieldType=="chamber":
@@ -987,8 +987,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			pass
 
 	if icpsr is not None:
-		queryDict["votes."+icpsr] = {"$exists": 1}		
-		# queryDict["votes.id"] = icpsr
+		#queryDict["votes."+icpsr] = {"$exists": 1}		
+		queryDict["votes.id"] = icpsr
 
 	# Get results
 	if not idsOnly:
@@ -1115,10 +1115,12 @@ if __name__ == "__main__":
 		#results2 = query("tax startdate:2010")
 
 
-		results3 = query("tax", startdate = "2008-04-07", enddate = "2013-03-03")
-		results4 = query("tax startdate:2008-04-07 enddate:2013-03-03 dates:[2013 to 2015]")
-		#results = query('"defense commissary"')
+		#results3 = query("tax", startdate = "2008-04-07", enddate = "2013-03-03")
+		#results4 = query("tax startdate:2008-04-07 enddate:2013-03-03 dates:[2013 to 2015]")
+		results = query("voter: MS29940114")
 		#print results
+		results = query('"defense commissary"')
+		print results
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis

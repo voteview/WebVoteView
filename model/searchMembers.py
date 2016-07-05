@@ -60,10 +60,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["congress"]["$in"] = vals
 	if name:
 		if not " " in name: # Last name only
-			searchQuery["name"] = {'$regex': name, '$options': 'i'}
+			searchQuery["bioName"] = {'$regex': name, '$options': 'i'}
 		elif ", " in name: # Last, First
 			last, rest = name.split(", ",1)
-			searchQuery["fname"] = {'$regex': last+", "+rest, '$options': 'i'}
+			searchQuery["bioName"] = {'$regex': last+", "+rest, '$options': 'i'}
 		else:
 			searchQuery["$text"] = {"$search": name}
 			

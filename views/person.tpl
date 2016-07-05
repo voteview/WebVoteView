@@ -104,7 +104,7 @@
 	% if "bio" in person:
 	<div class="row">
 		<div class="col-md-9 col-md-offset-2">
-			<h3>Member Biography</h3>
+			<h3>Biography</h3>
 			{{ person["bio"] }}
 			<br/><small><em>Courtesy of <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></em></small>
 		</div>
@@ -112,7 +112,7 @@
 	% end
     <div class="row">
         <div class="col-md-9 col-md-offset-2">
-            <h3>Recent votes</h3>
+            <h3>Selected Votes</h3>
                 <table class="table table-hover dc-data-table">
                     <thead>
                     <tr class="header">

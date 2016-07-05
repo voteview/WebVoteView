@@ -63,7 +63,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 			# Pull all members in a single query.
 			memberSet = []
 			for vote in rollcall['votes']:
-				memberSet.append(vote)
+				memberSet.append(vote["id"])
 			members = members_col.find({'id': {'$in': memberSet}})
 
 			for member in members:
@@ -78,7 +78,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 				# Web returns different fields than R
 				if apitype=="Web" or apitype=="exportJSON": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
 					v = {
-						'vote': _get_yeanayabs(rollcall['votes'][member["id"]]), 
+						'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0]), 
 						'name': bestName,
 						'id': member['id'],
 						'party': member['partyname'],
@@ -100,7 +100,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 					result.append(v)
 				elif apitype=="R": # [m["v"] for m in rollcall["votes"] if m["id"]==member["id"]][0]
 					v = {
-						'vote': rollcall['votes'][member["id"]],
+						'vote': [m["v"] for m in rollcall["votes"] if m["id"]==member["id"]][0],
 						'name': member['fname'],
 						'id':member['id'],
 						'icpsr': member['icpsr'],
@@ -176,6 +176,6 @@ def downloadStash(id):
 
 if __name__=="__main__":
 #	print downloadStash("3a5c69e7")
-#	print downloadAPI("H1121599")
+#	print downloadAPI("S1140430")
 #	print downloadAPI("H1030301", "R")
 	pass

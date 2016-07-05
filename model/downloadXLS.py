@@ -47,7 +47,9 @@ def downloadXLS(ids, apitype="Web"):
 
 	for result in results: # Loop over results
 		rollcalls.append(['V%i' % i] + [result[f[0]] for f in descriptionfields] ) # Append rollcalls to rows for rollcall sheet
-		for key, vote in result["votes"].iteritems():
+		for item in result["votes"]:
+			key = item["id"]
+			vote = item["v"]
 			icpsrset.append(int(key[2:7])) # Make a note of ICPSR
 			if not int(key[2:7]) in voteData: # If we've never seen the member before, pre-allocate their dict.
 				voteData[int(key[2:7])] = {}
