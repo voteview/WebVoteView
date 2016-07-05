@@ -1115,17 +1115,13 @@ if __name__ == "__main__":
 		#results2 = query("tax startdate:2010")
 
 
-<<<<<<< HEAD
-		#results3 = query("tax", startdate = "2008-04-07", enddate = "2013-03-03")
-		#results4 = query("tax startdate:2008-04-07 enddate:2013-03-03 dates:[2013 to 2015]")
-		results = query("voter: MS29940114")
+		#results3 = query("tax", startdate = "2008-04-07", enddate = "2013-03-03") results4 = query("tax startdate:2008-04-07 enddate:2013-03-03 dates:[2013 to 2015]")
+		#results = query("voter: MS29940114")
 		#print results
-		results = query('"defense commissary"')
-		print results
-=======
+		#results = query('"defense commissary"')
+		#print results
 		results = query('estate tax')
                 print results
->>>>>>> 4ce705b18a217e5b231d26c21da3801831fb3978
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
