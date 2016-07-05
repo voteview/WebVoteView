@@ -75,7 +75,7 @@ def queryDispatcher(textQ):
 	Parameters
 	----------
 	textQ: str
-nn		This is the text string that we use to query
+		This is the text string that we use to query
 
 	Returns
 	-------
