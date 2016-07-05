@@ -22,6 +22,26 @@ bottle.debug(True)
 # Setup
 app = application = bottle.Bottle()
 
+# Debug timing to improve speed
+timeLabels = []
+timeNums = []
+def clearTime():
+	timeLabels = []
+	timeNums = []
+
+def timeIt(label):
+	timeLabels.append(label)
+	timeNums.append(time.time())
+
+def zipTimes():
+	tN = []
+	for i in xrange(0,len(timeNums)):
+		if i==0:
+			tN.append(0)
+		else:
+			tN.append(round(timeNums[i] - timeNums[i-1],3))
+	return zip(timeLabels, tN)
+
 # Helper function for handling bottle arguments and setting defaults:
 def defaultValue(x,value = None):
     return x is not "" and x or value
@@ -38,12 +58,17 @@ def callback(path):
 @app.route("/")
 @app.route("/search/")
 def index():
+	clearTime()
+	timeIt("begin")
+
 	try:
 		argDict = {}
 		for k,v in bottle.request.params.iteritems():
 			argDict[k] = v
 	except:
 		pass
+
+	timeIt("assembleArgs")
 
 	try:
 		if "fromDate" in argDict:
@@ -68,7 +93,8 @@ def index():
 				argDict["supportMax"] = support + 1
 			except:
 				pass
-		output = bottle.template("views/search", args=argDict)
+		timeIt("doneAssembly")
+		output = bottle.template("views/search", args=argDict, timeSet=zipTimes())
 	except:
 		output = bottle.template("views/error", errorMessage = traceback.format_exc())
 		#errorMessage="Error: One or more of the parameters you used to call this page was misspecified.")
@@ -115,6 +141,8 @@ def congress(chamber="senate"):
 @app.route("/person")
 @app.route("/person/<icpsr>")
 def person(icpsr=0):
+	clearTime()
+	timeIt("begin")
 	if not icpsr:
 		icpsr = defaultValue(bottle.request.params.icpsr,0)
 
@@ -123,6 +151,7 @@ def person(icpsr=0):
 
 	# Pull by ICPSR
 	person = memberLookup({"icpsr": icpsr}, 1)
+	timeIt("memberLookup")
 
 	# If we have no error, follow through
 	if not "errormessage" in person:
@@ -137,6 +166,8 @@ def person(icpsr=0):
 		votes = []
 		# Look up votes
 
+		timeIt("nameFunc")
+
 		# Check if bio image exists
 		bioFound = 0
 		if not os.path.isfile("static/img/bios/"+str(person["icpsr"]).zfill(6)+".jpg"):
@@ -149,6 +180,8 @@ def person(icpsr=0):
 			person["bioImg"] = str(person["icpsr"]).zfill(6)+".jpg"	
 			bioFound = 1
 
+		timeIt("bioImg")
+
 		# Get years of service
 		person["yearsOfService"] = yearsOfService(person["icpsr"])
 		person["congressesOfService"] = congressesOfService(person["icpsr"])
@@ -156,6 +189,8 @@ def person(icpsr=0):
 		for congressChunk in person["congressesOfService"]:
 			for cong in range(congressChunk[0], congressChunk[1]+1):
 				person["congressLabels"][cong] = str(cong)+"th Congress ("+str(congressToYear(cong,0))+"-"+str(congressToYear(cong,1))+")"
+
+		timeIt("congressLabels")
 
 		# Replace anyone?
 		#prevNextICPSRs = checkForOccupancy(person)
@@ -177,9 +212,11 @@ def person(icpsr=0):
 						bioFound = 1
 					person["altPeople"].append(altPerson)
 
-					
+
+		timeIt("partySwitches")
 		voteQuery = query(qtext="voter: "+str(person["id"]), rowLimit=25, jsapi=1)
-		#return(voteQuery)
+		timeIt("gotVotes")
+
 		if not "errorMessage" in voteQuery and "rollcalls" in voteQuery:
 			votes = voteQuery["rollcalls"]
 		else:
@@ -188,8 +225,9 @@ def person(icpsr=0):
 		if "bio" in person:
 			person["bio"] = person["bio"].replace("a Representative","Representative")			
 
+		timeIt("readyOut")
 		# Go to the template.
-		output = bottle.template("views/person",person=person, votes=votes)
+		output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes())
 		return(output)
 
 	# If we have an error, return an error page
@@ -578,8 +616,4 @@ def apiVersion():
 
 if __name__ == '__main__':
 	bottle.run(host='localhost',port=8080, debug=True)
-
-
-
-		
 
