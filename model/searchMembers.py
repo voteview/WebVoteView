@@ -150,6 +150,9 @@ if __name__ == "__main__":
 	#print memberLookup({"state": "NH"}, 1)
 	#print len(memberLookup({"icpsr": 99369}, 1)["results"])
 	#print getMembersByCongress(110,"","Web_PI")
+	print memberLookup({"name": "Obama"},distinct= 1, api = "R")
+	print "not distinct \n\n"
+	print memberLookup({"name": "Obama"},distinct= 0, api = "R")
 	#print memberLookup({"congress" : "104"}, 1)
 	#print memberLookup({"congress" : "104 105"}, 1)
 	#print memberLookup({"congress" : "[104 to 109]"}, 1)

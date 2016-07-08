@@ -321,11 +321,16 @@ def getmembersbycongress():
 def getmembers():
 	qDict = {}
 
-	for key, value in bottle.request.params.iteritems(): # Transparently pass through the entire query dictionary
-		qDict[key] = defaultValue(value)
+	distinct = 0
+	api = "Web"
 
-	distinct = defaultValue(bottle.request.params.distinct, 0)
-	api = defaultValue(bottle.request.params.api, "Web")
+	for key, value in bottle.request.params.iteritems(): # Transparently pass through the entire query dictionary
+		if key == 'distinct':
+			distinct = int(defaultValue(value, 0))
+		elif key == 'api':
+			api = defaultValue(value, "Web")
+		else:
+			qDict[key] = defaultValue(value)
 
 	return(memberLookup(qDict, distinct = distinct, api = api))
 
