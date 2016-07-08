@@ -11,7 +11,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	state = qDict["state"] if "state" in qDict else ""
 	congress = qDict["congress"] if "congress" in qDict else ""
 	cqlabel = qDict["cqlabel"] if "cqlabel" in qDict else ""
-	chamber = qDict["chamber"] if "chamber" in qDict else ""
+	chamber = qDict["chamber"] if "chamber" in qDict else ""	
+
+	if api == "R":
+		maxResults = 5000
 
 	# Check to make sure there's a query
 	if not name and not icpsr and not state and not congress and not cqlabel:
