@@ -136,7 +136,6 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						'yea': rollcall["yea"], 'nay': rollcall["nay"]})
 
 		except: # Invalid vote id
-			print member
 			print traceback.format_exc()
 			errormessage = "Invalid Rollcall ID specified."
 			errormeta.append(str(rollcall["id"]))
