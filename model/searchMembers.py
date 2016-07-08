@@ -42,25 +42,24 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["stateName"] = state.capitalize()
 	if congress:
 		try:
-			congress = str(int(congress))
+			if not " " in congress: # congress is just a number
+				congress = int(congress)
+				searchQuery["congress"] = congress
+			elif "[" in congress and "]" in congress and "to" in congress: # congress is a range
+				valText = congress[1:-1]
+				min, max = valText.split(" to ")
+				searchQuery["congress"] = {}
+				if len(min):
+					searchQuery["congress"]["$gte"] = int(min) # From min
+				if len(max):
+					searchQuery["congress"]["$lte"] = int(max) # To max
+			else: # congress is a series of integers, use $in
+				vals = [int(val) for val in congress.split(" ")]
+				searchQuery["congress"] = {}
+				searchQuery["congress"]["$in"] = vals
 		except:
 			return({"errormessage": "Invalid congress ID supplied."})
 
-		if not " " in congress: # congress is just a number
-			congress = int(congress)
-			searchQuery["congress"] = congress
-		elif "[" in congress and "]" in congress and "to" in congress: # congress is a range
-			valText = congress[1:-1]
-			min, max = valText.split(" to ")
-			searchQuery["congress"] = {}
-			if len(min):
-				searchQuery["congress"]["$gte"] = int(min) # From min
-			if len(max):
-				searchQuery["congress"]["$lte"] = int(max) # To max
-		else: # congress is a series of integers, use $in
-			vals = [int(val) for val in congress.split(" ")]
-			searchQuery["congress"] = {}
-			searchQuery["congress"]["$in"] = vals
 	if name:
 		if not " " in name: # Last name only
 			searchQuery["bioName"] = {'$regex': name, '$options': 'i'}
@@ -76,6 +75,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		else:
 			searchQuery["cqlabel"] = "("+cqlabel+")"
 	if chamber:
+		chamber = chamber.capitalize()
 		if chamber=="Senate" or chamber=="House":
 			searchQuery["chamber"] = chamber
 		else:
@@ -104,7 +104,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		sortedRes = res.sort([('score', {'$meta': 'textScore'})])
 	else:
 		sortedRes = res.sort('congress', -1)
-		if sortedRes.count()>1000:
+		if sortedRes.count()>1000 and api != "R":
+			return({"errormessage": "Too many results found."})
+		elif sortedRes.count()>5000:
 			return({"errormessage": "Too many results found."})
 
 	currentICPSRs = []
@@ -145,4 +147,8 @@ if __name__ == "__main__":
 	#print memberLookup({"state": "NH"}, 1)
 	#print len(memberLookup({"icpsr": 99369}, 1)["results"])
 	#print getMembersByCongress(110,"","Web_PI")
+	#print memberLookup({"congress" : "104"}, 1)
+	#print memberLookup({"congress" : "104 105"}, 1)
+	#print memberLookup({"congress" : "[104 to 109]"}, 1)
+	#print memberLookup({"congress" : "[104 to 109]"}, 1, api = "R")
 	pass
