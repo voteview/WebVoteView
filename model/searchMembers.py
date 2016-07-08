@@ -34,9 +34,12 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			except:
 				return({"errormessage": "Invalid ICPSR number supplied."})
 
-	if state:
+	if state:		
 		state = str(state)
-		searchQuery["stateAbbr"] = state.upper() # States are all stored upper-case
+		if len(state) == 2 or state.upper() == "POTUS":
+			searchQuery["stateAbbr"] = state.upper() # States are all stored upper-case
+		else:
+			searchQuery["stateName"] = state.capitalize()
 	if congress:
 		try:
 			congress = str(int(congress))
@@ -138,6 +141,8 @@ if __name__ == "__main__":
 	#print memberLookup({"name": "Cruz, Ted"})
 	#print memberLookup({"name": "Ted Cruz"}, 5)
 	#print memberLookup({"icpsr": "00001"}, 1)
+	#print memberLookup({"state": "Iowa"}, 1)
+	#print memberLookup({"state": "NH"}, 1)
 	#print len(memberLookup({"icpsr": 99369}, 1)["results"])
-	print getMembersByCongress(110,"","Web_PI")
+	#print getMembersByCongress(110,"","Web_PI")
 	pass
