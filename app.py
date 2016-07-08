@@ -324,7 +324,9 @@ def getmembers():
 	for key, value in bottle.request.params.iteritems(): # Transparently pass through the entire query dictionary
 		qDict[key] = defaultValue(value)
 
-	return(memberLookup(qDict))
+	distinct = defaultValue(bottle.request.params.distinct, 0)
+
+	return(memberLookup(qDict, distinct = distinct))
 
 @app.route("/api/searchAssemble", method="POST")
 @app.route("/api/searchAssemble")
