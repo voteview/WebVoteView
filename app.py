@@ -325,6 +325,7 @@ def getmembers():
 		qDict[key] = defaultValue(value)
 
 	distinct = defaultValue(bottle.request.params.distinct, 0)
+	api = defaultValue(bottle.request.params.api, "Web")
 
 	return(memberLookup(qDict, distinct = distinct))
 
