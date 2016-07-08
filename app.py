@@ -327,7 +327,7 @@ def getmembers():
 	distinct = defaultValue(bottle.request.params.distinct, 0)
 	api = defaultValue(bottle.request.params.api, "Web")
 
-	return(memberLookup(qDict, distinct = distinct))
+	return(memberLookup(qDict, distinct = distinct, api = api))
 
 @app.route("/api/searchAssemble", method="POST")
 @app.route("/api/searchAssemble")
