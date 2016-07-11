@@ -1,0 +1,97 @@
+[
+    {
+        "congress": 27, 
+        "mean": -0.113, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 28, 
+        "mean": 0.174, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 30, 
+        "mean": -0.052, 
+        "nMembers": 3
+    }, 
+    {
+        "congress": 32, 
+        "mean": -0.172, 
+        "nMembers": 3
+    }, 
+    {
+        "congress": 33, 
+        "mean": -0.215, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 35, 
+        "mean": -0.095, 
+        "nMembers": 2
+    }, 
+    {
+        "congress": 36, 
+        "mean": -0.386, 
+        "nMembers": 7
+    }, 
+    {
+        "congress": 37, 
+        "mean": -0.345, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 43, 
+        "mean": -0.554, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 44, 
+        "mean": -0.256, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 45, 
+        "mean": -0.349, 
+        "nMembers": 2
+    }, 
+    {
+        "congress": 46, 
+        "mean": -0.354, 
+        "nMembers": 6
+    }, 
+    {
+        "congress": 47, 
+        "mean": -0.167, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 48, 
+        "mean": -0.212, 
+        "nMembers": 3
+    }, 
+    {
+        "congress": 49, 
+        "mean": -0.18, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 53, 
+        "mean": -0.217, 
+        "nMembers": 2
+    }, 
+    {
+        "congress": 77, 
+        "mean": -0.299, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 86, 
+        "mean": 0.015, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 93, 
+        "mean": -0.42, 
+        "nMembers": 1
+    }
+]

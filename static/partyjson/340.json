@@ -1,0 +1,32 @@
+[
+    {
+        "congress": 52, 
+        "mean": -0.157, 
+        "nMembers": 10
+    }, 
+    {
+        "congress": 53, 
+        "mean": -0.163, 
+        "nMembers": 14
+    }, 
+    {
+        "congress": 54, 
+        "mean": -0.131, 
+        "nMembers": 13
+    }, 
+    {
+        "congress": 55, 
+        "mean": -0.244, 
+        "nMembers": 27
+    }, 
+    {
+        "congress": 56, 
+        "mean": -0.278, 
+        "nMembers": 12
+    }, 
+    {
+        "congress": 57, 
+        "mean": -0.259, 
+        "nMembers": 7
+    }
+]

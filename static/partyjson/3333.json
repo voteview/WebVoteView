@@ -1,0 +1,12 @@
+[
+    {
+        "congress": 34, 
+        "mean": 0.266, 
+        "nMembers": 121
+    }, 
+    {
+        "congress": 36, 
+        "mean": -0.118, 
+        "nMembers": 19
+    }
+]

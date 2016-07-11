@@ -140,8 +140,12 @@ def congress(chamber="senate"):
 
 @app.route("/parties")
 @app.route("/parties/<party>")
-def parties(party=0):
-	# No party pages yet
+def parties(party=200):
+	# Just default for now
+	party = int(party)
+	if party not in xrange(0, 50001):
+		party = 200
+	
 	output = bottle.template("views/parties", party=party)
 	return output
 
