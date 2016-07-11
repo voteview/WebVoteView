@@ -138,6 +138,13 @@ def congress(chamber="senate"):
 	output = bottle.template("views/congress", chamber=chamber, congress=congress)
 	return output
 
+@app.route("/parties")
+@app.route("/parties/<party>")
+def parties(party=0):
+	# No party pages yet
+	output = bottle.template("views/parties", party=party)
+	return output
+
 @app.route("/person")
 @app.route("/person/<icpsr>")
 def person(icpsr=0):
