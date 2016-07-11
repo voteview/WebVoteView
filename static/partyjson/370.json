@@ -1,0 +1,47 @@
+[
+    {
+        "congress": 63, 
+        "mean": 0.282, 
+        "nMembers": 10
+    }, 
+    {
+        "congress": 64, 
+        "mean": 0.249, 
+        "nMembers": 6
+    }, 
+    {
+        "congress": 65, 
+        "mean": 0.134, 
+        "nMembers": 3
+    }, 
+    {
+        "congress": 74, 
+        "mean": -0.085, 
+        "nMembers": 8
+    }, 
+    {
+        "congress": 75, 
+        "mean": -0.126, 
+        "nMembers": 9
+    }, 
+    {
+        "congress": 76, 
+        "mean": -0.047, 
+        "nMembers": 3
+    }, 
+    {
+        "congress": 77, 
+        "mean": -0.064, 
+        "nMembers": 4
+    }, 
+    {
+        "congress": 78, 
+        "mean": -0.034, 
+        "nMembers": 3
+    }, 
+    {
+        "congress": 79, 
+        "mean": 0.007, 
+        "nMembers": 2
+    }
+]

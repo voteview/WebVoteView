@@ -3,13 +3,24 @@
 % include('header.tpl')
 
 <div class="container">
-	<!--
+	
 	<div id="loading-container">
-		<h3>Loading dataset</h3>
+		<h3>{{ party}} Loading dataset</h3>
 		<img src="{{ STATIC_URL }}img/loading.gif" />
 	</div>
-	-->
+	
 	<div id="content">
-		<p> Coming soon.</p>
+		<div class="row">
+			<div class="col-md-12">
+				<h4>votes over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
+				<div id="time-chart"></div>
+			</div>
+		</div>
 	</div>
 </div>
+
+<script language="javascript">var party_param = "{{ party }}";</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/party.js"></script>

@@ -1,0 +1,37 @@
+[
+    {
+        "congress": 69, 
+        "mean": 0.219, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 76, 
+        "mean": -0.422, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 77, 
+        "mean": -0.422, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 78, 
+        "mean": -0.422, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 79, 
+        "mean": -0.422, 
+        "nMembers": 1
+    }, 
+    {
+        "congress": 80, 
+        "mean": -0.711, 
+        "nMembers": 2
+    }, 
+    {
+        "congress": 81, 
+        "mean": -0.422, 
+        "nMembers": 1
+    }
+]
