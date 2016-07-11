@@ -22,22 +22,20 @@ var xhr = d3.json("/static/partyjson/"+party_param+".json")
 		d.nMembers = +d.nMembers;
 	});
         var ndx = crossfilter(data); 
-        var all = ndx.groupAll();
-
         var congressDimension = ndx.dimension(function (d) {
             return d.congress;
         });
-        var congressGroup = congressDimension.group();
+        var congressGroup = congressDimension.group().reduceSum(function (d) {return d.nMembers;});
 
 
         timeChart
             .width(1180)
             .height(180)
-	    .margins({top: 10, right: 50, bottom: 30, left: 40})
             .dimension(congressDimension)
             .group(congressGroup)
             .elasticX(true)
             .elasticY(true)
+            .brushOn(false)
             .x(d3.scale.linear().domain([0, 115]))
             .xAxis().tickFormat(function(v) { return v; });
 
