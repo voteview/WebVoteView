@@ -12,7 +12,7 @@
 	<div id="content">
 		<div class="row">
 			<div class="col-md-12">
-				<h4>votes over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
+				<h4>Party {{ party }} members over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
 				<div id="time-chart"></div>
 			</div>
 		</div>
