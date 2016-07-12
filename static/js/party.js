@@ -4,6 +4,7 @@
 /* global dc,d3,crossfilter,colorbrewer */
 
 var timeChart = dc.barChart("#time-chart");
+var dimChart = dc.lineChart("#dim-chart");
 
 var xhr = d3.json("/static/partyjson/"+party_param+".json")
     .on("progress", function() { 
