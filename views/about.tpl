@@ -115,6 +115,7 @@ D-NOMINATE was developed by Poole and Rosenthal 1986-88 and is a scaling procedu
 				<li><a href="http://www.flaticon.com/packs/file-format-collection">Freepik File Format Pack</a></li>
 				<li><a href="http://www.flaticon.com/packs/thin-line-ui">Eleonor Wang Thin UI Pack</a></li>
 				<li><a href="http://www.flaticon.com/packs/flat-lines-circled">Eleonor Wang Flat Lines Circled Pack</a></li>
+				<li><a href="https://github.com/stevenrskelton/flag-icon">State Flags from flag-icon</a> by Steven Skelton</li>
 			</ul>
 
 			<p>External code libraries:</p>
