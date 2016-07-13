@@ -201,7 +201,7 @@ function constructPlot(member)
 	var imgBox = $("<img />").css("width","80px").css("height","80px").css("padding-right","20px").attr("class","pull-left")
 					.attr("src","/static/img/bios/"+member["bioImgURL"]);
 	var bioText = $("<span></span>").css("font-size","0.9em").css("padding-right","0px")
-					.html("<strong>"+member["bioName"]+"</strong> ("+member["partyname"].substr(0,1)+")<br/>"+member["stateName"]+"<br/>Elected "+member["minElected"]);
+					.html("<strong>"+member["bioName"]+"</strong> ("+member["partyname"].substr(0,1)+")<br/><img src=\"/static/img/states/"+member["stateAbbr"]+".png\" style=\"width:20px;\"> "+member["stateName"]+"<br/>Elected "+member["minElected"]);
 	imgBox.appendTo(memberBox);
 	bioText.appendTo(memberBox);
 	memberBox.appendTo($("#memberList"));
