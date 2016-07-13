@@ -1,7 +1,20 @@
 [
     {
         "congress": 18, 
-        "mean": 0.31, 
-        "nMembers": 84
+        "grandHigh": 0.768, 
+        "grandLow": -0.014, 
+        "grandMean": 0.31, 
+        "grandMedian": 0.27750000000000002, 
+        "houseHigh": 0.772, 
+        "houseLow": 0.008, 
+        "houseMean": 0.326, 
+        "houseMedian": 0.28050000000000003, 
+        "houseMembers": 70, 
+        "nMembers": 84, 
+        "senateHigh": 0.628, 
+        "senateLow": -0.034, 
+        "senateMean": 0.232, 
+        "senateMedian": 0.23799999999999999, 
+        "senateMembers": 14
     }
 ]

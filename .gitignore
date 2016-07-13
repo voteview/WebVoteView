@@ -3,6 +3,7 @@ git-synchronize
 model/auth.json
 model/swearFilter.json
 static/db
+static/dumpNom
 static/deprecated
 static/img/wiki/*
 **/*deprecated*

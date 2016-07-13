@@ -13,6 +13,7 @@ from model.bioData import yearsOfService, checkForPartySwitch, congressesOfServi
 from model.raWIKI import readStatus, writeStatus
 import model.downloadXLS
 import model.stashCart
+import model.partyData
 import datetime
 import time
 
@@ -510,6 +511,12 @@ def search():
 
 	res = query(q,startdate,enddate,chamber, icpsr=icpsr)
 	return(res)
+
+@app.route("/api/getPartyName",method="POST")
+@app.route("/api/getPartyName")
+def getPartyName():
+	id = defaultValue(bottle.request.params.id)
+	return(model.partyData.getPartyName(id))
 
 @app.route("/api/download",method="POST")
 @app.route("/api/download")

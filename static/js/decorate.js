@@ -4,18 +4,17 @@
 function decorateNominate(oc,data) {
 	var width = oc.width();
         var height = oc.height();
+
+	var margin = 50;
+	var marginCircle = 25; // Distance of the main circle to the axis
         var nomDWeight = 0.42;
+	var tickLength = 15;
+	var scale = 1.0; // sets radius of the outer circle in nominate units
 
 	// Calculate circle attrs
-	var margin = 50;
-
-	var radiusX = (width - 2 * margin) / 2;
-        var radiusY = (nomDWeight*width - 2*margin)/2;
-
-	var marginCircle = 25; // Distance of the main circle to the axis
-	var circleCenter = { "x": (width + margin) / 2, "y": (height - margin) / 2 };
-	var tickLength = 15;
-	var scale = 1.2; // sets radius of the outer circle in nominate units
+	var radiusX = (width - margin)/2 - marginCircle;
+        var radiusY = (nomDWeight*width - margin)/2 - marginCircle;
+	var circleCenter = { "x": (width + margin)/2, "y": (height - margin)/2 };
 
 	// Select the base SVG
 	var ocSVG = d3.select(oc.g()[0][0]);
@@ -211,13 +210,13 @@ function decorateNominate(oc,data) {
 				     margin + tickLength, yAxisMax, 
 				     margin, yAxisMax));
 	gg.append('text')
-	     .text("Liberal")
+	     .text("Conservative")
 	     .attr("x", 40)
              .attr("y", yAxisMin + 0.2*yAxisLen)
              .attr("style","text-anchor:middle")
              .attr("transform", sprintf("rotate(-90 40 %d)", yAxisMin + 0.2*yAxisLen));
 	gg.append('text')
-             .text("Conservative")
+             .text("Liberal")
 	     .attr("x", 40)
              .attr("y", yAxisMin + 0.8*yAxisLen)
              .attr("style","text-anchor:middle")
@@ -238,11 +237,11 @@ function decorateNominate(oc,data) {
 	// before the brush group does it. --JBL	  
 	var ggg = ocSVG.insert("g",".brush");
 	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
-		var ynpts =  [circleCenter.x + radiusX/scale*(vn.mid[0]+vn.spread[0]/2),
+		var ynpts =    [circleCenter.x + radiusX/scale*(vn.mid[0]+vn.spread[0]/2),
 				circleCenter.y - radiusY/scale*(vn.mid[1]+vn.spread[1]/2),
 				circleCenter.x + radiusX/scale*(vn.mid[0]-vn.spread[0]/2),
 				circleCenter.y - radiusY/scale*(vn.mid[1]-vn.spread[1]/2)];
-		var angle = 57.295*Math.atan((vn.spread[1])/(vn.spread[0]));
+		var angle = 57.29578*Math.atan((vn.spread[1])/(vn.spread[0]));
 		var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
 		switch( cs ) 
 		{
