@@ -11,7 +11,7 @@
 				% else:
 					<strong>{{member["name"]}}</strong><br/>
 				% end
-				{{member["stateName"]}}<br/>
+				<img src="/static/img/states/{{member["stateAbbr"]}}.png" style="width:20px;" /> {{member["stateName"]}}<br/>
 				<!--{{member["partyname"]}}--> Elected {{member["minElected"]}}
 			</div>
 		</div>
