@@ -58,6 +58,7 @@ var colorSchemes = {
 
 var partyColorMap = {
 	"Democrat": "blue",
+	"Democrat-Republican": "blue",
 	"Republican": "red",
 	"Independent": "grey",
 	"Pro-Administration": "blue",
@@ -81,7 +82,6 @@ var partyColorMap = {
 	"Silver Republican": "grey",
 	"Conservative": "purple"
 }
-if(congressNum<20) { partyColorMap["Republican"] = "blue"; }
 
 function genPartyColors()
 {
