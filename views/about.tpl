@@ -9,11 +9,33 @@
 			<h3>About the project</h3>
 		
 			<p>
-				1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis accumsan velit. In imperdiet neque et tempor tincidunt. Maecenas eu magna ut mauris 
-				auctor egestas sed vitae leo. Nam a ipsum in erat porttitor egestas. Duis a sagittis augue. Sed porta eget eros a accumsan. Nullam ultricies tristique 
-				sollicitudin. Praesent sollicitudin consectetur dui, vel sollicitudin purus commodo vitae. Maecenas imperdiet, diam a aliquam ultricies, nunc ligula 
-				iaculis metus, hendrerit consequat nibh nibh vel nisl. Suspendisse pharetra nec tellus eget suscipit. Maecenas a neque felis. Phasellus tincidunt nibh 
-				id eleifend tempus. Mauris sed suscipit nisi. Praesent laoreet arcu sit amet est elementum volutpat.
+<strong>Voteview.com</strong> is a website that allows users
+to view every congressional roll call vote in American history on a map of
+the United States, including information about the ideological positions
+of voting Senators and Representatives.<br/><br/>
+
+The original version of Voteview was developed by Keith T. Poole and Howard Rosenthal 
+at Carnegie-Mellon University from 1989-1992.<br/><br/>
+
+Ideological positions on this website are calculated using the <strong>D-NOMINATE</strong>
+(<strong>D</strong>ynamic <strong>NOMINA</strong>l <strong>T</strong>hree-step <strong>E</strong>stimation).
+This procedure was developed by Poole and Rosenthal from 1986-88 and is a "scaling procedure", representing
+legislators on a spatial map. In this sense, a spatial map is much like a road map--the closeness of two
+legislators on the map shows how similar their voting records are. Using this measure of distance, D-NOMINATE
+is able to recover the "dimensions" that inform congressional voting behaviour.<br/><br/>
+
+The primary dimension through most of American history has been "liberal" vs. "conservative" (also referred as "left" vs. "right"). A second
+dimension picks up differences within the major political parties over slavery, currency, nativism, civil rights,
+and lifestyle issues during periods of American history.<br/><br/>
+
+UCLA's Department of Political Science hosts and maintains NOMINATE score data and Voteview.com. We welcome feedback,
+questions, and media enquiries concerning this project.
+
+<!--
+Voteview was developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon University 1989-1992. The original software was written in BASIC 7.1 for DOS. Later (1997 – 2001), the software was converted to Visual Basic. The aim of the software was to allow researchers to view every roll call vote in American history on a map of the United States and/or an ideology map from D-NOMINATE (Dynamic-NOMINAl-Three-step-Estimation).
+
+D-NOMINATE was developed by Poole and Rosenthal 1986-88 and is a scaling procedure that represented legislators and roll call outcomes as points on an ideological map. These points form a spatial map that summarizes the roll calls. In this sense a spatial map is much like a road map. A spreadsheet that tabulates all the distances between every pair of sizable cities in the United States contains the same information as the corresponding map of the U.S. but the spreadsheet gives you no idea what the U.S. looks like. Much like a road map, a spatial map formed from roll calls gives us a way of visualizing the political world of a legislature. The closeness of two legislators on the map shows how similar their voting records are, and the distribution of legislators shows what the dimensions are. The primary dimension through most of American history has been left v. right or liberal v. conservative. A second dimension picks up differences within the two major political parties over slavery, currency, nativism, civil rights, and lifestyle issues. This implemention of voteview is based on the Visual Basic of voteview And uses CS DW-NOMINATE which is an improved versions of the original D-NOMINATE. All the functionality and more is included in this web-based version of voteview. For further information, see 
+-->
 			</p>
 
 			<h3>Project Staff</h3>
@@ -39,12 +61,12 @@
 				</li>
 				
 				<li>
-					<strong>Programmer and Data Curator:</strong> <a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
+					<strong>Lead Database Developer:</strong> <a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
 				</li>
 				<li>
-					<strong>Lead Programmer, Voteview.com:</strong> Aaron Rudkin, University of California Los Angeles</li>
+					<strong>Lead Developer, Voteview.com:</strong> Aaron Rudkin, University of California Los Angeles</li>
 				<li>
-					<strong>Lead Programmer, RVoteView:</strong> <a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
+					<strong>Lead Developer, RVoteView:</strong> <a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
 				</li>
 			</ul>
 
@@ -69,9 +91,10 @@
 				</div>
 			</form>
 			<div id="result" style="display:none;"></div>
-			
-			<h3>Licence and Code</h3>
-		
+
+			<br/>
+			<h4>Licence and Code</h4>
+			<small>		
 			<p>VoteView code available on GitHub:</p>
 			<ul>
 				<li><a href="https://github.com/JeffreyBLewis/congressional-district-boundaries">Congressional District Boundaries JSON data</a></li>
@@ -104,6 +127,7 @@
 				<li><a href="https://github.com/seiyria/bootstrap-slider">bootstrap-slider</a> by Kyle Kemp and Rohit Kalkur</li>
 				<li><a href="https://github.com/js-cookie/js-cookie">js-cookie</a> by Klaus Hartl and Fagner Brack</li>
 			</ul>
+			</small>
 
 			<br/><br/><br/>
 		</div>		

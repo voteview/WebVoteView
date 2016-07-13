@@ -104,7 +104,7 @@
 				</div> <!-- Outside the Geo map, still inside the first column of the first row -->
 
 				<!-- Nominate graph -->
-				<h4>DW-Nominate Cut-Line for Vote
+				<h4>DW-Nominate Cutting Line
 					<a href="#" onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">
 						<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
 					</a>
@@ -134,7 +134,7 @@
 		<div class="row" style="margin-bottom:50px;">
 			<div class="col-md-12">
 				<div>
-					<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">List of Votes</div>
+					<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">Votes</div>
 					<div style="text-align:middle;padding-top:3px;">
 						(Sort by 
 						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 

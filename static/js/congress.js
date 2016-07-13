@@ -42,12 +42,6 @@ function nomPlot()
 		{
 			var x = d.nominate.oneDimNominate;
 			var y = d.nominate.twoDimNominate;
-			var R = Math.sqrt(x*x + y*y);
-			if (R>1.2)
-			{
-				x = x*1.2/R;
-				y = y*1.2/R;
-			}
 			return [x,y];
 		}
 	);
@@ -88,7 +82,7 @@ function nomPlot()
 		return color;
 	})
 	.highlightedSize(10)
-	.x(d3.scale.linear().domain([-1.2,1.2]))
+	.x(d3.scale.linear().domain([-1.0,1.0]))
 	.y(d3.scale.linear().domain([-1.2,1.2]));
 
 	nominateScatterChart.on("filtered", function()

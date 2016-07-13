@@ -150,14 +150,13 @@ function drawWidgets(error, data, geodata)
 
 	// Dimension 4: Coordinates of vote
 	var xDimension = ndx.dimension(
-		//Project outlying ideal points onto the outer circle (Radius=1.2)... 		    
+		//Project outlying ideal points onto the outer circle 		    
 		function(d) {
 			var x = d.x;  var y = d.y;
-			var R = Math.sqrt(x*x + y*y);
-			if (R>1.2) 
-			{
-				x = x*1.2/R;
-				y = y*1.2/R;
+		        var dlen = Math.sqrt(x*x + y*y);
+		        if (dlen>1.0) {
+			    x = x/dlen;
+			    y = y/dlen;
 			}
 			return [x, y];
 		}
@@ -305,7 +304,7 @@ function drawWidgets(error, data, geodata)
 			return color; 
 		})
 		.highlightedSize(10)
-		.x(d3.scale.linear().domain([-1.2, 1.2])) 
+		.x(d3.scale.linear().domain([-1.0, 1.0])) 
 		.y(d3.scale.linear().domain([-1.2, 1.2]));
 
 	// Updates the total number of units selected on the selection bar.

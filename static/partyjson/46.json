@@ -1,7 +1,15 @@
 [
     {
         "congress": 32, 
-        "mean": -0.452, 
+        "grandHigh": -0.417, 
+        "grandLow": -0.51, 
+        "grandMean": -0.452, 
+        "grandMedian": -0.41799999999999998, 
+        "houseHigh": -0.417, 
+        "houseLow": -0.51, 
+        "houseMean": -0.452, 
+        "houseMedian": -0.41799999999999998, 
+        "houseMembers": 3, 
         "nMembers": 3
     }
 ]

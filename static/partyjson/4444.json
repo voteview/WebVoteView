@@ -1,12 +1,28 @@
 [
     {
         "congress": 32, 
-        "mean": -0.409, 
+        "grandHigh": -0.22, 
+        "grandLow": -0.621, 
+        "grandMean": -0.409, 
+        "grandMedian": -0.41100000000000003, 
+        "houseHigh": -0.22, 
+        "houseLow": -0.621, 
+        "houseMean": -0.409, 
+        "houseMedian": -0.41100000000000003, 
+        "houseMembers": 10, 
         "nMembers": 10
     }, 
     {
         "congress": 37, 
-        "mean": 0.136, 
+        "grandHigh": 0.236, 
+        "grandLow": 0.035, 
+        "grandMean": 0.136, 
+        "grandMedian": 0.13550000000000001, 
+        "houseHigh": 0.236, 
+        "houseLow": 0.035, 
+        "houseMean": 0.136, 
+        "houseMedian": 0.13550000000000001, 
+        "houseMembers": 2, 
         "nMembers": 2
     }
 ]
