@@ -16,5 +16,5 @@ def getPartyName(code):
 		return {"partyname": r["partyname"]}
 
 if __name__=="__main__":
-	print getPartyName(200)
+	print getPartyName(13)
 	print getPartyName("fart")
