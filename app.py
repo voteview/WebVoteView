@@ -143,12 +143,21 @@ def congress(chamber="senate"):
 @app.route("/parties/<party>")
 def parties(party=200):
 	# Just default for now
-	party = int(party)
+	try:
+		party = int(party)
+	except:
+		if party=="all":
+			output = bottle.template("views/partiesGlance")
+			return output
+		else:
+			party = 200
+
 	if party not in xrange(0, 50001):
 		party = 200
 	
 	output = bottle.template("views/parties", party=party)
 	return output
+
 
 @app.route("/person")
 @app.route("/person/<icpsr>")
