@@ -80,7 +80,15 @@ var partyColorMap = {
 	"National Greenbacker": "green",
 	"Silver": "grey",
 	"Silver Republican": "grey",
-	"Conservative": "purple"
+	"Conservative": "purple",
+	"Prohibition": "brown",
+	"States Rights": "orange",
+	"Readjuster Democrat": "blue",
+	"Progressive Republican": "pinkpurple",
+	"Prohibitionist": "grey",
+	"Union Labor": "red",
+	"Free Soil": "yellow",
+	"Opposition": "red"
 }
 
 function genPartyColors()

@@ -33,10 +33,11 @@ function drawHistWrap(error, data)
 	data["results"].forEach(function(d) {
 		if(!foundRep && d.icpsr==memberICPSR)
 		{
+			console.log(d);
 			memberIdeal = d.nominate.oneDimNominate;
 			memberPartyName = d.partyname;
 			chamber = d.chamber.toLowerCase();
-			$("#partyname").html(memberPartyName);
+			$("#partyname").html("<a href=\"/parties/"+d.party+"\">"+memberPartyName+"</a>");
 			memberIdealBucket = Math.floor(memberIdeal*10);
 			foundRep=1;
 			return false;

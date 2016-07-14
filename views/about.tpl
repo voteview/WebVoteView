@@ -8,18 +8,19 @@
 		<div class="col-md-9">
 			<h3>About the project</h3>
 		
-			<p>
-<strong>Voteview.com</strong> is a website that allows users
-to view every congressional roll call vote in American history on a map of
-the United States, including information about the ideological positions
-of voting Senators and Representatives.<br/><br/>
+			<p> <strong>Voteview.com</strong> is a website
+that allows users to view every congressional roll call vote in
+American history on a map of the United States and on
+liberal-conservative ideological map including information about the
+ideological positions of voting Senators and
+Representatives.<br/><br/>
 
 The original version of Voteview was developed by Keith T. Poole and Howard Rosenthal 
 at Carnegie-Mellon University from 1989-1992.<br/><br/>
 
-Ideological positions on this website are calculated using the <strong>D-NOMINATE</strong>
-(<strong>D</strong>ynamic <strong>NOMINA</strong>l <strong>T</strong>hree-step <strong>E</strong>stimation).
-This procedure was developed by Poole and Rosenthal from 1986-88 and is a "scaling procedure", representing
+Ideological positions are calculated using the <strong>DW-NOMINATE</strong>
+(<strong>D</strong>ynamic (<strong>W</strong>eighted <strong>NOMINA</strong>l <strong>T</strong>hree-step <strong>E</strong>stimation).
+This procedure was developed by Poole and Rosenthal in the 1980s and is a "scaling procedure", representing
 legislators on a spatial map. In this sense, a spatial map is much like a road map--the closeness of two
 legislators on the map shows how similar their voting records are. Using this measure of distance, D-NOMINATE
 is able to recover the "dimensions" that inform congressional voting behaviour.<br/><br/>

@@ -6,11 +6,18 @@
 var timeChart = dc.barChart("#time-chart");
 var dimChart = dc.compositeChart("#dim-chart");
 
+var eW=0; var eH = 0;
+function tooltip(d)
+{
+	return JSON.stringify(d);
+}
+
+var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
+
 var q = queue()
     .defer(d3.json, "/static/partyjson/"+party_param+".json")
     .defer(d3.json, "/static/partyjson/grand.json")
     .defer(d3.json, "/api/getPartyName?id="+party_param);
-
 
 q
     .await(function(error, pdat, cdat,partyname) {	
@@ -19,6 +26,7 @@ q
 	{
 		var pName = partyname["partyname"];
 		var partyCol = colorSchemes[partyColorMap[partyNameSimplify(pName)]];
+		if(pName=="Democrat") { pName="Democratic"; }
 	}
 	else
 	{
@@ -60,7 +68,7 @@ q
         var dimCong = congressDimension.group().reduceSum(function (d) {return d.congressmedian;});
 
         timeChart
-            .width(1180)
+            .width(1160)
             .height(180)
             .dimension(congressDimension)
             .group(congressGroup)
@@ -69,7 +77,8 @@ q
             .brushOn(false)
 	    .colors([partyCol[0]])
             .x(d3.scale.linear().domain([0, 115]))
-            .xAxis().tickFormat(function(v) { return v; });
+	    .xAxisLabel("Year").yAxisLabel("Number of Members Elected")
+            .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 	 
 	dimChart
 	    .width(1160)
@@ -84,7 +93,9 @@ q
 		dc.lineChart(dimChart).group(dimPartyLow).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		dc.lineChart(dimChart).group(dimPartyHigh).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 	        dc.lineChart(dimChart).group(dimCong).colors(['#D3D3D3']).interpolate("basis")
-	    ]);
+	    ])
+	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative")
+	    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 
         dc.renderAll();
 	$(".partyName").html(pName);

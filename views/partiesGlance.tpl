@@ -13,7 +13,12 @@
 	<div id="content">
 		<div class="row">
 			<div class="col-md-12">
-				<h4>Congress at a glance:</h4>
+				<h3>
+					<abbr title="Parties"><a href="/parties/all">Parties</a></abbr> &gt; 
+					Parties Overview
+				</h3>
+
+				<h4>Congress at a Glance:</h4>
 				<div id="dim-chart"></div>
 			</div>
 		</div>

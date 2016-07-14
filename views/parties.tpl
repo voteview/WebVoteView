@@ -13,7 +13,14 @@
 	<div id="content">
 		<div class="row">
 			<div class="col-md-12">
-				<h4><span class="partyName">Party {{ party }}</span> median ideology over time<small><a class="reset" href="javascript:dimChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
+				<h3>
+					<abbr title="parties"><a href="/parties/all">Parties</a></abbr> &gt; 
+					<span class="partyName">Party {{ party }}</span> Party
+				</h3>
+
+				<h4>
+					Median <span class="partyName">Party {{ party }}</span> Party ideology over time<small><a class="reset" href="javascript:dimChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small>
+				</h4>
 				<div id="dim-chart"></div>
 			</div>
 		</div>
