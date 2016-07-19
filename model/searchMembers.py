@@ -12,12 +12,13 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	congress = qDict["congress"] if "congress" in qDict else ""
 	cqlabel = qDict["cqlabel"] if "cqlabel" in qDict else ""
 	chamber = qDict["chamber"] if "chamber" in qDict else ""	
+	id = qDict["id"] if "id" in qDict else ""
 
 	if api == "R":
 		maxResults = 5000
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state and not congress and not cqlabel:
+	if not name and not icpsr and not state and not congress and not cqlabel and not id:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
@@ -36,6 +37,15 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 						break
 			except:
 				return({"errormessage": "Invalid ICPSR number supplied."})
+
+	if id:
+		try:
+			if id.upper().startswith("MH") or id.upper().startswith("MS"):
+				searchQuery["id"] = id
+			else:
+				return({"errormessage": "Invalid ID supplied1."})
+		except:
+			return({"errormessage": "Invalid ID supplied2."})
 
 	if state:		
 		state = str(state)
@@ -153,6 +163,7 @@ if __name__ == "__main__":
 	print memberLookup({"name": "Obama"},distinct= 1, api = "R")
 	print "not distinct \n\n"
 	print memberLookup({"name": "Obama"},distinct= 0, api = "R")
+	print memberLookup({"id": "MS01366110"}, distinct=1)
 	#print memberLookup({"congress" : "104"}, 1)
 	#print memberLookup({"congress" : "104 105"}, 1)
 	#print memberLookup({"congress" : "[104 to 109]"}, 1)

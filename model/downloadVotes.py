@@ -22,8 +22,8 @@ def downloadAPI(rollcall_id, apitype="Web"):
 
 	starttime = time.time()
 	# Setup API version response
-	if apitype=="Web" or apitype=="exportJSON":
-		apiVersion = "Web 2016-06"
+	if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
+		apiVersion = "Web 2016-07"
 	elif apitype=="R":
 		apiVersion = "R 2016-02"
 
@@ -76,7 +76,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 					bestName = member["name"]
 
 				# Web returns different fields than R
-				if apitype=="Web" or apitype=="exportJSON": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
+				if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
 					v = {
 						'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0]), 
 						'name': bestName,
@@ -96,7 +96,6 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						v['district'] = "%s%02d" % (member['stateAbbr'], member['districtCode'])
 					if not "district" in v: # We do this to force null districts to exist so as to avoid breaking DC_rollcall
 						v["district"] = ""
-					
 					result.append(v)
 				elif apitype=="R": # [m["v"] for m in rollcall["votes"] if m["id"]==member["id"]][0]
 					v = {
@@ -114,7 +113,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 					result.append(v)
 
 			# Top level nominate metadata
-			if apitype=="Web" or apitype=="exportJSON":
+			if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
 				nominate = rollcall['nominate']
 			elif apitype=="R":
 				nominate = {k: rollcall['nominate'][k] for k in ['intercept', 'slope']}
@@ -123,17 +122,21 @@ def downloadAPI(rollcall_id, apitype="Web"):
 			found[rollcall["id"]] = 1
 
 			# Collapse codes for R
-			if apitype=="Web" or apitype=="exportJSON":
+			if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
 				codes = rollcall["code"]
 			elif apitype=="R":
 				codes = rollcall["code"]
 				for key, value in codes.iteritems():
 					codes[key] = '; '.join(value)
 				
-			rollcall_results.append({'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
-						'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
-						'description': rollcall['description'], 'id': rollcall['id'], 'code': codes,
-						'yea': rollcall["yea"], 'nay': rollcall["nay"]})
+			z = {'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
+				'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
+				'description': rollcall['description'], 'id': rollcall['id'], 'code': codes,
+				'yea': rollcall["yea"], 'nay': rollcall["nay"]}
+			if apitype=="Web_Person":
+				print "in here"
+				z["resultparty"] = rollcall["resultparty"]
+			rollcall_results.append(z)
 
 		except: # Invalid vote id
 			print traceback.format_exc()
@@ -177,4 +180,5 @@ if __name__=="__main__":
 #	print downloadStash("3a5c69e7")
 #	print downloadAPI("S1140430")
 #	print downloadAPI("H1030301", "R")
+	print downloadAPI("H1141178", "Web_Person")["rollcalls"][0]["resultparty"]
 	pass

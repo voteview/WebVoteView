@@ -23,6 +23,8 @@ function reloadIdeology()
 	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHistWrap);
 }
 
+$(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
+
 // Wrapper to update default loadings for the person's ideal point.
 function drawHistWrap(error, data)
 {
@@ -74,7 +76,7 @@ function drawHist(error, data)
 		}
 	});
 
-	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(NOMINATE first dimension)</em><br/><br/>";
+	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(DW-NOMINATE first dimension)</em><br/><br/>";
 	var libPercentage = Math.floor(100*ctGreater/(ctTotal-1),1);
 	var libPartyPercentage = Math.floor(100*ctPartyGreater/(ctPartyTotal-1),1);
 	if(libPercentage==100) { label += "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress."; }

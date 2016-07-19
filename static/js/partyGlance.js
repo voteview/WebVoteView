@@ -83,6 +83,7 @@ q
 			dc.lineChart(dimChart).group(dimSet[7]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[7][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[8]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[8][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis")
+
 		    ])
 		    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative Ideology")
 		    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
@@ -125,13 +126,13 @@ q
 		else { textLabel += "from the "+minCong+"th Congress until the "+maxCong+"th Congress"; }
 		try
 		{
-			var pColour = colorSchemes[partyColorMap[partyNameSimplify(parties[i][1]["name"])]][2];
+			var pColor = colorSchemes[partyColorMap[partyNameSimplify(parties[i][1]["name"])]][0];
 		}
 		catch(err)
 		{
-			var pColour = "#FFFFFF";
+			var pColor = "#FFFFFF";
 		}
-		var pName = $("<div></div>").css("background-color",pColour).addClass('col-md-3').addClass("memberResultBox")
+		var pName = $("<div></div>").addClass('col-md-3').addClass("memberResultBox").css("border-left","3px solid "+pColor)
 					    .data('partyID',partyID).click(function() { window.location='/parties/'+$(this).data('partyID'); });
 
 		if(j==0) // Major current party with logo
@@ -142,7 +143,7 @@ q
 		}
 
 		var partyName = (parties[i][1]["name"] == "American") ? "American (\"Know-Nothing\")": (parties[i][1]["name"] == "Democrat") ? "Democratic" : parties[i][1]["name"] ;
-		var bioBox = $("<span></span>").css("background-color",pColour).html("<strong>"+partyName+" Party</strong><br/>"+textLabel+"<br/><br/>");
+		var bioBox = $("<span></span>").html("<strong>"+partyName+" Party</strong><br/>"+textLabel+"<br/><br/>");
 		bioBox.appendTo(pName);
 		pName.appendTo($("#partySet"));
 	}

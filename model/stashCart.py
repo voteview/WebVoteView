@@ -310,7 +310,7 @@ def shareableLink(id, text):
 			combVotes = list(set(votes + old))
 			expires = indefExpiry()
 			db.stash.insert_one({'id': internalText, 'old': combVotes, 'expiry': expires})
-			link = "http://voteview.com/s/"+internalText
+			link = "http://voteview.polisci.ucla.edu/s/"+internalText
 	else:
 		pass
 
