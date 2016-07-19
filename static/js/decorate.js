@@ -7,7 +7,7 @@ function decorateNominate(oc,data) {
 
 	var margin = 50;
 	var marginCircle = 25; // Distance of the main circle to the axis
-        var nomDWeight = 0.42;
+        var nomDWeight = 0.4156;
 	var tickLength = 15;
 	var scale = 1.0; // sets radius of the outer circle in nominate units
 
@@ -78,51 +78,51 @@ function decorateNominate(oc,data) {
 		switch( cs ) {
 			case 0:
 				var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-						 circleCenter.y-radiusY*vn.y[0]/scale ],
+						 circleCenter.y-radiusY*vn.y[0]/scale*1.2 ],
 						 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-						 circleCenter.y-radiusY*(vn.y[0]+10)/scale ], 
+						 circleCenter.y-radiusY*(vn.y[0]+10)/scale*1.2 ], 
 						 [ circleCenter.x+radiusX*(vn.x[1]+10)/scale,  
-						 circleCenter.y-radiusY*(vn.y[1]+10)/scale ], 
+						 circleCenter.y-radiusY*(vn.y[1]+10)/scale*1.2  ], 
 						 [ circleCenter.x+radiusX*(vn.x[1]+10)/scale,
-						 circleCenter.y-radiusY*(vn.y[1])/scale ], 
+						 circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
 						 [ circleCenter.x+radiusX*vn.x[1]/scale,
-						 circleCenter.y-radiusY*vn.y[1]/scale ] ];
+						 circleCenter.y-radiusY*vn.y[1]/scale*1.2  ] ];
 				break;
 			case 1:
         			var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-						circleCenter.y-radiusY*vn.y[0]/scale ],
+						circleCenter.y-radiusY*vn.y[0]/scale*1.2],
                         	 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale ], 
+                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2 ], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale ], 
-                        	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1])/scale ], 
+                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2 ], 
+                        	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale ,
+                        	   circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
                         	 [ circleCenter.x+radiusX*vn.x[1]/scale,
-                        	   circleCenter.y-radiusY*vn.y[1]/scale ] ]; 
+                        	   circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
 			        break;
 			case 2:
 			        var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-	                           circleCenter.y-radiusY*(vn.y[0])/scale ],
+	                           circleCenter.y-radiusY*(vn.y[0])/scale*1.2 ],
 	                         [ circleCenter.x+radiusX*(vn.x[0])/scale,
-	                           circleCenter.y-radiusY*(vn.y[0]-10)/scale ], 
+	                           circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ], 
         	                 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-				circleCenter.y-radiusY*(vn.y[0]-10)/scale ],
+				circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ],
       	                   	[ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                           	circleCenter.y-radiusY*(vn.y[1])/scale ],
+                           	circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ],
                          	[ circleCenter.x+radiusX*vn.x[1]/scale,
-                           	circleCenter.y-radiusY*vn.y[1]/scale ] ]; 
+                           	circleCenter.y-radiusY*vn.y[1]/scale ]*1.2 ]; 
 				break;
 			case 3:
         			var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-                        	   circleCenter.y-radiusY*vn.y[0]/scale ],
+                        	   circleCenter.y-radiusY*vn.y[0]/scale*1.2 ],
                         	 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-                        	   circleCenter.y-radiusY*(vn.y[0]+10)/scale ], 
+                        	   circleCenter.y-radiusY*(vn.y[0]+10)/scale*1.2 ], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale ], 
+                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2 ], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1])/scale ], 
+                        	   circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
                         	 [ circleCenter.x+radiusX*vn.x[1]/scale,
-                        	   circleCenter.y-radiusY*vn.y[1]/scale ] ]; 
+                        	   circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
 				break;
 		}
 		if (isNaN(angle)) { polyData = [[0,0 ], [0, width],[width, width],[width, 0]] };
@@ -140,14 +140,14 @@ function decorateNominate(oc,data) {
 			.attr("style","stroke:none;fill:#FFFFED;clip-path:url(#scatterclip)");
 
 		gg
-		.append("circle")
+		.append("ellipse")
 			.attr("cx", circleCenter.x)
 			.attr("cy", circleCenter.y)
 			.attr("rx", radiusX/scale)
 			.attr("ry", radiusY/scale)
 			.attr("id", "dashed-circle");
 
-		gg
+	        gg
 		.append("line")
 			.attr("x1", radiusX/scale*vn.x[0] + circleCenter.x)
 			.attr("x2", radiusX/scale*vn.x[1] + circleCenter.x)
@@ -237,11 +237,11 @@ function decorateNominate(oc,data) {
 	// before the brush group does it. --JBL	  
 	var ggg = ocSVG.insert("g",".brush");
 	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
-		var ynpts =    [circleCenter.x + radiusX/scale*(vn.mid[0]+vn.spread[0]/2),
-				circleCenter.y - radiusY/scale*(vn.mid[1]+vn.spread[1]/2),
-				circleCenter.x + radiusX/scale*(vn.mid[0]-vn.spread[0]/2),
-				circleCenter.y - radiusY/scale*(vn.mid[1]-vn.spread[1]/2)];
-		var angle = 57.29578*Math.atan((vn.spread[1])/(vn.spread[0]));
+		var ynpts =    [circleCenter.x + radiusX/scale*(vn.mid[0]+vn.spread[0]),
+				circleCenter.y - radiusY/scale*(vn.mid[1]+vn.spread[1]),
+				circleCenter.x + radiusX/scale*(vn.mid[0]-vn.spread[0]),
+				circleCenter.y - radiusY/scale*(vn.mid[1]-vn.spread[1])];
+		var angle = 57.29578*Math.atan((vn.spread[1]*nomDWeight)/(vn.spread[0]));
 		var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
 		switch( cs ) 
 		{

@@ -582,7 +582,7 @@ function shareLink()
 				$('#shareTextInput').hide();
 				var a = $("<a></a>").attr("href",res["link"]).html(res["link"]).appendTo("#shareTextLink");
 				$("#shareTextLink").show();
-				if("http://voteview.com/s/"+shortLink!=res["link"])
+				if("http://voteview.polisci.ucla.edu/s/"+shortLink!=res["link"])
 				{
 					$("#shareLinkStatus").hide().html("Link copied to clipboard.<br/>Note: The link has been modified.").fadeIn();
 				}
@@ -590,6 +590,8 @@ function shareLink()
 				{
 					$('#shareLinkStatus').hide().html("Link copied to clipboard.<br/>&nbsp;").fadeIn();
 				}
+
+				clipboardCopyHack(res["link"]);			
 			}
 			else
 			{
@@ -597,4 +599,21 @@ function shareLink()
 			}
 		}
 	});
+}
+
+function clipboardCopyHack(text)
+{
+	var q = $("<input>").val(text).appendTo($("body"));
+	q.select();
+	try
+	{
+		var result = document.execCommand('copy');
+		console.log(result);
+	}
+	catch(err)
+	{
+		console.log('copy to clipboard failed');
+	}
+	q.blur();
+	q.remove();
 }

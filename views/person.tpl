@@ -1,4 +1,5 @@
 % STATIC_URL = "/static/"
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % rebase("base.tpl",title=person["canonicalName"], extra_css=["map.css"])
 % include('header.tpl')
 % current_page_number = 1
@@ -34,7 +35,17 @@
 			{{ person["canonicalName"] }} {{lifeString}}
 		</h2>
 
-            <h4><span id="partyname"><a href="/parties/{{person["party"]}}">{{ person["partyname"] }}</a></span> (<img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;"> {{ person["stateName"] }})</h4>
+            <h4>
+		<span id="partyname">
+			<a href="/parties/{{person["party"]}}">{{ person["partyname"] }}</a>
+		</span>
+		% if person["stateName"]!="(President)":
+		 of <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;"> {{ person["stateName"] }}
+		% else:
+		 , <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;"> President of the United States		
+		% end
+	    </h4>
+		
 	    <h4>{{ label }}
 		% z = 0
 		% for chunk in person["yearsOfService"]:
@@ -116,16 +127,41 @@
                 <table class="table table-hover dc-data-table">
                     <thead>
                     <tr class="header">
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Link</th>
+                        <th width="83%">Description</th>
+			<th width="5%">Vote</th>
+			<th width="5%">Party</th>
+			<th width="2%"></th>
+                        <th width="5%">View</th>
                     </tr>
                     </thead>
                     % for vote in votes:
                         <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
-                            <td>{{ vote["date"] }}</td>
-                            <td>{{ vote["shortdescription"] }}</td>
-                            <td><a class="btn btn-primary btn-sm" href="/rollcall/{{vote["id"]}}">See vote</a></td>
+                            <td>
+				
+				% if "description" in vote and vote["description"] is not None and len(vote["description"]):
+				{{ vote["description"] }}
+				% elif "shortdescription" in vote and vote["shortdescription"] is not None and len(vote["shortdescription"]):
+				{{ vote["shortdescription"] }}
+				% elif "question" in vote and vote["question"] is not None and len(vote["question"]):
+				{{ vote["question"] }}
+				% else:
+				{{rcSuffix(vote["congress"])}} Congress &gt; {{vote["chamber"]}} &gt; Vote {{vote["rollnumber"]}}
+				% end
+			    </td>
+			    <td>{{vote["myVote"]}}</td>
+			    <td>
+				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
+					<span style="color:red;">
+				% end
+				{{vote["partyLabelVote"]}}
+				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
+					</span>
+				% end
+			</td>
+			    <td></td>
+                            <td>
+				<a href="/rollcall/{{ vote["id"] }}"><img src="/static/img/graph.png" style="width:24px;margin-right:16px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
+			    </td>
                         </tr>
                     % end
                 </table>
