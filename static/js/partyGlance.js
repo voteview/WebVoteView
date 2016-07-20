@@ -3,6 +3,32 @@
 /* jshint globalstrict: true */
 /* global dc,d3,crossfilter,colorbrewer,queue */
 
+// From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
+function getGetOrdinal(n) {
+    var s=["th","st","nd","rd"],
+    v=n%100;
+    return n+(s[(v-20)%10]||s[v]||s[0]);
+ }
+
+var eW=0; var eH=0;
+var globalParties = [];
+var partyList = [];
+function tooltipText(party, d)
+{
+	var result = getGetOrdinal(d.x)+" Congress &gt; ";
+	if(party<partyList.length) // One of the major parties
+	{
+		result = result+"<strong>"+globalParties[party][1]["name"]+" Party</strong>";
+	}
+	else
+	{
+		result = result+"<strong>Congressional Median (Midpoint)</strong>";
+	}
+	result = result+"<br/><br/><em>Median Ideology Score</em>: "+(Math.round(d.y*100)/100);
+	result = result+"<br/><br/><em>How to interpret Ideology scores:</em><br/>These scores show how liberal or conservative a party is on a scale from -1 (Very Liberal) to +1 (Very Conservative). The scores provided are the median--mid-point--member of each party across both the House of Representative and the Senate.";
+	return(result);
+}
+
 var dimChart = dc.compositeChart("#dim-chart");
 
 var q = queue()
@@ -10,14 +36,14 @@ var q = queue()
     .defer(d3.json, "/static/partyjson/grand.json");
 
 q
-    .await(function(error, parties, grand) {	
+    .await(function(error, parties, grand) {
+	globalParties = parties;	
 	d3.select("#content").style("display", "block");
-
+	var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 	var min = 1;
 	var max = 114;	
 
 	// Which parties are "major"?
-	var partyList = [];
 	var z = queue();
 	for(var i=0;i!=parties.length;i++)
 	{
@@ -70,6 +96,7 @@ q
 		    //.elasticX(true)
 		    .brushOn(false)
 		    .shareTitle(false)
+		    .renderTitle(false)
         	    .x(d3.scale.linear().domain([1, 115]))
 		    .y(d3.scale.linear().domain([-0.6,0.7]))
 		    .compose([
@@ -82,6 +109,8 @@ q
 			dc.lineChart(dimChart).group(dimSet[6]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[6][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[7]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[7][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[8]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[8][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
+			dc.lineChart(dimChart).group(dimSet[9]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[9][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
+			dc.lineChart(dimChart).group(dimSet[10]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis")
 
 		    ])
@@ -89,7 +118,50 @@ q
 		    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 
 		dc.renderAll();
-	
+
+		var i=0;
+		// Populating the tooltip.
+		d3.select(".dc-chart svg").selectAll("g.sub").each(function()
+		{
+			d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip circle").each(function(d)
+			{
+				(function(j, obj)
+				{
+					d3.select(obj).on("mouseover",function(d)
+					{
+						baseToolTip.html(tooltipText(j, d));
+						if(j<partyList.length)
+						{
+							try
+							{
+								baseToolTip.style("border-left","3px solid "+colorSchemes[partyColorMap[partyNameSimplify(parties[j][1]["name"])]][0]);
+							} catch(err) { }
+						}
+						else
+						{
+							baseToolTip.style("border-left","");
+						}
+						eH = baseToolTip.style("height");
+						eW = baseToolTip.style("width");
+						baseToolTip.style("visibility","visible");
+					})
+					.on("mouseout",function(){baseToolTip.style("visibility","hidden");})
+					.on("mousemove",function()
+					{
+						baseToolTip.style("top",(event.pageY+32)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+					})
+					.on("click",function() 
+					{
+						if(j<partyList.length)
+						{
+							window.location="/parties/"+parties[j][0];
+						} 
+					});
+				})(i, this);
+			});
+			i=i+1;
+		});
+
 		$("#loading-container").delay(200).slideUp();
 
 	});
@@ -121,9 +193,9 @@ q
 		var minCong = parties[i][1]["minCongress"];
 		var maxCong = parties[i][1]["maxCongress"];
 		var textLabel = "Active ";
-		if(minCong==maxCong) { textLabel += "in the "+minCong+"th Congress"; }
-		else if(maxCong==114) { textLabel += "from the "+minCong+"th Congress onwards"; }
-		else { textLabel += "from the "+minCong+"th Congress until the "+maxCong+"th Congress"; }
+		if(minCong==maxCong) { textLabel += "in the "+getGetOrdinal(minCong)+" Congress"; }
+		else if(maxCong==114) { textLabel += "from the "+getGetOrdinal(minCong)+" Congress onwards"; }
+		else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress until the "+getGetOrdinal(maxCong)+" Congress"; }
 		try
 		{
 			var pColor = colorSchemes[partyColorMap[partyNameSimplify(parties[i][1]["name"])]][0];

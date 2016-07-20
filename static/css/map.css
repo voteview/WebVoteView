@@ -33,6 +33,7 @@ svg.map {
   border-radius: 2px;
   pointer-events: none;
   font-size: 80%;
+  max-width:330px;
 }
 
 #selectionFilterBar
