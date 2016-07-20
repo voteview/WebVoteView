@@ -43,7 +43,7 @@ function outVotes(groupBy)
 
 	// Output table
 	var sortedKeys = Object.keys(groupings).sort();
-	var baseList = $("<ul></ul>").css("columns","4").css("list-style-type","none").css("overflow-x","hidden").addClass("voteTable");
+	var baseList = $("<ul></ul>").css("columns","4").css("list-style-type","none").css("overflow","auto").css("width","100%").addClass("voteTable");
 	
 	var rowCount=0;
 	var i=0; var colCount=0;
@@ -74,7 +74,7 @@ function outVotes(groupBy)
 			else outLabel = person["name"]+" ("+person["party"].substr(0,1) + "-" +person["state"] + ")";
 			
 			// Style and assemble list item
-			var li = $("<li></li>").css("padding-bottom","5px");
+			var li = $("<li></li>").css("display","inline-block").css("width","100%").css("padding-bottom","5px");
 			var span = $("<span></span>").css("background-color","white").css("padding-right","5px");
 			$("<a></a>").attr("href","/person/"+person["id"])
 					.html(outLabel).appendTo(span);
