@@ -10,7 +10,7 @@
 	</div>
 
 	<div id="content">
-		<div id="header" style="margin-bottom:30px;">
+		<div id="header" style="height:40px;">
 			<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">
 				<select id="congSelector">
 				% for i in range(114, 0, -1):
@@ -23,20 +23,8 @@
 				</select>
 				 &gt; <abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">{{memberLabel}}</abbr>
 			</div>
-			<span style="text-align:middle;padding-top:3px;">
-				(Sort by
-				<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
-				<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
-				<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
-				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-				<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
-			</span>
 			<div style="float:right;padding-right:50px;" id="partyComposition">
 			</div>
-		</div>
-
-		<h4>Roster</h4>
-		<div id="memberList" style="margin-bottom:40px;" class="clearfix">
 		</div>
 
 		<!-- Nominate graph -->
@@ -46,7 +34,7 @@
 			</a>
 		</h4>
 
-		<div id="scatter-container" style="margin:0 auto 50px auto;">
+		<div id="scatter-container" style="margin:0 auto 10px auto;">
 			<div id="scatter-bg">
 				<svg id="svg-bg"></svg> 
 			</div>
@@ -54,6 +42,17 @@
 			</div>
 		</div>
 
+		<div style="text-align:middle;padding-bottom:10px;">
+			<h4 style="display:inline;">Roster</h4> 
+			(Sort by
+			<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
+			<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
+			<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
+			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
+			<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
+		</div>
+		<div id="memberList" style="margin-bottom:40px;" class="clearfix">
+		</div>
 
 	</div>
 </div>

@@ -137,6 +137,28 @@ function reloadBios()
 	});
 }
 
+function getVPP(congress)
+{
+	console.log(congress);
+	var VPParty = {	"111": "Democrat", "107": "Republican", "103": "Democrat", "97": "Republican",
+			"95": "Democrat", "91": "Republican", "87": "Democrat", "83": "Republican",
+			"81": "Democrat", "80": "Vacant", "73": "Democrat", "67": "Republican",
+			"63": "Democrat", "59": "Republican", "58": "Vacant", "55": "Republican",
+			"53": "Democrat", "51": "Republican", "50": "Vacant", "49": "Democrat",
+			"48": "Vacant", "41": "Republican", "40": "Vacant", "39": "Democrat",
+			"37": "Republican", "35": "Democrat", "34": "Vacant", "33": "Democrat",
+			"32": "Vacant", "31": "Whig", "29": "Democrat", "28": "Vacant", "27": "Whig",
+			"25": "Democrat", "20": "Jackson", "15": "Democrat-Republican", "14": "Vacant",
+			"5": "Democrat-Republican", "4": "Federalist", "1": "Pro-Administration"};
+
+	var keys = Object.keys(VPParty);
+	keys.reverse();
+	for(var i=0;i!=keys.length;i++)
+	{
+		if(parseInt(keys[i])<=parseInt(congress)) { return VPParty[keys[i]]; }
+	}
+}
+
 function compositionBar()
 {
 	var partyCount={}
@@ -149,10 +171,13 @@ function compositionBar()
 	var svgBucket = d3.select("#partyComposition").append("svg").attr("width",300).attr("height",21);
 	var x=0; 
 	var sorted_parties = Object.keys(partyCount).sort();
-	var baseTipT = "<strong>Party Composition of "+congressNum+"th Congress</strong><br/>"
+	
+	var baseTipT = "<strong>Party Composition of "+getGetOrdinal(congressNum)+" "+chamber_param.substr(0,1).toUpperCase()+chamber_param.substr(1)+"</strong><br/>";
+	var maxN = 0; var maxP = 0; var sumSet=0;
 	for(pNi in sorted_parties)
 	{
 		pN = sorted_parties[pNi];
+		if(partyCount[pN]>maxN || (partyCount[pN]==maxN && pN==getVPP(congressNum) && chamber_param=="senate")) { maxN=partyCount[pN]; maxP = pN; }
 		var wid = Math.round(300*(partyCount[pN]/resultCache["results"].length));
 		try {var voteCol = colorSchemes[partyColorMap[partyNameSimplify(pN)]][0]; } catch(e) { var voteCol = '#000000'; }
 		var rect = svgBucket.append("rect")
@@ -160,9 +185,12 @@ function compositionBar()
 				.attr("fill",voteCol).attr("stroke","#000000").attr("stroke-width",1);
 		x=x+wid;
 		baseTipT += '<br/>'+pN+': '+partyCount[pN];
+		if(chamber_param=="senate" && pN==getVPP(congressNum)) { baseTipT += " (+ Vice President)"; }
 	}
+	baseTipT+= "<br/><br><em>Note:</em> Counts include members elected through special elections after resignations, deaths, or vacancies.";
 	svgBucket.on('mouseover',function(d) { 
 		baseTip.html(baseTipT);
+		baseTip.style("border-left","3px solid "+colorSchemes[partyColorMap[partyNameSimplify(maxP)]][0]);
 		eW = baseTip.style('width');
 		baseTip.style('visibility','visible');
 	}).on('mousemove',function(d) {
