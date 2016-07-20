@@ -250,6 +250,12 @@ function decorateNominate(oc,data) {
 			case 2: angle = 270-angle; break;
 			case 3: angle = -90-angle; break;
 		}
+
+		console.log(ynpts);
+		console.log(circleCenter);
+		console.log(vn);
+		console.log(radiusX);
+		console.log(radiusY);
       
 		ggg.append('polyline')
 			.attr("class", "yeanay-line")
