@@ -13,6 +13,7 @@ function getGetOrdinal(n) {
 var eW=0; var eH=0;
 var globalParties = [];
 var partyList = [];
+var opacityTimer;
 function tooltipText(party, d)
 {
 	var result = getGetOrdinal(d.x)+" Congress &gt; ";
@@ -26,6 +27,10 @@ function tooltipText(party, d)
 	}
 	result = result+"<br/><br/><em>Median Ideology Score</em>: "+(Math.round(d.y*100)/100);
 	result = result+"<br/><br/><em>How to interpret Ideology scores:</em><br/>These scores show how liberal or conservative a party is on a scale from -1 (Very Liberal) to +1 (Very Conservative). The scores provided are the median--mid-point--member of each party across both the House of Representative and the Senate.";
+	if(party>=partyList.length)
+	{
+		result = result+"<br/><br/>The Congressional Median is unstable (swings back and forth) as control of the House and Senate change.";
+	}
 	return(result);
 }
 
@@ -99,6 +104,7 @@ q
 		    .renderTitle(false)
         	    .x(d3.scale.linear().domain([1, 115]))
 		    .y(d3.scale.linear().domain([-0.6,0.7]))
+		    .margins({top: 0, right: 50, bottom: 50, left: 50})
 		    .compose([
 			dc.lineChart(dimChart).group(dimSet[0]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[0][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis").renderTitle(true).title(function(p) { return JSON.stringify(p); }),
 			dc.lineChart(dimChart).group(dimSet[1]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[1][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
@@ -129,6 +135,7 @@ q
 				{
 					d3.select(obj).on("mouseover",function(d)
 					{
+						clearTimeout(opacityTimer);
 						baseToolTip.html(tooltipText(j, d));
 						if(j<partyList.length)
 						{
@@ -145,9 +152,12 @@ q
 						eW = baseToolTip.style("width");
 						baseToolTip.style("visibility","visible");
 					})
-					.on("mouseout",function(){baseToolTip.style("visibility","hidden");})
+					.on("mouseout",function(){
+						opacityTimer = setTimeout(function(){baseToolTip.style("visibility","hidden");}, 100);
+					})
 					.on("mousemove",function()
 					{
+						clearTimeout(opacityTimer);
 						baseToolTip.style("top",(event.pageY+32)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
 					})
 					.on("click",function() 

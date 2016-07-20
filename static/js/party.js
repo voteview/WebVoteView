@@ -77,6 +77,7 @@ q
             .brushOn(false)
 	    .colors([partyCol[0]])
             .x(d3.scale.linear().domain([0, 115]))
+	    .margins({top: 0, left: 50, bottom: 50, right: 50})
 	    .xAxisLabel("Year").yAxisLabel("Number of Members Elected")
             .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 	 
@@ -88,6 +89,7 @@ q
 	    .brushOn(false)
             .x(d3.scale.linear().domain([0, 115]))
 	    .y(d3.scale.linear().domain([minY, maxY]))
+	    .margins({top: 0, left: 50, bottom: 50, right: 50})
 	    .compose([
 	        dc.lineChart(dimChart).group(dimParty).colors([partyCol[0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		dc.lineChart(dimChart).group(dimPartyLow).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
