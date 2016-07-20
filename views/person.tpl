@@ -117,7 +117,7 @@
 		<div class="col-md-9 col-md-offset-2">
 			<h3>Biography</h3>
 			{{ person["bio"] }}
-			<br/><small><em>Courtesy of <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></em></small>
+			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></small>
 		</div>
 	</div>
 	% end
@@ -127,17 +127,20 @@
                 <table class="table table-hover dc-data-table">
                     <thead>
                     <tr class="header">
-                        <th width="83%">Description</th>
+                        <th width="85%">Description</th>
 			<th width="5%">Vote</th>
 			<th width="5%">Party</th>
-			<th width="2%"></th>
                         <th width="5%">View</th>
                     </tr>
                     </thead>
                     % for vote in votes:
                         <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
-                            <td>
-				
+                            <td style="border-right:1px solid #dddddd;">
+				<div style="clear:both;">
+					<span style="float:left;"><strong>Date:</strong> {{vote["date"]}}</span>
+					<span style="float:right;"><strong>Vote:</strong> {{vote["yea"]}} - {{vote["nay"]}}</span>
+					<br/>
+				</div>
 				% if "description" in vote and vote["description"] is not None and len(vote["description"]):
 				{{ vote["description"] }}
 				% elif "shortdescription" in vote and vote["shortdescription"] is not None and len(vote["shortdescription"]):
@@ -158,7 +161,6 @@
 					</span>
 				% end
 			</td>
-			    <td></td>
                             <td>
 				<a href="/rollcall/{{ vote["id"] }}"><img src="/static/img/graph.png" style="width:24px;margin-right:16px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 			    </td>
