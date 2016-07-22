@@ -411,6 +411,7 @@ $(document).ready(function(){
 	if($('#support').slider('getValue')[0]!=0 || $('#support').slider('getValue')[1]!=100) {
 		$('#facet-support').collapse('show');
 	}
+
 });
 
 function updateRequest()
@@ -569,7 +570,8 @@ function checkBox(id)
 
 function shareLink()
 {
-	var shortLink = $('#shareLinkText').val();
+	var shortLink = cleanLink($('#shareLinkText').val());
+
 	$.ajax({
 		type: "POST",
 		url: "/api/shareableLink",
@@ -588,10 +590,8 @@ function shareLink()
 				}
 				else
 				{
-					$('#shareLinkStatus').hide().html("Link copied to clipboard.<br/>&nbsp;").fadeIn();
+					$('#shareLinkStatus').hide().html("Link copied to clipboard.").fadeIn();
 				}
-
-				clipboardCopyHack(res["link"]);			
 			}
 			else
 			{
@@ -601,9 +601,15 @@ function shareLink()
 	});
 }
 
+
 function clipboardCopyHack(text)
 {
-	var q = $("<input>").val(text).appendTo($("body"));
+	var shortLink = cleanLink($('#shareLinkText').val());
+	var baseLink = text.innerText;
+
+	var q = $("<input>").val(baseLink.concat(shortLink).replace(/ /g, '')).appendTo($("body"));
+
+	q.focus();
 	q.select();
 	try
 	{
@@ -614,6 +620,14 @@ function clipboardCopyHack(text)
 	{
 		console.log('copy to clipboard failed');
 	}
-	q.blur();
-	q.remove();
+}
+
+function cleanLink(text)
+{
+	text = text.replace(/[^a-zA-Z0-9_\-\s]/g,'')
+		 .replace(/\s/g, '-')
+		 .replace(/\_/g, '-')
+		 .replace(/\-$/g, '')
+		 .toLowerCase();
+	return text;
 }

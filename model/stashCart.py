@@ -271,10 +271,10 @@ def setSearch(id, search):
 def shareableLink(id, text):
 	errorMessages = []
 
-	text = re.sub('[^a-zA-Z0-9_\- ]','',text)
-	text = text.replace(' ','-')
-	text = text.replace('_','-')
-	text = re.sub("\-$","",text)
+	#text = re.sub('[^a-zA-Z0-9_\- ]','',text)
+	#text = text.replace(' ','-')
+	#text = text.replace('_','-')
+	#text = re.sub("\-$","",text)
 	internalText = text.lower()
 
 	if len(internalText)>30:
