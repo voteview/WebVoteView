@@ -26,6 +26,12 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
+				<h4><span class="partyName">Party {{ party }}</span> Geographical Distribution over time</span></h4>
+				<div id="party-map-chart"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
 				<h4>Number of <span class="partyName"> {{ party }}</span>s elected over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
 				<div id="time-chart"></div>
 			</div>

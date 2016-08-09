@@ -10,9 +10,6 @@
 % if int(rollcall["congress"])<91 and rollcall["chamber"]=="House":
 %	notes.append("Some states contain At-Large districts with more than one representative.")
 % end
-% if int(rollcall["congress"])>=4 and int(rollcall["congress"]<=18):
-%	notes.append("Republicans listed are 'Democratic-Republicans' or 'Jeffersonian Republicans', not today's Republican Party.")
-% end
 % if len(notes):
 %	noteText = "<strong><u>NOTE</u></strong><br/><ul>"
 %	for note in notes:

@@ -139,7 +139,7 @@ function reloadBios()
 
 function getVPP(congress)
 {
-	console.log(congress);
+	// This is a hack; we just list thresholds at which the VP/ President of the Senate switches
 	var VPParty = {	"111": "Democrat", "107": "Republican", "103": "Democrat", "97": "Republican",
 			"95": "Democrat", "91": "Republican", "87": "Democrat", "83": "Republican",
 			"81": "Democrat", "80": "Vacant", "73": "Democrat", "67": "Republican",
@@ -151,10 +151,14 @@ function getVPP(congress)
 			"25": "Democrat", "20": "Jackson", "15": "Democrat-Republican", "14": "Vacant",
 			"5": "Democrat-Republican", "4": "Federalist", "1": "Pro-Administration"};
 
+	// Sort the dict keys and reverse them so the short-circuit in the loop below works
 	var keys = Object.keys(VPParty);
 	keys.reverse();
+
+	// Iterate through keys until we find the bucket we're in
 	for(var i=0;i!=keys.length;i++)
 	{
+		// We just return party name.
 		if(parseInt(keys[i])<=parseInt(congress)) { return VPParty[keys[i]]; }
 	}
 }
