@@ -1,0 +1,232 @@
+[
+    {
+        "congress": 1, 
+        "data": {
+            "CT": {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0
+            }, 
+            "DE": {
+                "both": 25.0, 
+                "house": 0.0, 
+                "senate": 50.0
+            }, 
+            "GA": {
+                "both": 100.0, 
+                "house": 100.0, 
+                "senate": 100.0
+            }, 
+            "MA": {
+                "both": 12.5, 
+                "house": 25.0, 
+                "senate": 0.0
+            }, 
+            "MD": {
+                "both": 33.5, 
+                "house": 67.0, 
+                "senate": 0.0
+            }, 
+            "NC": {
+                "both": 30.0, 
+                "house": 60.0, 
+                "senate": 0.0
+            }, 
+            "NH": {
+                "both": 41.5, 
+                "house": 33.0, 
+                "senate": 50.0
+            }, 
+            "NJ": {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0
+            }, 
+            "NY": {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0
+            }, 
+            "PA": {
+                "both": 37.5, 
+                "house": 25.0, 
+                "senate": 50.0
+            }, 
+            "RI": {
+                "both": 25.0, 
+                "house": 0.0, 
+                "senate": 50.0
+            }, 
+            "SC": {
+                "both": 30.0, 
+                "house": 60.0, 
+                "senate": 0.0
+            }, 
+            "VA": {
+                "both": 74.0, 
+                "house": 73.0, 
+                "senate": 75.0
+            }
+        }
+    }, 
+    {
+        "congress": 2, 
+        "data": {
+            "CT": {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0
+            }, 
+            "DE": {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0
+            }, 
+            "GA": {
+                "both": 100.0, 
+                "house": 100.0, 
+                "senate": 100.0
+            }, 
+            "KY": {
+                "both": 100.0, 
+                "house": 100.0, 
+                "senate": 100.0
+            }, 
+            "MA": {
+                "both": 6.5, 
+                "house": 13.0, 
+                "senate": 0.0
+            }, 
+            "MD": {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0
+            }, 
+            "NC": {
+                "both": 55.0, 
+                "house": 60.0, 
+                "senate": 50.0
+            }, 
+            "NH": {
+                "both": 25.0, 
+                "house": 0.0, 
+                "senate": 50.0
+            }, 
+            "NJ": {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0
+            }, 
+            "NY": {
+                "both": 41.5, 
+                "house": 33.0, 
+                "senate": 50.0
+            }, 
+            "PA": {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0
+            }, 
+            "RI": {
+                "both": 25.0, 
+                "house": 0.0, 
+                "senate": 50.0
+            }, 
+            "SC": {
+                "both": 45.0, 
+                "house": 40.0, 
+                "senate": 50.0
+            }, 
+            "VA": {
+                "both": 90.0, 
+                "house": 80.0, 
+                "senate": 100.0
+            }, 
+            "VT": {
+                "both": 100.0, 
+                "house": 100.0, 
+                "senate": 100.0
+            }
+        }
+    }, 
+    {
+        "congress": 3, 
+        "data": {
+            "CT": {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0
+            }, 
+            "DE": {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0
+            }, 
+            "GA": {
+                "both": 100.0, 
+                "house": 100.0, 
+                "senate": 100.0
+            }, 
+            "KY": {
+                "both": 100.0, 
+                "house": 100.0, 
+                "senate": 100.0
+            }, 
+            "MA": {
+                "both": 10.5, 
+                "house": 21.0, 
+                "senate": 0.0
+            }, 
+            "MD": {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0
+            }, 
+            "NC": {
+                "both": 95.0, 
+                "house": 90.0, 
+                "senate": 100.0
+            }, 
+            "NH": {
+                "both": 37.5, 
+                "house": 25.0, 
+                "senate": 50.0
+            }, 
+            "NJ": {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0
+            }, 
+            "NY": {
+                "both": 40.0, 
+                "house": 30.0, 
+                "senate": 50.0
+            }, 
+            "PA": {
+                "both": 47.5, 
+                "house": 62.0, 
+                "senate": 33.0
+            }, 
+            "RI": {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0
+            }, 
+            "SC": {
+                "both": 60.5, 
+                "house": 71.0, 
+                "senate": 50.0
+            }, 
+            "VA": {
+                "both": 89.5, 
+                "house": 79.0, 
+                "senate": 100.0
+            }, 
+            "VT": {
+                "both": 100.0, 
+                "house": 100.0, 
+                "senate": 100.0
+            }
+        }
+    }
+]

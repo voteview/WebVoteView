@@ -103,14 +103,14 @@ function decorateNominate(oc,data) {
 			case 2:
 			        var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
 	                           circleCenter.y-radiusY*(vn.y[0])/scale*1.2 ],
-	                         [ circleCenter.x+radiusX*(vn.x[0])/scale,
+	                        [  circleCenter.x+radiusX*(vn.x[0])/scale,
 	                           circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ], 
-        	                 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-				circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ],
+        	                [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
+				  circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ],
       	                   	[ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                           	circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ],
+                           	  circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ],
                          	[ circleCenter.x+radiusX*vn.x[1]/scale,
-                           	circleCenter.y-radiusY*vn.y[1]/scale ]*1.2 ]; 
+                           	  circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
 				break;
 			case 3:
         			var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,

@@ -13,13 +13,11 @@ that allows users to view every congressional roll call vote in
 American history on a map of the United States and on
 liberal-conservative ideological map including information about the
 ideological positions of voting Senators and
-Representatives.<br/><br/>
-
-The original version of Voteview was developed by Keith T. Poole and Howard Rosenthal 
-at Carnegie-Mellon University from 1989-1992.<br/><br/>
+Representatives.  The original version of Voteview was developed by Keith T. Poole and Howard Rosenthal 
+at Carnegie-Mellon University between 1989-1992.<br/><br/>
 
 Ideological positions are calculated using the <strong>DW-NOMINATE</strong>
-(<strong>D</strong>ynamic (<strong>W</strong>eighted <strong>NOMINA</strong>l <strong>T</strong>hree-step <strong>E</strong>stimation).
+(<strong>D</strong>ynamic <strong>W</strong>eighted <strong>NOMINA</strong>l <strong>T</strong>hree-step <strong>E</strong>stimation).
 This procedure was developed by Poole and Rosenthal in the 1980s and is a "scaling procedure", representing
 legislators on a spatial map. In this sense, a spatial map is much like a road map--the closeness of two
 legislators on the map shows how similar their voting records are. Using this measure of distance, D-NOMINATE
@@ -38,6 +36,9 @@ Voteview was developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon
 D-NOMINATE was developed by Poole and Rosenthal 1986-88 and is a scaling procedure that represented legislators and roll call outcomes as points on an ideological map. These points form a spatial map that summarizes the roll calls. In this sense a spatial map is much like a road map. A spreadsheet that tabulates all the distances between every pair of sizable cities in the United States contains the same information as the corresponding map of the U.S. but the spreadsheet gives you no idea what the U.S. looks like. Much like a road map, a spatial map formed from roll calls gives us a way of visualizing the political world of a legislature. The closeness of two legislators on the map shows how similar their voting records are, and the distribution of legislators shows what the dimensions are. The primary dimension through most of American history has been left v. right or liberal v. conservative. A second dimension picks up differences within the two major political parties over slavery, currency, nativism, civil rights, and lifestyle issues. This implemention of voteview is based on the Visual Basic of voteview And uses CS DW-NOMINATE which is an improved versions of the original D-NOMINATE. All the functionality and more is included in this web-based version of voteview. For further information, see 
 -->
 			</p>
+<h3>Support</h3>
+
+This project was made possibe by support from <a href="http://www.hewlett.org">The William and Flora Hewlett Foundation</a> (Grant #2016-3870), the  <a href="http://www.nsf.gov">National Science Foundation</a> (NSF-SBS-0611974), UCLA Social Science Computing and the University of Georgia.
 
 			<h3>Project Staff</h3>
 			<ul>
