@@ -56,6 +56,20 @@ var colorSchemes = {
 	"brown": ["#a6611a", "#dfc27d", "#f7f0dd"],
 } 
 
+// ColorBrewer single-hue sequential, 6-class (7th class will always be white)
+var colorSchemesSequential = {
+	"red": ["#a50f15", "#de2d26", "#fb6a4a", "#fc9272", "#fcbba1", "#fee5d9"],
+	"orange": ["#a63603", "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2", "#feedde"],
+	"yellow": [],
+	"green": ["#006d2c", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#edf8e9"],
+	"teal": [],
+	"blue": ["#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#eff3ff"],
+	"purple": ["#54278f", "#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb", "#f2f0f7"],
+	"pinkpurple": ["#980043", "#dd1c77", "#df65b0", "#c994c7", "#d4b9da", "#f1eef6"],
+	"grey": ["#252525", "#525252", "#737373", "#969696", "#bdbdbd", "#d9d9d9"],
+	"brown": [],	
+}
+
 var partyColorMap = {
 	"Democrat": "blue",
 	"Democrat-Republican": "blue",

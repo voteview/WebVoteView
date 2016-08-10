@@ -1,692 +1,827 @@
 [
     {
         "congress": 55, 
-        "data": {
-            "AL": {
+        "data": [
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "PA"
             }, 
-            "AR": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "RI"
             }, 
-            "CA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "NC"
             }, 
-            "CO": {
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "KY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "VA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "TN"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "SC"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MS"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IN"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "LA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "AL"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MO"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NJ"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ME"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MD"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "WI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IL"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "DE"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "OH"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NH"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CT"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ND"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NE"
+            }, 
+            {
                 "both": 50.0, 
                 "house": 50.0, 
-                "senate": 50.0
+                "senate": 50.0, 
+                "state": "CO"
             }, 
-            "CT": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "GA"
             }, 
-            "DE": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "OR"
             }, 
-            "FL": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "MN"
             }, 
-            "GA": {
+            {
+                "both": 50.0, 
+                "house": 50.0, 
+                "senate": 50.0, 
+                "state": "WA"
+            }, 
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "AR"
             }, 
-            "IA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "KS"
             }, 
-            "ID": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "ID"
             }, 
-            "IL": {
+            {
+                "both": 25.0, 
+                "house": 0.0, 
+                "senate": 50.0, 
+                "state": "SD"
+            }, 
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "VT"
             }, 
-            "IN": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "WV"
             }, 
-            "KS": {
-                "both": 0.0, 
+            {
+                "both": 25.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 50.0, 
+                "state": "UT"
             }, 
-            "KY": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "LA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MD": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "ME": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MI": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MN": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MO": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MS": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MT": {
+            {
                 "both": 75.0, 
                 "house": 100.0, 
-                "senate": 50.0
+                "senate": 50.0, 
+                "state": "MT"
             }, 
-            "NC": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "FL"
             }, 
-            "ND": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "NV"
             }, 
-            "NE": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NH": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NJ": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NV": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NY": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "OH": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "OR": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "PA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "RI": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "SC": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "SD": {
-                "both": 25.0, 
-                "house": 0.0, 
-                "senate": 50.0
-            }, 
-            "TN": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "TX": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "UT": {
-                "both": 25.0, 
-                "house": 0.0, 
-                "senate": 50.0
-            }, 
-            "VA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "VT": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "WA": {
-                "both": 50.0, 
-                "house": 50.0, 
-                "senate": 50.0
-            }, 
-            "WI": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "WV": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "WY": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "WY"
             }
-        }
+        ]
     }, 
     {
         "congress": 56, 
-        "data": {
-            "AL": {
+        "data": [
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "PA"
             }, 
-            "AR": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "RI"
             }, 
-            "CA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "NC"
             }, 
-            "CO": {
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "KY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "VA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "TN"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "SC"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MS"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IN"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "LA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "AL"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MO"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NJ"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ME"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MD"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "WI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IL"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "DE"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "OH"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NH"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CT"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ND"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NE"
+            }, 
+            {
                 "both": 50.0, 
                 "house": 50.0, 
-                "senate": 50.0
+                "senate": 50.0, 
+                "state": "CO"
             }, 
-            "CT": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "GA"
             }, 
-            "DE": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "OR"
             }, 
-            "FL": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "MN"
             }, 
-            "GA": {
+            {
+                "both": 25.0, 
+                "house": 0.0, 
+                "senate": 50.0, 
+                "state": "WA"
+            }, 
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "AR"
             }, 
-            "IA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "KS"
             }, 
-            "ID": {
+            {
                 "both": 50.0, 
                 "house": 100.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "ID"
             }, 
-            "IL": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "IN": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "KS": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "KY": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "LA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MD": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "ME": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MI": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MN": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MO": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MS": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MT": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NC": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "ND": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NE": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NH": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NJ": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NV": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NY": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "OH": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "OR": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "PA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "RI": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "SC": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "SD": {
+            {
                 "both": 25.0, 
                 "house": 0.0, 
-                "senate": 50.0
+                "senate": 50.0, 
+                "state": "SD"
             }, 
-            "TN": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "VT"
             }, 
-            "TX": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "WV"
             }, 
-            "UT": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "UT"
             }, 
-            "VA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "MT"
             }, 
-            "VT": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "FL"
             }, 
-            "WA": {
-                "both": 25.0, 
-                "house": 0.0, 
-                "senate": 50.0
-            }, 
-            "WI": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "NV"
             }, 
-            "WV": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "WY": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "WY"
             }
-        }
+        ]
     }, 
     {
         "congress": 57, 
-        "data": {
-            "AL": {
+        "data": [
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "PA"
             }, 
-            "AR": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "RI"
             }, 
-            "CA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "NC"
             }, 
-            "CO": {
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "KY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "VA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "TN"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "SC"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MS"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IN"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "LA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "AL"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MO"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NJ"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ME"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MD"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "WI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IL"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "DE"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "OH"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NH"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CT"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ND"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NE"
+            }, 
+            {
                 "both": 25.0, 
                 "house": 50.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "CO"
             }, 
-            "CT": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "GA"
             }, 
-            "DE": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "OR"
             }, 
-            "FL": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "MN"
             }, 
-            "GA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "WA"
             }, 
-            "IA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "AR"
             }, 
-            "ID": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "KS"
             }, 
-            "IL": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "ID"
             }, 
-            "IN": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "SD"
             }, 
-            "KS": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "VT"
             }, 
-            "KY": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "WV"
             }, 
-            "LA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "UT"
             }, 
-            "MA": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "MT"
             }, 
-            "MD": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "FL"
             }, 
-            "ME": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "NV"
             }, 
-            "MI": {
+            {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MN": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MO": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MS": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "MT": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NC": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "ND": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NE": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NH": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NJ": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NV": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "NY": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "OH": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "OR": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "PA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "RI": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "SC": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "SD": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "TN": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "TX": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "UT": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "VA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "VT": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "WA": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "WI": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "WV": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
-            }, 
-            "WY": {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0
+                "senate": 0.0, 
+                "state": "WY"
             }
-        }
+        ]
     }
 ]
