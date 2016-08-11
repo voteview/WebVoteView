@@ -200,6 +200,7 @@ q
 
 		// Construct the Original Text Stuff
 		var partyID = parties[i][0];
+		if(partyID==328) { continue; }
 		var minCong = parties[i][1]["minCongress"];
 		var maxCong = parties[i][1]["maxCongress"];
 		var textLabel = "Active ";
