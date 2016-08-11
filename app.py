@@ -154,8 +154,13 @@ def parties(party=200):
 
 	if party not in xrange(0, 50001):
 		party = 200
+	partyData = model.partyData.getPartyName(party)
+	if "fullName" in partyData:
+		partyNameFull = partyData["fullName"]
+	else:
+		partyNameFull = ""
 	
-	output = bottle.template("views/parties", party=party)
+	output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull)
 	return output
 
 

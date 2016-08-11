@@ -8,13 +8,15 @@ var dimChart = dc.compositeChart("#dim-chart");
 var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 // Need to hold these things in globals to do dynamic on-the-fly changes to map.
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
-var playLoop, currCong, minCong, maxCong, forceStopLoop;
+var playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
 
 var eW=0; var eH = 0;
 function tooltip(d)
 {
 	return JSON.stringify(d);
 }
+
+function congYear(num) { return [1787+2*num, 1789+2*num]; }
 
 var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 
@@ -86,8 +88,10 @@ q
 	    .colors([partyCol[0]])
             .x(d3.scale.linear().domain([0, 115]))
 	    .margins({top: 0, left: 50, bottom: 50, right: 50})
-	    .xAxisLabel("Year").yAxisLabel("Number of Members Elected")
+	    .xAxisLabel("Year").yAxisLabel("Num. Members Elected")
             .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
+	timeChart
+	    .yAxis().ticks(5);
 	 
 	dimChart
 	    .width(1160)
@@ -107,6 +111,7 @@ q
 	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative")
 	    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 
+	// Get congress range to initialize map
 	minCong = 999;
 	maxCong = 0;
 	for(var z=0;z!=partycontroljson.length;z++)
@@ -114,21 +119,74 @@ q
 		minCong = (partycontroljson[z].congress<minCong)?partycontroljson[z].congress:minCong;
 		maxCong = (partycontroljson[z].congress>maxCong)?partycontroljson[z].congress:maxCong;
 	}
+	// Initialize map to maximum congress.
 	setupCongress(maxCong);
+	$("#congNum").val(maxCong);
+	$("#yearNum").val(new Date().getFullYear());
 
+	// Initialize ticks for scroll-bar
+	var finalCong = 114;
 	var tickSet = [1];
-	var tickLabels = ["1st"];
-	if(minCong>1) { tickSet.push(minCong); tickLabels.push("Begin"); }
-	if(maxCong<114) { tickSet.push(maxCong); tickLabels.push("End"); }
-	tickSet.push(114);
-	tickSet.push("114th");
+	var tickPos = [0];
+	var tickLabels = [];
+	if(minCong>10) tickLabels.push("1st Congress<br/><small>"+congYear(1)[0]+"-"+congYear(1)[1]+"</small>");
+	else tickLabels.push("");
 
-	/*var slider = $("input.slider").slider({
+	// Abbreviated names for some parties, if present
+	var nameUse = (partyname["briefName"]===undefined)?partyname["fullName"]:partyname["briefName"];
+
+	// Single-congress party
+	if(minCong==maxCong && minCong>1 && minCong<finalCong)
+	{
+		tickSet.push(minCong);
+		tickPos.push((minCong-1)*100/(finalCong-1));
+		tickLabels.push("<small>"+nameUse+"<br/>Active "+congYear(minCong)[0]+"-"+congYear(minCong)[1]+"</small>");
+	}
+	// Multi-congress party
+	else
+	{
+		// Show start tick only if start after 1st
+		if(minCong>1) 
+		{ 
+			tickSet.push(minCong); tickPos.push((minCong-1)*100/(finalCong-1)); 
+			// Labels differ depending on space available
+			if(maxCong-minCong<4) tickLabels.push("");
+			else if(maxCong-minCong<9) tickLabels.push("<small>Start of /</small>");
+			else tickLabels.push("<small>Start of<br/>"+nameUse+"</small>"); 
+		}
+		// Show end tick only if end before today's congress
+		if(maxCong<finalCong) 
+		{ 
+			tickSet.push(maxCong); 
+			tickPos.push((maxCong-1)*100/(finalCong-1)); 
+			// Again, labels differ depending on space available.
+			if(maxCong-minCong<4) tickLabels.push("<small>Start / End of<br/>"+nameUse+"</small>");
+			else tickLabels.push("<small>End of<br/>"+nameUse+"</small>"); 
+		}
+	}
+	tickSet.push(finalCong);
+	tickPos.push(100);
+	tickLabels.push(finalCong+"th Congress<br/><small>"+congYear(finalCong)[0]+"-"+congYear(finalCong)[1])+"</small>";
+
+	// Initialize the slider
+	slider = $("input.slider").slider({
 		ticks: tickSet,
+		ticks_positions: tickPos, 
 		ticks_labels: tickLabels,
-		ticks_snap_bounds: 3
-	});*/
+		//ticks_snap_bounds: 3,
+		tooltip: 'hide',
+		value: maxCong
+	});
+	// Wire up the slider to work
+	slider.on("change", function(slideEvt)
+	{
+		var currValue = slideEvt.value.newValue;
+		currValue = (currValue>maxCong)?maxCong:(currValue<minCong)?minCong:currValue;
+		if(currValue!=slideEvt.value) { slider.slider("setValue", currValue); }
+		switchCongress(currValue);		
+	});
 
+	// Now let's make our map!
 	var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
 	partyMapChart
 		.width(900)
@@ -149,6 +207,7 @@ q
 		.on('postRender',function(c) { ensureTextLabel(c); ensureLegend(c); });
 
         dc.renderAll();
+	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","11px");
 	$(".fullName").html(partyname["fullName"]);
 	$(".pluralNoun").html(partyname["pluralNoun"]);
 	$(".noun").html(partyname["noun"]);
@@ -198,6 +257,8 @@ function ensureTextLabel(c)
 	if(groupSel=="both") { textLabelTitle+="Congress"; }
 	else if(groupSel=="senate") { textLabelTitle+="Senate"; }
 	else if(groupSel=="house") { textLabelTitle+="House"; }
+	var years = congYear(currCong);
+	textLabelTitle += " ("+years[0]+"-"+years[1]+")";
 
 	var baseSVG = c.svg();
 	if(baseSVG.selectAll("g").filter(".textLabel")[0].length)
@@ -209,7 +270,7 @@ function ensureTextLabel(c)
 	else
 	{
 		var textBox = baseSVG.insert("g")
-		textBox.attr("class","textLabel").append("text").attr("x",750).attr("y",20).attr("font-weight",700)
+		textBox.attr("class","textLabel").append("text").attr("x",680).attr("y",20).attr("font-weight",700)
 								.text(function() { return textLabelTitle; });
 		console.log("added label first time");
 	}
@@ -255,7 +316,18 @@ function setupCongress(num)
 
 function switchCongress(num)
 {
-	console.log(num);
+	var yearSet;
+	if(num>1000)
+	{
+		yearSet = num;
+		num = Math.floor((num-1787)/2);
+	}
+	else { yearSet = congYear(num)[0]; }
+
+	num = (num>maxCong)?maxCong:(num<minCong)?minCong:num;
+	if(num!=$("#congNum").val()) { $("#congNum").val(num); }
+	if(yearSet!=$("#yearNum").val()) { $("#yearNum").val(yearSet); }
+	if(slider.slider("getValue")!=num) { slider.slider("setValue", parseInt(num)); }
 	setupCongress(num);
 	partyMapChart.dimension(stateDimension);
 	toggleMapSupport(groupSel);
@@ -263,8 +335,10 @@ function switchCongress(num)
 
 function playLoopInt()
 {
+	$("#playButton").hide();
+	$("#pauseButton").show();
 	forceStopLoop=0;
-	currCong = minCong;
+	if(currCong==maxCong) { currCong = minCong-1; }
 	partyMapChart.transitionDuration(100);
 	playLoopIteration();
 }
@@ -286,6 +360,8 @@ function playLoopIteration()
 
 function stopLoop()
 {
+	$("#playButton").show();
+	$("#pauseButton").hide();
 	partyMapChart.transitionDuration(700);
 	forceStopLoop=1;
 	clearTimeout(playLoop);

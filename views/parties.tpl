@@ -1,5 +1,8 @@
 % STATIC_URL = "/static/"
-% rebase('base.tpl', title='Parties', extra_css=['map.css'])
+% if len(partyNameFull):
+%	partyNameFull = " > "+partyNameFull
+% end
+% rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js"], extra_css=['map.css', 'bootstrap-slider.css'])
 % include('header.tpl')
 
 <div class="container">
@@ -35,7 +38,14 @@
 		</div>
 		<div class="row" style="padding-bottom:30px;">
 			<div class="col-md-12">
-				<h4><span class="fullName">Party {{ party }}</span> Geographic Control over time</span></h4>
+				<h4>
+					<span class="fullName">Party {{ party }}</span> geographic control over time</span>
+					<span id="playButton" style="cursor:pointer;" class="glyphicon glyphicon-play" onclick="javascript:playLoopInt();return false;"></span>
+					<span id="pauseButton" style="cursor:pointer;display:none;" class="glyphicon glyphicon-pause" onclick="javascript:stopLoop();return false;"></span>
+				</h4>
+				<div class="full">
+					<input class="slider">
+				</div>
 				<div style="float:left;" id="party-map-chart"></div>
 				<div style="float:left;">
 					<strong>Filter: Chamber Control</strong><br/>
@@ -45,12 +55,13 @@
 						<option value="house">House Only</option>
 					</select><br/><br/>
 
-					<strong>Filter: Congress Number</strong><br/>
+					<strong>Jump to Year:</strong><br/>
+					<input type="text" id="yearNum" style="width:50px;">
+					<input type="button" onClick="javascript:switchCongress($('#yearNum').val());" value="Switch"><br/><br/>
+
+					<strong>Jump to Congress:</strong><br/>
 					<input type="text" id="congNum" style="width:50px;">
 					<input type="button" onClick="javascript:switchCongress($('#congNum').val());" value="Switch"><br/><br/>
-
-					<a href="#" onclick="javascript:playLoopInt();return false;">PLAY!</a> / 
-					<a href="#" onclick="javascript:stopLoop();return false;">Stop</a>
 				</div>
 			</div>
 		</div>
@@ -71,7 +82,7 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.v1.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/simple-statistics.min.js"></script>
+<!--<script type="text/javascript" src="{{ STATIC_URL }}js/libs/simple-statistics.min.js"></script> -->
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/party.js"></script>
 
