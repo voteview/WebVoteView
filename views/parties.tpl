@@ -15,18 +15,27 @@
 			<div class="col-md-12">
 				<h3>
 					<abbr title="parties"><a href="/parties/all">Parties</a></abbr> &gt; 
-					<span class="partyName">Party {{ party }}</span> Party
+					<span class="fullName">Party {{ party }}</span>
 				</h3>
 
+				% if party==328:
+				<div class="alert alert-warning">
+					<strong>Warning!</strong> "Independent" refers to representatives and senators who are not affiliated with a party, 
+					rather than a political party called the "Independent Party". Estimates of median ideology of independents over 
+					time are highly unstable and unreliable. Some independent representatives or senators may "caucus" (work with) 
+					organized political parties, but Voteview.com does not maintain or display this information.
+				</div>
+				% end
+
 				<h4>
-					Median <span class="partyName">Party {{ party }}</span> Party ideology over time<small><a class="reset" href="javascript:dimChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small>
+					Median <span class="fullName">Party {{ party }}</span> ideology over time<small><a class="reset" href="javascript:dimChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small>
 				</h4>
 				<div id="dim-chart"></div>
 			</div>
 		</div>
 		<div class="row" style="padding-bottom:30px;">
 			<div class="col-md-12">
-				<h4><span class="partyName">Party {{ party }}</span> Geographic Control over time</span></h4>
+				<h4><span class="fullName">Party {{ party }}</span> Geographic Control over time</span></h4>
 				<div style="float:left;" id="party-map-chart"></div>
 				<div style="float:left;">
 					<strong>Filter: Chamber Control</strong><br/>
@@ -47,7 +56,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<h4>Number of <span class="partyName"> {{ party }}</span>s elected over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
+				<h4>Number of <span class="pluralNoun"> {{ party }}</span> elected over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
 				<div id="time-chart"></div>
 			</div>
 		</div>

@@ -34,11 +34,11 @@ q
 		var partyCol = colorSchemes[partyColorMap[partyNameSimplify(pName)]];
 		colourSet = colorSchemesSequential[partyColorMap[partyNameSimplify(pName)]];
 		colourSet.push("#ffffff");
-		if(pName=="Democrat") { pName="Democratic"; }
 	}
 	else
 	{
 		var pName = "Party "+party_param;
+		var partyname = {"partyname": "Party "+party_param, "fullName": "Party "+party_param, "pluralNoun": "Party "+party_param+" Member", "noun": "Party "+party_param};
 		var partyCol = ["#CCCCCC", "#CCCCCC", "#CCCCCC"];
 	}
 
@@ -149,7 +149,9 @@ q
 		.on('postRender',function(c) { ensureTextLabel(c); ensureLegend(c); });
 
         dc.renderAll();
-	$(".partyName").html(pName);
+	$(".fullName").html(partyname["fullName"]);
+	$(".pluralNoun").html(partyname["pluralNoun"]);
+	$(".noun").html(partyname["noun"]);
 	$("#loading-container").delay(200).slideUp();
     });
 
