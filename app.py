@@ -80,10 +80,10 @@ def index():
     try:
         if "fromDate" in argDict:
             argDict["fromDate"] = argDict["fromDate"].replace("/","-")
-            argDict["fromDate"] = re.sub(r"[^0-9\-\ ]","",argDict["fromDate"])
+            argDict["fromDate"] = re.sub(r"[^0-9\-\ ]", "", argDict["fromDate"])
         if "toDate" in argDict:
             argDict["toDate"] = argDict["toDate"].replace("/","-")
-            argDict["toDate"] = re.sub(r"[^0-9\-\ ]","",argDict["toDate"])
+            argDict["toDate"] = re.sub(r"[^0-9\-\ ]", "", argDict["toDate"])
         if "fromCongress" in argDict:
             argDict["fromCongress"] = int(argDict["fromCongress"])
         if "toCongress" in argDict:
@@ -316,7 +316,6 @@ def wiki():
     if prevId:
         writeStatus(prevId, newStatus)
 
-
     nextTry = readStatus()
     if type(nextTry)==type(str("")):
         return(nextTry)
@@ -347,7 +346,7 @@ def savedHashRedirect(savedhash):
 def getmembersbycongress():
     st = time.time()
     congress = defaultValue(bottle.request.params.congress,0)
-    chamber = defaultValue(bottle.request.params.chamber,"").title()
+    chamber = defaultValue(bottle.request.params.chamber, "").title()
     if chamber!="Senate" and chamber!="House":
         chamber = ""
     api = defaultValue(bottle.request.params.api,"")
@@ -430,7 +429,7 @@ def searchAssemble():
                 if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
                     member["bioImg"] = "silhouette.png"
                 else:
-                    member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg" 
+                    member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"
                 member["minElected"] = congressToYear(member["congresses"][0][0], 0)
 
                 resultMembers.append(member)
@@ -552,7 +551,7 @@ def searchAssemble():
     return(out)
 
 
-@app.route("/api/search",method="POST")
+@app.route("/api/search", method="POST")
 @app.route("/api/search")
 def search():
     q = defaultValue(bottle.request.params.q)
@@ -565,36 +564,36 @@ def search():
     return(res)
 
 
-@app.route("/api/getPartyName",method="POST")
+@app.route("/api/getPartyName", method="POST")
 @app.route("/api/getPartyName")
 def getPartyName():
     id = defaultValue(bottle.request.params.id)
     return(model.partyData.getPartyName(id))
 
 
-@app.route("/api/download",method="POST")
+@app.route("/api/download", method="POST")
 @app.route("/api/download")
 @app.route("/api/download/<rollcall_id>")
 def downloadAPI(rollcall_id=""):
     if not rollcall_id:
         rollcall_id = defaultValue(bottle.request.params.rollcall_id)
-    apitype = defaultValue(bottle.request.params.apitype,"Web")
+    apitype = defaultValue(bottle.request.params.apitype, "Web")
     res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
     return(res)
 
 
-@app.route("/api/exportJSON",method="POST")
+@app.route("/api/exportJSON", method="POST")
 @app.route("/api/exportJSON")
 def exportJSON():
-    id = defaultValue(bottle.request.params.id,"")
+    id = defaultValue(bottle.request.params.id, "")
     return model.downloadVotes.downloadStash(id)
 
 
-@app.route("/api/downloadXLS",method="POST")
+@app.route("/api/downloadXLS", method="POST")
 @app.route("/api/downloadXLS")
 def downloadXLS():
     try:
-        stash = defaultValue(bottle.request.params.stash,"")
+        stash = defaultValue(bottle.request.params.stash, "")
     except:
         stash = ""
 
@@ -609,7 +608,6 @@ def downloadXLS():
     except:
         pass
 
-
     if stash:
         statusCode, result = model.downloadXLS.downloadStash(stash)
     else:
@@ -619,10 +617,10 @@ def downloadXLS():
         bottle.response.content_type = 'application/vnd.ms-excel'
         currentDateString = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         outputFilename = currentDateString+"_voteview_download.xls"
-        bottle.response.headers["Content-Disposition"] = "inline; filename="+outputFilename
+        bottle.response.headers["Content-Disposition"] = "inline; filename=" + outputFilename
         return(result)
     else: # Non-zero status code.
-        return({"errormessage": result}) 
+        return({"errormessage": result})
 
 
 @app.route("/api/contact",method="POST")
@@ -644,7 +642,7 @@ def contact():
 @app.route("/api/stash/<verb:re:init|add|del|get|empty>")
 def stash(verb):
     try:
-        id = defaultValue(bottle.request.params.id,"")
+        id = defaultValue(bottle.request.params.id, "")
         votes = bottle.request.params.getall("votes")
     except:
         votes = []
@@ -657,8 +655,8 @@ def stash(verb):
 @app.route("/api/shareableLink", method="POST")
 def shareLink():
     try:
-        id = defaultValue(bottle.request.params.id,"")
-        text = defaultValue(bottle.request.params.text,"")
+        id = defaultValue(bottle.request.params.id, "")
+        text = defaultValue(bottle.request.params.text, "")
     except:
         return {"errorMessage": "Invalid ID or text"}
 
@@ -669,8 +667,8 @@ def shareLink():
 @app.route("/api/addAll", method="POST")
 def addAll():
     try:
-        id = defaultValue(bottle.request.params.id,"")
-        search = defaultValue(bottle.request.params.search,"")
+        id = defaultValue(bottle.request.params.id, "")
+        search = defaultValue(bottle.request.params.search, "")
     except:
         return {"errorMessage": "Invalid ID or search."}
     return model.stashCart.addAll(id, search)
@@ -705,4 +703,4 @@ def apiVersion():
 
 
 if __name__ == '__main__':
-    bottle.run(host='localhost',port=8080, debug=True)
+    bottle.run(host='localhost', port=8080, debug=True)
