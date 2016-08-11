@@ -24,10 +24,22 @@
 				<div id="dim-chart"></div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" style="padding-bottom:30px;">
 			<div class="col-md-12">
 				<h4><span class="partyName">Party {{ party }}</span> Geographical Distribution over time</span></h4>
-				<div id="party-map-chart"></div>
+				<div style="float:left;" id="party-map-chart"></div>
+				<div style="float:left;">
+					<strong>Filter: Chamber Control</strong><br/>
+					<select onChange="javascript:toggleMapSupport(this.options[this.selectedIndex].value);">
+						<option value="both">Both</option>
+						<option value="senate">Senate Only</option>
+						<option value="house">House Only</option>
+					</select><br/><br/>
+
+					<strong>Filter: Congress Number</strong><br/>
+					<input type="text" id="congNum" style="width:50px;">
+					<input type="button" onClick="javascript:switchCongress($('#congNum').val());" value="Switch">
+				</div>
 			</div>
 		</div>
 		<div class="row">
