@@ -18,6 +18,13 @@ function tooltip(d)
 
 function congYear(num) { return [1787+2*num, 1789+2*num]; }
 
+// From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
+function getGetOrdinal(n) {
+    var s=["th","st","nd","rd"],
+    v=n%100;
+    return n+(s[(v-20)%10]||s[v]||s[0]);
+}
+
 var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 
 var q = queue()
@@ -51,6 +58,8 @@ q
 	
 	var minY = -0.6;
 	var maxY = 0.6;
+	var singletonsOnly=1;
+	var activeSet=0;
 	var congressSet = cdat.filter(function(cong) { return +cong.congress>=min && +cong.congress<=max; });
 	congressSet.forEach(function (d) {
 		var party = pdat.filter(function(dpart) {
@@ -60,6 +69,9 @@ q
 		d.partymedian = (party[0] !== undefined) ? +party[0].grandMedian : -999;
 		d.partySet = (party[0] !== undefined) ? [+party[0].grandLow,+party[0].grandHigh] : [-999,-999];
 		d.congressmedian = d.grandMedian;
+		if(d.partymedian>-900 && activeSet) { singletonsOnly=0; }
+		if(d.partymedian>-900) { activeSet=1; }
+		else { activeSet=0; }
 		if(Math.max(d.congressmedian, d.partySet[1])>maxY) { maxY = Math.max(d.congressmedian,d.partySet[1])*1.05; }
 		if(Math.min(d.congressmedian, d.partySet[0])<minY && Math.min(d.congressmedian, d.partySet[0])>-10) { minY = Math.min(d.congressmedian,d.partySet[0])*1.05; }
 	});
@@ -88,7 +100,7 @@ q
 	    .colors([partyCol[0]])
             .x(d3.scale.linear().domain([0, 115]))
 	    .margins({top: 0, left: 50, bottom: 50, right: 50})
-	    .xAxisLabel("Year").yAxisLabel("Num. Members Elected")
+	    .xAxisLabel("Year").yAxisLabel("Members in office")
             .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 	timeChart
 	    .yAxis().ticks(5);
@@ -102,14 +114,32 @@ q
             .x(d3.scale.linear().domain([0, 115]))
 	    .y(d3.scale.linear().domain([minY, maxY]))
 	    .margins({top: 0, left: 50, bottom: 50, right: 50})
-	    .compose([
-	        dc.lineChart(dimChart).group(dimParty).colors([partyCol[0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
-		dc.lineChart(dimChart).group(dimPartyLow).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
-		dc.lineChart(dimChart).group(dimPartyHigh).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
-	        dc.lineChart(dimChart).group(dimCong).colors(['#D3D3D3']).interpolate("basis")
-	    ])
 	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative")
-	    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
+	    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; })
+
+	if(!singletonsOnly)
+	{
+		dimChart
+		    .compose([
+		        dc.lineChart(dimChart).group(dimCong).colors(['#D3D3D3']).interpolate("basis"),
+			dc.lineChart(dimChart).group(dimPartyLow).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
+			dc.lineChart(dimChart).group(dimPartyHigh).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
+		        dc.lineChart(dimChart).group(dimParty).colors([partyCol[0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
+		    ]);
+	}
+	else
+	{
+		// Hack to get around singleton bug
+		function keyHack(d) { return d.key; }
+		function valHack(d) { return d.value; }
+		function colHack(d) { return 0; }
+		console.log(partyCol[0]);
+		dimChart
+		    .compose([
+		        dc.lineChart(dimChart).group(dimCong).colors(['#D3D3D3']).interpolate("basis"),
+			dc.scatterPlot(dimChart).group(dimParty).colors([partyCol[0]]).colorAccessor(colHack).keyAccessor(keyHack).symbolSize(6).valueAccessor(valHack)
+		    ]);
+	}
 
 	// Get congress range to initialize map
 	minCong = 999;
@@ -166,7 +196,7 @@ q
 	}
 	tickSet.push(finalCong);
 	tickPos.push(100);
-	tickLabels.push(finalCong+"th Congress<br/><small>"+congYear(finalCong)[0]+"-"+congYear(finalCong)[1])+"</small>";
+	tickLabels.push(getGetOrdinal(finalCong)+" Congress<br/><small>"+congYear(finalCong)[0]+"-"+congYear(finalCong)[1])+"</small>";
 
 	// Initialize the slider
 	slider = $("input.slider").slider({
@@ -207,7 +237,7 @@ q
 		.on('postRender',function(c) { ensureTextLabel(c); ensureLegend(c); });
 
         dc.renderAll();
-	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","11px");
+	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
 	$(".fullName").html(partyname["fullName"]);
 	$(".pluralNoun").html(partyname["pluralNoun"]);
 	$(".noun").html(partyname["noun"]);
@@ -253,7 +283,7 @@ function ensureLegend(c)
 
 function ensureTextLabel(c)
 {
-	var textLabelTitle = currCong+"th ";
+	var textLabelTitle = getGetOrdinal(currCong)+" ";
 	if(groupSel=="both") { textLabelTitle+="Congress"; }
 	else if(groupSel=="senate") { textLabelTitle+="Senate"; }
 	else if(groupSel=="house") { textLabelTitle+="House"; }
@@ -337,6 +367,7 @@ function playLoopInt()
 {
 	$("#playButton").hide();
 	$("#pauseButton").show();
+	$("#playHint").html("Pause");
 	forceStopLoop=0;
 	if(currCong==maxCong) { currCong = minCong-1; }
 	partyMapChart.transitionDuration(100);
@@ -354,7 +385,7 @@ function playLoopIteration()
 	currCong = currCong+1;
 	if(currCong>maxCong) { currCong=minCong; }
 	if(currCong==maxCong) { delay=3000; } // Hang on the last, current congress before looping
-	switchCongress(currCong);
+	switchCongress(currCong);i
 	playLoop = setTimeout(playLoopIteration, delay);
 }
 
@@ -362,6 +393,7 @@ function stopLoop()
 {
 	$("#playButton").show();
 	$("#pauseButton").hide();
+	$("#playHint").html("Animate");
 	partyMapChart.transitionDuration(700);
 	forceStopLoop=1;
 	clearTimeout(playLoop);

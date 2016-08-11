@@ -39,9 +39,11 @@
 		<div class="row" style="padding-bottom:30px;">
 			<div class="col-md-12">
 				<h4>
-					<span class="fullName">Party {{ party }}</span> geographic control over time</span>
-					<span id="playButton" style="cursor:pointer;" class="glyphicon glyphicon-play" onclick="javascript:playLoopInt();return false;"></span>
+					<span style="padding-right:20px;"><span class="fullName">Party {{ party }}</span> geographic control over time</span>
+					<span id="playButton" style="cursor:pointer;"
+						class="glyphicon glyphicon-play" onclick="javascript:playLoopInt();return false;"></span>
 					<span id="pauseButton" style="cursor:pointer;display:none;" class="glyphicon glyphicon-pause" onclick="javascript:stopLoop();return false;"></span>
+					<span id="playHint">Animate</span>
 				</h4>
 				<div class="full">
 					<input class="slider">
@@ -67,7 +69,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<h4>Number of <span class="pluralNoun"> {{ party }}</span> elected over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
+				<h4><span class="pluralNoun"> {{ party }}</span> serving over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
 				<div id="time-chart"></div>
 			</div>
 		</div>

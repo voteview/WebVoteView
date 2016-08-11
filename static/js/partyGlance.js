@@ -94,6 +94,11 @@ q
 		// Make the chart.
 		var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
 
+		// Hack to get around singleton bug
+		function keyHack(d) { return d.key; }
+		function valHack(d) { return d.value; }
+		function colHack(d) { return 0; }
+
 		dimChart
 		    .width(1160)
 		    .height(400)
@@ -116,7 +121,10 @@ q
 			dc.lineChart(dimChart).group(dimSet[7]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[7][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[8]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[8][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[9]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[9][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
-			dc.lineChart(dimChart).group(dimSet[10]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
+			dc.scatterPlot(dimChart).group(dimSet[10])
+						.colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]])
+						.colorAccessor(colHack).keyAccessor(keyHack).valueAccessor(valHack).symbolSize(4),
+			//dc.lineChart(dimChart).group(dimSet[10]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis")
 
 		    ])
@@ -129,7 +137,7 @@ q
 		// Populating the tooltip.
 		d3.select(".dc-chart svg").selectAll("g.sub").each(function()
 		{
-			d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip circle").each(function(d)
+			var tempFuncOverride = function(d)
 			{
 				(function(j, obj)
 				{
@@ -168,7 +176,10 @@ q
 						} 
 					});
 				})(i, this);
-			});
+			};
+
+			d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip circle").each(tempFuncOverride);
+			d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip path").each(tempFuncOverride);
 			i=i+1;
 		});
 
