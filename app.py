@@ -2,7 +2,6 @@
 import re
 import traceback
 import os
-import json
 import bottle
 from fuzzywuzzy import fuzz
 from model.searchVotes import query
