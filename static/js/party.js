@@ -8,7 +8,7 @@ var dimChart = dc.compositeChart("#dim-chart");
 var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 // Need to hold these things in globals to do dynamic on-the-fly changes to map.
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
-var playLoop, currCong, minCong, maxCong;
+var playLoop, currCong, minCong, maxCong, forceStopLoop;
 
 var eW=0; var eH = 0;
 function tooltip(d)
@@ -264,6 +264,11 @@ function playLoopInt()
 
 function playLoopIteration()
 {
+	if(forceStopLoop)
+	{
+		forceStopLoop=0;
+		return;
+	}
 	var delay = 250;
 	currCong = currCong+1;
 	if(currCong>maxCong) { currCong=minCong; }
@@ -275,5 +280,6 @@ function playLoopIteration()
 function stopLoop()
 {
 	partyMapChart.transitionDuration(700);
+	forceStopLoop=1;
 	clearTimeout(playLoop);
 }
