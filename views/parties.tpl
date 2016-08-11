@@ -26,7 +26,7 @@
 		</div>
 		<div class="row" style="padding-bottom:30px;">
 			<div class="col-md-12">
-				<h4><span class="partyName">Party {{ party }}</span> Geographical Distribution over time</span></h4>
+				<h4><span class="partyName">Party {{ party }}</span> Geographic Control over time</span></h4>
 				<div style="float:left;" id="party-map-chart"></div>
 				<div style="float:left;">
 					<strong>Filter: Chamber Control</strong><br/>
@@ -38,7 +38,10 @@
 
 					<strong>Filter: Congress Number</strong><br/>
 					<input type="text" id="congNum" style="width:50px;">
-					<input type="button" onClick="javascript:switchCongress($('#congNum').val());" value="Switch">
+					<input type="button" onClick="javascript:switchCongress($('#congNum').val());" value="Switch"><br/><br/>
+
+					<a href="#" onclick="javascript:playLoopInt();return false;">PLAY!</a> / 
+					<a href="#" onclick="javascript:stopLoop();return false;">Stop</a>
 				</div>
 			</div>
 		</div>

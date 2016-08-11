@@ -171,6 +171,8 @@ div.dc-chart {
     //stroke-width: 1px;
 }
 
+div#party-map-chart g.state path { stroke: black; }
+
 .dc-chart g.district { cursor:pointer; }
 .dc-chart g.district :hover { fill-opacity: .8; }
 .dc-chart g.district path { stroke: white; } //stroke-width: 1px;}

@@ -1121,7 +1121,7 @@ if __name__ == "__main__":
 		#results = query('"defense commissary"')
 		#print results
 		results = query('estate tax')
-                print results
+		print "ok"
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
@@ -1142,7 +1142,8 @@ if __name__ == "__main__":
 		#query("((description: \"tax\" congress: 113) OR congress:114 OR (voter:MH085001 AND congress:112) OR congress:[55 to 58]) AND description:\"iraq\"")
 		#query("voter: MS05269036 MS02793036 MS02393036 OR congress:[113 to ]")
 		#query("iraq war")
-		#query("iraq war AND congress:113")
+		query("iraq war AND congress:113")
+		print "ok2"
 		#query("\"war on terrorism\"")
 		#query('"war on terrorism" iraq')
 		#query("alltext:afghanistan iraq OR codes:defense")

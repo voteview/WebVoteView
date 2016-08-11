@@ -7,7 +7,8 @@ var timeChart = dc.barChart("#time-chart");
 var dimChart = dc.compositeChart("#dim-chart");
 var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 // Need to hold these things in globals to do dynamic on-the-fly changes to map.
-var bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper;
+var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
+var playLoop, currCong, minCong, maxCong;
 
 var eW=0; var eH = 0;
 function tooltip(d)
@@ -31,7 +32,7 @@ q
 	{
 		var pName = partyname["partyname"];
 		var partyCol = colorSchemes[partyColorMap[partyNameSimplify(pName)]];
-		var colourSet = colorSchemesSequential[partyColorMap[partyNameSimplify(pName)]];
+		colourSet = colorSchemesSequential[partyColorMap[partyNameSimplify(pName)]];
 		colourSet.push("#ffffff");
 		if(pName=="Democrat") { pName="Democratic"; }
 	}
@@ -106,7 +107,14 @@ q
 	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative")
 	    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 
-	setupCongress(114);
+	minCong = 999;
+	maxCong = 0;
+	for(var z=0;z!=partycontroljson.length;z++)
+	{
+		minCong = (partycontroljson[z].congress<minCong)?partycontroljson[z].congress:minCong;
+		maxCong = (partycontroljson[z].congress>maxCong)?partycontroljson[z].congress:maxCong;
+	}
+	setupCongress(maxCong);
 
 	var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
 	partyMapChart
@@ -114,31 +122,97 @@ q
 		.height(500)
 		.dimension(stateDimension)
 		.group(bothGroup)
+		.filterHandler(function() { })
 		.colorCalculator(function(d) {
+			if(d===undefined) { return "#CCCCCC"; }
 			for(var i=0;i!=clusterUpper.length;i++)
 			{
-				if(d>clusterUpper[i]) { return colourSet[i]; }
+				if(d>=clusterUpper[i]) { return colourSet[i]; }
 			}
 			return colourSet[colourSet.length-1];
 		})
-		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; });
+		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
+		.on('preRedraw',function(c) { ensureTextLabel(c); ensureLegend(c); })
+		.on('postRender',function(c) { ensureTextLabel(c); ensureLegend(c); });
 
         dc.renderAll();
 	$(".partyName").html(pName);
 	$("#loading-container").delay(200).slideUp();
     });
 
+function ensureLegend(c)
+{
+	var baseSVG = c.svg();
+	if(baseSVG.selectAll("g").filter(".legendLabel")[0].length)
+	{
+		baseSVG.selectAll("g").filter(".legendLabel").remove();
+	}
+
+	var bX = 810;
+	var bY = 290;
+	var legendBox = baseSVG.insert("g");
+	legendBox.attr("class","legendLabel");
+	legendBox.append("text").attr("x",bX).attr("y",bY).attr("font-weight","400").text(function(){return "Legend";});
+	legendBox.append("text").attr("x",bX+10).attr("y",bY+18).attr("font-size","0.9em").text(function() { return "100%"; });
+	for(var i=0;i!=colourSet.length-1;i++)
+	{
+		legendBox.append("rect").attr("x",bX).attr("y",bY+10+(i*20))
+					.attr("width","6").attr("height","20").attr("fill",colourSet[i]);
+		legendBox.append("text").attr("x",bX+10).attr("y",bY+15+((i+1)*20)).attr("font-size","0.7em")
+					.text(function() { return clusterUpper[i].toString()+"%"; });
+	}
+	legendBox.append("text").attr("x",bX+10).attr("y",bY+15+((colourSet.length)*20)).attr("font-size","0.9em")
+				.text(function() { return "0%"; });
+
+	if(currCong<86)
+	{
+		// Divider line
+		legendBox.append("rect").attr("x",bX).attr("y",bY+22+( (colourSet.length)*20))
+					.attr("width","70").attr("height","1").attr("fill","#EEEEEE");
+		// Not a state
+		legendBox.append("rect").attr("x",bX).attr("y",bY+10+((colourSet.length+1)*20))
+					.attr("width","6").attr("height","20").attr("fill","#CCCCCC");
+		legendBox.append("text").attr("x",bX+10).attr("y",bY+22+((colourSet.length+1)*20)).attr("font-size","0.7em")
+					.text(function() { return "Not a US State"; });
+	}
+}
+
+function ensureTextLabel(c)
+{
+	var textLabelTitle = currCong+"th ";
+	if(groupSel=="both") { textLabelTitle+="Congress"; }
+	else if(groupSel=="senate") { textLabelTitle+="Senate"; }
+	else if(groupSel=="house") { textLabelTitle+="House"; }
+
+	var baseSVG = c.svg();
+	if(baseSVG.selectAll("g").filter(".textLabel")[0].length)
+	{
+		var textBox = baseSVG.selectAll("g").filter(".textLabel").selectAll("text");
+		textBox.text(function() { return textLabelTitle; });
+		console.log("updated label");
+	}
+	else
+	{
+		var textBox = baseSVG.insert("g")
+		textBox.attr("class","textLabel").append("text").attr("x",750).attr("y",20).attr("font-weight",700)
+								.text(function() { return textLabelTitle; });
+		console.log("added label first time");
+	}
+}
+
 function toggleMapSupport(toggle)
 {
-	console.log(toggle);
 	if(toggle=="both") partyMapChart.group(bothGroup);
 	else if(toggle=="house") partyMapChart.group(houseGroup);
-	else partyMapChart.group(senateGroup);
+	else if(toggle=="senate") partyMapChart.group(senateGroup);
+	else { return; }
+	groupSel = toggle;	
 	partyMapChart.redraw();
 }
 
 function setupCongress(num)
 {
+	currCong=num;
 	currSet = jQuery.grep(partycontroljson, function(n,i) { return n.congress==num.toString(); })[0]["data"];
 	pmx = crossfilter(currSet);
 	stateDimension = pmx.dimension(function(d) { return d["state"]; });
@@ -163,6 +237,23 @@ function switchCongress(num)
 	console.log(num);
 	setupCongress(num);
 	partyMapChart.dimension(stateDimension);
-	partyMapChart.group(bothGroup);
-	partyMapChart.redraw();
+	toggleMapSupport(groupSel);
+}
+
+function playLoopInt()
+{
+	currCong = minCong;
+	partyMapChart.transitionDuration(100);
+	playLoop = setInterval(function()
+	{
+		currCong=currCong+1;
+		if(currCong>maxCong) { currCong=minCong; }
+		switchCongress(currCong);	
+	},250);	
+}
+
+function stopLoop()
+{
+	partyMapChart.transitionDuration(700);
+	clearInterval(playLoop);
 }
