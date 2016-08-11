@@ -29,9 +29,10 @@
 
 		<!-- Nominate graph -->
 		<h4>DW-Nominate Plot
-			<a href="#" onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}.png', {backgroundColor: 'white'});return false;">
-				<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
-			</a>
+				<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:22px;vertical-align:middle;cursor:pointer" 
+					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
+					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}.png', {backgroundColor: 'white'}); return false;"
+					></span>
 		</h4>
 
 		<div id="scatter-container" style="margin:0 auto 10px auto;">

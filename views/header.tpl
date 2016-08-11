@@ -8,7 +8,7 @@
         <li>
           <a data-toggle="dropdown" href="#">explore</a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-	      <li><a href="/parties/all">Political Parties</a></li>
+	      <li><a href="/parties/all">Parties</a></li>
 	      <li><a href="/congress/senate">Senators</a></li>
 	      <li><a href="/congress/house">Representatives</a></li>
               <li><a href="/explore/senate">Senate Votes</a></li>

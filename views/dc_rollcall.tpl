@@ -73,9 +73,10 @@
 					<h4 style="float:left;clear:none;vertical-align:middle;">
 						Map 
 	
-						<a href="#" onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">						
-							<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
-						</a>
+						<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;"
+							onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
+							data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
+						</span>
 	
 						%if len(noteText):
 							<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" class="left-tooltip" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
@@ -102,9 +103,11 @@
 
 				<!-- Nominate graph -->
 				<h4>DW-Nominate Cutting Line
-					<a href="#" onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;">
-						<img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
-					</a>
+					<span class="glyphicon glyphicon-save"
+						onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
+						style="margin-left:5px;width:18px;vertical-align:middle;cursor:pointer;" 
+						data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
+					</span>
 				</h4>
 
 				<div id="scatter-container" style="margin:0 auto 0 auto;">
@@ -118,8 +121,17 @@
 			</div> <!-- Outside the first column onto the second column (the vote table). -->
 			<div class="col-md-2" id="vote_chart_float" style="position:static;">
 				<h4>Votes
-					<a href="/api/download?rollcall_id={{rollcall["id"]}}"><img src="/static/img/save.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as JSON."></a>
-					<a href="/api/downloadXLS?ids={{rollcall["id"]}}"><img src="/static/img/xls.png" style="margin-left:5px;width:22px;vertical-align:middle;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS."></a>
+					<a href="/api/download?rollcall_id={{rollcall["id"]}}">
+						<span class="glyphicon glyphicon-save"
+							style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;color:black;" 
+							data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as JSON.">
+						</span>
+					</a>
+					<a href="/api/downloadXLS?ids={{rollcall["id"]}}">
+						<img src="/static/img/xls.png" 
+							style="margin-left:5px;width:22px;vertical-align:middle;" 
+							data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS.">
+					</a>
 					<!--<a href="#" onclick="javascript:updateVoteChart();">(Test)</a>-->
 				</h4> 
 				<div id="party-chart">
