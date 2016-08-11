@@ -56,7 +56,7 @@ var colorSchemes = {
 	"brown": ["#a6611a", "#dfc27d", "#f7f0dd"],
 } 
 
-// ColorBrewer single-hue sequential, 6-class (7th class will always be white)
+// ColorBrewer single-hue sequential, 6-class (7th class will always be white and added externally)
 var colorSchemesSequential = {
 	"red": ["#a50f15", "#de2d26", "#fb6a4a", "#fc9272", "#fcbba1", "#fee5d9"],
 	"orange": ["#a63603", "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2", "#feedde"],

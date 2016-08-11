@@ -6,6 +6,8 @@
 var timeChart = dc.barChart("#time-chart");
 var dimChart = dc.compositeChart("#dim-chart");
 var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
+// Need to hold these things in globals to do dynamic on-the-fly changes to map.
+var bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper;
 
 var eW=0; var eH = 0;
 function tooltip(d)
@@ -23,8 +25,8 @@ var q = queue()
     .defer(d3.json, "/static/controljson/"+party_param+".json")
 
 q
-    .await(function(error, pdat, cdat,partyname, stateboundaries, partycontroljson) {	
-
+    .await(function(error, pdat, cdat,partyname, stateboundaries, pcontrol) {	
+	partycontroljson = pcontrol;
 	if(!partyname["error"])
 	{
 		var pName = partyname["partyname"];
@@ -104,24 +106,8 @@ q
 	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative")
 	    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 
+	setupCongress(114);
 
-	var currSet = jQuery.grep(partycontroljson, function(n,i) { return n.congress=="114"; })[0]["data"];
-	var pmx = crossfilter(currSet);
-	var stateDimension = pmx.dimension(function(d) { return d["state"]; });
-	var bothGroup = stateDimension.group().reduceSum(function(d) { return d["both"] });
-	var senateGroup = stateDimension.group().reduceSum(function(d) { return d["senate"] });
-	var houseGroup = stateDimension.group().reduceSum(function(d) { return d["house"] });
-
-	// For simple-statistics to do k-means clustering
-	var results = [];
-	for(var i=0;i!=currSet.length;i++) { results.push(currSet[i]["both"]); }
-	var clusterSet = ss.ckmeans(results, 7);
-	var clusterUpper = [];
-	for(var i=0;i!=clusterSet.length;i++) { clusterUpper.push(clusterSet[i][clusterSet[i].length-1]); }
-	clusterUpper.reverse();
-	clusterUpper = clusterUpper.slice(1);
-
-	console.log(partyColorMap[partyNameSimplify(pName)]);
 	var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
 	partyMapChart
 		.width(900)
@@ -135,9 +121,48 @@ q
 			}
 			return colourSet[colourSet.length-1];
 		})
-		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; });	
+		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; });
 
         dc.renderAll();
 	$(".partyName").html(pName);
 	$("#loading-container").delay(200).slideUp();
     });
+
+function toggleMapSupport(toggle)
+{
+	console.log(toggle);
+	if(toggle=="both") partyMapChart.group(bothGroup);
+	else if(toggle=="house") partyMapChart.group(houseGroup);
+	else partyMapChart.group(senateGroup);
+	partyMapChart.redraw();
+}
+
+function setupCongress(num)
+{
+	currSet = jQuery.grep(partycontroljson, function(n,i) { return n.congress==num.toString(); })[0]["data"];
+	pmx = crossfilter(currSet);
+	stateDimension = pmx.dimension(function(d) { return d["state"]; });
+	bothGroup = stateDimension.group().reduceSum(function(d) { return d["both"] });
+	senateGroup = stateDimension.group().reduceSum(function(d) { return d["senate"] });
+	houseGroup = stateDimension.group().reduceSum(function(d) { return d["house"] });
+
+	// For simple-statistics to do k-means clustering
+	var results = [];
+	for(var i=0;i!=currSet.length;i++) { results.push(currSet[i]["both"]); }
+	var clusterSet = ss.ckmeans(results, 7);
+	clusterUpper = [];
+	for(var i=0;i!=clusterSet.length;i++) { clusterUpper.push(clusterSet[i][clusterSet[i].length-1]); }
+	clusterUpper.reverse();
+	clusterUpper = clusterUpper.slice(1);
+
+	console.log('done setup');
+}
+
+function switchCongress(num)
+{
+	console.log(num);
+	setupCongress(num);
+	partyMapChart.dimension(stateDimension);
+	partyMapChart.group(bothGroup);
+	partyMapChart.redraw();
+}
