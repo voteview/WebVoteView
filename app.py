@@ -30,9 +30,11 @@ def clearTime():
     timeLabels = []
     timeNums = []
 
+
 def timeIt(label):
     timeLabels.append(label)
     timeNums.append(time.time())
+
 
 def zipTimes():
     tN = []
@@ -43,9 +45,11 @@ def zipTimes():
             tN.append(round(timeNums[i] - timeNums[i-1],3))
     return zip(timeLabels, tN)
 
+
 # Helper function for handling bottle arguments and setting defaults:
 def defaultValue(x,value = None):
     return x is not "" and x or value
+
 
 #
 # Web pages
@@ -54,6 +58,7 @@ def defaultValue(x,value = None):
 @app.route('/static/<path:path>')
 def callback(path):
         return bottle.static_file(path,"./static")
+
 
 # Index
 @app.route("/")
@@ -99,25 +104,28 @@ def index():
     except:
         output = bottle.template("views/error", errorMessage = traceback.format_exc())
         #errorMessage="Error: One or more of the parameters you used to call this page was misspecified.")
-    
+
     return output
 
-# Static Pages with no arguments, just passthrough the template. 
+# Static Pages with no arguments, just passthrough the template.
 # Really we should just cache these, but anyway.
 @app.route("/about")
 def about():
     output = bottle.template('views/about')
     return output
 
+
 @app.route("/data")
 def data():
     output = bottle.template("views/data")
     return output
 
+
 @app.route("/research")
 def research():
     output = bottle.template("views/research")
     return output
+
 
 # Pages that have arguments
 @app.route("/explore")
@@ -129,6 +137,7 @@ def explore(chamber="house"):
     output = bottle.template("views/explore",chamber=chamber)
     return output
 
+
 @app.route("/congress")
 @app.route("/congress/<chamber:re:house|senate>")
 def congress(chamber="senate"):
@@ -138,6 +147,7 @@ def congress(chamber="senate"):
 
     output = bottle.template("views/congress", chamber=chamber, congress=congress)
     return output
+
 
 @app.route("/parties")
 @app.route("/parties/<party>")
@@ -159,7 +169,7 @@ def parties(party=200):
         partyNameFull = partyData["fullName"]
     else:
         partyNameFull = ""
-    
+
     output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull)
     return output
 
@@ -203,7 +213,7 @@ def person(icpsr=0):
             else:
                 person["bioImg"] = "keith.png"
         else:
-            person["bioImg"] = str(person["icpsr"]).zfill(6)+".jpg" 
+            person["bioImg"] = str(person["icpsr"]).zfill(6)+".jpg"
             bioFound = 1
 
         timeIt("bioImg")
@@ -220,7 +230,7 @@ def person(icpsr=0):
 
         # Replace anyone?
         #prevNextICPSRs = checkForOccupancy(person)
-    
+
         # Find out if we have any other ICPSRs that are this person for another party
         altICPSRs = checkForPartySwitch(person)
         if "results" in altICPSRs:
@@ -247,7 +257,7 @@ def person(icpsr=0):
             votes = voteQuery["rollcalls"]
             idSet = [v["id"] for v in votes]
             rollcallsFinal = model.downloadVotes.downloadAPI(idSet,"Web_Person")
-            
+
             if "rollcalls" in rollcallsFinal and len(rollcallsFinal["rollcalls"])>0:
                 for i in xrange(0, len(idSet)):
                     iV = [r for r in rollcallsFinal["rollcalls"] if r["id"]==votes[i]["id"]][0]
@@ -262,7 +272,7 @@ def person(icpsr=0):
             votes = []
 
         if "bio" in person:
-            person["bio"] = person["bio"].replace("a Representative","Representative")          
+            person["bio"] = person["bio"].replace("a Representative","Representative")
 
         timeIt("readyOut")
         # Go to the template.
@@ -273,6 +283,7 @@ def person(icpsr=0):
     else:
         output = bottle.template("views/error", errorMessage=person["errormessage"])
         return(output)
+
 
 @app.route("/rollcall")
 @app.route("/rollcall/<rollcall_id>")
@@ -289,10 +300,11 @@ def rollcall(rollcall_id=""):
 
     if not "rollcalls" in rollcall or "errormessage" in rollcall:
         output = bottle.template("views/error", errorMessage=rollcall["errormessage"])
-        return(output)          
+        return(output)
 
     output = bottle.template("views/dc_rollcall", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
     return(output)
+
 
 # RA support stuff
 @app.route("/ra/wiki",method="POST")
@@ -302,13 +314,14 @@ def wiki():
     newStatus = defaultValue(bottle.request.params.status, 0)
     if prevId:
         writeStatus(prevId, newStatus)
-        
-        
+
+
     nextTry = readStatus()
     if type(nextTry)==type(str("")):
         return(nextTry)
     else:
         return bottle.template("views/raWIKI", person=nextTry)
+
 
 # Stash saved links redirect
 @app.route("/s/<savedhash>")
@@ -328,7 +341,6 @@ def savedHashRedirect(savedhash):
 # API methods
 #
 #
-
 @app.route("/api/getmembersbycongress",method="POST")
 @app.route("/api/getmembersbycongress")
 def getmembersbycongress():
@@ -348,12 +360,13 @@ def getmembersbycongress():
             else:
                 memberRow["bioImgURL"] = "silhouette.png"
 
-            memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0) 
+            memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
 
             out["results"][i] = memberRow
 
-    out["timeElapsed"] = time.time()-st 
+    out["timeElapsed"] = time.time()-st
     return out
+
 
 @app.route("/api/getmembers",method="POST")
 @app.route("/api/getmembers")
@@ -372,6 +385,7 @@ def getmembers():
             qDict[key] = defaultValue(value)
 
     return(memberLookup(qDict, distinct = distinct, api = api))
+
 
 @app.route("/api/searchAssemble", method="POST")
 @app.route("/api/searchAssemble")
@@ -469,7 +483,7 @@ def searchAssemble():
                 if min!=0 or max!=100:
                     q = q + " support:["+str(min)+" to "+str(max)+"]"
             except:
-                pass                
+                pass
         else:
             try:
                 support = int(support)
@@ -500,7 +514,7 @@ def searchAssemble():
         codeString = codeString[0:-4]
         if q is None or q=="":
             q = codeString
-        else:   
+        else:
             q += " ("+codeString+")"
 
     # Sort facet
@@ -536,23 +550,26 @@ def searchAssemble():
             out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers) 
     return(out)
 
+
 @app.route("/api/search",method="POST")
 @app.route("/api/search")
 def search():
     q = defaultValue(bottle.request.params.q)
     startdate = defaultValue(bottle.request.params.startdate)
     enddate = defaultValue(bottle.request.params.enddate)
-    chamber = defaultValue(bottle.request.params.chamber) 
+    chamber = defaultValue(bottle.request.params.chamber)
     icpsr = defaultValue(bottle.request.params.icpsr)
 
     res = query(q,startdate,enddate,chamber, icpsr=icpsr)
     return(res)
+
 
 @app.route("/api/getPartyName",method="POST")
 @app.route("/api/getPartyName")
 def getPartyName():
     id = defaultValue(bottle.request.params.id)
     return(model.partyData.getPartyName(id))
+
 
 @app.route("/api/download",method="POST")
 @app.route("/api/download")
@@ -564,11 +581,13 @@ def downloadAPI(rollcall_id=""):
     res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
     return(res)
 
+
 @app.route("/api/exportJSON",method="POST")
 @app.route("/api/exportJSON")
 def exportJSON():
     id = defaultValue(bottle.request.params.id,"")
     return model.downloadVotes.downloadStash(id)
+
 
 @app.route("/api/downloadXLS",method="POST")
 @app.route("/api/downloadXLS")
@@ -576,8 +595,8 @@ def downloadXLS():
     try:
         stash = defaultValue(bottle.request.params.stash,"")
     except:
-        stash = ""      
-    
+        stash = ""
+
     try:
         ids = bottle.request.params.getall("ids")
     except:
@@ -604,6 +623,7 @@ def downloadXLS():
     else: # Non-zero status code.
         return({"errormessage": result}) 
 
+
 @app.route("/api/contact",method="POST")
 @app.route("/api/contact")
 def contact():
@@ -619,6 +639,7 @@ def contact():
         return(traceback.format_exc())
         return({"error": "You must fill out the entire form before submitting."})
 
+
 @app.route("/api/stash/<verb:re:init|add|del|get|empty>")
 def stash(verb):
     try:
@@ -629,6 +650,7 @@ def stash(verb):
 
     #return {"test": "foo"}
     return model.stashCart.verb(verb, id, votes)
+
 
 @app.route("/api/shareableLink")
 @app.route("/api/shareableLink", method="POST")
@@ -641,6 +663,7 @@ def shareLink():
 
     return model.stashCart.shareableLink(id, text)
 
+
 @app.route("/api/addAll")
 @app.route("/api/addAll", method="POST")
 def addAll():
@@ -651,6 +674,7 @@ def addAll():
         return {"errorMessage": "Invalid ID or search."}
     return model.stashCart.addAll(id, search)
 
+
 @app.route("/api/delAll")
 @app.route("/api/delAll", method="POST")
 def delAll():
@@ -660,6 +684,7 @@ def delAll():
     except:
         return {"errorMessage": "Invalid ID or search."}
     return model.stashCart.delAll(id, search)
+
 
 @app.route("/api/setSearch")
 @app.route("/api/setSearch", method="POST")
@@ -672,10 +697,11 @@ def setSearch():
 
     return model.stashCart.setSearch(id, search)
 
+
 @app.route("/api/version")
 def apiVersion():
     return({'apiversion': 'Q3 June 22, 2016'})
 
+
 if __name__ == '__main__':
     bottle.run(host='localhost',port=8080, debug=True)
-
