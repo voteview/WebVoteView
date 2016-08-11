@@ -1,9 +1,12 @@
-#import sys
 import re
 import traceback
 import os
+import datetime
+import time
+
 import bottle
 from fuzzywuzzy import fuzz
+
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
@@ -13,8 +16,7 @@ from model.raWIKI import readStatus, writeStatus
 import model.downloadXLS
 import model.stashCart
 import model.partyData
-import datetime
-import time
+
 
 # Turn this off on production:
 bottle.debug(True)
