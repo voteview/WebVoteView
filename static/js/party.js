@@ -235,7 +235,12 @@ function setupCongress(num)
 	senateGroup = stateDimension.group().reduceSum(function(d) { return d["senate"] });
 	houseGroup = stateDimension.group().reduceSum(function(d) { return d["house"] });
 
+	// Just equal interval clustering
+	clusterUpper = [85, 71, 57, 42, 28, 14];
+	/*
 	// For simple-statistics to do k-means clustering
+	// Several problems: 1) clusters are highly unstable over time
+	// 2) In many cases, there are fewer classes than clusters, so you get a bunch of 0 clusters
 	var results = [];
 	for(var i=0;i!=currSet.length;i++) { results.push(currSet[i]["both"]); }
 	var clusterSet = ss.ckmeans(results, 7);
@@ -243,6 +248,7 @@ function setupCongress(num)
 	for(var i=0;i!=clusterSet.length;i++) { clusterUpper.push(clusterSet[i][clusterSet[i].length-1]); }
 	clusterUpper.reverse();
 	clusterUpper = clusterUpper.slice(1);
+	*/
 
 	console.log('done setup');
 }
@@ -257,6 +263,7 @@ function switchCongress(num)
 
 function playLoopInt()
 {
+	forceStopLoop=0;
 	currCong = minCong;
 	partyMapChart.transitionDuration(100);
 	playLoopIteration();
