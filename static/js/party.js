@@ -116,6 +116,19 @@ q
 	}
 	setupCongress(maxCong);
 
+	var tickSet = [1];
+	var tickLabels = ["1st"];
+	if(minCong>1) { tickSet.push(minCong); tickLabels.push("Begin"); }
+	if(maxCong<114) { tickSet.push(maxCong); tickLabels.push("End"); }
+	tickSet.push(114);
+	tickSet.push("114th");
+
+	/*var slider = $("input.slider").slider({
+		ticks: tickSet,
+		ticks_labels: tickLabels,
+		ticks_snap_bounds: 3
+	});*/
+
 	var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
 	partyMapChart
 		.width(900)
@@ -244,16 +257,21 @@ function playLoopInt()
 {
 	currCong = minCong;
 	partyMapChart.transitionDuration(100);
-	playLoop = setInterval(function()
-	{
-		currCong=currCong+1;
-		if(currCong>maxCong) { currCong=minCong; }
-		switchCongress(currCong);	
-	},250);	
+	playLoopIteration();
+}
+
+function playLoopIteration()
+{
+	var delay = 250;
+	currCong = currCong+1;
+	if(currCong>maxCong) { currCong=minCong; }
+	if(currCong==maxCong) { delay=3000; } // Hang on the last, current congress before looping
+	switchCongress(currCong);
+	playLoop = setTimeout(playLoopIteration, delay);
 }
 
 function stopLoop()
 {
 	partyMapChart.transitionDuration(700);
-	clearInterval(playLoop);
+	clearTimeout(playLoop);
 }
