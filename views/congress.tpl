@@ -14,10 +14,12 @@
 			<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">
 				<select id="congSelector">
 				% for i in range(114, 0, -1):
+				      	% yearLow = 1787+2*i
+					% yearHigh = yearLow + 2
 					% if int(i)==int(congress):
-					<option value="{{i}}" SELECTED>{{rcSuffix(i)}} Congress</option>
+					<option value="{{i}}" SELECTED>{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
 					% else:
-					<option value="{{i}}">{{rcSuffix(i)}} Congress</option>
+					<option value="{{i}}">{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
 					% end
 				% end
 				</select>
