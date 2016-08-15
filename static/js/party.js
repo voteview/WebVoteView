@@ -58,6 +58,7 @@ q
 	
 	var minY = -0.6;
 	var maxY = 0.6;
+        var maxMembers = 1;
 	var singletonsOnly=1;
 	var activeSet=0;
 	var congressSet = cdat.filter(function(cong) { return +cong.congress>=min && +cong.congress<=max; });
@@ -66,6 +67,7 @@ q
 			return +dpart.congress === d.congress;
 		});
 		d.nMembers = (party[0] !== undefined) ? +party[0].nMembers : 0;
+		if(d.nMembers > maxMembers) { maxMembers = d.nMembers; }
 		d.partymedian = (party[0] !== undefined) ? +party[0].grandMedian : -999;
 		d.partySet = (party[0] !== undefined) ? [+party[0].grandLow,+party[0].grandHigh] : [-999,-999];
 		d.congressmedian = d.grandMedian;
@@ -95,15 +97,21 @@ q
             .dimension(congressDimension)
             .group(congressGroup)
             .elasticX(true)
-            .elasticY(true)
             .brushOn(false)
 	    .colors([partyCol[0]])
             .x(d3.scale.linear().domain([0, 115]))
+            .y(d3.scale.linear().domain([0, maxMembers+0.2]))
+	    .on('renderlet.click', function(chart, filter)
+		{
+			chart.selectAll("rect.bar").on('click.custom', function(d) {
+				switchCongress(d.x);				
+			});
+		})
 	    .margins({top: 0, left: 50, bottom: 50, right: 50})
 	    .xAxisLabel("Year").yAxisLabel("Members in office")
             .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 	timeChart
-	    .yAxis().ticks(5);
+	    .yAxis().ticks(5).tickFormat(d3.format("d"));
 	 
 	dimChart
 	    .width(1160)
@@ -133,7 +141,6 @@ q
 		function keyHack(d) { return d.key; }
 		function valHack(d) { return d.value; }
 		function colHack(d) { return 0; }
-		console.log(partyCol[0]);
 		dimChart
 		    .compose([
 		        dc.lineChart(dimChart).group(dimCong).colors(['#D3D3D3']).interpolate("basis"),
@@ -150,8 +157,9 @@ q
 		maxCong = (partycontroljson[z].congress>maxCong)?partycontroljson[z].congress:maxCong;
 	}
 	// Initialize map to maximum congress.
-	setupCongress(maxCong);
-	$("#congNum").val(maxCong);
+	var baseValue = (congressNum>maxCong)?maxCong:(congressNum<minCong)?minCong:(congressNum==0)?maxCong:congressNum;
+	setupCongress(baseValue);
+	$("#congNum").val(baseValue);
 	$("#yearNum").val(new Date().getFullYear());
 
 	// Initialize ticks for scroll-bar
@@ -203,9 +211,8 @@ q
 		ticks: tickSet,
 		ticks_positions: tickPos, 
 		ticks_labels: tickLabels,
-		//ticks_snap_bounds: 3,
 		tooltip: 'hide',
-		value: maxCong
+		value: baseValue
 	});
 	// Wire up the slider to work
 	slider.on("change", function(slideEvt)
@@ -219,7 +226,7 @@ q
 	// Now let's make our map!
 	var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
 	partyMapChart
-		.width(900)
+		.width(920)
 		.height(500)
 		.dimension(stateDimension)
 		.group(bothGroup)
@@ -295,14 +302,12 @@ function ensureTextLabel(c)
 	{
 		var textBox = baseSVG.selectAll("g").filter(".textLabel").selectAll("text");
 		textBox.text(function() { return textLabelTitle; });
-		console.log("updated label");
 	}
 	else
 	{
 		var textBox = baseSVG.insert("g")
 		textBox.attr("class","textLabel").append("text").attr("x",680).attr("y",20).attr("font-weight",700)
 								.text(function() { return textLabelTitle; });
-		console.log("added label first time");
 	}
 }
 
@@ -341,11 +346,11 @@ function setupCongress(num)
 	clusterUpper = clusterUpper.slice(1);
 	*/
 
-	console.log('done setup');
 }
 
 function switchCongress(num)
 {
+	num = parseInt(num);
 	var yearSet;
 	if(num>1000)
 	{
@@ -361,6 +366,7 @@ function switchCongress(num)
 	setupCongress(num);
 	partyMapChart.dimension(stateDimension);
 	toggleMapSupport(groupSel);
+	currCong=num;
 }
 
 function playLoopInt()
@@ -385,7 +391,7 @@ function playLoopIteration()
 	currCong = currCong+1;
 	if(currCong>maxCong) { currCong=minCong; }
 	if(currCong==maxCong) { delay=3000; } // Hang on the last, current congress before looping
-	switchCongress(currCong);i
+	switchCongress(currCong);
 	playLoop = setTimeout(playLoopIteration, delay);
 }
 
