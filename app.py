@@ -140,8 +140,9 @@ def congress(chamber="senate"):
 	return output
 
 @app.route("/parties")
+@app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
-def parties(party=200):
+def parties(party=200, congStart=114):
 	# Just default for now
 	try:
 		party = int(party)
@@ -152,6 +153,11 @@ def parties(party=200):
 		else:
 			party = 200
 
+	try:
+		congStart = int(congStart)
+	except:
+		congStart = 0
+
 	if party not in xrange(0, 50001):
 		party = 200
 	partyData = model.partyData.getPartyName(party)
@@ -160,7 +166,7 @@ def parties(party=200):
 	else:
 		partyNameFull = ""
 	
-	output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull)
+	output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull, congStart=congStart)
 	return output
 
 
