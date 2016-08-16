@@ -76,9 +76,15 @@
 	</div>
 </div>
 
-<script language="javascript">var party_param = "{{ party }}";</script>
-<script language="javascript">var mapParties=1;</script>
-<script language="javascript">var congressNum=114;</script>
+<script language="javascript">
+	var party_param = "{{ party }}";
+	var mapParties=1;
+	% if congStart:
+	var congressNum={{congStart}};
+	% else:
+	var congressNum=114;
+	% end
+</script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
