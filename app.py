@@ -58,7 +58,7 @@ def defaultValue(x,value = None):
 # Pass through static content -- nginx should handle this, but if it doesn't, bottle will
 @app.route('/static/<path:path>')
 def callback(path):
-        return bottle.static_file(path,"./static")
+    return bottle.static_file(path,"./static")
 
 
 # Index
@@ -153,7 +153,6 @@ def congress(chamber="senate"):
 @app.route("/parties")
 @app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
-<<<<<<< HEAD
 def parties(party=200, congStart=114):
 	# Just default for now
 	try:
@@ -180,7 +179,7 @@ def parties(party=200, congStart=114):
 	
 	output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull, congStart=congStart)
 	return output
-=======
+
 def parties(party=200):
     # Just default for now
     try:
@@ -202,8 +201,6 @@ def parties(party=200):
 
     output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull)
     return output
->>>>>>> 2b9351e489b3daaa538f1ddcd11acf218fcfeeb2
-
 
 @app.route("/person")
 @app.route("/person/<icpsr>")
