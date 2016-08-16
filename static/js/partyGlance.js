@@ -107,7 +107,7 @@ q
 		    .brushOn(false)
 		    .shareTitle(false)
 		    .renderTitle(false)
-        	    .x(d3.scale.linear().domain([1, 115]))
+		    .x(d3.scale.linear().domain([1, 115]))
 		    .y(d3.scale.linear().domain([-0.6,0.7]))
 		    .margins({top: 0, right: 50, bottom: 50, left: 50})
 		    .compose([
@@ -141,6 +141,8 @@ q
 			{
 				(function(j, obj)
 				{
+					console.log("in 2");
+					console.log(obj);
 					d3.select(obj).on("mouseover",function(d)
 					{
 						clearTimeout(opacityTimer);
@@ -179,7 +181,8 @@ q
 			};
 
 			d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip circle").each(tempFuncOverride);
-			d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip path").each(tempFuncOverride);
+			//d3.select(this).selectAll(".stack-list g.stack path.line").each(tempFuncOverride);
+			//d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip path").each(tempFuncOverride);
 			i=i+1;
 		});
 

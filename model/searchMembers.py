@@ -11,7 +11,8 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	state = qDict["state"] if "state" in qDict else ""
 	congress = qDict["congress"] if "congress" in qDict else ""
 	cqlabel = qDict["cqlabel"] if "cqlabel" in qDict else ""
-	chamber = qDict["chamber"] if "chamber" in qDict else ""	
+	chamber = qDict["chamber"] if "chamber" in qDict else ""
+	party = qDict["party"] if "party" in qDict else ""
 	id = qDict["id"] if "id" in qDict else ""
 
 	if api == "R":
@@ -81,6 +82,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["bioName"] = {'$regex': last+", "+rest, '$options': 'i'}
 		else:
 			searchQuery["$text"] = {"$search": name}
+
+	if party:
+		searchQuery["party"] = party
 			
 	if cqlabel:
 		if cqlabel[0]=="(" and cqlabel[-1]==")": # Ensure beginning/end () to match
