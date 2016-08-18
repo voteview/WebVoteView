@@ -14,7 +14,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	rm -rf WebVoteView/.git
 	rm -rf WebVoteView/static/json/high_resolution
 	rm -rf WebVoteView/git-synchronize
-	rb -rf WebVoteView/setup
+	rm -rf WebVoteView/setup
 	echo "Server setup"
 	echo "0" > WebVoteView/server.txt
 	cp voteview/model/*.json WebVoteView/model/
