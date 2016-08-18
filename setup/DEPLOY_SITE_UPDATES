@@ -35,6 +35,11 @@ EOF
 	echo "Connecting to server to download dump..."
 	scp -r rudkin@128.97.229.160:dump_db ./
 
+	echo "Connecting to remote server to remove remote dump."
+	ssh rudkin@128.97.229.160 << EOF
+	rm -rf dump_db
+EOF
+
 	echo "Stopping web server to substitute directory"
 	service nginx stop
 	service uwsgi stop
