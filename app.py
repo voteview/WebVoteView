@@ -17,9 +17,12 @@ import model.downloadXLS
 import model.stashCart
 import model.partyData
 
-
 # Turn this off on production:
-bottle.debug(True)
+devserver = int(open("server.txt","r").read().strip())
+if devserver:
+	bottle.debug(True)
+else:
+	bottle.debug(False)
 
 # Setup
 app = application = bottle.Bottle()
