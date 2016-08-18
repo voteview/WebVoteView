@@ -141,7 +141,7 @@ q
 			{
 				(function(j, obj)
 				{
-					console.log("in 2");
+					d3.select(obj).attr('r',10);
 					console.log(obj);
 					d3.select(obj).on("mouseover",function(d)
 					{
