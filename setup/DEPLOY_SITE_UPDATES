@@ -1,0 +1,68 @@
+#!/bin/bash
+start=$(date +%s)
+userid=$(whoami) # Ensure we're running as root
+hostname=$(hostname) # Ensure we're on voteview.
+
+if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
+	echo "Beginning git download of latest master"
+	mkdir update-voteview
+	cd update-voteview
+	git clone git://github.com/JeffreyBLewis/WebVoteView.git
+	mv WebVoteView/ ../
+	cd ..
+	rmdir update-voteview
+	rm -rf WebVoteView/.git
+	rm -rf WebVoteView/static/json/high_resolution
+	rm -rf WebVoteView/git-synchronize
+	rb -rf WebVoteView/setup
+	echo "Server setup"
+	echo "0" > WebVoteView/server.txt
+	cp voteview/model/*.json WebVoteView/model/
+
+	echo "Connecting to development server for database dump"
+	ssh rudkin@128.97.229.160 << EOF
+	echo "Creating a database backup"
+	mkdir dump_db
+	cd dump_db
+	echo "Dumping members..."
+	mongodump --collection voteview_members --db voteview
+	echo "Dumping votes..."
+	mongodump --collection voteview_rollcalls --db voteview
+	echo "Dumping parties..."
+	mongodump --collection voteview_parties --db voteview
+	echo "Done dump"
+EOF
+	echo "Connecting to server to download dump..."
+	scp -r rudkin@128.97.229.160:dump_db ./
+
+	echo "Stopping web server to substitute directory"
+	service nginx stop
+	service uwsgi stop
+	rm -rf vv-backup
+	mv voteview vv-backup
+	mv WebVoteView voteview
+
+	echo "Restoring database dump"
+	cd dump_db
+	mongorestore --drop dump
+	cd ..
+	rm -rf dump_db
+	echo "Done restoring database dump"
+
+	echo "Starting server to substitute directory"
+	service nginx start
+	service uwsgi start
+	echo "Done deployment."
+	echo "Previous version of site in /var/www/vv-backup"
+	echo "Current version of site in /var/www/voteview"
+	echo "Checking API version..."
+	curl "http://voteview.polisci.ucla.edu/api/version"
+	echo ""
+elif [ "$userid" = "root" ]; then
+	echo "You must be on production voteview to run deployment script"
+else
+        echo "You must be root to run deployment script"
+fi
+endT=$(date +%s)
+runtime=$((endT-start))
+echo "Total runtime $runtime seconds"
