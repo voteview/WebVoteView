@@ -40,9 +40,9 @@
 			<a href="/parties/{{person["party"]}}">{{ person["partyname"] }}</a>
 		</span>
 		% if person["stateName"]!="(President)":
-		 of <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;"> {{ person["stateName"] }}
+		 of {{person["stateName"]}} <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;">
 		% else:
-		 , <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;"> President of the United States		
+		 , President of the United States <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;">
 		% end
 	    </h4>
 		
@@ -85,7 +85,7 @@
 	    </h5>
 	    % end
 	    % if "website" in person:
-		<h5>Web: <a href="{{person["website"]}}" target="_blank">{{person["website"]}}</a></h5>
+		<h5><a href="{{person["website"]}}" target="_blank">Official Website</a></h5>
 	    % end
 	    % if "twitter" in person:
 		<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
