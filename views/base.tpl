@@ -1,3 +1,4 @@
+% devserver=int(open("./server.txt","r").read().strip())
 % STATIC_URL = "/static/"
 % setdefault('title','UCLA')
 % setdefault('extra_css','')
@@ -40,7 +41,11 @@
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}" type="text/css" />
 	% end
     </head>
+	% if not devserver:
     <body id="{{ body_id }}" class="{{ body_class }}">
+	% else:
+    <body id="{{ body_id }}" class="{{ body_class }}" style="border-left:20px solid red;">
+	% end
         <!--[if lt IE 8]>
             <div class="chromeframe">
                     <p>Hi. It looks like you're using an older browser that does not support VoteView.<br/>

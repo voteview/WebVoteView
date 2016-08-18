@@ -23,7 +23,7 @@
 
 	<h1 id="brand">
 		% if devserver:
-		<a href="/">voteview.com</a> <small style="background-color:red;color:yellow;">beta DEV SERVER</small>
+		<a href="/"><span style="background-color:red;color:yellow;">voteview.com beta DEV SERVER</span></a>
 		% else:
 		<a href="/">voteview.com</a> <small>beta</small>
 		% end
