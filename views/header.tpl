@@ -1,4 +1,4 @@
-<!-- Header.tpl: Contains the navigation / header. No templating code in here. -->
+% devserver=int(open("./server.txt","r").read().strip())
 
 <div class="container">
   <div id="wbv-header" class="row">
@@ -20,7 +20,14 @@
         <!--<li><a href="/research">research</a></li>-->
         <li><a href="/about">about</a></li>
       </ul>
-      <h1 id="brand"><a href="/">voteview.com</a> <small>beta</small></h1>
+
+	<h1 id="brand">
+		% if devserver:
+		<a href="/">voteview.com</a> <small style="background-color:red;color:yellow;">beta DEV SERVER</small>
+		% else:
+		<a href="/">voteview.com</a> <small>beta</small>
+		% end
+	</h1>
     </div>
   </div>
 </div>
