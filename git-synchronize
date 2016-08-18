@@ -4,4 +4,4 @@ if [ $# -eq 0 ] ; then
 else
 	git commit -m "$*"
 fi
-git push origin master
+git push origin dev
