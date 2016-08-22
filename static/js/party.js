@@ -62,6 +62,7 @@ q
 	var singletonsOnly=1;
 	var activeSet=0;
 	var congressSet = cdat.filter(function(cong) { return +cong.congress>=min && +cong.congress<=max; });
+	var memSetScatter = [];
 	congressSet.forEach(function (d) {
 		var party = pdat.filter(function(dpart) {
 			return +dpart.congress === d.congress;
@@ -69,26 +70,41 @@ q
 		d.nMembers = (party[0] !== undefined) ? +party[0].nMembers : 0;
 		if(d.nMembers > maxMembers) { maxMembers = d.nMembers; }
 		d.partymedian = (party[0] !== undefined) ? +party[0].grandMedian : -999;
-		d.partySet = (party[0] !== undefined) ? [+party[0].grandLow,+party[0].grandHigh] : [-999,-999];
 		d.congressmedian = d.grandMedian;
 		if(d.partymedian>-900 && activeSet) { singletonsOnly=0; }
 		if(d.partymedian>-900) { activeSet=1; }
 		else { activeSet=0; }
-		if(Math.max(d.congressmedian, d.partySet[1])>maxY) { maxY = Math.max(d.congressmedian,d.partySet[1])*1.05; }
-		if(Math.min(d.congressmedian, d.partySet[0])<minY && Math.min(d.congressmedian, d.partySet[0])>-10) { minY = Math.min(d.congressmedian,d.partySet[0])*1.05; }
+
+		if(party[0]!==undefined)
+		{
+			maxY = Math.max(maxY, d.congressmedian*1.05, Math.max(...party[0].grandSet)*1.05);
+			minY = Math.min(minY, d.congressmedian*1.05, Math.min(...party[0].grandSet)*1.05);
+		}
+		else
+		{
+			maxY = Math.max(maxY, d.congressmedian*1.05);
+			minY = Math.min(minY, d.congressmedian*1.05);
+		}
+
+		if(party[0] !== undefined)
+		{
+			for(var qQ=0;qQ<party[0].grandSet.length;qQ++)
+			{
+				memSetScatter.push({"x": d.congress, "y": party[0].grandSet[qQ]});
+			}
+		}
 	});
 
         var ndx = crossfilter(congressSet); 
-
+	var cfMemSet = crossfilter(memSetScatter);
 	var congressDimension = ndx.dimension(function (d) {
 	    return d.congress;
 	});
-
+	var congressDimMem = cfMemSet.dimension(function(d) { return [+d.x, +d.y]; });
+	var congressGroupMem = congressDimMem.group();//.reduceSum(function(d) { return +d.y; });
         var congressGroup = congressDimension.group().reduceSum(function (d) {return d.nMembers;});
 
         var dimParty = congressDimension.group().reduceSum(function (d) {return d.partymedian;});
-	var dimPartyLow = congressDimension.group().reduceSum(function (d) { return d.partySet[0];});
-	var dimPartyHigh = congressDimension.group().reduceSum(function (d) { return d.partySet[1];});
         var dimCong = congressDimension.group().reduceSum(function (d) {return d.congressmedian;});
 
         timeChart
@@ -127,11 +143,11 @@ q
 
 	if(!singletonsOnly)
 	{
+		function colHack(d) { return 0; }
 		dimChart
 		    .compose([
 		        dc.lineChart(dimChart).group(dimCong).colors(['#D3D3D3']).interpolate("basis"),
-			dc.lineChart(dimChart).group(dimPartyLow).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
-			dc.lineChart(dimChart).group(dimPartyHigh).colors([partyCol[1]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
+			dc.scatterPlot(dimChart).group(congressGroupMem).colors([partyCol[1]]).colorAccessor(colHack).symbolSize(3),
 		        dc.lineChart(dimChart).group(dimParty).colors([partyCol[0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		    ]);
 	}
@@ -144,6 +160,7 @@ q
 		dimChart
 		    .compose([
 		        dc.lineChart(dimChart).group(dimCong).colors(['#D3D3D3']).interpolate("basis"),
+			dc.scatterPlot(dimChart).group(congressGroupMem).colors([partyCol[1]]).colorAccessor(colHack).symbolSize(3),
 			dc.scatterPlot(dimChart).group(dimParty).colors([partyCol[0]]).colorAccessor(colHack).keyAccessor(keyHack).symbolSize(6).valueAccessor(valHack)
 		    ]);
 	}
