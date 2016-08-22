@@ -8,7 +8,7 @@ var dimChart = dc.compositeChart("#dim-chart");
 var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 // Need to hold these things in globals to do dynamic on-the-fly changes to map.
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
-var playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
+var inLoop, playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
 
 var eW=0; var eH = 0;
 function tooltip(d)
@@ -348,8 +348,9 @@ function setupCongress(num)
 
 }
 
-function switchCongress(num)
+function switchCongress(num, autoLoop=0)
 {
+	if(autoLoop==0 && inLoop) { stopLoop(); }
 	num = parseInt(num);
 	var yearSet;
 	if(num>1000)
@@ -365,6 +366,21 @@ function switchCongress(num)
 	if(slider.slider("getValue")!=num) { slider.slider("setValue", parseInt(num)); }
 	setupCongress(num);
 	partyMapChart.dimension(stateDimension);
+
+	var loadNum = num;
+	if(num<100) { loadNum = "0"+loadNum; }
+
+	// Map substitution
+	/*d3.json("/static/json/states"+loadNum+".json", function(error, stateboundaries)
+	{
+		if(!error)
+		{
+			var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
+			partyMapChart.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
+			partyMapChart.render();
+		}
+	});*/
+
 	toggleMapSupport(groupSel);
 	currCong=num;
 }
@@ -374,6 +390,7 @@ function playLoopInt()
 	$("#playButton").hide();
 	$("#pauseButton").show();
 	$("#playHint").html("Pause");
+	inLoop=1;
 	forceStopLoop=0;
 	if(currCong==maxCong) { currCong = minCong-1; }
 	partyMapChart.transitionDuration(100);
@@ -391,7 +408,7 @@ function playLoopIteration()
 	currCong = currCong+1;
 	if(currCong>maxCong) { currCong=minCong; }
 	if(currCong==maxCong) { delay=3000; } // Hang on the last, current congress before looping
-	switchCongress(currCong);
+	switchCongress(currCong, 1);
 	playLoop = setTimeout(playLoopIteration, delay);
 }
 
@@ -402,5 +419,6 @@ function stopLoop()
 	$("#playHint").html("Animate");
 	partyMapChart.transitionDuration(700);
 	forceStopLoop=1;
+	inLoop=0;
 	clearTimeout(playLoop);
 }

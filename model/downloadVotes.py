@@ -78,7 +78,8 @@ def downloadAPI(rollcall_id, apitype="Web"):
 				# Web returns different fields than R
 				if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
 					v = {
-						'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0]), 
+						'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0]),
+						#'prob': [m["p"] for m in rollcall["votes"] if m["id"]==member["id"]][0],
 						'name': bestName,
 						'id': member['id'],
 						'party': member['partyname'],
