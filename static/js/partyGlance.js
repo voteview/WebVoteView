@@ -87,7 +87,6 @@ q
 			// First add to the group set -- hack to force evaluation of k.
 			dimSet.push(congressDimension.group().reduceSum(new Function("d", "return d.pMedians["+k+"];")));
 
-			// Then add to the line compositor
 		}
 		dimSet.push(congressDimension.group().reduceSum(function (d) { return d.congressMedian; }));
 	

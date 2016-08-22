@@ -5,16 +5,26 @@
         "grandLow": 0.142, 
         "grandMean": 0.24, 
         "grandMedian": 0.23599999999999999, 
+        "grandSet": [
+            0.131, 
+            0.352
+        ], 
         "houseHigh": 0.231, 
         "houseLow": 0.136, 
         "houseMean": 0.183, 
         "houseMedian": 0.1835, 
         "houseMembers": 2, 
+        "houseRange": [
+            0.236
+        ], 
         "nMembers": 3, 
         "senateHigh": 0.352, 
         "senateLow": 0.352, 
         "senateMean": 0.352, 
         "senateMedian": 0.35199999999999998, 
-        "senateMembers": 1
+        "senateMembers": 1, 
+        "senateRange": [
+            0.352
+        ]
     }
 ]

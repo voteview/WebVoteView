@@ -5,11 +5,17 @@
         "grandLow": -0.031, 
         "grandMean": -0.031, 
         "grandMedian": -0.031, 
+        "grandSet": [
+            -0.031
+        ], 
         "houseHigh": -0.031, 
         "houseLow": -0.031, 
         "houseMean": -0.031, 
         "houseMedian": -0.031, 
         "houseMembers": 1, 
+        "houseRange": [
+            -0.031
+        ], 
         "nMembers": 1
     }
 ]
