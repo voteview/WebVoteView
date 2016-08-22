@@ -293,9 +293,13 @@ def person(icpsr=0):
                 for i in xrange(0, len(idSet)):
                     iV = [r for r in rollcallsFinal["rollcalls"] if r["id"]==votes[i]["id"]][0]
                     votes[i]["myVote"] = [v["vote"] for v in iV["votes"] if v["id"]==person["id"]][0]
-                    votes[i]["partyVote"] = [v for k, v in iV["resultparty"].iteritems() if k==person["partyname"]][0]
-                    votes[i]["pVSum"] = sum([1*v if int(k)<=3 else -1*v if int(k)<=6 else 0 for k, v in votes[i]["partyVote"].iteritems()])
-                    votes[i]["partyLabelVote"] = "Yea" if votes[i]["pVSum"]>0 else "Nay" if votes[i]["pVSum"]<0 else "Tie"
+		    try:
+	                    votes[i]["partyVote"] = [v for k, v in iV["resultparty"].iteritems() if k==person["partyname"]][0]
+        	            votes[i]["pVSum"] = sum([1*v if int(k)<=3 else -1*v if int(k)<=6 else 0 for k, v in votes[i]["partyVote"].iteritems()])
+                	    votes[i]["partyLabelVote"] = "Yea" if votes[i]["pVSum"]>0 else "Nay" if votes[i]["pVSum"]<0 else "Tie"
+		    except:
+			    votes[i]["partyLabelVote"] = "N/A"
+			    votes[i]["pVSum"] = 0
 
             else:
                 votes = []
