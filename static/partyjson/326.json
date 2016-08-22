@@ -1,94 +1,82 @@
 [
     {
         "congress": 46, 
-        "grandHigh": 0.174, 
-        "grandLow": -0.207, 
         "grandMean": -0.017, 
         "grandMedian": -0.042000000000000003, 
         "grandSet": [
-            -0.191, 
-            -0.231, 
-            0.066, 
-            -0.047, 
-            -0.077, 
+            -0.129, 
+            0.091, 
             0.181, 
-            0.169
+            -0.077, 
+            -0.231, 
+            0.169, 
+            0.001, 
+            -0.047
         ], 
-        "houseHigh": 0.174, 
-        "houseLow": -0.207, 
         "houseMean": -0.017, 
         "houseMedian": -0.042000000000000003, 
         "houseMembers": 13, 
         "houseRange": [
-            -0.071, 
-            -0.191, 
-            -0.231, 
+            0.181, 
             0.001, 
-            0.065, 
-            -0.077, 
-            -0.129
+            0.169, 
+            0.066, 
+            -0.129, 
+            -0.071, 
+            -0.042, 
+            0.091
         ], 
         "nMembers": 13
     }, 
     {
         "congress": 47, 
-        "grandHigh": 0.233, 
-        "grandLow": -0.182, 
         "grandMean": 0.009, 
         "grandMedian": 0.026499999999999999, 
         "grandSet": [
-            -0.17, 
-            0.13, 
             0.091, 
-            -0.191, 
-            -0.129
+            0.318, 
+            0.052, 
+            -0.129, 
+            0.057, 
+            0.001
         ], 
-        "houseHigh": 0.233, 
-        "houseLow": -0.182, 
         "houseMean": 0.009, 
         "houseMedian": 0.026499999999999999, 
         "houseMembers": 10, 
         "houseRange": [
             0.13, 
-            0.001, 
-            -0.071, 
             -0.129, 
-            0.057
+            -0.191, 
+            0.057, 
+            -0.17, 
+            0.091
         ], 
         "nMembers": 10
     }, 
     {
         "congress": 48, 
-        "grandHigh": 0.264, 
-        "grandLow": -0.284, 
         "grandMean": -0.066, 
         "grandMedian": -0.22600000000000001, 
         "grandSet": [
-            -0.29, 
+            0.318, 
             -0.226
         ], 
-        "houseHigh": 0.264, 
-        "houseLow": -0.284, 
         "houseMean": -0.066, 
         "houseMedian": -0.22600000000000001, 
         "houseMembers": 3, 
         "houseRange": [
-            -0.226, 
+            -0.29, 
             0.318
         ], 
         "nMembers": 3
     }, 
     {
         "congress": 49, 
-        "grandHigh": -0.077, 
-        "grandLow": -0.077, 
         "grandMean": -0.077, 
         "grandMedian": -0.076999999999999999, 
         "grandSet": [
             -0.077
         ], 
-        "houseHigh": -0.077, 
-        "houseLow": -0.077, 
         "houseMean": -0.077, 
         "houseMedian": -0.076999999999999999, 
         "houseMembers": 1, 
@@ -99,15 +87,11 @@
     }, 
     {
         "congress": 50, 
-        "grandHigh": -0.077, 
-        "grandLow": -0.077, 
         "grandMean": -0.077, 
         "grandMedian": -0.076999999999999999, 
         "grandSet": [
             -0.077
         ], 
-        "houseHigh": -0.077, 
-        "houseLow": -0.077, 
         "houseMean": -0.077, 
         "houseMedian": -0.076999999999999999, 
         "houseMembers": 1, 

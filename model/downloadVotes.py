@@ -79,12 +79,16 @@ def downloadAPI(rollcall_id, apitype="Web"):
 				if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
 					v = {
 						'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0]),
-						#'prob': [m["p"] for m in rollcall["votes"] if m["id"]==member["id"]][0],
 						'name': bestName,
 						'id': member['id'],
 						'party': member['partyname'],
 						'state': member['stateAbbr'],
 					}
+					try:
+						v['prob'] = [m["p"] for m in rollcall["votes"] if m["id"]==member["id"]][0]
+					except:
+						pass
+
 					if member['nominate']['oneDimNominate']:
 						v['x'] = member['nominate']['oneDimNominate']
 						v['y'] = member['nominate']['twoDimNominate']

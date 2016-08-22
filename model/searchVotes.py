@@ -1011,6 +1011,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		else:
 			queryDict["synthID"] = {"$gt", sortSkip}
 
+	print queryDict
 	# Need to sort by text score
 	if needScore:
 		try:
@@ -1120,8 +1121,7 @@ if __name__ == "__main__":
 		#print results
 		#results = query('"defense commissary"')
 		#print results
-		results = query('estate tax')
-		print "ok"
+		results = query('"fiscal year"')
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
