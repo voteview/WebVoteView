@@ -4,7 +4,7 @@
         "grandMean": 0.038, 
         "grandMedian": 0.038000000000000006, 
         "grandSet": [
-            0.251
+            -0.175
         ], 
         "houseMean": -0.175, 
         "houseMedian": -0.17499999999999999, 
@@ -25,7 +25,7 @@
         "grandMean": 0.094, 
         "grandMedian": 0.20499999999999999, 
         "grandSet": [
-            0.205, 
+            -0.175, 
             0.251
         ], 
         "houseMean": -0.175, 
@@ -48,7 +48,7 @@
         "grandMedian": 0.20499999999999999, 
         "grandSet": [
             -0.175, 
-            0.205
+            0.251
         ], 
         "houseMean": -0.175, 
         "houseMedian": -0.17499999999999999, 
@@ -61,7 +61,7 @@
         "senateMedian": 0.22799999999999998, 
         "senateMembers": 2, 
         "senateRange": [
-            0.251
+            0.205
         ]
     }, 
     {
@@ -70,7 +70,7 @@
         "grandMedian": 0.20499999999999999, 
         "grandSet": [
             -0.175, 
-            0.205
+            0.251
         ], 
         "houseMean": -0.175, 
         "houseMedian": -0.17499999999999999, 
@@ -83,7 +83,7 @@
         "senateMedian": 0.22799999999999998, 
         "senateMembers": 2, 
         "senateRange": [
-            0.251
+            0.205
         ]
     }
 ]

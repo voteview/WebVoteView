@@ -2,7 +2,8 @@ import pymongo
 import traceback
 import os
 client = pymongo.MongoClient()
-db = client["voteview"]
+dbConf = json.load(open("./model/db.json","r"))
+db = connection[dbConf["dbname"]]
 
 def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	# Setup so that the bottle call to this API doesn't need to know parameters we accept explicitly

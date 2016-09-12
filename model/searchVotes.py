@@ -11,7 +11,8 @@ import re
 import json
 
 client = pymongo.MongoClient()
-db = client["voteview"]
+dbConf = json.load(open("./model/db.json","r"))
+db = connection[dbConf["dbname"]]
 
 try:
 	scoreData = json.load(open("auth.json","r"))

@@ -79,13 +79,13 @@
         "grandMean": -0.711, 
         "grandMedian": -0.71099999999999997, 
         "grandSet": [
-            -0.422
+            -1.0
         ], 
         "houseMean": -0.711, 
         "houseMedian": -0.71099999999999997, 
         "houseMembers": 2, 
         "houseRange": [
-            -0.422
+            -1.0
         ], 
         "nMembers": 2
     }, 

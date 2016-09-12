@@ -70,7 +70,7 @@ q
 				if(match[0] !== undefined && match[0].grandSet !== undefined)
 				{ 
 					d.pMedians.push(+match[0].grandMedian); 
-					for(var k=0;k<match[0].grandSet.length;k+=3)
+					for(var k=0;k<match[0].grandSet.length;k+=2)
 					{
 						memSetScatter.push({"x": d.congress, "y": match[0].grandSet[k], "p": j});
 					}
@@ -143,7 +143,7 @@ q
 			dc.lineChart(dimChart).group(dimSet[9]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[9][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.scatterPlot(dimChart).group(dimSet[10])
 						.colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]])
-						.colorAccessor(colHack).keyAccessor(keyHack).valueAccessor(valHack).symbolSize(6),
+						.colorAccessor(colHack).keyAccessor(keyHack).valueAccessor(valHack).symbolSize(5),
 			dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		    ])
 		    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative Ideology")
@@ -152,6 +152,9 @@ q
 		dc.renderAll();
 
 		var i=0;
+		// Point opacity for variance
+		//d3.select(".dc-chat svg").selectAll("g.sub")[0].selectAll("path").attr('opacity','0.5');
+
 		// Populating the tooltip.
 		d3.select(".dc-chart svg").selectAll("g.sub").each(function()
 		{

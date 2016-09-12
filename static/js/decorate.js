@@ -51,6 +51,7 @@ function decorateNominate(oc,data) {
 		.attr("rx", radiusX)
 		.attr("ry", radiusY)
 		.attr("id","outer-circle");
+
 	gg
 		.append("ellipse")
 		.attr("cx", circleCenter.x)
@@ -128,6 +129,7 @@ function decorateNominate(oc,data) {
 		}
 		if (isNaN(angle)) { polyData = [[0,0 ], [0, width],[width, width],[width, 0]] };
 
+		// This is the polygon for the shaded area.
 		gg.selectAll("polygon")
 			.data([polyData])
 			.enter()
@@ -138,34 +140,37 @@ function decorateNominate(oc,data) {
 				}).join(" ");
 			})
 			.attr("id","yea-semi")
-			.attr("style","stroke:none;fill:#FFFFED;clip-path:url(#scatterclip)");
+			.attr("style","stroke:#000000;stroke-width:2;fill:#FFFFED;clip-path:url(#scatterclip)");
 
-		gg
+		// Exterior circle? I don't really know what this is giving us, so I suppress it
+		/*gg
 		.append("ellipse")
 			.attr("cx", circleCenter.x)
 			.attr("cy", circleCenter.y)
 			.attr("rx", radiusX/scale)
 			.attr("ry", radiusY/scale)
-			.attr("id", "dashed-circle");
+			.attr("id", "dashed-circle").attr("style","fill:#00ff00;");*/
 
-	        gg
+		// This is the cut line -- suppressed because the stroke from the shaded polygon works better?
+	        /*gg
 		.append("line")
 			.attr("x1", radiusX/scale*vn.x[0] + circleCenter.x)
 			.attr("x2", radiusX/scale*vn.x[1] + circleCenter.x)
 			.attr("y1", circleCenter.y - radiusY/scale*vn.y[0])
 			.attr("y2", circleCenter.y - radiusY/scale*vn.y[1])
 			.attr("id","cutline")
-			.attr("style","stroke:#000;stroke-width:2; clip-path:url(#scatterclip)");
+			.attr("style","stroke:#000000;stroke-width:2; clip-path:url(#scatterclip)");*/
 	}
 	else
 	{
+		// Yet another copy of the main circle?
 		gg
-		.append("circle")
+		.append("ellipse")
 			.attr("cx", circleCenter.x)
 			.attr("cy", circleCenter.y)
 			.attr("rx", radiusX/scale)
 	                .attr("ry", radiusY/scale)
-			.attr("id", "dashed-circle");		
+			.attr("id", "dashed-circle");
 	}
 
 	// X-axis
@@ -238,12 +243,11 @@ function decorateNominate(oc,data) {
 	// before the brush group does it. --JBL	  
 	var ggg = ocSVG.insert("g",".brush");
 	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
-		
 		// Code to calculate where the YN text axis goes.
-		var ynpts =    [circleCenter.x + cutlineMult*radiusX/scale*(vn.mid[0]+vn.spread[0]),
-				circleCenter.y - cutlineMult*radiusY/scale*(vn.mid[1]+vn.spread[1]),
-				circleCenter.x + cutlineMult*radiusX/scale*(vn.mid[0]-vn.spread[0]),
-				circleCenter.y - cutlineMult*radiusY/scale*(vn.mid[1]-vn.spread[1])];
+		var ynpts =    [circleCenter.x + radiusX/scale*(vn.mid[0]+vn.spread[0]),
+				circleCenter.y - radiusY/scale*(vn.mid[1]+vn.spread[1]),
+				circleCenter.x + radiusX/scale*(vn.mid[0]-vn.spread[0]),
+				circleCenter.y - radiusY/scale*(vn.mid[1]-vn.spread[1])];
 		var angle = 57.29578*Math.atan((vn.spread[1]*nomDWeight)/(vn.spread[0]));
 
 		// This is basically a hack based on what quadrant the text angle is in.
@@ -255,13 +259,6 @@ function decorateNominate(oc,data) {
 			case 2: angle = 270-angle; break;
 			case 3: angle = -90-angle; break;
 		}
-
-		// Debugging of some of the key variables involved in these calculatios.
-		console.log(ynpts);
-		console.log(circleCenter);
-		console.log(vn);
-		console.log(radiusX);
-		console.log(radiusY);
 
 		// Plot the yea-nay line.      
 		ggg.append('polyline')
@@ -292,5 +289,6 @@ function decorateNominate(oc,data) {
 			.attr("class", "fitbox")
 			.attr("x", xAxisMax - 75)
 			.attr("y", yAxisMax - 25);
+
 	}
 }

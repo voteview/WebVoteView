@@ -86,7 +86,7 @@
         "houseMedian": 0.019500000000000003, 
         "houseMembers": 4, 
         "houseRange": [
-            0.304, 
+            -0.244, 
             0.189
         ], 
         "nMembers": 4
@@ -147,7 +147,7 @@
         "grandMean": -0.178, 
         "grandMedian": -0.17799999999999999, 
         "grandSet": [
-            -0.038
+            -0.318
         ], 
         "houseMean": -0.178, 
         "houseMedian": -0.17799999999999999, 
@@ -378,7 +378,7 @@
         "grandMean": -0.205, 
         "grandMedian": -0.20450000000000002, 
         "grandSet": [
-            0.099
+            -0.508
         ], 
         "houseMean": -0.508, 
         "houseMedian": -0.50800000000000001, 
@@ -459,13 +459,13 @@
         "grandMean": 0.033, 
         "grandMedian": 0.032999999999999974, 
         "grandSet": [
-            0.577
+            -0.511
         ], 
         "houseMean": 0.033, 
         "houseMedian": 0.032999999999999974, 
         "houseMembers": 2, 
         "houseRange": [
-            0.577
+            -0.511
         ], 
         "nMembers": 2
     }, 
@@ -474,14 +474,14 @@
         "grandMean": -0.073, 
         "grandMedian": -0.28599999999999998, 
         "grandSet": [
-            -0.286, 
+            -0.511, 
             0.577
         ], 
         "houseMean": 0.033, 
         "houseMedian": 0.032999999999999974, 
         "houseMembers": 2, 
         "houseRange": [
-            0.577
+            -0.511
         ], 
         "nMembers": 3, 
         "senateMean": -0.286, 
@@ -496,7 +496,7 @@
         "grandMean": -0.398, 
         "grandMedian": -0.39849999999999997, 
         "grandSet": [
-            -0.286
+            -0.511
         ], 
         "houseMean": -0.511, 
         "houseMedian": -0.51100000000000001, 
@@ -583,7 +583,7 @@
         "grandMean": -0.345, 
         "grandMedian": -0.34499999999999997, 
         "grandSet": [
-            -0.179
+            -0.511
         ], 
         "nMembers": 2, 
         "senateMean": -0.345, 
@@ -605,7 +605,7 @@
         "senateMedian": -0.34499999999999997, 
         "senateMembers": 2, 
         "senateRange": [
-            -0.179
+            -0.511
         ]
     }
 ]

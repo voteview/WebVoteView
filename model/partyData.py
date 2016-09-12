@@ -1,7 +1,8 @@
 from pymongo import MongoClient
 
 client = MongoClient()
-db = client["voteview"]
+dbConf = json.load(open("./model/db.json","r"))
+db = connection[dbConf["dbname"]]
 
 def getPartyName(code):
 	try:
