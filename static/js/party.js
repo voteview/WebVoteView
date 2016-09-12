@@ -9,6 +9,7 @@ var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 // Need to hold these things in globals to do dynamic on-the-fly changes to map.
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
 var inLoop, playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
+var mapTopo;
 
 var eW=0; var eH = 0;
 function tooltip(d)
@@ -156,7 +157,7 @@ q
 	}
 	else
 	{
-		// Hack to get around singleton bug
+		// Hack to get around singleton bug -- 
 		function keyHack(d) { return d.key; }
 		function valHack(d) { return d.value; }
 		function colHack(d) { return 0; }
@@ -244,14 +245,14 @@ q
 	});
 
 	// Now let's make our map!
-	var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
+	mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
 	partyMapChart
 		.width(920)
 		.height(500)
 		.dimension(stateDimension)
 		.group(bothGroup)
 		.filterHandler(function() { })
-		.colorCalculator(function(d) {
+		.colorCalculator(function(d, i) {
 			if(d===undefined) { return "#CCCCCC"; }
 			for(var i=0;i!=clusterUpper.length;i++)
 			{
@@ -260,8 +261,8 @@ q
 			return colourSet[colourSet.length-1];
 		})
 		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
-		.on('preRedraw',function(c) { ensureTextLabel(c); ensureLegend(c); })
-		.on('postRender',function(c) { ensureTextLabel(c); ensureLegend(c); });
+		.on('preRedraw',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); })
+		.on('postRender',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); });
 
         dc.renderAll();
 	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
@@ -270,6 +271,24 @@ q
 	$(".noun").html(partyname["noun"]);
 	$("#loading-container").delay(200).slideUp();
     });
+
+function fadeStates(c)
+{
+	var currentYear = congYear(currCong);
+	var baseSVG = d3.select("div#party-map-chart svg"); //c.svg();
+	for(var i=0;i!=baseSVG.selectAll("g.state")[0].length;i++)
+	{
+		// 2015, 2016
+		if(currentYear[0]>=mapTopo[i].properties["STARTYEAR"] && currentYear[1]<=mapTopo[i].properties["ENDYEAR"])
+		{
+			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1);
+		}
+		else
+		{
+			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0);
+		}
+	}
+}
 
 function ensureLegend(c)
 {
@@ -295,7 +314,7 @@ function ensureLegend(c)
 	legendBox.append("text").attr("x",bX+10).attr("y",bY+15+((colourSet.length)*20)).attr("font-size","0.9em")
 				.text(function() { return "0%"; });
 
-	if(currCong<86)
+	/*if(currCong<86)
 	{
 		// Divider line
 		legendBox.append("rect").attr("x",bX).attr("y",bY+22+( (colourSet.length)*20))
@@ -305,7 +324,7 @@ function ensureLegend(c)
 					.attr("width","6").attr("height","20").attr("fill","#CCCCCC");
 		legendBox.append("text").attr("x",bX+10).attr("y",bY+22+((colourSet.length+1)*20)).attr("font-size","0.7em")
 					.text(function() { return "Not a US State"; });
-	}
+	}*/
 }
 
 function ensureTextLabel(c)
@@ -353,19 +372,6 @@ function setupCongress(num)
 
 	// Just equal interval clustering
 	clusterUpper = [85, 71, 57, 42, 28, 14];
-	/*
-	// For simple-statistics to do k-means clustering
-	// Several problems: 1) clusters are highly unstable over time
-	// 2) In many cases, there are fewer classes than clusters, so you get a bunch of 0 clusters
-	var results = [];
-	for(var i=0;i!=currSet.length;i++) { results.push(currSet[i]["both"]); }
-	var clusterSet = ss.ckmeans(results, 7);
-	clusterUpper = [];
-	for(var i=0;i!=clusterSet.length;i++) { clusterUpper.push(clusterSet[i][clusterSet[i].length-1]); }
-	clusterUpper.reverse();
-	clusterUpper = clusterUpper.slice(1);
-	*/
-
 }
 
 function switchCongress(num, autoLoop=0)
