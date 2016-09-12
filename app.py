@@ -12,7 +12,6 @@ import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
-from model.raWIKI import readStatus, writeStatus
 import model.downloadXLS
 import model.stashCart
 import model.partyData
@@ -349,20 +348,19 @@ def rollcall(rollcall_id=""):
 
 
 # RA support stuff
-@app.route("/ra/wiki",method="POST")
-@app.route("/ra/wiki")
-def wiki():
-    prevId = defaultValue(bottle.request.params.icpsrId, 0)
-    newStatus = defaultValue(bottle.request.params.status, 0)
-    if prevId:
-        writeStatus(prevId, newStatus)
-
-    nextTry = readStatus()
-    if type(nextTry)==type(str("")):
-        return(nextTry)
-    else:
-        return bottle.template("views/raWIKI", person=nextTry)
-
+#@app.route("/ra/wiki",method="POST")
+#@app.route("/ra/wiki")
+#def wiki():
+#    prevId = defaultValue(bottle.request.params.icpsrId, 0)
+#    newStatus = defaultValue(bottle.request.params.status, 0)
+#    if prevId:
+#        writeStatus(prevId, newStatus)
+#
+#    nextTry = readStatus()
+#    if type(nextTry)==type(str("")):
+#        return(nextTry)
+#    else:
+#        return bottle.template("views/raWIKI", person=nextTry)
 
 # Stash saved links redirect
 @app.route("/s/<savedhash>")

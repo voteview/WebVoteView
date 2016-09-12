@@ -1,4 +1,5 @@
 import pymongo
+import json
 client = pymongo.MongoClient()
 dbConf = json.load(open("./model/db.json","r"))
 db = connection[dbConf["dbname"]]
