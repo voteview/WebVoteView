@@ -138,6 +138,9 @@ q
             .x(d3.scale.linear().domain([0, 115]))
 	    .y(d3.scale.linear().domain([minY, maxY]))
 	    .margins({top: 0, left: 50, bottom: 50, right: 50})
+	    .on('postRender', function() { 
+			d3.select('.dc-chart svg > g').selectAll('g.sub').selectAll('path.symbol').attr('opacity','0.5'); 
+	    })
 	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative")
 	    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; })
 
