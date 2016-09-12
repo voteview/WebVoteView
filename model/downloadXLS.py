@@ -4,7 +4,8 @@ from pymongo import MongoClient
 
 #Connection
 connection = MongoClient(connect=False)
-db = connection['voteview']
+dbConf = json.load(open("./model/db.json","r"))
+db = connection[dbConf["dbname"]]
 
 # These are only used for XLS writing
 infofields = [('icpsr','icpsr'),

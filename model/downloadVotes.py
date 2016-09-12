@@ -2,7 +2,8 @@ import time
 import traceback
 from pymongo import MongoClient
 client = MongoClient()
-db = client["voteview"]
+dbConf = json.load(open("./model/db.json","r"))
+db = client[dbConf["dbname"]]
 
 def _get_yeanayabs(vote_id):
 	"""

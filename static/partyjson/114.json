@@ -19,18 +19,18 @@
         "grandMean": 0.285, 
         "grandMedian": 0.34899999999999998, 
         "grandSet": [
-            0.399, 
-            0.349, 
             0.011, 
-            0.283
+            0.283, 
+            0.377, 
+            0.399
         ], 
         "houseMean": 0.316, 
         "houseMedian": 0.34899999999999998, 
         "houseMembers": 5, 
         "houseRange": [
-            0.405, 
-            0.377, 
-            0.349
+            0.168, 
+            0.349, 
+            0.377
         ], 
         "nMembers": 7, 
         "senateMean": 0.205, 

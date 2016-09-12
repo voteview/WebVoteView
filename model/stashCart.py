@@ -4,8 +4,10 @@ import re
 import uuid
 import time
 from searchVotes import query
+
 client = pymongo.MongoClient()
-db = client["voteview"]
+dbConf = json.load(open("./model/db.json","r"))
+db = client[dbConf["dbname"]]
 
 # Swear filter is a combination of:
 # https://gist.github.com/jamiew/1112488

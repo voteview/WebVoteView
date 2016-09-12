@@ -129,11 +129,11 @@
                     <thead>
                     <tr class="header">
 			<th width="9%" style="text-align:right;">Date</th>
-                        <th width="73%">Description</th>
+                        <th width="71%">Description</th>
 			<th width="3%">Member Vote</th>
 			<th width="3%">Party Vote</th>
 			<th width="3%" style="text-align:right;">Vote Prob.</th>
-			<th width="5%" style="text-align:right;">Result</th>
+			<th width="7%" style="text-align:right;">Result</th>
                         <th width="3%">Graph</th>
                     </tr>
                     </thead>
