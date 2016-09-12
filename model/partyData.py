@@ -3,7 +3,7 @@ import json
 
 client = MongoClient()
 dbConf = json.load(open("./model/db.json","r"))
-db = connection[dbConf["dbname"]]
+db = client[dbConf["dbname"]]
 
 def getPartyName(code):
 	try:
