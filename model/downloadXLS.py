@@ -1,5 +1,6 @@
 # Needed for XLS writing but nothing else:
 from writeXls import WriteXls
+import json
 from pymongo import MongoClient
 
 #Connection

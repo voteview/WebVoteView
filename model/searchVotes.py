@@ -12,7 +12,7 @@ import json
 
 client = pymongo.MongoClient()
 dbConf = json.load(open("./model/db.json","r"))
-db = connection[dbConf["dbname"]]
+db = client[dbConf["dbname"]]
 
 try:
 	scoreData = json.load(open("auth.json","r"))

@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import json
 
 client = MongoClient()
 dbConf = json.load(open("./model/db.json","r"))
