@@ -1,4 +1,5 @@
 from searchMembers import memberLookup
+import json
 import re
 
 def dispatch(search):

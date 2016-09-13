@@ -60,14 +60,23 @@ q
 	// Load all the major parties
 	z.awaitAll(function(error, partySet) {
 		// Append each party's median to the grand median so we have a set of medians for every congress.
+		var memSetScatter = [];
 		grand.forEach(function (d) {
 			d.congressMedian = d.grandMedian;
 			d.pMedians = [];
 			for(var j=0; j!=partySet.length; j++)
 			{
 				var match = partySet[j].filter(function(dMatch) { return +dMatch.congress === d.congress; });
-				if(match[0] !== undefined) { d.pMedians.push(+match[0].grandMedian); }
+				if(match[0] !== undefined && match[0].grandSet !== undefined)
+				{ 
+					d.pMedians.push(+match[0].grandMedian); 
+					for(var k=0;k<match[0].grandSet.length;k+=2)
+					{
+						memSetScatter.push({"x": d.congress, "y": match[0].grandSet[k], "p": j});
+					}
+				}
 				else { d.pMedians.push(-999); }
+
 			}
 		});
 	
@@ -77,6 +86,11 @@ q
 		var congressDimension = ndx.dimension(function (d) {
 		    return d.congress;
 		});
+
+		// For the scatter plot
+		var scatterDX = crossfilter(memSetScatter);
+		var scatterDimension = scatterDX.dimension(function(d) { return [+d.x, +d.y, +d.p];});
+		var scatterGroup = scatterDimension.group();
 	
 		// Grand Median
 		var dimSet = [];
@@ -87,7 +101,6 @@ q
 			// First add to the group set -- hack to force evaluation of k.
 			dimSet.push(congressDimension.group().reduceSum(new Function("d", "return d.pMedians["+k+"];")));
 
-			// Then add to the line compositor
 		}
 		dimSet.push(congressDimension.group().reduceSum(function (d) { return d.congressMedian; }));
 	
@@ -98,6 +111,12 @@ q
 		function keyHack(d) { return d.key; }
 		function valHack(d) { return d.value; }
 		function colHack(d) { return 0; }
+		function scatterCol(d) { return d.key[2]; }
+		var fullColSet = [];
+		for(var i=0;i!=11;i++)
+		{
+			fullColSet.push(colorSchemes[partyColorMap[partyNameSimplify(parties[i][1]["name"])]][1]);
+		}
 
 		dimChart
 		    .width(1160)
@@ -111,6 +130,7 @@ q
 		    .y(d3.scale.linear().domain([-0.6,0.7]))
 		    .margins({top: 0, right: 50, bottom: 50, left: 50})
 		    .compose([
+			dc.scatterPlot(dimChart).group(scatterGroup).colors(function(d){return fullColSet[d];}).colorAccessor(scatterCol).symbolSize(4),
 			dc.lineChart(dimChart).group(dimSet[0]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[0][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis").renderTitle(true).title(function(p) { return JSON.stringify(p); }),
 			dc.lineChart(dimChart).group(dimSet[1]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[1][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.lineChart(dimChart).group(dimSet[2]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[2][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
@@ -123,17 +143,21 @@ q
 			dc.lineChart(dimChart).group(dimSet[9]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[9][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 			dc.scatterPlot(dimChart).group(dimSet[10])
 						.colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]])
-						.colorAccessor(colHack).keyAccessor(keyHack).valueAccessor(valHack).symbolSize(4),
-			//dc.lineChart(dimChart).group(dimSet[10]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
-			dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis")
-
+						.colorAccessor(colHack).keyAccessor(keyHack).valueAccessor(valHack).symbolSize(5),
+			dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		    ])
+		    .on('postRender', function() { d3.select(".dc-chart svg").select("g.sub").selectAll("path.symbol").attr('opacity','0.5'); })
 		    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative Ideology")
 		    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
 
 		dc.renderAll();
 
 		var i=0;
+		// Point opacity for variance
+		setTimeout(
+		function() {
+		}, 200);
+
 		// Populating the tooltip.
 		d3.select(".dc-chart svg").selectAll("g.sub").each(function()
 		{
@@ -141,8 +165,8 @@ q
 			{
 				(function(j, obj)
 				{
+					j=j-1 // To compensate for the fact that the first group is the scatterplot, not the line charts.
 					d3.select(obj).attr('r',10);
-					console.log(obj);
 					d3.select(obj).on("mouseover",function(d)
 					{
 						clearTimeout(opacityTimer);
