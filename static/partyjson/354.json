@@ -1,51 +1,69 @@
 [
     {
         "congress": 55, 
-        "grandHigh": 0.157, 
-        "grandLow": -0.203, 
         "grandMean": -0.006, 
         "grandMedian": 0.060499999999999998, 
-        "houseHigh": 0.032, 
-        "houseLow": -0.205, 
+        "grandSet": [
+            -0.206, 
+            -0.168, 
+            0.058, 
+            0.089, 
+            0.151
+        ], 
         "houseMean": -0.115, 
         "houseMedian": -0.19800000000000001, 
         "houseMembers": 3, 
+        "houseRange": [
+            -0.206, 
+            0.058
+        ], 
         "nMembers": 8, 
-        "senateHigh": 0.158, 
-        "senateLow": -0.122, 
         "senateMean": 0.059, 
         "senateMedian": 0.088999999999999996, 
-        "senateMembers": 5
+        "senateMembers": 5, 
+        "senateRange": [
+            -0.168, 
+            0.089, 
+            0.151
+        ]
     }, 
     {
         "congress": 56, 
-        "grandHigh": 0.141, 
-        "grandLow": -0.192, 
         "grandMean": -0.039, 
         "grandMedian": -0.050999999999999997, 
-        "houseHigh": -0.058, 
-        "houseLow": -0.191, 
+        "grandSet": [
+            -0.198, 
+            -0.051, 
+            0.063
+        ], 
         "houseMean": -0.124, 
         "houseMedian": -0.1245, 
         "houseMembers": 2, 
+        "houseRange": [
+            -0.198
+        ], 
         "nMembers": 5, 
-        "senateHigh": 0.15, 
-        "senateLow": -0.145, 
         "senateMean": 0.018, 
         "senateMedian": 0.063, 
-        "senateMembers": 3
+        "senateMembers": 3, 
+        "senateRange": [
+            -0.168, 
+            0.16
+        ]
     }, 
     {
         "congress": 57, 
-        "grandHigh": -0.198, 
-        "grandLow": -0.198, 
         "grandMean": -0.198, 
         "grandMedian": -0.19800000000000001, 
-        "houseHigh": -0.198, 
-        "houseLow": -0.198, 
+        "grandSet": [
+            -0.198
+        ], 
         "houseMean": -0.198, 
         "houseMedian": -0.19800000000000001, 
         "houseMembers": 1, 
+        "houseRange": [
+            -0.198
+        ], 
         "nMembers": 1
     }
 ]

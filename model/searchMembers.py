@@ -1,8 +1,10 @@
 import pymongo
+import json
 import traceback
 import os
 client = pymongo.MongoClient()
-db = client["voteview"]
+dbConf = json.load(open("./model/db.json","r"))
+db = client[dbConf["dbname"]]
 
 def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	# Setup so that the bottle call to this API doesn't need to know parameters we accept explicitly
@@ -110,6 +112,8 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "congresses": 1, "stateAbbr": 1}
 	elif api=="Web_Congress":
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1}
+	elif api=="R":
+		fieldSet = {"bioName": 1, "fname": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "id": 1, "_id": 0, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "nominate.geoMeanProbability": 1, "cqlabel": 1, "districtCode": 1, "chamber": 1, "congresses": 1}
 	else:
 		fieldSet = {"_id": 0}
 	if "$text" in searchQuery:

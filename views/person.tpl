@@ -24,6 +24,7 @@
 % if "nominate" in person and "oneDimNominate" in person["nominate"] and person["nominate"]["oneDimNominate"] is not None:
 %	plotIdeology = 1
 % end
+% person["lastName"] = person["canonicalName"].split(",")[0].upper()[0]+person["canonicalName"].split(",")[0].lower()[1:]
 <div class="container">
 
     <div class="row">
@@ -114,7 +115,7 @@
     </div>
 	% if "bio" in person:
 	<div class="row">
-		<div class="col-md-9 col-md-offset-2">
+		<div class="col-md-12">
 			<h3>Biography</h3>
 			{{ person["bio"] }}
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></small>
@@ -122,25 +123,29 @@
 	</div>
 	% end
     <div class="row">
-        <div class="col-md-9 col-md-offset-2">
+        <div class="col-md-12">
             <h3>Selected Votes</h3>
                 <table class="table table-hover dc-data-table">
                     <thead>
                     <tr class="header">
-                        <th width="85%">Description</th>
-			<th width="5%">Vote</th>
-			<th width="5%">Party</th>
-                        <th width="5%">View</th>
+			<th width="9%" style="text-align:right;">Date</th>
+                        <th width="71%">Description</th>
+			<th width="3%">Member Vote</th>
+			<th width="3%">Party Vote</th>
+			<th width="3%" style="text-align:right;">Vote Prob.</th>
+			<th width="7%" style="text-align:right;">Result</th>
+                        <th width="3%">Graph</th>
                     </tr>
                     </thead>
+		    % lastDate = "0000-00-00"
                     % for vote in votes:
                         <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
+			    <td align="right">
+				% if lastDate!=vote["date"]:
+				{{vote["date"]}}
+				% end
+			    </td>
                             <td style="border-right:1px solid #dddddd;">
-				<div style="clear:both;">
-					<span style="float:left;"><strong>Date:</strong> {{vote["date"]}}</span>
-					<span style="float:right;"><strong>Vote:</strong> {{vote["yea"]}} - {{vote["nay"]}}</span>
-					<br/>
-				</div>
 				% if "description" in vote and vote["description"] is not None and len(vote["description"]):
 				{{ vote["description"] }}
 				% elif "shortdescription" in vote and vote["shortdescription"] is not None and len(vote["shortdescription"]):
@@ -160,24 +165,24 @@
 				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
 					</span>
 				% end
-			</td>
+			    </td>
+			    <td align="right">
+				% if "myProb" in vote:
+					% if vote["myProb"]<25:
+					<span style="color:red;">{{round(vote["myProb"])}}%</span>
+					% else:
+					{{vote["myProb"]}}
+					%end
+				% end
+			    </td>
+			    <td align="right">{{vote["yea"]}}-{{vote["nay"]}}</td>
                             <td>
 				<a href="/rollcall/{{ vote["id"] }}"><img src="/static/img/graph.png" style="width:24px;margin-right:16px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 			    </td>
                         </tr>
+			% lastDate = vote["date"]
                     % end
                 </table>
-            <nav>
-	<!--
-            <ul class="pager">
-                % if current_page_number != 1:
-                    <li class="previous"><a href="?page={{ current_page_number-1 }}"><span aria-hidden="true">&larr;</span> Previous</a></li>
-                % end
-
-                    <li class="next"><a href="?page={{current_page_number+1 }}">Next <span aria-hidden="true">&rarr;</span></a></li>
-            </ul>
-	-->
-            </nav>
         </div>
     </div>
 </div>

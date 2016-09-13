@@ -12,7 +12,6 @@ import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
-from model.raWIKI import readStatus, writeStatus
 import model.downloadXLS
 import model.stashCart
 import model.partyData
@@ -291,11 +290,22 @@ def person(icpsr=0):
 
             if "rollcalls" in rollcallsFinal and len(rollcallsFinal["rollcalls"])>0:
                 for i in xrange(0, len(idSet)):
+		    # Isolate votes from the rollcall
                     iV = [r for r in rollcallsFinal["rollcalls"] if r["id"]==votes[i]["id"]][0]
                     votes[i]["myVote"] = [v["vote"] for v in iV["votes"] if v["id"]==person["id"]][0]
-                    votes[i]["partyVote"] = [v for k, v in iV["resultparty"].iteritems() if k==person["partyname"]][0]
-                    votes[i]["pVSum"] = sum([1*v if int(k)<=3 else -1*v if int(k)<=6 else 0 for k, v in votes[i]["partyVote"].iteritems()])
-                    votes[i]["partyLabelVote"] = "Yea" if votes[i]["pVSum"]>0 else "Nay" if votes[i]["pVSum"]<0 else "Tie"
+		    # Isolate my probability from the rollcall, if it's there.
+		    try:
+		        votes[i]["myProb"] = [v["prob"] for v in iV["votes"] if v["id"]==person["id"]][0]		        
+		    except:
+		        pass
+
+		    try:
+	                    votes[i]["partyVote"] = [v for k, v in iV["resultparty"].iteritems() if k==person["partyname"]][0]
+        	            votes[i]["pVSum"] = sum([1*v if int(k)<=3 else -1*v if int(k)<=6 else 0 for k, v in votes[i]["partyVote"].iteritems()])
+                	    votes[i]["partyLabelVote"] = "Yea" if votes[i]["pVSum"]>0 else "Nay" if votes[i]["pVSum"]<0 else "Tie"
+		    except:
+			    votes[i]["partyLabelVote"] = "N/A"
+			    votes[i]["pVSum"] = 0
 
             else:
                 votes = []
@@ -338,20 +348,19 @@ def rollcall(rollcall_id=""):
 
 
 # RA support stuff
-@app.route("/ra/wiki",method="POST")
-@app.route("/ra/wiki")
-def wiki():
-    prevId = defaultValue(bottle.request.params.icpsrId, 0)
-    newStatus = defaultValue(bottle.request.params.status, 0)
-    if prevId:
-        writeStatus(prevId, newStatus)
-
-    nextTry = readStatus()
-    if type(nextTry)==type(str("")):
-        return(nextTry)
-    else:
-        return bottle.template("views/raWIKI", person=nextTry)
-
+#@app.route("/ra/wiki",method="POST")
+#@app.route("/ra/wiki")
+#def wiki():
+#    prevId = defaultValue(bottle.request.params.icpsrId, 0)
+#    newStatus = defaultValue(bottle.request.params.status, 0)
+#    if prevId:
+#        writeStatus(prevId, newStatus)
+#
+#    nextTry = readStatus()
+#    if type(nextTry)==type(str("")):
+#        return(nextTry)
+#    else:
+#        return bottle.template("views/raWIKI", person=nextTry)
 
 # Stash saved links redirect
 @app.route("/s/<savedhash>")

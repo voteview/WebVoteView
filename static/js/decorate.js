@@ -10,6 +10,7 @@ function decorateNominate(oc,data) {
         var nomDWeight = 0.4156;
 	var tickLength = 15;
 	var scale = 1.0; // sets radius of the outer circle in nominate units
+	var cutlineMult = 1.0; // sets how far into space the cutline is blasted off into. (Aaron added this, but it doesn't do anything?)
 
 	// Calculate circle attrs
 	var radiusX = (width - margin)/2 - marginCircle;
@@ -50,6 +51,7 @@ function decorateNominate(oc,data) {
 		.attr("rx", radiusX)
 		.attr("ry", radiusY)
 		.attr("id","outer-circle");
+
 	gg
 		.append("ellipse")
 		.attr("cx", circleCenter.x)
@@ -127,6 +129,7 @@ function decorateNominate(oc,data) {
 		}
 		if (isNaN(angle)) { polyData = [[0,0 ], [0, width],[width, width],[width, 0]] };
 
+		// This is the polygon for the shaded area.
 		gg.selectAll("polygon")
 			.data([polyData])
 			.enter()
@@ -137,34 +140,37 @@ function decorateNominate(oc,data) {
 				}).join(" ");
 			})
 			.attr("id","yea-semi")
-			.attr("style","stroke:none;fill:#FFFFED;clip-path:url(#scatterclip)");
+			.attr("style","stroke:#000000;stroke-width:2;fill:#FFFFED;clip-path:url(#scatterclip)");
 
-		gg
+		// Exterior circle? I don't really know what this is giving us, so I suppress it
+		/*gg
 		.append("ellipse")
 			.attr("cx", circleCenter.x)
 			.attr("cy", circleCenter.y)
 			.attr("rx", radiusX/scale)
 			.attr("ry", radiusY/scale)
-			.attr("id", "dashed-circle");
+			.attr("id", "dashed-circle").attr("style","fill:#00ff00;");*/
 
-	        gg
+		// This is the cut line -- suppressed because the stroke from the shaded polygon works better?
+	        /*gg
 		.append("line")
 			.attr("x1", radiusX/scale*vn.x[0] + circleCenter.x)
 			.attr("x2", radiusX/scale*vn.x[1] + circleCenter.x)
 			.attr("y1", circleCenter.y - radiusY/scale*vn.y[0])
 			.attr("y2", circleCenter.y - radiusY/scale*vn.y[1])
 			.attr("id","cutline")
-			.attr("style","stroke:#000;stroke-width:2; clip-path:url(#scatterclip)");
+			.attr("style","stroke:#000000;stroke-width:2; clip-path:url(#scatterclip)");*/
 	}
 	else
 	{
+		// Yet another copy of the main circle?
 		gg
-		.append("circle")
+		.append("ellipse")
 			.attr("cx", circleCenter.x)
 			.attr("cy", circleCenter.y)
 			.attr("rx", radiusX/scale)
 	                .attr("ry", radiusY/scale)
-			.attr("id", "dashed-circle");		
+			.attr("id", "dashed-circle");
 	}
 
 	// X-axis
@@ -237,11 +243,14 @@ function decorateNominate(oc,data) {
 	// before the brush group does it. --JBL	  
 	var ggg = ocSVG.insert("g",".brush");
 	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
+		// Code to calculate where the YN text axis goes.
 		var ynpts =    [circleCenter.x + radiusX/scale*(vn.mid[0]+vn.spread[0]),
 				circleCenter.y - radiusY/scale*(vn.mid[1]+vn.spread[1]),
 				circleCenter.x + radiusX/scale*(vn.mid[0]-vn.spread[0]),
 				circleCenter.y - radiusY/scale*(vn.mid[1]-vn.spread[1])];
 		var angle = 57.29578*Math.atan((vn.spread[1]*nomDWeight)/(vn.spread[0]));
+
+		// This is basically a hack based on what quadrant the text angle is in.
 		var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
 		switch( cs ) 
 		{
@@ -251,22 +260,19 @@ function decorateNominate(oc,data) {
 			case 3: angle = -90-angle; break;
 		}
 
-		console.log(ynpts);
-		console.log(circleCenter);
-		console.log(vn);
-		console.log(radiusX);
-		console.log(radiusY);
-      
+		// Plot the yea-nay line.      
 		ggg.append('polyline')
 			.attr("class", "yeanay-line")
 			.attr("points", ynpts.join(" "));
 
+		// Plot the Y text using ynpts[2], [3] and rotating by the angle above.
 		ggg.append('text').text('Y')
 			.attr("class","yeanay")
 			.attr("x", ynpts[2])
 			.attr("y", ynpts[3])
 			.attr("transform",sprintf("rotate(%d %d %d)", angle, ynpts[2], ynpts[3]));
 
+		// Plot the N text using ynpts[0], [1], and rotating by the angle above + 180
 		ggg.append('text').text('N')
 			.attr("class","yeanay")
 			.attr("x", ynpts[0])
@@ -283,5 +289,6 @@ function decorateNominate(oc,data) {
 			.attr("class", "fitbox")
 			.attr("x", xAxisMax - 75)
 			.attr("y", yAxisMax - 25);
+
 	}
 }

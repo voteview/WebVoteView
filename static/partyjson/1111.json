@@ -1,15 +1,17 @@
 [
     {
         "congress": 29, 
-        "grandHigh": 0.906, 
-        "grandLow": 0.906, 
         "grandMean": 0.906, 
         "grandMedian": 0.90600000000000003, 
+        "grandSet": [
+            0.906
+        ], 
         "nMembers": 1, 
-        "senateHigh": 0.906, 
-        "senateLow": 0.906, 
         "senateMean": 0.906, 
         "senateMedian": 0.90600000000000003, 
-        "senateMembers": 1
+        "senateMembers": 1, 
+        "senateRange": [
+            0.906
+        ]
     }
 ]

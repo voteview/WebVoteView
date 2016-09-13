@@ -1,6 +1,8 @@
 import pymongo
+import json
 client = pymongo.MongoClient()
-db = client["voteview"]
+dbConf = json.load(open("./model/db.json","r"))
+db = client[dbConf["dbname"]]
 
 def readStatus():
 	res = db.voteview_members.find({"wikiStatus": 0},{"bioName": 1, "icpsr": 1, "stateName": 1, "cqlabel": 1, "born": 1, "died": 1, "bio": 1, "partyname": 1, "wiki": 1, "_id": 0}).sort('icpsr', pymongo.ASCENDING).limit(100)
