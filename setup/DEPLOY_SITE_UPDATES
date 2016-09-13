@@ -19,6 +19,9 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "0" > WebVoteView/server.txt
 	cp voteview/model/*.json WebVoteView/model/
 
+	echo "Ensuring we have the right python module requirements"
+	pip install -r voteview/model/requirements.txt
+
 	echo "Connecting to development server for database dump"
 	ssh rudkin@128.97.229.160 << EOF
 	echo "Creating a database backup"
