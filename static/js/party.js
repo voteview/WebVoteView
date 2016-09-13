@@ -34,9 +34,10 @@ var q = queue()
     .defer(d3.json, "/api/getPartyName?id="+party_param)
     .defer(d3.json, "/static/json/states_all.json")
     .defer(d3.json, "/static/controljson/"+party_param+".json")
+    .defer(d3.json, "/static/config.json");
 
 q
-    .await(function(error, pdat, cdat,partyname, stateboundaries, pcontrol) {	
+    .await(function(error, pdat, cdat,partyname, stateboundaries, pcontrol, configFile) {	
 	partycontroljson = pcontrol;
 	if(!partyname["error"])
 	{
@@ -55,7 +56,7 @@ q
 	d3.select("#content").style("display", "block");
 
 	var min = 1;
-	var max = 114;	
+	var max = configFile["maxCongress"];	
 	
 	var minY = -0.6;
 	var maxY = 0.6;
@@ -108,6 +109,12 @@ q
         var dimParty = congressDimension.group().reduceSum(function (d) {return d.partymedian;});
         var dimCong = congressDimension.group().reduceSum(function (d) {return d.congressmedian;});
 
+	// Set up the x-axis ticks. What we want is a tick every 20 years (congresses ending
+	// in 6). Our last tick should be every 10 (congresses ending in 1) if necessary. 
+	var xAxisTickValues = [];
+	for(var tickCtr = 6; tickCtr<max;tickCtr+=10) { xAxisTickValues.push(tickCtr); }
+	if(max-xAxisTickValues[xAxisTickValues.length-1]>5) xAxisTickValues.push(xAxisTickValues[xAxisTickValues.length-1]+5);
+
         timeChart
             .width(1160)
             .height(180)
@@ -116,7 +123,7 @@ q
             .elasticX(true)
             .brushOn(false)
 	    .colors([partyCol[0]])
-            .x(d3.scale.linear().domain([0, 115]))
+            .x(d3.scale.linear().domain([0, max+1]))
             .y(d3.scale.linear().domain([0, maxMembers+0.2]))
 	    .on('renderlet.click', function(chart, filter)
 		{
@@ -126,7 +133,7 @@ q
 		})
 	    .margins({top: 0, left: 50, bottom: 50, right: 50})
 	    .xAxisLabel("Year").yAxisLabel("Members in office")
-            .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
+            .xAxis().tickValues(xAxisTickValues).tickFormat(function(v) { return (1787 + 2*v)+1; });
 	timeChart
 	    .yAxis().ticks(5).tickFormat(d3.format("d"));
 	 
@@ -136,14 +143,14 @@ q
 	    .dimension(congressDimension)
 	    .elasticX(true)
 	    .brushOn(false)
-            .x(d3.scale.linear().domain([0, 115]))
+            .x(d3.scale.linear().domain([0, max+1]))
 	    .y(d3.scale.linear().domain([minY, maxY]))
 	    .margins({top: 0, left: 50, bottom: 50, right: 50})
 	    .on('postRender', function() { 
 			d3.select('.dc-chart svg > g').selectAll('g.sub').selectAll('path.symbol').attr('opacity','0.5'); 
 	    })
 	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative")
-	    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; })
+	    .xAxis().tickValues(xAxisTickValues).tickFormat(function(v) { return (1787 + 2*v)+1; })
 
 	if(!singletonsOnly)
 	{
@@ -184,7 +191,7 @@ q
 	$("#yearNum").val(new Date().getFullYear());
 
 	// Initialize ticks for scroll-bar
-	var finalCong = 114;
+	var finalCong = max;
 	var tickSet = [1];
 	var tickPos = [0];
 	var tickLabels = [];
@@ -278,7 +285,6 @@ function fadeStates(c)
 	var baseSVG = d3.select("div#party-map-chart svg"); //c.svg();
 	for(var i=0;i!=baseSVG.selectAll("g.state")[0].length;i++)
 	{
-		// 2015, 2016
 		if(currentYear[0]>=mapTopo[i].properties["STARTYEAR"] && currentYear[1]<=mapTopo[i].properties["ENDYEAR"])
 		{
 			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1);
