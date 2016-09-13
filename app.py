@@ -3,7 +3,7 @@ import traceback
 import os
 import datetime
 import time
-
+import json
 import bottle
 from fuzzywuzzy import fuzz
 
@@ -146,30 +146,36 @@ def explore(chamber="house"):
 def congress(chamber="senate"):
     if chamber!="senate":
         chamber = "house"
-    congress = defaultValue(bottle.request.params.congress,114)
 
-    output = bottle.template("views/congress", chamber=chamber, congress=congress)
+    maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+    congress = defaultValue(bottle.request.params.congress,maxCongress)
+
+    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress)
     return output
 
 
 @app.route("/parties")
 @app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
-def parties(party=200, congStart=114):
+def parties(party=200, congStart=-1):
 	# Just default for now
 	try:
 		party = int(party)
 	except:
 		if party=="all":
-			output = bottle.template("views/partiesGlance")
+			maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+			output = bottle.template("views/partiesGlance", maxCongress=maxCongress)
 			return output
 		else:
 			party = 200
 
-	try:
-		congStart = int(congStart)
-	except:
-		congStart = 0
+	if congStart==-1:
+		congStart = int(json.load(open("static/config.json","r"))["maxCongress"])
+	else:
+		try:
+			congStart = int(congStart)
+		except:
+			congStart = 0
 
 	if party not in xrange(0, 50001):
 		party = 200

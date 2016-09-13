@@ -38,15 +38,16 @@ var dimChart = dc.compositeChart("#dim-chart");
 
 var q = queue()
     .defer(d3.json, "/static/partyjson/parties.json")
-    .defer(d3.json, "/static/partyjson/grand.json");
+    .defer(d3.json, "/static/partyjson/grand.json")
+    .defer(d3.json, "/static/config.json");
 
 q
-    .await(function(error, parties, grand) {
+    .await(function(error, parties, grand, configFile) {
 	globalParties = parties;	
 	d3.select("#content").style("display", "block");
 	var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 	var min = 1;
-	var max = 114;	
+	var max = configFile["maxCongress"];	
 
 	// Which parties are "major"?
 	var z = queue();
@@ -118,6 +119,12 @@ q
 			fullColSet.push(colorSchemes[partyColorMap[partyNameSimplify(parties[i][1]["name"])]][1]);
 		}
 
+		// Set up the x-axis ticks. What we want is a tick every 20 years (congresses ending
+		// in 6). Our last tick should be every 10 (congresses ending in 1) if necessary. 
+		var xAxisTickValues = [];
+		for(var tickCtr = 6; tickCtr<max;tickCtr+=10) { xAxisTickValues.push(tickCtr); }
+		if(max-xAxisTickValues[xAxisTickValues.length-1]>5) xAxisTickValues.push(xAxisTickValues[xAxisTickValues.length-1]+5);
+
 		dimChart
 		    .width(1160)
 		    .height(400)
@@ -126,7 +133,7 @@ q
 		    .brushOn(false)
 		    .shareTitle(false)
 		    .renderTitle(false)
-		    .x(d3.scale.linear().domain([1, 115]))
+		    .x(d3.scale.linear().domain([1, max+1]))
 		    .y(d3.scale.linear().domain([-0.6,0.7]))
 		    .margins({top: 0, right: 50, bottom: 50, left: 50})
 		    .compose([
@@ -148,15 +155,11 @@ q
 		    ])
 		    .on('postRender', function() { d3.select(".dc-chart svg").select("g.sub").selectAll("path.symbol").attr('opacity','0.5'); })
 		    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative Ideology")
-		    .xAxis().tickValues([6, 16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 111]).tickFormat(function(v) { return (1787 + 2*v)+1; });
+		    .xAxis().tickValues(xAxisTickValues).tickFormat(function(v) { return (1787 + 2*v)+1; });
 
 		dc.renderAll();
 
 		var i=0;
-		// Point opacity for variance
-		setTimeout(
-		function() {
-		}, 200);
 
 		// Populating the tooltip.
 		d3.select(".dc-chart svg").selectAll("g.sub").each(function()
@@ -243,7 +246,7 @@ q
 		var maxCong = parties[i][1]["maxCongress"];
 		var textLabel = "Active ";
 		if(minCong==maxCong) { textLabel += "in the "+getGetOrdinal(minCong)+" Congress"; }
-		else if(maxCong==114) { textLabel += "from the "+getGetOrdinal(minCong)+" Congress onwards"; }
+		else if(maxCong>=max) { textLabel += "from the "+getGetOrdinal(minCong)+" Congress onwards"; }
 		else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress until the "+getGetOrdinal(maxCong)+" Congress"; }
 		try
 		{
