@@ -151,7 +151,7 @@
 						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>)
 					</div>
 				</div>
-				<div id="voteList" style="margin-top:15px;"></div>
+				<div id="voteList" style="margin-top:15px; width:100%; min-width: 1100px;"></div>
 			</div>
 		</div>
 	</div>
