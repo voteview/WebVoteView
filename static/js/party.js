@@ -3,6 +3,25 @@
 /* jshint globalstrict: true */
 /* global dc,d3,crossfilter,colorbrewer,queue */
 
+var stateMap = {
+	"AL": "Alabama", "AK": "Alaska", "AS": "American Samoa", "AZ": "Arizona",
+	"AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut",
+	"DE": "Delaware", "DC": "District Of Columbia", "FM": "Federated States Of Micronesia",
+	"FL": "Florida", "GA": "Georgia", "GU": "Guam", "HI": "Hawaii", 
+	"ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa",
+	"KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine",
+	"MH": "Marshall Islands", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan",
+	"MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana",
+	"NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey",
+	"NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota",
+	"MP": "Northern Mariana Islands", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon",
+	"PW": "Palau", "PA": "Pennsylvania", "PR": "Puerto Rico", "RI": "Rhode Island",
+	"SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas",
+	"UT": "Utah", "VT": "Vermont", "VI": "Virgin Islands", "VA": "Virginia",
+	"WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming",
+	"POTUS": "President"
+}
+
 var resultCache;
 var sortBy="name";
 var timeChart = dc.barChart("#time-chart");
@@ -12,12 +31,7 @@ var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
 var inLoop, playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
 var mapTopo;
-
-var eW=0; var eH = 0;
-function tooltip(d)
-{
-	return JSON.stringify(d);
-}
+var globalPartyName;
 
 function congYear(num) { return [1787+2*num, 1788+2*num]; }
 
@@ -26,6 +40,15 @@ function getGetOrdinal(n) {
     var s=["th","st","nd","rd"],
     v=n%100;
     return n+(s[(v-20)%10]||s[v]||s[0]);
+}
+
+var eW = 0; var eH = 0;
+function tooltipText(d)
+{
+	var nays=0; var yeas=0; var abs=0;
+	var result = "<p>"+getGetOrdinal(currCong)+" Congress &gt; <strong>" + stateMap[d.key] + "</strong></p>";
+	result = result + globalPartyName+" control "+d.value+"% of the House and Senate in this state.";
+	return(result);
 }
 
 var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
@@ -277,8 +300,38 @@ q
 			return colourSet[colourSet.length-1];
 		})
 		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
+		.renderTitle(false)
 		.on('preRedraw',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); })
-		.on('postRender',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); });
+		.on('postRender',function(c) 
+		{ 
+			c.svg() // Chart SVG
+				.selectAll("path") // Attach the listeners to every path (district) item in the SVG
+				.on('mouseover', function(d,i) // When you mouseover, it's a new district, set up the tooltip and make it visible
+				{ 
+					var districtSet = c.data();
+					var result = $.grep(c.data(), function(e){
+						return e.key == d.id; 
+					});
+					if(result[0]==undefined) baseToolTip.html(""); // Don't tooltip null results.
+					else baseToolTip.html(tooltipText(result[0])); 
+					eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
+					eW = baseToolTip.style("width");
+					baseToolTip.style("visibility","visible"); 
+				})
+				.on('mouseout', function() { baseToolTip.style("visibility","hidden"); }) // If you mouse out of the districts, hide the tooltip
+				.on('mousemove', function(d, i)
+				{ // If you move your mouse within the district, update the position of the tooltip.
+					if(baseToolTip.html().length) baseToolTip.style("visibility","visible");
+					else baseToolTip.style("visibility","hidden");
+					baseToolTip.style("top",(event.pageY+32)+"px")
+						.style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+				});
+
+			// Toggle off states that are not valid, put the legend and the title label.
+			fadeStates(c); 
+			ensureTextLabel(c); 
+			ensureLegend(c); 
+		});
 
 	$.ajax({
 		dataType: "JSON",
@@ -292,6 +345,7 @@ q
 
         dc.renderAll();
 	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
+	globalPartyName = partyname["pluralNoun"];
 	$(".fullName").html(partyname["fullName"]);
 	$(".pluralNoun").html(partyname["pluralNoun"]);
 	$(".noun").html(partyname["noun"]);
