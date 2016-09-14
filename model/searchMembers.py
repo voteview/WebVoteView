@@ -165,11 +165,13 @@ def getMembersByCongress(congress, chamber, api="Web"):
 	else:
 		return({'errormessage': 'You must provide a chamber or congress.'})
 
-def getMembersByParty(id, api="Web"):
-	if not id:
-		return({'errormessage': 'You must provide a party ID.'})
-	else:
+def getMembersByParty(id, congress, api="Web"):
+	if id and congress:
+		return(memberLookup({"party": id, "congress": congress}, maxResults=500, distinct=1, api=api))
+	elif id:
 		return(memberLookup({"party": id}, maxResults=500, distinct=1, api=api))
+	else:
+		return({'errormessage': 'You must provide a party ID.'})
 
 if __name__ == "__main__":
 	print getMembersByParty(200,"Web_Party")

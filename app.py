@@ -417,8 +417,9 @@ def getmembersbycongress():
 def getmembersbyparty():
 	st = time.time()
 	id = defaultValue(bottle.request.params.id,0)
+	congress = defaultValue(bottle.request.params.congress,0)
 	api = defaultValue(bottle.request.params.api,"")
-	out = getMembersByParty(id, api)
+	out = getMembersByParty(id, congress, api)
 	if api=="Web_Party":
 		for i in range(0,len(out["results"])):
 			memberRow = out["results"][i]
