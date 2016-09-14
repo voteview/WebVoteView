@@ -13,7 +13,7 @@
 			% end
 			<div style="font-size:0.9em;vertical-align:middle;padding-top:15px;">
 				<strong>{{party["fullName"]}}</strong><br/>
-				Active from {{congressToYear(party["minCongress"])}} to {{congressToYear(party["maxCongress"])+1}}
+				Active from {{congressToYear(party["minCongress"])}} to {{congressToYear(party["maxCongress"])+1}}<br/>
 			</div>
 		</div>
 % i=i+1

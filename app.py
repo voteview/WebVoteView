@@ -417,7 +417,10 @@ def getmembersbycongress():
 def getmembersbyparty():
 	st = time.time()
 	id = defaultValue(bottle.request.params.id,0)
-	congress = defaultValue(bottle.request.params.congress,0)
+	try:
+		congress = int(defaultValue(bottle.request.params.congress,0))
+	except:
+		congress = 0
 	api = defaultValue(bottle.request.params.api,"")
 	out = getMembersByParty(id, congress, api)
 	if api=="Web_Party":

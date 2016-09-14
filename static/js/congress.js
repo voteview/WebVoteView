@@ -196,22 +196,6 @@ function compositionBar()
 	}).on('mouseout',function(d) { baseTip.style('visibility','hidden'); });
 }
 
-function writeBioTable()
-{
-	rC = resultCache["results"];
-	if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
-	else if(sortBy=="party") { rC.sort(function(a,b) { return (a.partyname==b.partyname)?(a.bioName>b.bioName?1:-1):(a.partyname>b.partyname?1:-1); }); }
-	else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
-	else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
-	else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
-	$("#memberList").html("");
-	$.each(rC,function(k, v)
-	{
-		constructPlot(v);
-	});
-	$('#content').fadeIn();
-}
-
 function hideMembersUnselected()
 {
 	$("#memberList > div").each(function(i, d) {

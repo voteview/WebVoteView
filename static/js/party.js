@@ -28,7 +28,11 @@ function tooltipText(d)
 {
 	var nays=0; var yeas=0; var abs=0;
 	var result = "<p>"+getGetOrdinal(currCong)+" Congress &gt; <strong>" + stateMap[d.key] + "</strong></p>";
-	result = result + globalPartyName+" control "+d.value+"% of the House and Senate in this state.";
+	result = result + globalPartyName+" control "+d.value+"% of the ";
+	if(groupSel=="both") result += "House and Senate";
+	else if(groupSel=="house") result += "House";
+	else result += "Senate";
+	result += " in this state.";
 	return(result);
 }
 
@@ -267,7 +271,7 @@ q
 	// Now let's make our map!
 	mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
 	partyMapChart
-		.width(920)
+		.width(930)
 		.height(500)
 		.dimension(stateDimension)
 		.group(bothGroup)
@@ -509,19 +513,4 @@ function stopLoop()
 			writeBioTable();
 		}
 	});
-}
-
-function writeBioTable()
-{
-	var rC = resultCache["results"];
-	if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
-	else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
-	else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
-	else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
-	$("#memberList").html("");
-	$.each(rC,function(k, v)
-	{
-		constructPlot(v);
-	});
-	$('#content').fadeIn();
 }
