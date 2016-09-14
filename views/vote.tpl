@@ -20,12 +20,16 @@
 % 	noteText = ""
 % end
 
+% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
 				% if "keyvote" in rollcall and len(rollcall["keyvote"]):
-				<span class="btn btn-default btn-lg" style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" title="Vote classified as a 'Key Vote' by Congressional Quarterly.">
+				<span class="btn btn-default btn-lg" 
+					style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" 
+					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["keyvote"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end

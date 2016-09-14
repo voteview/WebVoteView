@@ -25,6 +25,7 @@
 %	plotIdeology = 1
 % end
 % person["lastName"] = person["canonicalName"].split(",")[0].upper()[0]+person["canonicalName"].split(",")[0].lower()[1:]
+% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 <div class="container">
 
     <div class="row">
@@ -156,7 +157,9 @@
 				{{rcSuffix(vote["congress"])}} Congress &gt; {{vote["chamber"]}} &gt; Vote {{vote["rollnumber"]}}
 				% end
 				% if "keyvote" in vote and len(vote["keyvote"]):
-				<span class="btn btn-default btn-xs" aria-label="Key Vote" style="margin-left: 10px;" data-toggle="tooltip" data-placement="bottom" title="Vote classified as a 'Key Vote' by Congessional Quarterly.">
+				<span class="btn btn-default btn-xs" 
+					aria-label="Key Vote" style="margin-left: 10px;" data-toggle="tooltip" 
+					data-placement="bottom" title="Vote classified as a 'Key Vote' by {{orgMapping[vote["keyvote"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end
