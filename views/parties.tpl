@@ -2,7 +2,7 @@
 % if len(partyNameFull):
 %	partyNameFull = " > "+partyNameFull
 % end
-% rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js"], extra_css=['map.css', 'bootstrap-slider.css'])
+% rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/stateMeta.js"], extra_css=['map.css', 'bootstrap-slider.css'])
 % include('header.tpl')
 <div class="container">
 	
