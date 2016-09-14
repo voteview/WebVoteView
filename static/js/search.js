@@ -262,15 +262,12 @@ $(document).ready(function(){
 	// We do have a stash, so let's load the votes from it.
 	else
 	{
-		console.log("We're here");
 		$.ajax({
 			dataType: "JSON",
 			url: '/api/stash/get',
 			data: 'id='+cookieId,
 			success: function(data, status, xhr)
 			{
-				console.log('And here');
-				console.log(data);
 				cachedVotes["old"] = data["old"];
 				cachedVotes["votes"] = data["votes"];
 				updateStashCart();
@@ -460,23 +457,26 @@ function updateRequest()
 				metaPageloaded = 0; // Reset page load count. We use this for stopping auto-scroll after 10 pages.
 				var resultsNumber = parseInt(xhr.getResponseHeader("Rollcall-Number"));
 				var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
+				var partyNumber = parseInt(xhr.getResponseHeader("Party-Number"));
 				resultCount = resultsNumber;
+				var resultText = "";
+				if(partyNumber)
+				{
+					var partyLabelText = partyNumber+" part"+(partyNumber!=1?"ies":"y");
+				}
+				else { var partyLabelText = ""; }
 				var memLabelText = "member"+(memberNumber!=1?"s":"");
 				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
-				if(memberNumber==1) { memLabelText = "member"; }
-				if(resultsNumber==1) { voteLabelText = "vote"; }
-				if(memberNumber>0 && resultsNumber>0)
-				{
-					$("#results-number").html(numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
-				}
-				else if(memberNumber>0) { $("#results-number").html(numberWithCommas(memberNumber)+" "+memLabelText+" found"); } 
-				else if(resultsNumber>=0)
-				{
-					$("#results-number").html(numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
-				}
-				else { $("#results-number").html("Error completing search."); }
+				if(partyNumber>0 && memberNumber>0 && resultsNumber>0) resultText = partyLabelText+", "+numberWithCommas(memberNumber)+ " "+memLabelText+", and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(partyNumber>0 && memberNumber>0) resultText = partyLabelText+" and "+numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
+				else if(partyNumber>0 && resultsNumber>0) resultText = partyLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(memberNumber>0 && resultsNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(memberNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
+				else if(resultsNumber>0) resultText = numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(resultsNumber==0) resultText = "0 results found.";
+				else { resultText = "Error completing search."; }
+				$("#results-number").html(resultText);
 
-				console.log(resultsNumber);
 				if(resultsNumber<0) 
 				{
 					$("#addAll").hide(); 
