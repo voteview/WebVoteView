@@ -1,7 +1,6 @@
 % STATIC_URL = "/static/"
 % rebase('base.tpl', title='Parties at a Glance', extra_css=['map.css'])
 % include('header.tpl')
-
 <div class="container">
 	
 	<div id="loading-container">
@@ -32,8 +31,10 @@
 	</div>
 </div>
 
-<script language="javascript">var mapParties=1;</script>
-<script language="javascript">var congressNum=114;</script>
+<script language="javascript">
+	var mapParties=1;
+	var congressNum={{maxCongress}};
+</script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>

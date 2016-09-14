@@ -3,7 +3,10 @@ import json
 import traceback
 import os
 client = pymongo.MongoClient()
-dbConf = json.load(open("./model/db.json","r"))
+try:
+	dbConf = json.load(open("./model/db.json","r"))
+except:
+	dbConf = json.load(open("./db.json","r"))
 db = client[dbConf["dbname"]]
 
 def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
@@ -21,7 +24,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		maxResults = 5000
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state and not congress and not cqlabel and not id:
+	if not name and not icpsr and not state and not congress and not cqlabel and not id and not party:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
@@ -86,7 +89,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["$text"] = {"$search": name}
 
 	if party:
-		searchQuery["party"] = party
+		searchQuery["party"] = int(party)
 			
 	if cqlabel:
 		if cqlabel[0]=="(" and cqlabel[-1]==")": # Ensure beginning/end () to match
@@ -112,6 +115,8 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "congresses": 1, "stateAbbr": 1}
 	elif api=="Web_Congress":
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1}
+	elif api=="Web_Party":
+		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1}
 	elif api=="R":
 		fieldSet = {"bioName": 1, "fname": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "id": 1, "_id": 0, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "nominate.geoMeanProbability": 1, "cqlabel": 1, "districtCode": 1, "chamber": 1, "congresses": 1}
 	else:
@@ -125,9 +130,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		sortedRes = res.sort([('score', {'$meta': 'textScore'})])
 	else:
 		sortedRes = res.sort('congress', -1)
-		if sortedRes.count()>1000 and api != "R":
+		if sortedRes.count()>1000 and api != "R" and api!= "Web_Party":
 			return({"errormessage": "Too many results found."})
-		elif sortedRes.count()>5000:
+		elif sortedRes.count()>5000 and api!= "Web_Party":
 			return({"errormessage": "Too many results found."})
 
 	currentICPSRs = []
@@ -146,7 +151,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		errormessage = "Capping number of responses at "+str(maxResults)+"."
 
 	if len(response)==0:
-		return({'errormessage': 'No members found matching your search query.'})
+		return({'errormessage': 'No members found matching your search query.', 'query': qDict})
 	elif errormessage:
 		return({'errormessage': errormessage, 'results': response})
 	else:
@@ -154,26 +159,18 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 
 def getMembersByCongress(congress, chamber, api="Web"):
 	if not chamber:
-		return(memberLookup({"congress": congress}, maxResults=1000, distinct=0, api=api))
+		return(memberLookup({"congress": congress}, maxResults=600, distinct=0, api=api))
+	elif chamber and congress:
+		return(memberLookup({"congress": congress, "chamber": chamber}, maxResults=600, distinct=0, api=api))
 	else:
-		return(memberLookup({"congress": congress, "chamber": chamber}, maxResults=1000, distinct=0, api=api))
+		return({'errormessage': 'You must provide a chamber or congress.'})
+
+def getMembersByParty(id, api="Web"):
+	if not id:
+		return({'errormessage': 'You must provide a party ID.'})
+	else:
+		return(memberLookup({"party": id}, maxResults=500, distinct=1, api=api))
 
 if __name__ == "__main__":
-	#print memberLookup({"name": "Ted Cruz"}, 5)
-	#print memberLookup({"name": "John Kerry"}, 5, 1)
-	#print memberLookup({"name": "Cruz, Ted"})
-	#print memberLookup({"name": "Ted Cruz"}, 5)
-	#print memberLookup({"icpsr": "00001"}, 1)
-	#print memberLookup({"state": "Iowa"}, 1)
-	#print memberLookup({"state": "NH"}, 1)
-	#print len(memberLookup({"icpsr": 99369}, 1)["results"])
-	#print getMembersByCongress(110,"","Web_PI")
-	print memberLookup({"name": "Obama"},distinct= 1, api = "R")
-	print "not distinct \n\n"
-	print memberLookup({"name": "Obama"},distinct= 0, api = "R")
-	print memberLookup({"id": "MS01366110"}, distinct=1)
-	#print memberLookup({"congress" : "104"}, 1)
-	#print memberLookup({"congress" : "104 105"}, 1)
-	#print memberLookup({"congress" : "[104 to 109]"}, 1)
-	#print memberLookup({"congress" : "[104 to 109]"}, 1, api = "R")
+	print getMembersByParty(200,"Web_Party")
 	pass

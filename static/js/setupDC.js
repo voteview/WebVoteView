@@ -47,11 +47,6 @@ $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
     }
 })();
 
-function drawWidgetsFailMap(error, data)
-{
-	drawWidgets(error, data, undefined);
-}
-
 var eW = 0; var eH = 0;
 function tooltipText(d)
 {
@@ -88,10 +83,25 @@ function tooltipText(d)
 	return(result);
 }
 
-var failedMapLoad=0;
+// If there's an error loading the map, still load the vote data, and just fail as gracefully as possible.
+function drawWidgetsFailMap(error, data)
+{
+	drawWidgets(error, data, undefined);
+}
+
+var failedMapLoad=0, fallback=0;
 function drawWidgets(error, data, geodata)
 {
-	if(failedMapLoad==0 && (data==undefined || geodata==undefined))
+	// If we have an error loading the map data, try a fallback map.
+	if(fallback==0 && geodata==undefined && error.status==404 && error.responseURL.indexOf(".json")!=-1)
+	{
+		var tryLoadingOneLower = "/static/"+error.responseURL.replace(congressNum,congressNum-1).split("/static/")[1];
+		fallback=1;
+		queue().defer(d3.json, "/api/download/"+rcID).defer(d3.json, tryLoadingOneLower).await(drawWidgets);
+		return(0);
+	}
+	// If we still have an error, give up on the map but still load the vote.
+	else if(failedMapLoad==0 && (data==undefined || geodata==undefined))
 	{
 		var errorMessage = "Unknown error loading vote data.";
 		if(error.status==404 && error.responseURL.indexOf(".json")!=-1)

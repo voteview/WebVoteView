@@ -24,7 +24,7 @@ SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" i
 fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
 		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
 		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter", "chamber": "chamber",
-		"saved": "saved", "dates": "date", "startdate": "date", "enddate": "date"}
+		"saved": "saved", "dates": "date", "startdate": "date", "enddate": "date", "keyvote": "keyvote"}
 
 # Simple tab-based pretty-printer to output debug info.
 def pPrint(printStr, depth=0,debug=0):
@@ -720,6 +720,11 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 			else:
 				#queryDict = addToQueryDict(queryDict, "votes."+str(name), {"$exists": 1})
 				queryDict = addToQueryDict(queryDict, "votes.id", str(name)) # New vote style.
+	
+	# KEYVOTE type: Is this a key vote?
+	elif fieldType=="keyvote":
+		queryDict["keyvote"] = {"$exists": 1}
+		#queryDict = addToQueryDict(queryDict, "keyvote", {"$exists": True})
 
 	# CHAMBER type: Senate or House?
 	elif fieldType=="chamber":
@@ -993,7 +998,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	# Get results
 	if not idsOnly:
-		fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1, "synthID": 1}
+		fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1, "synthID": 1, "keyvote": 1}
 	else:
 		fieldReturns = {"id": 1, "_id": 0, "synthID": 1}
 

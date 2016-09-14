@@ -124,6 +124,13 @@
                 <div class="panel-body">
 			<div class="checkbox">
 				<label>
+					<input type="checkbox" value="Key Vote" name="keyvote">
+					<strong>Key Vote</strong>
+				</label>
+			</div>
+
+			<div class="checkbox">
+				<label>
 					<input type="checkbox" value="Government Management" name="clausen">
 					Government Management
 				</label>

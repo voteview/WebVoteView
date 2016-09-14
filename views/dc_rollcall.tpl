@@ -24,6 +24,11 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
+				% if "keyvote" in rollcall and len(rollcall["keyvote"]):
+				<span class="btn btn-default btn-lg" style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" title="Vote classified as a 'Key Vote' by Congressional Quarterly.">
+					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
+				</span>
+				% end
 				<abbr title="Congress"><a href="/search/?congress={{ rollcall["congress"] }}">{{ rcSuffix(rollcall["congress"]) }} Congress</a></abbr> &gt;
 				<abbr title="Chamber"><a href="/search/?congress={{ rollcall["congress"] }}&chamber={{ rollcall["chamber"] }}">{{ rollcall["chamber"] }}</a></abbr> &gt;
 				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr>
@@ -86,8 +91,8 @@
 					</span>
 	
 					<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;"> <!-- This span tells DC where to put the map -->
-						<button id="zoomIn" style="position:absolute;left:25px;top:40px;width:30px;height:30px;font-weight:700;font-size:18px;" onClick="javascript:doZoom(1);return false;">+</button>
-						<button id="zoomOut" style="position:absolute;left:25px;top:70px;width:30px;height:30px;font-weight:700;font-size:18px;" onClick="javascript:doZoom(-1);return false;">-</button>
+						<button id="zoomIn" class="glyphicon glyphicon-plus " style="position:absolute;left:25px;top:40px;width:30px;height:30px;" onClick="javascript:doZoom(1);return false;"></button>
+						<button id="zoomOut" class="glyphicon glyphicon-minus" style="position:absolute;left:25px;top:80px;width:30px;height:30px;" onClick="javascript:doZoom(-1);return false;"></button>
 	
 						<input id="ex1" data-slider-id="panY" type="text" data-slider-min="0" data-slider-max="500" data-slider-step="1"
 								data-slider-orientation="vertical" data-slider-tooltip="hide" data-slider-handle="custom">
@@ -151,7 +156,7 @@
 						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>)
 					</div>
 				</div>
-				<div id="voteList" style="margin-top:15px;"></div>
+				<div id="voteList" style="margin-top:15px; width:100%; min-width: 1100px;"></div>
 			</div>
 		</div>
 	</div>
