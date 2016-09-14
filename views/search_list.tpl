@@ -44,6 +44,11 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<strong>
+				% if ("keyvote" in rollcall and rollcall["keyvote"]):
+				<span class="btn btn-default btn-sm" style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" title="Vote classified as a 'Key Vote' by Congressional Quarterly.">
+					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
+				</span>
+				% end
 				<abbr title="Congress"><a href="/search/?congress={{ rollcall["congress"] }}">{{ rcSuffix(rollcall["congress"]) }} Congress</a></abbr> &gt; 
 				<abbr title="Chamber"><a href="/search/?congress={{ rollcall["congress"] }}&chamber={{ rollcall["chamber"] }}">{{ rollcall["chamber"] }}</a></abbr> &gt;
 				<abbr title="Rollnumber"><a href="/rollcall/{{ rollcall["id"] }}">Vote {{ rollcall["rollnumber"] }}</a></abbr>
