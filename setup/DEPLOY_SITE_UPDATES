@@ -14,13 +14,16 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	rm -rf WebVoteView/.git
 	rm -rf WebVoteView/static/json/high_resolution
 	rm -rf WebVoteView/git-synchronize
-	rm -rf WebVoteView/setup
-	echo "Server setup"
-	echo "0" > WebVoteView/server.txt
-	cp voteview/model/*.json WebVoteView/model/
 
 	echo "Ensuring we have the right python module requirements"
-	pip install -r voteview/model/requirements.txt
+	pip install -r WebVoteView/setup/requirements.txt
+	rm -rf WebVoteView/setup
+
+	echo "Server setup: production"
+	echo "0" > WebVoteView/server.txt
+
+	echo "Copying secure authentication files from existing deployment."
+	cp voteview/model/*.json WebVoteView/model/
 
 	echo "Connecting to development server for database dump"
 	ssh rudkin@128.97.229.160 << EOF
