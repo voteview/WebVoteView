@@ -350,7 +350,7 @@ def rollcall(rollcall_id=""):
         output = bottle.template("views/error", errorMessage=rollcall["errormessage"])
         return(output)
 
-    output = bottle.template("views/dc_rollcall", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
+    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
     return(output)
 
 

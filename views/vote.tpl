@@ -190,7 +190,7 @@ var mapParties = {{ mapParties }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/mapPanZoom.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/setupDC.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/voteCharts.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/dc_filterbar.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/voteFilterbar.js"></script>
 <!--<script type="text/javascript" src="{{ STATIC_URL }}js/voteChartDecorate.js"></script> -->
