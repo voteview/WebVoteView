@@ -198,7 +198,7 @@ function compositionBar()
 
 function hideMembersUnselected()
 {
-	$("#memberList > div").each(function(i, d) {
+	$("#memberList > li.memberResultBox").each(function(i, d) {
 		if(validSet.indexOf(parseInt($(d).attr("id")))!=-1 || validSet.length==0) { $(d).show(); }
 		else { $(d).hide(); }
 	});
