@@ -260,7 +260,7 @@ q
 		.group(bothGroup)
 		.filterHandler(function() { })
 		.colorCalculator(function(d, i) {
-			if(d===undefined) { return "#CCCCCC"; }
+			if(d===undefined) { return "#FFFFFF"; }
 			for(var i=0;i!=clusterUpper.length;i++)
 			{
 				if(d>=clusterUpper[i]) { return colourSet[i]; }
@@ -292,6 +292,7 @@ function fadeStates(c)
 		else
 		{
 			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0);
+
 		}
 	}
 }
