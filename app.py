@@ -545,6 +545,18 @@ def searchAssemble():
         clausen = []
 
     try:
+	keyvote = bottle.request.params.getall("keyvote")
+	if len(keyvote):
+		if q is None or q=="":
+			q = "keyvote: 1"
+		else:
+			q += " keyvote: 1"
+	else:
+		pass
+    except:
+	pass
+
+    try:
         peltzman = bottle.request.params.getall("peltzman")
     except:
         peltzman = []
