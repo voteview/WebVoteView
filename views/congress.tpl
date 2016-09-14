@@ -73,4 +73,5 @@ var mapParties = 1;
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/congress.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>
 

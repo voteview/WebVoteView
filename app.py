@@ -10,7 +10,7 @@ from fuzzywuzzy import fuzz
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
-from model.searchMembers import memberLookup, getMembersByCongress
+from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty
 from model.searchParties import partyLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 import model.downloadXLS
@@ -412,6 +412,27 @@ def getmembersbycongress():
 
     out["timeElapsed"] = time.time()-st
     return out
+
+@app.route("/api/getmembersbyparty")
+def getmembersbyparty():
+	st = time.time()
+	id = defaultValue(bottle.request.params.id,0)
+	api = defaultValue(bottle.request.params.api,"")
+	out = getMembersByParty(id, api)
+	if api=="Web_Party":
+		for i in range(0,len(out["results"])):
+			memberRow = out["results"][i]
+			padICPSR = str(memberRow["icpsr"]).zfill(6)
+			if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
+				memberRow["bioImgURL"] = padICPSR+".jpg"
+			else:
+				memberRow["bioImgURL"] = "silhouette.png"
+
+			memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
+			out["results"][i] = memberRow
+
+	out["timeElapsed"] = time.time()-st
+	return out
 
 
 @app.route("/api/getmembers",method="POST")

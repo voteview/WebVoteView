@@ -1,7 +1,7 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % import re
 % from stemming.porter2 import stem
-% include('member_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
+% include('member_party_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
 % def doHighlight(highlighter, text):
 %	if not len(highlighter):
 %		return text
