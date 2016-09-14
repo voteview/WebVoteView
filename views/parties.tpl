@@ -85,9 +85,8 @@
 			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
 			<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
 		</div>
-		<div id="memberList" style="margin-bottom:40px;" class="clearfix">
-		</div>
-
+		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
+		</ul>
 	</div>
 </div>
 
