@@ -135,11 +135,14 @@ def downloadAPI(rollcall_id, apitype="Web"):
 				codes = rollcall["code"]
 				for key, value in codes.iteritems():
 					codes[key] = '; '.join(value)
+
+			if not "keyvote" in rollcall:
+				rollcall["keyvote"] = []
 				
 			z = {'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
 				'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
 				'description': rollcall['description'], 'id': rollcall['id'], 'code': codes,
-				'yea': rollcall["yea"], 'nay': rollcall["nay"]}
+				'yea': rollcall["yea"], 'nay': rollcall["nay"], 'keyvote': rollcall["keyvote"]}
 			if apitype=="Web_Person":
 				print "in here"
 				z["resultparty"] = rollcall["resultparty"]
