@@ -333,9 +333,18 @@ q
 			ensureLegend(c); 
 		});
 
+        dc.renderAll();
+	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
+	globalPartyName = partyname["pluralNoun"];
+	$(".fullName").html(partyname["fullName"]);
+	$(".pluralNoun").html(partyname["pluralNoun"]);
+	$(".noun").html(partyname["noun"]);
+	$("#loading-container").slideUp();
+
+	var initialCong = (maxCong==max)?max:0;
 	$.ajax({
 		dataType: "JSON",
-		url: "/api/getmembersbyparty?id="+party_param+"&api=Web_Party",
+		url: "/api/getmembersbyparty?id="+party_param+"&congress="+initialCong+"&api=Web_Party",
 		success: function(data, status, xhr)
 		{
 			resultCache = data;
@@ -343,13 +352,6 @@ q
 		}
 	});
 
-        dc.renderAll();
-	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
-	globalPartyName = partyname["pluralNoun"];
-	$(".fullName").html(partyname["fullName"]);
-	$(".pluralNoun").html(partyname["pluralNoun"]);
-	$(".noun").html(partyname["noun"]);
-	$("#loading-container").delay(200).slideUp();
     });
 
 function fadeStates(c)
@@ -393,18 +395,6 @@ function ensureLegend(c)
 	}
 	legendBox.append("text").attr("x",bX+10).attr("y",bY+15+((colourSet.length)*20)).attr("font-size","0.9em")
 				.text(function() { return "0%"; });
-
-	/*if(currCong<86)
-	{
-		// Divider line
-		legendBox.append("rect").attr("x",bX).attr("y",bY+22+( (colourSet.length)*20))
-					.attr("width","70").attr("height","1").attr("fill","#EEEEEE");
-		// Not a state
-		legendBox.append("rect").attr("x",bX).attr("y",bY+10+((colourSet.length+1)*20))
-					.attr("width","6").attr("height","20").attr("fill","#CCCCCC");
-		legendBox.append("text").attr("x",bX+10).attr("y",bY+22+((colourSet.length+1)*20)).attr("font-size","0.7em")
-					.text(function() { return "Not a US State"; });
-	}*/
 }
 
 function ensureTextLabel(c)
@@ -476,19 +466,20 @@ function switchCongress(num, autoLoop=0)
 	var loadNum = num;
 	if(num<100) { loadNum = "0"+loadNum; }
 
-	// Map substitution
-	/*d3.json("/static/json/states"+loadNum+".json", function(error, stateboundaries)
-	{
-		if(!error)
-		{
-			var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
-			partyMapChart.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
-			partyMapChart.render();
-		}
-	});*/
-
 	toggleMapSupport(groupSel);
 	currCong=num;
+	if(!inLoop)
+	{
+		$.ajax({
+			dataType: "JSON",
+			url: "/api/getmembersbyparty?id="+party_param+"&congress="+currCong+"&api=Web_Party",
+			success: function(data, status, xhr)
+			{
+				resultCache = data;
+				writeBioTable();
+			}
+		});
+	}
 }
 
 function playLoopInt()
@@ -527,6 +518,16 @@ function stopLoop()
 	forceStopLoop=1;
 	inLoop=0;
 	clearTimeout(playLoop);
+
+	$.ajax({
+		dataType: "JSON",
+		url: "/api/getmembersbyparty?id="+party_param+"&congress="+currCong+"&api=Web_Party",
+		success: function(data, status, xhr)
+		{
+			resultCache = data;
+			writeBioTable();
+		}
+	});
 }
 
 function writeBioTable()
