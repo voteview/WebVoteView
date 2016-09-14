@@ -3,6 +3,8 @@
 /* jshint globalstrict: true */
 /* global dc,d3,crossfilter,colorbrewer,queue */
 
+var resultCache;
+var sortBy="name";
 var timeChart = dc.barChart("#time-chart");
 var dimChart = dc.compositeChart("#dim-chart");
 var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
@@ -184,6 +186,13 @@ q
 		minCong = (partycontroljson[z].congress<minCong)?partycontroljson[z].congress:minCong;
 		maxCong = (partycontroljson[z].congress>maxCong)?partycontroljson[z].congress:maxCong;
 	}
+
+	// If it's a one congress party, disable a bunch of the controls
+	if(minCong==maxCong)
+	{
+		$(".congressControl").hide();	
+	}
+
 	// Initialize map to maximum congress.
 	var baseValue = (congressNum>maxCong)?maxCong:(congressNum<minCong)?minCong:(congressNum==0)?maxCong:congressNum;
 	setupCongress(baseValue);
@@ -270,6 +279,16 @@ q
 		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
 		.on('preRedraw',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); })
 		.on('postRender',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); });
+
+	$.ajax({
+		dataType: "JSON",
+		url: "/api/getmembersbyparty?id="+party_param+"&api=Web_Party",
+		success: function(data, status, xhr)
+		{
+			resultCache = data;
+			writeBioTable();
+		}
+	});
 
         dc.renderAll();
 	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
@@ -454,4 +473,19 @@ function stopLoop()
 	forceStopLoop=1;
 	inLoop=0;
 	clearTimeout(playLoop);
+}
+
+function writeBioTable()
+{
+	var rC = resultCache["results"];
+	if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
+	else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
+	else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
+	else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
+	$("#memberList").html("");
+	$.each(rC,function(k, v)
+	{
+		constructPlot(v);
+	});
+	$('#content').fadeIn();
 }
