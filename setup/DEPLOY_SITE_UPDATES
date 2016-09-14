@@ -7,16 +7,22 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Beginning git download of latest master"
 	mkdir update-voteview
 	cd update-voteview
-	git clone git://github.com/JeffreyBLewis/WebVoteView.git
-	mv WebVoteView/ ../
+	wget https://github.com/JeffreyBLewis/WebVoteView/archive/master.zip
+	unzip master.zip
+	rm master.zip
+	mv WebVoteView-master/ ../WebVoteView/
 	cd ..
 	rmdir update-voteview
-	rm -rf WebVoteView/.git
-	rm -rf WebVoteView/static/json/high_resolution
 	rm -rf WebVoteView/git-synchronize
+
+	echo "Ensuring we have the right python module requirements"
+	pip install -r WebVoteView/setup/requirements.txt
 	rm -rf WebVoteView/setup
-	echo "Server setup"
+
+	echo "Server setup: production"
 	echo "0" > WebVoteView/server.txt
+
+	echo "Copying secure authentication files from existing deployment."
 	cp voteview/model/*.json WebVoteView/model/
 
 	echo "Connecting to development server for database dump"
@@ -60,7 +66,7 @@ EOF
 	echo "Done deployment."
 	echo "Previous version of site in /var/www/vv-backup"
 	echo "Current version of site in /var/www/voteview"
-	echo "Checking API version..."
+	echo "Checking API version to verify site has started..."
 	curl "http://voteview.polisci.ucla.edu/api/version"
 	echo ""
 elif [ "$userid" = "root" ]; then

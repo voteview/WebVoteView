@@ -3,14 +3,15 @@ import traceback
 import os
 import datetime
 import time
-
+import json
 import bottle
 from fuzzywuzzy import fuzz
 
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
-from model.searchMembers import memberLookup, getMembersByCongress
+from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty
+from model.searchParties import partyLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 import model.downloadXLS
 import model.stashCart
@@ -146,30 +147,36 @@ def explore(chamber="house"):
 def congress(chamber="senate"):
     if chamber!="senate":
         chamber = "house"
-    congress = defaultValue(bottle.request.params.congress,114)
 
-    output = bottle.template("views/congress", chamber=chamber, congress=congress)
+    maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+    congress = defaultValue(bottle.request.params.congress,maxCongress)
+
+    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress)
     return output
 
 
 @app.route("/parties")
 @app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
-def parties(party=200, congStart=114):
+def parties(party=200, congStart=-1):
 	# Just default for now
 	try:
 		party = int(party)
 	except:
 		if party=="all":
-			output = bottle.template("views/partiesGlance")
+			maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+			output = bottle.template("views/partiesGlance", maxCongress=maxCongress)
 			return output
 		else:
 			party = 200
 
-	try:
-		congStart = int(congStart)
-	except:
-		congStart = 0
+	if congStart==-1:
+		congStart = int(json.load(open("static/config.json","r"))["maxCongress"])
+	else:
+		try:
+			congStart = int(congStart)
+		except:
+			congStart = 0
 
 	if party not in xrange(0, 50001):
 		party = 200
@@ -406,6 +413,27 @@ def getmembersbycongress():
     out["timeElapsed"] = time.time()-st
     return out
 
+@app.route("/api/getmembersbyparty")
+def getmembersbyparty():
+	st = time.time()
+	id = defaultValue(bottle.request.params.id,0)
+	api = defaultValue(bottle.request.params.api,"")
+	out = getMembersByParty(id, api)
+	if api=="Web_Party":
+		for i in range(0,len(out["results"])):
+			memberRow = out["results"][i]
+			padICPSR = str(memberRow["icpsr"]).zfill(6)
+			if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
+				memberRow["bioImgURL"] = padICPSR+".jpg"
+			else:
+				memberRow["bioImgURL"] = "silhouette.png"
+
+			memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
+			out["results"][i] = memberRow
+
+	out["timeElapsed"] = time.time()-st
+	return out
+
 
 @app.route("/api/getmembers",method="POST")
 @app.route("/api/getmembers")
@@ -432,9 +460,28 @@ def searchAssemble():
     q = defaultValue(bottle.request.params.q)
     nextId = defaultValue(bottle.request.params.nextId,0)
 
+    #Party search
+    resultParties = []
+    if q is not None and not nextId and not ":" in q and len(q.split())<4 and len(q):
+        try:
+            testQ = int(q)
+            if testQ>0 and testQ<10000:
+                partySearch = partyLookup({"id": q}, api="Web_FP_Search")
+        except:
+            partySearch = partyLookup({"name": q}, api="Web_FP_Search")
+        if "results" in partySearch:
+            for party in partySearch["results"]:
+                party["scoreMatch"] = fuzz.token_set_ratio(party["fullName"].lower().replace(" party",""), q.lower().replace(" party",""))
+		if party["count"] > 1000:
+			party["scoreMatch"] += 25
+		elif party["count"] > 100:
+			party["scoreMatch"] += 10
+                resultParties.append(party)
+
+	resultParties.sort(key=lambda x: (-x["scoreMatch"], -x["maxCongress"]))
+
     # Member search
     resultMembers = []
-
     if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
         try:
             if len(q.split())==1 and (q.upper().startswith("MH") or q.upper().startswith("MS")):
@@ -539,6 +586,18 @@ def searchAssemble():
         clausen = []
 
     try:
+	keyvote = bottle.request.params.getall("keyvote")
+	if len(keyvote):
+		if q is None or q=="":
+			q = "keyvote: 1"
+		else:
+			q += " keyvote: 1"
+	else:
+		pass
+    except:
+	pass
+
+    try:
         peltzman = bottle.request.params.getall("peltzman")
     except:
         peltzman = []
@@ -582,11 +641,12 @@ def searchAssemble():
 
         bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
         bottle.response.headers["member_number"] = len(resultMembers)
+	bottle.response.headers["party_number"] = len(resultParties)
         bottle.response.headers["nextId"] = res["nextId"]
         if not "rollcalls" in res:
-            out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers)
+            out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=resultParties)
         else:
-            out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers) 
+            out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
     return(out)
 
 

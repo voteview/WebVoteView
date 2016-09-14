@@ -1,7 +1,7 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % import re
 % from stemming.porter2 import stem
-% include('member_list.tpl', resultMembers=resultMembers)
+% include('member_party_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
 % def doHighlight(highlighter, text):
 %	if not len(highlighter):
 %		return text
@@ -44,6 +44,11 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<strong>
+				% if ("keyvote" in rollcall and rollcall["keyvote"]):
+				<span class="btn btn-default btn-sm" style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" title="Vote classified as a 'Key Vote' by Congressional Quarterly.">
+					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
+				</span>
+				% end
 				<abbr title="Congress"><a href="/search/?congress={{ rollcall["congress"] }}">{{ rcSuffix(rollcall["congress"]) }} Congress</a></abbr> &gt; 
 				<abbr title="Chamber"><a href="/search/?congress={{ rollcall["congress"] }}&chamber={{ rollcall["chamber"] }}">{{ rollcall["chamber"] }}</a></abbr> &gt;
 				<abbr title="Rollnumber"><a href="/rollcall/{{ rollcall["id"] }}">Vote {{ rollcall["rollnumber"] }}</a></abbr>
