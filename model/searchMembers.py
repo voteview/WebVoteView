@@ -61,7 +61,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["stateName"] = state.capitalize()
 	if congress:
 		try:
-			if not " " in congress: # congress is just a number
+			print type(congress), type(0), type(congress)==type(0)
+			if type(congress) == type(0): # congrss is already a number
+				searchQuery["congress"] = congress
+			elif not " " in congress: # congress is just a number
 				congress = int(congress)
 				searchQuery["congress"] = congress
 			elif "[" in congress and "]" in congress and "to" in congress: # congress is a range
@@ -77,6 +80,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 				searchQuery["congress"] = {}
 				searchQuery["congress"]["$in"] = vals
 		except:
+			print traceback.format_exc()
 			return({"errormessage": "Invalid congress ID supplied."})
 
 	if name:
@@ -174,5 +178,6 @@ def getMembersByParty(id, congress, api="Web"):
 		return({'errormessage': 'You must provide a party ID.'})
 
 if __name__ == "__main__":
-	print getMembersByParty(200,"Web_Party")
+	#print getMembersByParty(29, 28, "Web_Party")
+	#print getMembersByParty(200, 0, "Web_Party")
 	pass
