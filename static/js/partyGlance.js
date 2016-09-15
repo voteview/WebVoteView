@@ -19,7 +19,7 @@ function tooltipText(party, d)
 	var result = getGetOrdinal(d.x)+" Congress &gt; ";
 	if(party<partyList.length) // One of the major parties
 	{
-		result = result+"<strong>"+globalParties[party][1]["name"]+" Party</strong>";
+		result = result+"<strong>"+globalParties[party][1]["fullName"]+"</strong>";
 	}
 	else
 	{
@@ -241,7 +241,7 @@ q
 
 		// Construct the Original Text Stuff
 		var partyID = parties[i][0];
-		if(partyID==328) { continue; }
+		if(partyID==328) { continue; } // Hack to exclude independents?
 		var minCong = parties[i][1]["minCongress"];
 		var maxCong = parties[i][1]["maxCongress"];
 		var textLabel = "Active ";
@@ -266,8 +266,8 @@ q
 			imgBox.appendTo(pName);
 		}
 
-		var partyName = (parties[i][1]["name"] == "American") ? "American (\"Know-Nothing\")": (parties[i][1]["name"] == "Democrat") ? "Democratic" : parties[i][1]["name"] ;
-		var bioBox = $("<span></span>").html("<strong>"+partyName+" Party</strong><br/>"+textLabel+"<br/><br/>");
+		var partyName = parties[i][1]["fullName"] 
+		var bioBox = $("<span></span>").html("<strong>"+partyName+"</strong><br/>"+textLabel+"<br/><br/>");
 		bioBox.appendTo(pName);
 		pName.appendTo($("#partySet"));
 	}
