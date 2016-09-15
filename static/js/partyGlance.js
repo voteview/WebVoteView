@@ -44,7 +44,12 @@ var q = queue()
 q
     .await(function(error, parties, grand, configFile) {
 	globalParties = parties;	
-	d3.select("#content").style("display", "block");
+
+	// Check if user has dismissed the alert.
+	var hasCookie = Cookies.get('alertPartiesGlance');
+	if(hasCookie != undefined) { $('#alertPartiesGlance').hide(); }
+
+	//d3.select("#content").style("display", "block");
 	var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 	var min = 1;
 	var max = configFile["maxCongress"];	
@@ -213,8 +218,8 @@ q
 			i=i+1;
 		});
 
-		$("#loading-container").delay(200).slideUp();
-
+		$("#loading-container").delay(200).slideUp(100);
+		$("#content").fadeIn();
 	});
 
 	var j=0;
@@ -273,3 +278,8 @@ q
 	}
 		
     });
+
+$('.close').click(function(e)
+{
+	Cookies.set(e.currentTarget.parentElement.id, '1', {expires: 7});
+});
