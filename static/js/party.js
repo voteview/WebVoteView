@@ -347,11 +347,11 @@ function fadeStates(c)
 	{
 		if(currentYear[0]>=mapTopo[i].properties["STARTYEAR"] && currentYear[1]<=mapTopo[i].properties["ENDYEAR"])
 		{
-			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1);
+			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1).style("pointer-events","auto");
 		}
 		else
 		{
-			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0);
+			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0).style("pointer-events","none");
 
 		}
 	}
