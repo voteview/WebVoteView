@@ -66,12 +66,20 @@ div.dc-chart {
     fill: #ccc;
 }
 
-.dc-chart .axis path,
-.dc-chart .axis line {
+
+.dc-chart .axis path {
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
 }
+
+// MODIFIED: .axis line was part of the .axis path definition, I separated to make line lighter.
+.dc-chart .axis line {
+    fill: none;
+    stroke: #ccc;
+    shape-rendering: crispEdges;
+}
+// END MODIFICATION
 
 .dc-chart .axis text {
     font: 10px sans-serif;
