@@ -21,6 +21,7 @@ $(document).ready(function()
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
 		success: function(data, status, xhr)
 		{
+			$('#content').fadeIn();
 			$('#loading-container').slideUp();
 			resultCache = data;
 			writeBioTable();
@@ -115,13 +116,11 @@ function rechamber()
 function reloadBios()
 {
 	congressNum = $("#congSelector").val();
-	$("#memberList").fadeOut();
 	$.ajax({
 		dataType: "JSON",
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
 		success: function(data, status, xhr)
 		{
-			$("#memberList").fadeIn();
 			validSet = [];
 			resultCache = data;
 			writeBioTable();

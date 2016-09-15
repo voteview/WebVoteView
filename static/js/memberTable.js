@@ -21,25 +21,28 @@ function writeColumnHeader(text, glyph)
 function writeBioTable()
 {
 	rC = resultCache["results"];
-	$("#memberList").html("");
-	if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
-	else if(sortBy=="party") { rC.sort(function(a,b) { return (a.partyname==b.partyname)?(a.bioName>b.bioName?1:-1):(a.partyname>b.partyname?1:-1); }); }
-	else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
-	else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
-	else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
-
-	if(sortBy=="nominate") { writeColumnHeader("Most Liberal","arrow-down"); }
-	else if(sortBy=="elected") { writeColumnHeader("Most Senior","arrow-down"); }
-
-	$.each(rC,function(k, v)
+	$("#memberList").fadeOut(200,function()
 	{
-		constructPlot(v);
+		$("#memberList").html("");
+		if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
+		else if(sortBy=="party") { rC.sort(function(a,b) { return (a.partyname==b.partyname)?(a.bioName>b.bioName?1:-1):(a.partyname>b.partyname?1:-1); }); }
+		else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
+		else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
+		else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
+	
+		if(sortBy=="nominate") { writeColumnHeader("Most Liberal","arrow-down"); }
+		else if(sortBy=="elected") { writeColumnHeader("Most Senior","arrow-down"); }
+	
+		$.each(rC,function(k, v)
+		{
+			constructPlot(v);
+		});
+	
+		if(sortBy=="nominate") { writeColumnHeader("Most Conservative","arrow-up"); }
+		else if(sortBy=="elected") { writeColumnHeader("Most Junior","arrow-up"); }
+	
+		$('#memberList').fadeIn(200);
 	});
-
-	if(sortBy=="nominate") { writeColumnHeader("Most Conservative","arrow-up"); }
-	else if(sortBy=="elected") { writeColumnHeader("Most Junior","arrow-up"); }
-
-	$('#content').fadeIn();
 }
 
 function constructPlot(member)
