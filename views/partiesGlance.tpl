@@ -18,7 +18,7 @@
 				</h3>
 
 				<h4>Congress at a Glance:</h4>
-				<div class="alert alert-info fade in" style="margin-bottom:20px;">
+				<div class="alert alert-info fade in" style="margin-bottom:20px;" id="alertPartiesGlance">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
 					<strong>How to Read Chart:</strong> 
 					This chart shows the ideologies of <em>major parties</em> in congress throughout history according to <strong>DW-Nominate</strong>. 
