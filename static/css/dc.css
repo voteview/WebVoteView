@@ -1,4 +1,10 @@
-// MODIFICATIONS TO STOCK SEARCH MODIFIED 
+/* MODIFIED TO ADD */
+div#party-map-chart g.state path { stroke: black; }
+.dc-chart g.district { cursor:pointer; }
+.dc-chart g.district :hover { fill-opacity: .8; }
+.dc-chart g.district path { stroke: white; }
+
+/* MODIFICATIONS TO STOCK SEARCH MODIFIED */
 div.dc-chart {
     float: left;
 }
@@ -56,7 +62,7 @@ div.dc-chart {
 
 .dc-chart .selected path {
     stroke-width: 3;
-    // stroke: #ccc; // MODIFIED
+    /* stroke: #ccc;  MODIFIED */
     fill-opacity: 1;
 }
 
@@ -73,13 +79,13 @@ div.dc-chart {
     shape-rendering: crispEdges;
 }
 
-// MODIFIED: .axis line was part of the .axis path definition, I separated to make line lighter.
+/* MODIFIED: .axis line was part of the .axis path definition, I separated to make line lighter. */
 .dc-chart .axis line {
     fill: none;
     stroke: #ccc;
     shape-rendering: crispEdges;
 }
-// END MODIFICATION
+/* END MODIFICATION */
 
 .dc-chart .axis text {
     font: 10px sans-serif;
@@ -195,7 +201,7 @@ div.dc-chart {
 
 .dc-chart g.deselected path {
     fill: grey;
-    stroke: black; // MODIFIED TO ADD
+    stroke: black; /* MODIFIED TO ADD */
 }
 
 .dc-chart g.selected text {
@@ -328,9 +334,4 @@ g.dc-legend-item.fadeout {
     cursor: pointer;
 }
 
-// MODIFIED TO ADD
-div#party-map-chart g.state path { stroke: black; }
-.dc-chart g.district { cursor:pointer; }
-.dc-chart g.district :hover { fill-opacity: .8; }
-.dc-chart g.district path { stroke: white; }
 
