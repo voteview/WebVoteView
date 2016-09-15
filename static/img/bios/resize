@@ -1,9 +1,0 @@
-#!/bin/bash
-mogrify -verbose -format jpg -quality 75 -resize "600x600>" *.*
-rm ./images/*.svg
-rm ./images/*.gif
-rm ./images/*.tif
-rm ./images/*.tiff
-rm ./images/*.bmp
-rm ./images/*.JPG
-rm ./images/*.jpeg

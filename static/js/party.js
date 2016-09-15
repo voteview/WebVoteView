@@ -326,7 +326,7 @@ q
 	$(".noun").html(partyname["noun"]);
 	$("#loading-container").slideUp();
 
-	var initialCong = max; //(maxCong==max)?max:0;
+	var initialCong = maxCong; //(maxCong==max)?max:0;
 	$.ajax({
 		dataType: "JSON",
 		url: "/api/getmembersbyparty?id="+party_param+"&congress="+initialCong+"&api=Web_Party",
