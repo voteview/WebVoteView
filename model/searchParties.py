@@ -19,6 +19,9 @@ def partyLookup(qDict, api):
 
 	if "id" in qDict:
 		party = db.voteview_parties.find_one({"id": qDict["id"]}, {"_id": 0, "id": 1, "count": 1, "fullName": 1, "colorScheme": 1, "minCongress": 1, "maxCongress": 1})
+		if not "colorScheme" in party:
+			party["colorScheme"] = "grey"
+
 		if not party:
 			return {}
 		else:
@@ -28,6 +31,9 @@ def partyLookup(qDict, api):
 		parties = db.voteview_parties.find({"fullName": {"$regex": ".*"+qDict["name"]+".*", "$options": "i"}}, {"_id": 0, "id": 1, "count": 1, "fullName": 1, "colorScheme": 1, "minCongress": 1, "maxCongress": 1})
 		partySet = []
 		for party in parties:
+			if not "colorScheme" in party:
+				party["colorScheme"] = "grey"
+
 			partySet.append(party)
 		if len(partySet):
 			return {"results": partySet}

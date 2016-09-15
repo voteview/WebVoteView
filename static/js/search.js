@@ -473,6 +473,7 @@ function updateRequest()
 				else if(memberNumber>0 && resultsNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
 				else if(memberNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
 				else if(resultsNumber>0) resultText = numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(partyNumber>0) resultText = partyLabelText+" found.";
 				else if(resultsNumber==0) resultText = "0 results found.";
 				else { resultText = "Error completing search."; }
 				$("#results-number").html(resultText);
