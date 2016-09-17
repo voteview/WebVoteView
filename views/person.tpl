@@ -1,3 +1,4 @@
+% import datetime
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % rebase("base.tpl",title=person["canonicalName"], extra_css=["map.css"])
@@ -51,7 +52,7 @@
 	    <h4>{{ label }}
 		% z = 0
 		% for chunk in person["yearsOfService"]:
-			% if chunk[1]>2016:
+			% if chunk[1]>=datetime.datetime.now().year:
 			% chunk[1] = "Present"
 			% end
 			% if z>0:
@@ -177,9 +178,9 @@
 			    <td align="right">
 				% if "myProb" in vote:
 					% if vote["myProb"]<25:
-					<span style="color:red;">{{round(vote["myProb"])}}%</span>
+					<span style="color:red;">{{round(vote["myProb"])}}\%</span>
 					% else:
-					{{vote["myProb"]}}
+					{{vote["myProb"]}}%
 					%end
 				% end
 			    </td>
