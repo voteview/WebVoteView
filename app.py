@@ -163,12 +163,9 @@ def parties(party=200, congStart=-1):
 	try:
 		party = int(party)
 	except:
-		if party=="all":
-			maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
-			output = bottle.template("views/partiesGlance", maxCongress=maxCongress)
-			return output
-		else:
-			party = 200
+		maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+		output = bottle.template("views/partiesGlance", maxCongress=maxCongress)
+		return output
 
 	if congStart==-1:
 		congStart = int(json.load(open("static/config.json","r"))["maxCongress"])
