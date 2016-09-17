@@ -804,6 +804,5 @@ def setSearch():
 def apiVersion():
     return({'apiversion': 'Q3 June 22, 2016'})
 
-
 if __name__ == '__main__':
     bottle.run(host='localhost', port=8080, debug=True)
