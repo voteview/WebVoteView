@@ -158,7 +158,7 @@ def congress(chamber="senate"):
 @app.route("/parties")
 @app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
-def parties(party=200, congStart=-1):
+def parties(party="all", congStart=-1):
 	# Just default for now
 	try:
 		party = int(party)
