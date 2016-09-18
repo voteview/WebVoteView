@@ -70,11 +70,13 @@ function constructPlot(member)
 					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"];})
 					.css("break-inside","avoid-column")
 					.css("overflow","hidden").css("padding-right","5px");
+	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]).attr("class","nohover").css("display", "block;");
 	var imgBox = $("<img />").css("width","80px").css("height","80px").css("padding-right","20px").attr("class","pull-left")
 					.attr("src","/static/img/bios/"+member["bioImgURL"]);
 	var bioText = $("<span></span>").css("font-size","0.9em").css("padding-right","0px")
 					.html("<strong>"+memberNameFinal+"</strong><br/>"+member["partyname"]+"<br/><!--<img src=\"/static/img/states/"+member["stateAbbr"]+".png\" style=\"width:20px;\"> -->"+member["stateName"]+"<br/>Elected "+member["minElected"]);
-	imgBox.appendTo(memberBox);
-	bioText.appendTo(memberBox);
+	imgBox.appendTo(linkBox);
+	bioText.appendTo(linkBox);
+	linkBox.appendTo(memberBox);
 	memberBox.appendTo($("#memberList"));
 }

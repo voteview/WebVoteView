@@ -25,7 +25,8 @@
 % 	if len(member["bioName"])>20 and "(" in member["bioName"]:
 %		member["bioName"] = member["bioName"].split(",")[0] + ", " + member["bioName"].split("(")[1].split(")")[0]
 %	end
-		<div class="col-md-3 memberResultBox" onClick="javascript:window.location='/person/{{member["icpsr"]}}';">
+		<a href="/person/{{member["icpsr"]}}" class="nohover">
+		<div class="col-md-3 memberResultBox">
 			<img src="/static/img/bios/{{member["bioImg"]}}" style="width:80px;height:80px;padding-right:20px;vertical-align:middle;" class="pull-left">
 			<div style="font-size:0.9em;vertical-align:middle;padding-top:15px;">
 				% if "bioName" in member and member["bioName"] is not None:
@@ -35,6 +36,7 @@
 				<!--{{member["partyname"]}}--> Elected {{member["minElected"]}}
 			</div>
 		</div>
+		</a>
 % i=i+1
 % if i>=8:
 % break

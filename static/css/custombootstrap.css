@@ -895,6 +895,7 @@ textarea {
   font-size: inherit;
   line-height: inherit;
 }
+
 a {
   color: #3284bf;
   text-decoration: none;
@@ -6174,5 +6175,14 @@ button.close {
     display: none !important;
   }
 }
+
+
+
+
+/* CUSTOM: Link overrides used for table entry links */
+a.nohover { color: #555555; text-decoration: none; }
+a.nohover:visited { color: #555555; text-decoration: none; }
+a.nohover:hover { color:#555555; text-decoration: none; }
+a.nohover:active { color:#555555; text-decoration: none; }
 
 

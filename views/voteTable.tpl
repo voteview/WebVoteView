@@ -49,7 +49,7 @@
 			    <td align="right">
 				% if "myProb" in vote:
 					% if vote["myProb"]<25:
-					<span style="color:red;">{{round(vote["myProb"])}}\%</span>
+					<span style="color:red;">{{round(vote["myProb"])}}%</span>
 					% else:
 					{{vote["myProb"]}}%
 					%end
