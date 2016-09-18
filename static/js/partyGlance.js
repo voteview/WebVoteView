@@ -262,7 +262,9 @@ q
 			var pColor = "#FFFFFF";
 		}
 		var pName = $("<div></div>").addClass('col-md-3').addClass("memberResultBox").css("border-left","3px solid "+pColor)
-					    .data('partyID',partyID).click(function() { window.location='/parties/'+$(this).data('partyID'); });
+					    .data('partyID',partyID);
+					    //.click(function() { window.location='/parties/'+$(this).data('partyID'); });
+		var linkBox = $("<a></a>").attr("class","nohover").attr("href","/parties/"+partyID);
 
 		if(j==0) // Major current party with logo
 		{
@@ -274,7 +276,8 @@ q
 		var partyName = parties[i][1]["fullName"] 
 		var bioBox = $("<span></span>").html("<strong>"+partyName+"</strong><br/>"+textLabel+"<br/><br/>");
 		bioBox.appendTo(pName);
-		pName.appendTo($("#partySet"));
+		pName.appendTo(linkBox);
+		linkBox.appendTo($("#partySet"));
 	}
 		
     });
