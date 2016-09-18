@@ -303,7 +303,6 @@ def person(icpsr=0):
         output = bottle.template("views/error", errorMessage=person["errormessage"])
         return(output)
 
-
 @app.route("/rollcall")
 @app.route("/rollcall/<rollcall_id>")
 def rollcall(rollcall_id=""):
@@ -624,6 +623,40 @@ def searchAssemble():
             out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
     return(out)
 
+@app.route("/api/getMemberVotesAssemble")
+def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
+	icpsr = defaultValue(bottle.request.params.icpsr,0)
+	qtext = defaultValue(bottle.request.params.qtext,"")
+	skip = defaultValue(bottle.request.params.skip,0)
+
+	if not icpsr:
+		output = bottle.template("views/error", errorMessage="No member specified.")
+		return(output)
+		
+	person = memberLookup({"icpsr": icpsr})
+	if not "error" in person:
+		person = person["results"][0]
+	else:
+		output = bottle.template("views/error", errorMessage=person["errormessage"])
+		return(output)
+
+	votes = []
+
+	if qtext:
+		qtext = qtext+" AND (voter: "+str(person["id"])+")"
+	else:
+		qtext = "voter: "+str(person["id"])
+
+	if skip:
+		voteQuery = query(qtext, rowLimit=25, jsapi=1, sortSkip=skip)
+	else:
+		voteQuery = query(qtext, rowLimit=25, jsapi=1)
+
+	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
+        output = bottle.template("views/voteTable",person=person, votes=votes)
+
+	bottle.response.headers["nextId"] = voteQuery["nextId"]
+	return(output)
 
 @app.route("/api/search", method="POST")
 @app.route("/api/search")
