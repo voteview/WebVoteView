@@ -1,3 +1,4 @@
+% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
                 <table class="table table-hover dc-data-table">
                     <thead>
                     <tr class="header">
