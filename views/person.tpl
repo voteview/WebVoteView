@@ -127,7 +127,12 @@
     <div class="row">
         <div class="col-md-12">
             <h3>Selected Votes</h3>
-	    % include('voteTable.tpl')
+	    <div id="memberVotesTable">
+		    % include('voteTable.tpl')
+	    </div>
+	    <form onsubmit="javascript:basicTestSearch();return false;">
+	    Search {{person["canonicalName"]}}'s votes: <input type="text" id="memberSearch">
+	    </form>
         </div>
     </div>
 </div>
