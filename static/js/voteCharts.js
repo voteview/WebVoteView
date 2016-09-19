@@ -316,6 +316,7 @@ function drawWidgets(error, data, geodata)
 			.dimension((chamber=="House")?districtDimension:stateDimension) // How the data are separated and grouped.
 			.group((chamber=="House")?districtGroup:stateGroup)
 			.colorCalculator(function (d) { // What color does each unit use
+				//if(d!=undefined && d.members.length>0) { for(var i=0;i!=d.members.length;i++) { d.members[i].party="Democrat"; } }
 				var color = "#eee";
 				try {
 					if(d.members.length > 0){ // If there are any members here, blend their colours.
