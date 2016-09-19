@@ -1,4 +1,5 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+% if len(votes):
                 <table class="table table-hover dc-data-table">
                     <thead>
                     <tr class="header">
@@ -64,3 +65,6 @@
 			% lastDate = vote["date"]
                     % end
                 </table>
+% else:
+	<h3>No votes found.</h3>
+% end

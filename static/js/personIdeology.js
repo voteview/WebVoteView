@@ -156,3 +156,13 @@ function drawHist(error, data)
 		},200);		
 	}
 }
+
+function basicTestSearch()
+{
+	$.ajax("/api/getMemberVotesAssemble?icpsr="+memberICPSR+"&qtext="+$("#memberSearch").val(), 	
+		{"type": "GET", "success": function(d, status, xhr)
+			{
+				$('#memberVotesTable').html(d);
+			}});
+	return;
+}
