@@ -1,7 +1,7 @@
 function outVotes(groupBy)
 {
 	// Check that we're grouping by something valid.
-	if(["party", "vote", "state"].indexOf(groupBy)==-1) { groupBy = "party"; }
+	if(["party", "vote", "state", "x"].indexOf(groupBy)==-1) { groupBy = "party"; }
 	// Pull out every filtered bit of data.
 	var filteredVotes = globalPartyDimension.top(Infinity);
 	var groupings = {};
@@ -32,7 +32,8 @@ function outVotes(groupBy)
 			"party": filteredVotes[i]["party"], 
 			"vote": filteredVotes[i]["vote"], 
 			"state": filteredVotes[i]["state"],
-			"id": filteredVotes[i]["id"]
+			"id": filteredVotes[i]["id"],
+			"x": parseFloat(filteredVotes[i]["x"])
 		};
 		var lastName = filteredVotes[i]["name"].split(",")[0];
 		if(dedupeLastNames.indexOf(lastName)!=-1) { voteSubset["name"] = filteredVotes[i]["name"].split(" ").slice(0,2).join(" "); }
@@ -42,26 +43,39 @@ function outVotes(groupBy)
 	}
 
 	// Output table
-	var sortedKeys = Object.keys(groupings).sort();
+	function numSort(a, b) { return a-b; }
+	if(groupBy!="x") var sortedKeys = Object.keys(groupings).sort();
+	else var sortedKeys = Object.keys(groupings).sort(numSort);
 	var baseList = $("<ul></ul>").css("columns","4").css("list-style-type","none").css("overflow","auto").css("width","100%").addClass("voteTable");
 	
 	var rowCount=0;
 	var i=0; var colCount=0;
+
+	if(groupBy=="x")
+	{
+		var partyLabel = $("<li></li>").css("padding-bottom","5px");
+		$("<strong>Most Liberal</strong>").css("text-decoration","underline").appendTo(partyLabel);
+		partyLabel.appendTo(baseList);
+	}
+
 	for(var key in sortedKeys)
 	{
 		// Sort everyone by name within whatever the primary sort is
 		groupings[sortedKeys[key]] = groupings[sortedKeys[key]].sort(function(a,b){return a["name"] < b["name"] ? -1 : (a["name"] > b["name"] ? 1 : 0);});
 
 		// Add spacers before the next category
-		if(i && groupBy!="state") { $("<li>&nbsp;</li>").css("padding-bottom","5px").appendTo(baseList); }
+		if(i && groupBy!="state" && groupBy!="x") { $("<li>&nbsp;</li>").css("padding-bottom","5px").appendTo(baseList); }
 		
 		// Category header
 		var partyLabel = $("<li></li>").css("padding-bottom","5px");
 		var headerLabel = sortedKeys[key];
 		if(headerLabel=="Abs") { headerLabel="Absent"; }
 		if(groupBy=="state") { headerLabel = stateMap[headerLabel]; }
-		$("<strong>"+headerLabel+"</strong>").css("text-decoration","underline").appendTo(partyLabel);
-		partyLabel.appendTo(baseList);
+		if(groupBy!="x")
+		{
+			$("<strong>"+headerLabel+"</strong>").css("text-decoration","underline").appendTo(partyLabel);
+			partyLabel.appendTo(baseList);
+		}
 
 		// Loop through everything in the category
 		for(var j in groupings[sortedKeys[key]])
@@ -90,5 +104,13 @@ function outVotes(groupBy)
 		}
 		i=i+1;
 	}
+
+	if(groupBy=="x")
+	{
+		var partyLabel = $("<li></li>").css("padding-bottom","5px");
+		$("<strong>Most Conservative</strong>").css("text-decoration","underline").appendTo(partyLabel);
+		partyLabel.appendTo(baseList);
+	}
+
 	$("#voteList").html(baseList);
 }

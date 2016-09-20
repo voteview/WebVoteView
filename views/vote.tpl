@@ -157,7 +157,8 @@
 						(Sort by 
 						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 
 						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>, 
-						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>)
+						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>,
+						<a href="3" onclick="javascript:outVotes('x');return false;">Ideology</a>)
 					</div>
 				</div>
 				<div id="voteList" style="margin-top:15px; width:100%; min-width: 1100px;"></div>
