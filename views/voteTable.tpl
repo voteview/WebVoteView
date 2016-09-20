@@ -5,8 +5,8 @@
                     <tr class="header">
 			<th width="9%" style="text-align:right;">Date</th>
                         <th width="71%">Description</th>
-			<th width="3%">Member Vote</th>
 			<th width="3%">Party Vote</th>
+			<th width="3%">Member Vote</th>
 			<th width="3%" style="text-align:right;">Vote Prob.</th>
 			<th width="7%" style="text-align:right;">Result</th>
                         <th width="3%">Graph</th>
@@ -38,12 +38,12 @@
 				</span>
 				% end
 			    </td>
-			    <td>{{vote["myVote"]}}</td>
+			    <td>{{vote["partyLabelVote"]}}</td>
 			    <td>
 				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
 					<span style="color:red;">
 				% end
-				{{vote["partyLabelVote"]}}
+				{{vote["myVote"]}}
 				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
 					</span>
 				% end
