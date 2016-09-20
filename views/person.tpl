@@ -119,7 +119,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Biography</h3>
-			{{ person["bio"] }}
+			{{ !person["bio"] }}
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></small>
 		</div>
 	</div>
