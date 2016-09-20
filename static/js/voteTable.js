@@ -99,7 +99,9 @@ function outVotes(groupBy)
 			// If we're not grouping on vote, right-float vote and class the LI to use the dot leaders.
 			if(groupBy!="vote") 
 			{ 
-				$("<span>"+person["vote"]+"</span>").css("background-color","white").css("float","right").css("padding-right","40px").appendTo(li); 
+				var addVote = $("<span>"+person["vote"]+"</span>").css("background-color","white").css("float","right").css("padding-right","40px")
+				if(person["prob"]!=undefined && parseInt(person["prob"])<25) { addVote.css("color","red"); }
+				addVote.appendTo(li); 
 				li.addClass("dotted");
 			}
 			li.appendTo(baseList);
