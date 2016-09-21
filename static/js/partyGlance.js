@@ -103,7 +103,7 @@ q
 	});
 
 	console.timeEnd("processData");
-
+	console.time("DCDimensions");
 	// Construct DC dimensions
 	var ndx = crossfilter(grand); 
 	
@@ -116,7 +116,6 @@ q
 	var scatterDimension = scatterDX.dimension(function(d) { return [+d.x, +d.y, +d.p];});
 	var scatterGroup = scatterDimension.group();
 	
-	// Grand Median
 	var dimSet = [];
 	// Each party median
 	var compSet = [];
@@ -125,9 +124,12 @@ q
 		// First add to the group set -- hack to force evaluation of k.
 		dimSet.push(congressDimension.group().reduceSum(new Function("d", "return d.pMedians["+k+"];")));
 	}
+	// Grand Median
 	dimSet.push(congressDimension.group().reduceSum(function (d) { return d.congressMedian; }));
-	
+	console.timeEnd("DCDimensions");
+
 	// Make the chart.
+	console.time("DCChart")
 	var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
 
 	// Hack to get around singleton bug
@@ -178,12 +180,15 @@ q
 	    .on('postRender', function() { d3.select(".dc-chart svg").select("g.sub").selectAll("path.symbol").attr('opacity','0.5'); })
 	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative Ideology")
 	    .xAxis().tickValues(xAxisTickValues).tickFormat(function(v) { return (1787 + 2*v)+1; });
-
+	console.timeEnd("DCChart")
+	console.time("DCRender");
 	dc.renderAll();
+	console.timeEnd("DCRender");
 
 	var i=0;
 
 	// Populating the tooltip.
+	console.time("tooltip");
 	d3.select(".dc-chart svg").selectAll("g.sub").each(function()
 	{
 		var tempFuncOverride = function(d)
@@ -234,10 +239,12 @@ q
 		//d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip path").each(tempFuncOverride);
 		i=i+1;
 	});
+	console.timeEnd("tooltip");
 
 	$("#loading-container").delay(200).slideUp(100);
 	$("#content").fadeIn();
 
+	console.time("partyList");
 	var j=0;
 	for(var i=0;i!=parties.length;i++)
 	{
@@ -295,7 +302,7 @@ q
 		pName.appendTo(linkBox);
 		linkBox.appendTo($("#partySet"));
 	}
-		
+	console.timeEnd("partyList");
     });
 
 $('.close').click(function(e)
