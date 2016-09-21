@@ -7,7 +7,12 @@
                         <th width="71%">Description</th>
 			<th width="3%">Party Vote</th>
 			<th width="3%">Member Vote</th>
-			<th width="3%" style="text-align:right;">Vote Prob.</th>
+			<th width="3%" style="text-align:center;">
+				<span class="glyphicon glyphicon-question-sign"
+						style="margin-left:0px;width:2px;vertical-align:middle;cursor:pointer;" 
+						data-toggle="tooltip" data-position="bottom" title="Probablity of a Yea vote is given in grey for abstentions. Otherwise the number represents the probability of the vote they did cast, with unlikely votes in red.">
+				</span>
+			<br>Vote Prob.</th>
 			<th width="7%" style="text-align:right;">Result</th>
                         <th width="3%">Graph</th>
                     </tr>
@@ -49,11 +54,13 @@
 				% end
 			    </td>
 			    <td align="right">
-				% if "myProb" in vote:
-					% if vote["myProb"]<25:
-					<span style="color:red;">{{round(vote["myProb"])}}%</span>
+				% if "myProb" in vote:				 
+					% if vote["myVote"]=="Abs":	  
+					<span style="color:#b3b3b3;">{{int(round(vote["myProb"]))}}%</span>
+					% elif vote["myProb"]<25:
+					<span style="color:red;">{{int(round(vote["myProb"]))}}%</span>
 					% else:
-					{{vote["myProb"]}}%
+					{{int(round(vote["myProb"]))}}%
 					%end
 				% end
 			    </td>
