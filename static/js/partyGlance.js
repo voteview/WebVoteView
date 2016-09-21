@@ -204,13 +204,15 @@ q
 					if(j<partyList.length)
 					{
 						try
-						{
-							baseToolTip.style("border-left","3px solid "+colorSchemes[partyColorMap[partyNameSimplify(parties[j][1]["name"])]][0]);
-						} catch(err) { }
+						{	
+							$('#mapTooltip').removeClass().addClass('d3-tip')
+									.addClass(partyColorMap[partyNameSimplify(parties[j][1]["name"])])
+							console.log($('#mapTooltip').attr('class'));
+						} catch(err) { console.log(err); }
 					}
 					else
 					{
-						baseToolTip.style("border-left","");
+						$('mapTooltip').removeClass().addClass('d3-tip');
 					}
 					eH = baseToolTip.style("height");
 					eW = baseToolTip.style("width");
@@ -276,17 +278,11 @@ q
 		if(minCong==maxCong) { textLabel += "in the "+getGetOrdinal(minCong)+" Congress"; }
 		else if(maxCong>=max) { textLabel += "from the "+getGetOrdinal(minCong)+" Congress onwards"; }
 		else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress until the "+getGetOrdinal(maxCong)+" Congress"; }
-		try
-		{
-			var pColor = colorSchemes[partyColorMap[partyNameSimplify(parties[i][1]["name"])]][0];
-		}
-		catch(err)
-		{
-			var pColor = "#FFFFFF";
-		}
-		var pName = $("<div></div>").addClass('col-md-3').addClass("memberResultBox").css("border-left","3px solid "+pColor)
-					    .data('partyID',partyID);
-					    //.click(function() { window.location='/parties/'+$(this).data('partyID'); });
+		try { var partyColorScheme = partyColorMap[partyNameSimplify(parties[i][1]["name"])];}
+		catch(e) { var partyColorScheme = "grey"; }
+
+		var pName = $("<div></div>").addClass('col-md-3').addClass("memberResultBox").addClass(partyColorScheme)
+						.data('partyID',partyID);
 		var linkBox = $("<a></a>").attr("class","nohover").attr("href","/parties/"+partyID);
 
 		if(j==0) // Major current party with logo
