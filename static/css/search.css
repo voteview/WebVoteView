@@ -59,14 +59,3 @@ div.footerIcon:hover
 	margin:14px auto;
 	display:table;
 }
-
-.red { border-left: 3px solid #ca0020; }
-.orange { border-left: 3px solid #e66101; }
-.yellow { border-left: 3px solid #fecc5c; }
-.green { border-left: 3px solid #008837; }
-.teal { border-left: 3px solid #018571; }
-.blue { border-left: 3px solid #0571b0; }
-.purple { border-left: 3px solid #7b3294; }
-.pinkpurple { border-left: 3px solid #d01c8b; }
-.grey { border-left: 3px solid #404040; }
-.brown { border-left: 3px solid #a6611a; }
