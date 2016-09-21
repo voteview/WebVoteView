@@ -6,7 +6,7 @@ function resort(sortB)
 
 function writeColumnHeader(text, glyph)
 {
-	var baseHTML = "<strong><u>"+text+"</u></strong> ";
+	var baseHTML = "<strong>"+text+"</strong> ";
 	if(glyph)
 	{
 		baseHTML += '<span class="glyphicon glyphicon-'+glyph+'" aria-hidden="true"></span>';
