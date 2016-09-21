@@ -1,3 +1,4 @@
+
 function outVotes(groupBy)
 {
 	// Check that we're grouping by something valid.
@@ -53,9 +54,9 @@ function outVotes(groupBy)
 	console.log(groupings);
 	// Output table
 	function numSort(a, b) { return a-b; }
-	if(groupBy=="x") var sortedKeys = Object.keys(groupings).sort(numSort);
-	else if(groupBy=="prob") var sortedKeys = Object.keys(groupings).sort().reverse();
-	else var sortedKeys = Object.keys(groupings).sort();
+	if(groupBy=="x") { var sortedKeys = Object.keys(groupings).sort(numSort); }
+	else if(groupBy=="prob" || groupBy == "vote") { var sortedKeys = Object.keys(groupings).sort().reverse(); }
+	else { var sortedKeys = Object.keys(groupings).sort(); }
 	var baseList = $("<ul></ul>").css("columns","4").css("list-style-type","none").css("overflow","auto").css("width","100%").addClass("voteTable");
 	
 	var rowCount=0;
