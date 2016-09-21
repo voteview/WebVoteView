@@ -58,9 +58,13 @@ q
 	var z = queue();
 	for(var i=0;i!=parties.length;i++)
 	{
-		if(parties[i][1]["count"]<100) { break;}
-		partyList.push(parties[i][0]);
-		z.defer(d3.json, "/static/partyjson/"+parties[i][0]+".json");
+		console.log(parties[i][1]["count"]);
+		if(parties[i][1]["count"]<100) { continue; }
+		if(parties[i][1]["count"]>=100)
+		{ 
+			partyList.push(parties[i][0]);
+			z.defer(d3.json, "/static/partyjson/"+parties[i][0]+".json");
+		}
 	}
 
 	// Load all the major parties
