@@ -55,8 +55,8 @@ function outVotes(groupBy)
 	if(groupBy=="x" || groupBy=="prob")
 	{
 		var partyLabel = $("<li></li>").css("padding-bottom","5px");
-		if(groupBy=="x") $("<strong>Most Liberal</strong>").css("text-decoration","underline").appendTo(partyLabel);
-		if(groupBy=="prob") $("<strong>Most Unlikely</strong>").css("text-decoration","underline").appendTo(partyLabel);
+		if(groupBy=="x") $("<strong>Most Liberal</strong><span class='glyphicon glyphicon-arrow-down' style='margin-left:2px;width:3px;'></span>").appendTo(partyLabel);
+		if(groupBy=="prob") $("<strong>Most Unlikely</strong><span class='glyphicon glyphicon-arrow-down' style='margin-left:2px;width:3px;'></span>").appendTo(partyLabel);
 		partyLabel.appendTo(baseList);
 	}
 
@@ -112,8 +112,8 @@ function outVotes(groupBy)
 	if(groupBy=="x" || groupBy=="prob")
 	{
 		var partyLabel = $("<li></li>").css("padding-bottom","5px");
-		if(groupBy=="x") $("<strong>Most Conservative</strong>").css("text-decoration","underline").appendTo(partyLabel);
-		if(groupBy=="prob") $("<strong>Most Likely</strong>").css("text-decoration","underline").appendTo(partyLabel);
+		if(groupBy=="x") $("<strong>Most Conservative</strong><span class='glyphicon glyphicon-arrow-up' style='margin-left:2px;width:3px;'></span>").appendTo(partyLabel);
+		if(groupBy=="prob") $("<strong>Most Likely</strong><span class='glyphicon glyphicon-arrow-up' style='margin-left:2px;width:3px;'></span>").appendTo(partyLabel);
 		partyLabel.appendTo(baseList);
 	}
 
