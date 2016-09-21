@@ -30,7 +30,7 @@ function outVotes(groupBy)
 		if(filteredVotes[i]["name"] == undefined) { continue; }
 		var voteSubset = {
 			"party": filteredVotes[i]["party"], 
-			"vote": filteredVotes[i]["vote"], 
+			"vote": filteredVotes[i]["vote"],
 			"state": filteredVotes[i]["state"],
 			"id": filteredVotes[i]["id"],
 			"x": parseFloat(filteredVotes[i]["x"])
@@ -39,14 +39,23 @@ function outVotes(groupBy)
 		var lastName = filteredVotes[i]["name"].split(",")[0];
 		if(dedupeLastNames.indexOf(lastName)!=-1) { voteSubset["name"] = filteredVotes[i]["name"].split(" ").slice(0,2).join(" "); }
 		else { voteSubset["name"] = lastName; }
-		if(groupings[filteredVotes[i][groupBy]] != undefined) {groupings[filteredVotes[i][groupBy]].push(voteSubset); }
-		else { groupings[filteredVotes[i][groupBy]] = [voteSubset]; }
+		if(groupBy=="prob") {
+			var key = "Voted";
+			if(voteSubset["vote"] == "Abs") { key = "Absent (Least to Most Likely Yea)";}
+			if(groupings[key] != undefined) { groupings[key].push(voteSubset); }
+			else { groupings[key] = [voteSubset]; }
+		}
+		else {
+			if(groupings[filteredVotes[i][groupBy]] != undefined) {groupings[filteredVotes[i][groupBy]].push(voteSubset); }
+			else { groupings[filteredVotes[i][groupBy]] = [voteSubset]; }
+		}
 	}
-
+	console.log(groupings);
 	// Output table
 	function numSort(a, b) { return a-b; }
-	if(groupBy!="x" && groupBy!="prob") var sortedKeys = Object.keys(groupings).sort();
-	else var sortedKeys = Object.keys(groupings).sort(numSort);
+	if(groupBy=="x") var sortedKeys = Object.keys(groupings).sort(numSort);
+	else if(groupBy=="prob") var sortedKeys = Object.keys(groupings).sort().reverse();
+	else var sortedKeys = Object.keys(groupings).sort();
 	var baseList = $("<ul></ul>").css("columns","4").css("list-style-type","none").css("overflow","auto").css("width","100%").addClass("voteTable");
 	
 	var rowCount=0;
@@ -55,25 +64,26 @@ function outVotes(groupBy)
 	if(groupBy=="x" || groupBy=="prob")
 	{
 		var partyLabel = $("<li></li>").css("padding-bottom","5px");
-		if(groupBy=="x") $("<strong>Most Liberal</strong><span class='glyphicon glyphicon-arrow-down' style='margin-left:2px;width:3px;'></span>").appendTo(partyLabel);
-		if(groupBy=="prob") $("<strong>Most Unlikely</strong><span class='glyphicon glyphicon-arrow-down' style='margin-left:2px;width:3px;'></span>").appendTo(partyLabel);
+		if(groupBy=="x") $("<strong>Most Liberal</strong> <span class='glyphicon glyphicon-arrow-down'></span>").appendTo(partyLabel);
+		if(groupBy=="prob") $("<strong>Most Unlikely</strong> <span class='glyphicon glyphicon-arrow-down'></span>").appendTo(partyLabel);
 		partyLabel.appendTo(baseList);
 	}
 
 	for(var key in sortedKeys)
 	{
 		// Sort everyone by name within whatever the primary sort is
-		groupings[sortedKeys[key]] = groupings[sortedKeys[key]].sort(function(a,b){return a["name"] < b["name"] ? -1 : (a["name"] > b["name"] ? 1 : 0);});
-
+		if(groupBy!="prob") { groupings[sortedKeys[key]] = groupings[sortedKeys[key]].sort(function(a,b){return a["name"] < b["name"] ? -1 : (a["name"] > b["name"] ? 1 : 0);}); }
+		else { groupings[sortedKeys[key]] = groupings[sortedKeys[key]].sort(function(a,b){return numSort(a["prob"], b["prob"]); }); }
+			
 		// Add spacers before the next category
-		if(i && groupBy!="state" && groupBy!="x" && groupBy!="prob") { $("<li>&nbsp;</li>").css("padding-bottom","5px").appendTo(baseList); }
-		
+		if(i && groupBy!="state" && groupBy!="x") { $("<li>&nbsp;</li>").css("padding-bottom","5px").appendTo(baseList); }
+		console.log(groupBy);
 		// Category header
 		var partyLabel = $("<li></li>").css("padding-bottom","5px");
 		var headerLabel = sortedKeys[key];
 		if(headerLabel=="Abs") { headerLabel="Absent"; }
 		if(groupBy=="state") { headerLabel = stateMap[headerLabel]; }
-		if(groupBy!="x" && groupBy!="prob")
+		if(groupBy!="x" && (groupBy=="prob" && sortedKeys[key] != "Voted"))
 		{
 			$("<strong>"+headerLabel+"</strong>").css("text-decoration","underline").appendTo(partyLabel);
 			partyLabel.appendTo(baseList);
@@ -100,20 +110,28 @@ function outVotes(groupBy)
 			if(groupBy!="vote") 
 			{ 
 				var addVote = $("<span>"+person["vote"]+"</span>").css("background-color","white").css("float","right").css("padding-right","40px")
-				if(person["prob"]!=undefined && parseInt(person["prob"])<25) { addVote.css("color","red"); }
+				if(person["prob"]!=undefined && parseInt(person["prob"])<25 && sortedKeys[key] == "Voted") { addVote.css("color","red"); }
 				addVote.appendTo(li); 
 				li.addClass("dotted");
 			}
 			li.appendTo(baseList);
 		}
+
+		if(sortedKeys[key] == "Voted" && groupBy=="prob")
+		{
+			var partyLabel = $("<li></li>").css("padding-bottom","5px");
+			$("<strong>Most Likely</strong> <span class='glyphicon glyphicon-arrow-up'></span>").appendTo(partyLabel);
+			partyLabel.appendTo(baseList);
+
+		}
+
 		i=i+1;
 	}
 
-	if(groupBy=="x" || groupBy=="prob")
+	if(groupBy=="x")
 	{
 		var partyLabel = $("<li></li>").css("padding-bottom","5px");
-		if(groupBy=="x") $("<strong>Most Conservative</strong><span class='glyphicon glyphicon-arrow-up' style='margin-left:2px;width:3px;'></span>").appendTo(partyLabel);
-		if(groupBy=="prob") $("<strong>Most Likely</strong><span class='glyphicon glyphicon-arrow-up' style='margin-left:2px;width:3px;'></span>").appendTo(partyLabel);
+		$("<strong>Most Conservative</strong> <span class='glyphicon glyphicon-arrow-up'></span>").appendTo(partyLabel);
 		partyLabel.appendTo(baseList);
 	}
 
