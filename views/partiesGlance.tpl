@@ -51,5 +51,5 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/partyGlanceRevised.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/partyGlance.js"></script>
 
