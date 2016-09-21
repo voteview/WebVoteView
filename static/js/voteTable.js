@@ -83,7 +83,7 @@ function outVotes(groupBy)
 		var headerLabel = sortedKeys[key];
 		if(headerLabel=="Abs") { headerLabel="Absent"; }
 		if(groupBy=="state") { headerLabel = stateMap[headerLabel]; }
-		if(groupBy!="x" && (groupBy=="prob" && sortedKeys[key] != "Voted"))
+		if(groupBy!="x" && sortedKeys[key] != "Voted")
 		{
 			$("<strong>"+headerLabel+"</strong>").css("text-decoration","underline").appendTo(partyLabel);
 			partyLabel.appendTo(baseList);
