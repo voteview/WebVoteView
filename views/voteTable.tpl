@@ -1,6 +1,7 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 % if len(votes):
                 <table class="table table-hover dc-data-table">
+		    % if not skip:
                     <thead>
                     <tr class="header">
 			<th width="9%" style="text-align:right;">Date</th>
@@ -17,6 +18,7 @@
                         <th width="3%">Graph</th>
                     </tr>
                     </thead>
+		    % end
 		    % lastDate = "0000-00-00"
                     % for vote in votes:
                         <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">

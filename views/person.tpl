@@ -126,13 +126,28 @@
 	% end
     <div class="row">
         <div class="col-md-12">
-            <h3>Selected Votes</h3>
-	    <div id="memberVotesTable">
-		    % include('voteTable.tpl')
+	    <form onsubmit="javascript:startNewSearch();return false;" class="form-horizontal">
+	    <div id="search-container" style="padding-top:10px; padding-bottom:10px; clear:both;">
+		<h3 id="voteLabel" style="float:left;">Selected Votes</h3>
+
+		<div class="input-group" style="float:right; padding-top:12px; min-width:400px; width:400px;">
+			<input type="text" id="memberSearch" class="form-control">
+			<div class="input-group-btn">
+				<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+			</div>
+		</div>
+
+		<span style="clear:both;display:block;"></span>
 	    </div>
-	    <form onsubmit="javascript:basicTestSearch();return false;">
-	    Search {{person["canonicalName"]}}'s votes: <input type="text" id="memberSearch">
 	    </form>
+
+		<div id="memberVotesTable">
+			%include('voteTable.tpl', skip=0)
+		</div>
+		<div style="float:right;">
+			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a> 
+		</div>
+
         </div>
     </div>
 </div>
@@ -149,6 +164,7 @@ var congressNum = {{person["congress"]}};
 var memberIdeal = {{person["nominate"]["oneDimNominate"]}};
 var memberIdealBucket = Math.floor({{person["nominate"]["oneDimNominate"]}}*10);
 var memberPartyName = "{{person["partyname"]}}";
+var globalNextId = {{nextId}};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>

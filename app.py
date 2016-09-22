@@ -217,6 +217,8 @@ def person(icpsr=0):
     if not icpsr:
         icpsr = defaultValue(bottle.request.params.icpsr,0)
 
+    skip = 0
+
     # Easter Egg
     keith = defaultValue(bottle.request.params.keith, 0)
 
@@ -295,7 +297,7 @@ def person(icpsr=0):
 
         timeIt("readyOut")
         # Go to the template.
-        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes())
+        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"])
         return(output)
 
     # If we have an error, return an error page
@@ -627,10 +629,12 @@ def searchAssemble():
 def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 	icpsr = defaultValue(bottle.request.params.icpsr,0)
 	qtext = defaultValue(bottle.request.params.qtext,"")
+	skip = 0
 	skip = defaultValue(bottle.request.params.skip,0)
 
 	if not icpsr:
 		output = bottle.template("views/error", errorMessage="No member specified.")
+		bottle.response.headers["nextId"] = 0
 		return(output)
 		
 	person = memberLookup({"icpsr": icpsr})
@@ -638,6 +642,7 @@ def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 		person = person["results"][0]
 	else:
 		output = bottle.template("views/error", errorMessage=person["errormessage"])
+		bottle.response.headers["nextId"] = 0
 		return(output)
 
 	votes = []
@@ -653,7 +658,7 @@ def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 		voteQuery = query(qtext, rowLimit=25, jsapi=1)
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
-        output = bottle.template("views/voteTable",person=person, votes=votes)
+        output = bottle.template("views/voteTable",person=person, votes=votes, skip=skip, nextId=voteQuery["nextId"])
 
 	bottle.response.headers["nextId"] = voteQuery["nextId"]
 	return(output)
