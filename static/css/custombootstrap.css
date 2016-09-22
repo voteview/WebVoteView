@@ -6196,3 +6196,14 @@ a.nohover:active { color:#555555; text-decoration: none; }
 .pinkpurple { border-left: 3px solid #d01c8b !important; }
 .grey { border-left: 3px solid #404040 !important; }
 .brown { border-left: 3px solid #a6611a !important; }
+rect.red { fill: #ca0020; }
+rect.orange { fill:#e66101; }
+rect.yellow { fill: #fecc5c; }
+rect.green { fill: #008837; }
+rect.teal { fill: #018571; }
+rect.blue { fill: #0571b0; }
+rect.purple { fill: #7b3294; }
+rect.pinkpurple { fill: #d01c8b; }
+rect.grey { fill: #404040; }
+rect.brown { fill: #a6611a; }
+
