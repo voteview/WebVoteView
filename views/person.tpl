@@ -150,7 +150,9 @@
 		<div style="float:right;">
 			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a> 
 		</div>
-
+		<div id="loadIndicator" style="float:right;margin-right:25px;display:none;">
+			<img src="/static/img/loading.gif"> 
+		</div>
         </div>
     </div>
 </div>

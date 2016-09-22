@@ -175,6 +175,7 @@ function startNewSearch()
 function nextPageSearch()
 {
 		if(!globalNextId) $("#memberVotesTable").animate({opacity: 0});
+		else $("#loadIndicator").fadeIn();
 		$.ajax("/api/getMemberVotesAssemble?icpsr="+memberICPSR+"&qtext="+$("#memberSearchBox").val()+"&skip="+globalNextId, 	
 			{"type": "GET", "success": function(d, status, xhr)
 				{
@@ -190,6 +191,7 @@ function nextPageSearch()
 					else { $("#nextVotes").fadeIn(); }
 
 					$('[data-toggle="tooltip"]').tooltip();
+					$("#loadIndicator").hide();
 				}});
 	return;
 }

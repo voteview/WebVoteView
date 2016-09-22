@@ -1,33 +1,35 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+
 % if len(votes):
                 <table class="table table-hover dc-data-table">
 		    % if not int(skip):
 			<thead>
 				<tr class="header">
 					<th width="9%" style="text-align:right;">Date</th>
-                        		<th width="71%">Description</th>
-					<th width="3%">Party Vote</th>
-					<th width="3%">Member Vote</th>
-					<th width="3%" style="text-align:center;">
+                        		<th width="62%">Description</th>
+					<th width="6%">Party Vote</th>
+					<th width="6%">Mem. Vote</th>
+					<th width="6%" style="text-align:center;">
 					<span class="glyphicon glyphicon-question-sign"
 						style="margin-left:0px;width:2px;vertical-align:middle;cursor:pointer;" 
 						data-toggle="tooltip" data-position="bottom" title="Probablity of a Yea vote is given in grey for abstentions. Otherwise the number represents the probability of the vote they did cast, with unlikely votes in red.">
 					</span>
 					<br>Vote Prob.</th>
 					<th width="7%" style="text-align:right;">Result</th>
-                        		<th width="3%">Graph</th>
+                        		<th width="4%"></th>
 				</tr>
 			</thead>
 		    % else:
 			<thead>
 				<tr class="header">
-					<td width="9%"></td>
-					<td width="71%"></td>
-					<td width="3%"></td>
-					<td width="3%"></td>
-					<td width="3%"></td>
-					<td width="7%"></td>
-					<td width="3%"></td>
+					<th width="9%" style="text-align:right;"></th>
+                        		<th width="62%"></th>
+					<th width="6%"></th>
+					<th width="6%"></th>
+					<th width="6%" style="text-align:center;"></th>
+					<th width="7%" style="text-align:right;"></th>
+                        		<th width="4%"></th>
 				</tr>
 			</thead>
 		    % end
