@@ -132,7 +132,12 @@
 
 		<div class="input-group" style="float:right; padding-top:12px; min-width:400px; width:400px;">
 			<div id="memberSearch" class="input-group-btn">
-				<button style="display:none;" class="btn btn-primary" id="loadStash" onClick="javascript:loadSavedVotes();return false;"><span class="glyphicon glyphicon-upload"></span></button>
+				<button type="button" style="display:none;" 
+					class="btn btn-primary" id="loadStash" 
+					onClick="javascript:loadSavedVotes();return false;"
+					data-toggle="tooltip" data-placement="top" title="Load Saved Votes into Search">
+					<span class="glyphicon glyphicon-upload"></span>
+				</button>
 			</div>
 			<input type="text" id="memberSearchBox" class="form-control">
 			<div class="input-group-btn">
