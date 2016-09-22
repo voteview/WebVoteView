@@ -1,23 +1,35 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 % if len(votes):
                 <table class="table table-hover dc-data-table">
-		    % if not skip:
-                    <thead>
-                    <tr class="header">
-			<th width="9%" style="text-align:right;">Date</th>
-                        <th width="71%">Description</th>
-			<th width="3%">Party Vote</th>
-			<th width="3%">Member Vote</th>
-			<th width="3%" style="text-align:center;">
-				<span class="glyphicon glyphicon-question-sign"
+		    % if not int(skip):
+			<thead>
+				<tr class="header">
+					<th width="9%" style="text-align:right;">Date</th>
+                        		<th width="71%">Description</th>
+					<th width="3%">Party Vote</th>
+					<th width="3%">Member Vote</th>
+					<th width="3%" style="text-align:center;">
+					<span class="glyphicon glyphicon-question-sign"
 						style="margin-left:0px;width:2px;vertical-align:middle;cursor:pointer;" 
 						data-toggle="tooltip" data-position="bottom" title="Probablity of a Yea vote is given in grey for abstentions. Otherwise the number represents the probability of the vote they did cast, with unlikely votes in red.">
-				</span>
-			<br>Vote Prob.</th>
-			<th width="7%" style="text-align:right;">Result</th>
-                        <th width="3%">Graph</th>
-                    </tr>
-                    </thead>
+					</span>
+					<br>Vote Prob.</th>
+					<th width="7%" style="text-align:right;">Result</th>
+                        		<th width="3%">Graph</th>
+				</tr>
+			</thead>
+		    % else:
+			<thead>
+				<tr class="header">
+					<td width="9%"></td>
+					<td width="71%"></td>
+					<td width="3%"></td>
+					<td width="3%"></td>
+					<td width="3%"></td>
+					<td width="7%"></td>
+					<td width="3%"></td>
+				</tr>
+			</thead>
 		    % end
 		    % lastDate = "0000-00-00"
                     % for vote in votes:
