@@ -131,7 +131,10 @@
 		<h3 id="voteLabel" style="float:left;">Selected Votes</h3>
 
 		<div class="input-group" style="float:right; padding-top:12px; min-width:400px; width:400px;">
-			<input type="text" id="memberSearch" class="form-control">
+			<div id="memberSearch" class="input-group-btn">
+				<button style="display:none;" class="btn btn-primary" id="loadStash" onClick="javascript:loadSavedVotes();return false;"><span class="glyphicon glyphicon-upload"></span></button>
+			</div>
+			<input type="text" id="memberSearchBox" class="form-control">
 			<div class="input-group-btn">
 				<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 			</div>
