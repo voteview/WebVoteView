@@ -9,15 +9,6 @@
             0.38, 
             0.403
         ], 
-        "houseMean": 0.131, 
-        "houseMedian": 0.14999999999999999, 
-        "houseMembers": 7, 
-        "houseRange": [
-            -0.302, 
-            -0.043, 
-            0.38, 
-            0.403
-        ], 
         "nMembers": 7
     }
 ]
