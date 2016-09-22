@@ -179,7 +179,9 @@ function compositionBar()
 		try {var voteCol = colorSchemes[partyColorMap[partyNameSimplify(pN)]][0]; } catch(e) { var voteCol = '#000000'; }
 		var rect = svgBucket.append("rect")
 				.attr("x",x).attr("y",3).attr("width",wid).attr("height",15)
-				.attr("fill",voteCol).attr("stroke","#000000").attr("stroke-width",1);
+				.attr('class',partyColorMap[partyNameSimplify(pN)])
+				//.attr("fill",voteCol)
+				.attr("stroke","#000000").attr("stroke-width",1);
 		x=x+wid;
 		baseTipT += '<br/>'+pN+': '+partyCount[pN];
 		if(chamber_param=="senate" && pN==getVPP(congressNum)) { baseTipT += " (+ Vice President)"; }
