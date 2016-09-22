@@ -89,5 +89,5 @@
                     % end
                 </table>
 % else:
-	<h3>No votes found.</h3>
+	<h3>Member has not voted on any votes matching search terms.</h3>
 % end
