@@ -33,7 +33,7 @@
 					<strong>{{member["bioName"]}}</strong> ({{member["partyname"][0:1]}})<br/>
 				% end
 				<img src="/static/img/states/{{member["stateAbbr"]}}.png" style="width:20px;" /> {{member["stateName"].replace("(","").replace(")","")}}<br/>
-				<!--{{member["partyname"]}}--> Elected {{member["minElected"]}}
+				Elected {{member["minElected"]}}
 			</div>
 		</div>
 		</a>

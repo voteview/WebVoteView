@@ -118,7 +118,11 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	elif api=="Web_FP_Search":
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "congresses": 1, "stateAbbr": 1}
 	elif api=="Web_Congress":
-		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1}
+		if chamber:
+			fieldName = "elected"+chamber
+			fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1, fieldName: 1}
+		else:
+			fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1, "electedSenate": 1, "electedHouse": 1}
 	elif api=="Web_Party":
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1}
 	elif api=="R":

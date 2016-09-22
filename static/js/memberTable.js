@@ -30,10 +30,13 @@ function writeBioTable()
 		else if(sortBy=="party") { rC.sort(function(a,b) { return (a.partyname==b.partyname)?(a.bioName>b.bioName?1:-1):(a.partyname>b.partyname?1:-1); }); }
 		else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
 		else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
+		else if(sortBy=="electedSenate") { rC.sort(function(a,b) { return (a.electedSenate==b.electedSenate)?(a.bioName>b.bioName?1:-1):(a.electedSenate>b.electedSenate?1:-1); }); }
+		else if(sortBy=="electedHouse") { rC.sort(function(a,b) { return (a.electedHouse==b.electedHouse)?(a.bioName>b.bioName?1:-1):(a.electedHouse>b.electedHouse?1:-1); }); }
 		else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
 	
+		console.log(sortBy);
 		if(sortBy=="nominate") { writeColumnHeader("Most Liberal","arrow-down"); }
-		else if(sortBy=="elected") { writeColumnHeader("Most Senior","arrow-down"); }
+		else if(sortBy=="elected" || sortBy=="electedSenate" || sortBy=="electedHouse") { writeColumnHeader("Most Senior","arrow-down"); }
 	
 		$.each(rC,function(k, v)
 		{
@@ -41,7 +44,7 @@ function writeBioTable()
 		});
 	
 		if(sortBy=="nominate") { writeColumnHeader("Most Conservative","arrow-up"); }
-		else if(sortBy=="elected") { writeColumnHeader("Most Junior","arrow-up"); }
+		else if(sortBy=="elected" || sortBy=="electedSenate" || sortBy=="electedHouse") { writeColumnHeader("Most Junior","arrow-up"); }
 	
 		$('#memberList').fadeIn(200);
 		if(hasFilter)
