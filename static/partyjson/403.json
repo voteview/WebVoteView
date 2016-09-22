@@ -7,18 +7,6 @@
             0.131, 
             0.352
         ], 
-        "houseMean": 0.183, 
-        "houseMedian": 0.1835, 
-        "houseMembers": 2, 
-        "houseRange": [
-            0.131
-        ], 
-        "nMembers": 3, 
-        "senateMean": 0.352, 
-        "senateMedian": 0.35199999999999998, 
-        "senateMembers": 1, 
-        "senateRange": [
-            0.352
-        ]
+        "nMembers": 3
     }
 ]

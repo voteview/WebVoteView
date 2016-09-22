@@ -9,21 +9,7 @@
             -0.168, 
             -0.038
         ], 
-        "houseMean": -0.343, 
-        "houseMedian": -0.3145, 
-        "houseMembers": 4, 
-        "houseRange": [
-            -0.482, 
-            -0.29
-        ], 
-        "nMembers": 7, 
-        "senateMean": -0.032, 
-        "senateMedian": -0.037999999999999999, 
-        "senateMembers": 3, 
-        "senateRange": [
-            -0.168, 
-            0.11
-        ]
+        "nMembers": 7
     }, 
     {
         "congress": 23, 
@@ -38,24 +24,7 @@
             -0.241, 
             -0.168
         ], 
-        "houseMean": -0.399, 
-        "houseMedian": -0.378, 
-        "houseMembers": 10, 
-        "houseRange": [
-            -0.622, 
-            -0.482, 
-            -0.453, 
-            -0.375, 
-            -0.29, 
-            -0.259
-        ], 
-        "nMembers": 12, 
-        "senateMean": -0.082, 
-        "senateMedian": -0.082000000000000003, 
-        "senateMembers": 2, 
-        "senateRange": [
-            -0.168
-        ]
+        "nMembers": 12
     }, 
     {
         "congress": 24, 
@@ -69,38 +38,13 @@
             -0.241, 
             -0.168
         ], 
-        "houseMean": -0.451, 
-        "houseMedian": -0.47150000000000003, 
-        "houseMembers": 8, 
-        "houseRange": [
-            -0.622, 
-            -0.535, 
-            -0.482, 
-            -0.375, 
-            -0.31
-        ], 
-        "nMembers": 10, 
-        "senateMean": -0.082, 
-        "senateMedian": -0.082000000000000003, 
-        "senateMembers": 2, 
-        "senateRange": [
-            -0.168
-        ]
+        "nMembers": 10
     }, 
     {
         "congress": 25, 
         "grandMean": -0.503, 
         "grandMedian": -0.50849999999999995, 
         "grandSet": [
-            -0.618, 
-            -0.535, 
-            -0.482, 
-            -0.353
-        ], 
-        "houseMean": -0.503, 
-        "houseMedian": -0.50849999999999995, 
-        "houseMembers": 6, 
-        "houseRange": [
             -0.618, 
             -0.535, 
             -0.482, 
