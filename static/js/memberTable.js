@@ -1,3 +1,5 @@
+var hasFilter=0;
+
 function resort(sortB)
 {
 	sortBy = sortB;
@@ -42,6 +44,11 @@ function writeBioTable()
 		else if(sortBy=="elected") { writeColumnHeader("Most Junior","arrow-up"); }
 	
 		$('#memberList').fadeIn(200);
+		if(hasFilter)
+		{
+			console.log('ok hide them');
+			hideMembersUnselected();
+		}
 	});
 }
 

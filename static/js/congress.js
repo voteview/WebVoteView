@@ -97,6 +97,7 @@ function nomPlot()
 			{
 				validSet.push(filterSelect[i].icpsr);
 			}
+			hasFilter=1;
 			hideMembersUnselected();
 		}, 300);
 	});
@@ -205,3 +206,4 @@ function hideMembersUnselected()
 		else { $(d).hide(); }
 	});
 }
+
