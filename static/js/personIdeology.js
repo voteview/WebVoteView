@@ -157,12 +157,28 @@ function drawHist(error, data)
 	}
 }
 
-function basicTestSearch()
+function startNewSearch()
 {
-	$.ajax("/api/getMemberVotesAssemble?icpsr="+memberICPSR+"&qtext="+$("#memberSearch").val(), 	
-		{"type": "GET", "success": function(d, status, xhr)
-			{
-				$('#memberVotesTable').html(d);
-			}});
+	globalNextId=0;
+	nextPageSearch();
+}
+
+function nextPageSearch()
+{
+		if(!globalNextId) $("#memberVotesTable").animate({opacity: 0});
+		$.ajax("/api/getMemberVotesAssemble?icpsr="+memberICPSR+"&qtext="+$("#memberSearch").val()+"&skip="+globalNextId, 	
+			{"type": "GET", "success": function(d, status, xhr)
+				{
+					if($('#memberSearch').val().length) { $("#voteLabel").html("Search Results"); console.log('fwd'); }
+					else { $("#voteLabel").html("Selected Votes"); console.log('back'); }
+					if(!globalNextId) $("#memberVotesTable").animate({opacity: 1});
+
+					if(globalNextId==0) { $('#memberVotesTable').html(d); }
+ 					else { $('#memberVotesTable').html($('#memberVotesTable').html() + d); }
+
+					globalNextId = xhr.getResponseHeader("Nextid");
+					if(globalNextId==0) { $("#nextVotes").fadeOut(); }
+					else { $("#nextVotes").fadeIn(); }
+				}});
 	return;
 }
