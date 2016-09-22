@@ -187,7 +187,8 @@ function compositionBar()
 	baseTipT+= "<br/><br><em>Note:</em> Counts include members elected through special elections after resignations, deaths, or vacancies.";
 	svgBucket.on('mouseover',function(d) { 
 		baseTip.html(baseTipT);
-		baseTip.style("border-left","3px solid "+colorSchemes[partyColorMap[partyNameSimplify(maxP)]][0]);
+		$('#mapTooltip').removeClass().addClass('d3-tip')
+				.addClass(partyColorMap[partyNameSimplify(maxP)]);
 		eW = baseTip.style('width');
 		baseTip.style('visibility','visible');
 	}).on('mousemove',function(d) {
