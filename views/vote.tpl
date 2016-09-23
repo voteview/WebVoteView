@@ -1,7 +1,7 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % plotTitle = "Plot Vote: "+rcSuffix(rollcall["congress"])+" Congress > "+rollcall["chamber"]+" > "+str(rollcall["rollnumber"])
-% rebase('base.tpl',title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js","/static/js/libs/sticky-kit.min.js"])
+% rebase('base.tpl',title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js","/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
 % include('header.tpl')
 % notes = []
 % if int(rollcall["congress"])<86:
@@ -20,12 +20,16 @@
 % 	noteText = ""
 % end
 
+% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
 				% if "keyvote" in rollcall and len(rollcall["keyvote"]):
-				<span class="btn btn-default btn-lg" style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" title="Vote classified as a 'Key Vote' by Congressional Quarterly.">
+				<span class="btn btn-default btn-lg" 
+					style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" 
+					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["keyvote"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end
@@ -153,7 +157,9 @@
 						(Sort by 
 						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 
 						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>, 
-						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>)
+						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>,
+						<a href="#" onclick="javascript:outVotes('x');return false;">Ideology</a>,
+						<a href="#" onclick="javascript:outVotes('prob');return false;">Vote Probability</a>)
 					</div>
 				</div>
 				<div id="voteList" style="margin-top:15px; width:100%; min-width: 1100px;"></div>
@@ -182,7 +188,7 @@ var rcID = "{{ rollcall["id"] }}";
 var mapParties = {{ mapParties }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
@@ -190,7 +196,7 @@ var mapParties = {{ mapParties }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/mapPanZoom.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/setupDC.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/voteCharts.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/dc_filterbar.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/voteFilterbar.js"></script>
 <!--<script type="text/javascript" src="{{ STATIC_URL }}js/voteChartDecorate.js"></script> -->

@@ -6,12 +6,6 @@
         "grandSet": [
             -0.113
         ], 
-        "houseMean": -0.113, 
-        "houseMedian": -0.113, 
-        "houseMembers": 1, 
-        "houseRange": [
-            -0.113
-        ], 
         "nMembers": 1
     }, 
     {
@@ -19,12 +13,6 @@
         "grandMean": 0.174, 
         "grandMedian": 0.17399999999999999, 
         "grandSet": [
-            0.174
-        ], 
-        "houseMean": 0.174, 
-        "houseMedian": 0.17399999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
             0.174
         ], 
         "nMembers": 1
@@ -37,32 +25,13 @@
             -0.23, 
             0.113
         ], 
-        "houseMean": -0.134, 
-        "houseMedian": -0.13400000000000001, 
-        "houseMembers": 2, 
-        "houseRange": [
-            -0.23
-        ], 
-        "nMembers": 3, 
-        "senateMean": 0.113, 
-        "senateMedian": 0.113, 
-        "senateMembers": 1, 
-        "senateRange": [
-            0.113
-        ]
+        "nMembers": 3
     }, 
     {
         "congress": 32, 
         "grandMean": -0.172, 
         "grandMedian": -0.222, 
         "grandSet": [
-            -0.425, 
-            0.13
-        ], 
-        "houseMean": -0.172, 
-        "houseMedian": -0.222, 
-        "houseMembers": 3, 
-        "houseRange": [
             -0.425, 
             0.13
         ], 
@@ -75,12 +44,6 @@
         "grandSet": [
             -0.215
         ], 
-        "houseMean": -0.215, 
-        "houseMedian": -0.215, 
-        "houseMembers": 1, 
-        "houseRange": [
-            -0.215
-        ], 
         "nMembers": 1
     }, 
     {
@@ -88,12 +51,6 @@
         "grandMean": -0.095, 
         "grandMedian": -0.095000000000000001, 
         "grandSet": [
-            -0.199
-        ], 
-        "houseMean": -0.095, 
-        "houseMedian": -0.095000000000000001, 
-        "houseMembers": 2, 
-        "houseRange": [
             -0.199
         ], 
         "nMembers": 2
@@ -108,15 +65,6 @@
             -0.29, 
             -0.233
         ], 
-        "houseMean": -0.386, 
-        "houseMedian": -0.41399999999999998, 
-        "houseMembers": 7, 
-        "houseRange": [
-            -0.587, 
-            -0.433, 
-            -0.29, 
-            -0.233
-        ], 
         "nMembers": 7
     }, 
     {
@@ -124,12 +72,6 @@
         "grandMean": -0.345, 
         "grandMedian": -0.34499999999999997, 
         "grandSet": [
-            -0.345
-        ], 
-        "houseMean": -0.345, 
-        "houseMedian": -0.34499999999999997, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.345
         ], 
         "nMembers": 1
@@ -141,12 +83,6 @@
         "grandSet": [
             -0.554
         ], 
-        "houseMean": -0.554, 
-        "houseMedian": -0.55400000000000005, 
-        "houseMembers": 1, 
-        "houseRange": [
-            -0.554
-        ], 
         "nMembers": 1
     }, 
     {
@@ -156,12 +92,6 @@
         "grandSet": [
             -0.256
         ], 
-        "houseMean": -0.256, 
-        "houseMedian": -0.25600000000000001, 
-        "houseMembers": 1, 
-        "houseRange": [
-            -0.256
-        ], 
         "nMembers": 1
     }, 
     {
@@ -169,12 +99,6 @@
         "grandMean": -0.349, 
         "grandMedian": -0.34899999999999998, 
         "grandSet": [
-            -0.442
-        ], 
-        "houseMean": -0.349, 
-        "houseMedian": -0.34899999999999998, 
-        "houseMembers": 2, 
-        "houseRange": [
             -0.442
         ], 
         "nMembers": 2
@@ -189,15 +113,6 @@
             -0.288, 
             -0.167
         ], 
-        "houseMean": -0.354, 
-        "houseMedian": -0.32950000000000002, 
-        "houseMembers": 6, 
-        "houseRange": [
-            -0.639, 
-            -0.371, 
-            -0.288, 
-            -0.167
-        ], 
         "nMembers": 6
     }, 
     {
@@ -205,12 +120,6 @@
         "grandMean": -0.167, 
         "grandMedian": -0.16700000000000001, 
         "grandSet": [
-            -0.167
-        ], 
-        "houseMean": -0.167, 
-        "houseMedian": -0.16700000000000001, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.167
         ], 
         "nMembers": 1
@@ -223,13 +132,6 @@
             -0.639, 
             0.048
         ], 
-        "houseMean": -0.212, 
-        "houseMedian": -0.043999999999999997, 
-        "houseMembers": 3, 
-        "houseRange": [
-            -0.639, 
-            0.048
-        ], 
         "nMembers": 3
     }, 
     {
@@ -237,12 +139,6 @@
         "grandMean": -0.18, 
         "grandMedian": -0.17999999999999999, 
         "grandSet": [
-            -0.18
-        ], 
-        "houseMean": -0.18, 
-        "houseMedian": -0.17999999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.18
         ], 
         "nMembers": 1
@@ -254,12 +150,6 @@
         "grandSet": [
             -0.266
         ], 
-        "houseMean": -0.217, 
-        "houseMedian": -0.21650000000000003, 
-        "houseMembers": 2, 
-        "houseRange": [
-            -0.266
-        ], 
         "nMembers": 2
     }, 
     {
@@ -267,12 +157,6 @@
         "grandMean": -0.299, 
         "grandMedian": -0.29899999999999999, 
         "grandSet": [
-            -0.299
-        ], 
-        "houseMean": -0.299, 
-        "houseMedian": -0.29899999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.299
         ], 
         "nMembers": 1
@@ -284,12 +168,6 @@
         "grandSet": [
             0.015
         ], 
-        "houseMean": 0.015, 
-        "houseMedian": 0.014999999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
-            0.015
-        ], 
         "nMembers": 1
     }, 
     {
@@ -297,12 +175,6 @@
         "grandMean": -0.42, 
         "grandMedian": -0.41999999999999998, 
         "grandSet": [
-            -0.42
-        ], 
-        "houseMean": -0.42, 
-        "houseMedian": -0.41999999999999998, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.42
         ], 
         "nMembers": 1

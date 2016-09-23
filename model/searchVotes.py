@@ -922,6 +922,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		Dict of results to be run through json.dumps for later output
 	"""
 
+	qtext = qtext.encode('utf-8')
 	baseRowLimit = rowLimit
 
 	print qtext

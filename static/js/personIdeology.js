@@ -156,3 +156,55 @@ function drawHist(error, data)
 		},200);		
 	}
 }
+
+function loadSavedVotes()
+{
+	if(cookieId.length)
+	{
+		$("#memberSearchBox").val("saved: "+cookieId);
+		startNewSearch()
+	}
+}
+
+function startNewSearch()
+{
+	globalNextId=0;
+	nextPageSearch();
+}
+
+function nextPageSearch()
+{
+		if(!globalNextId) $("#memberVotesTable").animate({opacity: 0});
+		else $("#loadIndicator").fadeIn();
+		$.ajax("/api/getMemberVotesAssemble?icpsr="+memberICPSR+"&qtext="+$("#memberSearchBox").val()+"&skip="+globalNextId, 	
+			{"type": "GET", "success": function(d, status, xhr)
+				{
+					if($('#memberSearch').val().length) { $("#voteLabel").html("Search Results"); console.log('fwd'); }
+					else { $("#voteLabel").html("Selected Votes"); console.log('back'); }
+					if(!globalNextId) $("#memberVotesTable").animate({opacity: 1});
+
+					if(globalNextId==0) { $('#memberVotesTable').html(d); }
+ 					else { $('#memberVotesTable').html($('#memberVotesTable').html() + d); }
+
+					globalNextId = xhr.getResponseHeader("Nextid");
+					if(globalNextId==0) { $("#nextVotes").fadeOut(); }
+					else { $("#nextVotes").fadeIn(); }
+
+					$('[data-toggle="tooltip"]').tooltip();
+					$("#loadIndicator").hide();
+				}});
+	return;
+}
+
+$(document).ready(function(){
+	cookieId = Cookies.get('stash_id');
+	if(cookieId==undefined || cookieId.length<8) $('#loadStash').hide();
+	else
+	{
+		$.ajax("/api/stash/get?id="+cookieId, {"type": "GET", "success": function(d, status, xhr)
+			{
+				if(d["old"].length || d["votes"].length) { $("#loadStash").show(); console.log('Stash votes exist.'); }
+				else { $("#loadStash").hide(); console.log('No stash votes.'); }
+			}});
+	}
+});

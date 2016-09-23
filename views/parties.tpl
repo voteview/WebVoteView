@@ -2,7 +2,7 @@
 % if len(partyNameFull):
 %	partyNameFull = " > "+partyNameFull
 % end
-% rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js"], extra_css=['map.css', 'bootstrap-slider.css'])
+% rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/stateMeta.js"], extra_css=['map.css', 'bootstrap-slider.css'])
 % include('header.tpl')
 <div class="container">
 	
@@ -85,9 +85,8 @@
 			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
 			<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
 		</div>
-		<div id="memberList" style="margin-bottom:40px;" class="clearfix">
-		</div>
-
+		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
+		</ul>
 	</div>
 </div>
 
@@ -99,7 +98,7 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.v1.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/party.js"></script>

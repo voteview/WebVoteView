@@ -87,7 +87,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 						'state': member['stateAbbr'],
 					}
 					try:
-						v['prob'] = [m["p"] for m in rollcall["votes"] if m["id"]==member["id"]][0]
+						v['prob'] = [int(round(m["p"])) for m in rollcall["votes"] if m["id"]==member["id"]][0]
 					except:
 						pass
 

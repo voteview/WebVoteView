@@ -6,12 +6,6 @@
         "grandSet": [
             0.185
         ], 
-        "houseMean": 0.185, 
-        "houseMedian": 0.185, 
-        "houseMembers": 1, 
-        "houseRange": [
-            0.185
-        ], 
         "nMembers": 1
     }, 
     {
@@ -19,12 +13,6 @@
         "grandMean": -0.033, 
         "grandMedian": -0.033000000000000002, 
         "grandSet": [
-            -0.033
-        ], 
-        "houseMean": -0.033, 
-        "houseMedian": -0.033000000000000002, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.033
         ], 
         "nMembers": 1
@@ -36,12 +24,6 @@
         "grandSet": [
             -0.033
         ], 
-        "houseMean": -0.033, 
-        "houseMedian": -0.033000000000000002, 
-        "houseMembers": 1, 
-        "houseRange": [
-            -0.033
-        ], 
         "nMembers": 1
     }, 
     {
@@ -49,12 +31,6 @@
         "grandMean": -0.033, 
         "grandMedian": -0.033000000000000002, 
         "grandSet": [
-            -0.033
-        ], 
-        "houseMean": -0.033, 
-        "houseMedian": -0.033000000000000002, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.033
         ], 
         "nMembers": 1
@@ -66,12 +42,6 @@
         "grandSet": [
             0.185
         ], 
-        "houseMean": 0.185, 
-        "houseMedian": 0.185, 
-        "houseMembers": 1, 
-        "houseRange": [
-            0.185
-        ], 
         "nMembers": 1
     }, 
     {
@@ -81,12 +51,6 @@
         "grandSet": [
             0.185
         ], 
-        "houseMean": 0.185, 
-        "houseMedian": 0.185, 
-        "houseMembers": 1, 
-        "houseRange": [
-            0.185
-        ], 
         "nMembers": 1
     }, 
     {
@@ -94,12 +58,6 @@
         "grandMean": 0.185, 
         "grandMedian": 0.185, 
         "grandSet": [
-            0.185
-        ], 
-        "houseMean": 0.185, 
-        "houseMedian": 0.185, 
-        "houseMembers": 1, 
-        "houseRange": [
             0.185
         ], 
         "nMembers": 1

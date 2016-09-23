@@ -1,3 +1,10 @@
+/* MODIFIED TO ADD */
+div#party-map-chart g.state path { stroke: black; }
+.dc-chart g.district { cursor:pointer; }
+.dc-chart g.district :hover { fill-opacity: .8; }
+.dc-chart g.district path { stroke: white; }
+
+/* MODIFICATIONS TO STOCK SEARCH MODIFIED */
 div.dc-chart {
     float: left;
 }
@@ -26,6 +33,15 @@ div.dc-chart {
     fill: #ccc;
 }
 
+.dc-chart .empty-chart .pie-slice path {
+    fill: #FFEEEE;
+    cursor: default;
+}
+
+.dc-chart .empty-chart .pie-slice {
+    cursor: default;
+}
+
 .dc-chart .pie-slice {
     fill: white;
     font-size: 12px;
@@ -45,7 +61,8 @@ div.dc-chart {
 }
 
 .dc-chart .selected path {
-    stroke: black;
+    stroke-width: 3;
+    /* stroke: #ccc;  MODIFIED */
     fill-opacity: 1;
 }
 
@@ -55,11 +72,20 @@ div.dc-chart {
     fill: #ccc;
 }
 
-.dc-chart .axis path, .axis line {
+
+.dc-chart .axis path {
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
 }
+
+/* MODIFIED: .axis line was part of the .axis path definition, I separated to make line lighter. */
+.dc-chart .axis line {
+    fill: none;
+    stroke: #ccc;
+    shape-rendering: crispEdges;
+}
+/* END MODIFICATION */
 
 .dc-chart .axis text {
     font: 10px sans-serif;
@@ -168,21 +194,14 @@ div.dc-chart {
 
 .dc-chart g.state path {
     stroke: white;
-    //stroke-width: 1px;
 }
-
-div#party-map-chart g.state path { stroke: black; }
-
-.dc-chart g.district { cursor:pointer; }
-.dc-chart g.district :hover { fill-opacity: .8; }
-.dc-chart g.district path { stroke: white; } //stroke-width: 1px;}
 
 .dc-chart g.selected path {
 }
 
 .dc-chart g.deselected path {
-    fill: #f7f7f7;
-    stroke: black;
+    fill: grey;
+    stroke: black; /* MODIFIED TO ADD */
 }
 
 .dc-chart g.selected text {
@@ -251,7 +270,8 @@ div#party-map-chart g.state path { stroke: black; }
     stroke-opacity: 0.2;
 }
 
-.dc-chart path.dc-symbol, g.dc-legend-item.fadeout {
+.dc-chart path.dc-symbol,
+g.dc-legend-item.fadeout {
     fill-opacity: 0.5;
     stroke-opacity: 0.5;
 }
@@ -313,3 +333,5 @@ div#party-map-chart g.state path { stroke: black; }
     pointer-events: all;
     cursor: pointer;
 }
+
+

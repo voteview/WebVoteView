@@ -23,7 +23,7 @@ legislators on a spatial map. In this sense, a spatial map is much like a road m
 legislators on the map shows how similar their voting records are. Using this measure of distance, D-NOMINATE
 is able to recover the "dimensions" that inform congressional voting behaviour.<br/><br/>
 
-The primary dimension through most of American history has been "liberal" vs. "conservative" (also referred as "left" vs. "right"). A second
+The primary dimension through most of American history has been "liberal" vs. "conservative" (also referred to as "left" vs. "right"). A second
 dimension picks up differences within the major political parties over slavery, currency, nativism, civil rights,
 and lifestyle issues during periods of American history.<br/><br/>
 

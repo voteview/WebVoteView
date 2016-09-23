@@ -52,10 +52,10 @@
 			<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
 			<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
 			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-			<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
+			<a href="#" onclick="javascript:resort('elected{{chamber[0].upper()+chamber[1:]}}');return false;">Seniority</a>)
 		</div>
-		<div id="memberList" style="margin-bottom:40px;" class="clearfix">
-		</div>
+		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
+		</ul>
 
 	</div>
 </div>

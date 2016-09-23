@@ -13,6 +13,7 @@ from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty
 from model.searchParties import partyLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
+from model.prepVotes import prepVotes
 import model.downloadXLS
 import model.stashCart
 import model.partyData
@@ -158,17 +159,14 @@ def congress(chamber="senate"):
 @app.route("/parties")
 @app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
-def parties(party=200, congStart=-1):
+def parties(party="all", congStart=-1):
 	# Just default for now
 	try:
 		party = int(party)
 	except:
-		if party=="all":
-			maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
-			output = bottle.template("views/partiesGlance", maxCongress=maxCongress)
-			return output
-		else:
-			party = 200
+		maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+		output = bottle.template("views/partiesGlance", maxCongress=maxCongress)
+		return output
 
 	if congStart==-1:
 		congStart = int(json.load(open("static/config.json","r"))["maxCongress"])
@@ -218,6 +216,8 @@ def person(icpsr=0):
     timeIt("begin")
     if not icpsr:
         icpsr = defaultValue(bottle.request.params.icpsr,0)
+
+    skip = 0
 
     # Easter Egg
     keith = defaultValue(bottle.request.params.keith, 0)
@@ -290,48 +290,20 @@ def person(icpsr=0):
         voteQuery = query(qtext="voter: "+str(person["id"]), rowLimit=25, jsapi=1)
         timeIt("gotVotes")
 
-        if not "errorMessage" in voteQuery and "rollcalls" in voteQuery:
-            votes = voteQuery["rollcalls"]
-            idSet = [v["id"] for v in votes]
-            rollcallsFinal = model.downloadVotes.downloadAPI(idSet,"Web_Person")
-
-            if "rollcalls" in rollcallsFinal and len(rollcallsFinal["rollcalls"])>0:
-                for i in xrange(0, len(idSet)):
-		    # Isolate votes from the rollcall
-                    iV = [r for r in rollcallsFinal["rollcalls"] if r["id"]==votes[i]["id"]][0]
-                    votes[i]["myVote"] = [v["vote"] for v in iV["votes"] if v["id"]==person["id"]][0]
-		    # Isolate my probability from the rollcall, if it's there.
-		    try:
-		        votes[i]["myProb"] = [v["prob"] for v in iV["votes"] if v["id"]==person["id"]][0]		        
-		    except:
-		        pass
-
-		    try:
-	                    votes[i]["partyVote"] = [v for k, v in iV["resultparty"].iteritems() if k==person["partyname"]][0]
-        	            votes[i]["pVSum"] = sum([1*v if int(k)<=3 else -1*v if int(k)<=6 else 0 for k, v in votes[i]["partyVote"].iteritems()])
-                	    votes[i]["partyLabelVote"] = "Yea" if votes[i]["pVSum"]>0 else "Nay" if votes[i]["pVSum"]<0 else "Tie"
-		    except:
-			    votes[i]["partyLabelVote"] = "N/A"
-			    votes[i]["pVSum"] = 0
-
-            else:
-                votes = []
-        else:
-            votes = []
+	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
 
         if "bio" in person:
             person["bio"] = person["bio"].replace("a Representative","Representative")
 
         timeIt("readyOut")
         # Go to the template.
-        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes())
+        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"])
         return(output)
 
     # If we have an error, return an error page
     else:
         output = bottle.template("views/error", errorMessage=person["errormessage"])
         return(output)
-
 
 @app.route("/rollcall")
 @app.route("/rollcall/<rollcall_id>")
@@ -350,7 +322,7 @@ def rollcall(rollcall_id=""):
         output = bottle.template("views/error", errorMessage=rollcall["errormessage"])
         return(output)
 
-    output = bottle.template("views/dc_rollcall", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
+    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
     return(output)
 
 
@@ -417,8 +389,12 @@ def getmembersbycongress():
 def getmembersbyparty():
 	st = time.time()
 	id = defaultValue(bottle.request.params.id,0)
+	try:
+		congress = int(defaultValue(bottle.request.params.congress,0))
+	except:
+		congress = 0
 	api = defaultValue(bottle.request.params.api,"")
-	out = getMembersByParty(id, api)
+	out = getMembersByParty(id, congress, api)
 	if api=="Web_Party":
 		for i in range(0,len(out["results"])):
 			memberRow = out["results"][i]
@@ -649,6 +625,43 @@ def searchAssemble():
             out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
     return(out)
 
+@app.route("/api/getMemberVotesAssemble")
+def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
+	icpsr = defaultValue(bottle.request.params.icpsr,0)
+	qtext = defaultValue(bottle.request.params.qtext,"")
+	skip = 0
+	skip = defaultValue(bottle.request.params.skip,0)
+
+	if not icpsr:
+		output = bottle.template("views/error", errorMessage="No member specified.")
+		bottle.response.headers["nextId"] = 0
+		return(output)
+		
+	person = memberLookup({"icpsr": icpsr})
+	if not "error" in person:
+		person = person["results"][0]
+	else:
+		output = bottle.template("views/error", errorMessage=person["errormessage"])
+		bottle.response.headers["nextId"] = 0
+		return(output)
+
+	votes = []
+
+	if qtext:
+		qtext = qtext+" AND (voter: "+str(person["id"])+")"
+	else:
+		qtext = "voter: "+str(person["id"])
+
+	if skip:
+		voteQuery = query(qtext, rowLimit=25, jsapi=1, sortSkip=skip)
+	else:
+		voteQuery = query(qtext, rowLimit=25, jsapi=1)
+
+	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
+        output = bottle.template("views/voteTable",person=person, votes=votes, skip=skip, nextId=voteQuery["nextId"])
+
+	bottle.response.headers["nextId"] = voteQuery["nextId"]
+	return(output)
 
 @app.route("/api/search", method="POST")
 @app.route("/api/search")
@@ -799,7 +812,6 @@ def setSearch():
 @app.route("/api/version")
 def apiVersion():
     return({'apiversion': 'Q3 June 22, 2016'})
-
 
 if __name__ == '__main__':
     bottle.run(host='localhost', port=8080, debug=True)
