@@ -3,8 +3,39 @@ import json
 import traceback
 from pymongo import MongoClient
 client = MongoClient()
-dbConf = json.load(open("./model/db.json","r"))
+try:
+	dbConf = json.load(open("./model/db.json","r"))
+except:
+	dbConf = json.load(open("./db.json","r"))
 db = client[dbConf["dbname"]]
+
+dimweight = 0.4156
+def add_endpoints(mid, spread):
+	"""Add attributes to nomimate attribute that aid in
+	drawing cutting lines
+	"""
+
+	print mid, spread
+	
+	if (spread[0] == 0 and
+			float(spread[1]) == 0 and
+			float(mid[0]) == 0 and
+			float(mid[1]) == 0):
+		x = [0, 0]
+		y = [0, 0]
+	elif abs(float(spread[1])) < 1e-16:
+		x = [float(mid[0]),float(mid[0])]
+		y = [-10, 10]
+		slope = 1000
+		intercept = -slope * (float(mid[0])
+					+ float(mid[1]))
+	else:
+		slope = -float(spread[0] / (float(spread[1]) * dimweight * dimweight))
+		intercept = (-slope * float(mid[0]) + float(mid[1]))
+		x = [10, -10]
+		y = [intercept + slope * xx for xx in x]
+
+	return slope, intercept, x, y
 
 def _get_yeanayabs(vote_id):
 	"""
@@ -120,6 +151,18 @@ def downloadAPI(rollcall_id, apitype="Web"):
 					result.append(v)
 
 			# Top level nominate metadata
+			if "nominate" in rollcall and "slope" in rollcall["nominate"]:
+				del rollcall["nominate"]["slope"]
+			if "nominate" in rollcall and "intercept" in rollcall["nominate"]:
+				del rollcall["nominate"]["intercept"]
+			if "nominate" in rollcall and "x" in rollcall["nominate"]:
+				del rollcall["nominate"]["x"]
+			if "nominate" in rollcall and "y" in rollcall["nominate"]:
+				del rollcall["nominate"]["y"]
+
+			if "nominate" in rollcall and "mid" in rollcall["nominate"] and "spread" in rollcall["nominate"] and rollcall["nominate"]["spread"][0] is not None:
+				rollcall["nominate"]["slope"], rollcall["nominate"]["intercept"], rollcall["nominate"]["x"], rollcall["nominate"]["y"] = add_endpoints(rollcall["nominate"]["mid"], rollcall["nominate"]["spread"])
+
 			if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
 				nominate = rollcall['nominate']
 			elif apitype=="R":
@@ -190,5 +233,5 @@ if __name__=="__main__":
 #	print downloadStash("3a5c69e7")
 #	print downloadAPI("S1140430")
 #	print downloadAPI("H1030301", "R")
-	print downloadAPI("H1141178", "Web_Person")["rollcalls"][0]["resultparty"]
+	print downloadAPI("S1140473", "Web_Person")["rollcalls"][0]["nominate"]
 	pass
