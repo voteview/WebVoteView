@@ -1,6 +1,6 @@
 # WebVoteView
 
-This is the source repository for WebVoteView, hosted at [voteview.polisci.ucla.edu].
+This is the source repository for WebVoteView, hosted at [http://voteview.polisci.ucla.edu].
 
 Our site backend is MongoDB+Python (Bottle), and our frontend uses JQuery, D3, DC.js, Bootstrap, and other dependencies. For more information on our stack, please check the [Wiki](https://github.com/JeffreyBLewis/WebVoteView/wiki). We develop in the dev branch and deploy stable deployments to master.
 
