@@ -6,12 +6,6 @@
         "grandSet": [
             0.219
         ], 
-        "houseMean": 0.219, 
-        "houseMedian": 0.219, 
-        "houseMembers": 1, 
-        "houseRange": [
-            0.219
-        ], 
         "nMembers": 1
     }, 
     {
@@ -19,12 +13,6 @@
         "grandMean": -0.422, 
         "grandMedian": -0.42199999999999999, 
         "grandSet": [
-            -0.422
-        ], 
-        "houseMean": -0.422, 
-        "houseMedian": -0.42199999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.422
         ], 
         "nMembers": 1
@@ -36,12 +24,6 @@
         "grandSet": [
             -0.422
         ], 
-        "houseMean": -0.422, 
-        "houseMedian": -0.42199999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
-            -0.422
-        ], 
         "nMembers": 1
     }, 
     {
@@ -49,12 +31,6 @@
         "grandMean": -0.422, 
         "grandMedian": -0.42199999999999999, 
         "grandSet": [
-            -0.422
-        ], 
-        "houseMean": -0.422, 
-        "houseMedian": -0.42199999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.422
         ], 
         "nMembers": 1
@@ -66,12 +42,6 @@
         "grandSet": [
             -0.422
         ], 
-        "houseMean": -0.422, 
-        "houseMedian": -0.42199999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
-            -0.422
-        ], 
         "nMembers": 1
     }, 
     {
@@ -81,12 +51,6 @@
         "grandSet": [
             -1.0
         ], 
-        "houseMean": -0.711, 
-        "houseMedian": -0.71099999999999997, 
-        "houseMembers": 2, 
-        "houseRange": [
-            -1.0
-        ], 
         "nMembers": 2
     }, 
     {
@@ -94,12 +58,6 @@
         "grandMean": -0.422, 
         "grandMedian": -0.42199999999999999, 
         "grandSet": [
-            -0.422
-        ], 
-        "houseMean": -0.422, 
-        "houseMedian": -0.42199999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.422
         ], 
         "nMembers": 1

@@ -6,12 +6,6 @@
         "grandSet": [
             0.18
         ], 
-        "houseMean": 0.18, 
-        "houseMedian": 0.17999999999999999, 
-        "houseMembers": 1, 
-        "houseRange": [
-            0.18
-        ], 
         "nMembers": 1
     }, 
     {
@@ -19,12 +13,6 @@
         "grandMean": -0.086, 
         "grandMedian": -0.085999999999999993, 
         "grandSet": [
-            -0.086
-        ], 
-        "houseMean": -0.086, 
-        "houseMedian": -0.085999999999999993, 
-        "houseMembers": 1, 
-        "houseRange": [
             -0.086
         ], 
         "nMembers": 1

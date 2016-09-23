@@ -6,12 +6,6 @@
         "grandSet": [
             0.906
         ], 
-        "nMembers": 1, 
-        "senateMean": 0.906, 
-        "senateMedian": 0.90600000000000003, 
-        "senateMembers": 1, 
-        "senateRange": [
-            0.906
-        ]
+        "nMembers": 1
     }
 ]

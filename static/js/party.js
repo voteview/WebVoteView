@@ -12,12 +12,7 @@ var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
 var inLoop, playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
 var mapTopo;
-
-var eW=0; var eH = 0;
-function tooltip(d)
-{
-	return JSON.stringify(d);
-}
+var globalPartyName;
 
 function congYear(num) { return [1787+2*num, 1788+2*num]; }
 
@@ -26,6 +21,19 @@ function getGetOrdinal(n) {
     var s=["th","st","nd","rd"],
     v=n%100;
     return n+(s[(v-20)%10]||s[v]||s[0]);
+}
+
+var eW = 0; var eH = 0;
+function tooltipText(d)
+{
+	var nays=0; var yeas=0; var abs=0;
+	var result = "<p>"+getGetOrdinal(currCong)+" Congress &gt; <strong>" + stateMap[d.key] + "</strong></p>";
+	result = result + globalPartyName+" control "+d.value+"% of the ";
+	if(groupSel=="both") result += "House and Senate";
+	else if(groupSel=="house") result += "House";
+	else result += "Senate";
+	result += " in this state.";
+	return(result);
 }
 
 var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
@@ -263,7 +271,7 @@ q
 	// Now let's make our map!
 	mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
 	partyMapChart
-		.width(920)
+		.width(930)
 		.height(500)
 		.dimension(stateDimension)
 		.group(bothGroup)
@@ -277,12 +285,51 @@ q
 			return colourSet[colourSet.length-1];
 		})
 		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
+		.renderTitle(false)
 		.on('preRedraw',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); })
-		.on('postRender',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); });
+		.on('postRender',function(c) 
+		{ 
+			c.svg() // Chart SVG
+				.selectAll("path") // Attach the listeners to every path (district) item in the SVG
+				.on('mouseover', function(d,i) // When you mouseover, it's a new district, set up the tooltip and make it visible
+				{ 
+					var districtSet = c.data();
+					var result = $.grep(c.data(), function(e){
+						return e.key == d.id; 
+					});
+					if(result[0]==undefined) baseToolTip.html(""); // Don't tooltip null results.
+					else baseToolTip.html(tooltipText(result[0])); 
+					eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
+					eW = baseToolTip.style("width");
+					baseToolTip.style("visibility","visible"); 
+				})
+				.on('mouseout', function() { baseToolTip.style("visibility","hidden"); }) // If you mouse out of the districts, hide the tooltip
+				.on('mousemove', function(d, i)
+				{ // If you move your mouse within the district, update the position of the tooltip.
+					if(baseToolTip.html().length) baseToolTip.style("visibility","visible");
+					else baseToolTip.style("visibility","hidden");
+					baseToolTip.style("top",(event.pageY+32)+"px")
+						.style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+				});
 
+			// Toggle off states that are not valid, put the legend and the title label.
+			fadeStates(c); 
+			ensureTextLabel(c); 
+			ensureLegend(c); 
+		});
+
+        dc.renderAll();
+	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
+	globalPartyName = partyname["pluralNoun"];
+	$(".fullName").html(partyname["fullName"]);
+	$(".pluralNoun").html(partyname["pluralNoun"]);
+	$(".noun").html(partyname["noun"]);
+	$("#loading-container").slideUp();
+
+	var initialCong = maxCong; //(maxCong==max)?max:0;
 	$.ajax({
 		dataType: "JSON",
-		url: "/api/getmembersbyparty?id="+party_param+"&api=Web_Party",
+		url: "/api/getmembersbyparty?id="+party_param+"&congress="+initialCong+"&api=Web_Party",
 		success: function(data, status, xhr)
 		{
 			resultCache = data;
@@ -290,12 +337,6 @@ q
 		}
 	});
 
-        dc.renderAll();
-	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
-	$(".fullName").html(partyname["fullName"]);
-	$(".pluralNoun").html(partyname["pluralNoun"]);
-	$(".noun").html(partyname["noun"]);
-	$("#loading-container").delay(200).slideUp();
     });
 
 function fadeStates(c)
@@ -306,11 +347,11 @@ function fadeStates(c)
 	{
 		if(currentYear[0]>=mapTopo[i].properties["STARTYEAR"] && currentYear[1]<=mapTopo[i].properties["ENDYEAR"])
 		{
-			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1);
+			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1).style("pointer-events","auto");
 		}
 		else
 		{
-			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0);
+			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0).style("pointer-events","none");
 
 		}
 	}
@@ -339,18 +380,6 @@ function ensureLegend(c)
 	}
 	legendBox.append("text").attr("x",bX+10).attr("y",bY+15+((colourSet.length)*20)).attr("font-size","0.9em")
 				.text(function() { return "0%"; });
-
-	/*if(currCong<86)
-	{
-		// Divider line
-		legendBox.append("rect").attr("x",bX).attr("y",bY+22+( (colourSet.length)*20))
-					.attr("width","70").attr("height","1").attr("fill","#EEEEEE");
-		// Not a state
-		legendBox.append("rect").attr("x",bX).attr("y",bY+10+((colourSet.length+1)*20))
-					.attr("width","6").attr("height","20").attr("fill","#CCCCCC");
-		legendBox.append("text").attr("x",bX+10).attr("y",bY+22+((colourSet.length+1)*20)).attr("font-size","0.7em")
-					.text(function() { return "Not a US State"; });
-	}*/
 }
 
 function ensureTextLabel(c)
@@ -422,19 +451,20 @@ function switchCongress(num, autoLoop=0)
 	var loadNum = num;
 	if(num<100) { loadNum = "0"+loadNum; }
 
-	// Map substitution
-	/*d3.json("/static/json/states"+loadNum+".json", function(error, stateboundaries)
-	{
-		if(!error)
-		{
-			var mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
-			partyMapChart.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
-			partyMapChart.render();
-		}
-	});*/
-
 	toggleMapSupport(groupSel);
 	currCong=num;
+	if(!inLoop)
+	{
+		$.ajax({
+			dataType: "JSON",
+			url: "/api/getmembersbyparty?id="+party_param+"&congress="+currCong+"&api=Web_Party",
+			success: function(data, status, xhr)
+			{
+				resultCache = data;
+				writeBioTable();
+			}
+		});
+	}
 }
 
 function playLoopInt()
@@ -473,19 +503,14 @@ function stopLoop()
 	forceStopLoop=1;
 	inLoop=0;
 	clearTimeout(playLoop);
-}
 
-function writeBioTable()
-{
-	var rC = resultCache["results"];
-	if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
-	else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
-	else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
-	else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
-	$("#memberList").html("");
-	$.each(rC,function(k, v)
-	{
-		constructPlot(v);
+	$.ajax({
+		dataType: "JSON",
+		url: "/api/getmembersbyparty?id="+party_param+"&congress="+currCong+"&api=Web_Party",
+		success: function(data, status, xhr)
+		{
+			resultCache = data;
+			writeBioTable();
+		}
 	});
-	$('#content').fadeIn();
 }

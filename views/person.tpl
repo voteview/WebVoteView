@@ -1,3 +1,4 @@
+% import datetime
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % rebase("base.tpl",title=person["canonicalName"], extra_css=["map.css"])
@@ -25,6 +26,7 @@
 %	plotIdeology = 1
 % end
 % person["lastName"] = person["canonicalName"].split(",")[0].upper()[0]+person["canonicalName"].split(",")[0].lower()[1:]
+% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 <div class="container">
 
     <div class="row">
@@ -50,7 +52,7 @@
 	    <h4>{{ label }}
 		% z = 0
 		% for chunk in person["yearsOfService"]:
-			% if chunk[1]>2016:
+			% if chunk[1]>=datetime.datetime.now().year:
 			% chunk[1] = "Present"
 			% end
 			% if z>0:
@@ -117,77 +119,45 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Biography</h3>
-			{{ person["bio"] }}
+			{{ !person["bio"] }}
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></small>
 		</div>
 	</div>
 	% end
     <div class="row">
         <div class="col-md-12">
-            <h3>Selected Votes</h3>
-                <table class="table table-hover dc-data-table">
-                    <thead>
-                    <tr class="header">
-			<th width="9%" style="text-align:right;">Date</th>
-                        <th width="71%">Description</th>
-			<th width="3%">Member Vote</th>
-			<th width="3%">Party Vote</th>
-			<th width="3%" style="text-align:right;">Vote Prob.</th>
-			<th width="7%" style="text-align:right;">Result</th>
-                        <th width="3%">Graph</th>
-                    </tr>
-                    </thead>
-		    % lastDate = "0000-00-00"
-                    % for vote in votes:
-                        <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
-			    <td align="right">
-				% if lastDate!=vote["date"]:
-				{{vote["date"]}}
-				% end
-			    </td>
-                            <td style="border-right:1px solid #dddddd;">
-				% if "description" in vote and vote["description"] is not None and len(vote["description"]):
-				{{ vote["description"] }}
-				% elif "shortdescription" in vote and vote["shortdescription"] is not None and len(vote["shortdescription"]):
-				{{ vote["shortdescription"] }}
-				% elif "question" in vote and vote["question"] is not None and len(vote["question"]):
-				{{ vote["question"] }}
-				% else:
-				{{rcSuffix(vote["congress"])}} Congress &gt; {{vote["chamber"]}} &gt; Vote {{vote["rollnumber"]}}
-				% end
-				% if "keyvote" in vote and len(vote["keyvote"]):
-				<span class="btn btn-default btn-xs" aria-label="Key Vote" style="margin-left: 10px;" data-toggle="tooltip" data-placement="bottom" title="Vote classified as a 'Key Vote' by Congessional Quarterly.">
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
-				</span>
-				% end
-			    </td>
-			    <td>{{vote["myVote"]}}</td>
-			    <td>
-				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
-					<span style="color:red;">
-				% end
-				{{vote["partyLabelVote"]}}
-				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
-					</span>
-				% end
-			    </td>
-			    <td align="right">
-				% if "myProb" in vote:
-					% if vote["myProb"]<25:
-					<span style="color:red;">{{round(vote["myProb"])}}%</span>
-					% else:
-					{{vote["myProb"]}}
-					%end
-				% end
-			    </td>
-			    <td align="right">{{vote["yea"]}}-{{vote["nay"]}}</td>
-                            <td>
-				<a href="/rollcall/{{ vote["id"] }}"><img src="/static/img/graph.png" style="width:24px;margin-right:16px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
-			    </td>
-                        </tr>
-			% lastDate = vote["date"]
-                    % end
-                </table>
+	    <form onsubmit="javascript:startNewSearch();return false;" class="form-horizontal">
+	    <div id="search-container" style="padding-top:10px; padding-bottom:10px; clear:both;">
+		<h3 id="voteLabel" style="float:left;">Selected Votes</h3>
+
+		<div class="input-group" style="float:right; padding-top:12px; min-width:400px; width:400px;">
+			<div id="memberSearch" class="input-group-btn">
+				<button type="button" style="display:none;" 
+					class="btn btn-primary" id="loadStash" 
+					onClick="javascript:loadSavedVotes();return false;"
+					data-toggle="tooltip" data-placement="top" title="Load Saved Votes into Search">
+					<span class="glyphicon glyphicon-upload"></span>
+				</button>
+			</div>
+			<input type="text" id="memberSearchBox" class="form-control">
+			<div class="input-group-btn">
+				<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+			</div>
+		</div>
+
+		<span style="clear:both;display:block;"></span>
+	    </div>
+	    </form>
+
+		<div id="memberVotesTable">
+			%include('voteTable.tpl', skip=0)
+		</div>
+		<div style="float:right;">
+			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a> 
+		</div>
+		<div id="loadIndicator" style="float:right;margin-right:25px;display:none;">
+			<img src="/static/img/loading.gif"> 
+		</div>
         </div>
     </div>
 </div>
@@ -204,9 +174,10 @@ var congressNum = {{person["congress"]}};
 var memberIdeal = {{person["nominate"]["oneDimNominate"]}};
 var memberIdealBucket = Math.floor({{person["nominate"]["oneDimNominate"]}}*10);
 var memberPartyName = "{{person["partyname"]}}";
+var globalNextId = {{nextId}};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>

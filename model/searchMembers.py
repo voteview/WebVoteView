@@ -61,7 +61,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["stateName"] = state.capitalize()
 	if congress:
 		try:
-			if not " " in congress: # congress is just a number
+			print type(congress), type(0), type(congress)==type(0)
+			if type(congress) == type(0): # congrss is already a number
+				searchQuery["congress"] = congress
+			elif not " " in congress: # congress is just a number
 				congress = int(congress)
 				searchQuery["congress"] = congress
 			elif "[" in congress and "]" in congress and "to" in congress: # congress is a range
@@ -77,6 +80,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 				searchQuery["congress"] = {}
 				searchQuery["congress"]["$in"] = vals
 		except:
+			print traceback.format_exc()
 			return({"errormessage": "Invalid congress ID supplied."})
 
 	if name:
@@ -114,7 +118,11 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	elif api=="Web_FP_Search":
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "congresses": 1, "stateAbbr": 1}
 	elif api=="Web_Congress":
-		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1}
+		if chamber:
+			fieldName = "elected"+chamber
+			fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1, fieldName: 1}
+		else:
+			fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1, "electedSenate": 1, "electedHouse": 1}
 	elif api=="Web_Party":
 		fieldSet = {"bioName": 1, "fname": 1, "name": 1, "partyname": 1, "icpsr": 1, "stateName": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.oneDimNominate": 1, "nominate.twoDimNominate": 1, "congresses": 1, "stateAbbr": 1}
 	elif api=="R":
@@ -165,12 +173,15 @@ def getMembersByCongress(congress, chamber, api="Web"):
 	else:
 		return({'errormessage': 'You must provide a chamber or congress.'})
 
-def getMembersByParty(id, api="Web"):
-	if not id:
-		return({'errormessage': 'You must provide a party ID.'})
-	else:
+def getMembersByParty(id, congress, api="Web"):
+	if id and congress:
+		return(memberLookup({"party": id, "congress": congress}, maxResults=500, distinct=1, api=api))
+	elif id:
 		return(memberLookup({"party": id}, maxResults=500, distinct=1, api=api))
+	else:
+		return({'errormessage': 'You must provide a party ID.'})
 
 if __name__ == "__main__":
-	print getMembersByParty(200,"Web_Party")
+	#print getMembersByParty(29, 28, "Web_Party")
+	#print getMembersByParty(200, 0, "Web_Party")
 	pass
