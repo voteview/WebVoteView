@@ -9,7 +9,8 @@ except:
 	dbConf = json.load(open("./db.json","r"))
 db = client[dbConf["dbname"]]
 
-dimweight = 0.4156
+dimweight = 0.4158127 # (was set to  0.4156) needs to be extracted from the DB based on most recent nominate run   
+
 def add_endpoints(mid, spread):
 	"""Add attributes to nomimate attribute that aid in
 	drawing cutting lines

@@ -41,7 +41,7 @@ var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("
 var q = queue()
     .defer(d3.json, "/static/partyjson/"+party_param+".json")
     .defer(d3.json, "/static/partyjson/grand.json")
-    .defer(d3.json, "/api/getPartyName?id="+party_param)
+    .defer(d3.json, "/api/getPartyData?id="+party_param)
     .defer(d3.json, "/static/json/states_all.json")
     .defer(d3.json, "/static/controljson/"+party_param+".json")
     .defer(d3.json, "/static/config.json");

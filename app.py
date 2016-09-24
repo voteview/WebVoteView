@@ -178,36 +178,36 @@ def parties(party="all", congStart=-1):
 
 	if party not in xrange(0, 50001):
 		party = 200
-	partyData = model.partyData.getPartyName(party)
+	partyData = model.partyData.getPartyData(party)
 	if "fullName" in partyData:
 		partyNameFull = partyData["fullName"]
 	else:
 		partyNameFull = ""
 	
-	output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull, congStart=congStart)
+	output = bottle.template("views/parties", party=party, partyData=partyData, partyNameFull=partyNameFull, congStart=congStart)
 	return output
 
-def parties(party=200):
-    # Just default for now
-    try:
-        party = int(party)
-    except:
-        if party=="all":
-            output = bottle.template("views/partiesGlance")
-            return output
-        else:
-            party = 200
-
-    if party not in xrange(0, 50001):
-        party = 200
-    partyData = model.partyData.getPartyName(party)
-    if "fullName" in partyData:
-        partyNameFull = partyData["fullName"]
-    else:
-        partyNameFull = ""
-
-    output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull)
-    return output
+#def parties(party=200):
+#    # Just default for now
+#    try:
+#        party = int(party)
+#    except:
+#        if party=="all":
+#            output = bottle.template("views/partiesGlance")
+#            return output
+#        else:
+#            party = 200
+#
+#    if party not in xrange(0, 50001):
+#        party = 200
+#    partyData = model.partyData.getPartyData(party)
+#    if "fullName" in partyData:
+#        partyNameFull = partyData["fullName"]
+#    else:
+#        partyNameFull = ""
+#
+#    output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull)
+#    return output
 
 @app.route("/person")
 @app.route("/person/<icpsr>")
@@ -676,11 +676,11 @@ def search():
     return(res)
 
 
-@app.route("/api/getPartyName", method="POST")
-@app.route("/api/getPartyName")
+@app.route("/api/getPartyData", method="POST")
+@app.route("/api/getPartyData")
 def getPartyName():
     id = defaultValue(bottle.request.params.id)
-    return(model.partyData.getPartyName(id))
+    return(model.partyData.getPartyData(id))
 
 
 @app.route("/api/download", method="POST")
