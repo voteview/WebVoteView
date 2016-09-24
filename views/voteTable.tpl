@@ -13,7 +13,8 @@
 					<th width="6%" style="text-align:center;">
 					<span class="glyphicon glyphicon-question-sign"
 						style="margin-left:0px;width:2px;vertical-align:middle;cursor:pointer;" 
-						data-toggle="tooltip" data-position="bottom" title="Probablity of a Yea vote is given in grey for abstentions. Otherwise the number represents the probability of the vote they did cast, with unlikely votes in red.">
+						data-toggle="tooltip" data-position="bottom" data-html="true"
+						title="<div align=&quot;left&quot; style=&quot;font-weight:normal;&quot;><strong><u>Vote Probability</u></strong><br/>This column represents how likely the member was to cast the vote that they ultimately did cast. Unlikely votes are colored red.<br/><br/>For members who abstained from voting, we show the probability they would have voted 'Yea' if they had voted, colored in grey.</div>">
 					</span>
 					<br>Vote Prob.</th>
 					<th width="7%" style="text-align:right;">Result</th>
