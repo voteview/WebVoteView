@@ -23,6 +23,8 @@ def add_endpoints(mid, spread):
 			float(mid[1]) == 0):
 		x = [0, 0]
 		y = [0, 0]
+		slope = None
+		intercept = None
 	elif abs(float(spread[1])) < 1e-16:
 		x = [float(mid[0]),float(mid[0])]
 		y = [-10, 10]
@@ -233,5 +235,6 @@ if __name__=="__main__":
 #	print downloadStash("3a5c69e7")
 #	print downloadAPI("S1140430")
 #	print downloadAPI("H1030301", "R")
-	print downloadAPI("S1140473", "Web_Person")["rollcalls"][0]["nominate"]
+	print downloadAPI("S0090027", "Web_Person")
+	#print downloadAPI("S1140473", "Web_Person")["rollcalls"][0]["nominate"]
 	pass
