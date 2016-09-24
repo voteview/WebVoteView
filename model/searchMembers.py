@@ -18,6 +18,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	cqlabel = qDict["cqlabel"] if "cqlabel" in qDict else ""
 	chamber = qDict["chamber"] if "chamber" in qDict else ""
 	party = qDict["party"] if "party" in qDict else ""
+	districtCode = qDict["districtCode"] if "districtCode" in qDict else ""
 	id = qDict["id"] if "id" in qDict else ""
 
 	if api == "R":
@@ -100,6 +101,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["cqlabel"] = cqlabel
 		else:
 			searchQuery["cqlabel"] = "("+cqlabel+")"
+
+	if districtCode and state:
+		searchQuery["districtCode"] = districtCode
+
 	if chamber:
 		chamber = chamber.capitalize()
 		if chamber=="Senate" or chamber=="House":
@@ -184,4 +189,5 @@ def getMembersByParty(id, congress, api="Web"):
 if __name__ == "__main__":
 	#print getMembersByParty(29, 28, "Web_Party")
 	#print getMembersByParty(200, 0, "Web_Party")
+	print [x["bioName"] for x in memberLookup({"state": "CA", "districtCode": 37},114,1,api="Web")["results"]]
 	pass
