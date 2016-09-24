@@ -184,7 +184,7 @@ function nextPageSearch()
 					if(!globalNextId) $("#memberVotesTable").animate({opacity: 1});
 
 					if(globalNextId==0) { $('#memberVotesTable').html(d); }
- 					else { $('#memberVotesTable').html($('#memberVotesTable').html() + d); }
+ 					else { $('#voteDataTable > tbody').append(d); }
 
 					globalNextId = xhr.getResponseHeader("Nextid");
 					if(globalNextId==0) { $("#nextVotes").fadeOut(); }
@@ -192,6 +192,7 @@ function nextPageSearch()
 
 					$('[data-toggle="tooltip"]').tooltip();
 					$("#loadIndicator").hide();
+					$("#voteDataTable").trigger("update");
 				}});
 	return;
 }
