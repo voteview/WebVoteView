@@ -2,8 +2,8 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 
 % if len(votes):
+		% if not int(skip):
                 <table class="table table-hover dc-data-table" id="voteDataTable">
-		    % if not int(skip):
 			<thead>
 				<tr class="header">
 					<th width="9%" style="text-align:right;">Date</th>
@@ -20,19 +20,7 @@
                         		<th width="4%"></th>
 				</tr>
 			</thead>
-		    % else:
-			<thead>
-				<tr class="header">
-					<th width="9%" style="text-align:right;"></th>
-                        		<th width="62%"></th>
-					<th width="6%"></th>
-					<th width="6%"></th>
-					<th width="6%" style="text-align:center;"></th>
-					<th width="7%" style="text-align:right;"></th>
-                        		<th width="4%"></th>
-				</tr>
-			</thead>
-		    % end
+		% end
 		    % lastDate = "0000-00-00"
                     % for vote in votes:
                         <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
@@ -87,7 +75,9 @@
                         </tr>
 			% lastDate = vote["date"]
                     % end
+		% if not int(skip):
                 </table>
+		% end
 % else:
 	<h3>Member has not voted on any votes matching search terms.</h3>
 % end
