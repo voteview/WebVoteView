@@ -49,12 +49,10 @@
 			    </td>
 			    <td>{{vote["partyLabelVote"]}}</td>
 			    <td>
-				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
-					<span style="color:red;">
-				% end
-				{{vote["myVote"]}}
-				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
-					</span>
+				% if vote["partyLabelVote"]!="N/A" and vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
+					<span style="color:red;">{{vote["myVote"]}}
+				% else:
+					{{vote["myVote"]}}
 				% end
 			    </td>
 			    <td align="right">
