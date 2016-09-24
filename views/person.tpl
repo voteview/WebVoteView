@@ -1,7 +1,7 @@
 % import datetime
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase("base.tpl",title=person["canonicalName"], extra_css=["map.css"])
+% rebase("base.tpl",title=person["canonicalName"], extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css"])
 % include('header.tpl')
 % current_page_number = 1
 % import datetime

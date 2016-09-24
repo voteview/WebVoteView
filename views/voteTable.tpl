@@ -2,14 +2,14 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 
 % if len(votes):
-                <table class="table table-hover dc-data-table">
+                <table class="table table-hover dc-data-table" id="voteDataTable">
 		    % if not int(skip):
 			<thead>
 				<tr class="header">
 					<th width="9%" style="text-align:right;">Date</th>
                         		<th width="62%">Description</th>
 					<th width="6%">Party Vote</th>
-					<th width="6%">Mem. Vote</th>
+					<th width="6%">Memb. Vote</th>
 					<th width="6%" style="text-align:center;">
 					<span class="glyphicon glyphicon-question-sign"
 						style="margin-left:0px;width:2px;vertical-align:middle;cursor:pointer;" 
