@@ -2,6 +2,12 @@
 % if len(partyNameFull):
 %	partyNameFull = " > "+partyNameFull
 % end
+% if party==328:
+% 	indicator = "warning"
+% else:
+% 	indicator = "info"
+% end
+
 % rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/stateMeta.js"], extra_css=['map.css', 'bootstrap-slider.css'])
 % include('header.tpl')
 <div class="container">
@@ -20,12 +26,9 @@
 					<span class="fullName">Party {{ party }}</span>
 				</h3>
 
-				% if party==328:
-				<div class="alert alert-warning">
-					<strong>Warning!</strong> "Independent" refers to representatives and senators who are not affiliated with a party, 
-					rather than a political party called the "Independent Party". Estimates of median ideology of independents over 
-					time are highly unstable and unreliable. Some independent representatives or senators may "caucus" (work with) 
-					organized political parties, but Voteview.com does not maintain or display this information.
+				% if "partyDesc" in partyData:
+				<div class="alert alert-{{indicator}}">
+					{{!partyData["partyDesc"]}}
 				</div>
 				% end
 

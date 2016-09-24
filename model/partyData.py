@@ -5,17 +5,19 @@ client = MongoClient()
 dbConf = json.load(open("./model/db.json","r"))
 db = client[dbConf["dbname"]]
 
-def getPartyName(code):
+def getPartyData(code, api="Web_Name"):
 	try:
 		code = int(code)
 	except:
 		return {"error": "Invalid party code requested."}
 
-	r = db.voteview_parties.find_one({"id": code},{"partyname": 1, "count": 1, "fullName": 1, "pluralNoun": 1, "noun": 1, "briefName": 1, "_id": 0})
+	r = db.voteview_parties.find_one({"id": code},{"partyname": 1, "count": 1, "fullName": 1, "pluralNoun": 1, "noun": 1, "briefName": 1, "partyDesc": 1, "_id": 0})
 	if not r or r is None or not "partyname" in r:
-		return {"error": "Party code not found.", "partyname": null}
+		return {"error": "Party code not found.", "partyname": None}
 	else:
 		retDict = {"partyname": r["partyname"], "fullName": r["fullName"], "pluralNoun": r["pluralNoun"], "noun": r["noun"]}
+		if "partyDesc" in r:
+			retDict["partyDesc"] = r["partyDesc"]
 		if "briefName" in r:
 			retDict["briefName"] = r["briefName"]
 		return retDict
