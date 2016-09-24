@@ -62,6 +62,7 @@ EOF
 	echo "Done restoring database dump"
 
 	echo "Starting server to substitute directory"
+	nginx -v
 	service nginx start
 	service uwsgi start
 	downtimeStop = $(date +%s)
