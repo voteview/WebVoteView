@@ -2,37 +2,26 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 
 % if len(votes):
-                <table class="table table-hover dc-data-table">
-		    % if not int(skip):
+		% if not int(skip):
+                <table class="table table-hover dc-data-table" id="voteDataTable">
 			<thead>
 				<tr class="header">
 					<th width="9%" style="text-align:right;">Date</th>
                         		<th width="62%">Description</th>
 					<th width="6%">Party Vote</th>
-					<th width="6%">Mem. Vote</th>
+					<th width="6%">Memb. Vote</th>
 					<th width="6%" style="text-align:center;">
 					<span class="glyphicon glyphicon-question-sign"
 						style="margin-left:0px;width:2px;vertical-align:middle;cursor:pointer;" 
-						data-toggle="tooltip" data-position="bottom" title="Probablity of a Yea vote is given in grey for abstentions. Otherwise the number represents the probability of the vote they did cast, with unlikely votes in red.">
+						data-toggle="tooltip" data-position="bottom" data-html="true"
+						title="<div align=&quot;left&quot; style=&quot;font-weight:normal;&quot;><strong><u>Vote Probability</u></strong><br/>This column represents how likely the member was to cast the vote that they ultimately did cast. Unlikely votes are colored red.<br/><br/>For members who abstained from voting, we show the probability they would have voted 'Yea' if they had voted, colored in grey.</div>">
 					</span>
 					<br>Vote Prob.</th>
 					<th width="7%" style="text-align:right;">Result</th>
                         		<th width="4%"></th>
 				</tr>
 			</thead>
-		    % else:
-			<thead>
-				<tr class="header">
-					<th width="9%" style="text-align:right;"></th>
-                        		<th width="62%"></th>
-					<th width="6%"></th>
-					<th width="6%"></th>
-					<th width="6%" style="text-align:center;"></th>
-					<th width="7%" style="text-align:right;"></th>
-                        		<th width="4%"></th>
-				</tr>
-			</thead>
-		    % end
+		% end
 		    % lastDate = "0000-00-00"
                     % for vote in votes:
                         <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
@@ -61,12 +50,10 @@
 			    </td>
 			    <td>{{vote["partyLabelVote"]}}</td>
 			    <td>
-				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
-					<span style="color:red;">
-				% end
-				{{vote["myVote"]}}
-				% if vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
-					</span>
+				% if vote["partyLabelVote"]!="N/A" and vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
+					<span style="color:red;">{{vote["myVote"]}}
+				% else:
+					{{vote["myVote"]}}
 				% end
 			    </td>
 			    <td align="right">
@@ -87,7 +74,9 @@
                         </tr>
 			% lastDate = vote["date"]
                     % end
+		% if not int(skip):
                 </table>
+		% end
 % else:
 	<h3>Member has not voted on any votes matching search terms.</h3>
 % end

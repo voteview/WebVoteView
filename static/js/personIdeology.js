@@ -184,7 +184,7 @@ function nextPageSearch()
 					if(!globalNextId) $("#memberVotesTable").animate({opacity: 1});
 
 					if(globalNextId==0) { $('#memberVotesTable').html(d); }
- 					else { $('#memberVotesTable').html($('#memberVotesTable').html() + d); }
+ 					else { $('#voteDataTable > tbody').append(d); }
 
 					globalNextId = xhr.getResponseHeader("Nextid");
 					if(globalNextId==0) { $("#nextVotes").fadeOut(); }
@@ -192,10 +192,22 @@ function nextPageSearch()
 
 					$('[data-toggle="tooltip"]').tooltip();
 					$("#loadIndicator").hide();
+					$("#voteDataTable").trigger("update");
 				}});
 	return;
 }
 
+$.tablesorter.addParser({
+	id: 'splitFunc', is: function(s) { return false },
+	format: function(s) 
+	{ 
+		var numbers = s.split("-");
+		if(parseInt(numbers[1])==0 && parseInt(numbers[0])>0) { return 1; }
+		else if(parseInt(numbers[1])==0) { return 0; }
+		else { return parseFloat(numbers[0])/parseFloat(numbers[1]); }
+	},
+	type: 'numeric'
+});
 $(document).ready(function(){
 	cookieId = Cookies.get('stash_id');
 	if(cookieId==undefined || cookieId.length<8) $('#loadStash').hide();
@@ -207,4 +219,5 @@ $(document).ready(function(){
 				else { $("#loadStash").hide(); console.log('No stash votes.'); }
 			}});
 	}
+	$("#voteDataTable").tablesorter({headers: {5: {sorter: 'splitFunc'}}});
 });

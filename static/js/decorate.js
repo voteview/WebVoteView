@@ -7,7 +7,7 @@ function decorateNominate(oc,data) {
 
 	var margin = 50;
 	var marginCircle = 25; // Distance of the main circle to the axis
-        var nomDWeight = 0.4156;
+        var nomDWeight = 0.4158127;
 	var tickLength = 15;
 	var scale = 1.0; // sets radius of the outer circle in nominate units
 	var cutlineMult = 1.0; // sets how far into space the cutline is blasted off into. (Aaron added this, but it doesn't do anything?)
@@ -27,7 +27,7 @@ function decorateNominate(oc,data) {
 	var svgbg = ocSVG.insert("g",".chart-body");
 		    
 	svgbg
-		.append("clipPath")
+	        .append("clipPath")
 			.attr("id", "scatterclip")
 		.append("ellipse")
 			.attr("rx", radiusX)
@@ -43,14 +43,16 @@ function decorateNominate(oc,data) {
 		.attr("cy", circleCenter.y)
 		.attr("rx", radiusX)
                 .attr("ry", radiusY);
-     
+     /* Checking to be sure midpoint is where it should be...
+        vn = data.rollcalls[0].nominate;
 	gg
 		.append("ellipse")
-		.attr("cx", circleCenter.x)
-		.attr("cy", circleCenter.y)
-		.attr("rx", radiusX)
-		.attr("ry", radiusY)
-		.attr("id","outer-circle");
+		.attr("cx", circleCenter.x + radiusX*vn.mid[0])
+		.attr("cy", circleCenter.y - radiusY*vn.mid[1])
+		.attr("rx", 5)
+		.attr("ry", 5)
+		.attr("fill","black");  */
+
 
 	gg
 		.append("ellipse")
@@ -68,7 +70,8 @@ function decorateNominate(oc,data) {
 	}
 	else
 	{
-		var vn = data.rollcalls[0].nominate;
+	    if(data.rollcalls[0].congress==0) var vn = data.rollcalls[0].nominate.imputed;
+	    else var vn = data.rollcalls[0].nominate;
 	}
 
 	// Hack to gracefully fail when we don't have nominate data. AR
@@ -80,15 +83,15 @@ function decorateNominate(oc,data) {
 		switch( cs ) {
 			case 0:
 				var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-						 circleCenter.y-radiusY*vn.y[0]/scale*1.2 ],
+						 circleCenter.y-radiusY*vn.y[0]/scale ],
 						 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-						 circleCenter.y-radiusY*(vn.y[0]+10)/scale*1.2 ], 
+						 circleCenter.y-radiusY*(vn.y[0]+10)/scale ], 
 						 [ circleCenter.x+radiusX*(vn.x[1]+10)/scale,  
-						 circleCenter.y-radiusY*(vn.y[1]+10)/scale*1.2  ], 
+						 circleCenter.y-radiusY*(vn.y[1]+10)/scale ], 
 						 [ circleCenter.x+radiusX*(vn.x[1]+10)/scale,
-						 circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
+						 circleCenter.y-radiusY*(vn.y[1])/scale ], 
 						 [ circleCenter.x+radiusX*vn.x[1]/scale,
-						 circleCenter.y-radiusY*vn.y[1]/scale*1.2  ] ];
+						 circleCenter.y-radiusY*vn.y[1]/scale  ] ];
 				break;
 			case 1:
         			var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
@@ -120,7 +123,7 @@ function decorateNominate(oc,data) {
                         	 [ circleCenter.x+radiusX*(vn.x[0])/scale,
                         	   circleCenter.y-radiusY*(vn.y[0]+10)/scale*1.2 ], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2 ], 
+                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
                         	   circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
                         	 [ circleCenter.x+radiusX*vn.x[1]/scale,

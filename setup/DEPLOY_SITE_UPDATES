@@ -16,7 +16,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	rm -rf WebVoteView/git-synchronize
 
 	echo "Ensuring we have the right python module requirements"
-	pip install -r WebVoteView/setup/requirements.txt
+	pip install -r WebVoteView/setup/requirements.txt -U
 	rm -rf WebVoteView/setup
 
 	echo "Server setup: production"
@@ -46,6 +46,7 @@ EOF
 	rm -rf dump_db
 EOF
 
+	downtimeStart = $(date +%s)
 	echo "Stopping web server to substitute directory"
 	service nginx stop
 	service uwsgi stop
@@ -61,14 +62,18 @@ EOF
 	echo "Done restoring database dump"
 
 	echo "Starting server to substitute directory"
+	nginx -v
 	service nginx start
 	service uwsgi start
+	downtimeStop = $(date +%s)
 	echo "Done deployment."
 	echo "Previous version of site in /var/www/vv-backup"
 	echo "Current version of site in /var/www/voteview"
 	echo "Checking API version to verify site has started..."
 	curl "http://voteview.polisci.ucla.edu/api/version"
 	echo ""
+	downtime = $((downtimeStop-downtimeStart))
+	echo "Total downtime $downtime seconds"
 elif [ "$userid" = "root" ]; then
 	echo "You must be on production voteview to run deployment script"
 else

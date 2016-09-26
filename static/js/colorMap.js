@@ -98,6 +98,7 @@ var partyColorMap = {
 	"Prohibition": "brown",
 	"States Rights": "orange",
 	"Readjuster Democrat": "blue",
+	"Readjuster": "blue",
 	"Progressive Republican": "pinkpurple",
 	"Prohibitionist": "grey",
 	"Union Labor": "red",
