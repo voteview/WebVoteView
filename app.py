@@ -187,28 +187,6 @@ def parties(party="all", congStart=-1):
 	output = bottle.template("views/parties", party=party, partyData=partyData, partyNameFull=partyNameFull, congStart=congStart)
 	return output
 
-#def parties(party=200):
-#    # Just default for now
-#    try:
-#        party = int(party)
-#    except:
-#        if party=="all":
-#            output = bottle.template("views/partiesGlance")
-#            return output
-#        else:
-#            party = 200
-#
-#    if party not in xrange(0, 50001):
-#        party = 200
-#    partyData = model.partyData.getPartyData(party)
-#    if "fullName" in partyData:
-#        partyNameFull = partyData["fullName"]
-#    else:
-#        partyNameFull = ""
-#
-#    output = bottle.template("views/parties", party=party, partyNameFull=partyNameFull)
-#    return output
-
 @app.route("/person")
 @app.route("/person/<icpsr>")
 def person(icpsr=0):
@@ -264,9 +242,6 @@ def person(icpsr=0):
                 person["congressLabels"][cong] = str(cong)+"th Congress ("+str(congressToYear(cong,0))+"-"+str(congressToYear(cong,1))+")"
 
         timeIt("congressLabels")
-
-        # Replace anyone?
-        #prevNextICPSRs = checkForOccupancy(person)
 
         # Find out if we have any other ICPSRs that are this person for another party
         altICPSRs = checkForPartySwitch(person)
