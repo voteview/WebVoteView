@@ -4,7 +4,16 @@
 % include('member_party_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
 
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
-
+% def waterfall(rollcall, fieldnames):
+%     if fieldnames[0] in rollcall and rollcall[fieldnames[0]]:
+%     	 return rollcall[fieldnames[0]]
+%     elif len(fieldnames) > 1:
+%        return waterfall(rollcall, fieldnames[1:])
+%     else:
+%        return ""
+%     end
+% end
+%
 % def doHighlight(highlighter, text):
 %	if not len(highlighter):
 %		return text
@@ -80,11 +89,11 @@
 			</p>
 			% end
 
-			% if len(rollcall["code"]["Clausen"])>0:
-			<p><small><strong>Vote Categories</strong>: {{ rollcall["code"]["Clausen"][0] }}, {{ rollcall["code"]["Peltzman"][0] }}</small></p>
+			% if "codes" in rollcall and len(rollcall["codes"]["Clausen"])>0:
+			<p><small><strong>Vote Categories</strong>: {{ rollcall["codes"]["Clausen"][0] }}, {{ rollcall["codes"]["Peltzman"][0] }}</small></p>
 			% end
-			%
-			<p>{{!doHighlight(highlighter, " ".join(rollcall["description"].split()[0:50])) }}</p>
+			% description = waterfall(rollcall, ['vote_desc', 'vote_document_text', 'description', 'shortdescription'])
+			<p>{{!doHighlight(highlighter, " ".join(description.split()[0:50])) }}</p>
 
 			% if "score" in rollcall:
 				<p style="font-size:8px;"><em>Debug: {{round(rollcall["score"],2)}}</em></p>

@@ -660,7 +660,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 
 	# CODES: Search all code fields
 	if fieldType=="codes":
-		queryDict = addToQueryDict(queryDict, "$or", [{x: {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"}} for x in fieldTypes if x.startswith("code.")])
+		queryDict = addToQueryDict(queryDict, "$or", [{x: {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"}} for x in fieldTypes if x.startswith("codes.")])
 	elif fieldType=="fulltext":
 		queryDict = addToQueryDict(queryDict, "$text", {"$search": queryWords.lower()})
 		needScore = 1
@@ -999,9 +999,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	# Get results
 	if not idsOnly:
-		fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1, "synthID": 1, "keyvote": 1}
+		fieldReturns = {"codes.Clausen":1,"codes.Peltzman":1,"codes.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea_count":1,"nay_count":1,"support":1,"result":1, "_id": 0, "id": 1, "date_chamber_rollnumber": 1, "keyvote": 1, "vote_desc":1, "vote_document_text":1}
 	else:
-		fieldReturns = {"id": 1, "_id": 0, "synthID": 1}
+		fieldReturns = {"id": 1, "_id": 0, "date_chamber_rollnumber": 1}
 
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
@@ -1014,9 +1014,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	if sortSkip and not needScore:
 		if sortDir==-1:
-			queryDict["synthID"] = {"$lt": sortSkip}
+			queryDict["date_chamber_rollnumber"] = {"$lt": sortSkip}
 		else:
-			queryDict["synthID"] = {"$gt", sortSkip}
+			queryDict["date_chamber_rollnumber"] = {"$gt", sortSkip}
 
 	print queryDict
 	# Need to sort by text score
@@ -1049,7 +1049,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			if not jsapi:
 				results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
 			else:
-				results = votes.find(queryDict, fieldReturns).sort("synthID", sortDir).limit(rowLimit+5)
+				results = votes.find(queryDict, fieldReturns).sort("date_chamber_rollnumber", sortDir).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -1070,8 +1070,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			maxScore = res["score"]
 
 		if len(mr)<rowLimit:
-			if "synthID" in res:
-				del res["synthID"]
+			if "date_chamber_rollnumber" in res:
+				del res["date_chamber_rollnumber"]
 			if not needScore:
 				mr.append(res)
 			elif res["score"]>= SCORE_THRESHOLD and res["score"]>=SCORE_MULT_THRESHOLD * maxScore:
@@ -1081,7 +1081,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 				break
 		else:
 			if not needScore:
-				nextId = str(res["synthID"])
+				nextId = str(res["date_chamber_rollnumber"])
 			else:
 				nextId = sortSkip + rowLimit
 			break
@@ -1107,6 +1107,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	print len(returnDict["rollcalls"]),
 	print resCount
+        print returnDict['rollcalls'][0].keys()
 	return returnDict
 
 if __name__ == "__main__":
