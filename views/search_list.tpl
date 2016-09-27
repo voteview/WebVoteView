@@ -76,11 +76,11 @@
 			</span>
 		</div>
 		<div class="panel-body" style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';">
-			% if "yea" in rollcall and "nay" in rollcall:
+			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p>
 				<small>
-					<strong>Vote:</strong> {{ rollcall["yea"] }}-{{ rollcall["nay"] }}
-				% if rollcall["yea"]>rollcall["nay"]:
+					<strong>Vote:</strong> {{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
+				% if rollcall["yea_count"]>rollcall["nay_count"]:
 					(Passed)
 				% else:
 					(Failed)
