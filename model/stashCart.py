@@ -250,6 +250,7 @@ def setSearch(id, search):
 		# We don't have one.
 		errorMessages.append("Unknown or expired stash ID sent from user.")
 		id = initializeCart()["id"]
+                savedVoteIDs = []
 	else:
 		if "old" in res:
 			old = res["old"]
