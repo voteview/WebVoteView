@@ -21,7 +21,7 @@ except:
 SCORE_THRESHOLD = scoreData["scoreThreshold"] if "scoreThreshold" in scoreData else 0.75
 SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" in scoreData else 0.5
 
-fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
+fieldTypes = {"codes": "codes", "codes.Clausen": "str", "codes.Peltzman": "str", "codes.Issue": "str", 
 		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
 		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter", "chamber": "chamber",
 		"saved": "saved", "dates": "date", "startdate": "date", "enddate": "date", "keyvote": "keyvote"}
@@ -1107,7 +1107,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	print len(returnDict["rollcalls"]),
 	print resCount
-        print returnDict['rollcalls'][0].keys()
+
 	return returnDict
 
 if __name__ == "__main__":

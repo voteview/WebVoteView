@@ -99,8 +99,8 @@ def downloadAPI(rollcall_id, apitype="Web"):
 			# Pull all members in a single query.
 			memberSet = []
 			for vote in rollcall['votes']:
-				memberSet.append(vote["id"])
-			members = members_col.find({'id': {'$in': memberSet}})
+				memberSet.append(vote["icpsr"])
+			members = members_col.find({'icpsr': {'$in': memberSet}, 'congress': rollcall['congress'], 'chamber': rollcall['chamber']})
 
 			for member in members:
 				bestName = ""
@@ -114,27 +114,27 @@ def downloadAPI(rollcall_id, apitype="Web"):
 				# Web returns different fields than R
 				if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
 					v = {
-						'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0]),
+						'vote': _get_yeanayabs([m["cast_code"] for m in rollcall['votes'] if m["icpsr"]==member["icpsr"]][0]),
 						'name': bestName,
-						'id': member['id'],
-						'party': member['partyname'],
-						'state': member['stateAbbr'],
+						'icpsr': member['icpsr'],
+						'party': member['party_name'],
+						'state': member['state_abbrev'],
 					}
 					try:
 						v['prob'] = [int(round(m["p"])) for m in rollcall["votes"] if m["id"]==member["id"]][0]
 					except:
 						pass
 
-					if member['nominate']['oneDimNominate']:
+					if 'nominate' in member and member['nominate']['oneDimNominate']:
 						v['x'] = member['nominate']['oneDimNominate']
 						v['y'] = member['nominate']['twoDimNominate']
 
-					if member['stateAbbr'] == "POTUS":
+					if member['state_abbrev'] == "POTUS":
 						v['district'] = "POTUS"
-					elif member['districtCode'] > 70:
-						v['district'] = "%s00" % member['stateAbbr']
-					elif member['districtCode'] and member['districtCode'] <= 70:
-						v['district'] = "%s%02d" % (member['stateAbbr'], member['districtCode'])
+					elif member['district_code'] > 70:
+						v['district'] = "%s00" % member['state_abbrev']
+					elif member['district_code'] and member['district_code'] <= 70:
+						v['district'] = "%s%02d" % (member['state_abbrev'], member['district_code'])
 					if not "district" in v: # We do this to force null districts to exist so as to avoid breaking DC_rollcall
 						v["district"] = ""
 					result.append(v)
@@ -167,7 +167,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 				rollcall["nominate"]["slope"], rollcall["nominate"]["intercept"], rollcall["nominate"]["x"], rollcall["nominate"]["y"] = add_endpoints(rollcall["nominate"]["mid"], rollcall["nominate"]["spread"])
 
 			if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
-				nominate = rollcall['nominate']
+                                nominate = rollcall['nominate']
 			elif apitype=="R":
 				nominate = {k: rollcall['nominate'][k] for k in ['intercept', 'slope']}
 
@@ -176,22 +176,28 @@ def downloadAPI(rollcall_id, apitype="Web"):
 
 			# Collapse codes for R
 			if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
-				codes = rollcall["code"]
+				codes = rollcall["codes"]
 			elif apitype=="R":
-				codes = rollcall["code"]
+				codes = rollcall["codes"]
 				for key, value in codes.iteritems():
 					codes[key] = '; '.join(value)
 
 			if not "keyvote" in rollcall:
 				rollcall["keyvote"] = []
 				
+                        # If no description use use vote_document_text
+                        if 'description' in rollcall:
+                                description = rollcall['description']
+                        else:
+                                description = rollcall['vote_document_text']
+
 			z = {'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
 				'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
-				'description': rollcall['description'], 'id': rollcall['id'], 'code': codes,
-				'yea': rollcall["yea"], 'nay': rollcall["nay"], 'keyvote': rollcall["keyvote"]}
+				'description': description, 'id': rollcall['id'], 'code': codes,
+				'yea': rollcall["yea_count"], 'nay': rollcall["nay_count"], 'keyvote': rollcall["keyvote"]}
 			if apitype=="Web_Person":
 				print "in here"
-				z["resultparty"] = rollcall["resultparty"]
+				z["resultparty"] = rollcall["party_vote_counts"]
 			rollcall_results.append(z)
 
 		except: # Invalid vote id
@@ -236,6 +242,6 @@ if __name__=="__main__":
 #	print downloadStash("3a5c69e7")
 #	print downloadAPI("S1140430")
 #	print downloadAPI("H1030301", "R")
-	print downloadAPI("S0090027", "Web_Person")
+	print downloadAPI("RS1130003", "Web_Person")
 	#print downloadAPI("S1140473", "Web_Person")["rollcalls"][0]["nominate"]
 	pass
