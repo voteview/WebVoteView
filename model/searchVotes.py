@@ -11,13 +11,24 @@ import re
 import json
 
 client = pymongo.MongoClient()
-dbConf = json.load(open("./model/db.json","r"))
+try:
+	dbConf = json.load(open("./model/db.json","r"))
+except:
+        try:
+                dbConf = json.load(open("./db.json","r"))
+        except:
+                dbConf = {'dbname':'voteview'}
+
 db = client[dbConf["dbname"]]
 
 try:
 	scoreData = json.load(open("auth.json","r"))
 except:
-	scoreData = json.load(open("model/auth.json","r"))
+        try:
+                scoreData = json.load(open("model/auth.json","r"))
+        except:
+                scoreData = json.load(open("/var/www/voteview/model/auth.json","r"))
+
 SCORE_THRESHOLD = scoreData["scoreThreshold"] if "scoreThreshold" in scoreData else 0.75
 SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" in scoreData else 0.5
 

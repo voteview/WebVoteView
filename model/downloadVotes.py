@@ -7,7 +7,11 @@ client = MongoClient()
 try:
 	dbConf = json.load(open("./model/db.json","r"))
 except:
-	dbConf = json.load(open("./db.json","r"))
+        try:
+                dbConf = json.load(open("./db.json","r"))
+        except:
+                dbConf = {'dbname':'voteview'}
+
 db = client[dbConf["dbname"]]
 
 dimweight = 0.4158127 # (was set to  0.4156) needs to be extracted from the DB based on most recent nominate run   
@@ -83,7 +87,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 
 	 # Abuse filter
 	maxVotes = 100
-	if apitype=="exportJSON":
+	if apitype=="exportJSON" or apitype=="exportCSV":
 		maxVotes = 500
 	if len(rollcall_ids)>maxVotes:
 		response = {'errormessage': 'API abuse. Too many votes.', 'apitype': apiVersion}
