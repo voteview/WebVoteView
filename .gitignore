@@ -2,6 +2,7 @@
 git-synchronize
 model/auth.json
 model/swearFilter.json
+static/csv
 static/db
 static/dumpNom
 static/deprecated

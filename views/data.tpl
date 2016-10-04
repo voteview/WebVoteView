@@ -1,4 +1,5 @@
 % rebase('base.tpl',title='Data')
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 
 <!-- Data.tpl: This should be the template for the page that lists all the different data files we're making available.
 Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
@@ -8,8 +9,26 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 	<div class="row">
 		<div class="col-md-9">
 
-			<h3>NOMINATE and Related Data</h3>
+	<h3>NOMINATE and Related Data</h3>
             <p>
+	    <div id="dataContainer">
+		<a href="#" id="dataHeader"><h4>Rollcall parameters and metadata</h4></a>
+		% include('data_dropdowns.tpl')
+		<div style="margin-left:10px;">
+		<a href="#" onClick="document.location.href=downloadData('rollcall');">Download</a>
+		</div>
+	    </div>
+
+            <p>
+	    <div id="dataContainer">
+		<a href="#" id="dataHeader"><h4>Legislator ideal points and metadata</h4></a>
+		% include('data_dropdowns.tpl')
+		<div style="margin-left:10px;">
+		<a href="#" onClick="document.location.href=downloadData('member');">Download</a>
+		</div>
+	    </div>
+
+<!-- INATE and metadata <
     <a href="rank_orders_all_congresses.htm">Rank Orderings all Houses and Senates -- 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
 
     <a href="dwnomin_joint_house_and_senate.htm">Common Space DW-NOMINATE Scores 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
@@ -37,10 +56,12 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
          Percent Voting on the Winning Side by Member -- Houses/Senates 1 - 112</a><BR>
 
         <a href="pmediant.htm">Party and Chamber Medians, 1 - 112 Congresses (DW-NOMINATE
-        Scores) </a><BR>
-
-	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a><BR>
+        Scores) </a><BR> -->
 </p>
+
+<!--<p>
+	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a><BR>
+</p>-->
 
 			<h3>Complete Database</h3>
 			<p>
@@ -55,3 +76,19 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 		</div>
 	</div>
 </div>
+
+<script language="javascript">
+function downloadData (type) {
+	congress = $("#congress").val();
+	chamber = $("#chamber").val();
+	return '/static/csv/' + type + '/' + type + '_' + chamber + '_' + congress + '.csv';
+}
+$(document).ready(function(){
+
+    $("#dataContainer").on('click', '#dataHeader', function(){
+        console.log("waiting");
+	$(this).parent().find("#dataContent").slideToggle("fast");
+    });
+    
+});
+</script>

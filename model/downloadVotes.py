@@ -100,7 +100,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	found = {}
 	for rid in rollcall_ids:
 		found[rid] = 0
-	print rollcall_ids
+	#print rollcall_ids
 	rollcalls = list(rollcalls_col.find({'id': {'$in': rollcall_ids}}))
 
         icpsrs = {}
@@ -148,10 +148,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
                                                 except:
                                                         pass
 
-                                                if 'nominate' in icpsrs[icpsr] and icpsrs[icpsr]['nominate']['oneDimNominate']:
-                                                        v['x'] = icpsrs[icpsr]['nominate']['oneDimNominate']
-                                                        v['y'] = icpsrs[icpsr]['nominate']['twoDimNominate']
-                                                print(member)
+                                                #print(member)
                                                 if member['state_abbrev'] == "USA":
                                                         v['district'] = "POTUS"
                                                 elif member['district_code'] > 70:
@@ -207,7 +204,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
                                                 for i, code in enumerate(value):
                                                         codeFields[key + str(i+1)] = code if code else ''
                                         else:
-                                                codeFields[key + '1'] = code
+                                                codeFields[key + '1'] = value
                         elif apitype in notRApis:
                                 codes = rollcall["codes"]
                         elif apitype=="R":
@@ -241,7 +238,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
                         if apitype=="Web_Person":
                                 print "in here"
                                 z["resultparty"] = rollcall["party_vote_counts"]
-                        print z
+                        #print z
                         rollcall_results.append(z)
 
 		except: # Invalid vote id
@@ -284,7 +281,7 @@ def downloadStash(id):
 
 if __name__=="__main__":
 #	print downloadStash("3a5c69e7")
-	print downloadAPI("RS1130430,RS1130400")
+	print downloadAPI("RS1130430,RS1130400", "exportCSV")
 #	print downloadAPI("H1030301", "R")
 	#test = downloadAPI(["RH1131202", "RH0010001", "RS0020010", "RS113003"] + ["RH1130" + "%03d" % (x) for x in range(1,400)], "exportJSON")
 	#print downloadAPI("S1140473", "Web_Person")["rollcalls"][0]["nominate"]
