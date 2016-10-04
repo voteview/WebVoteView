@@ -1,8 +1,8 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-<div id="dataContent" style="display:none;">
+<div class="dataContent" style="display:none;">
   <div style="margin-left:10px;" class="form-inline">
     <label for="chamber">Chamber:</label>
-    <select class="form-control input-sm" id="chamber" name="chamber">
+    <select class="dataSelect" name="chamber">
       <option value="both">Both</option>
       <option value="house">House</option>
       <option value="senate">Senate</option>
@@ -10,7 +10,7 @@
   </div>
   <div style="margin-left:10px;" class="form-inline">
     <label for="congress">Congress:</label>
-    <select class="form-control input-sm" id="congress" name="congress">
+    <select class="dataSelect" name="congress">
       <option value = "all">All</option>
       % for i in range(maxCongress-1, 0, -1):
         % yearLow = 1787+2*i
