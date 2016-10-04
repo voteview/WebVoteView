@@ -1,32 +1,79 @@
 % rebase('base.tpl',title='Data')
-% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 
 <!-- Data.tpl: This should be the template for the page that lists all the different data files we're making available.
 Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
 
 % include('header.tpl')
 <div class="container">
-	<div class="row">
-		<div class="col-md-9">
+  <div class="row">
+    <div class="col-md-9">
 
-	<h3>NOMINATE and Related Data</h3>
-            <p>
-	    <div id="dataContainer">
-		<a href="#" id="dataHeader"><h4>Rollcall parameters and metadata</h4></a>
-		% include('data_dropdowns.tpl')
-		<div style="margin-left:10px;">
-		<a href="#" onClick="document.location.href=downloadData('rollcall');">Download</a>
-		</div>
-	    </div>
+      <h3>NOMINATE and Related Data</h3>
+      <p>
+	<div id="dataContainer">
+	  <a href="#" id="dataHeader"><h4>Rollcall parameters and metadata</h4></a>
+	  % include('data_dropdowns.tpl')
+	  <div style="margin-left:10px;">
+	    <a href="#" onClick="document.location.href=downloadData('rollcall');">Download</a>
+	  </div>
+	</div>
+      </p>
 
-            <p>
-	    <div id="dataContainer">
-		<a href="#" id="dataHeader"><h4>Legislator ideal points and metadata</h4></a>
-		% include('data_dropdowns.tpl')
-		<div style="margin-left:10px;">
-		<a href="#" onClick="document.location.href=downloadData('member');">Download</a>
-		</div>
-	    </div>
+      <p>
+	<div id="dataContainer">
+	  <a href="#" id="dataHeader"><h4>Legislator ideal points and metadata</h4></a>
+	  % include('data_dropdowns.tpl')
+	  <div style="margin-left:10px;">
+	    <a href="#" onClick="document.location.href=downloadData('member');">Download</a>
+	  </div>
+	</div>
+	</div>
+      </p>
+
+      <p>
+	<div id="dataContainer">
+	  <a href="#" id="dataHeader"><h4>Party ideology and metadata</h4></a>
+	  % include('data_dropdowns.tpl')
+	  <div style="margin-left:10px;">
+	    <a href="#" onClick="document.location.href=downloadData('party');">Download</a>
+	  </div>
+	</div>
+      </p>
+
+      <h3>Support Files</h3>
+      <p>
+	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
+      </p>
+
+      <h3>Complete Database</h3>
+      <p>
+	<a href="/static/db/current.zip">Complete database</a> (approx. 100MB zipped).<br/>
+	Our database is available in MongoDB bson/json format. This release is updated weekly.
+      </p>
+      <p>
+	<a href="/static/db/">Browse prior database releases</a><br/>
+	We retain a year worth of archival data online. Archival releases may be missing new rollcall or member data,
+	and may also be missing corrections made to existing data.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script language="javascript">
+  function downloadData (type) {
+    congress = $("#congress").val();
+    chamber = $("#chamber").val();
+    return '/static/data/csv/' + type + '/' + type + '_' + chamber + '_' + congress + '.csv';
+  }
+  $(document).ready(function(){
+
+    $("#dataContainer").on('click', '#dataHeader', function(){
+      $(this).parent().find("#dataContent").slideToggle("fast");
+    });
+  
+  });
+</script>
+
 
 <!-- INATE and metadata <
     <a href="rank_orders_all_congresses.htm">Rank Orderings all Houses and Senates -- 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
@@ -56,39 +103,6 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
          Percent Voting on the Winning Side by Member -- Houses/Senates 1 - 112</a><BR>
 
         <a href="pmediant.htm">Party and Chamber Medians, 1 - 112 Congresses (DW-NOMINATE
-        Scores) </a><BR> -->
-</p>
+        Scores) </a><BR>
+-->
 
-<!--<p>
-	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a><BR>
-</p>-->
-
-			<h3>Complete Database</h3>
-			<p>
-				<a href="/static/db/current.zip">Complete database</a> (approx. 100MB zipped).<br/>
-				Our database is available in MongoDB bson/json format. This release is updated weekly.
-			<p>
-			<p>
-				<a href="/static/db/">Browse prior database releases</a><br/>
-				We retain a year worth of archival data online. Archival releases may be missing new rollcall or member data,
-				and may also be missing corrections made to existing data.
-			</p>
-		</div>
-	</div>
-</div>
-
-<script language="javascript">
-function downloadData (type) {
-	congress = $("#congress").val();
-	chamber = $("#chamber").val();
-	return '/static/csv/' + type + '/' + type + '_' + chamber + '_' + congress + '.csv';
-}
-$(document).ready(function(){
-
-    $("#dataContainer").on('click', '#dataHeader', function(){
-        console.log("waiting");
-	$(this).parent().find("#dataContent").slideToggle("fast");
-    });
-    
-});
-</script>

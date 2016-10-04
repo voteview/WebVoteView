@@ -281,7 +281,7 @@ def downloadStash(id):
 
 if __name__=="__main__":
 #	print downloadStash("3a5c69e7")
-	print downloadAPI("RS1130430,RS1130400", "exportCSV")
+	print downloadAPI("RS1130430,RS1130400")
 #	print downloadAPI("H1030301", "R")
 	#test = downloadAPI(["RH1131202", "RH0010001", "RS0020010", "RS113003"] + ["RH1130" + "%03d" % (x) for x in range(1,400)], "exportJSON")
 	#print downloadAPI("S1140473", "Web_Person")["rollcalls"][0]["nominate"]
