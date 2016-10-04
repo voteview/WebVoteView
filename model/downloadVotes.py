@@ -175,7 +175,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
                                                 if icpsrs[icpsr]['nominate']['oneDimNominate']:
                                                         v['nom1'] = member['nominate']['oneDimNominate']
                                                         v['nom2'] = member['nominate']['twoDimNominate']
-                                                result.append(v)
+                                        result.append(v)
 
                         # Top level nominate metadata
                         if "nominate" in rollcall and "slope" in rollcall["nominate"]:
@@ -200,7 +200,15 @@ def downloadAPI(rollcall_id, apitype="Web"):
                         found[rollcall["id"]] = 1
 
                         # Collapse codes for R
-                        if apitype in notRApis:
+                        if apitype == "exportCSV":
+                                codeFields = {}
+                                for key, value in rollcall["codes"].iteritems():
+                                        if type(value) is list:
+                                                for i, code in enumerate(value):
+                                                        codeFields[key + str(i+1)] = code if code else ''
+                                        else:
+                                                codeFields[key + '1'] = code
+                        elif apitype in notRApis:
                                 codes = rollcall["codes"]
                         elif apitype=="R":
                                 codes = rollcall["codes"]
@@ -218,10 +226,18 @@ def downloadAPI(rollcall_id, apitype="Web"):
                         else:
                                 description = ""
 
-                        z = {'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
-                                'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
-                                'description': description, 'id': rollcall['id'], 'code': codes,
-                                'yea': rollcall["yea_count"], 'nay': rollcall["nay_count"], 'keyvote': rollcall["keyvote"]}
+                        z = {'chamber': rollcall['chamber'],
+                                     'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
+                                     'description': description, 'id': rollcall['id'],
+                                     'yea': rollcall["yea_count"], 'nay': rollcall["nay_count"]}
+                        if apitype == "exportCSV":
+                                z.update({k:v for k,v in codeFields.iteritems()})
+                                z.update({'keyvote': ''.join(rollcall['keyvote']), 
+                                          'spread.dim1': nominate['spread'][0], 'spread.dim2': nominate['spread'][1],
+                                          'mid.dim1': nominate['mid'][0], 'mid.dim2': nominate['mid'][1],
+                                          'slope': nominate['slope'], 'intercept': nominate['intercept']})
+                        else:
+                                z.update({'votes': result, 'nominate': nominate, 'code': codes, 'keyvote': rollcall["keyvote"]})
                         if apitype=="Web_Person":
                                 print "in here"
                                 z["resultparty"] = rollcall["party_vote_counts"]
@@ -268,7 +284,7 @@ def downloadStash(id):
 
 if __name__=="__main__":
 #	print downloadStash("3a5c69e7")
-	print downloadAPI("RS1130430,RS1130400", "exportCSV")
+	print downloadAPI("RS1130430,RS1130400")
 #	print downloadAPI("H1030301", "R")
 	#test = downloadAPI(["RH1131202", "RH0010001", "RS0020010", "RS113003"] + ["RH1130" + "%03d" % (x) for x in range(1,400)], "exportJSON")
 	#print downloadAPI("S1140473", "Web_Person")["rollcalls"][0]["nominate"]
