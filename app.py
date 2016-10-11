@@ -35,11 +35,9 @@ def clearTime():
     timeLabels = []
     timeNums = []
 
-
 def timeIt(label):
     timeLabels.append(label)
     timeNums.append(time.time())
-
 
 def zipTimes():
     tN = []
@@ -272,7 +270,7 @@ def person(icpsr=0):
 
         timeIt("readyOut")
         # Go to the template.
-        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"])
+        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"], voteQuery=voteQuery)
         return(output)
 
     # If we have an error, return an error page
