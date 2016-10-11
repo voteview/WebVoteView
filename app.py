@@ -122,9 +122,9 @@ def about():
 
 @app.route("/data")
 def data():
-    output = bottle.template("views/data")
+    maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+    output = bottle.template("views/data", maxCongress=maxCongress)
     return output
-
 
 @app.route("/research")
 def research():
