@@ -1019,13 +1019,14 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	except:
 		sortSkip = 0
 
-	if sortSkip:
+	if sortSkip and not needScore:
 		if sortDir==-1:
 			queryDict["synthID"] = {"$lt": sortSkip}
 		else:
 			queryDict["synthID"] = {"$gt": sortSkip}
 
         print(sortScore)
+        print(sortSkip)
 	print queryDict
 	# Need to sort by text score
 	if needScore:
