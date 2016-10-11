@@ -257,6 +257,7 @@
 
 				</div>
 				<input type="hidden" name="sortD" id="sortD" value="-1">
+				<input type="hidden" name="sortScore" id="sortScore" value="1">
 			</form>
 
 			<div id="resultsHolder" class="col-md-12" style="float:right;">
@@ -267,8 +268,8 @@
 						</div>
 						<div class="col-md-3" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
 							<strong>Sort by </strong>
-							<a href="#" onclick="javascript:$('#sortD').val(-1);updateRequest();return false;">Newest</a> / 
-							<a href="#" onclick="javascript:$('#sortD').val(1);updateRequest();return false;">Oldest</a>
+							<a href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
+							<a href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
 					</div>
 				</div>
