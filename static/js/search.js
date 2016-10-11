@@ -332,12 +332,16 @@ $(document).ready(function(){
 	// On form change we reset the search and do the initial AJAX call
 	$("#faceted-search-form input:not(#searchTextInput), #sort").change(function() 
 	{
+		$('#sortScore').val(1);
+		$('#sortD').val(-1);
 		updateRequest();
 	});
 
 	// Prevent form submission, force an AJAX call everytime we update the search bar
 	$("#faceted-search-form").submit(function(event) 
 	{
+		$('#sortScore').val(1);
+		$('#sortD').val(-1);
 		event.preventDefault();
 		updateRequest();
 	});
