@@ -68,10 +68,13 @@ This project was made possibe by support from <a href="http://www.hewlett.org">T
 				<li>
 					<strong>Lead Developer, Voteview.com:</strong> Aaron Rudkin, University of California Los Angeles</li>
 				<li>
-					<strong>Lead Developer, RVoteView:</strong> <a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
+					<strong>Lead Developer:</strong> <a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
 				</li>
 				<li>
-					<strong>Past Contributors:</strong> Erik Hanson, Felipe Nunes, Fabio Souto
+					<strong>Past Contributors:</strong> 
+						Erik Hanson, 
+						<a href="https://gps.ucsd.edu/faculty-directory/felipe-nunes.html">Felipe Nunes</a>, 
+						<a href="http://fabiosouto.me/">Fabio Souto</a>
 				</li>
 			</ul>
 
