@@ -574,10 +574,12 @@ def searchAssemble():
     except:
         sortD = -1
 
+    sortScore = int(defaultValue(bottle.request.params.sortScore,1))
+
     icpsr = defaultValue(bottle.request.params.icpsr)
     jsapi = 1
     rowLimit = 50
-    res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId)
+    res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId, sortScore=sortScore)
 
     if "errormessage" in res:
         bottle.response.headers["rollcall_number"] = -999
