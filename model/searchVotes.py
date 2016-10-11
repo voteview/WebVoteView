@@ -727,7 +727,10 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 	
 	# KEYVOTE type: Is this a key vote?
 	elif fieldType=="keyvote":
-		queryDict["keyvote"] = {"$exists": 1}
+                if queryWords == "1":
+                        queryDict["keyvote"] = {"$exists": 1}
+                elif queryWords == "CQ":
+                        queryDict["keyvote"] = {"$in": queryWords}
 		#queryDict = addToQueryDict(queryDict, "keyvote", {"$exists": True})
 
 	# CHAMBER type: Senate or House?
