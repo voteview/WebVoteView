@@ -11,8 +11,12 @@ import re
 import json
 
 client = pymongo.MongoClient()
-dbConf = json.load(open("./model/db.json","r"))
-db = client[dbConf["dbname"]]
+try:
+	dbConf = json.load(open("./model/db.json","r"))
+	db = client[dbConf["dbname"]]
+except:
+	dbConf = json.load(open("./db.json","r"))
+	db = client[dbConf["dbname"]]
 
 try:
 	scoreData = json.load(open("auth.json","r"))
@@ -1110,6 +1114,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	return returnDict
 
 if __name__ == "__main__":
+	start = time.time()
 	if len(sys.argv)>1:
 		args = " ".join(sys.argv[1:])
 		print query(args)		
@@ -1149,8 +1154,11 @@ if __name__ == "__main__":
 		#query("((description: \"tax\" congress: 113) OR congress:114 OR (voter:MH085001 AND congress:112) OR congress:[55 to 58]) AND description:\"iraq\"")
 		#query("voter: MS05269036 MS02793036 MS02393036 OR congress:[113 to ]")
 		#query("iraq war")
-		query("iraq war AND congress:113")
+		#query("iraq war AND congress:113")
+		query("\"estate tax\" congress:110")
 		print "ok2"
 		#query("\"war on terrorism\"")
 		#query('"war on terrorism" iraq')
 		#query("alltext:afghanistan iraq OR codes:defense")
+	end = time.time()
+	print (end-start)
