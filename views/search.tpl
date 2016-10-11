@@ -268,9 +268,9 @@
 						</div>
 						<div class="col-md-6" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
 							<strong>Sort by </strong>
-							<a href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> / 
-							<a href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
-							<a href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
+							<div id="relevanceAppear" style="display:none;"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
+							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
+							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
 					</div>
 				</div>
@@ -350,7 +350,6 @@
 <div id="stashCartIcon" onClick="javascript:openStashCart();">
 	<span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Saved Votes"></span>
 </div>
-
 
 <script>
 	// Pass query string arguments back into faceted search.
