@@ -575,7 +575,6 @@ def searchAssemble():
         sortD = -1
 
     sortScore = int(defaultValue(bottle.request.params.sortScore,1))
-
     icpsr = defaultValue(bottle.request.params.icpsr)
     jsapi = 1
     rowLimit = 50

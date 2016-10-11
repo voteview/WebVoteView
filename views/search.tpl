@@ -263,11 +263,12 @@
 			<div id="resultsHolder" class="col-md-12" style="float:right;">
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-6">
 							<h4 id="results-number"></h4>
 						</div>
-						<div class="col-md-3" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
+						<div class="col-md-6" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
 							<strong>Sort by </strong>
+							<a href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> / 
 							<a href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
 							<a href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
