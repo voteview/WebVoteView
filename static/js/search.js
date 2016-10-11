@@ -403,6 +403,9 @@ $(document).ready(function(){
 	if($('#facet-clausen input[type=checkbox]:checked').length) {
 		$("#facet-clausen").collapse('show');
 	}
+	if($('#facet-keyvote input[type=checkbox]:checked').length) {
+		$("facet-keyvote").collapse('show');
+	}
 	if($('#fromDate').val()  || $("#toDate").val()) {
 		$("#facet-date").collapse('show');
 	}

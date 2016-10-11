@@ -124,13 +124,6 @@
                 <div class="panel-body">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" value="Key Vote" name="keyvote">
-					<strong>Key Vote</strong>
-				</label>
-			</div>
-
-			<div class="checkbox">
-				<label>
 					<input type="checkbox" value="Government Management" name="clausen">
 					Government Management
 				</label>
@@ -148,21 +141,21 @@
                         <input type="checkbox" value="Foreign and Defense Policy" name="clausen">
                         Foreign and Defense Policy
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Social Welfare" name="clausen">
                         Social Welfare
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                      <label>
                         <input type="checkbox" value="Agriculture" name="clausen">
                         Agriculture
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                      <label>
@@ -253,13 +246,35 @@
 
                 </div>
               </div>
-            </div>
-
-				</div>
-				<input type="hidden" name="sortD" id="sortD" value="-1">
-				<input type="hidden" name="sortScore" id="sortScore" value="1">
-			</form>
-
+	    </div>
+	    <div id="panel-keyvote" class="panel panel-primary">
+	      <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-keyvote">
+		<h3 class="panel-title">Key Vote <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+	      </div>
+	      <div id="facet-keyvote" class="panel-collapse facet-content collapse">
+		<div class="panel-body">
+		  <div class="checkbox">
+		    <label>
+		      <input type="checkbox" name="keyvote" id="optionsKeyvotes1" value="1">
+			Any
+		      </label>
+		    </div>
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" name="keyvote" id="optionsKeyvotes2" value="CQ">
+			  Congressional Quarterly
+			</label>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	      </div>
+	      
+		  
+		<input type="hidden" name="sortD" id="sortD" value="-1">
+		  <input type="hidden" name="sortScore" id="sortScore" value="1">
+		  </form>
+		  
 			<div id="resultsHolder" class="col-md-12" style="float:right;">
 				<div class="form-group">
 					<div class="row">
@@ -379,6 +394,9 @@
 		$("#support").slider({value: [0,{{args["supportMax"]}}]});
 		% else:
 		$("#support").slider({});
+		% end
+		% if "keyvote" in args:
+		$("input[value={{args["keyvote"]}}]").attr("checked",true);
 		% end
 		% if "chamber" in args or "congress" in args or "fromDate" in args or "toDate" in args or "supportMin" in args or "supportMax" in args:
 		toggleAdvancedSearch(1);

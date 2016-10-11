@@ -92,15 +92,29 @@ def downloadAPI(rollcall_id, apitype="Web"):
 		found[rid] = 0
 	print found
 
+	# Do we need to fold in members?
+	if apitype=="Web_Person":
+		needPeople=-1 # Just one specific member
+	elif apitype=="exportCSV":
+		needPeople=0 # No members at all
+	else:
+		needPeople=1 # All members
+
 	rollcalls = rollcalls_col.find({'id': {'$in': rollcall_ids}})
 	for rollcall in rollcalls:
 		result = []
 		try: # Lazy way to verify the rollcall is real
 			# Pull all members in a single query.
 			memberSet = []
-			for vote in rollcall['votes']:
-				memberSet.append(vote["id"])
-			members = members_col.find({'id': {'$in': memberSet}})
+			if needPeople==1:
+				for vote in rollcall['votes']:
+					memberSet.append(vote["id"])
+				members = members_col.find({'id': {'$in': memberSet}})
+			elif needPeople==-1:
+				memberSet = []
+				members = members_col.find({'id': {'$in': memberSet}})
+			else:
+				pass
 
 			for member in members:
 				bestName = ""
