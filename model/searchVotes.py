@@ -891,7 +891,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
 		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0, idsOnly=0):
+		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0, sortScore=1, idsOnly=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -1019,12 +1019,13 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	except:
 		sortSkip = 0
 
-	if sortSkip and not needScore:
+	if sortSkip:
 		if sortDir==-1:
 			queryDict["synthID"] = {"$lt": sortSkip}
 		else:
-			queryDict["synthID"] = {"$gt", sortSkip}
+			queryDict["synthID"] = {"$gt": sortSkip}
 
+        print(sortScore)
 	print queryDict
 	# Need to sort by text score
 	if needScore:
@@ -1034,7 +1035,10 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			if not jsapi:
 				results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
                         else:
-				results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(sortSkip).limit(rowLimit+5)
+                                if sortScore:
+                                        results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(sortSkip).limit(rowLimit+5)
+                                else:
+                                        results = votes.find(queryDict,fieldReturns).sort("synthID", sortDir).skip(sortSkip).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
