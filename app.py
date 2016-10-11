@@ -595,6 +595,7 @@ def searchAssemble():
         bottle.response.headers["member_number"] = len(resultMembers)
 	bottle.response.headers["party_number"] = len(resultParties)
         bottle.response.headers["nextId"] = res["nextId"]
+        bottle.response.headers["need_score"] = res["needScore"]
         if not "rollcalls" in res:
             out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=resultParties)
         else:
