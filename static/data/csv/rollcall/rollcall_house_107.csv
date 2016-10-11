@@ -1,0 +1,991 @@
+id,congress,chamber,rollnumber,date,keyvote,yea,nay,description,Issue1,Issue2,Peltzman1,Peltzman2,Clausen1,slope,intercept,mid.dim1,mid.dim2,spread.dim1,spread.dim2
+RH1070001,107,House,1,2001-01-03,,222,206,,Election of the Speaker of the House,,Internal Organization,,Miscellaneous Policy,3.969900966975794,0.12921742514137063,-0.026,0.026,-0.661,0.963
+RH1070002,107,House,2,2001-01-03,,199,213,,,,Internal Organization,,Miscellaneous Policy,3.6613961558896033,0.2669433155358306,-0.074,-0.004,0.609,-0.962
+RH1070003,107,House,3,2001-01-03,,215,206,,,,Internal Organization,,Miscellaneous Policy,3.9797691847405785,0.1295346912490333,-0.023,0.038,-0.642,0.933
+RH1070004,107,House,4,2001-01-30,,401,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070005,107,House,5,2001-01-31,,407,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070006,107,House,6,2001-01-31,,406,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070007,107,House,7,2001-01-31,,382,19,,,,Internal Organization,,Miscellaneous Policy,3.7618799391469704,2.5255551200195594,-0.657,0.054,-0.227,0.349
+RH1070008,107,House,8,2001-02-06,,410,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070009,107,House,9,2001-02-06,,412,0,,Education,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070010,107,House,10,2001-02-07,,413,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070011,107,House,11,2001-02-13,,410,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070012,107,House,12,2001-02-13,,407,2,,Social Security,,Budget Special Interest,Domestic Social Policy,Government Management,,,0.0,0.0,0.0,0.0
+RH1070013,107,House,13,2001-02-14,,409,6,,Radio/Television/Motion Pictures/Telecommunications,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070014,107,House,14,2001-02-14,,404,4,,,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070015,107,House,15,2001-02-27,,395,0,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070016,107,House,16,2001-02-28,,408,2,,Agriculture,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070017,107,House,17,2001-02-28,,412,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070018,107,House,18,2001-02-28,,413,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070019,107,House,19,2001-02-28,,413,1,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070020,107,House,20,2001-02-28,,411,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070021,107,House,21,2001-03-01,,281,132,,,,Domestic Social Policy,,Civil Liberties,-38.05054772670684,-11.287012674831931,-0.297,0.014,-0.25,-0.038
+RH1070022,107,House,22,2001-03-01,,160,258,,,,Domestic Social Policy,,Civil Liberties,-10.668550868023157,-2.3654409031174186,-0.234,0.131,0.273,0.148
+RH1070023,107,House,23,2001-03-01,,165,253,,,,Domestic Social Policy,,Civil Liberties,-23.134733017837753,-4.28919507433566,-0.187,0.037,0.196,0.049
+RH1070024,107,House,24,2001-03-01,,306,108,,,,Domestic Social Policy,,Civil Liberties,-13.948883143108059,-5.138188996663765,-0.368,-0.005,-0.328,-0.136
+RH1070025,107,House,25,2001-03-06,,400,2,,Energy,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070026,107,House,26,2001-03-06,,401,1,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070027,107,House,27,2001-03-07,,337,72,,,,Internal Organization,,Miscellaneous Policy,2.8197458525896435,1.4141564067131485,-0.565,-0.179,-0.176,0.361
+RH1070028,107,House,28,2001-03-07,,222,198,,OSHA,,Domestic Social Policy,Regulation Special Interest,Social Welfare,14.508500891158196,1.1972055739661305,-0.083,-0.007,-0.883,0.352
+RH1070029,107,House,29,2001-03-07,,418,0,,Public Health,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070030,107,House,30,2001-03-07,,404,0,,Public Health,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070031,107,House,31,2001-03-07,,413,0,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070032,107,House,32,2001-03-07,,223,206,,OSHA,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-5.886963312574786,0.050434816562873935,0.005,0.021,-0.228,-0.224
+RH1070033,107,House,33,2001-03-08,,230,180,,,,Internal Organization,,Miscellaneous Policy,4.759777606540783,0.49798888032703914,-0.05,0.26,-0.172,0.209
+RH1070034,107,House,34,2001-03-08,,174,241,,,,Internal Organization,,Miscellaneous Policy,8.527766550370853,1.482414679415641,-0.177,-0.027,0.202,-0.137
+RH1070035,107,House,35,2001-03-08,,171,251,,,,Internal Organization,,Miscellaneous Policy,6.429732979691609,1.2951707480146664,-0.147,0.35,0.209,-0.188
+RH1070036,107,House,36,2001-03-08,,220,204,,Tax rates,,Budget General Interest,,Government Management,6.684305464399595,0.4983120868884158,0.039,0.759,-0.475,0.411
+RH1070037,107,House,37,2001-03-08,,217,205,,Tax rates,,Budget General Interest,,Government Management,4.213926038231002,0.30474579024364123,-0.111,-0.163,-0.604,0.829
+RH1070038,107,House,38,2001-03-08,,220,204,,Tax rates,,Budget General Interest,,Government Management,5.565747363711693,0.2798473268997501,0.124,0.97,-0.664,0.69
+RH1070039,107,House,39,2001-03-08,,221,197,,Tax rates,,Budget General Interest,,Government Management,7.673401545520445,0.6812593360057991,-0.088,0.006,-0.402,0.303
+RH1070040,107,House,40,2001-03-08,,160,253,,,,Internal Organization,,Miscellaneous Policy,5.727802256831811,1.3274716603936896,-0.204,0.159,0.205,-0.207
+RH1070041,107,House,41,2001-03-08,,155,273,,Tax rates,,Budget General Interest,,Government Management,-7.287440900618894,-1.4789710994408471,-0.066,-0.998,0.189,0.15
+RH1070042,107,House,42,2001-03-08,,228,197,,Tax rates,,Budget General Interest,,Government Management,7.222504620544275,1.1799357670103499,-0.166,-0.019,-0.763,0.611
+RH1070043,107,House,43,2001-03-08,,204,221,,Tax rates,,Budget General Interest,,Government Management,6.486979138201707,0.32845312380447167,-0.042,0.056,0.701,-0.625
+RH1070044,107,House,44,2001-03-08,,231,198,,Tax rates,,Budget General Interest,,Government Management,20.329936790758765,2.344602604518776,-0.117,-0.034,-1.051,0.299
+RH1070045,107,House,45,2001-03-13,,409,3,,Parks and Conservation,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070046,107,House,46,2001-03-13,,413,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070047,107,House,47,2001-03-14,,407,3,,,,Budget Special Interest,Regulation Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070048,107,House,48,2001-03-14,,413,0,,Judiciary,,Regulation Special Interest,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070049,107,House,49,2001-03-15,,418,0,,,,Budget Special Interest,Regulation Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070050,107,House,50,2001-03-20,,405,2,,Public Health,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070051,107,House,51,2001-03-20,,405,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070052,107,House,52,2001-03-21,,414,1,,Civil Rights/Desegregation/Busing/Affirmative Action,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070053,107,House,53,2001-03-21,,414,2,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070054,107,House,54,2001-03-21,,415,3,,Shipping/Maritime,,Budget Special Interest,Regulation Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070055,107,House,55,2001-03-22,,71,336,,,,Internal Organization,,Miscellaneous Policy,6.002969823348897,2.7232592050999322,-0.424,0.178,0.219,-0.211
+RH1070056,107,House,56,2001-03-22,,246,169,,Housing/Housing Programs/Rent Control,,Domestic Social Policy,Budget Special Interest,Social Welfare,9.517453456705407,1.9952586434361193,-0.244,-0.327,-0.26,0.158
+RH1070057,107,House,57,2001-03-22,,415,0,,Shipping/Maritime,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070058,107,House,58,2001-03-22,,414,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070059,107,House,59,2001-03-22,,396,0,,Housing/Housing Programs/Rent Control,,Domestic Social Policy,Regulation Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070060,107,House,60,2001-03-22,,401,6,,Housing/Housing Programs/Rent Control,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070061,107,House,61,2001-03-27,,357,61,,,,Budget Special Interest,Internal Organization,Government Management,-0.070532722615359,0.9712883403464534,0.316,0.949,0.004,0.328
+RH1070062,107,House,62,2001-03-27,,417,0,,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070063,107,House,63,2001-03-27,,417,0,,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070064,107,House,64,2001-03-28,,282,130,,Budget resolution ,,Budget General Interest,,Government Management,-50.544362354189005,-15.164764343902512,-0.299,-0.052,-0.201,-0.023
+RH1070065,107,House,65,2001-03-28,,79,343,,Budget resolution ,,Budget General Interest,,Government Management,-35.656109135739634,-15.279814710096563,-0.428,-0.019,0.598,0.097
+RH1070066,107,House,66,2001-03-28,,204,221,,Budget resolution ,,Budget General Interest,,Government Management,6.639016693499216,-0.10981871943041921,0.103,0.574,0.163,-0.142
+RH1070067,107,House,67,2001-03-28,,81,341,,Budget resolution ,,Budget General Interest,,Government Management,-8.365684707343117,4.046946334792521,0.462,0.182,-0.243,-0.168
+RH1070068,107,House,68,2001-03-28,,183,243,,Budget resolution ,,Budget General Interest,,Government Management,66.2713706240144,10.320876558594275,-0.158,-0.15,0.275,-0.024
+RH1070069,107,House,69,2001-03-28,,223,205,,Budget resolution ,,Budget General Interest,,Government Management,4.169849056037693,0.24808637719489324,-0.289,-0.957,-0.447,0.62
+RH1070070,107,House,70,2001-03-29,,249,171,,Tax rates,,Budget General Interest,,Government Management,9.009955546062665,1.8510209758507212,-0.203,0.022,-0.229,0.147
+RH1070071,107,House,71,2001-03-29,,354,62,,,,Internal Organization,,Miscellaneous Policy,3.1560708114436022,1.6869142398726722,-0.653,-0.374,-0.215,0.394
+RH1070072,107,House,72,2001-03-29,,196,231,,Tax rates,,Budget General Interest,,Government Management,12.035164419206037,1.2485208138153479,-0.157,-0.641,0.283,-0.136
+RH1070073,107,House,73,2001-03-29,,184,240,,Tax rates,,Budget General Interest,,Government Management,9.995713450641857,2.1390955380854315,-0.211,0.03,0.795,-0.46
+RH1070074,107,House,74,2001-03-29,,283,144,,Tax rates,,Budget General Interest,,Government Management,18.649427636828392,5.625477718685345,-0.301,0.012,-0.316,0.098
+RH1070075,107,House,75,2001-04-03,,414,0,,Education,,Domestic Social Policy,Regulation Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070076,107,House,76,2001-04-03,,347,44,,Communists/Communism/Unamerican Activities,Human Rights,Foreign Policy Resolutions,,Foreign and Defense Policy,-31.463236904259347,-16.028787584268006,-0.509,-0.014,-0.272,-0.05
+RH1070077,107,House,77,2001-04-03,,406,6,,Communists/Communism/Unamerican Activities,Human Rights,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070078,107,House,78,2001-04-04,,414,1,,Women's Equality,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070079,107,House,79,2001-04-04,,413,12,,Tax rates,,Budget Special Interest,,Government Management,5.932528044096263,3.8902157046939077,-0.56,0.568,-0.279,0.272
+RH1070080,107,House,80,2001-04-04,,406,13,,Pollution and Environmental Protection,,Government Organization,,Government Management,7.318689236685642,-5.387477856289437,0.673,-0.462,0.267,-0.211
+RH1070081,107,House,81,2001-04-04,,201,227,,Tax rates,,Budget Special Interest,,Government Management,8.176931497684036,0.28460695970148897,0.087,0.996,0.246,-0.174
+RH1070082,107,House,82,2001-04-04,,192,235,,Tax rates,,Budget Special Interest,,Government Management,16.915718765730833,2.0937063146079318,-0.134,-0.173,0.272,-0.093
+RH1070083,107,House,83,2001-04-04,,275,154,,Tax rates,,Budget Special Interest,,Government Management,-8.675524881689158,-2.063423872078641,-0.236,-0.016,-0.216,-0.144
+RH1070084,107,House,84,2001-04-24,,200,207,,Budget resolution ,,Budget General Interest,,Government Management,22.543219957722588,-0.8753584581820713,0.043,0.094,0.343,-0.088
+RH1070085,107,House,85,2001-04-24,,407,0,,Taiwan (1979-80),,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070086,107,House,86,2001-04-25,,232,189,,Tax rates,Constitutional Amendments,Budget General Interest,,Government Management,-9.14514018867518,-0.7006751403769194,-0.108,0.287,-0.185,-0.117
+RH1070087,107,House,87,2001-04-26,,196,230,,Abortion/Care of deformed newborns,,Domestic Social Policy,,Social Welfare,-1.7782131745077159,0.03320297982112802,0.211,-0.342,0.198,0.644
+RH1070088,107,House,88,2001-04-26,,252,172,,Abortion/Care of deformed newborns,,Domestic Social Policy,,Social Welfare,-1.5561076252278117,-0.14228695948086384,0.084,-0.273,-0.173,-0.643
+RH1070089,107,House,89,2001-05-01,,418,1,,Public Health,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070090,107,House,90,2001-05-01,,404,6,,Education,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070091,107,House,91,2001-05-02,,404,24,,,,Regulation Special Interest,,Government Management,19.794157345003427,11.254287214616943,-0.567,0.031,-0.397,0.116
+RH1070092,107,House,92,2001-05-02,,377,47,,,,Internal Organization,,Miscellaneous Policy,2.574056833028652,1.6145822134832484,-0.602,0.065,-0.162,0.364
+RH1070093,107,House,93,2001-05-02,,207,223,,,,Regulation Special Interest,,Government Management,4.821993532991945,0.2581360776040967,0.012,0.316,0.356,-0.427
+RH1070094,107,House,94,2001-05-02,,153,276,,,,Regulation Special Interest,,Government Management,28.918416272297197,7.8794828911540264,-0.276,-0.102,0.26,-0.052
+RH1070095,107,House,95,2001-05-02,,407,24,,,,Regulation Special Interest,,Government Management,-42.365479838915384,-25.771211742060554,-0.608,-0.013,-0.293,-0.04
+RH1070096,107,House,96,2001-05-03,,157,250,,,,Internal Organization,,Miscellaneous Policy,4.993841047903304,1.091390263742427,-0.099,0.597,0.196,-0.227
+RH1070097,107,House,97,2001-05-03,,171,239,,,,Internal Organization,,Miscellaneous Policy,13.701821043302719,2.2992913669284354,-0.16,0.107,0.199,-0.084
+RH1070098,107,House,98,2001-05-04,,299,107,,,,Internal Organization,,Miscellaneous Policy,3.1252183199535217,1.283110033256575,-0.504,-0.292,-0.154,0.285
+RH1070099,107,House,99,2001-05-08,,214,200,,Budget resolution ,,Budget General Interest,Internal Organization,Government Management,3.9448322949320556,0.13356563966823343,-0.026,0.031,-0.635,0.931
+RH1070100,107,House,100,2001-05-08,,409,1,,Budget resolution ,,Budget General Interest,Internal Organization,Government Management,,,0.0,0.0,0.0,0.0
+RH1070101,107,House,101,2001-05-09,,335,70,,,,Internal Organization,,Miscellaneous Policy,3.178162580420781,1.609328717266552,-0.681,-0.555,-0.222,0.404
+RH1070102,107,House,102,2001-05-09,,218,208,,Budget resolution ,,Budget General Interest,,Government Management,3.9569310488218217,0.12892327622054556,-0.025,0.03,-0.639,0.934
+RH1070103,107,House,103,2001-05-09,,222,207,,Budget resolution ,,Budget General Interest,,Government Management,16.731369414686235,0.2667764329762348,-0.012,0.066,-0.243,0.084
+RH1070104,107,House,104,2001-05-10,,226,192,,,,Foreign Policy Budget,,Foreign and Defense Policy,10.988998183472933,1.018834972752094,-0.015,0.854,-0.304,0.16
+RH1070105,107,House,105,2001-05-10,,282,137,,,,Foreign Policy Budget,Foreign Policy Resolutions,Foreign and Defense Policy,-2.6521862437576433,-0.7366984635767427,-0.228,-0.132,-0.249,-0.543
+RH1070106,107,House,106,2001-05-10,,252,165,,U. N.,,Foreign Policy Budget,Foreign Policy Resolutions,Foreign and Defense Policy,-1.988141118720432,-0.31043462767109703,-0.132,-0.048,-0.143,-0.416
+RH1070107,107,House,107,2001-05-10,,193,225,,U. N.,,Foreign Policy Budget,Foreign Policy Resolutions,Foreign and Defense Policy,-3.8018617197145965,0.37667154133969283,-0.069,0.639,-0.282,-0.429
+RH1070108,107,House,108,2001-05-15,,400,15,,,,Budget Special Interest,Government Organization,Government Management,4.890066957633088,3.5079765588676666,-0.546,0.838,-0.197,0.233
+RH1070109,107,House,109,2001-05-15,,416,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070110,107,House,110,2001-05-15,,419,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070111,107,House,111,2001-05-15,,420,0,,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070112,107,House,112,2001-05-15,,415,0,,Taiwan (1979-80),,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070113,107,House,113,2001-05-16,,348,53,,,,Internal Organization,,Miscellaneous Policy,3.2927754221553736,1.8818173294668572,-0.662,-0.298,-0.193,0.339
+RH1070114,107,House,114,2001-05-16,,219,210,,Abortion/Care of deformed newborns,,Foreign Policy Resolutions,Regulation Special Interest,Foreign and Defense Policy,-1.764656642601493,0.11798744386338067,0.255,-0.332,-0.209,-0.685
+RH1070115,107,House,115,2001-05-16,,220,207,,Tax rates,,Budget General Interest,,Government Management,4.861332266412436,0.17692542508853049,0.086,0.595,-0.448,0.533
+RH1070116,107,House,116,2001-05-16,,188,239,,Tax rates,,Budget General Interest,,Government Management,-26.065132533430546,-3.7140534221468466,-0.139,-0.091,0.338,0.075
+RH1070117,107,House,117,2001-05-16,,231,197,,Tax rates,,Budget General Interest,,Government Management,14.61766521161324,1.944149473144561,-0.133,0.0,-0.369,0.146
+RH1070118,107,House,118,2001-05-16,,216,210,,,,Foreign Policy Budget,,Foreign and Defense Policy,0.7681454322328943,0.05939533144225767,-0.628,-0.423,0.017,-0.128
+RH1070119,107,House,119,2001-05-16,,189,239,,,,Foreign Policy Budget,,Foreign and Defense Policy,18.95375717124057,2.7316184896311992,-0.138,0.116,0.272,-0.083
+RH1070120,107,House,120,2001-05-16,,352,73,,,,Foreign Policy Budget,,Foreign and Defense Policy,-24.848416945085,19.48333988828766,0.796,-0.296,0.116,0.027
+RH1070121,107,House,121,2001-05-17,,336,68,,,,Internal Organization,,Miscellaneous Policy,3.041419642431257,1.5728932051011855,-0.601,-0.255,-0.183,0.348
+RH1070122,107,House,122,2001-05-17,,415,1,,"Children (aid, infant mortality, etc.)",Tax rates,Budget Special Interest,Domestic Social Policy,Government Management,,,0.0,0.0,0.0,0.0
+RH1070123,107,House,123,2001-05-17,,420,0,,"Children (aid, infant mortality, etc.)",Tax rates,Budget Special Interest,Domestic Social Policy,Government Management,,,0.0,0.0,0.0,0.0
+RH1070124,107,House,124,2001-05-17,,219,201,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,3.9633450512137847,0.14086369658762732,-0.031,0.018,-0.651,0.95
+RH1070125,107,House,125,2001-05-21,,368,0,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070126,107,House,126,2001-05-21,,336,43,,Immigration/Naturalization,,Regulation Special Interest,,Social Welfare,-1.8027064689224226,1.3066844579371137,0.179,0.984,0.12,0.385
+RH1070127,107,House,127,2001-05-22,,421,2,,Education,Public Health,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070128,107,House,128,2001-05-22,,422,0,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070129,107,House,129,2001-05-22,,173,256,,Education,,Domestic Social Policy,Regulation Special Interest,Social Welfare,5.263151761558088,1.6493128455478823,-0.48,-0.877,0.091,-0.1
+RH1070130,107,House,130,2001-05-22,,420,3,,Education,,Domestic Social Policy,Regulation Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070131,107,House,131,2001-05-22,,217,209,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-28.09217580737442,1.0484105048728534,0.037,0.009,-0.748,-0.154
+RH1070132,107,House,132,2001-05-22,,366,57,,Education,Peace Movements/Pacifism/Anti-Military,Domestic Social Policy,Defense Policy Resolutions,Social Welfare,-3.285624316895043,-1.7298096393205828,-0.528,0.005,-0.267,-0.47
+RH1070133,107,House,133,2001-05-22,,419,0,,Pollution and Environmental Protection,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070134,107,House,134,2001-05-23,,156,273,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-10.261373515976425,2.928286294062743,0.223,0.64,-0.22,-0.124
+RH1070135,107,House,135,2001-05-23,,186,241,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-8.75368276350618,1.3228862622497286,0.037,0.999,-0.224,-0.148
+RH1070136,107,House,136,2001-05-23,,191,236,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-25.886646824395072,5.099669424405829,0.197,-0.0,-1.11,-0.248
+RH1070137,107,House,137,2001-05-23,,246,181,,Education,Handicapped,Domestic Social Policy,Budget Special Interest,Social Welfare,-3.9187404907766004,-0.45337989018105385,-0.143,0.107,-0.166,-0.245
+RH1070138,107,House,138,2001-05-23,,361,67,,Education,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-9.600914202402668,5.4222324177364625,0.473,0.881,0.166,0.1
+RH1070139,107,House,139,2001-05-23,,415,9,,Education,Tariffs,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070140,107,House,140,2001-05-23,,239,189,,Education,Handicapped,Domestic Social Policy,Budget Special Interest,Social Welfare,-5.8406653554885954,-0.6001770632306507,-0.206,0.603,-0.205,-0.203
+RH1070141,107,House,141,2001-05-23,,425,3,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070142,107,House,142,2001-05-23,,101,326,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-28.21021015950624,12.081600578747189,0.431,-0.077,-0.239,-0.049
+RH1070143,107,House,143,2001-05-23,,207,224,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,17.40561281294869,0.13619644845320422,-0.035,-0.473,0.319,-0.106
+RH1070144,107,House,144,2001-05-23,,385,45,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,32.894698509738056,-22.141605589602403,0.678,0.161,0.182,-0.032
+RH1070145,107,House,145,2001-05-23,,198,210,,Tax rates,,Budget General Interest,,Government Management,6.5640214713309515,0.27472810102421186,-0.191,-0.979,0.429,-0.378
+RH1070146,107,House,146,2001-05-24,,336,71,,,,Internal Organization,,Miscellaneous Policy,2.777086007101556,1.4172790111202218,-0.721,-0.585,-0.242,0.504
+RH1070147,107,House,147,2001-05-26,,213,177,,Tax rates,,Budget General Interest,,Government Management,6.202532426970368,0.4837975293036887,-0.078,-0.0,-0.696,0.649
+RH1070148,107,House,148,2001-05-26,,241,154,,Tax rates,,Budget General Interest,,Government Management,12.01720853982128,2.6578202958403243,-0.222,-0.01,-0.374,0.18
+RH1070149,107,House,149,2001-06-05,,405,0,,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070150,107,House,150,2001-06-05,,407,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070151,107,House,151,2001-06-06,,416,0,,Immigration/Naturalization,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070152,107,House,152,2001-06-06,,411,1,,Agriculture,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070153,107,House,153,2001-06-07,,362,36,,,,Internal Organization,,Miscellaneous Policy,2.3108323505260318,1.5294460455324521,-0.632,0.069,-0.175,0.438
+RH1070154,107,House,154,2001-06-07,,411,3,,Shipping/Maritime,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070155,107,House,155,2001-06-12,,401,15,,Fish and Wildlife,,Budget Special Interest,,Government Management,-3.4787205840740096,2.609699967400691,0.766,-0.055,0.981,1.631
+RH1070156,107,House,156,2001-06-12,,415,0,,Civil Rights/Desegregation/Busing/Affirmative Action,,Internal Organization,,Miscellaneous Policy,,,0.0,0.0,0.0,0.0
+RH1070157,107,House,157,2001-06-13,,374,42,,,,Internal Organization,,Miscellaneous Policy,3.1909976576327943,1.9999793814242608,-0.691,-0.205,-0.192,0.348
+RH1070158,107,House,158,2001-06-13,,418,6,,Fish and Wildlife,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070159,107,House,159,2001-06-13,,422,2,,Humanitarian Assistance (foreign),,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070160,107,House,160,2001-06-13,,420,0,,Human Rights,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070161,107,House,161,2001-06-14,,418,1,,Banking and Finance,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070162,107,House,162,2001-06-14,,408,12,,Banking and Finance,,Budget Special Interest,,Government Management,1.679861218156835,1.5151923978277946,-0.343,0.939,-0.149,0.513
+RH1070163,107,House,163,2001-06-14,,126,299,,Banking and Finance,,Budget Special Interest,,Government Management,9.784724409941655,3.3015285041006295,-0.332,0.053,0.247,-0.146
+RH1070164,107,House,164,2001-06-14,,404,22,,Banking and Finance,,Budget Special Interest,,Government Management,7.427466916253175,4.684433760234539,-0.642,-0.084,-0.244,0.19
+RH1070165,107,House,165,2001-06-19,,416,0,,Education,Military Pensions/Veterans Benefits,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070166,107,House,166,2001-06-19,,417,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070167,107,House,167,2001-06-19,,415,0,,Civil Rights/Desegregation/Busing/Affirmative Action,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070168,107,House,168,2001-06-20,,222,205,,,,Budget Special Interest,,Government Management,4.18975479850605,0.2781746055671331,-0.022,0.186,-0.368,0.508
+RH1070169,107,House,169,2001-06-20,,223,205,,,,Budget Special Interest,,Government Management,6.702795709625474,0.23968172112565583,-0.065,-0.196,-0.299,0.258
+RH1070170,107,House,170,2001-06-20,,424,0,,"Children (aid, infant mortality, etc.)",,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070171,107,House,171,2001-06-20,,50,376,,,,Defense Policy Budget,Budget Special Interest,Foreign and Defense Policy,-2.4603975134898017,-1.4799661851756971,-0.569,-0.08,0.211,0.496
+RH1070172,107,House,172,2001-06-20,,212,216,,Narcotics,,Domestic Social Policy,Budget Special Interest,Social Welfare,8.310239623512775,-0.40106928112946166,-0.003,-0.426,0.273,-0.19
+RH1070173,107,House,173,2001-06-20,,65,362,,,,Budget Special Interest,,Government Management,42.627887690275124,-22.84140836353609,0.531,-0.206,-0.199,0.027
+RH1070174,107,House,174,2001-06-20,,209,218,,,,Budget Special Interest,,Government Management,3.922805376306765,-0.06369122150522706,0.004,-0.048,0.839,-1.237
+RH1070175,107,House,175,2001-06-20,,342,87,,,,Budget Special Interest,,Government Management,-2.8228388985973405,-1.4562038792802663,-0.727,0.596,-0.225,-0.461
+RH1070176,107,House,176,2001-06-21,,221,193,,,,Budget Special Interest,,Government Management,-2.338464525722798,0.26061516057079015,-0.075,0.436,0.655,1.62
+RH1070177,107,House,177,2001-06-21,,153,262,,Energy,,Budget Special Interest,,Government Management,-0.8347584078601255,-0.18455259365155527,0.197,-0.349,0.07,0.485
+RH1070178,107,House,178,2001-06-21,,129,287,,,,Budget Special Interest,,Government Management,-3.7761237777049232,-1.569419445974428,-0.351,-0.244,0.079,0.121
+RH1070179,107,House,179,2001-06-21,,242,173,,Parks and Conservation,Energy,Regulation Special Interest,,Government Management,-2.6195157340825257,0.49041452797752416,-0.03,0.569,0.303,0.669
+RH1070180,107,House,180,2001-06-21,,247,165,,Energy,,Regulation Special Interest,,Government Management,-1.6322839407029972,0.3322598758492098,0.07,0.218,0.127,0.45
+RH1070181,107,House,181,2001-06-21,,216,194,,Pollution and Environmental Protection,,Regulation Special Interest,,Government Management,-2.6289469338452,0.259749958715294,0.095,0.01,0.26,0.572
+RH1070182,107,House,182,2001-06-21,,187,222,,,,Regulation Special Interest,,Government Management,-17.801726380608923,-1.0,-0.0,-1.0,0.237,0.077
+RH1070183,107,House,183,2001-06-21,,145,264,,,,Budget Special Interest,,Government Management,-2.3904697042425234,0.693541319905478,0.237,0.127,-0.267,-0.646
+RH1070184,107,House,184,2001-06-21,,376,32,,,,Budget Special Interest,,Government Management,-6.407413801508986,4.1277075913174635,0.608,0.232,0.226,0.204
+RH1070185,107,House,185,2001-06-25,,379,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070186,107,House,186,2001-06-25,,379,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070187,107,House,187,2001-06-25,,379,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070188,107,House,188,2001-06-26,,346,45,,,,Internal Organization,,Miscellaneous Policy,3.145511945407765,1.9183846587135038,-0.683,-0.23,-0.186,0.342
+RH1070189,107,House,189,2001-06-26,,219,202,,,,Budget Special Interest,,Government Management,9.885766972380011,0.17536710826483903,0.082,0.986,-0.388,0.227
+RH1070190,107,House,190,2001-06-26,,219,205,,,,Budget Special Interest,,Government Management,3.9797691847405785,0.12849422961851448,-0.025,0.029,-0.642,0.933
+RH1070191,107,House,191,2001-06-26,,411,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070192,107,House,192,2001-06-26,,285,144,,Tariffs,,Budget Special Interest,,Government Management,8.516632484588627,-2.6001601720718392,0.19,-0.982,0.134,-0.091
+RH1070193,107,House,193,2001-06-26,,426,1,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070194,107,House,194,2001-06-27,,368,49,,,,Internal Organization,,Miscellaneous Policy,2.390258818224136,1.4718396198475503,-0.694,-0.187,-0.193,0.467
+RH1070195,107,House,195,2001-06-27,,425,1,,Energy,Public Works,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070196,107,House,196,2001-06-27,,424,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070197,107,House,197,2001-06-27,,414,2,,Civil Rights/Desegregation/Busing/Affirmative Action,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070198,107,House,198,2001-06-28,,39,372,,Energy,Public Works,Budget Special Interest,,Government Management,3.714723391075575,-2.708591650361827,0.699,-0.112,-0.158,0.246
+RH1070199,107,House,199,2001-06-28,,84,333,,Pollution and Environmental Protection,,Budget Special Interest,,Government Management,2.4319530665651548,-1.6237991679116845,0.87,0.492,-0.156,0.371
+RH1070200,107,House,200,2001-06-28,,163,258,,Energy,Public Works,Budget Special Interest,,Government Management,-1.8460834004086397,-0.3659807683115587,-0.273,0.138,0.173,0.542
+RH1070201,107,House,201,2001-06-28,,91,331,,Arms Control,Nuclear Weapons,Defense Policy Resolutions,,Foreign and Defense Policy,-2.57989369659561,-1.2124135454122815,-0.437,-0.085,0.153,0.343
+RH1070202,107,House,202,2001-06-28,,265,157,,Pollution and Environmental Protection,,Regulation Special Interest,,Government Management,-2.055475666413281,0.49343805331306245,0.08,0.329,0.145,0.408
+RH1070203,107,House,203,2001-06-28,,102,321,,Nuclear Power,,Budget Special Interest,,Government Management,-2.779754742453374,-1.201295742522784,-0.262,-0.473,0.124,0.258
+RH1070204,107,House,204,2001-06-28,,210,213,,Energy,Public Works,Budget Special Interest,Regulation Special Interest,Government Management,-3.6148020340371496,0.21097555392246398,0.174,-0.418,0.1,0.16
+RH1070205,107,House,205,2001-06-28,,405,15,,Energy,Public Works,Budget Special Interest,,Government Management,8.567080820668043,-6.447968999087671,0.73,-0.194,0.237,-0.16
+RH1070206,107,House,206,2001-06-28,,222,194,,Agriculture,,Budget Special Interest,,Agriculture,5.666128716767174,0.4879467429599503,-0.099,-0.073,-0.241,0.246
+RH1070207,107,House,207,2001-06-28,,324,89,,Public Health,,Regulation Special Interest,,Social Welfare,-3.5022303443958545,1.6144014619912537,0.18,0.984,0.175,0.289
+RH1070208,107,House,208,2001-06-28,,271,140,,Public Health,,Domestic Social Policy,Budget Special Interest,Social Welfare,-4.337762440844579,1.1985370722788506,0.046,0.999,0.228,0.304
+RH1070209,107,House,209,2001-06-28,,291,115,,Agriculture,Public Health,Budget Special Interest,Regulation Special Interest,Government Management,-3.6937809020077093,1.3247465002786862,0.089,0.996,0.152,0.238
+RH1070210,107,House,210,2001-07-10,,391,17,,Religion,,Domestic Social Policy,,Civil Liberties,-11.808353311188021,-7.481454232737266,-0.629,-0.054,-0.294,-0.144
+RH1070211,107,House,211,2001-07-10,,409,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070212,107,House,212,2001-07-10,,409,0,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070213,107,House,213,2001-07-11,,366,42,,,,Internal Organization,,Miscellaneous Policy,2.648829725781844,1.6291038917402731,-0.723,-0.286,-0.218,0.476
+RH1070214,107,House,214,2001-07-11,,11,405,,,,Internal Organization,,Miscellaneous Policy,12.765787363446508,9.05776178624023,-0.65,0.76,0.245,-0.111
+RH1070215,107,House,215,2001-07-11,,159,268,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-37.59394115398635,-10.607964169657864,-0.303,0.783,0.091,0.014
+RH1070216,107,House,216,2001-07-11,,324,102,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-0.5494499091736466,0.9259671110808151,-0.122,0.993,0.019,0.2
+RH1070217,107,House,217,2001-07-11,,145,279,,Fish and Wildlife,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-2.7905709087664223,-0.5782257818603651,0.13,-0.941,0.124,0.257
+RH1070218,107,House,218,2001-07-11,,155,272,,Agriculture,,Budget Special Interest,,Agriculture,0.7253676001708286,-0.4004514257633121,0.956,0.293,-0.113,0.901
+RH1070219,107,House,219,2001-07-11,,85,341,,Agriculture,,Budget Special Interest,,Agriculture,1.748009746276788,-1.0593309490953497,0.713,0.187,-0.149,0.493
+RH1070220,107,House,220,2001-07-11,,414,16,,Agriculture,,Budget Special Interest,,Agriculture,2.273238983491884,-1.6940447088265236,0.798,0.12,0.452,-1.15
+RH1070221,107,House,221,2001-07-12,,362,50,,,,Internal Organization,,Miscellaneous Policy,3.7157741578929357,2.1515047161565923,-0.723,-0.535,-0.23,0.358
+RH1070222,107,House,222,2001-07-12,,7,412,,,,Internal Organization,,Miscellaneous Policy,,,0.0,0.0,0.0,0.0
+RH1070223,107,House,223,2001-07-12,,423,3,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070224,107,House,224,2001-07-12,,205,219,,,,Budget Special Interest,,Government Management,4.596858077966318,0.12029837548476652,-0.096,-0.321,0.275,-0.346
+RH1070225,107,House,225,2001-07-12,,6,418,,,,Internal Organization,,Miscellaneous Policy,,,0.0,0.0,0.0,0.0
+RH1070226,107,House,226,2001-07-12,,203,228,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-10.769617094510682,1.2153923418902137,0.02,1.0,-0.324,-0.174
+RH1070227,107,House,227,2001-07-17,,330,61,,,,Budget Special Interest,,Government Management,-4.680748308260197,-2.492899800933971,-0.561,0.133,-0.174,-0.215
+RH1070228,107,House,228,2001-07-17,,321,77,,,,Defense Policy Resolutions,,Foreign and Defense Policy,-5.382038584010868,-2.342524636077249,-0.483,0.257,-0.268,-0.288
+RH1070229,107,House,229,2001-07-17,,100,324,,,,Domestic Social Policy,,Civil Liberties,-11.708431954149596,-4.7598329887886806,-0.419,0.146,0.166,0.082
+RH1070230,107,House,230,2001-07-17,,298,125,,,,Domestic Social Policy,,Civil Liberties,-2.531320257256784,-0.849026978786605,-0.384,0.123,-0.165,-0.377
+RH1070231,107,House,231,2001-07-17,,187,227,,Narcotics,,Budget Special Interest,Foreign Policy Budget,Government Management,0.7991998678889406,0.3438982841386009,-0.877,-0.357,0.038,-0.275
+RH1070232,107,House,232,2001-07-17,,172,244,,,,Budget Special Interest,Foreign Policy Budget,Government Management,-9.665881603343172,-1.3988845956914462,-0.147,0.022,0.122,0.073
+RH1070233,107,House,233,2001-07-17,,169,253,,Abortion/Care of deformed newborns,,Domestic Social Policy,Budget Special Interest,Social Welfare,-1.6342416259841241,-0.1678520361063341,0.273,-0.614,0.256,0.906
+RH1070234,107,House,234,2001-07-18,,372,47,,,,Internal Organization,,Miscellaneous Policy,2.7231023773511245,1.6821891614659308,-0.783,-0.45,-0.234,0.497
+RH1070235,107,House,235,2001-07-18,,424,5,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070236,107,House,236,2001-07-18,,296,126,,Education,Handicapped,Domestic Social Policy,Budget Special Interest,Social Welfare,-2.3288282130788005,-0.7817478043967503,0.092,-0.996,-0.091,-0.226
+RH1070237,107,House,237,2001-07-18,,209,217,,,,Budget Special Interest,,Government Management,16.574716440632084,-0.3799769849155754,-0.007,-0.496,0.427,-0.149
+RH1070238,107,House,238,2001-07-18,,215,215,,,,Budget Special Interest,,Government Management,7.5632781019854205,-0.5670300941362649,0.119,0.333,0.323,-0.247
+RH1070239,107,House,239,2001-07-18,,424,6,,Communists/Communism/Unamerican Activities,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070240,107,House,240,2001-07-18,,189,242,,Immigration/Naturalization,,Domestic Social Policy,Budget Special Interest,Social Welfare,-8.097156556243215,-0.7809099687368078,-0.102,0.045,0.203,0.145
+RH1070241,107,House,241,2001-07-18,,395,33,,,,Foreign Policy Resolutions,Budget Special Interest,Social Welfare,2.466875653335746,-2.0955040753612018,0.498,-0.867,0.119,-0.279
+RH1070242,107,House,242,2001-07-18,,161,268,,Firearms,,Domestic Social Policy,,Civil Liberties,-1.586210672633119,-0.2611722023325453,0.056,-0.35,0.212,0.773
+RH1070243,107,House,243,2001-07-18,,62,364,,U. N.,,Foreign Policy Resolutions,,Government Management,-2.371726226648835,1.4029366202735272,0.363,0.542,-0.171,-0.417
+RH1070244,107,House,244,2001-07-18,,71,359,,U. N.,,Foreign Policy Resolutions,,Government Management,-2.4109967664959724,1.3382440461163119,0.295,0.627,-0.178,-0.427
+RH1070245,107,House,245,2001-07-18,,123,306,,Tariffs,,Budget Special Interest,,Government Management,16.27999730884879,5.587479082317438,-0.341,0.036,0.228,-0.081
+RH1070246,107,House,246,2001-07-18,,408,19,,,,Budget Special Interest,Foreign Policy Resolutions,Government Management,7.815788181701946,-5.678630643552209,0.724,-0.02,0.25,-0.185
+RH1070247,107,House,247,2001-07-19,,368,52,,,,Internal Organization,,Miscellaneous Policy,3.2048760301772665,1.9543447911761405,-0.768,-0.507,-0.215,0.388
+RH1070248,107,House,248,2001-07-19,,228,199,,Religion,,Domestic Social Policy,Budget Special Interest,Government Management,19.749162332300525,1.3379396879256376,-0.072,-0.084,-0.28,0.082
+RH1070249,107,House,249,2001-07-19,,233,194,,Religion,,Domestic Social Policy,Budget Special Interest,Government Management,25.94152047956072,3.015748539465529,-0.124,-0.201,-0.305,0.068
+RH1070250,107,House,250,2001-07-19,,168,261,,Religion,,Domestic Social Policy,Budget Special Interest,Government Management,-20.429461818171244,-3.9784442036344814,-0.178,-0.342,0.219,0.062
+RH1070251,107,House,251,2001-07-19,,195,234,,Religion,,Domestic Social Policy,Budget Special Interest,Government Management,-4.987981451484527,-0.28847364433853495,-0.127,0.345,0.84,0.974
+RH1070252,107,House,252,2001-07-19,,234,198,,Religion,,Domestic Social Policy,Budget Special Interest,Government Management,-157.6053686840197,-10.607559701829322,-0.067,-0.048,-0.218,-0.008
+RH1070253,107,House,253,2001-07-19,,169,260,,Tariffs,Communists/Communism/Unamerican Activities,Foreign Policy Resolutions,,Foreign and Defense Policy,3.5205028505405283,1.2952196989221547,-0.596,-0.803,0.084,-0.138
+RH1070254,107,House,254,2001-07-20,,376,30,,,,Budget Special Interest,,Government Management,3.3538518280297342,-2.601081462423788,0.8,0.082,0.196,-0.338
+RH1070255,107,House,255,2001-07-23,,374,0,,,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070256,107,House,256,2001-07-23,,379,0,,Immigration/Naturalization,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070257,107,House,257,2001-07-23,,381,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070258,107,House,258,2001-07-24,,258,162,,,,Foreign Policy Budget,,Foreign and Defense Policy,2.089393427003672,-0.39791982353009314,-0.247,-0.914,0.069,-0.191
+RH1070259,107,House,259,2001-07-24,,47,375,,,,Foreign Policy Budget,,Foreign and Defense Policy,72.48883012255831,-44.931585845863594,0.619,-0.061,-0.188,0.015
+RH1070260,107,House,260,2001-07-24,,188,240,,,,Foreign Policy Budget,,Foreign and Defense Policy,-3.639016018954145,-0.4531870711836209,-0.379,0.926,0.263,0.418
+RH1070261,107,House,261,2001-07-24,,179,249,,Narcotics,,Foreign Policy Budget,,Foreign and Defense Policy,-3.0586786441852802,-0.544402926834526,-0.467,0.884,0.22,0.416
+RH1070262,107,House,262,2001-07-24,,268,159,,Public Health,,Foreign Policy Budget,,Foreign and Defense Policy,4.748332548414231,-0.9952516674515858,-0.001,-1.0,0.133,-0.162
+RH1070263,107,House,263,2001-07-24,,427,0,,,,Foreign Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070264,107,House,264,2001-07-24,,381,46,,,,Foreign Policy Budget,,Foreign and Defense Policy,-1.7110652170894676,1.2979814129212344,0.405,0.605,0.121,0.409
+RH1070265,107,House,265,2001-07-25,,293,129,,,,Budget Special Interest,,Government Management,-0.7229604068074299,0.9111367271978537,0.411,0.614,0.022,0.176
+RH1070266,107,House,266,2001-07-25,,141,285,,,,Budget Special Interest,,Government Management,45.064532024329786,12.785649755031308,-0.289,-0.238,0.187,-0.024
+RH1070267,107,House,267,2001-07-25,,151,274,,,,Budget Special Interest,,Government Management,-6.11504010757951,-1.2925219251638165,-0.048,-0.999,0.203,0.192
+RH1070268,107,House,268,2001-07-25,,240,187,,Communists/Communism/Unamerican Activities,,Budget Special Interest,Foreign Policy Resolutions,Government Management,-4.811205539107852,0.49574667932386185,-0.094,0.948,0.094,0.113
+RH1070269,107,House,269,2001-07-25,,201,228,,Communists/Communism/Unamerican Activities,,Budget Special Interest,Foreign Policy Resolutions,Government Management,-7.879220665495468,-0.4351298598945921,-0.09,0.274,0.094,0.069
+RH1070270,107,House,270,2001-07-25,,24,401,,,,Budget Special Interest,,Government Management,-1.5593263676238684,1.4622556804187483,0.333,0.943,-0.11,-0.408
+RH1070271,107,House,271,2001-07-25,,188,238,,Social Security,,Budget Special Interest,,Government Management,12.309657407886935,2.248357648235422,-0.182,0.008,0.398,-0.187
+RH1070272,107,House,272,2001-07-25,,334,94,,,,Budget Special Interest,,Government Management,-5.060722847652009,3.5159387612350033,0.773,-0.396,0.105,0.12
+RH1070273,107,House,273,2001-07-26,,91,325,,Tariffs,Vietnam War,Foreign Policy Resolutions,,Foreign and Defense Policy,-2.1007997471354916,1.4578430599130625,0.554,0.294,-0.081,-0.223
+RH1070274,107,House,274,2001-07-26,,409,6,,Tariffs,Iran,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070275,107,House,275,2001-07-26,,216,200,,Military Pensions/Veterans Benefits,Housing/Housing Programs/Rent Control,Budget Special Interest,,Government Management,5.45112146732802,0.40109775706534395,0.002,0.412,-0.377,0.4
+RH1070276,107,House,276,2001-07-26,,220,204,,Military Pensions/Veterans Benefits,Housing/Housing Programs/Rent Control,Budget Special Interest,,Government Management,6.404015212350987,0.3279485628569865,-0.037,0.091,-0.702,0.634
+RH1070277,107,House,277,2001-07-26,,228,195,,Military Pensions/Veterans Benefits,Housing/Housing Programs/Rent Control,Budget Special Interest,,Government Management,-9.201314268458198,-0.8127485123357764,-0.113,0.227,-0.105,-0.066
+RH1070278,107,House,278,2001-07-26,,189,230,,Military Pensions/Veterans Benefits,Housing/Housing Programs/Rent Control,Budget Special Interest,,Government Management,7.965551787578868,0.99252273422504,-0.159,-0.274,0.23,-0.167
+RH1070279,107,House,279,2001-07-26,,107,311,,Military Pensions/Veterans Benefits,,Budget Special Interest,,Government Management,6.679746857263015,-3.8470822886273024,0.465,-0.741,-0.082,0.071
+RH1070280,107,House,280,2001-07-26,,139,284,,Housing/Housing Programs/Rent Control,Welfare,Budget Special Interest,,Government Management,11.360806392688184,3.330829821916132,-0.285,0.093,0.165,-0.084
+RH1070281,107,House,281,2001-07-26,,60,360,,Housing/Housing Programs/Rent Control,Welfare,Budget Special Interest,,Government Management,8.92059620603066,4.608377506809299,-0.499,0.157,0.182,-0.118
+RH1070282,107,House,282,2001-07-26,,216,209,,Housing/Housing Programs/Rent Control,"Children (aid, infant mortality, etc.)",Budget Special Interest,,Government Management,9.321275924662787,-0.5536340036304417,0.058,-0.013,0.166,-0.103
+RH1070283,107,House,283,2001-07-26,,124,300,,Housing/Housing Programs/Rent Control,Welfare,Budget Special Interest,,Government Management,-28.918416272297197,-9.663648455951995,-0.323,-0.323,0.195,0.039
+RH1070284,107,House,284,2001-07-27,,163,247,,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Government Management,-6.536907120156482,-1.255133597457526,-0.112,-0.523,0.243,0.215
+RH1070285,107,House,285,2001-07-27,,197,213,,Housing/Housing Programs/Rent Control,Narcotics,Budget Special Interest,,Government Management,-6.412344477770247,-0.12824688955540495,-0.02,-0.0,0.153,0.138
+RH1070286,107,House,286,2001-07-27,,218,190,,Pollution and Environmental Protection,,Budget Special Interest,Regulation Special Interest,Government Management,-5.394108734729011,0.43734788767020194,-0.093,0.939,0.36,0.386
+RH1070287,107,House,287,2001-07-27,,182,214,,Pollution and Environmental Protection,,Budget Special Interest,Regulation Special Interest,Government Management,-5.783683254459439,-0.42355992733891734,-0.076,0.016,0.231,0.231
+RH1070288,107,House,288,2001-07-30,,408,3,,U. N.,Civil Rights/Desegregation/Busing/Affirmative Action,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070289,107,House,289,2001-07-30,,411,4,,U. N.,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070290,107,House,290,2001-07-30,,418,0,,Narcotics,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070291,107,House,291,2001-07-30,,99,325,,Pollution and Environmental Protection,Public Works,Budget Special Interest,,Government Management,-3.167255115537312,-2.098717137633268,-0.369,-0.93,0.069,0.126
+RH1070292,107,House,292,2001-07-30,,190,231,,Pollution and Environmental Protection,,Budget Special Interest,,Government Management,-4.460618457687672,-0.02524620378546838,0.184,-0.846,0.118,0.153
+RH1070293,107,House,293,2001-07-30,,212,212,,Housing/Housing Programs/Rent Control,,Budget Special Interest,Regulation Special Interest,Government Management,6.187196039654284,-0.4045664514844943,-0.013,-0.485,0.276,-0.258
+RH1070294,107,House,294,2001-07-30,,196,230,,Military Pensions/Veterans Benefits,Housing/Housing Programs/Rent Control,Budget Special Interest,,Government Management,5.068609688453544,0.5022538006841197,-0.062,0.188,0.241,-0.275
+RH1070295,107,House,295,2001-07-31,,336,89,,Military Pensions/Veterans Benefits,Housing/Housing Programs/Rent Control,Budget Special Interest,,Government Management,-6.713203777497563,-3.3740207227462595,-0.509,0.043,-0.13,-0.112
+RH1070296,107,House,296,2001-07-31,,380,38,,,,Internal Organization,Budget Special Interest,Government Management,-2.599408204251433,2.1754313112486425,0.623,0.556,0.12,0.267
+RH1070297,107,House,297,2001-07-31,,359,44,,,,Internal Organization,,Miscellaneous Policy,2.8434830715904265,1.9463510733235379,-0.675,0.027,-0.147,0.299
+RH1070298,107,House,298,2001-07-31,,239,188,,Science and Technology,Abortion/Care of deformed newborns,Domestic Social Policy,Regulation Special Interest,Social Welfare,-2.7667492413190193,-0.2079106521301535,-0.129,0.149,-0.188,-0.393
+RH1070299,107,House,299,2001-07-31,,422,0,,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070300,107,House,300,2001-07-31,,178,250,,Science and Technology,Abortion/Care of deformed newborns,Domestic Social Policy,Regulation Special Interest,Social Welfare,-1.4441066093317798,-0.07688284449781652,0.311,-0.526,0.199,0.797
+RH1070301,107,House,301,2001-07-31,,175,251,,Science and Technology,Abortion/Care of deformed newborns,Domestic Social Policy,Regulation Special Interest,Social Welfare,-1.656359993061154,-0.10859024219267532,0.316,-0.632,0.244,0.852
+RH1070302,107,House,302,2001-07-31,,266,162,,Science and Technology,Abortion/Care of deformed newborns,Domestic Social Policy,Regulation Special Interest,Social Welfare,-1.3358069938514312,-0.21697773705533713,0.009,-0.229,-0.185,-0.801
+RH1070303,107,House,303,2001-07-31,,384,33,,,,Budget Special Interest,,Government Management,4.433407008282138,-2.969836690124505,0.498,-0.762,0.197,-0.257
+RH1070304,107,House,304,2001-08-01,,221,208,,Energy,,Budget Special Interest,,Government Management,3.9978222278928732,0.12796297787417885,-0.017,0.06,-0.638,0.923
+RH1070305,107,House,305,2001-08-01,,220,206,,Energy,,Budget Special Interest,,Government Management,3.971627985894894,0.12829069964737236,-0.025,0.029,-0.64,0.932
+RH1070306,107,House,306,2001-08-01,,343,65,,,,Internal Organization,,Miscellaneous Policy,2.4916651096235185,1.410548981693781,-0.654,-0.219,-0.165,0.383
+RH1070307,107,House,307,2001-08-01,,281,148,,Energy,,Budget Special Interest,,Government Management,-4.768227415890224,-1.204155850822971,-0.228,-0.117,-0.216,-0.262
+RH1070308,107,House,308,2001-08-01,,411,15,,Energy,Pollution and Environmental Protection,Budget Special Interest,,Government Management,-3.7361749490486162,2.6916381062837127,0.858,-0.514,0.531,0.822
+RH1070309,107,House,309,2001-08-01,,160,269,,Energy,Pollution and Environmental Protection,Budget Special Interest,,Government Management,-0.901757066555504,-0.1368307104360167,0.324,-0.429,0.116,0.744
+RH1070310,107,House,310,2001-08-01,,154,275,,Energy,,Budget Special Interest,Regulation Special Interest,Government Management,-2.088552286332575,0.5487582290154895,-0.206,0.979,-0.078,-0.216
+RH1070311,107,House,311,2001-08-01,,125,300,,Energy,Pollution and Environmental Protection,Regulation Special Interest,,Government Management,-1.0640604207017366,-0.5981116849150807,-0.392,-0.181,0.062,0.337
+RH1070312,107,House,312,2001-08-01,,154,274,,Energy,,Regulation Special Interest,,Government Management,-3.9281671250424184,-0.8764066058847987,-0.231,0.031,0.199,0.293
+RH1070313,107,House,313,2001-08-01,,241,186,,Energy,Pollution and Environmental Protection,Budget Special Interest,Regulation Special Interest,Government Management,-2.3241590907065643,-0.19033334088701553,-0.109,0.063,-0.174,-0.433
+RH1070314,107,House,314,2001-08-01,,228,201,,Energy,Pollution and Environmental Protection,Budget Special Interest,Regulation Special Interest,Government Management,-1.8332210315474111,-0.05365229203806862,-0.128,0.181,-0.142,-0.448
+RH1070315,107,House,315,2001-08-01,,206,224,,Energy,Pollution and Environmental Protection,Regulation Special Interest,,Government Management,-1.4720913260784771,0.06619499582432326,0.208,-0.24,0.225,0.884
+RH1070316,107,House,316,2001-08-01,,345,85,,Energy,Pollution and Environmental Protection,Regulation Special Interest,,Government Management,-1.4164122255819032,0.8750301551466177,0.209,0.579,0.096,0.392
+RH1070317,107,House,317,2001-08-02,,206,223,,Energy,,Budget Special Interest,,Government Management,38.37601153116169,0.9717682075609103,-0.018,0.281,1.055,-0.159
+RH1070318,107,House,318,2001-08-02,,241,189,,Energy,,Budget Special Interest,,Government Management,-2.550822567414894,-0.10475704988211698,0.113,-0.393,-0.187,-0.424
+RH1070319,107,House,319,2001-08-02,,331,76,,,,Internal Organization,,Miscellaneous Policy,2.6411039138861025,1.389407738351042,-0.623,-0.256,-0.158,0.346
+RH1070320,107,House,320,2001-08-02,,55,363,,,,Internal Organization,,Miscellaneous Policy,6.325903559565011,3.16350057655512,-0.471,0.184,0.245,-0.224
+RH1070321,107,House,321,2001-08-02,,56,355,,,,Internal Organization,,Miscellaneous Policy,4.152819080963609,2.0717389087092983,-0.404,0.394,0.247,-0.344
+RH1070322,107,House,322,2001-08-02,,222,205,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,5.724057653898003,0.2726393578179065,-0.197,-0.855,-0.672,0.679
+RH1070323,107,House,323,2001-08-02,,222,205,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,3.9521835572139503,0.12961332315920457,-0.029,0.015,-0.656,0.96
+RH1070324,107,House,324,2001-08-02,,55,356,,,,Internal Organization,,Miscellaneous Policy,5.256181198678123,2.579380438584005,-0.466,0.13,0.279,-0.307
+RH1070325,107,House,325,2001-08-02,,236,194,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,28.32824451163806,3.0534504072569106,-0.108,-0.006,-0.24,0.049
+RH1070326,107,House,326,2001-08-02,,219,213,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-51.444340526507645,2.6441057073783973,0.052,-0.031,-0.338,-0.038
+RH1070327,107,House,327,2001-08-02,,207,221,,Public Health,,Domestic Social Policy,Regulation Special Interest,Civil Liberties,18.44921746992125,-1.7923163512066136,0.043,-0.999,-0.252,0.079
+RH1070328,107,House,328,2001-08-02,,208,220,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,49.16130766290523,-1.04238746092101,0.021,-0.01,0.357,-0.042
+RH1070329,107,House,329,2001-08-02,,227,203,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,6.506643661266868,0.6441975844330211,-0.105,-0.039,-0.441,0.392
+RH1070330,107,House,330,2001-09-05,,402,1,,Narcotics,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070331,107,House,331,2001-09-05,,407,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070332,107,House,332,2001-09-06,,410,1,,Human Rights,Vietnam War,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070333,107,House,333,2001-09-10,,362,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070334,107,House,334,2001-09-10,,365,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070335,107,House,335,2001-09-13,,408,0,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070336,107,House,336,2001-09-13,,413,0,,,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070337,107,House,337,2001-09-13,,418,0,,,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070338,107,House,338,2001-09-14,,423,0,,,,Budget Special Interest,Defense Policy Budget,Government Management,,,0.0,0.0,0.0,0.0
+RH1070339,107,House,339,2001-09-14,,421,1,,,,Defense Policy Resolutions,Foreign Policy Resolutions,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070340,107,House,340,2001-09-20,,408,0,,Judiciary,,Domestic Social Policy,D. C.,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070341,107,House,341,2001-09-21,,401,0,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070342,107,House,342,2001-09-21,,303,107,,,Airlines/Airports/Airline Industry,Budget Special Interest,Internal Organization,Government Management,14.24612506887904,5.25758952507197,-0.364,0.072,-0.234,0.095
+RH1070343,107,House,343,2001-09-21,,285,130,,,Airlines/Airports/Airline Industry,Budget Special Interest,Internal Organization,Government Management,42.84209818118103,13.167524141622577,-0.307,0.015,-0.2,0.027
+RH1070344,107,House,344,2001-09-21,,174,239,,,Airlines/Airports/Airline Industry,Budget Special Interest,,Government Management,-11.796877749175206,-1.864390985141952,-0.131,-0.319,0.257,0.126
+RH1070345,107,House,345,2001-09-21,,356,54,,,Airlines/Airports/Airline Industry,Budget Special Interest,,Government Management,22.12887506054046,12.431298908963198,-0.561,0.017,-0.176,0.046
+RH1070346,107,House,346,2001-09-24,,383,0,,Science and Technology,Public Health,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070347,107,House,347,2001-09-24,,392,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070348,107,House,348,2001-09-25,,236,183,,,,Budget Special Interest,D. C.,Government Management,-6.313175383388825,-0.6031188674764332,-0.176,0.508,-0.31,-0.284
+RH1070349,107,House,349,2001-09-25,,194,226,,Homosexuality,,Budget Special Interest,D. C.,Government Management,-2.0707014120904166,0.23602036046146832,-0.028,0.294,-0.232,-0.648
+RH1070350,107,House,350,2001-09-25,,173,243,,Homosexuality,,Regulation Special Interest,D. C.,Government Management,-2.0865930440377043,-0.21164826100942608,-0.25,0.31,0.355,0.984
+RH1070351,107,House,351,2001-09-25,,262,152,,Homosexuality,,Regulation Special Interest,D. C.,Government Management,-1.9988202997574427,-0.3440165158033958,0.014,-0.372,-0.31,-0.897
+RH1070352,107,House,352,2001-09-25,,327,88,,,,Budget Special Interest,D. C.,Government Management,-1.6622937619705278,0.8975768208209013,0.173,0.61,0.121,0.421
+RH1070353,107,House,353,2001-09-25,,242,173,,Narcotics,,Defense Policy Budget,,Foreign and Defense Policy,-6.913308890096048,-1.098252740358526,-0.297,0.955,-0.153,-0.128
+RH1070354,107,House,354,2001-09-25,,199,217,,Abortion/Care of deformed newborns,,Defense Policy Budget,Domestic Social Policy,Foreign and Defense Policy,-1.6612707220255833,0.08570497328613996,0.24,-0.313,0.216,0.752
+RH1070355,107,House,355,2001-09-25,,197,221,,,,Defense Policy Budget,,Foreign and Defense Policy,6.6909276865315075,0.2652014318629261,-0.077,-0.25,0.236,-0.204
+RH1070356,107,House,356,2001-09-25,,398,17,,,,Defense Policy Budget,,Foreign and Defense Policy,-2.4480682915165586,-1.7789147405968029,-0.743,0.04,-0.502,-1.186
+RH1070357,107,House,357,2001-10-02,,420,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070358,107,House,358,2001-10-02,,420,0,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070359,107,House,359,2001-10-02,,417,1,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070360,107,House,360,2001-10-03,,100,323,,Agriculture,Energy,Budget Special Interest,,Agriculture,-5.6606261639390265,-2.4029654562640985,-0.392,-0.184,0.138,0.141
+RH1070361,107,House,361,2001-10-03,,418,5,,Agriculture,,Regulation Special Interest,,Agriculture,,,0.0,0.0,0.0,0.0
+RH1070362,107,House,362,2001-10-03,,187,238,,Agriculture,,Budget Special Interest,,Agriculture,-0.7631248738522871,-0.16483120837125478,-0.33,0.087,0.057,0.432
+RH1070363,107,House,363,2001-10-04,,200,226,,Agriculture,Pollution and Environmental Protection,Budget Special Interest,,Agriculture,-0.9407688461992016,0.02130374424278844,0.265,-0.228,0.115,0.707
+RH1070364,107,House,364,2001-10-04,,177,239,,Agriculture,,Budget Special Interest,Regulation Special Interest,Agriculture,0.38014819512878945,-0.1588829892721221,0.56,0.054,-0.042,0.639
+RH1070365,107,House,365,2001-10-04,,194,224,,Agriculture,,Budget Special Interest,Regulation Special Interest,Agriculture,-1.9137187239020201,0.1628947372641858,0.488,-0.771,0.09,0.272
+RH1070366,107,House,366,2001-10-04,,235,183,,Agriculture,,Budget Special Interest,,Agriculture,-1.6045056770435862,0.17353315979754924,-0.148,0.411,0.129,0.465
+RH1070367,107,House,367,2001-10-04,,296,121,,Agriculture,,Budget Special Interest,,Agriculture,-98.32261532581045,44.71337089585024,0.463,-0.81,0.102,0.006
+RH1070368,107,House,368,2001-10-05,,291,121,,Agriculture,,Budget Special Interest,,Social Welfare,0.8641767975534728,-0.5272888416635664,0.955,0.298,0.192,-1.285
+RH1070369,107,House,369,2001-10-09,,412,0,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070370,107,House,370,2001-10-09,,409,3,,Energy,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070371,107,House,371,2001-10-10,,99,327,,Education,Radio/Television/Motion Pictures/Telecommunications,Domestic Social Policy,Budget Special Interest,Social Welfare,6.539720281186163,2.5908506297341685,-0.248,0.969,0.173,-0.153
+RH1070372,107,House,372,2001-10-10,,354,70,,Education,Radio/Television/Motion Pictures/Telecommunications,Domestic Social Policy,Budget Special Interest,Social Welfare,11.138945527107067,5.280108650616859,-0.447,0.301,-0.208,0.108
+RH1070373,107,House,373,2001-10-11,,76,349,,Education,Handicapped,Domestic Social Policy,Budget Special Interest,Social Welfare,15.008291989420064,-7.4060299068581505,0.486,-0.112,-0.205,0.079
+RH1070374,107,House,374,2001-10-11,,107,312,,Public Health,,Budget Special Interest,,Social Welfare,-6.609923719382216,2.6927282672630017,0.416,-0.057,-0.232,-0.203
+RH1070375,107,House,375,2001-10-11,,106,311,,Public Health,Temperance and Liquor,Domestic Social Policy,Budget Special Interest,Social Welfare,-2.3040689387683946,0.9884690294272267,0.189,0.553,-0.147,-0.369
+RH1070376,107,House,376,2001-10-11,,156,262,,,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-3.814328741292246,0.8582996988109542,-0.007,0.885,-0.184,-0.279
+RH1070377,107,House,377,2001-10-11,,373,43,,,,Domestic Social Policy,Budget Special Interest,Social Welfare,-9.967624332153502,5.895124985645491,0.583,0.084,0.243,0.141
+RH1070378,107,House,378,2001-10-12,,216,205,,,,Defense Policy Resolutions,,Foreign and Defense Policy,5.697680529486065,0.2833033705421172,-0.171,-0.691,-0.265,0.269
+RH1070379,107,House,379,2001-10-12,,215,207,,,,Defense Policy Resolutions,,Foreign and Defense Policy,6.512408895770915,0.3283226312900438,-0.026,0.159,-0.706,0.627
+RH1070380,107,House,380,2001-10-12,,214,208,,,,Defense Policy Resolutions,,Foreign and Defense Policy,8.26240464922777,-0.08513548858494524,-0.11,-0.994,-0.33,0.231
+RH1070381,107,House,381,2001-10-12,,73,345,,,,Defense Policy Resolutions,,Foreign and Defense Policy,8.64109819565071,3.95313528623847,-0.451,0.056,0.251,-0.168
+RH1070382,107,House,382,2001-10-12,,338,79,,,,Defense Policy Resolutions,,Foreign and Defense Policy,-9.832261532581045,-4.452833874182767,-0.466,0.129,-0.238,-0.14
+RH1070383,107,House,383,2001-10-16,,404,0,,Education,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070384,107,House,384,2001-10-16,,413,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070385,107,House,385,2001-10-16,,382,32,,Pollution and Environmental Protection,,Foreign Policy Resolutions,,Foreign and Defense Policy,-2.1564163858221614,1.5968285341080601,0.472,0.579,0.173,0.464
+RH1070386,107,House,386,2001-10-17,,412,1,,,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070387,107,House,387,2001-10-17,,420,0,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070388,107,House,388,2001-10-17,,365,34,,,,Internal Organization,,Miscellaneous Policy,2.720988839625338,1.7180625225489765,-0.67,-0.105,-0.215,0.457
+RH1070389,107,House,389,2001-10-17,,380,28,,,,Budget Special Interest,,Government Management,-7.552809896999973,5.094512961710982,0.663,0.087,0.222,0.17
+RH1070390,107,House,390,2001-10-17,,409,1,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070391,107,House,391,2001-10-23,,415,0,,Education,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070392,107,House,392,2001-10-23,,419,0,,,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070393,107,House,393,2001-10-23,,418,0,,,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070394,107,House,394,2001-10-24,,358,66,,,,Defense Policy Resolutions,,Foreign and Defense Policy,-134.75981982890494,-66.20231171616342,-0.49,-0.17,-0.233,-0.01
+RH1070395,107,House,395,2001-10-24,,367,48,,,,Internal Organization,,Miscellaneous Policy,3.693780902007709,2.1575222494455506,-0.72,-0.502,-0.228,0.357
+RH1070396,107,House,396,2001-10-24,,219,207,,Tax rates,,Budget Special Interest,,Government Management,6.417134277566901,0.3500968940494401,-0.029,0.164,-0.699,0.63
+RH1070397,107,House,397,2001-10-24,,225,199,,Tax rates,,Budget Special Interest,,Government Management,4.620659991334442,0.5456875193760798,-0.072,0.213,-0.294,0.368
+RH1070398,107,House,398,2001-10-24,,166,261,,Tax rates,,Budget Special Interest,,Government Management,-40.898903013677455,-9.613242208214201,-0.235,-0.002,0.297,0.042
+RH1070399,107,House,399,2001-10-24,,199,230,,Tax rates,,Budget Special Interest,,Government Management,5.625535665470314,0.4861233930035891,0.003,0.503,0.249,-0.256
+RH1070400,107,House,400,2001-10-24,,217,214,,Tax rates,,Budget Special Interest,,Government Management,24.49028378060169,-1.3708878781779066,0.063,0.172,-0.271,0.064
+RH1070401,107,House,401,2001-10-25,,419,0,,,,Budget General Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070402,107,House,402,2001-10-25,,361,51,,,,Internal Organization,,Miscellaneous Policy,2.4653949356566733,1.492280001825628,-0.671,-0.162,-0.185,0.434
+RH1070403,107,House,403,2001-10-25,,407,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070404,107,House,404,2001-10-30,,409,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070405,107,House,405,2001-10-30,,406,1,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070406,107,House,406,2001-10-30,,405,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070407,107,House,407,2001-10-30,,405,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070408,107,House,408,2001-10-31,,374,39,,,,Internal Organization,,Miscellaneous Policy,2.911694086913219,1.8203314366644308,-0.721,-0.279,-0.22,0.437
+RH1070409,107,House,409,2001-10-31,,339,85,,,,Budget Special Interest,,Government Management,-4.337762440844579,3.366893185502385,0.879,-0.446,0.12,0.16
+RH1070410,107,House,410,2001-10-31,,423,0,,,,Internal Organization,Budget Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070411,107,House,411,2001-11-01,,421,2,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070412,107,House,412,2001-11-01,,399,29,,,,Budget Special Interest,,Government Management,6.946882121278097,-5.516212388541719,0.862,0.472,0.215,-0.179
+RH1070413,107,House,413,2001-11-01,,374,52,,,,Internal Organization,Budget Special Interest,Government Management,43.83423098116627,-31.097298610741053,0.704,-0.238,0.144,-0.019
+RH1070414,107,House,414,2001-11-01,,380,33,,,,Internal Organization,,Miscellaneous Policy,2.742777625826126,1.8449182316776782,-0.669,0.01,-0.184,0.388
+RH1070415,107,House,415,2001-11-01,,218,207,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,4.628657752459404,0.16676383384763516,-0.243,-0.958,-0.541,0.676
+RH1070416,107,House,416,2001-11-01,,379,50,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,5.3061314261095776,2.87445345020257,-0.498,0.232,-0.2,0.218
+RH1070417,107,House,417,2001-11-01,,223,202,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,-14.010474090543989,-0.7142464167747345,-0.119,0.953,-0.281,-0.116
+RH1070418,107,House,418,2001-11-01,,11,402,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,3.3202626090415297,2.310471083624567,-0.423,0.906,0.248,-0.432
+RH1070419,107,House,419,2001-11-01,,214,219,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,48.694881593997216,-0.9786259741959054,0.034,0.677,0.261,-0.031
+RH1070420,107,House,420,2001-11-01,,201,227,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,9.843945741175915,1.0357066826352397,-0.098,0.071,0.337,-0.198
+RH1070421,107,House,421,2001-11-01,,287,139,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,19.339190882098748,5.970488364332711,-0.311,-0.044,-0.214,0.064
+RH1070422,107,House,422,2001-11-06,,400,0,,Agriculture,,Domestic Social Policy,Regulation Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070423,107,House,423,2001-11-06,,392,4,,,,Domestic Social Policy,Regulation Special Interest,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070424,107,House,424,2001-11-06,,397,0,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070425,107,House,425,2001-11-07,,405,2,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070426,107,House,426,2001-11-07,,410,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070427,107,House,427,2001-11-07,,372,46,,,,Defense Policy Resolutions,,Foreign and Defense Policy,4.37684138175309,-3.4717615604600773,0.753,-0.176,0.14,-0.185
+RH1070428,107,House,428,2001-11-07,,410,4,,Tariffs,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070429,107,House,429,2001-11-08,,363,47,,,,Internal Organization,,Miscellaneous Policy,2.546137599686129,1.5658027773564362,-0.776,-0.41,-0.232,0.527
+RH1070430,107,House,430,2001-11-08,,401,18,,Military Pensions/Veterans Benefits,Housing/Housing Programs/Rent Control,Budget Special Interest,,Government Management,-325.33218306334345,247.22045912814102,0.76,-0.032,0.225,0.004
+RH1070431,107,House,431,2001-11-08,,367,48,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-9.288082467752597,5.147667130634608,0.523,0.29,0.326,0.203
+RH1070432,107,House,432,2001-11-13,,379,33,,Agriculture,,Budget Special Interest,,Agriculture,3.5198286830088277,-2.4061930541095413,0.741,0.202,0.227,-0.373
+RH1070433,107,House,433,2001-11-13,,410,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070434,107,House,434,2001-11-14,,411,15,,,,Budget Special Interest,,Government Management,7.205505387847385,-5.085538158348374,0.679,-0.193,0.299,-0.24
+RH1070435,107,House,435,2001-11-14,,420,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070436,107,House,436,2001-11-14,,418,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070437,107,House,437,2001-11-15,,180,243,,Banking and Finance,,Regulation Special Interest,,Government Management,15.905128949763458,3.1839309189024556,-0.201,-0.013,0.33,-0.12
+RH1070438,107,House,438,2001-11-15,,280,144,,Banking and Finance,,Regulation Special Interest,,Government Management,10.473156163480606,3.2594636599868325,-0.318,-0.071,-0.402,0.222
+RH1070439,107,House,439,2001-11-15,,418,0,,,"Children (aid, infant mortality, etc.)",Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070440,107,House,440,2001-11-15,,338,86,,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,Regulation Special Interest,Social Welfare,15.314541575188375,6.760027376233261,-0.442,-0.009,-0.188,0.071
+RH1070441,107,House,441,2001-11-15,,297,125,,School Prayer,,Domestic Social Policy,,Social Welfare,-2.831088651867751,-0.9140903437682256,-0.331,0.023,-0.233,-0.476
+RH1070442,107,House,442,2001-11-16,,225,191,,Tariffs,,Regulation Special Interest,,Government Management,3.31525769102971,0.4482859649334876,-0.353,-0.722,-0.184,0.321
+RH1070443,107,House,443,2001-11-16,,168,250,,Tariffs,,Regulation Special Interest,,Government Management,3.5873478413735764,0.824288527914925,-0.404,-0.625,0.147,-0.237
+RH1070444,107,House,444,2001-11-16,,410,9,,Airlines/Airports/Airline Industry,,Regulation Special Interest,Budget Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070445,107,House,445,2001-11-27,,391,4,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070446,107,House,446,2001-11-27,,393,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070447,107,House,447,2001-11-28,,372,39,,,,Internal Organization,,Miscellaneous Policy,2.6266509103221907,1.6922018627145547,-0.728,-0.22,-0.208,0.458
+RH1070448,107,House,448,2001-11-28,,420,0,,Korean War,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070449,107,House,449,2001-11-28,,408,6,,Tariffs,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070450,107,House,450,2001-11-28,,216,211,,,,Defense Policy Budget,,Foreign and Defense Policy,5.724866136617479,-0.28917459840985243,0.003,-0.272,-0.292,0.295
+RH1070451,107,House,451,2001-11-28,,275,141,,,,Defense Policy Budget,,Foreign and Defense Policy,-11.15052447256144,-2.9363417826982516,-0.175,-0.985,-0.214,-0.111
+RH1070452,107,House,452,2001-11-28,,201,220,,,,Defense Policy Budget,,Foreign and Defense Policy,2.7171666296118175,0.09553516529563724,-0.037,-0.005,0.14,-0.298
+RH1070453,107,House,453,2001-11-28,,406,20,,,,Defense Policy Budget,,Foreign and Defense Policy,-2.9581202652482532,-2.0411397491220042,-0.713,0.068,-0.424,-0.829
+RH1070454,107,House,454,2001-11-29,,349,48,,,,Internal Organization,,Miscellaneous Policy,2.8281446750880956,1.6492641660634288,-0.72,-0.387,-0.222,0.454
+RH1070455,107,House,455,2001-11-29,,220,204,,,,Budget Special Interest,,Government Management,6.341036617053476,0.32002872100151336,-0.047,0.022,-0.694,0.633
+RH1070456,107,House,456,2001-11-29,,216,202,,,,Budget Special Interest,,Government Management,4.488070461000736,0.18048182663318613,-0.253,-0.955,-0.53,0.683
+RH1070457,107,House,457,2001-11-29,,197,222,,,,Budget Special Interest,,Government Management,42.627887690275124,1.2928366307082537,-0.03,0.014,0.199,-0.027
+RH1070458,107,House,458,2001-11-29,,173,243,,,,Budget Special Interest,,Government Management,6.317129768220262,1.1298865950012595,-0.151,0.176,0.225,-0.206
+RH1070459,107,House,459,2001-11-29,,227,193,,,,Budget Special Interest,,Government Management,9.93487526774081,0.8758216750675316,-0.187,-0.982,-0.213,0.124
+RH1070460,107,House,460,2001-11-30,,371,11,,,,Budget Special Interest,,Government Management,15.920676485393725,-12.446269393501476,0.753,-0.458,0.256,-0.093
+RH1070461,107,House,461,2001-12-04,,410,0,,,,Regulation Special Interest,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070462,107,House,462,2001-12-04,,408,0,,,,Domestic Social Policy,Regulation Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070463,107,House,463,2001-12-04,,396,11,,South Africa/Rhodesia,,Foreign Policy Resolutions,Foreign Policy Budget,Foreign and Defense Policy,-2.8765408778792976,2.7497756579922816,0.909,0.135,1.128,2.268
+RH1070464,107,House,464,2001-12-05,,404,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070465,107,House,465,2001-12-05,,407,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070466,107,House,466,2001-12-05,,400,9,,Humanitarian Assistance (foreign),,Foreign Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070467,107,House,467,2001-12-05,,415,0,,Military Pensions/Veterans Benefits,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070468,107,House,468,2001-12-05,,415,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070469,107,House,469,2001-12-05,,384,11,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,7.003678940946977,4.483372916910801,-0.645,-0.034,-0.31,0.256
+RH1070470,107,House,470,2001-12-05,,322,82,,,,Internal Organization,,Miscellaneous Policy,5.266705980317814,2.350678264193755,-0.295,0.797,-0.163,0.179
+RH1070471,107,House,471,2001-12-06,,207,179,,Tariffs,,Internal Organization,,Miscellaneous Policy,3.9315067439678963,0.37258903277346384,-0.079,0.062,-0.225,0.331
+RH1070472,107,House,472,2001-12-06,,420,3,,Tariffs,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070473,107,House,473,2001-12-06,,256,168,,,,Budget Special Interest,,Government Management,-12.66626632726617,-2.570582195053162,-0.211,0.102,-0.219,-0.1
+RH1070474,107,House,474,2001-12-06,,224,202,,Tariffs,,Regulation Special Interest,,Government Management,7.676525046827982,0.6512403043081743,-0.092,-0.055,-0.292,0.22
+RH1070475,107,House,475,2001-12-06,,162,267,,Tariffs,,Regulation Special Interest,,Government Management,-11.195937309091207,-2.2479449786182153,-0.112,-0.994,0.211,0.109
+RH1070476,107,House,476,2001-12-06,,216,214,,Tariffs,,Regulation Special Interest,,Government Management,41.2087431880235,-0.752747540871859,-0.006,-1.0,-0.171,0.024
+RH1070477,107,House,477,2001-12-06,,302,84,,,,Budget Special Interest,D. C.,Government Management,-3.009078449955249,1.485984069025432,0.549,-0.166,0.154,0.296
+RH1070478,107,House,478,2001-12-11,,401,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070479,107,House,479,2001-12-11,,401,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070480,107,House,480,2001-12-11,,369,33,,,,Budget Special Interest,,Social Welfare,5.471051727191361,-3.527881122231637,0.505,-0.765,0.21,-0.222
+RH1070481,107,House,481,2001-12-12,,355,44,,,,Internal Organization,,Miscellaneous Policy,2.539536048277875,1.5930798232357852,-0.647,-0.05,-0.173,0.394
+RH1070482,107,House,482,2001-12-12,,223,193,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,17.516297856362872,1.4771734456581267,-0.072,0.216,-0.212,0.07
+RH1070483,107,House,483,2001-12-12,,197,226,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,-29.00347043780395,-2.097225578457257,-0.065,-0.212,0.341,0.068
+RH1070484,107,House,484,2001-12-12,,362,63,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,21.73262798645365,-19.983760955727007,0.906,-0.294,0.124,-0.033
+RH1070485,107,House,485,2001-12-12,,415,5,,Social Security,,Government Organization,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070486,107,House,486,2001-12-12,,423,0,,,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070487,107,House,487,2001-12-12,,420,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070488,107,House,488,2001-12-12,,418,2,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070489,107,House,489,2001-12-12,,370,44,,,,Defense Policy Budget,,Foreign and Defense Policy,39.65954231629329,-23.007875001133815,0.579,-0.045,0.24,-0.035
+RH1070490,107,House,490,2001-12-12,,407,0,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070491,107,House,491,2001-12-13,,382,40,,,,Defense Policy Budget,,Foreign and Defense Policy,-3.822691936423835,-2.6134879020556263,-0.471,-0.813,-0.154,-0.233
+RH1070492,107,House,492,2001-12-13,,382,41,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-27.28712099539838,18.153499856962927,0.66,0.144,0.184,0.039
+RH1070493,107,House,493,2001-12-13,,306,100,,,,Internal Organization,,Miscellaneous Policy,-13.970975134148777,-5.384912501244833,-0.382,-0.048,-0.186,-0.077
+RH1070494,107,House,494,2001-12-18,,393,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070495,107,House,495,2001-12-18,,392,2,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070496,107,House,496,2001-12-19,,382,36,,,,Domestic Social Policy,,Civil Liberties,-4.810892493006017,-2.874971195523851,-0.64,0.204,-0.272,-0.327
+RH1070497,107,House,497,2001-12-19,,418,1,,Judiciary,,D. C.,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070498,107,House,498,2001-12-19,,420,0,,,,D. C.,Budget Special Interest,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070499,107,House,499,2001-12-19,,393,30,,Education,,Budget Special Interest,Domestic Social Policy,Social Welfare,8.149735494920119,-5.096092619477471,0.595,-0.247,0.279,-0.198
+RH1070500,107,House,500,2001-12-19,,357,66,,,,Foreign Policy Budget,,Foreign and Defense Policy,-2.9180516721895056,1.6784344257302453,0.434,0.412,0.167,0.331
+RH1070501,107,House,501,2001-12-19,,214,206,,Tax rates,,Budget Special Interest,,Government Management,4.755098185882104,0.09014199363759123,-0.224,-0.975,-0.282,0.343
+RH1070502,107,House,502,2001-12-20,,219,198,,Tax rates,,Budget Special Interest,,Government Management,7.908074603693579,0.5252087000326955,-0.063,0.027,-0.711,0.52
+RH1070503,107,House,503,2001-12-20,,177,238,,Tax rates,,Budget Special Interest,,Government Management,9.265696642348283,1.7251247781048806,-0.215,-0.267,0.314,-0.196
+RH1070504,107,House,504,2001-12-20,,225,193,,Tax rates,,Budget Special Interest,,Government Management,41.96532966026384,2.593058460974775,-0.056,0.243,-0.312,0.043
+RH1070505,107,House,505,2001-12-20,,408,6,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070506,107,House,506,2001-12-20,,392,12,,Iran,U. N.,Foreign Policy Resolutions,,Foreign and Defense Policy,-21.0315754707616,-13.74752405599504,-0.65,-0.077,-0.32,-0.088
+RH1070507,107,House,507,2001-12-20,,257,148,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-16.401489826079008,-3.7603426599981717,-0.23,0.012,-0.19,-0.067
+RH1070508,107,House,508,2002-01-23,,349,23,,Fish and Wildlife,,Budget Special Interest,,Government Management,-6.317561708717233,4.077132088532961,0.52,0.792,0.355,0.325
+RH1070509,107,House,509,2002-01-23,,356,14,,Parks and Conservation,,Budget Special Interest,,Government Management,-4.055226189908343,2.9627176187523383,0.52,0.854,0.244,0.348
+RH1070510,107,House,510,2002-01-24,,372,3,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070511,107,House,511,2002-01-29,,388,0,,Education,Religion,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070512,107,House,512,2002-02-05,,392,3,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070513,107,House,513,2002-02-05,,394,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070514,107,House,514,2002-02-06,,212,204,,,,Internal Organization,,Miscellaneous Policy,3.9678757210826388,-0.02238963870057014,0.019,0.053,-0.649,0.946
+RH1070515,107,House,515,2002-02-06,,413,0,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070516,107,House,516,2002-02-06,,235,181,,Tax rates,,Budget General Interest,Internal Organization,Government Management,26.832497721508545,4.535869644555333,-0.156,0.35,-0.283,0.061
+RH1070517,107,House,517,2002-02-06,,408,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070518,107,House,518,2002-02-07,,392,0,,Radio/Television/Motion Pictures/Telecommunications,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070519,107,House,519,2002-02-07,,400,12,,Radio/Television/Motion Pictures/Telecommunications,,Budget Special Interest,,Government Management,-5.3065088181029,4.291207054482321,0.8,0.046,1.29,1.406
+RH1070520,107,House,520,2002-02-07,,363,33,,,,Internal Organization,,Miscellaneous Policy,2.0242891390608038,1.4009336752238872,-0.656,0.073,-0.182,0.52
+RH1070521,107,House,521,2002-02-12,,421,2,,,,Foreign Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070522,107,House,522,2002-02-12,,421,0,,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070523,107,House,523,2002-02-13,,378,40,,,,Internal Organization,,Miscellaneous Policy,2.2678757989477885,1.5027094318666083,-0.697,-0.078,-0.189,0.482
+RH1070524,107,House,524,2002-02-13,,13,405,,,,Internal Organization,,Miscellaneous Policy,-1.9324306403135068,1.7883775396667212,0.468,0.884,-0.142,-0.425
+RH1070525,107,House,525,2002-02-13,,179,249,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-4.346318185303839,0.7599524998082888,-0.055,0.999,-0.254,-0.338
+RH1070526,107,House,526,2002-02-13,,53,377,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,2.33073802791649,-1.6006222196491184,0.274,-0.962,-0.108,0.268
+RH1070527,107,House,527,2002-02-13,,240,191,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-3.3682238906480726,0.5875680927886794,0.322,-0.497,0.251,0.431
+RH1070528,107,House,528,2002-02-13,,188,237,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-4.1333263360918355,0.692865519119061,0.164,0.015,-0.278,-0.389
+RH1070529,107,House,529,2002-02-13,,327,100,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",Radio/Television/Motion Pictures/Telecommunications,Regulation Special Interest,,Government Management,-1.5293393220926401,-0.6975194871266917,-0.137,-0.488,-0.11,-0.416
+RH1070530,107,House,530,2002-02-13,,209,219,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",Firearms,Regulation Special Interest,,Government Management,-2.2609861239073554,0.1897057927799399,0.087,-0.007,-0.224,-0.573
+RH1070531,107,House,531,2002-02-13,,185,237,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",Civil Rights/Desegregation/Busing/Affirmative Action,Regulation Special Interest,,Government Management,-4.763033268378362,0.8637251272275661,0.094,0.416,-0.322,-0.391
+RH1070532,107,House,532,2002-02-13,,200,228,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",Military Pensions/Veterans Benefits,Regulation Special Interest,,Government Management,-4.138471302311153,0.48450878585884916,0.112,0.021,-0.244,-0.341
+RH1070533,107,House,533,2002-02-13,,191,237,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-3.7337702022459665,0.5830786364042739,0.18,-0.089,-0.255,-0.395
+RH1070534,107,House,534,2002-02-13,,218,211,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,13.548079952226907,0.15175023627369866,-0.078,-0.905,-0.171,0.073
+RH1070535,107,House,535,2002-02-13,,185,244,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-5.783683254459439,0.8207058191117573,-0.031,1.0,-0.215,-0.215
+RH1070536,107,House,536,2002-02-13,,160,268,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-5.133309233877656,1.310130417299196,0.121,0.689,-0.221,-0.249
+RH1070537,107,House,537,2002-02-14,,190,238,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-6.362051579905383,1.0155856505569723,0.032,0.812,-0.319,-0.29
+RH1070538,107,House,538,2002-02-14,,232,196,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,8.775243558490184,0.8600097423396074,-0.04,0.509,-0.22,0.145
+RH1070539,107,House,539,2002-02-14,,181,248,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-3.8072447322520766,0.653772333847914,0.079,0.353,-0.183,-0.278
+RH1070540,107,House,540,2002-02-14,,240,189,,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Regulation Special Interest,,Government Management,-3.147658386561579,0.5878352552633704,0.412,-0.709,0.283,0.52
+RH1070541,107,House,541,2002-02-14,,342,51,,,,Internal Organization,,Miscellaneous Policy,2.7206734312254683,1.7906781361700823,-0.71,-0.141,-0.151,0.321
+RH1070542,107,House,542,2002-02-14,,216,207,,Unemployment/Jobs,,Budget General Interest,,Social Welfare,4.00022392300832,-0.02200246315309151,0.011,0.022,-0.637,0.921
+RH1070543,107,House,543,2002-02-14,,213,206,,Unemployment/Jobs,,Budget General Interest,,Social Welfare,4.034837345983583,-0.03183609630360598,0.024,0.065,-0.646,0.926
+RH1070544,107,House,544,2002-02-14,,225,199,,Unemployment/Jobs,,Budget General Interest,,Social Welfare,34.89488896857195,3.511119563045763,-0.094,0.231,-0.362,0.06
+RH1070545,107,House,545,2002-02-26,,404,3,,Immigration/Naturalization,,Domestic Social Policy,Regulation Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070546,107,House,546,2002-02-26,,405,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070547,107,House,547,2002-02-27,,355,48,,,,Internal Organization,,Miscellaneous Policy,3.708361616094581,2.2226043191421794,-0.742,-0.529,-0.218,0.34
+RH1070548,107,House,548,2002-02-27,,282,142,,Radio/Television/Motion Pictures/Telecommunications,,Regulation Special Interest,,Government Management,-5.500169369436918,-1.7580501333533278,-0.296,-0.13,-0.097,-0.102
+RH1070549,107,House,549,2002-02-27,,421,7,,Radio/Television/Motion Pictures/Telecommunications,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070550,107,House,550,2002-02-27,,173,256,,Radio/Television/Motion Pictures/Telecommunications,,Regulation Special Interest,,Government Management,-1.6634487236277147,-0.5772430031007323,-0.546,0.331,0.065,0.226
+RH1070551,107,House,551,2002-02-27,,273,157,,Radio/Television/Motion Pictures/Telecommunications,,Regulation Special Interest,,Government Management,-1.2618945282456957,-0.6513994711030247,-0.517,0.001,-0.048,-0.22
+RH1070552,107,House,552,2002-02-28,,412,0,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070553,107,House,553,2002-03-05,,392,0,,,,Government Organization,Internal Organization,Government Management,,,0.0,0.0,0.0,0.0
+RH1070554,107,House,554,2002-03-06,,352,43,,,,Internal Organization,,Miscellaneous Policy,2.2334312567443813,1.477635310977811,-0.701,-0.088,-0.173,0.448
+RH1070555,107,House,555,2002-03-06,,218,191,,,,Internal Organization,,Miscellaneous Policy,7.323224840178857,0.19623224840178857,-0.01,0.123,-0.704,0.556
+RH1070556,107,House,556,2002-03-06,,407,1,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070557,107,House,557,2002-03-07,,217,192,,Unemployment/Jobs,Tax rates,Budget General Interest,,Social Welfare,7.602883328562408,0.6986566162420543,-0.089,0.022,-0.443,0.337
+RH1070558,107,House,558,2002-03-07,,417,3,,Unemployment/Jobs,Tax rates,Budget General Interest,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070559,107,House,559,2002-03-12,,275,137,,Immigration/Naturalization,,Domestic Social Policy,,Civil Liberties,-2.2015310452458507,0.6852244967239336,0.016,0.65,0.118,0.31
+RH1070560,107,House,560,2002-03-13,,355,45,,,,Internal Organization,,Miscellaneous Policy,2.9055470377853108,1.8019713724145539,-0.752,-0.383,-0.212,0.422
+RH1070561,107,House,561,2002-03-13,,221,198,,Judiciary,,Regulation Special Interest,,Government Management,6.498520510628584,0.7218402151478871,-0.108,0.02,-0.4,0.356
+RH1070562,107,House,562,2002-03-13,,174,251,,Judiciary,,Regulation Special Interest,,Government Management,9.238366540680177,1.7231908777003913,-0.177,0.088,0.238,-0.149
+RH1070563,107,House,563,2002-03-13,,194,231,,Judiciary,,Regulation Special Interest,,Government Management,128.57572773375213,8.694149485895146,-0.068,-0.049,0.289,-0.013
+RH1070564,107,House,564,2002-03-13,,202,223,,Judiciary,,Regulation Special Interest,,Government Management,-15.741158548219506,-0.27239878127892636,-0.068,0.798,0.264,0.097
+RH1070565,107,House,565,2002-03-13,,177,248,,Judiciary,,Regulation Special Interest,,Government Management,21.714179236040703,3.5004112154746347,-0.163,-0.039,0.214,-0.057
+RH1070566,107,House,566,2002-03-13,,191,234,,Judiciary,,Regulation Special Interest,,Government Management,18.0027323835991,1.4352896326615046,-0.106,-0.473,0.221,-0.071
+RH1070567,107,House,567,2002-03-13,,191,235,,Judiciary,,Regulation Special Interest,,Government Management,14.365055152936469,2.275678714163962,-0.158,0.006,0.534,-0.215
+RH1070568,107,House,568,2002-03-13,,233,190,,Judiciary,,Regulation Special Interest,,Government Management,-27.41894283595586,-2.064313226431542,-0.101,0.705,-0.256,-0.054
+RH1070569,107,House,569,2002-03-14,,259,161,,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,,Civil Liberties,-3.9809767855370164,0.8317989750074453,-0.042,0.999,0.159,0.231
+RH1070570,107,House,570,2002-03-14,,382,34,,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,,Civil Liberties,17.80290001763296,9.460339909363103,-0.531,0.007,-0.394,0.128
+RH1070571,107,House,571,2002-03-19,,363,44,,,,Internal Organization,,Miscellaneous Policy,2.8176918419161368,1.7816550567089602,-0.704,-0.202,-0.19,0.39
+RH1070572,107,House,572,2002-03-19,,413,0,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070573,107,House,573,2002-03-19,,403,11,,,,Foreign Policy Resolutions,Regulation Special Interest,Foreign and Defense Policy,-7.711577672612584,5.753083375561243,0.655,0.702,0.296,0.222
+RH1070574,107,House,574,2002-03-19,,403,1,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070575,107,House,575,2002-03-20,,351,55,,,,Internal Organization,,Miscellaneous Policy,2.4871011155079135,1.4510709154362846,-0.731,-0.367,-0.212,0.493
+RH1070576,107,House,576,2002-03-20,,408,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070577,107,House,577,2002-03-20,,421,0,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070578,107,House,578,2002-03-20,,423,0,,Women's Equality,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070579,107,House,579,2002-03-20,,77,337,,,,Internal Organization,,Miscellaneous Policy,11.460261263465926,5.175356000978871,-0.444,0.087,0.214,-0.108
+RH1070580,107,House,580,2002-03-20,,72,333,,,,Internal Organization,,Miscellaneous Policy,10.03291993120515,4.518517689661471,-0.441,0.094,0.255,-0.147
+RH1070581,107,House,581,2002-03-20,,221,206,,Budget resolution ,,Budget General Interest,,Government Management,3.882090260837714,0.024926745918426363,0.169,0.681,-0.492,0.733
+RH1070582,107,House,582,2002-03-20,,222,206,,Budget resolution ,,Budget General Interest,,Government Management,3.756226213772562,0.1451585096916066,0.095,0.502,-0.415,0.639
+RH1070583,107,House,583,2002-03-20,,222,206,,Budget resolution ,,Budget General Interest,,Government Management,4.0293613241142925,-0.018411058537600097,0.014,0.038,-0.65,0.933
+RH1070584,107,House,584,2002-03-20,,213,206,,Budget resolution ,,Budget General Interest,,Government Management,4.069301573170159,-0.0324948566341257,0.036,0.114,-0.648,0.921
+RH1070585,107,House,585,2002-03-20,,221,209,,Budget resolution ,,Budget General Interest,,Government Management,5.357980679892627,0.05470883150239092,-0.164,-0.824,-0.365,0.394
+RH1070586,107,House,586,2002-04-09,,361,43,,,,Internal Organization,,Miscellaneous Policy,2.1865144010761295,1.3976318584114016,-0.754,-0.251,-0.217,0.574
+RH1070587,107,House,587,2002-04-09,,403,0,,Immigration/Naturalization,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070588,107,House,588,2002-04-09,,396,6,,Public Lands,Fish and Wildlife,Government Organization,Budget Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070589,107,House,589,2002-04-10,,204,219,,,,Regulation Special Interest,,Government Management,3.5175617454022317,0.15021074094482678,-0.012,0.108,0.312,-0.513
+RH1070590,107,House,590,2002-04-10,,425,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070591,107,House,591,2002-04-10,,205,219,,Tax rates,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",Regulation Special Interest,,Government Management,-3.3539400315808607,0.277180683852865,0.122,-0.132,-0.225,-0.388
+RH1070592,107,House,592,2002-04-10,,424,3,,Agriculture,,Regulation Special Interest,,Agriculture,,,0.0,0.0,0.0,0.0
+RH1070593,107,House,593,2002-04-11,,218,208,,Banking and Finance,,Regulation Special Interest,,Government Management,4.039796112659305,-0.02247755335191166,0.012,0.026,-0.644,0.922
+RH1070594,107,House,594,2002-04-11,,215,209,,Banking and Finance,,Regulation Special Interest,,Government Management,3.700771278334748,0.05897276634698356,-0.224,-0.77,-0.565,0.883
+RH1070595,107,House,595,2002-04-11,,360,56,,,,Internal Organization,,Miscellaneous Policy,2.8233145744517643,1.5323985758411243,-0.609,-0.187,-0.206,0.422
+RH1070596,107,House,596,2002-04-11,,187,232,,Banking and Finance,,Regulation Special Interest,,Government Management,146.81657492089346,23.082202262580275,-0.157,0.032,0.33,-0.013
+RH1070597,107,House,597,2002-04-11,,204,212,,Banking and Finance,,Regulation Special Interest,,Government Management,9.550423849742492,0.4311639870415022,-0.033,0.116,0.715,-0.433
+RH1070598,107,House,598,2002-04-11,,256,163,,Banking and Finance,,Regulation Special Interest,,Government Management,-12.734249972537889,-2.738471993848487,-0.224,0.114,-0.251,-0.114
+RH1070599,107,House,599,2002-04-16,,408,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070600,107,House,600,2002-04-16,,408,0,,Religion,Tax rates,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070601,107,House,601,2002-04-16,,407,3,,Agriculture,,Regulation Special Interest,,Agriculture,,,0.0,0.0,0.0,0.0
+RH1070602,107,House,602,2002-04-17,,173,246,,Abortion/Care of deformed newborns,,Domestic Social Policy,,Civil Liberties,-2.2100253086145822,-0.2408711895048854,-0.047,-0.137,0.235,0.615
+RH1070603,107,House,603,2002-04-17,,261,161,,Abortion/Care of deformed newborns,,Domestic Social Policy,,Civil Liberties,-1.6444591777589253,-0.28693470353158,-0.093,-0.134,-0.205,-0.721
+RH1070604,107,House,604,2002-04-17,,361,51,,,,Internal Organization,,Miscellaneous Policy,2.6664196741049087,1.5374996996949184,-0.676,-0.265,-0.207,0.449
+RH1070605,107,House,605,2002-04-18,,369,52,,,,Internal Organization,,Miscellaneous Policy,2.1911261560163644,1.353993084643815,-0.722,-0.228,-0.197,0.52
+RH1070606,107,House,606,2002-04-18,,265,158,,Agriculture,,Budget Special Interest,,Agriculture,-0.5267666904619193,0.23082013495141052,0.068,0.195,0.049,0.538
+RH1070607,107,House,607,2002-04-18,,219,206,,Tax rates,,Budget General Interest,,Government Management,4.029153123095796,-0.02234983747714955,0.012,0.026,-0.643,0.923
+RH1070608,107,House,608,2002-04-18,,218,205,,Tax rates,,Budget General Interest,,Government Management,4.052983695181587,-0.025794755427723803,0.015,0.035,-0.644,0.919
+RH1070609,107,House,609,2002-04-18,,229,198,,Tax rates,,Budget General Interest,,Government Management,68.00209402212916,5.62517380383672,-0.083,-0.019,-0.388,0.033
+RH1070610,107,House,610,2002-04-23,,411,5,,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070611,107,House,611,2002-04-23,,273,143,,Communists/Communism/Unamerican Activities,,Foreign Policy Budget,,Foreign and Defense Policy,-4.498420309024008,1.443324654301665,0.111,0.944,0.091,0.117
+RH1070612,107,House,612,2002-04-23,,244,171,,Food Stamps/Food Programs,Immigration/Naturalization,Budget Special Interest,,Foreign and Defense Policy,-4.854162731421314,1.0806034543872578,0.181,0.202,0.235,0.28
+RH1070613,107,House,613,2002-04-24,,39,381,,Banking and Finance,,Government Organization,,Government Management,18.596766156646503,9.699882829179293,-0.531,-0.175,0.418,-0.13
+RH1070614,107,House,614,2002-04-24,,202,219,,Banking and Finance,,Government Organization,,Government Management,9.73586681167339,0.24445508508252045,-0.127,-0.992,0.404,-0.24
+RH1070615,107,House,615,2002-04-24,,205,222,,Banking and Finance,,Government Organization,,Government Management,12.485211894952657,0.5540831374870647,-0.062,-0.22,0.993,-0.46
+RH1070616,107,House,616,2002-04-24,,334,90,,Banking and Finance,,Government Organization,,Government Management,-9.501765346611936,-4.07627498716264,-0.439,0.095,-0.253,-0.154
+RH1070617,107,House,617,2002-04-25,,384,36,,Immigration/Naturalization,,Government Organization,,Government Management,-458.35689791591057,-249.33315246625537,-0.544,0.013,-0.317,-0.004
+RH1070618,107,House,618,2002-04-25,,388,34,,Immigration/Naturalization,,Government Organization,,Government Management,13.046913387966642,8.134086300539318,-0.62,0.045,-0.194,0.086
+RH1070619,107,House,619,2002-04-25,,372,47,,,,Internal Organization,,Miscellaneous Policy,3.45858445869685,2.03239090147261,-0.727,-0.482,-0.238,0.398
+RH1070620,107,House,620,2002-04-25,,145,272,,Immigration/Naturalization,Union Regulation/Davis-Bacon/Situs Picketing,Government Organization,,Government Management,-4.444303974479359,1.3237645736010597,0.094,0.906,-0.219,-0.285
+RH1070621,107,House,621,2002-04-25,,105,312,,Immigration/Naturalization,,Government Organization,Budget Special Interest,Government Management,6.991265472423499,-3.611204744360501,0.549,0.227,-0.11,0.091
+RH1070622,107,House,622,2002-04-25,,405,9,,Immigration/Naturalization,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070623,107,House,623,2002-04-30,,412,0,,,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070624,107,House,624,2002-04-30,,318,92,,,,Foreign Policy Budget,,Foreign and Defense Policy,36.244415061279156,-29.10711023816542,0.786,-0.619,0.094,-0.015
+RH1070625,107,House,625,2002-04-30,,404,3,,Education,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070626,107,House,626,2002-05-01,,135,283,,Tariffs,,Foreign Policy Budget,Foreign Policy Resolutions,Foreign and Defense Policy,6.464116578513491,2.338598908479854,-0.471,-0.706,0.133,-0.119
+RH1070627,107,House,627,2002-05-01,,416,3,,Women's Equality,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070628,107,House,628,2002-05-02,,172,251,,Agriculture,,Budget Special Interest,,Agriculture,-0.7829440213460376,-0.16664323419864185,-0.103,-0.086,0.062,0.458
+RH1070629,107,House,629,2002-05-02,,280,141,,Agriculture,,Budget Special Interest,,Agriculture,-0.14305930311383774,-0.2873710259140395,-0.422,-0.227,-0.014,-0.566
+RH1070630,107,House,630,2002-05-02,,328,82,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-100.05772030214828,-45.18308957657103,-0.452,0.043,-0.173,-0.01
+RH1070631,107,House,631,2002-05-02,,329,76,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,44.341571617522355,20.52280608729533,-0.462,0.037,-0.184,0.024
+RH1070632,107,House,632,2002-05-02,,352,21,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-198.57312506977402,-130.081396920702,-0.655,-0.016,-0.206,-0.006
+RH1070633,107,House,633,2002-05-07,,402,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070634,107,House,634,2002-05-07,,402,1,,Public Health,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070635,107,House,635,2002-05-08,,355,62,,Tariffs,,Foreign Policy Resolutions,,Foreign and Defense Policy,-350.8767841038726,-176.12114562014403,-0.502,0.019,-0.182,-0.003
+RH1070636,107,House,636,2002-05-08,,386,30,,Tariffs,,Foreign Policy Resolutions,,Foreign and Defense Policy,2.9659914125433016,2.4012475173476036,-0.522,0.853,-0.12,0.234
+RH1070637,107,House,637,2002-05-08,,411,0,,,,Government Organization,Budget Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070638,107,House,638,2002-05-08,,308,105,,Nuclear Power,,Regulation Special Interest,Budget Special Interest,Government Management,-2.4003428526412693,-0.9846579420963746,-0.169,-0.579,-0.105,-0.253
+RH1070639,107,House,639,2002-05-08,,307,117,,Nuclear Power,,Regulation Special Interest,Budget Special Interest,Government Management,-3.371393253855753,-1.2886463356798603,-0.306,-0.257,-0.116,-0.199
+RH1070640,107,House,640,2002-05-09,,44,366,,,,Internal Organization,,Miscellaneous Policy,9.447880098899581,5.054801378251853,-0.589,-0.51,0.263,-0.161
+RH1070641,107,House,641,2002-05-09,,215,202,,,,Defense Policy Budget,,Foreign and Defense Policy,8.144980293747789,-0.35834182729339414,0.161,0.953,-0.545,0.387
+RH1070642,107,House,642,2002-05-09,,216,200,,,,Defense Policy Budget,,Foreign and Defense Policy,-51.30686757988212,-0.38528542465681737,-0.027,1.0,-0.275,-0.031
+RH1070643,107,House,643,2002-05-09,,35,375,,,,Internal Organization,,Miscellaneous Policy,6.922439542902231,3.9406437044823477,-0.559,0.071,0.231,-0.193
+RH1070644,107,House,644,2002-05-09,,51,356,,,,Defense Policy Budget,,Foreign and Defense Policy,7.537246794375331,3.877411243317682,-0.548,-0.253,0.245,-0.188
+RH1070645,107,House,645,2002-05-09,,49,352,,,,Defense Policy Budget,,Foreign and Defense Policy,7.09815672138204,3.8543175324966277,-0.533,0.071,0.189,-0.154
+RH1070646,107,House,646,2002-05-09,,51,360,,,,Defense Policy Budget,,Foreign and Defense Policy,5.002674931776959,2.559308041638933,-0.489,0.113,0.237,-0.274
+RH1070647,107,House,647,2002-05-09,,172,243,,Nuclear Weapons,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,-4.289023537014866,-0.5914169656638731,-0.126,-0.051,0.264,0.356
+RH1070648,107,House,648,2002-05-09,,362,53,,Nuclear Weapons,,Defense Policy Budget,,Foreign and Defense Policy,-7.404232185660636,-3.8563076284589966,-0.498,-0.169,-0.265,-0.207
+RH1070649,107,House,649,2002-05-09,,46,356,,,,Defense Policy Budget,,Foreign and Defense Policy,6.601577856100168,3.4816094401793864,-0.513,0.095,0.226,-0.198
+RH1070650,107,House,650,2002-05-09,,48,356,,,,Defense Policy Budget,,Foreign and Defense Policy,6.679746857263014,3.4431088720622416,-0.518,-0.017,0.246,-0.213
+RH1070651,107,House,651,2002-05-09,,159,253,,Nuclear Weapons,,Defense Policy Budget,,Foreign and Defense Policy,-5.921938631060063,-1.2548749646097155,-0.245,0.196,0.257,0.251
+RH1070652,107,House,652,2002-05-09,,55,336,,,,Defense Policy Budget,,Foreign and Defense Policy,5.040398659508829,2.5414317552237464,-0.481,0.117,0.217,-0.249
+RH1070653,107,House,653,2002-05-09,,56,339,,,,Defense Policy Budget,,Foreign and Defense Policy,4.944828431293566,2.459352132314793,-0.483,0.071,0.224,-0.262
+RH1070654,107,House,654,2002-05-09,,58,325,,,,Defense Policy Budget,,Foreign and Defense Policy,4.6551596926136956,2.320407979524459,-0.457,0.193,0.198,-0.246
+RH1070655,107,House,655,2002-05-09,,75,319,,,,Defense Policy Budget,,Foreign and Defense Policy,4.110016671667148,1.8748260351435073,-0.362,0.387,0.194,-0.273
+RH1070656,107,House,656,2002-05-09,,83,312,,,,Defense Policy Budget,,Foreign and Defense Policy,4.835936838812724,2.0809997461040863,-0.384,0.224,0.199,-0.238
+RH1070657,107,House,657,2002-05-09,,154,249,,,,Defense Policy Budget,,Foreign and Defense Policy,4.66502846861749,1.0631236439830387,-0.128,0.466,0.196,-0.243
+RH1070658,107,House,658,2002-05-10,,168,241,,,,Defense Policy Budget,,Foreign and Defense Policy,4.263739191000815,0.8069563542460865,-0.106,0.355,0.216,-0.293
+RH1070659,107,House,659,2002-05-10,,202,215,,Abortion/Care of deformed newborns,,Defense Policy Budget,Domestic Social Policy,Foreign and Defense Policy,-1.683251264401299,0.07478621241941827,0.168,-0.208,0.211,0.725
+RH1070660,107,House,660,2002-05-10,,232,183,,Immigration/Naturalization,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,-5.845873396980509,-0.7626867787122695,-0.294,0.956,-0.188,-0.186
+RH1070661,107,House,661,2002-05-10,,264,152,,U. N.,,Defense Policy Resolutions,,Foreign and Defense Policy,-2.5358265672899916,-0.5303117636112781,-0.232,0.058,-0.203,-0.463
+RH1070662,107,House,662,2002-05-10,,412,2,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070663,107,House,663,2002-05-10,,193,223,,,,Defense Policy Budget,,Foreign and Defense Policy,-8.216073408204064,-0.5446824239649769,-0.142,0.622,0.456,0.321
+RH1070664,107,House,664,2002-05-10,,359,58,,,,Defense Policy Budget,,Foreign and Defense Policy,-3.1443418022596625,-1.6383879912428145,-0.55,0.091,-0.33,-0.607
+RH1070665,107,House,665,2002-05-14,,410,5,,Public Works,,Budget General Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070666,107,House,666,2002-05-14,,418,0,,Social Security,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070667,107,House,667,2002-05-14,,371,40,,,,Internal Organization,,Miscellaneous Policy,2.33714054783783,1.5542957503462114,-0.603,0.145,-0.158,0.391
+RH1070668,107,House,668,2002-05-15,,415,0,,,,Foreign Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070669,107,House,669,2002-05-15,,352,55,,,,Internal Organization,,Miscellaneous Policy,3.3459324612575263,1.9328010344117068,-0.725,-0.493,-0.21,0.363
+RH1070670,107,House,670,2002-05-15,,219,200,,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,4.895006482363656,0.23595518798854603,-0.029,0.094,-0.336,0.397
+RH1070671,107,House,671,2002-05-15,,213,204,,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,4.077433964640603,-0.027858415151374466,0.024,0.07,-0.65,0.922
+RH1070672,107,House,672,2002-05-15,,214,205,,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,7.64082925359779,-0.39296395044068283,0.053,0.012,-0.72,0.545
+RH1070673,107,House,673,2002-05-16,,330,63,,,,Internal Organization,,Miscellaneous Policy,2.7625592956594502,1.4666772873874911,-0.671,-0.387,-0.203,0.425
+RH1070674,107,House,674,2002-05-16,,198,222,,Welfare,"Children (aid, infant mortality, etc.)",Domestic Social Policy,Budget Special Interest,Social Welfare,3.8557888363062927,-0.045216675112248805,0.262,0.965,0.284,-0.426
+RH1070675,107,House,675,2002-05-16,,207,219,,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,4.036594637790666,-0.02487827130697598,0.024,0.072,0.64,-0.917
+RH1070676,107,House,676,2002-05-16,,230,197,,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,-59.21389998613235,-4.1149729990292645,-0.07,0.03,-0.215,-0.021
+RH1070677,107,House,677,2002-05-20,,360,0,,Military Pensions/Veterans Benefits,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070678,107,House,678,2002-05-20,,363,0,,Science and Technology,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070679,107,House,679,2002-05-20,,361,0,,Science and Technology,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070680,107,House,680,2002-05-21,,406,2,,Radio/Television/Motion Pictures/Telecommunications,"Children (aid, infant mortality, etc.)",Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070681,107,House,681,2002-05-21,,396,11,,Judiciary,,Domestic Social Policy,,Civil Liberties,35.81434630646037,23.602839869650925,-0.658,0.037,-0.322,0.052
+RH1070682,107,House,682,2002-05-21,,391,19,,,,Foreign Policy Budget,,Foreign and Defense Policy,-2.176654988237423,1.7098891758125228,0.356,0.935,0.175,0.465
+RH1070683,107,House,683,2002-05-21,,409,1,,Tax rates,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070684,107,House,684,2002-05-21,,405,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070685,107,House,685,2002-05-21,,407,4,,,,Foreign Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070686,107,House,686,2002-05-21,,413,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070687,107,House,687,2002-05-21,,412,0,,CIA/Spying/Intelligence,Narcotics,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070688,107,House,688,2002-05-21,,390,22,,,,Foreign Policy Budget,,Foreign and Defense Policy,-1.255373109495072,1.24037297988447,0.209,0.978,0.112,0.516
+RH1070689,107,House,689,2002-05-21,,411,0,,Military Pensions/Veterans Benefits,Public Health,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070690,107,House,690,2002-05-21,,409,0,,Military Pensions/Veterans Benefits,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070691,107,House,691,2002-05-21,,410,0,,Military Pensions/Veterans Benefits,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070692,107,House,692,2002-05-22,,403,19,,,,Defense Policy Budget,,Foreign and Defense Policy,13.235054318486936,7.561686124493014,-0.573,-0.022,-0.746,0.326
+RH1070693,107,House,693,2002-05-22,,361,57,,,,Internal Organization,,Miscellaneous Policy,2.7185976587781693,1.5663601307088344,-0.713,-0.372,-0.204,0.434
+RH1070694,107,House,694,2002-05-22,,386,32,,,,Budget Special Interest,,Government Management,-37.043114177371166,-21.457006222875275,-0.58,0.028,-0.269,-0.042
+RH1070695,107,House,695,2002-05-22,,425,1,,Public Health,,Defense Policy Budget,Budget General Interest,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070696,107,House,696,2002-05-22,,408,18,,Banking and Finance,,Regulation Special Interest,,Government Management,5.250236740698618,-4.550433000560032,0.773,-0.492,0.187,-0.206
+RH1070697,107,House,697,2002-05-22,,416,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070698,107,House,698,2002-05-22,,197,231,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,-8.30895340781497,-0.6994085883786242,-0.202,0.979,0.306,0.213
+RH1070699,107,House,699,2002-05-22,,327,101,,,,Budget Special Interest,,Government Management,-5.705875856417384,-2.30735001124424,-0.451,0.266,-0.22,-0.223
+RH1070700,107,House,700,2002-05-22,,216,209,,,,Budget Special Interest,,Government Management,5.290647960636668,-0.11640861729898994,-0.033,-0.291,-0.279,0.305
+RH1070701,107,House,701,2002-05-22,,94,300,,,,Internal Organization,,Miscellaneous Policy,9.979688752792757,3.93811923608359,-0.388,0.066,0.176,-0.102
+RH1070702,107,House,702,2002-05-22,,134,250,,,,Budget Special Interest,,Government Management,10.173085724361691,2.664886745295529,-0.242,0.203,0.197,-0.112
+RH1070703,107,House,703,2002-05-23,,99,289,,,,Budget Special Interest,,Government Management,6.868123864670584,2.5096346094466804,-0.344,0.147,0.209,-0.176
+RH1070704,107,House,704,2002-05-23,,215,203,,,,Budget Special Interest,,Government Management,4.070681526227823,-0.024049764260606857,0.029,0.094,-0.663,0.942
+RH1070705,107,House,705,2002-05-23,,144,252,,,,Budget Special Interest,,Government Management,5.609300844777245,1.4776833255555244,-0.267,-0.02,0.193,-0.199
+RH1070706,107,House,706,2002-05-23,,199,213,,,,Budget Special Interest,,Government Management,4.815849161475299,-0.24779245807376496,0.05,-0.007,0.413,-0.496
+RH1070707,107,House,707,2002-05-23,,197,216,,,,Budget Special Interest,Defense Policy Budget,Government Management,4.331239489805715,0.24919932734756575,-0.064,-0.028,0.498,-0.665
+RH1070708,107,House,708,2002-05-23,,192,225,,Narcotics,,Budget Special Interest,Foreign Policy Budget,Government Management,-10.529269514528721,-0.8086855405776071,-0.143,0.697,0.142,0.078
+RH1070709,107,House,709,2002-05-24,,211,189,,,,Internal Organization,,Miscellaneous Policy,5.839835519065841,0.5212833207516826,-0.223,-0.781,-0.312,0.309
+RH1070710,107,House,710,2002-05-24,,213,201,,,,Budget Special Interest,,Government Management,3.6577888690365103,0.09076279499720064,-0.252,-0.831,-0.585,0.925
+RH1070711,107,House,711,2002-05-24,,201,215,,,,Budget Special Interest,,Government Management,4.080397894731902,-0.022090345263029457,0.026,0.084,0.654,-0.927
+RH1070712,107,House,712,2002-05-24,,280,138,,,,Budget Special Interest,,Government Management,-144.59208136148598,-49.95571558154375,-0.339,-0.939,-0.125,-0.005
+RH1070713,107,House,713,2002-06-04,,393,1,,Tax rates,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070714,107,House,714,2002-06-04,,392,1,,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070715,107,House,715,2002-06-05,,363,40,,,,Internal Organization,,Miscellaneous Policy,3.4021666202702585,2.185092801366208,-0.689,-0.159,-0.18,0.306
+RH1070716,107,House,716,2002-06-05,,344,78,,Tariffs,,Foreign Policy Budget,,Foreign and Defense Policy,387.50677804878245,-254.18543284390373,0.654,-0.756,0.134,-0.002
+RH1070717,107,House,717,2002-06-05,,165,259,,Pollution and Environmental Protection,Science and Technology,Government Organization,,Government Management,-6.716535392275478,-1.127614172453234,-0.019,-1.0,0.252,0.217
+RH1070718,107,House,718,2002-06-05,,397,25,,Science and Technology,,Budget Special Interest,,Government Management,-4.700682804421217,3.3544233387411544,0.62,0.44,0.204,0.251
+RH1070719,107,House,719,2002-06-06,,37,363,,,,Internal Organization,,Miscellaneous Policy,31.608501506929493,17.798760843880515,-0.56,0.098,0.235,-0.043
+RH1070720,107,House,720,2002-06-06,,254,169,,Arms Control,,Defense Policy Resolutions,,Foreign and Defense Policy,14.909050167051,3.1649914849136587,-0.209,0.049,-0.232,0.09
+RH1070721,107,House,721,2002-06-06,,223,201,,Tax rates,,Budget General Interest,,Government Management,13.29169443571424,1.106502332599996,-0.084,-0.01,-0.37,0.161
+RH1070722,107,House,722,2002-06-06,,227,195,,Tax rates,,Budget General Interest,,Government Management,18.480675399014924,2.2131617232808054,-0.121,-0.023,-0.409,0.128
+RH1070723,107,House,723,2002-06-06,,197,231,,Tax rates,,Budget General Interest,,Government Management,4.445820579940351,0.034486037052645524,0.212,0.977,0.216,-0.281
+RH1070724,107,House,724,2002-06-06,,205,223,,Tax rates,,Budget General Interest,,Government Management,-306.2460283236273,-10.67885701965058,-0.036,0.346,1.059,0.02
+RH1070725,107,House,725,2002-06-06,,257,171,,Tax rates,,Budget General Interest,,Government Management,-7.178571568770244,-1.2050357362969284,-0.157,-0.078,-0.211,-0.17
+RH1070726,107,House,726,2002-06-11,,400,2,,Public Health,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070727,107,House,727,2002-06-11,,402,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070728,107,House,728,2002-06-11,,406,0,,Korean War,Communists/Communism/Unamerican Activities,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070729,107,House,729,2002-06-12,,412,1,,Energy,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070730,107,House,730,2002-06-12,,181,235,,,,Budget Special Interest,,Government Management,-10.060103600180964,-0.8289782387969236,0.017,-1.0,0.287,0.165
+RH1070731,107,House,731,2002-06-12,,227,178,,Tax rates,Constitutional Amendments,Budget General Interest,,Government Management,-8.629622633637894,-0.6729620744720124,-0.127,0.423,-0.188,-0.126
+RH1070732,107,House,732,2002-06-13,,385,22,,Tax rates,,Budget Special Interest,,Government Management,468.4783436112146,275.0287876997829,-0.587,0.032,-0.324,0.004
+RH1070733,107,House,733,2002-06-13,,344,56,,,,Internal Organization,,Miscellaneous Policy,3.43270976199837,1.9223977410227742,-0.752,-0.659,-0.238,0.401
+RH1070734,107,House,734,2002-06-13,,198,213,,Tax rates,Social Security,Budget Special Interest,,Government Management,7.46825119265151,0.3704600954121209,-0.08,-0.227,0.266,-0.206
+RH1070735,107,House,735,2002-06-13,,272,142,,Tax rates,,Budget Special Interest,,Government Management,45.47171662126732,12.770024087197381,-0.282,-0.053,-0.228,0.029
+RH1070736,107,House,736,2002-06-17,,307,45,,,,Internal Organization,,Miscellaneous Policy,2.81464667619484,1.6474244074319753,-0.78,-0.548,-0.237,0.487
+RH1070737,107,House,737,2002-06-17,,358,0,,Housing/Housing Programs/Rent Control,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070738,107,House,738,2002-06-17,,360,0,,Public Health,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070739,107,House,739,2002-06-18,,418,0,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070740,107,House,740,2002-06-18,,418,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070741,107,House,741,2002-06-18,,415,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070742,107,House,742,2002-06-19,,353,42,,,,Internal Organization,,Miscellaneous Policy,3.047493159573529,1.8783454853185293,-0.66,-0.133,-0.186,0.353
+RH1070743,107,House,743,2002-06-19,,407,2,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070744,107,House,744,2002-06-19,,206,210,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,70.99969788232967,-5.167977945410066,0.073,0.015,0.356,-0.029
+RH1070745,107,House,745,2002-06-20,,352,50,,,,Internal Organization,,Miscellaneous Policy,3.285802660504493,1.9344890197850735,-0.684,-0.313,-0.196,0.345
+RH1070746,107,House,746,2002-06-20,,419,0,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070747,107,House,747,2002-06-20,,202,223,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,9.253893207135102,0.4246946603567551,-0.05,-0.038,0.208,-0.13
+RH1070748,107,House,748,2002-06-20,,415,12,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,-1.771694315461493,1.9006302632594942,0.974,0.175,0.276,0.901
+RH1070749,107,House,749,2002-06-20,,284,143,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,17.63090540472313,5.031546229536645,-0.283,0.042,-0.189,0.062
+RH1070750,107,House,750,2002-06-21,,318,44,,,,Internal Organization,,Miscellaneous Policy,2.575321648129949,1.5152058548031675,-0.64,-0.133,-0.179,0.402
+RH1070751,107,House,751,2002-06-21,,344,51,,Tax rates,Banking and Finance,Regulation Special Interest,,Government Management,4.460529302377917,2.1547382995604236,-0.488,-0.022,-0.327,0.424
+RH1070752,107,House,752,2002-06-21,,182,204,,Tax rates,Banking and Finance,Regulation Special Interest,,Government Management,-22.17078580876118,-0.7141235742628355,-0.03,-0.049,0.322,0.084
+RH1070753,107,House,753,2002-06-21,,186,192,,Tax rates,Banking and Finance,Regulation Special Interest,,Government Management,9.125366912591561,-0.6698021015880015,0.142,0.626,0.781,-0.495
+RH1070754,107,House,754,2002-06-21,,309,70,,Tax rates,Banking and Finance,Regulation Special Interest,,Government Management,6.63066615783216,2.9042317771304864,-0.438,0.0,-0.274,0.239
+RH1070755,107,House,755,2002-06-24,,375,0,,Parks and Conservation,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070756,107,House,756,2002-06-24,,374,0,,Parks and Conservation,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070757,107,House,757,2002-06-24,,377,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070758,107,House,758,2002-06-24,,380,0,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070759,107,House,759,2002-06-25,,371,40,,,,Internal Organization,,Miscellaneous Policy,3.428650552044817,2.111625074286386,-0.678,-0.213,-0.198,0.334
+RH1070760,107,House,760,2002-06-25,,407,7,,Immigration/Naturalization,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070761,107,House,761,2002-06-25,,409,3,,,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070762,107,House,762,2002-06-25,,414,8,,Radio/Television/Motion Pictures/Telecommunications,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070763,107,House,763,2002-06-25,,417,1,,U.S. Currency,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070764,107,House,764,2002-06-26,,422,2,,,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070765,107,House,765,2002-06-26,,418,8,,,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070766,107,House,766,2002-06-26,,425,0,,Social Security,,Regulation Special Interest,Budget Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070767,107,House,767,2002-06-26,,369,41,,,,Internal Organization,,Miscellaneous Policy,2.7959794738408896,1.8310821243164417,-0.676,-0.059,-0.175,0.362
+RH1070768,107,House,768,2002-06-26,,45,378,,,,Internal Organization,,Miscellaneous Policy,6.270730265361286,3.478509007722508,-0.519,0.224,0.206,-0.19
+RH1070769,107,House,769,2002-06-26,,40,384,,,,Internal Organization,,Miscellaneous Policy,4.406615812921477,2.428626991093325,-0.518,0.146,0.24,-0.315
+RH1070770,107,House,770,2002-06-26,,216,215,,Tariffs,,Regulation Special Interest,,Government Management,11.77961176596326,-0.2205456234464248,-0.066,-0.998,-0.222,0.109
+RH1070771,107,House,771,2002-06-26,,422,4,,Banking and Finance,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070772,107,House,772,2002-06-26,,425,0,,Education,,Domestic Social Policy,,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070773,107,House,773,2002-06-27,,348,59,,,,Internal Organization,,Miscellaneous Policy,2.81970952314916,1.4841381614913742,-0.626,-0.281,-0.215,0.441
+RH1070774,107,House,774,2002-06-27,,70,332,,,,Internal Organization,,Miscellaneous Policy,8.755116853080802,4.2338230512986845,-0.454,0.259,0.165,-0.109
+RH1070775,107,House,775,2002-06-27,,112,314,,,,Defense Policy Budget,,Foreign and Defense Policy,-2.9737456384584475,-1.1093430634755506,-0.444,0.211,0.236,0.459
+RH1070776,107,House,776,2002-06-27,,413,18,,,,Defense Policy Budget,,Foreign and Defense Policy,-5.8316143311538555,-3.82119191588616,-0.664,0.051,-0.365,-0.362
+RH1070777,107,House,777,2002-06-27,,428,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070778,107,House,778,2002-06-27,,427,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070779,107,House,779,2002-06-27,,416,3,,Judiciary,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070780,107,House,780,2002-06-27,,221,210,,,,Defense Policy Budget,,Foreign and Defense Policy,4.039796112659305,-0.02247755335191166,0.012,0.026,-0.644,0.922
+RH1070781,107,House,781,2002-06-27,,219,211,,,,Defense Policy Budget,,Foreign and Defense Policy,3.7142301552530905,0.0929859991237788,-0.252,-0.843,-0.551,0.858
+RH1070782,107,House,782,2002-06-27,,269,160,,,,Defense Policy Budget,,Foreign and Defense Policy,5.873585066704924,1.3626585152058532,-0.153,0.464,-0.196,0.193
+RH1070783,107,House,783,2002-06-27,,426,1,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070784,107,House,784,2002-06-27,,207,222,,Debt Ceilings,,Budget General Interest,,Government Management,5.348205927064847,0.3886237127679864,-0.154,-0.435,0.393,-0.425
+RH1070785,107,House,785,2002-06-27,,216,214,,Debt Ceilings,,Budget General Interest,,Government Management,4.051372328002989,0.16223013485682802,-0.277,-0.96,-0.29,0.414
+RH1070786,107,House,786,2002-06-27,,218,213,,,,Domestic Social Policy,Budget General Interest,Social Welfare,5.164445218650076,-0.3100488137909426,-0.097,-0.811,-0.417,0.467
+RH1070787,107,House,787,2002-06-28,,204,223,,,,Domestic Social Policy,Budget General Interest,Social Welfare,6.398199600245755,0.41187397201720294,-0.07,-0.036,0.531,-0.48
+RH1070788,107,House,788,2002-06-28,,221,208,,,,Domestic Social Policy,Budget General Interest,Social Welfare,4.840888491977023,0.278108342438095,-0.257,-0.966,-0.267,0.319
+RH1070789,107,House,789,2002-07-08,,340,9,,Pollution and Environmental Protection,,Budget Special Interest,Government Organization,Government Management,3.4652240188356127,-2.7202827808458876,0.682,-0.357,0.278,-0.464
+RH1070790,107,House,790,2002-07-08,,331,18,,Parks and Conservation,,Government Organization,Regulation Special Interest,Government Management,-10.945979051828196,7.697617503865112,0.692,0.123,0.229,0.121
+RH1070791,107,House,791,2002-07-09,,410,2,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070792,107,House,792,2002-07-09,,413,0,,Tax rates,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070793,107,House,793,2002-07-09,,412,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070794,107,House,794,2002-07-10,,250,175,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,-2.09980857009037,-0.29986190544798363,-0.199,0.118,-0.114,-0.314
+RH1070795,107,House,795,2002-07-10,,169,256,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,-1.4244679825523248,0.23365855565952942,-0.439,0.859,-0.083,-0.337
+RH1070796,107,House,796,2002-07-10,,49,376,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,-1.9861549637566758,1.4354311380397031,0.33,0.78,-0.125,-0.364
+RH1070797,107,House,797,2002-07-10,,251,172,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,-1.8819921701018814,-0.2919700738450628,-0.246,0.171,-0.123,-0.378
+RH1070798,107,House,798,2002-07-10,,310,114,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,-4.116770176754972,-1.5456633497164927,-0.451,0.311,-0.163,-0.229
+RH1070799,107,House,799,2002-07-11,,397,22,,Radio/Television/Motion Pictures/Telecommunications,,Budget Special Interest,Government Organization,Government Management,-72.04816854126615,46.125538855162745,0.634,0.447,0.436,0.035
+RH1070800,107,House,800,2002-07-11,,413,3,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070801,107,House,801,2002-07-12,,338,23,,,,Budget Special Interest,,Government Management,-8.121130372842012,5.27461630967068,0.616,0.272,0.271,0.193
+RH1070802,107,House,802,2002-07-15,,385,3,,Radio/Television/Motion Pictures/Telecommunications,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070803,107,House,803,2002-07-15,,389,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070804,107,House,804,2002-07-15,,247,143,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,4.829673645476439,-2.1929086392589627,0.617,0.787,0.081,-0.097
+RH1070805,107,House,805,2002-07-16,,391,28,,,,Domestic Social Policy,,Civil Liberties,-19.870674151459657,-11.499861681998059,-0.581,0.045,-0.347,-0.101
+RH1070806,107,House,806,2002-07-16,,418,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070807,107,House,807,2002-07-16,,410,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070808,107,House,808,2002-07-16,,322,101,,,,Budget Special Interest,,Government Management,-6.6380910079591295,-3.5241025072422163,-0.533,0.014,-0.101,-0.088
+RH1070809,107,House,809,2002-07-16,,246,177,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,-51.47478096468901,-8.608288421103065,-0.167,-0.012,-0.267,-0.03
+RH1070810,107,House,810,2002-07-16,,389,32,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-6.288074235952995,-4.1815363276054,-0.651,-0.088,-0.187,-0.172
+RH1070811,107,House,811,2002-07-16,,84,332,,Public Lands,,Budget Special Interest,,Government Management,-14.424366670760286,7.070611802185994,0.534,-0.632,-0.207,-0.083
+RH1070812,107,House,812,2002-07-16,,324,79,,Public Lands,,Budget Special Interest,,Government Management,14.5207366814088,-9.298792212783042,0.641,0.009,0.118,-0.047
+RH1070813,107,House,813,2002-07-16,,85,337,,Public Lands,,Budget Special Interest,,Government Management,159.05128949763457,-80.3937986173102,0.503,-0.391,-0.165,0.006
+RH1070814,107,House,814,2002-07-16,,209,210,,,,Budget Special Interest,,Government Management,3.900312956817913,0.03638042990220369,-0.257,-0.966,0.292,-0.433
+RH1070815,107,House,815,2002-07-17,,361,50,,,,Internal Organization,,Miscellaneous Policy,2.738791513253774,1.6886842714462977,-0.675,-0.16,-0.17,0.359
+RH1070816,107,House,816,2002-07-17,,234,192,,,,Budget Special Interest,,Government Management,-2.4098680226914335,0.3567381523176801,0.014,0.323,0.255,0.612
+RH1070817,107,House,817,2002-07-17,,281,144,,,,Budget Special Interest,Indian Affairs,Government Management,4.988978685144402,-1.5138537832550178,0.104,-0.995,0.113,-0.131
+RH1070818,107,House,818,2002-07-17,,273,151,,,,Budget Special Interest,Indian Affairs,Government Management,3.437853682720646,-0.9346807800283077,-0.019,-1.0,0.085,-0.143
+RH1070819,107,House,819,2002-07-17,,207,218,,,,Domestic Social Policy,,Civil Liberties,25.132732687560107,-1.644760357378967,0.066,0.014,0.478,-0.11
+RH1070820,107,House,820,2002-07-17,,123,300,,,,Budget Special Interest,,Government Management,-2.6270590006790626,1.0226553612573648,0.379,0.027,-0.253,-0.557
+RH1070821,107,House,821,2002-07-17,,252,172,,Energy,Pollution and Environmental Protection,Regulation Special Interest,,Government Management,-1.5234623083513033,0.30177995996573226,-0.052,0.381,0.167,0.634
+RH1070822,107,House,822,2002-07-17,,201,223,,Fish and Wildlife,Pollution and Environmental Protection,Regulation Special Interest,,Government Management,-2.420283955206013,0.022362271641648102,0.008,0.003,0.213,0.509
+RH1070823,107,House,823,2002-07-17,,153,269,,,,Budget Special Interest,,Government Management,-4.685515547916508,1.3271844516374647,0.222,0.287,-0.192,-0.237
+RH1070824,107,House,824,2002-07-17,,377,46,,,,Budget Special Interest,,Government Management,14.221056472729678,-8.734896907092267,0.565,-0.7,0.209,-0.085
+RH1070825,107,House,825,2002-07-18,,219,206,,,,Internal Organization,Budget Special Interest,Government Management,4.0479516602175485,-0.023671323243045682,0.014,0.033,-0.646,0.923
+RH1070826,107,House,826,2002-07-18,,206,213,,,,Internal Organization,Budget Special Interest,Government Management,4.06038171333479,0.04709542833369751,-0.25,-0.968,0.344,-0.49
+RH1070827,107,House,827,2002-07-18,,365,49,,,,Internal Organization,Budget Special Interest,Government Management,-4.809589232655744,3.341808355185578,0.71,-0.073,0.158,0.19
+RH1070828,107,House,828,2002-07-18,,258,156,,,,Budget Special Interest,,Government Management,-0.0842283969096035,0.4992210174264244,-0.591,0.549,0.003,0.206
+RH1070829,107,House,829,2002-07-18,,224,188,,,,Budget Special Interest,,Government Management,5.639091173097953,0.24580454413451025,0.005,0.274,-0.117,0.12
+RH1070830,107,House,830,2002-07-22,,378,0,,Women's Equality,,Internal Organization,,Miscellaneous Policy,,,0.0,0.0,0.0,0.0
+RH1070831,107,House,831,2002-07-22,,375,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070832,107,House,832,2002-07-23,,339,45,,,,Internal Organization,,Miscellaneous Policy,3.075558624724314,1.7858732994284359,-0.713,-0.407,-0.226,0.425
+RH1070833,107,House,833,2002-07-23,,343,87,,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,23.357182373778503,-16.177027661644953,0.7,0.173,0.105,-0.026
+RH1070834,107,House,834,2002-07-23,,397,32,,,,Budget Special Interest,,Government Management,6.277412312766952,-4.847388182328418,0.762,-0.064,0.178,-0.164
+RH1070835,107,House,835,2002-07-23,,91,339,,Tariffs,Vietnam War,Foreign Policy Resolutions,,Foreign and Defense Policy,-2.514644893243234,1.7194270345040497,0.473,0.53,-0.08,-0.184
+RH1070836,107,House,836,2002-07-23,,182,247,,Communists/Communism/Unamerican Activities,,Foreign Policy Resolutions,,Foreign and Defense Policy,-4.957442789536662,0.6202343479952137,-0.076,0.997,-0.108,-0.126
+RH1070837,107,House,837,2002-07-23,,262,168,,Communists/Communism/Unamerican Activities,,Foreign Policy Resolutions,,Foreign and Defense Policy,-6.1173572883705605,1.2827505071301575,0.049,0.983,0.11,0.104
+RH1070838,107,House,838,2002-07-23,,251,177,,Communists/Communism/Unamerican Activities,,Foreign Policy Resolutions,,Foreign and Defense Policy,-6.601577856100168,1.0586410242586044,0.026,0.887,0.113,0.099
+RH1070839,107,House,839,2002-07-23,,204,227,,Communists/Communism/Unamerican Activities,,Foreign Policy Resolutions,,Foreign and Defense Policy,-26.604942970513417,-1.0590866922897784,-0.058,0.484,0.115,0.025
+RH1070840,107,House,840,2002-07-23,,423,4,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070841,107,House,841,2002-07-24,,413,3,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070842,107,House,842,2002-07-24,,261,167,,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Government Management,10.022410023138617,-2.6979386561317336,0.265,-0.042,0.253,-0.146
+RH1070843,107,House,843,2002-07-24,,165,265,,,,Budget Special Interest,,Government Management,-3.2414049008508945,0.6439282707081033,-0.108,0.994,-0.102,-0.182
+RH1070844,107,House,844,2002-07-24,,147,282,,,,Budget Special Interest,,Government Management,-3.200679082564933,0.9546937133939608,0.138,0.513,-0.114,-0.206
+RH1070845,107,House,845,2002-07-24,,308,121,,,,Regulation Special Interest,,Government Management,60.558565840810594,-23.198552229418297,0.368,-0.913,0.178,-0.017
+RH1070846,107,House,846,2002-07-24,,248,177,,Abortion/Care of deformed newborns,,Domestic Social Policy,Regulation Special Interest,Civil Liberties,-2.527403320688495,-0.30237016603442474,-0.05,-0.176,-0.267,-0.611
+RH1070847,107,House,847,2002-07-24,,308,121,,,,Budget Special Interest,,Government Management,-2.151124298149827,1.2076358844067288,0.699,-0.296,0.106,0.285
+RH1070848,107,House,848,2002-07-24,,187,241,,Abortion/Care of deformed newborns,,Domestic Social Policy,Regulation Special Interest,Civil Liberties,-1.8986436062915124,-0.08248755546619935,0.212,-0.485,0.238,0.725
+RH1070849,107,House,849,2002-07-24,,275,151,,Abortion/Care of deformed newborns,,Domestic Social Policy,Regulation Special Interest,Civil Liberties,-1.883828260023932,-0.40414586734141195,-0.059,-0.293,-0.228,-0.7
+RH1070850,107,House,850,2002-07-24,,420,0,,Human Rights,Communists/Communism/Unamerican Activities,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070851,107,House,851,2002-07-24,,146,285,,,,Internal Organization,,Miscellaneous Policy,-2.366052240460679,1.2841551497335968,0.29,0.598,-0.045,-0.11
+RH1070852,107,House,852,2002-07-24,,420,1,,,,Internal Organization,,Miscellaneous Policy,,,0.0,0.0,0.0,0.0
+RH1070853,107,House,853,2002-07-25,,219,188,,,,Government Organization,,Government Management,-11.254734981650799,1.1238020847981587,0.011,1.0,0.216,0.111
+RH1070854,107,House,854,2002-07-25,,423,3,,Banking and Finance,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070855,107,House,855,2002-07-25,,419,2,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070856,107,House,856,2002-07-25,,420,3,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070857,107,House,857,2002-07-25,,362,61,,Public Health,,Domestic Social Policy,Budget Special Interest,Social Welfare,8.061008535902843,3.972345105769268,-0.481,0.095,-0.223,0.16
+RH1070858,107,House,858,2002-07-26,,175,248,,,,Government Organization,,Government Management,9.663875817577798,1.9877584184210264,-0.206,-0.003,0.264,-0.158
+RH1070859,107,House,859,2002-07-26,,165,261,,,,Government Organization,,Government Management,9.265696642348283,2.106520632996305,-0.288,-0.562,0.157,-0.098
+RH1070860,107,House,860,2002-07-26,,177,245,,,,Government Organization,,Government Management,-21.283954376410733,-3.372988289613414,-0.169,0.224,0.184,0.05
+RH1070861,107,House,861,2002-07-26,,240,188,,,,Government Organization,,Government Management,13.820749595071907,1.9243574149651004,-0.21,-0.978,-0.184,0.077
+RH1070862,107,House,862,2002-07-26,,229,201,,,Union Regulation/Davis-Bacon/Situs Picketing,Government Organization,,Government Management,15.16111144372863,1.1070833582796473,-0.075,-0.03,-0.27,0.103
+RH1070863,107,House,863,2002-07-26,,208,223,,,Union Regulation/Davis-Bacon/Situs Picketing,Government Organization,,Government Management,-117.89815864859627,0.37879631729719254,0.002,0.143,0.265,0.013
+RH1070864,107,House,864,2002-07-26,,227,202,,,Union Regulation/Davis-Bacon/Situs Picketing,Government Organization,,Government Management,23.685559994452944,2.0942725995285003,-0.085,0.081,-0.43,0.105
+RH1070865,107,House,865,2002-07-26,,214,216,,,Judiciary,Government Organization,,Government Management,-178.13744423735073,15.391820204412161,0.086,0.072,0.924,0.03
+RH1070866,107,House,866,2002-07-26,,208,220,,,Union Regulation/Davis-Bacon/Situs Picketing,Government Organization,,Government Management,293.4255304429089,2.64382977398618,-0.009,0.003,0.761,-0.015
+RH1070867,107,House,867,2002-07-26,,222,204,,,,Government Organization,,Government Management,8.7056482319728,0.47558870353605437,0.002,0.493,-0.289,0.192
+RH1070868,107,House,868,2002-07-26,,211,217,,,Airlines/Airports/Airline Industry,Government Organization,,Government Management,-22.99702627368396,-0.12785726113683027,-0.048,0.976,0.167,0.042
+RH1070869,107,House,869,2002-07-26,,188,240,,,,Government Organization,,Government Management,-8.625377339020437,-1.0905860332966597,-0.228,0.876,0.258,0.173
+RH1070870,107,House,870,2002-07-26,,195,233,,,,Government Organization,,Government Management,-5.568142263610019,0.3470954974212378,-0.116,0.993,-0.155,-0.161
+RH1070871,107,House,871,2002-07-26,,118,310,,,,Government Organization,,Government Management,-2.843644266775891,1.154993233073657,0.064,0.973,-0.118,-0.24
+RH1070872,107,House,872,2002-07-26,,318,110,,,,Government Organization,,Government Management,4.330777316141126,-1.775532248853826,0.183,-0.983,0.155,-0.207
+RH1070873,107,House,873,2002-07-26,,296,132,,,,Government Organization,,Government Management,-7.298457440151197,-2.418130795415792,-0.369,0.275,-0.159,-0.126
+RH1070874,107,House,874,2002-07-27,,217,207,,,,Internal Organization,,Miscellaneous Policy,6.3196230154904285,0.27760498008259527,-0.199,-0.98,-0.283,0.259
+RH1070875,107,House,875,2002-07-27,,220,200,,Tariffs,,Regulation Special Interest,,Government Management,7.427466916253175,0.4906384494181286,-0.198,-0.98,-0.244,0.19
+RH1070876,107,House,876,2002-07-27,,216,212,,Tariffs,,Regulation Special Interest,,Government Management,11.270767367664547,0.2119721083401065,-0.107,-0.994,-0.152,0.078
+RH1070877,107,House,877,2002-09-04,,214,188,,Education,Tax rates,Domestic Social Policy,Budget Special Interest,Social Welfare,-65.12930273499977,-1.928844660169995,-0.022,-0.496,-0.259,-0.023
+RH1070878,107,House,878,2002-09-04,,401,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070879,107,House,879,2002-09-05,,401,2,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070880,107,House,880,2002-09-05,,398,0,,,,Internal Organization,,Miscellaneous Policy,,,0.0,0.0,0.0,0.0
+RH1070881,107,House,881,2002-09-09,,350,0,,Public Works,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070882,107,House,882,2002-09-09,,351,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070883,107,House,883,2002-09-09,,344,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070884,107,House,884,2002-09-10,,365,0,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070885,107,House,885,2002-09-10,,373,0,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070886,107,House,886,2002-09-10,,335,35,,,,Internal Organization,,Miscellaneous Policy,2.4949221881981893,1.5693744423735072,-0.714,-0.212,-0.22,0.51
+RH1070887,107,House,887,2002-09-10,,372,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070888,107,House,888,2002-09-10,,377,0,,Pollution and Environmental Protection,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070889,107,House,889,2002-09-10,,369,2,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070890,107,House,890,2002-09-11,,370,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070891,107,House,891,2002-09-12,,382,0,,,,Foreign Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070892,107,House,892,2002-09-12,,342,42,,,,Internal Organization,,Miscellaneous Policy,2.5783902620404846,1.5453605017711733,-0.77,-0.44,-0.255,0.572
+RH1070893,107,House,893,2002-09-12,,208,201,,Education,Tax rates,Domestic Social Policy,Budget Special Interest,Social Welfare,12.254702779738697,-0.6953848752647241,0.135,0.959,-0.731,0.345
+RH1070894,107,House,894,2002-09-17,,397,0,,Public Health,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070895,107,House,895,2002-09-17,,398,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070896,107,House,896,2002-09-17,,397,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070897,107,House,897,2002-09-18,,238,178,,Consumer Protection Agency/Consumer Protection,,Regulation Special Interest,,Government Management,-152.11086959228325,-23.89940652598847,-0.157,-0.018,-0.263,-0.01
+RH1070898,107,House,898,2002-09-18,,184,232,,Consumer Protection Agency/Consumer Protection,,Regulation Special Interest,,Government Management,-27.063272586904546,-3.0911498023202135,-0.113,-0.033,0.248,0.053
+RH1070899,107,House,899,2002-09-18,,157,255,,Consumer Protection Agency/Consumer Protection,,Regulation Special Interest,,Government Management,-11.260656033303604,-2.450073848825455,-0.265,0.534,0.257,0.132
+RH1070900,107,House,900,2002-09-18,,190,227,,Consumer Protection Agency/Consumer Protection,,Regulation Special Interest,,Government Management,-3.616670148783421,-0.36076791326446467,-0.358,0.934,0.242,0.387
+RH1070901,107,House,901,2002-09-18,,215,201,,Consumer Protection Agency/Consumer Protection,,Regulation Special Interest,,Government Management,-2.7174130846349107,-0.28479210490082096,-0.436,0.9,-0.148,-0.315
+RH1070902,107,House,902,2002-09-19,,329,53,,,,Internal Organization,,Miscellaneous Policy,2.443226577659477,1.4616102056967417,-0.685,-0.212,-0.177,0.419
+RH1070903,107,House,903,2002-09-19,,214,202,,Welfare,Tax rates,Internal Organization,,Government Management,3.549642512393561,-0.005783149817595867,0.187,0.658,-0.572,0.932
+RH1070904,107,House,904,2002-09-19,,213,200,,Welfare,Tax rates,Internal Organization,,Government Management,3.358634960758926,0.1586281285088392,-0.038,0.031,-0.59,1.016
+RH1070905,107,House,905,2002-09-19,,413,0,,,Civil Rights/Desegregation/Busing/Affirmative Action,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070906,107,House,906,2002-09-19,,280,123,,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,-23.623494983003344,-7.663611789204141,-0.341,0.392,-0.29,-0.071
+RH1070907,107,House,907,2002-09-19,,242,158,,,,Budget General Interest,Regulation General Interest,Government Management,-6.965983146255017,-1.2765573034008026,-0.16,-0.162,-0.218,-0.181
+RH1070908,107,House,908,2002-09-19,,394,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070909,107,House,909,2002-09-19,,365,26,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,-2.652626786741967,1.929566111209628,0.482,0.651,0.998,2.176
+RH1070910,107,House,910,2002-09-24,,407,0,,Agriculture,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070911,107,House,911,2002-09-24,,411,0,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070912,107,House,912,2002-09-24,,410,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070913,107,House,913,2002-09-25,,366,48,,,,Internal Organization,,Miscellaneous Policy,3.3320921436139455,2.0158040398116923,-0.695,-0.3,-0.193,0.335
+RH1070914,107,House,914,2002-09-25,,418,0,,,,Government Organization,Budget Special Interest,Government Management,,,0.0,0.0,0.0,0.0
+RH1070915,107,House,915,2002-09-25,,417,0,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070916,107,House,916,2002-09-25,,229,194,,Abortion/Care of deformed newborns,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-2.2660660619931248,-0.005218619196976304,0.142,-0.327,-0.239,-0.61
+RH1070917,107,House,917,2002-09-25,,191,230,,Abortion/Care of deformed newborns,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-2.022439346975156,0.004776682786497122,0.302,-0.606,0.328,0.938
+RH1070918,107,House,918,2002-09-25,,230,189,,Abortion/Care of deformed newborns,,Domestic Social Policy,Regulation Special Interest,Social Welfare,-1.71924783610194,-0.01990154212623807,0.135,-0.252,-0.206,-0.693
+RH1070919,107,House,919,2002-09-25,,217,200,,Tax rates,,Budget Special Interest,,Government Management,7.567197914424905,0.17680863523956752,-0.079,-0.421,-0.594,0.454
+RH1070920,107,House,920,2002-09-25,,258,152,,Tax rates,Banking and Finance,Regulation Special Interest,,Government Management,-7.907161164309281,-1.715904357105609,-0.238,0.166,-0.283,-0.207
+RH1070921,107,House,921,2002-09-25,,291,118,,Tax rates,Banking and Finance,Government Organization,,Government Management,10.375577232242389,3.530071836194655,-0.341,-0.008,-0.296,0.165
+RH1070922,107,House,922,2002-09-26,,208,199,,,,Budget Special Interest,,Government Management,4.394174135831607,-0.29262131882905446,0.065,-0.007,-0.37,0.487
+RH1070923,107,House,923,2002-09-26,,346,58,,,,Internal Organization,,Miscellaneous Policy,4.225629806319346,2.3627568548822975,-0.646,-0.367,-0.179,0.245
+RH1070924,107,House,924,2002-09-26,,385,16,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,-3.7241277540909565,2.7067182251268456,0.581,0.543,0.264,0.41
+RH1070925,107,House,925,2002-09-26,,221,197,,Public Health,,Domestic Social Policy,Regulation Special Interest,Civil Liberties,10.750106918614826,0.6342661447108385,-0.151,-0.989,-0.342,0.184
+RH1070926,107,House,926,2002-09-26,,193,225,,Public Health,,Domestic Social Policy,Regulation Special Interest,Civil Liberties,-44.93476990003103,-1.480716946501086,-0.035,0.092,0.202,0.026
+RH1070927,107,House,927,2002-09-26,,218,203,,Public Health,,Domestic Social Policy,Regulation Special Interest,Civil Liberties,-8.097156556243215,-0.1516990744302933,-0.141,0.99,-0.224,-0.16
+RH1070928,107,House,928,2002-09-26,,400,4,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070929,107,House,929,2002-09-26,,370,1,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070930,107,House,930,2002-10-01,,357,37,,Public Lands,,Budget Special Interest,D. C.,Government Management,-1.3237858130097901,1.3058891681305063,0.256,0.967,0.084,0.367
+RH1070931,107,House,931,2002-10-01,,370,21,,Judiciary,,Domestic Social Policy,,Civil Liberties,55.48051714462943,34.44892062967025,-0.62,0.051,-0.259,0.027
+RH1070932,107,House,932,2002-10-01,,389,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070933,107,House,933,2002-10-02,,343,55,,,,Internal Organization,,Miscellaneous Policy,3.2285629125920843,1.865251879981908,-0.618,-0.13,-0.163,0.292
+RH1070934,107,House,934,2002-10-02,,407,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070935,107,House,935,2002-10-02,,178,239,,Religion,,Domestic Social Policy,,Civil Liberties,-2.849930879008999,0.47389903230612596,0.014,0.434,-0.204,-0.414
+RH1070936,107,House,936,2002-10-02,,285,130,,Tax rates,,Budget Special Interest,,Government Management,43.37762440844579,13.8692174351111,-0.321,-0.055,-0.24,0.032
+RH1070937,107,House,937,2002-10-02,,414,0,,,,Government Organization,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070938,107,House,938,2002-10-02,,400,14,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,-2.5163505632289613,2.0342992186602147,0.477,0.834,0.898,2.064
+RH1070939,107,House,939,2002-10-02,,210,200,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,4.044878693950312,-0.021628301715304367,0.014,0.035,-0.656,0.938
+RH1070940,107,House,940,2002-10-02,,212,204,,Public Health,,Regulation Special Interest,,Government Management,6.651235742628354,-0.4662377377266131,0.071,0.006,-0.414,0.36
+RH1070941,107,House,941,2002-10-02,,214,202,,Agriculture,,Domestic Social Policy,,Civil Liberties,4.053629529872227,-0.020589924828594494,0.011,0.024,-0.642,0.916
+RH1070942,107,House,942,2002-10-02,,212,202,,Education,,Domestic Social Policy,Budget Special Interest,Social Welfare,4.119267740120557,-0.05493583542397838,0.033,0.081,-0.641,0.9
+RH1070943,107,House,943,2002-10-03,,327,52,,,,Internal Organization,,Miscellaneous Policy,3.473683636311976,2.011368014508879,-0.708,-0.448,-0.2,0.333
+RH1070944,107,House,944,2002-10-03,,206,198,,,,Budget Special Interest,,Government Management,4.008370854427504,-0.030133933670840066,0.016,0.034,-0.648,0.935
+RH1070945,107,House,945,2002-10-03,,404,6,,,,Budget Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070946,107,House,946,2002-10-03,,206,192,,,Welfare,Domestic Social Policy,Budget Special Interest,Social Welfare,4.036272569069566,-0.019652906243252187,0.018,0.053,-0.656,0.94
+RH1070947,107,House,947,2002-10-03,,203,192,,,,Budget Special Interest,,Government Management,4.030119714543545,-0.015301197145435451,0.01,0.025,-0.655,0.94
+RH1070948,107,House,948,2002-10-07,,372,0,,,,Regulation Special Interest,,Government Management,,,0.0,0.0,0.0,0.0
+RH1070949,107,House,949,2002-10-07,,359,8,,,,Foreign Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070950,107,House,950,2002-10-07,,358,9,,,,Defense Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070951,107,House,951,2002-10-08,,401,5,,Judiciary,,Domestic Social Policy,,Civil Liberties,,,0.0,0.0,0.0,0.0
+RH1070952,107,House,952,2002-10-08,,390,24,,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,Regulation Special Interest,Social Welfare,-22.80889170772737,-13.871761699759604,-0.603,-0.118,-0.28,-0.071
+RH1070953,107,House,953,2002-10-08,,408,1,,,,Foreign Policy Resolutions,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070954,107,House,954,2002-10-09,,404,0,,Public Health,Coal Mining Regulation/Strip Mining/Black Lung,Domestic Social Policy,Government Organization,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070955,107,House,955,2002-10-09,,410,0,,,,Internal Organization,,Miscellaneous Policy,,,0.0,0.0,0.0,0.0
+RH1070956,107,House,956,2002-10-09,,406,3,,Public Health,,Domestic Social Policy,Regulation Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070957,107,House,957,2002-10-09,,412,0,,Tax rates,Military Pensions/Veterans Benefits,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070958,107,House,958,2002-10-10,,72,355,,U. N.,Iran,Defense Policy Resolutions,,Foreign and Defense Policy,-15.498463720934279,-7.048797920466966,-0.457,0.034,0.343,0.128
+RH1070959,107,House,959,2002-10-10,,155,270,,U. N.,Iran,Defense Policy Resolutions,,Foreign and Defense Policy,9.311730039679695,1.9903551142457272,-0.107,0.994,0.161,-0.1
+RH1070960,107,House,960,2002-10-10,,101,325,,Iran,,Defense Policy Resolutions,,Foreign and Defense Policy,-7.6289536261203095,-2.9977262185787255,-0.405,0.092,0.277,0.21
+RH1070961,107,House,961,2002-10-10,,297,133,,Iran,,Defense Policy Resolutions,,Foreign and Defense Policy,-6.698449483481084,-2.0891890964915474,-0.394,0.55,-0.227,-0.196
+RH1070962,107,House,962,2002-10-10,,374,37,,,,Defense Policy Budget,,Foreign and Defense Policy,-121.13603260728937,-64.19509728186337,-0.53,0.007,-0.377,-0.018
+RH1070963,107,House,963,2002-10-10,,409,14,,,,Defense Policy Budget,,Foreign and Defense Policy,-11.47150435553005,-7.546192874649832,-0.66,0.025,-0.359,-0.181
+RH1070964,107,House,964,2002-10-10,,419,0,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070965,107,House,965,2002-10-10,,225,193,,,,Budget General Interest,,Government Management,6.356841054450914,0.5680493969749167,-0.073,0.104,-0.244,0.222
+RH1070966,107,House,966,2002-10-10,,202,214,,,,Budget General Interest,,Government Management,4.0681305333984055,-0.026362610667968113,0.02,0.055,0.645,-0.917
+RH1070967,107,House,967,2002-10-10,,272,144,,,,Budget General Interest,,Government Management,-107.26103490088414,-29.03947942323872,-0.27,-0.079,-0.204,-0.011
+RH1070968,107,House,968,2002-10-10,,357,48,,,,Domestic Social Policy,Budget Special Interest,Civil Liberties,-5.977766585145997,4.092437113270628,0.655,0.177,0.154,0.149
+RH1070969,107,House,969,2002-10-10,,391,0,,,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070970,107,House,970,2002-10-16,,330,52,,,,Internal Organization,,Miscellaneous Policy,2.9232746883952596,1.7438345009561913,-0.719,-0.358,-0.186,0.368
+RH1070971,107,House,971,2002-10-16,,296,94,,Immigration/Naturalization,,Domestic Social Policy,,Civil Liberties,15.605032177126409,6.018332356016541,-0.384,0.026,-0.286,0.106
+RH1070972,107,House,972,2002-10-16,,392,5,,Public Health,,Domestic Social Policy,Budget Special Interest,Social Welfare,,,0.0,0.0,0.0,0.0
+RH1070973,107,House,973,2002-10-16,,209,193,,,,Budget General Interest,,Government Management,4.011264192608965,-0.01606758515565379,0.006,0.008,-0.645,0.93
+RH1070974,107,House,974,2002-10-16,,206,193,,,,Budget General Interest,,Government Management,4.142638178799667,-0.046716256390803,-0.009,-0.084,-0.207,0.289
+RH1070975,107,House,975,2002-10-16,,194,210,,,,Budget General Interest,,Government Management,5.21602545355879,0.15163714161887565,-0.202,-0.902,0.487,-0.54
+RH1070976,107,House,976,2002-10-16,,228,172,,,,Budget General Interest,,Government Management,6.908288331715441,0.8636189247815846,-0.135,-0.069,-0.172,0.144
+RH1070977,107,House,977,2002-11-13,,24,338,,,,Internal Organization,,Miscellaneous Policy,9.408862710603874,5.194465628121527,-0.549,0.029,0.34,-0.209
+RH1070978,107,House,978,2002-11-13,,215,189,,,,Budget General Interest,Internal Organization,Government Management,4.092288480154214,-0.022768654404626415,0.03,0.1,-0.646,0.913
+RH1070979,107,House,979,2002-11-13,,196,216,,,,Budget General Interest,,Government Management,7.6790118885221625,0.08581485870187233,0.096,0.823,0.393,-0.296
+RH1070980,107,House,980,2002-11-13,,270,143,,,,Budget General Interest,,Government Management,-28.918416272297197,-7.4070119867128135,-0.245,-0.322,-0.155,-0.031
+RH1070981,107,House,981,2002-11-13,,237,177,,,,Government Organization,,Government Management,15.358892197953399,2.29998718288073,-0.156,-0.096,-0.239,0.09
+RH1070982,107,House,982,2002-11-13,,203,215,,,,Government Organization,,Government Management,7.124827197522498,-0.43636342223400737,0.067,0.041,0.34,-0.276
+RH1070983,107,House,983,2002-11-13,,300,121,,,,Government Organization,,Government Management,-5.6390911730979525,-1.9068019222005934,-0.394,0.315,-0.195,-0.2
+RH1070984,107,House,984,2002-11-14,,172,243,,,Abortion/Care of deformed newborns,Domestic Social Policy,,Civil Liberties,2.152068187705838,-0.18592820249066266,-0.349,-0.937,-0.064,0.172
+RH1070985,107,House,985,2002-11-14,,207,198,,Welfare,Unemployment/Jobs,Domestic Social Policy,Budget Special Interest,Social Welfare,4.070701656690578,-0.02006052485035867,0.015,0.041,-0.644,0.915
+RH1070986,107,House,986,2002-11-14,,245,137,,Welfare,Unemployment/Jobs,Domestic Social Policy,Budget Special Interest,Social Welfare,-7.155454282760717,-1.7882417535591364,-0.246,-0.028,-0.193,-0.156
+RH1070987,107,House,987,2002-11-14,,187,201,,,,Budget General Interest,,Government Management,3.2142947644252464,-0.023215941889820124,0.183,0.565,0.628,-1.13
+RH1070988,107,House,988,2002-11-14,,366,19,,,,Budget General Interest,,Government Management,2.435984818996463,1.7454390054498363,-0.329,0.944,-0.171,0.406
+RH1070989,107,House,989,2002-11-15,,366,3,,CIA/Spying/Intelligence,,Defense Policy Budget,,Foreign and Defense Policy,,,0.0,0.0,0.0,0.0
+RH1070990,107,House,990,2002-11-15,,244,116,,,,Domestic Social Policy,,Civil Liberties,25.892070383335863,8.111218029984125,-0.313,0.007,-0.385,0.086
