@@ -6207,3 +6207,8 @@ rect.pinkpurple { fill: #d01c8b; }
 rect.grey { fill: #404040; }
 rect.brown { fill: #a6611a; }
 
+/* CUSTOM: selected sort button */
+a.selectedSort {
+  color: #00a5e5;
+  text-decoration: underline;
+}
