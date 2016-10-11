@@ -197,6 +197,25 @@ function nextPageSearch()
 	return;
 }
 
+function hideDates()
+{
+	var lastDate = "0000-00-00";
+	console.log("here");
+	$('#voteDataTable tbody tr').each(function(i, d) {
+		var rowSpan = $(d).children("td:first").children("span:first");
+		if($.trim(rowSpan.text())==lastDate)
+		{
+			rowSpan.hide();
+		}
+		else
+		{
+			lastDate = $.trim(rowSpan.text());
+			rowSpan.show();
+		}
+	});
+}
+
+
 $.tablesorter.addParser({
 	id: 'splitFunc', is: function(s) { return false },
 	format: function(s) 
@@ -220,4 +239,5 @@ $(document).ready(function(){
 			}});
 	}
 	$("#voteDataTable").tablesorter({headers: {5: {sorter: 'splitFunc'}}});
+	$("#voteDataTable").bind("sortEnd",hideDates);
 });
