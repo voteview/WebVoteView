@@ -583,7 +583,7 @@ def searchAssemble():
         bottle.response.headers["rollcall_number"] = -999
         bottle.response.headers["member_number"] = 0
         bottle.response.headers["nextId"] = 0
-        out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers)
+        out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers, resultParties=resultParties)
     else:
         if "fulltextSearch" in res:
             highlighter = res["fulltextSearch"]
