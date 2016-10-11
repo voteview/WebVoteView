@@ -462,6 +462,7 @@ function updateRequest()
 				var resultsNumber = parseInt(xhr.getResponseHeader("Rollcall-Number"));
 				var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
 				var partyNumber = parseInt(xhr.getResponseHeader("Party-Number"));
+			        var needScore = parseInt(xhr.getResponseHeader("Need-Score"));
 				resultCount = resultsNumber;
 				var resultText = "";
 				if(partyNumber)
@@ -481,6 +482,26 @@ function updateRequest()
 				else if(resultsNumber==0) resultText = "0 results found.";
 				else { resultText = "Error completing search."; }
 				$("#results-number").html(resultText);
+			   
+			        // Control how sorting buttons appear
+			        if(needScore && $("#sortScore").val() == 1)
+				{
+				        $("#relevanceAppear")[0].style.display = "inline-block";
+				        $("#relevanceSort")[0].className = "selectedSort";
+				        $("#newestSort")[0].className = "";
+				        $("#oldestSort")[0].className = "";
+				} else if ($("#sortD").val() == -1)
+			        {
+				        $("#relevanceSort")[0].className = "";
+				        $("#newestSort")[0].className = "selectedSort";
+				        $("#oldestSort")[0].className = "";
+				} else if ($("#sortD").val() == 1)
+				{
+				        $("#relevanceSort")[0].className = "";
+				        $("#newestSort")[0].className = "";
+				        $("#oldestSort")[0].className = "selectedSort";
+
+				}
 
 				if(resultsNumber<0) 
 				{

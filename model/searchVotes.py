@@ -1100,7 +1100,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	# Get ready to output
 	returnDict = {}
-	returnDict["debug_search"] = needScore
+	returnDict["needScore"] = needScore
 	returnDict["rollcalls"] = mr
 	returnDict["recordcount"] = len(mr)
 	returnDict["recordcountTotal"] = resCount
