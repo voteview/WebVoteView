@@ -10,7 +10,7 @@
 for file in $(find . -name '*.jpg')
 do
     echo "Compressing $file"
-    jpegoptim "$file"
+    jpegoptim --strip-all "$file"
     jpegtran -copy none -optimize -outfile "$file" "$file"
 done
 
