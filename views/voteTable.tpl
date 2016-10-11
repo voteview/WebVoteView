@@ -1,6 +1,16 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 
+% def fixVoteProb(prob):
+% 	if int(round(prob))==100:
+%		return ">99"
+%	elif int(round(prob))<1:
+%		return "<1"
+%	else:
+%		return int(round(prob))
+%	end
+% end
+
 % if len(votes):
 		% if not int(skip):
                 <table class="table table-hover dc-data-table" id="voteDataTable">
@@ -27,7 +37,9 @@
                         <tr style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
 			    <td align="right">
 				% if lastDate!=vote["date"]:
-				{{vote["date"]}}
+				<span>{{vote["date"]}}</span>
+				% else:
+				<span style="display:none;">{{vote["date"]}}</span>
 				% end
 			    </td>
                             <td style="border-right:1px solid #dddddd;">
@@ -59,11 +71,11 @@
 			    <td align="right">
 				% if "myProb" in vote:				 
 					% if vote["myVote"]=="Abs":	  
-					<span style="color:#b3b3b3;">{{int(round(vote["myProb"]))}}%</span>
+					<span style="color:#b3b3b3;">{{fixVoteProb(vote["myProb"])}}%</span>
 					% elif vote["myProb"]<25:
-					<span style="color:red;">{{int(round(vote["myProb"]))}}%</span>
+					<span style="color:red;">{{fixVoteProb(vote["myProb"])}}%</span>
 					% else:
-					{{int(round(vote["myProb"]))}}%
+					{{fixVoteProb(vote["myProb"])}}%
 					%end
 				% end
 			    </td>
