@@ -12,6 +12,8 @@ do
     echo "Compressing $file"
     jpegoptim --strip-all "$file"
     jpegtran -copy none -optimize -outfile "$file" "$file"
+    chmod 0644 "$file"
+    # jpegoptim does not preserve permissions in versions <1.4 and we have 1.3
 done
 
 # Compress PNGs
