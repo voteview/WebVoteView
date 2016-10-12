@@ -3,7 +3,7 @@ try:
 	states = json.load(open("./model/states.json","r"))
 except:
 	try:
-		states = json.load(open("./states.json","r"))
+		states = json.load(open("/var/www/voteview/model/states.json","r"))
 	except:
 		states = []
 
@@ -22,3 +22,4 @@ if __name__=="__main__":
 	print stateLookup("DC")
 	print stateName("SD")
 	print stateLookup("QQ")
+	print stateName(u"ND")
