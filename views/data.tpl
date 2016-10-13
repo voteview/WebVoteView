@@ -21,12 +21,11 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Legislator ideal points and metadata</h4></a>
+	  <a href="#" class="dataHeader"><h4>Legislator-congress ideal points and metadata</h4></a>
 	  % include('data_dropdowns.tpl')
 	  <div class="dataLink">
 	    <a id="member">Download</a>
 	  </div>
-	</div>
 	</div>
       </p>
 
