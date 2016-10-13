@@ -15,13 +15,21 @@ try:
 	dbConf = json.load(open("./model/db.json","r"))
 	db = client[dbConf["dbname"]]
 except:
-	dbConf = json.load(open("./db.json","r"))
-	db = client[dbConf["dbname"]]
+        try:
+                dbConf = json.load(open("./db.json","r"))
+        except:
+                dbConf = {'dbname': 'voteview'}
+        db = client[dbConf["dbname"]]
 
 try:
 	scoreData = json.load(open("auth.json","r"))
 except:
-	scoreData = json.load(open("model/auth.json","r"))
+        try:
+                scoreData = json.load(open("model/auth.json","r"))
+        except:
+                scoreData = {'scoreThreshold': 0,
+                             'scoreMultThreshold': 0}
+
 SCORE_THRESHOLD = scoreData["scoreThreshold"] if "scoreThreshold" in scoreData else 0.75
 SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" in scoreData else 0.5
 
