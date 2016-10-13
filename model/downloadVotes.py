@@ -1,6 +1,7 @@
 import time
 import json
 import traceback
+from searchMembers import cqlabel
 from searchParties import partyName
 from pymongo import MongoClient
 client = MongoClient()
@@ -112,18 +113,6 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 	else:
 		needPeople=1 
 		peopleIds = db.voteview_rollcalls.distinct("votes.icpsr", {"id": {"$in": rollcall_ids}}) # All relevant members
-		#db.voteview_rollcalls.aggregate([
-		#	{$match: {icpsr: {'$in': peopleIds}}},
-		#	{
-		#		$group: 
-		#		{
-		#			_id: {$max: '$id'},
-		#			icpsr: '$icpsr',
-		#			nominate: '$nominate',
-		#			bioname
-		#		}
-		#	}
-		#])
 
 	congresses = []
 	for rollcall_id in rollcall_ids:
@@ -207,12 +196,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 							newV["name"] = memberMap["bioname"]
 							newV["party_code"] = memberMap["party_code"]
 							newV["state_abbrev"] = memberMap["state_abbrev"]
-							if memberMap["chamber"]=="President":
-								newV["cqlabel"] = "(POTUS)"
-							elif rollcall["chamber"]=="House":
-								newV["cqlabel"] = "("+memberMap["state_abbrev"]+"-"+str(memberMap["district_code"])+")"
-							else:
-								newV["cqlabel"] = "("+memberMap["state_abbrev"]+")"
+							newV["cqlabel"] = cqlabel(memberMap["state_abbrev"], memberMap["district_code"])
 
 						# Append the new voter to the list of voters.
 						result.append(newV)
@@ -368,5 +352,5 @@ if __name__=="__main__":
 	#print "=====Start 4"
 	#print downloadAPI("RS1140473", "Web_Person", "09366")["rollcalls"][0]["nominate"]
 	print "=====Start 5"
-	print downloadAPI(["RH0800005", "RH1140005", "RH0310005", "RS0990005"], "R")["elapsedTime"]
+	print downloadAPI(["RH0800005", "RH1140005", "RH0310005", "RS0990005"], "R")
 	pass

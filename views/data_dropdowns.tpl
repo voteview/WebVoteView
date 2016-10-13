@@ -12,7 +12,7 @@
     <label for="congress">Congress:</label>
     <select class="dataSelect" name="congress">
       <option value = "all">All</option>
-      % for i in range(maxCongress-1, 0, -1):
+      % for i in range(maxCongress, 0, -1):
         % yearLow = 1787+2*i
         % yearHigh = yearLow + 2
       <option value="{{i}}">{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
