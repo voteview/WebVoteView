@@ -67,11 +67,11 @@
 			</span>
 		</div>
 		<div class="panel-body" style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';">
-			% if "yea" in rollcall and "nay" in rollcall:
+			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p>
 				<small>
-					<strong>Vote:</strong> {{ rollcall["yea"] }}-{{ rollcall["nay"] }}
-				% if rollcall["yea"]>rollcall["nay"]:
+					<strong>Vote:</strong> {{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
+				% if rollcall["yea_count"]>rollcall["nay_count"]:
 					(Passed)
 				% else:
 					(Failed)
@@ -80,10 +80,16 @@
 			</p>
 			% end
 
-			% if "code" in rollcall and len(rollcall["code"]["Clausen"])>0:
-			<p><small><strong>Vote Categories</strong>: {{ rollcall["code"]["Clausen"][0] }}, {{ rollcall["code"]["Peltzman"][0] }}</small></p>
+			% if "codes" in rollcall and ("Peltzman" in rollcall["codes"] or "Clausen" in rollcall["codes"]):
+			<p><small><strong>Vote Categories</strong>: 	
+			% if "Clausen" in rollcall["codes"]:
+			{{ rollcall["codes"]["Clausen"][0] }}
+			% if "Peltzman" in rollcall["codes"]:
+			, {{ rollcall["codes"]["Peltzman"][0] }}
 			% end
-			%
+			% end
+			</small></p>
+			% end
 			<p>{{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
 
 			% if "score" in rollcall:
