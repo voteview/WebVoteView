@@ -3,7 +3,7 @@ import json
 import traceback
 import os
 from stateHelper import stateNameToAbbrev, stateName
-from searchParties import partyName, noun, partyColor
+from searchParties import partyName, noun, partyColor, shortName
 client = pymongo.MongoClient()
 try:
 	dbConf = json.load(open("./model/db.json","r"))
@@ -177,6 +177,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			newM["party_noun"] = noun(newM["party_code"])
 			newM["party_name"] = partyName(newM["party_code"])
 			newM["party_color"] = partyColor(newM["party_code"])
+			newM["party_short_name"] = shortName(newM["party_code"])
 
                 if api=="exportCSV":
                         if 'bioname' in newM:

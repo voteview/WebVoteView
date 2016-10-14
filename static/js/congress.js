@@ -41,8 +41,8 @@ function nomPlot()
 	var xDimension = ndx.dimension(
 		function(d) 
 		{
-			var x = d.nominate.oneDimNominate;
-			var y = d.nominate.twoDimNominate;
+			var x = d.nominate.dim1;
+			var y = d.nominate.dim2;
 			return [x,y];
 		}
 	);
@@ -161,8 +161,8 @@ function compositionBar()
 {
 	var partyCount={}
 	$.each(resultCache["results"], function(i, d) {
-		if(partyCount[d.partyname]==undefined) { partyCount[d.partyname]=1; }
-		else { partyCount[d.partyname]++; }
+		if(partyCount[d.party_short_name]==undefined) { partyCount[d.party_short_name]=1; }
+		else { partyCount[d.party_short_name]++; }
 	});
 	
 	$("#partyComposition").html("");
