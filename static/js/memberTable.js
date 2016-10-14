@@ -32,7 +32,7 @@ function writeBioTable()
 		else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioname>b.bioname?1:-1):(a.minElected>b.minElected?1:-1); }); }
 		else if(sortBy=="elected_senate") { rC.sort(function(a,b) { return (a.elected_senate==b.elected_senate)?(a.bioname>b.bioname?1:-1):(a.elected_senate>b.elected_senate?1:-1); }); }
 		else if(sortBy=="elected_house") { rC.sort(function(a,b) { return (a.elected_house==b.elected_house)?(a.bioname>b.bioname?1:-1):(a.elected_house>b.elected_house?1:-1); }); }
-		else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; }); }
+		else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; }); }
 	
 		console.log(sortBy);
 		if(sortBy=="nominate") { writeColumnHeader("Most Liberal","arrow-down"); }
