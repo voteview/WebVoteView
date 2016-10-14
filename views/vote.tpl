@@ -20,7 +20,7 @@
 % 	noteText = ""
 % end
 
-% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+% orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff"}
 
 <div class="container">
 	<div class="row">
@@ -38,11 +38,11 @@
 				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr>
 			</h3>
 			<p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
-			% if "yea_count" in rollcall and "nay_count" in rollcall:
+			% if "yea" in rollcall and "nay" in rollcall:
 			<p style="float:left;margin-right:20px;">
 				<strong>Result:</strong> 
-				{{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
-				% if rollcall["yea_count"]>rollcall["nay_count"]:
+				{{ rollcall["yea"] }}-{{ rollcall["nay"] }}
+				% if rollcall["yea"]>rollcall["nay"]:
 				 (Passed)
 				% else:
 				 (Failed)
@@ -59,8 +59,10 @@
 			% end
 			</p>
 			% end
-
-			<p style="clear:both;">{{ rollcall["description"] }}</p>
+			% if rollcall["question"]:
+			<p style="clear:both;"><strong>Question: </strong>{{ rollcall["question"] }}</p>
+			% end
+			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>
 		</div>
 	</div>
 
@@ -89,8 +91,8 @@
 						Map 
 	
 						<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;"
-							onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
-							data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
+						      onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;" 
+						data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 						</span>
 	
 						%if len(noteText):
