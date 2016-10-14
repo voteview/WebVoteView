@@ -125,7 +125,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 	# Now fetch the members
 	memberSet = []
 	if len(peopleIds):
-		memberFields = {"icpsr":1, "nominate":1, "bioname":1, "party_code":1, "state_abbrev":1, "chamber":1, "district_code": 1, "congress": 1} 
+		memberFields = {"icpsr":1, "nominate":1, "bioname":1, "party_code":1, "state_abbrev":1, "chamber":1, "district_code": 1, "congress": 1, "id":1} 
 		members = db.voteview_members.find({"icpsr": {"$in": peopleIds}, "congress": {"$in": congresses}}, memberFields)
 		for m in members:
 			memberSet.append(m)
@@ -195,6 +195,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 							if "nominate" in memberMap and "dim1" in memberMap["nominate"]:
 								newV["dim1"] = memberMap["nominate"]["dim1"]
 								newV["dim2"] = memberMap["nominate"]["dim2"]
+                                                        newV["id"] = memberMap["id"]
 							newV["name"] = memberMap["bioname"]
 							newV["party_code"] = memberMap["party_code"]
 							newV["state_abbrev"] = memberMap["state_abbrev"]
