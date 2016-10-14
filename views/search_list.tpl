@@ -3,7 +3,7 @@
 % from stemming.porter2 import stem
 % include('member_party_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
 
-% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+% orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff"}
 
 % def doHighlight(highlighter, text):
 %	if not len(highlighter):
@@ -47,10 +47,10 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<strong>
-				% if ("keyvote" in rollcall and rollcall["keyvote"]):
+				% if ("key_flags" in rollcall and rollcall["key_flags"]):
 				<span class="btn btn-default btn-sm" style="margin-right:10px;" 
 					data-toggle="tooltip" data-placement="bottom" 
-					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["keyvote"][0]]}}">
+					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end
