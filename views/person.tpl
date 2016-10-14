@@ -89,7 +89,7 @@
 	    % if "website" in person:
 		<h5><a href="{{person["website"]}}" target="_blank">Official Website</a></h5>
 	    % end
-	    % if "twitter" in person:
+	    % if "twitter" in person and len(person["twitter"]):
 		<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
 	    % end
         </div>
@@ -160,6 +160,7 @@
         </div>
     </div>
 </div>
+
 % if plotIdeology:
 <script>
 var mapParties=1;
