@@ -133,6 +133,8 @@ function reloadBios()
 		{
 			validSet = [];
 			resultCache = data;
+			$("#sortChamber").unbind('click')
+			$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
 			writeBioTable();
 			nomPlot();
 			compositionBar();
