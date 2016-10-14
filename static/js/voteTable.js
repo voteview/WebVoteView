@@ -32,7 +32,7 @@ function outVotes(groupBy)
 		var voteSubset = {
 			"party": filteredVotes[i]["party"], 
 			"vote": filteredVotes[i]["vote"],
-			"state": filteredVotes[i]["state"],
+			"state": filteredVotes[i]["state_abbrev"],
 			"icpsr": filteredVotes[i]["icpsr"],
 			"x": parseFloat(filteredVotes[i]["x"])
 		};

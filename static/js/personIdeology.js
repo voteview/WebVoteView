@@ -23,8 +23,6 @@ function reloadIdeology()
 	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHistWrap);
 }
 
-$(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
-
 // Wrapper to update default loadings for the person's ideal point.
 function drawHistWrap(error, data)
 {
@@ -242,5 +240,6 @@ $(document).ready(function(){
 			}});
 	}
 	$("#voteDataTable").tablesorter({headers: {5: {sorter: 'splitFunc'}}});
-	$("#voteDataTable").bind("sortEnd",hideDates);
+	$("#voteDataTable").bind("tablesorter-ready", function() { $('[data-toggle="tooltip"]').tooltip(); });
+	//$("#voteDataTable").bind("sortEnd",hideDates);
 });
