@@ -17,7 +17,7 @@ db = client[dbConf["dbname"]]
 dimweight = 0.4158127 # (was set to  0.4156) needs to be extracted from the DB based on most recent nominate run   
 
 def waterfallText(rollcall):
-	waterfall = ["vote_desc", "vote_document_text", "description", "shortdescription", "short_description", "vote_question", "question"]
+	waterfall = ["vote_desc", "vote_document_text", "description", "short_description", "vote_question", "question"]
 	for w in waterfall:
 		if w in rollcall and rollcall[w] is not None:
 			return rollcall[w]

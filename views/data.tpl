@@ -111,12 +111,6 @@ div.dataLinkFixed {
 </style>
 
 <!-- INATE and metadata <
-    <a href="rank_orders_all_congresses.htm">Rank Orderings all Houses and Senates -- 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
-    <a href="dwnomin_joint_house_and_senate.htm">Common Space DW-NOMINATE Scores 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
-        <a href="dwnominate.asp">DW-NOMINATE Scores 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
         <a href="dwnomin_CHOICES.htm">DW-NOMINATE Probabilities for Legislator Choices: 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
 
         <a href="dw-nominate.htm">DW-NOMINATE Program With Examples</a><BR>
@@ -136,8 +130,5 @@ div.dataLinkFixed {
 
         <a href="winning_side.htm">
          Percent Voting on the Winning Side by Member -- Houses/Senates 1 - 112</a><BR>
-
-        <a href="pmediant.htm">Party and Chamber Medians, 1 - 112 Congresses (DW-NOMINATE
-        Scores) </a><BR>
 -->
 
