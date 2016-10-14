@@ -12,23 +12,37 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       <p>
 	<div class="dataContainer">
 	  <a href="#" class="dataHeader"><h4>Rollcall parameters and metadata</h4></a>
-	  % include('data_dropdowns.tpl')
-	  <div class="dataLink">
-	    <a id="rollcall">Download</a>
+	  <div class="dataContent" style="display:none;">
+	    % include('data_dropdowns.tpl')
+	    <div class="dataLink">
+	      <a id="rollcall">Download</a>
+	    </div>
 	  </div>
 	</div>
       </p>
 
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Legislator-congress ideal points and metadata</h4></a>
-	  % include('data_dropdowns.tpl')
-	  <div class="dataLink">
-	    <a id="member">Download</a>
+	  <a href="#" class="dataHeader"><h4>Member ideal points and metadata</h4></a>
+	  <div class="dataContent" style="display:none;">
+	    % include('data_dropdowns.tpl')
+	    <div class="dataLink">
+	      <a id="member">Download</a>
+	    </div>
 	  </div>
 	</div>
       </p>
-
+      <p>
+	<div class="dataContainer">
+	  <a href="#" class="dataHeader"><h4>Party ideology and metadata</h4></a>
+	  <div class="dataContent" style="display:none;">
+	    <div class="dataLinkFixed">
+	      <a id="party" href="/static/data/csv/party/party_all.csv">Download for all Congresses and Chambers</a>
+	    </div>
+	  </div>
+	</div>
+      </p>
+      <!--
       <p>
 	<div class="dataContainer">
 	  <a href="#" class="dataHeader"><h4>Party ideology and metadata</h4></a>
@@ -38,7 +52,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 	  </div>
 	</div>
       </p>
-
+      --->
       <h3>Support Files</h3>
       <p>
 	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
@@ -90,7 +104,8 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 </script>
 
 <style>
-div.dataLink {
+div.dataLink,
+div.dataLinkFixed {
   margin-left: 10px;
 }
 </style>
