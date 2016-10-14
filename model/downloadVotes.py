@@ -16,6 +16,14 @@ db = client[dbConf["dbname"]]
 
 dimweight = 0.4158127 # (was set to  0.4156) needs to be extracted from the DB based on most recent nominate run   
 
+def waterfallQuestion(rollcall):
+        waterfall = ["vote_question", "question"]
+	for w in waterfall:
+		if w in rollcall and rollcall[w] is not None:
+			return rollcall[w]
+
+	return None
+
 def waterfallText(rollcall):
 	waterfall = ["vote_desc", "vote_document_text", "description", "short_description", "vote_question", "question"]
 	for w in waterfall:
@@ -69,9 +77,9 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
         webexportapis = ["Web", "Web_Person", "exportJSON", "exportCSV"]
 
 	if apitype in webexportapis:
-		apiVersion = "Web 2016-07"
+		apiVersion = "Web 2016-10"
 	elif apitype=="R":
-		apiVersion = "R 2016-02"
+		apiVersion = "R 2016-10"
 
 	if not rollcall_id or len(rollcall_id)==0:
 		response = {'errormessage': 'No rollcall id specified.', 'apitype': apiVersion}
@@ -133,7 +141,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 	memberTime2 = time.time()
 	# Now iterate through the rollcalls
 	fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1, "description": 1, "shortdescription": 1, "short_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1}
-	rollcalls = db.voteview_rollcalls.find({'id': {'$in': rollcall_ids}}, fieldSetNeed)
+	rollcalls = db.voteview_rollcalls.find({'id': {'$in': rollcall_ids}}, fieldSetNeed).sort('id')
 	for rollcall in rollcalls:
 		result = [] # Hold new votes output, start blank
 		try: 
@@ -186,7 +194,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 							else:
 								newV["district"] = ""
 						# And for the R API
-						elif apitype=="R":
+						elif apitype=="R" or apitype=="exportXLS":
 							try:
 								del newV["prob"]
 							except:
@@ -200,7 +208,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 							newV["party_code"] = memberMap["party_code"]
 							newV["state_abbrev"] = memberMap["state_abbrev"]
 							newV["cqlabel"] = cqlabel(memberMap["state_abbrev"], memberMap["district_code"])
-
+                                                        newV['district_code'] = memberMap['district_code']
 						# Append the new voter to the list of voters.
 						result.append(newV)
 					else:
@@ -245,7 +253,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 			# Get the best available description.
 			description = waterfallText(rollcall)
 			# Truncate the description for the R API.
-			if apitype=="R":
+			if apitype=="R" or apitype=="exportCSV":
 				if len(description)<=255:
 					pass
 				else:
@@ -264,8 +272,11 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 							baseDesc = baseDesc + rest[0:255]+"..."
 					description = baseDesc
 
+                        # Get the best available question
+                        question = waterfallQuestion(rollcall)
+
 			# Collapse codes for R
-                        if apitype == "exportCSV":
+                        if apitype == "exportCSV" or apitype == "exportXLS":
                                 codeFields = {"Clausen1": "" , "Issue1": "", "Issue2": "", "Peltzman1": "", "Peltzman2": ""}
                                 if 'codes' in rollcall:
                                         for key, value in rollcall["codes"].iteritems():
@@ -295,15 +306,16 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                         z = {'id': rollcall['id'], 'chamber': rollcall['chamber'], 'congress': rollcall['congress'], 'date': rollcall['date'],
                              'rollnumber': rollcall['rollnumber'], 'yea': rollcall["yea_count"],
                              'nay': rollcall["nay_count"]}
-                        if apitype == "exportCSV":
+                        if apitype == "exportCSV" or apitype == "exportXLS":
                                 z.update({k:v for k,v in codeFields.iteritems()})
                                 z.update({'keyvote': ''.join(rollcall['key_flags']), 
                                           'spread.dim1': nominate['spread'][0], 'spread.dim2': nominate['spread'][1],
                                           'mid.dim1': nominate['mid'][0], 'mid.dim2': nominate['mid'][1],
                                           'slope': nominate['slope'], 'intercept': nominate['intercept'],
                                           'log_likelihood': nominate['log_likelihood'], 'classified': nominate['classified'], 'pre': nominate['pre'], 'description': description.encode('utf-8')})
-                        else:
-                                z.update({'keyvote': rollcall["key_flags"], 'votes': result, 'code': codes, 'nominate': nominate, 'description': description})
+                        
+                        if apitype != "exportCSV":
+                                z.update({'keyvote': rollcall["key_flags"], 'votes': result, 'code': codes, 'nominate': nominate, 'description': description, 'question': question})
 
 
 			# Get other people's results from the party results aggregate.
