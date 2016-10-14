@@ -10,13 +10,13 @@
 % else:
 %	label = "Served"
 % end
-% if "born" in person and "died" in person:
+% if "born" in person and "died" in person and person["born"] is not None and person["died"] is not None:
 % 	lifeString = "("+str(person["born"])+"-"+str(person["died"])+")"
-% elif "born" in person and not "died" in person and person["born"]<1900:
+% elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None) and person["born"]<1900:
 %	lifeString = "("+str(person["born"])+"-??)"
-% elif "born" in person and not "died" in person:
+% elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None):
 %	lifeString = "("+str(person["born"])+"-)"
-% elif "died" in person:
+% elif "died" in person and person["died"] is not None:
 %	lifeString = "(??-"+str(person["died"])+")"
 % else:
 %	lifeString = ""
@@ -73,7 +73,7 @@
 			% if k>0:
 				, 
 			% end
-	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party"] }}</a> (
+	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party_noun"] }}</a> (
 			% z = 0
 			% for chunk in alt["yearsOfService"]:
 				% if z > 0:
