@@ -90,7 +90,11 @@
 			% end
 			</small></p>
 			% end
-			<p>{{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
+
+			% if rollcall["question"]:
+			<p><small><strong>Question</strong>: {{ rollcall["question"] }}</small></p>
+			% end
+			<p><strong>Description</strong>: {{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
 
 			% if "score" in rollcall:
 				<p style="font-size:8px;"><em>Debug: {{round(rollcall["score"],2)}}</em></p>
