@@ -64,7 +64,7 @@ function decorateNominate(oc,data) {
 
 	// Hacky way to shade region where yea vote is expected...
 	var plotCut=1;
-	if(data.rollcalls==undefined || data.rollcalls[0].nominate==undefined || data.rollcalls[0].nominate.x==undefined)
+	if(data.rollcalls==undefined || data.rollcalls[0].nominate==undefined || data.rollcalls[0].nominate.x==undefined || data.rollcalls[0].nominate.pre < 0.05)
 	{
 		plotCut=0;
 	}
@@ -239,7 +239,6 @@ function decorateNominate(oc,data) {
              .attr("transform", sprintf("rotate(-90 20 %d)", yAxisMin + yAxisLen/2));
 	// End Y axis
 
-
 	// Add yea and nay locations to the plot on top of the dots
 	  
 	// Problem is that with Y/N on top we can't select point under/near the Y/N
@@ -283,16 +282,17 @@ function decorateNominate(oc,data) {
 			.attr("y", ynpts[1])
 			.attr("transform",sprintf("rotate(%d %d %d)", 180+angle, ynpts[0], ynpts[1]));
 
-		// Fit box (only if cutline is displayed
+		// Fit box regardless if cutline exists
 		ggg.append('text').text(sprintf("PRE: %4.2f", (vn.pre == null || isNaN(vn.pre) || vn.pre=="") ? 0 : vn.pre))
-			.attr("class", "fitbox")
-			.attr("x", xAxisMax - 75)
-			.attr("y", yAxisMax - 5);
-   
+		    .attr("class", "fitbox")
+		    .attr("x", xAxisMax - 75)
+		    .attr("y", yAxisMax - 5);
+
 		ggg.append('text').text(sprintf("Classified: %4.2f", (vn.classified == null || isNaN(vn.classified) || vn.classified=="") ? 0 : vn.classified ))
-			.attr("class", "fitbox")
-			.attr("x", xAxisMax - 75)
-			.attr("y", yAxisMax - 25);
+		    .attr("class", "fitbox")
+		    .attr("x", xAxisMax - 75)
+		    .attr("y", yAxisMax - 25);
+
 
 	}
 }
