@@ -6212,3 +6212,8 @@ a.selectedSort {
   color: #00a5e5;
   text-decoration: underline;
 }
+
+/* CUSTOM: Slider width for when front page is small */
+.slider {
+    width: 100% !important;
+}
