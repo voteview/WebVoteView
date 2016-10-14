@@ -23,7 +23,7 @@
 					<th width="6%" style="text-align:center;">
 					<span class="glyphicon glyphicon-question-sign"
 						style="margin-left:0px;width:2px;vertical-align:middle;cursor:pointer;" 
-						data-toggle="tooltip" data-position="bottom" data-html="true"
+						data-toggle="tooltip" data-html="true" data-position="bottom"
 						title="<div align=&quot;left&quot; style=&quot;font-weight:normal;&quot;><strong><u>Vote Probability</u></strong><br/>This column represents how likely the member was to cast the vote that they ultimately did cast. Unlikely votes are colored red.<br/><br/>For members who abstained from voting, we show the probability they would have voted 'Yea' if they had voted, colored in grey.</div>">
 					</span>
 					<br>Vote Prob.</th>

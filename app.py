@@ -438,8 +438,9 @@ def searchAssemble():
         if "results" in memberSearch:
             for member in memberSearch["results"]:
                 memName = ""
-                if "bioName" in member and member["bioName"] is not None:
-                    memName = member["bioName"]
+                print(member)
+                if "bioname" in member and member["bioname"] is not None:
+                    memName = member["bioname"]
                 elif "fname" in member and member["fname"] is not None:
                     memName = member["fname"]
                 else:
@@ -590,6 +591,7 @@ def searchAssemble():
         if not "rollcalls" in res:
             out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=resultParties)
         else:
+            print(res['rollcalls'])
             out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
     return(out)
 
