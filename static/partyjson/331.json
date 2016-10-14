@@ -1,10 +1,10 @@
 [
     {
         "congress": 38, 
-        "grandMean": 0.101, 
-        "grandMedian": 0.10149999999999999, 
+        "grandMean": 0.098, 
+        "grandMedian": 0.098, 
         "grandSet": [
-            0.052
+            0.053
         ], 
         "nMembers": 2
     }, 
@@ -19,8 +19,8 @@
     }, 
     {
         "congress": 40, 
-        "grandMean": 0.208, 
-        "grandMedian": 0.20849999999999996, 
+        "grandMean": 0.207, 
+        "grandMedian": 0.207, 
         "grandSet": [
             -0.162
         ], 
@@ -28,74 +28,74 @@
     }, 
     {
         "congress": 42, 
-        "grandMean": 0.461, 
-        "grandMedian": 0.46100000000000002, 
+        "grandMean": 0.469, 
+        "grandMedian": 0.469, 
         "grandSet": [
-            0.461
+            0.469
         ], 
         "nMembers": 1
     }, 
     {
         "congress": 43, 
-        "grandMean": 0.225, 
-        "grandMedian": 0.22500000000000001, 
+        "grandMean": 0.224, 
+        "grandMedian": 0.224, 
         "grandSet": [
-            0.225
+            0.224
         ], 
         "nMembers": 1
     }, 
     {
         "congress": 44, 
-        "grandMean": 0.323, 
-        "grandMedian": 0.25, 
+        "grandMean": 0.325, 
+        "grandMedian": 0.252, 
         "grandSet": [
             0.104, 
-            0.25, 
-            0.478
+            0.252, 
+            0.479
         ], 
         "nMembers": 5
     }, 
     {
         "congress": 48, 
-        "grandMean": 0.142, 
-        "grandMedian": 0.14199999999999999, 
+        "grandMean": 0.137, 
+        "grandMedian": 0.137, 
         "grandSet": [
-            0.142
+            0.137
         ], 
         "nMembers": 1
     }, 
     {
         "congress": 50, 
-        "grandMean": 0.173, 
-        "grandMedian": 0.17349999999999999, 
+        "grandMean": 0.175, 
+        "grandMedian": 0.175, 
         "grandSet": [
-            0.051
+            0.052
         ], 
         "nMembers": 2
     }, 
     {
         "congress": 55, 
-        "grandMean": 0.445, 
-        "grandMedian": 0.44500000000000001, 
+        "grandMean": 0.444, 
+        "grandMedian": 0.444, 
         "grandSet": [
-            0.445
+            0.444
         ], 
         "nMembers": 1
     }, 
     {
         "congress": 58, 
-        "grandMean": 0.582, 
-        "grandMedian": 0.57999999999999996, 
+        "grandMean": 0.593, 
+        "grandMedian": 0.581, 
         "grandSet": [
-            0.388, 
-            0.778
+            0.386, 
+            0.811
         ], 
         "nMembers": 3
     }, 
     {
         "congress": 60, 
         "grandMean": 0.553, 
-        "grandMedian": 0.55300000000000005, 
+        "grandMedian": 0.553, 
         "grandSet": [
             0.553
         ], 
@@ -103,28 +103,28 @@
     }, 
     {
         "congress": 65, 
-        "grandMean": 0.183, 
-        "grandMedian": 0.183, 
+        "grandMean": 0.18, 
+        "grandMedian": 0.18, 
         "grandSet": [
-            0.183
+            0.18
         ], 
         "nMembers": 1
     }, 
     {
         "congress": 66, 
-        "grandMean": 0.195, 
-        "grandMedian": 0.19500000000000001, 
+        "grandMean": 0.194, 
+        "grandMedian": 0.194, 
         "grandSet": [
-            0.195
+            0.194
         ], 
         "nMembers": 1
     }, 
     {
         "congress": 67, 
-        "grandMean": 0.454, 
-        "grandMedian": 0.45400000000000001, 
+        "grandMean": 0.453, 
+        "grandMedian": 0.453, 
         "grandSet": [
-            0.454
+            0.453
         ], 
         "nMembers": 1
     }
