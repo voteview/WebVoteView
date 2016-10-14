@@ -69,6 +69,17 @@ def partyName(id):
 	else:
 		return "Error Party "+str(id)
 
+def shortName(id):
+	if str(id) in cache:
+		return cache[str(id)]["partyname"]
+
+	results = partyLookup({"id": id}, "Web_FP_Search")
+	if "results" in results:
+		cache[str(id)] = results["results"][0]
+		return results["results"][0]["partyname"]
+	else:
+		return "party "+str(id)
+
 def partyColor(id):
 	if str(id) in cache:
 		return cache[str(id)]["colorScheme"]
