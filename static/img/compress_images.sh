@@ -10,14 +10,13 @@
 for file in $(find . -name '*.jpg')
 do
     echo "Compressing $file"
-    jpegoptim --strip-all "$file"
+    jpegoptim --strip-all -P "$file"
     jpegtran -copy none -optimize -outfile "$file" "$file"
-    chmod 0644 "$file"
-    # jpegoptim does not preserve permissions in versions <1.4 and we have 1.3
+    #chmod 0644 "$file"
 done
 
 # Compress PNGs
-for file in $(find . -name '*.png')
+for file in $(find ./bios/ -name '*.png')
 do
     echo "Compressing $file"
     optipng -o7 -preserve "$file"
