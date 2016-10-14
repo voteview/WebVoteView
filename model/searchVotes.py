@@ -9,6 +9,7 @@ import traceback
 import time
 import re
 import json
+from downloadVotes import waterfallText
 
 client = pymongo.MongoClient()
 try:
@@ -1028,7 +1029,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	if not idsOnly:
 		fieldReturns = {"codes.Clausen":1,"codes.Peltzman":1,"codes.Issue":1,
 				"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,
-				"shortdescription":1,"yea_count":1,"nay_count":1,"percent_support":1,
+				"yea_count":1,"nay_count":1,"percent_support":1,
 				"vote_counts":1, "_id": 0, "id": 1, "date_chamber_rollnumber": 1, "key_flags": 1,
 				"vote_desc": 1, "vote_document_text": 1, "short_description": 1, "vote_question": 1}
 	else:
@@ -1102,6 +1103,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	nextId = 0
 	maxScore = 0
 	for res in results:
+                # Apply waterfall to text if jsapi
+                if jsapi:
+                        res["text"] = waterfallText(res)
 		if not maxScore and needScore and res["score"]>=maxScore:
 			maxScore = res["score"]
 
