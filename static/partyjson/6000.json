@@ -1,10 +1,10 @@
 [
     {
         "congress": 18, 
-        "grandMean": 0.208, 
-        "grandMedian": 0.20799999999999999, 
+        "grandMean": 0.203, 
+        "grandMedian": 0.203, 
         "grandSet": [
-            0.008
+            0.007
         ], 
         "nMembers": 2
     }
