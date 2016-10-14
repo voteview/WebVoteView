@@ -503,8 +503,13 @@ function updateRequest()
 				        $("#relevanceSort")[0].className = "";
 				        $("#newestSort")[0].className = "";
 				        $("#oldestSort")[0].className = "selectedSort";
-
 				}
+
+			        if(!needScore)
+				{
+				        $("#relevanceAppear")[0].style.display = "none";
+				}
+
 
 				if(resultsNumber<0) 
 				{

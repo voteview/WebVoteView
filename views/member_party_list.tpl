@@ -27,8 +27,8 @@
 %	end
 		<a href="/person/{{member["icpsr"]}}" class="nohover">
 		<div class="col-md-3 memberResultBox">
-			<img src="/static/img/bios/{{member["bioImg"]}}" style="width:80px;height:80px;padding-right:20px;vertical-align:middle;" class="pull-left">
-			<div style="font-size:0.9em;vertical-align:middle;padding-top:15px;">
+			<img src="/static/img/bios/{{member["bioImg"]}}" style="width:80px;height:80px;padding-right:10px;vertical-align:middle;" class="pull-left">
+			<div style="font-size:0.9em;vertical-align:middle;padding-top:5px;">
 				% if "bioname" in member and member["bioname"] is not None:
 					<strong>{{member["bioname"]}}</strong> ({{member["party_name"][0:1]}})<br/>
 				% end
