@@ -26,10 +26,10 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
-				% if "keyvote" in rollcall and len(rollcall["keyvote"]):
+				% if "key_flags" in rollcall and len(rollcall["key_flags"]):
 				<span class="btn btn-default btn-lg" 
 					style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" 
-					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["keyvote"][0]]}}.">
+					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end
@@ -38,22 +38,28 @@
 				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr>
 			</h3>
 			<p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
-			% if "yea" in rollcall and "nay" in rollcall:
+			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p style="float:left;margin-right:20px;">
 				<strong>Result:</strong> 
-				{{ rollcall["yea"] }}-{{ rollcall["nay"] }}
-				% if rollcall["yea"]>rollcall["nay"]:
+				{{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
+				% if rollcall["yea_count"]>rollcall["nay_count"]:
 				 (Passed)
 				% else:
 				 (Failed)
 				% end
 			</p>
 			% end
-			% if len(rollcall["code"]["Clausen"]):
-			<p style="float:left;">
-				<strong>Vote Subject Matter:</strong> {{ rollcall["code"]["Clausen"][0] }} / {{ rollcall["code"]["Peltzman"][0] }}
+			% if "codes" in rollcall and ("Peltzman" in rollcall["codes"] or "Clausen" in rollcall["codes"]):
+			<p style="float:left;"><strong>Vote Subject Matter:</strong>
+			% if "Clausen" in rollcall["codes"]:
+			{{ rollcall["codes"]["Clausen"][0] }}
+			% if "Peltzman" in rollcall["codes"]:
+			/ {{ rollcall["code"]["Peltzman"][0] }}
+			% end
+			% end
 			</p>
 			% end
+
 			<p style="clear:both;">{{ rollcall["description"] }}</p>
 		</div>
 	</div>
@@ -141,7 +147,6 @@
 							style="margin-left:5px;width:22px;vertical-align:middle;" 
 							data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS.">
 					</a>
-					<!--<a href="#" onclick="javascript:updateVoteChart();">(Test)</a>-->
 				</h4> 
 				<div id="party-chart">
 					<span id="suppressVoteChartControls" style="display:none;"><span class="filter"></span></span>

@@ -33,7 +33,7 @@ function outVotes(groupBy)
 			"party": filteredVotes[i]["party"], 
 			"vote": filteredVotes[i]["vote"],
 			"state": filteredVotes[i]["state"],
-			"id": filteredVotes[i]["id"],
+			"icpsr": filteredVotes[i]["icpsr"],
 			"x": parseFloat(filteredVotes[i]["x"])
 		};
 		if(filteredVotes[i]["prob"] != undefined) { voteSubset["prob"] = filteredVotes[i]["prob"]; }
@@ -103,7 +103,7 @@ function outVotes(groupBy)
 			// Style and assemble list item
 			var li = $("<li></li>").css("display","inline-block").css("width","100%").css("padding-bottom","5px");
 			var span = $("<span></span>").css("background-color","white").css("padding-right","5px");
-			$("<a></a>").attr("href","/person/"+person["id"])
+			$("<a></a>").attr("href","/person/"+person["icpsr"])
 					.html(outLabel).appendTo(span);
 			span.appendTo(li);
 

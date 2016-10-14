@@ -2,7 +2,7 @@ import time
 import json
 import traceback
 from searchMembers import cqlabel
-from searchParties import partyName
+from searchParties import partyName, shortName
 from pymongo import MongoClient
 client = MongoClient()
 try:
@@ -140,10 +140,11 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 			# If we need some people, let's iterate through the voters and fill them out
 			if needPeople!=0:
 				metaMembers = [m for m in memberSet if m["congress"] == rollcall["congress"]]
-				newV = {}
 				for v in rollcall["votes"]:
+					newV = {}
 					# Only add the person if they're in our validated list of people we want.
 					if v["icpsr"] in peopleIds:
+						print "In here"
 						newV.update(v)
 			
 						# Do the match from the member list
@@ -172,6 +173,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 								newV["prob"] = int(round(newV["prob"]))
 							newV["name"] = memberMap["bioname"]
 							newV["party"] = partyName(memberMap["party_code"])
+							newV["party_short_name"] = shortName(memberMap["party_code"])
 							newV["party_code"] = memberMap["party_code"]
 							newV["state_abbrev"] = memberMap["state_abbrev"]
 							
