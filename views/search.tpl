@@ -333,9 +333,6 @@
 			<div class="footerIcon" id="exportJSON">
 				<a href="#" onClick="javascript:exportJSON();return false;">Download to JSON</a>
 			</div>
-			<div class="footerIcon" id="format3">
-				Download to Format3
-			</div>
 			<div class="footerIcon">
 				<span onClick="javascript:loadSavedVotes();" class="glyphicon glyphicon-upload" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Load Votes into Search" data-container="body"></span>
 			</div>

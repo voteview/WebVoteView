@@ -21,6 +21,8 @@ def cqlabel(state_abbrev, district_code):
                 cqlabel = "(" + ("%s-00" % state_abbrev) + ")"
         elif district_code and district_code <= 70:
                 cqlabel = "(" + ("%s-%02d" % (state_abbrev, district_code)) + ")"
+        elif district_code == 0:
+                cqlabel = "(" + state_abbrev + ")"
         else:
                 cqlabel = ""
         return cqlabel
