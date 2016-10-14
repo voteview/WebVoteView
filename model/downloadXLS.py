@@ -2,80 +2,75 @@
 from writeXls import WriteXls
 import json
 from pymongo import MongoClient
+from downloadVotes import downloadAPI
 
 #Connection
 connection = MongoClient(connect=False)
-dbConf = json.load(open("./model/db.json","r"))
-db = connection[dbConf["dbname"]]
+#dbConf = json.load(open("./model/db.json","r"))
+#db = connection[dbConf["dbname"]]
+db = connection['voteview']
 
 # These are only used for XLS writing
-infofields = [('icpsr','icpsr'),
-		('state','state'),
-		('districtCode','district'),
+infofields = [('id', 'id'),
+              ('icpsr','icpsr'),
+		('state_abbrev','state_abbrev'),
+		('district_code','district_code'),
 		('cqlabel','cqlabel'),
 		('name','name'),
-		('party','party')]
+		('party_code','party_code')]
 	
-descriptionfields = [('chamber','chamber'),
+descriptionfields = [('id', 'id'),
+                     ('chamber','chamber'),
 			('congress','congress'),
 			('date','date'),
 			('rollnumber','rollnumber'),
 			('description','description')]
 
+icpsrfields = [('icpsr', 'icpsr'),
+               ('id', 'id'),
+               ('name', 'name'),
+               ('state_abbrev', 'state_abbrev')]
+
 def downloadXLS(ids, apitype="Web"):
 	xls = "True"
-	try:
-		if type(ids)==type(str("")):
-			ids = [i.strip() for i in ids.split(',')]
-	except:
-		return [-1, "Error: No rollcall IDs specified."]
+        results = downloadAPI(ids, apitype = "R")
 
-	if not ids or not len(ids):
-		return [-1, "Error: No rollcall IDs specified."]
-	maxIds = 100
-	if apitype=="exportXLS":
-		maxIds = 250
-
-	if len(ids)>maxIds:
-		return [-1, "Error: API abuse. Too many rollcall IDs requested."]
+        if 'errormessage' in results:
+                return [-1, results['errormessage']]
 
 	rollcalls = [['vote']+[f[1] for f in descriptionfields]] # Header row for rollcalls
-	results = db.voteview_rollcalls.find({"id": {"$in": ids}}).sort([("id",1)])
-	icpsrset = []
-	voteData = {}
-	i=1
-	if not results.count():
-		return [-1, "Error: No results for the requested rollcall IDs."]
 
-	for result in results: # Loop over results
-		rollcalls.append(['V%i' % i] + [result[f[0]] for f in descriptionfields] ) # Append rollcalls to rows for rollcall sheet
-		for item in result["votes"]:
-			key = item["id"]
-			vote = item["v"]
-			icpsrset.append(int(key[2:7])) # Make a note of ICPSR
-			if not int(key[2:7]) in voteData: # If we've never seen the member before, pre-allocate their dict.
-				voteData[int(key[2:7])] = {}
-			voteData[int(key[2:7])][i] = vote # Now write their vote to the vote data dict.
-		i=i+1 # Increment the indicator variable
+        icpsrSet = {}
+        memberSet = {}
+        
+        for i, res in enumerate(results['rollcalls']):
+                rollcalls.append(['V%i' % i] + [res[f[0]] for f in descriptionfields] ) # Append rollcalls to rows for rollcall sheet
+                for v in res['votes']:
+                        if v['icpsr'] in icpsrSet:
+                                icpsrSet[v['icpsr']][i] = v["cast_code"]
+                                if v['id'] not in memberSet:
+                                         memberSet[v['id']] = {key[1]: v[key[0]] for key in infofields}
+                        else:
+                                icpsrSet[v['icpsr']] = {i: v["cast_code"], 'name': v['name'], 'state_abbrev': v['state_abbrev'], 'id': v['id'], 'icpsr': v['icpsr']}
+                                memberSet[v['id']] = {key[1]: v[key[0]] for key in infofields}
 
-	votes = [[f[1] for f in infofields] + ["V%i" % (i+1) for i in range(len(ids))]] # Write member info fields
-											# then a field V1, V2, V... for all votes.
-	uniqueicpsrs = list(set(icpsrset)) # De-duplicate icpsrs for the member pull
-	members = db.voteview_members.find({"icpsr": {"$in": uniqueicpsrs}}) # Pull all those members
-	memberData = {}
-	seenMembers = []
-	for member in members:
-		if member["icpsr"] in seenMembers: # If we get multiple ICPSR hits for same person, just take the first one
-			continue
-		seenMembers.append(member["icpsr"])
-		votes.append([member[field[0]] for field in infofields] + [v for k,v in voteData[member["icpsr"]].iteritems()])
+        votes = [[f[1] for f in icpsrfields] + ["V%i" % (i+1) for i in range(len(results['rollcalls']))]] # Write member info fields
 
+        members = [[f[1] for f in infofields]]
+
+        for k,icpsr in icpsrSet.iteritems():
+                votes.append([icpsr[f[0]] for f in icpsrfields] + [icpsr[i] if i in icpsr else 0 for i in range(len(results['rollcalls']))])
+
+        for k,member in memberSet.iteritems():
+                members.append([member[f[0]] for f in infofields])
+        
 	if xls == "True":
 		# Write workbook
 		print "Writing workbook..."
-		wxls = WriteXls(rollcalls=rollcalls,votes=votes)
+		wxls = WriteXls(rollcalls=rollcalls,votes=votes,members=members)
 		wxls.addVotes()
 		wxls.addRollcalls()
+                wxls.addMembers()
 		return [0, wxls.render()]
 
 def downloadStash(stash):
@@ -94,7 +89,7 @@ def downloadStash(stash):
 
 if __name__ == "__main__":
 	print "Begin download..."
-	status, output = downloadXLS("H1120013,H1120011")
+	status, output = downloadXLS("RH1120013,RH1120011")
 	#print output
 	if status==0:
 		print "OK"
