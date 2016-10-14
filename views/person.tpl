@@ -30,7 +30,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;padding-right:10px;">
+            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;padding-right:5px;">
         </div>
         <div class="col-md-5">
 		<h2 style="word-wrap:break-word;">
