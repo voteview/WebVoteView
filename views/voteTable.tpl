@@ -28,7 +28,7 @@
 					</span>
 					<br>Vote Prob.</th>
 					<th width="7%" style="text-align:right;">Result</th>
-                        		<th width="4%"></th>
+                        		<th width="4%" data-sorter="false"></th>
 				</tr>
 			</thead>
 		% end
