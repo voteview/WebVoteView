@@ -1,7 +1,7 @@
 % import datetime
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase("base.tpl",title=person["canonicalName"], extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css"])
+% rebase("base.tpl",title=person["bioname"], extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css"])
 % include('header.tpl')
 % current_page_number = 1
 % import datetime
@@ -22,30 +22,29 @@
 %	lifeString = ""
 % end
 % plotIdeology=0
-% if "nominate" in person and "oneDimNominate" in person["nominate"] and person["nominate"]["oneDimNominate"] is not None:
+% if "nominate" in person and "dim1" in person["nominate"] and person["nominate"]["dim2"] is not None:
 %	plotIdeology = 1
 % end
-% person["lastName"] = person["canonicalName"].split(",")[0].upper()[0]+person["canonicalName"].split(",")[0].lower()[1:]
+% person["last_name"] = person["bioname"].split(",")[0].upper()[0]+person["bioname"].split(",")[0].lower()[1:]
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 <div class="container">
-
     <div class="row">
         <div class="col-md-2">
             <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;">
         </div>
         <div class="col-md-5">
 		<h2 style="word-wrap:break-word;">
-			{{ person["canonicalName"] }} {{lifeString}}
+			{{ person["bioname"] }} {{lifeString}}
 		</h2>
 
             <h4>
 		<span id="partyname">
-			<a href="/parties/{{person["party"]}}">{{ person["partyname"] }}</a>
+			<a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a>
 		</span>
-		% if person["stateName"]!="(President)":
-		 of {{person["stateName"]}} <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;">
+		% if person["state"]!="(President)":
+		 of {{person["state"]}} <img src="/static/img/states/{{ person["state_abbrev"]}}.png" style="width:20px;vertical-align:middle;">
 		% else:
-		 , President of the United States <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;">
+		 , President of the United States <img src="/static/img/states/{{ person["state_abbrev"]}}.png" style="width:20px;vertical-align:middle;">
 		% end
 	    </h4>
 		
@@ -74,7 +73,7 @@
 			% if k>0:
 				, 
 			% end
-	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["partyname"] }}</a> (
+	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party"] }}</a> (
 			% z = 0
 			% for chunk in alt["yearsOfService"]:
 				% if z > 0:
@@ -115,11 +114,11 @@
 	</div>
 	% end
     </div>
-	% if "bio" in person:
+	% if "biography" in person:
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Biography</h3>
-			{{ !person["bio"] }}
+			{{ !person["biography"] }}
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></small>
 		</div>
 	</div>
@@ -171,9 +170,12 @@ var mapParties=1;
 % end
 var memberICPSR = {{person["icpsr"]}};
 var congressNum = {{person["congress"]}};
-var memberIdeal = {{person["nominate"]["oneDimNominate"]}};
-var memberIdealBucket = Math.floor({{person["nominate"]["oneDimNominate"]}}*10);
-var memberPartyName = "{{person["partyname"]}}";
+var memberIdeal = {{person["nominate"]["dim1"]}};
+var memberIdealBucket = Math.floor({{person["nominate"]["dim1"]}}*10);
+var memberPartyName = "{{person["party_name"]}}";
+var memberPartyCode = "{{person["party_code"]}}";
+var memberNoun = "{{person["party_noun"]}}";
+var partyColor = "{{person["party_color"]}}";
 var globalNextId = {{nextId}};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>

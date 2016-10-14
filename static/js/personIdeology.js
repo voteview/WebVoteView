@@ -36,10 +36,12 @@ function drawHistWrap(error, data)
 		if(!foundRep && d.icpsr==memberICPSR)
 		{
 			console.log(d);
-			memberIdeal = d.nominate.oneDimNominate;
-			memberPartyName = d.partyname;
+			memberIdeal = d.nominate.dim1;
+			memberPartyCode = d.party_code;
+			memberNoun = d.party_noun;
+			partyColor = d.party_color;
 			chamber = d.chamber.toLowerCase();
-			$("#partyname").html("<a href=\"/parties/"+d.party+"\">"+memberPartyName+"</a>");
+			$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
 			memberIdealBucket = Math.floor(memberIdeal*10);
 			foundRep=1;
 			return false;
@@ -66,13 +68,14 @@ function drawHist(error, data)
 	var ctPartyTotal=0;
 	var oneDims = [];
 	data["results"].forEach(function (d) {
-		oneDims.push(d.nominate.oneDimNominate);
+		if(d.nominate==undefined) { return true; }
+		oneDims.push(d.nominate.dim1);
 		ctTotal+=1;
-		if(d.nominate.oneDimNominate>memberIdeal) { ctGreater+=1; }
-		if(d.partyname==memberPartyName)
+		if(d.nominate.dim1>memberIdeal) { ctGreater+=1; }
+		if(d.party_code==memberPartyCode)
 		{
 			ctPartyTotal+=1;
-			if(d.nominate.oneDimNominate>memberIdeal) { ctPartyGreater+=1; }
+			if(d.nominate.dim1>memberIdeal) { ctPartyGreater+=1; }
 		}
 	});
 
@@ -88,10 +91,10 @@ function drawHist(error, data)
 
 		if(ctPartyTotal>1)
 		{
-			if(libPartyPercentage==100) { label += "The most liberal "+memberPartyName+" of the "+getGetOrdinal(congressNum)+" Congress."; }
-			else if(libPartyPercentage==0) { label += "The most conservative "+memberPartyName+" of the "+getGetOrdinal(congressNum)+" Congress."; }
-			else if(libPartyPercentage>50) { label += "More liberal than "+libPartyPercentage+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
-			else { label += "More conservative than "+(100-libPartyPercentage)+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
+			if(libPartyPercentage==100) { label += "The most liberal "+memberNoun+" of the "+getGetOrdinal(congressNum)+" Congress."; }
+			else if(libPartyPercentage==0) { label += "The most conservative "+memberNoun+" of the "+getGetOrdinal(congressNum)+" Congress."; }
+			else if(libPartyPercentage>50) { label += "More liberal than "+libPartyPercentage+"% of "+memberNoun+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
+			else { label += "More conservative than "+(100-libPartyPercentage)+"% of "+memberNoun+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
 		}
 	}
 
@@ -114,7 +117,7 @@ function drawHist(error, data)
 				if(d.key==memberIdealBucket)
 				{
 					try{
-						return colorSchemes[partyColorMap[partyNameSimplify(memberPartyName)]][0];
+						return colorSchemes[partyColor][0];
 					} catch(e) { return "#000000"; }
 				}
 				else { return "#CCCCCC"; } 
