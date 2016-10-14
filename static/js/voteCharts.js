@@ -108,35 +108,17 @@ function drawWidgets(error, data, geodata)
 	var ndx = crossfilter(data.rollcalls[0].votes);
 	var all = ndx.groupAll();
 
-	// Test points for figure calibration, JBL
-	if (false) 
-	{
-		data.rollcalls[0].votes[0].x = 0;
-		data.rollcalls[0].votes[0].y = 1;
-		data.rollcalls[0].votes[1].x = 0;
-		data.rollcalls[0].votes[1].y = -1;
-		data.rollcalls[0].votes[2].x = 1;
-		data.rollcalls[0].votes[2].y = 0;
-		data.rollcalls[0].votes[3].x = -1;
-		data.rollcalls[0].votes[3].y = 0;
-		for (var i=4;i< data.rollcalls[0].votes.length;i++)
-		{
-			data.rollcalls[0].votes[i].x=0;
-			data.rollcalls[0].votes[i].y=0;
-		}
-	}
-
 	// Dimension 1: What type of vote you cast
 	var voteDimension = ndx.dimension(function(d) { return d.vote; });
 	var voteGroup = voteDimension.group(); // Grouping is exact
 
 	// Dimension 2: What party you are in
-	var partyDimension = ndx.dimension(function(d) { return partyNameSimplify(d.party); });
+	var partyDimension = ndx.dimension(function(d) { return partyNameSimplify(d.party_short_name); });
 	var partyGroup = partyDimension.group(); // Grouping is exact
 	globalPartyDimension = partyDimension;
 
 	// Dimension 3: What type of vote you cast and what party you are in.
-	var votePartyDimension = ndx.dimension(function(d) { return d.vote + partyNameSimplify(d.party); });
+	var votePartyDimension = ndx.dimension(function(d) { return d.vote + partyNameSimplify(d.party_short_name); });
 	var votePartyGroup = votePartyDimension.group(); // Grouping is exact
 
 	// Dimension 4: Coordinates of vote
@@ -175,7 +157,7 @@ function drawWidgets(error, data, geodata)
 		}); // This is not super clear to me.
 
 	// Dimension 5: What state you're from.
-	var stateDimension = ndx.dimension(function(d) { return d.state; });
+	var stateDimension = ndx.dimension(function(d) { return d.state_abbrev; });
 	var stateGroup = stateDimension.group().reduce(
 		function (p, d)
 		{

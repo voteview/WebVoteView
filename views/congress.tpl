@@ -1,6 +1,6 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'])
+% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/saveSvgAsPng.js"])
 % include('header.tpl')
 % memberLabel = (chamber.title()=="Senate" and "Senators" or "Representatives")
 <div class="container">
@@ -33,7 +33,7 @@
 		<h4>DW-Nominate Plot
 				<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:22px;vertical-align:middle;cursor:pointer" 
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
-					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}.png', {backgroundColor: 'white'}); return false;"
+					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}_{{congress}}.png', {backgroundColor: 'white'}); return false;"
 					></span>
 		</h4>
 

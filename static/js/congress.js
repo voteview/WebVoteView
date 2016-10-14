@@ -41,8 +41,16 @@ function nomPlot()
 	var xDimension = ndx.dimension(
 		function(d) 
 		{
-			var x = d.nominate.dim1;
-			var y = d.nominate.dim2;
+			if(d.nominate!=undefined)
+			{
+				var x = d.nominate.dim1;
+				var y = d.nominate.dim2;
+			}
+			else
+			{
+				var x = 999;
+				var y = 999;
+			}
 			return [x,y];
 		}
 	);
@@ -70,6 +78,7 @@ function nomPlot()
 	.dimension(xDimension)
 	.mouseZoomable(false)
 	.group(xGroup)
+	.data(function(group) { return group.all().filter(function(d) { return d.key!=[999,999]; });})
 	.symbolSize(7)
 	.colorCalculator(function(d) {
 		var color = "#CCC";
