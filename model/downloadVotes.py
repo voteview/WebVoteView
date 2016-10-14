@@ -132,7 +132,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 
 	memberTime2 = time.time()
 	# Now iterate through the rollcalls
-	fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1, "description": 1, "shortdescription": 1, "short_description": 1, "vote_question": 1, "question": 1}
+	fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1, "description": 1, "shortdescription": 1, "short_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1}
 	rollcalls = db.voteview_rollcalls.find({'id': {'$in': rollcall_ids}}, fieldSetNeed)
 	for rollcall in rollcalls:
 		result = [] # Hold new votes output, start blank
@@ -225,6 +225,10 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 			# Flatten nominate for the R API.
 			if apitype in webexportapis:
 				nominate = rollcall['nominate']
+                                checkNom = ['classified', 'pre', 'log_likelihood']
+                                for f in checkNom:
+                                        if f not in nominate:
+                                                nominate[f] = ''
 			elif apitype=="R":
 				if "nominate" in rollcall:
 					nominate = {"mid1": rollcall["nominate"]["mid"][0], "mid2": rollcall["nominate"]["mid"][1],
@@ -286,21 +290,22 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 				
 			# Output object:
                         z = {'id': rollcall['id'], 'chamber': rollcall['chamber'], 'congress': rollcall['congress'], 'date': rollcall['date'],
-                             'rollnumber': rollcall['rollnumber'], 'description': description.encode('utf-8'), 'yea': rollcall["yea_count"],
+                             'rollnumber': rollcall['rollnumber'], 'yea': rollcall["yea_count"],
                              'nay': rollcall["nay_count"]}
                         if apitype == "exportCSV":
                                 z.update({k:v for k,v in codeFields.iteritems()})
                                 z.update({'keyvote': ''.join(rollcall['key_flags']), 
                                           'spread.dim1': nominate['spread'][0], 'spread.dim2': nominate['spread'][1],
                                           'mid.dim1': nominate['mid'][0], 'mid.dim2': nominate['mid'][1],
-                                          'slope': nominate['slope'], 'intercept': nominate['intercept']})
+                                          'slope': nominate['slope'], 'intercept': nominate['intercept'],
+                                          'log_likelihood': nominate['log_likelihood'], 'classified': nominate['classified'], 'pre': nominate['pre'], 'description': description.encode('utf-8')})
                         else:
-                                z.update({'keyvote': rollcall["key_flags"], 'votes': result, 'code': codes, 'nominate': nominate})
+                                z.update({'keyvote': rollcall["key_flags"], 'votes': result, 'code': codes, 'nominate': nominate, 'description': description})
 
 
 			# Get other people's results from the party results aggregate.
 			if apitype=="Web_Person":
-				z["resultparty"] = rollcall["party_vote_counts"]
+				z["party_vote_counts"] = rollcall["party_vote_counts"]
 
 			rollcall_results.append(z)
 

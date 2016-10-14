@@ -1,4 +1,4 @@
-% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+% orgMapping = {"CQ": "Congressional Quarterly", "Gov": "Congress.gov", "VV": "Voteview Staff"}
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 
 % def fixVoteProb(prob):
@@ -43,19 +43,22 @@
 				% end
 			    </td>
                             <td style="border-right:1px solid #dddddd;">
-				% if "description" in vote and vote["description"] is not None and len(vote["description"]):
-				{{ vote["description"] }}
-				% elif "shortdescription" in vote and vote["shortdescription"] is not None and len(vote["shortdescription"]):
-				{{ vote["shortdescription"] }}
-				% elif "question" in vote and vote["question"] is not None and len(vote["question"]):
-				{{ vote["question"] }}
-				% else:
-				{{rcSuffix(vote["congress"])}} Congress &gt; {{vote["chamber"]}} &gt; Vote {{vote["rollnumber"]}}
-				% end
-				% if "keyvote" in vote and len(vote["keyvote"]):
+				%	voteFields = ["vote_desc", "vote_document_text", "description", "short_description", "vote_question", "question"]
+				%	done=0
+				%	for v in voteFields:
+				%		if v in vote and vote[v] is not None and len(vote[v]):
+							{{vote[v]}}
+				%			done=1
+				%		end
+				%	end
+				%	if done==0:
+						{{rcSuffix(vote["congress"])}} Congress &gt {{vote["chamber"]}} &gt; Vote {{str(vote["rollnumber"])}}
+				%	end
+
+				% if "key_flags" in vote and len(vote["key_flags"]):
 				<span class="btn btn-default btn-xs" 
 					aria-label="Key Vote" style="margin-left: 10px;" data-toggle="tooltip" 
-					data-placement="bottom" title="Vote classified as a 'Key Vote' by {{orgMapping[vote["keyvote"][0]]}}.">
+					data-placement="bottom" title="Vote classified as a 'Key Vote' by {{orgMapping[vote["key_flags"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end
@@ -79,7 +82,7 @@
 					%end
 				% end
 			    </td>
-			    <td align="right">{{vote["yea"]}}-{{vote["nay"]}}</td>
+			    <td align="right">{{vote["yea_count"]}}-{{vote["nay_count"]}}</td>
                             <td>
 				<a href="/rollcall/{{ vote["id"] }}"><img src="/static/img/graph.png" style="width:24px;margin-right:16px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 			    </td>

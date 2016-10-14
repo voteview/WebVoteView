@@ -205,13 +205,6 @@ def person(icpsr=0):
     # If we have no error, follow through
     if not "errormessage" in person:
         person = person["results"][0]
-        if "bioName" in person and person["bioName"] is not None:
-            person["canonicalName"] = person["bioName"]
-        elif "fname" in person and person["fname"] is not None:
-            person["canonicalName"] = person["fname"]
-        else:
-            person["canonicalName"] = person["name"]
-
         votes = []
         # Look up votes
 
@@ -260,13 +253,13 @@ def person(icpsr=0):
 
 
         timeIt("partySwitches")
-        voteQuery = query(qtext="voter: "+str(person["id"]), rowLimit=25, jsapi=1)
+        voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1)
         timeIt("gotVotes")
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
 
-        if "bio" in person:
-            person["bio"] = person["bio"].replace("a Representative","Representative")
+        if "biography" in person:
+            person["biography"] = person["biography"].replace("a Representative","Representative")
 
         timeIt("readyOut")
         # Go to the template.
@@ -623,9 +616,9 @@ def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 	votes = []
 
 	if qtext:
-		qtext = qtext+" AND (voter: "+str(person["id"])+")"
+		qtext = qtext+" AND (voter: "+str(person["icpsr"])+")"
 	else:
-		qtext = "voter: "+str(person["id"])
+		qtext = "voter: "+str(person["icpsr"])
 
 	if skip:
 		voteQuery = query(qtext, rowLimit=25, jsapi=1, sortSkip=skip)

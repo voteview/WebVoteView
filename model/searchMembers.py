@@ -3,7 +3,7 @@ import json
 import traceback
 import os
 from stateHelper import stateNameToAbbrev, stateName
-from searchParties import partyName
+from searchParties import partyName, noun, partyColor
 client = pymongo.MongoClient()
 try:
 	dbConf = json.load(open("./model/db.json","r"))
@@ -103,10 +103,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 
 	if name:
 		if not " " in name: # Last name only
-			searchQuery["bio_name"] = {'$regex': name, '$options': 'i'}
+			searchQuery["bioname"] = {'$regex': name, '$options': 'i'}
 		elif ", " in name: # Last, First
 			last, rest = name.split(", ",1)
-			searchQuery["bio_name"] = {'$regex': last+", "+rest, '$options': 'i'}
+			searchQuery["bioname"] = {'$regex': last+", "+rest, '$options': 'i'}
 		else:
 			searchQuery["$text"] = {"$search": name}
 
@@ -118,7 +118,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 
 	if chamber:
 		chamber = chamber.capitalize()
-		if chamber=="Senate" or chamber=="House":
+		if chamber=="Senate" or chamber=="House" or chamber=="President":
 			searchQuery["chamber"] = chamber
 		else:
 			return({"errormessage": "Invalid chamber provided. Please select House or Senate."})			
@@ -132,17 +132,19 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	if api=="Web_PI":
 		fieldSet = {"nominate.dim1": 1, "party_code": 1, "icpsr": 1, "chamber":1, "_id": 0}
 	elif api=="Web_FP_Search":
-		fieldSet = {"bio_name": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1}
 	elif api=="Web_Congress":
 		if chamber:
 			fieldName = "elected_"+chamber.lower()
-			fieldSet = {"bio_name": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1, fieldName: 1}
+			fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1, fieldName: 1}
 		else:
-			fieldSet = {"bio_name": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1, "state_abbrev": 1, "elected_senate": 1, "elected_house": 1}
+			fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1, "state_abbrev": 1, "elected_senate": 1, "elected_house": 1}
 	elif api=="Web_Party":
-		fieldSet = {"bio_name": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1}
 	elif api=="R":
-		fieldSet = {"bio_name": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate.dim1": 1, "nominate.dim2": 1, "nominate.geo_mean_probability": 1, "cqlabel": 1, "district_code": 1, "chamber": 1, "congresses": 1}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate.dim1": 1, "nominate.dim2": 1, "nominate.geo_mean_probability": 1, "cqlabel": 1, "district_code": 1, "chamber": 1, "congresses": 1}
+        elif api=="exportCSV":
+                fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1}
 	else:
 		fieldSet = {"_id": 0}
 	if "$text" in searchQuery:
@@ -172,9 +174,17 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		if "district_code" in newM and "state_abbrev" in newM:
                         newM["cqlabel"] = cqlabel(newM["state_abbrev"], newM["district_code"])
 		if "party_code" in newM:
-			newM["party"] = partyName(newM["party_code"])
+			newM["party_noun"] = noun(newM["party_code"])
+			newM["party_name"] = partyName(newM["party_code"])
+			newM["party_color"] = partyColor(newM["party_code"])
 
-                        
+                if api=="exportCSV":
+                        if 'bioname' in newM:
+                                newM['bioname'] = newM['bioname'].encode('utf-8')
+                        if "nominate" in newM:
+                                for k,v in newM["nominate"].iteritems():
+                                        newM[k] = v
+                                del newM["nominate"]
 
 		response.append(newM)
 		i=i+1

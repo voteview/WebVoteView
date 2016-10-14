@@ -8,11 +8,18 @@ except:
 		states = []
 
 def stateLookup(shortName):
-	results = [x for x in states if x["state_abbrev"].lower()==shortName.lower()]
-	if not len(results):
+	results = next((x for x in states if x["state_abbrev"].lower()==shortName.lower()), None)
+	if results is None:
 		return {"name": "Error", "icpsr": 0, "fips": 0, "vns": 0, "state_abbrev": shortName}
 	else:
-		return results[0]
+		return results
+
+def stateNameToAbbrev(stateName):
+	results = next((x for x in states if x["name"].lower()==stateName.lower().strip()), None)
+	if results is None:
+		return {"name": "Error", "icpsr": 0, "fips": 0, "vns": 0, "state_abbrev": shortName}
+	else:
+		return results
 
 def stateName(shortName):
 	return stateLookup(shortName)["name"]
