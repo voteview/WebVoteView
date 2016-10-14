@@ -80,11 +80,11 @@
 			</p>
 			% end
 
-			% if len(rollcall["code"]["Clausen"])>0:
+			% if "code" in rollcall and len(rollcall["code"]["Clausen"])>0:
 			<p><small><strong>Vote Categories</strong>: {{ rollcall["code"]["Clausen"][0] }}, {{ rollcall["code"]["Peltzman"][0] }}</small></p>
 			% end
 			%
-			<p>{{!doHighlight(highlighter, " ".join(rollcall["description"].split()[0:50])) }}</p>
+			<p>{{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
 
 			% if "score" in rollcall:
 				<p style="font-size:8px;"><em>Debug: {{round(rollcall["score"],2)}}</em></p>
