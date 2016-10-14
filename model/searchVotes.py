@@ -33,10 +33,12 @@ except:
 SCORE_THRESHOLD = scoreData["scoreThreshold"] if "scoreThreshold" in scoreData else 0.75
 SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" in scoreData else 0.5
 
-fieldTypes = {"codes": "codes", "code.Clausen": "str", "code.Peltzman": "str", "code.Issue": "str", 
-		"description": "flexstr", "congress": "int", "shortdescription": "flexstr", "bill": "str", 
-		"alltext": "alltext", "yea": "int", "nay": "int", "support": "int", "voter": "voter", "chamber": "chamber",
-		"saved": "saved", "dates": "date", "startdate": "date", "enddate": "date", "keyvote": "keyvote"}
+fieldTypes = {"codes": "codes", "codes.Clausen": "str", "codes.Peltzman": "str", "codes.Issue": "str", 
+		"description": "flexstr", "congress": "int", "short_description": "flexstr", "vote_desc": "flexstr", 
+		"vote_document_text": "flexstr", "bill": "str", "alltext": "alltext", "yea": "int", "nay": "int", 
+		"yea_count": "int", "nay_count": "int", "percent_support": "int", "key_flags": "key_flags",
+		"support": "int", "voter": "voter", "chamber": "chamber", "saved": "saved", "dates": "date", 
+		"startdate": "date", "enddate": "date", "keyvote": "key_flags"}
 
 # Simple tab-based pretty-printer to output debug info.
 def pPrint(printStr, depth=0,debug=0):
@@ -672,7 +674,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 
 	# CODES: Search all code fields
 	if fieldType=="codes":
-		queryDict = addToQueryDict(queryDict, "$or", [{x: {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"}} for x in fieldTypes if x.startswith("code.")])
+		queryDict = addToQueryDict(queryDict, "$or", [{x: {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"}} for x in fieldTypes if x.startswith("codes.")])
 	elif fieldType=="fulltext":
 		queryDict = addToQueryDict(queryDict, "$text", {"$search": queryWords.lower()})
 		needScore = 1
@@ -687,6 +689,14 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 
 	# INT can be searched by integer or range
 	elif fieldType=="int":
+		# Hack: Mapping shorter searches.
+		if queryField=="yea":
+			queryField="yea_count"
+		elif queryField=="nay":
+			queryField="nay_count"
+		elif queryField=="support":
+			queryField="percent_support"
+
 		if " " not in queryWords:
 			try:
 				queryDict[queryField] = int(queryWords)
@@ -725,21 +735,20 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 	elif fieldType=="voter":
 		nameSet = queryWords.split(" ")
 		for name in nameSet:
-			name = name.replace(",","")
-			if name.upper()[0]!="M" or name.upper()[1] not in ["S","H"]:
+			try:
+				name = int(name)
+				print "i'm here with name ", name
+				queryDict = addToQueryDict(queryDict, "votes.icpsr", name)
+			except:
 				errorMessage = "Error: invalid member ID in voter search."
 				return [queryDict, 0, errorMessage]
-			else:
-				#queryDict = addToQueryDict(queryDict, "votes."+str(name), {"$exists": 1})
-				queryDict = addToQueryDict(queryDict, "votes.id", str(name)) # New vote style.
 	
 	# KEYVOTE type: Is this a key vote?
-	elif fieldType=="keyvote":
+	elif fieldType=="key_flags":
                 if queryWords == "1":
-                        queryDict["keyvote"] = {"$exists": 1}
+                        queryDict["key_flags"] = {"$exists": 1}
                 elif queryWords == "CQ":
-                        queryDict["keyvote"] = {"$in": queryWords}
-		#queryDict = addToQueryDict(queryDict, "keyvote", {"$exists": True})
+                        queryDict["key_flags"] = {"$in": queryWords}
 
 	# CHAMBER type: Senate or House?
 	elif fieldType=="chamber":
@@ -918,7 +927,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		Valid choices are Senate or House
 		Error handling will change S to Senate or H to House
 	flds: list
-		List of fields it wants returned? Parameter is depricated
+		List of fields it wants returned? Parameter is deprecated
 	icpsr: int
 		Taking ICPSR number as possible argument to directly passthrough the person's votes.
 	jsapi: int
@@ -1017,9 +1026,13 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	# Get results
 	if not idsOnly:
-		fieldReturns = {"code.Clausen":1,"code.Peltzman":1,"code.Issue":1,"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,"shortdescription":1,"yea":1,"nay":1,"support":1,"result":1, "_id": 0, "id": 1, "synthID": 1, "keyvote": 1}
+		fieldReturns = {"codes.Clausen":1,"codes.Peltzman":1,"codes.Issue":1,
+				"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,
+				"shortdescription":1,"yea_count":1,"nay_count":1,"percent_support":1,
+				"vote_counts":1, "_id": 0, "id": 1, "date_chamber_rollnumber": 1, "key_flags": 1,
+				"vote_desc": 1, "vote_document_text": 1, "short_description": 1, "vote_question": 1}
 	else:
-		fieldReturns = {"id": 1, "_id": 0, "synthID": 1}
+		fieldReturns = {"id": 1, "_id": 0, "date_chamber_rollnumber": 1}
 
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
@@ -1032,9 +1045,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	if sortSkip and not needScore:
 		if sortDir==-1:
-			queryDict["synthID"] = {"$lt": sortSkip}
+			queryDict["date_chamber_rollnumber"] = {"$lt": sortSkip}
 		else:
-			queryDict["synthID"] = {"$gt": sortSkip}
+			queryDict["date_chamber_rollnumber"] = {"$gt": sortSkip}
 
         print(sortScore)
         print(sortSkip)
@@ -1050,7 +1063,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
                                 if sortScore:
                                         results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(sortSkip).limit(rowLimit+5)
                                 else:
-                                        results = votes.find(queryDict,fieldReturns).sort("synthID", sortDir).skip(sortSkip).limit(rowLimit+5)
+                                        results = votes.find(queryDict,fieldReturns).sort("date_chamber_rollnumber", sortDir).skip(sortSkip).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -1072,7 +1085,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			if not jsapi:
 				results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
 			else:
-				results = votes.find(queryDict, fieldReturns).sort("synthID", sortDir).limit(rowLimit+5)
+				results = votes.find(queryDict, fieldReturns).sort("date_chamber_rollnumber", sortDir).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
@@ -1093,8 +1106,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			maxScore = res["score"]
 
 		if len(mr)<rowLimit:
-			if "synthID" in res:
-				del res["synthID"]
+			if "date_chamber_rollnumber" in res:
+				del res["date_chamber_rollnumber"]
 			if not needScore:
 				mr.append(res)
 			elif res["score"]>= SCORE_THRESHOLD and res["score"]>=SCORE_MULT_THRESHOLD * maxScore:
@@ -1104,7 +1117,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 				break
 		else:
 			if not needScore:
-				nextId = str(res["synthID"])
+				nextId = str(res["date_chamber_rollnumber"])
 			else:
 				nextId = sortSkip + rowLimit
 			break
@@ -1115,7 +1128,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	returnDict["rollcalls"] = mr
 	returnDict["recordcount"] = len(mr)
 	returnDict["recordcountTotal"] = resCount
-	returnDict["apiversion"] = "Q2"
+	returnDict["apiversion"] = "Q3 2016-10-13"
 	returnDict["nextId"] = nextId 
 	if "$text" in queryDict:
 		returnDict["fulltextSearch"] = [v for k, v in queryDict["$text"].iteritems()][0]
@@ -1152,7 +1165,7 @@ if __name__ == "__main__":
 		#print results
 		#results = query('"defense commissary"')
 		#print results
-		results = query('"fiscal year"')
+		query("voter: 29939")
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
@@ -1174,8 +1187,8 @@ if __name__ == "__main__":
 		#query("voter: MS05269036 MS02793036 MS02393036 OR congress:[113 to ]")
 		#query("iraq war")
 		#query("iraq war AND congress:113")
-		query("\"estate tax\" congress:110")
-		print "ok2"
+		#query("\"estate tax\" congress:110")
+		#print "ok2"
 		#query("\"war on terrorism\"")
 		#query('"war on terrorism" iraq')
 		#query("alltext:afghanistan iraq OR codes:defense")
