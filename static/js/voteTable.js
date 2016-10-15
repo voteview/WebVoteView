@@ -54,13 +54,27 @@ function outVotes(groupBy)
 		}
 	}
 	console.log(groupings);
-
+        console.log(filteredVotes.length);
 	// Output table
 	function numSort(a, b) { return a-b; }
 	if(groupBy=="x") { var sortedKeys = Object.keys(groupings).sort(numSort); }
 	else if(groupBy=="prob" || groupBy == "vote") { var sortedKeys = Object.keys(groupings).sort().reverse(); }
 	else { var sortedKeys = Object.keys(groupings).sort(); }
-	var baseList = $("<ul></ul>").css("columns","4").css("list-style-type","none").css("overflow","auto").css("width","100%").addClass("voteTable");
+        // Hack so when few members are selected it fills down the column
+        // alternative is min-height and column-fill, but column-fill auto only works in firefox
+        var listItems = filteredVotes.length + 2 * Object.keys(groupings).length;
+        if(listItems < 11){
+	        var baseList = $("<ul></ul>").css("columns","1").css("list-style-type","none").css("overflow","auto").css("width","25%").addClass("voteTable");
+	} else if (listItems < 21)
+	{
+	        var baseList = $("<ul></ul>").css("columns","2").css("list-style-type","none").css("overflow","auto").css("width","50%").addClass("voteTable");
+	} else if (listItems < 31)
+	{
+	        var baseList = $("<ul></ul>").css("columns","3").css("list-style-type","none").css("overflow","auto").css("width","75%").addClass("voteTable");
+	} else
+	{
+	        var baseList = $("<ul></ul>").css("columns","4").css("list-style-type","none").css("overflow","auto").css("width","100%").addClass("voteTable");
+	}
 	
 	var rowCount=0;
 	var i=0; var colCount=0;
@@ -74,9 +88,9 @@ function outVotes(groupBy)
 		partyLabel.appendTo(baseList);
 	}
 
-	for(var key in sortedKeys)
+ 	for(var key in sortedKeys)
 	{
-		// Sort everyone by name within whatever the primary sort is
+		// Sort everyone by name within whatever the
 		if(groupBy!="prob") { groupings[sortedKeys[key]] = groupings[sortedKeys[key]].sort(function(a,b){return a["name"] < b["name"] ? -1 : (a["name"] > b["name"] ? 1 : 0);}); }
 		else { groupings[sortedKeys[key]] = groupings[sortedKeys[key]].sort(function(a,b){return numSort(a["prob"], b["prob"]); }); }
 			
