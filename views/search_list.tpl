@@ -73,12 +73,6 @@
 					<strong>Vote:</strong> {{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
 				% if 'vote_result' in rollcall:
 				        ({{ rollcall['vote_result'] }})
-				% else:
-				        % if rollcall["yea_count"]>rollcall["nay_count"]:
-					        (Passed)
-					% else:
-						(Failed)
-					% end
 				% end
 				</small>
 			</p>
