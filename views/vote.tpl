@@ -42,10 +42,14 @@
 			<p style="float:left;margin-right:20px;">
 				<strong>Result:</strong> 
 				{{ rollcall["yea"] }}-{{ rollcall["nay"] }}
-				% if rollcall["yea"]>rollcall["nay"]:
-				 (Passed)
+				% if rollcall['vote_result']:
+				 ({{ rollcall['vote_result']}})
 				% else:
-				 (Failed)
+				  % if rollcall["yea"]>rollcall["nay"]:
+				    (Passed)
+				  % else:
+				    (Failed)
+				  % end
 				% end
 			</p>
 			% end
@@ -54,7 +58,7 @@
 			% if "Clausen" in rollcall["codes"]:
 			{{ rollcall["codes"]["Clausen"][0] }}
 			% if "Peltzman" in rollcall["codes"]:
-			/ {{ rollcall["code"]["Peltzman"][0] }}
+			/ {{ rollcall["codes"]["Peltzman"][0] }}
 			% end
 			% end
 			</p>
