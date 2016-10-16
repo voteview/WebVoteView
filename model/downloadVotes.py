@@ -25,7 +25,7 @@ def waterfallQuestion(rollcall):
 	return None
 
 def waterfallText(rollcall):
-	waterfall = ["vote_desc", "vote_document_text", "description", "short_description", "vote_question", "question"]
+	waterfall = ["vote_desc", "vote_document_text", "description", "short_description"]
 	for w in waterfall:
 		if w in rollcall and rollcall[w] is not None:
 			return rollcall[w]
@@ -140,7 +140,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 
 	memberTime2 = time.time()
 	# Now iterate through the rollcalls
-	fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1, "description": 1, "shortdescription": 1, "short_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1}
+	fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1, "description": 1, "shortdescription": 1, "short_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1}
 	rollcalls = db.voteview_rollcalls.find({'id': {'$in': rollcall_ids}}, fieldSetNeed).sort('id')
 	for rollcall in rollcalls:
 		result = [] # Hold new votes output, start blank
@@ -274,6 +274,8 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 
                         # Get the best available question
                         question = waterfallQuestion(rollcall)
+                        if 'vote_result' not in rollcall:
+                                rollcall['vote_result'] = None
 
 			# Collapse codes for R
                         if apitype == "exportCSV" or apitype == "exportXLS":
@@ -305,7 +307,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 			# Output object:
                         z = {'id': rollcall['id'], 'chamber': rollcall['chamber'], 'congress': rollcall['congress'], 'date': rollcall['date'],
                              'rollnumber': rollcall['rollnumber'], 'yea': rollcall["yea_count"],
-                             'nay': rollcall["nay_count"]}
+                             'nay': rollcall["nay_count"], 'vote_result': rollcall['vote_result']}
                         if apitype == "exportCSV" or apitype == "exportXLS":
                                 z.update({k:v for k,v in codeFields.iteritems()})
                                 z.update({'keyvote': ''.join(rollcall['key_flags']), 
@@ -315,7 +317,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                                           'log_likelihood': nominate['log_likelihood'], 'classified': nominate['classified'], 'pre': nominate['pre'], 'description': description.encode('utf-8')})
                         
                         if apitype != "exportCSV":
-                                z.update({'keyvote': rollcall["key_flags"], 'votes': result, 'code': codes, 'nominate': nominate, 'description': description, 'question': question})
+                                z.update({'keyvote': rollcall["key_flags"], 'votes': result, 'codes': codes, 'nominate': nominate, 'description': description, 'question': question})
 
 
 			# Get other people's results from the party results aggregate.

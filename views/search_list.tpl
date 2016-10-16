@@ -71,10 +71,14 @@
 			<p>
 				<small>
 					<strong>Vote:</strong> {{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
-				% if rollcall["yea_count"]>rollcall["nay_count"]:
-					(Passed)
+				% if 'vote_result' in rollcall:
+				        ({{ rollcall['vote_result'] }})
 				% else:
-					(Failed)
+				        % if rollcall["yea_count"]>rollcall["nay_count"]:
+					        (Passed)
+					% else:
+						(Failed)
+					% end
 				% end
 				</small>
 			</p>
