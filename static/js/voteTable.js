@@ -63,17 +63,18 @@ function outVotes(groupBy)
         // Hack so when few members are selected it fills down the column
         // alternative is min-height and column-fill, but column-fill auto only works in firefox
         var listItems = filteredVotes.length + 2 * Object.keys(groupings).length;
+        var baseList = $("<ul></ul>").css("list-style-type","none").css("overflow","auto").addClass("voteTable");
         if(listItems < 11){
-	        var baseList = $("<ul></ul>").css("columns","1").css("list-style-type","none").css("overflow","auto").css("width","25%").addClass("voteTable");
+	        baseList = baseList.css("columns","1").css("width","25%");
 	} else if (listItems < 21)
 	{
-	        var baseList = $("<ul></ul>").css("columns","2").css("list-style-type","none").css("overflow","auto").css("width","50%").addClass("voteTable");
+	        baseList = baseList.css("columns","2").css("width","50%")
 	} else if (listItems < 31)
 	{
-	        var baseList = $("<ul></ul>").css("columns","3").css("list-style-type","none").css("overflow","auto").css("width","75%").addClass("voteTable");
+	        baseList = baseList.css("columns","3").css("width","75%")
 	} else
 	{
-	        var baseList = $("<ul></ul>").css("columns","4").css("list-style-type","none").css("overflow","auto").css("width","100%").addClass("voteTable");
+	        baseList = baseList.css("columns","4").css("width","100%")
 	}
 	
 	var rowCount=0;
