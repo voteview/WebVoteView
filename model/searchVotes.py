@@ -581,7 +581,7 @@ def parseFreeformQuery(qtext):
 			if queryField:
 				queryDict, needScore, errorMessage = assembleQueryChunk(queryDict, queryField, queryWords)
 				nSMax = nSMax or needScore
-				print needScore, nSMax
+				# print needScore, nSMax
 				if errorMessage:
 					error = 1
 					break
@@ -911,8 +911,9 @@ def addToQueryDict(queryDict, queryField, toAdd):
 	return queryDict
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
-		flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
-		"descriptionShort", "descriptionShortLiteral"], icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0, sortScore=1, idsOnly=0):
+          flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
+                  "descriptionShort", "descriptionShortLiteral"],
+          icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0, sortScore=1, sortRoll=0, idsOnly=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -1002,10 +1003,10 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			return { 'recordcount':0,'rollcalls':[],'errormessage':"Query is too long. Please shorten query length."}
 
 		try:
-			print qtext
+			#print qtext
 			newQueryDict, needScore, errorMessage = queryDispatcher(qtext)
 			print newQueryDict
-			print errorMessage
+			#print errorMessage
 			if errorMessage:
 				print "Error parsing the query"
 				print errorMessage
@@ -1050,9 +1051,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		else:
 			queryDict["date_chamber_rollnumber"] = {"$gt": sortSkip}
 
-        print(sortScore)
-        print(sortSkip)
-	print queryDict
+	#print queryDict
 	# Need to sort by text score
 	if needScore:
 		try:
@@ -1086,7 +1085,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			if not jsapi:
 				results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
 			else:
-				results = votes.find(queryDict, fieldReturns).sort("date_chamber_rollnumber", sortDir).limit(rowLimit+5)
+                                sortBy = "date_chamber_rollnumber" if not sortRoll else "rollnumber"
+				results = votes.find(queryDict, fieldReturns).sort(sortBy, sortDir).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
