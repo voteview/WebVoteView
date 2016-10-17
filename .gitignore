@@ -10,3 +10,4 @@ static/img/wiki/*
 **/deprecated/*
 server.txt
 static/data/csv
+static/data/ord

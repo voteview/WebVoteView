@@ -8,14 +8,14 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
   <div class="row">
     <div class="col-md-9">
 
-      <h3>NOMINATE and Related Data</h3>
+      <h3>Live NOMINATE and Related Data</h3>
       <p>
 	<div class="dataContainer">
 	  <a href="#" class="dataHeader"><h4>Rollcall parameters and metadata</h4></a>
 	  <div class="dataContent" style="display:none;">
 	    % include('data_dropdowns.tpl')
 	    <div class="dataLink">
-	      <a id="rollcall">Download</a>
+	      <a class="csv" id="rollcall">Download</a>
 	    </div>
 	  </div>
 	</div>
@@ -27,7 +27,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 	  <div class="dataContent" style="display:none;">
 	    % include('data_dropdowns.tpl')
 	    <div class="dataLink">
-	      <a id="member">Download</a>
+	      <a class="csv" id="member">Download</a>
 	    </div>
 	  </div>
 	</div>
@@ -53,6 +53,21 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 	</div>
       </p>
       --->
+
+      <h3>Rollcall Data</h3>
+      <p>
+	<div class="dataContainer">
+	  <a href="#" class="dataHeader"><h4>Roll Call Data (.ORD Vote Matrices)</h4></a>
+	  <div class="dataContent" style="display:none;">
+	    % include('data_dropdowns.tpl')
+	    <div class="dataLink">
+	      <a class="ord" id="rcmat">Download</a>
+	    </div>
+	  </div>
+	</div>
+      </p>
+
+
       <h3>Support Files</h3>
       <p>
 	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
@@ -73,19 +88,34 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 </div>
 
 <script language="javascript">
-  function setLink(aobj, chamber, congress) {
+  function setCSVLink(aobj, chamber, congress) {
     var dtype = aobj.attr("id");
     var link = '/static/data/csv/'+dtype+'/'+dtype+'_'+chamber+'_'+congress+'.csv';
     aobj.attr("href", link);
     aobj.attr("target", "_blank");
   }
 
+  function setORDLink(aobj, chamber, congress) {
+    var dtype = aobj.attr("id");
+    var link = '/static/data/ord/'+chamber+'_'+congress+'.ord';
+    aobj.attr("href", link);
+    aobj.attr("target", "_blank");
+  }
+
+
   $(document).ready(function(){
     $(".dataLink").each(function() {
       var chamber = $(this).parent().find("select[name='chamber']").find("option:selected").val();
       var congress = $(this).parent().find("select[name='congress']").find("option:selected").val();
-      
-      setLink($(this).find("a"), chamber, congress);
+
+      if($(this).find("a").attr("class") == "csv")
+      {
+	setCSVLink($(this).find("a"), chamber, congress);
+      }
+      else
+      {
+	setORDLink($(this).find("a"), chamber, congress);
+      }
     });
 
     $('.dataSelect').on('change', function(){
@@ -93,7 +123,14 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       var chamber = dcontent.find("select[name='chamber']").find("option:selected").val();
       var congress = dcontent.find("select[name='congress']").find("option:selected").val();
 
-      setLink(dcontent.find("a"), chamber, congress);
+      if(dcontent.find("a").attr("class") == "csv")
+      {
+        setCSVLink(dcontent.find("a"), chamber, congress);
+      }
+      else
+      {
+        setORDLink(dcontent.find("a"), chamber, congress);
+      }
     });
 
     $(".dataHeader").click(function() {
