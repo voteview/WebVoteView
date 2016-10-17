@@ -152,7 +152,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 					newV = {}
 					# Only add the person if they're in our validated list of people we want.
 					if v["icpsr"] in peopleIds:
-						print "In here"
+						#print "In here"
 						newV.update(v)
 			
 						# Do the match from the member list
