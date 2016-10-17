@@ -1,4 +1,5 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+<div>
   <div style="margin-left:10px;" class="form-inline">
     <label for="chamber">Chamber:</label>
     <select class="dataSelect" name="chamber">
@@ -18,3 +19,4 @@
       % end
     </select>
   </div>
+</div>
