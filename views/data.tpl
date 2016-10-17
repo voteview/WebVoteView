@@ -1,5 +1,5 @@
 % rebase('base.tpl',title='Data')
-
+% STATIC_URL = '/static/'
 <!-- Data.tpl: This should be the template for the page that lists all the different data files we're making available.
 Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
 
@@ -169,3 +169,4 @@ div.dataLinkFixed {
          Percent Voting on the Winning Side by Member -- Houses/Senates 1 - 112</a><BR>
 -->
 
+<script type="text/javascript" src="{{ STATIC_URL }}js/footerFixed.js"></script>
