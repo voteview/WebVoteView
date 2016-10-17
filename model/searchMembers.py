@@ -2,7 +2,7 @@ import pymongo
 import json
 import traceback
 import os
-from stateHelper import stateNameToAbbrev, stateName
+from stateHelper import stateNameToAbbrev, stateName, stateIcpsr
 from searchParties import partyName, noun, partyColor, shortName
 client = pymongo.MongoClient()
 try:
@@ -147,6 +147,8 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate.dim1": 1, "nominate.dim2": 1, "nominate.geo_mean_probability": 1, "cqlabel": 1, "district_code": 1, "chamber": 1, "congresses": 1}
         elif api=="exportCSV":
                 fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1}
+        elif api=="exportORD":
+                fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "district_code": 1, "chamber": 1}
 	else:
 		fieldSet = {"_id": 0}
 	if "$text" in searchQuery:
@@ -156,7 +158,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 
 	if "$text" in searchQuery:
 		sortedRes = res.sort([('score', {'$meta': 'textScore'})])
-	else:
+	elif api=="exportORD":
+                db.voteview_members.ensure_index([('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)], name="ordIndex")
+                sortedRes = res.sort([('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)])
+        else:
 		sortedRes = res.sort('congress', -1)
 		if sortedRes.count()>1000 and api != "R" and api!= "Web_Party":
 			return({"errormessage": "Too many results found."})
@@ -171,17 +176,20 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			currentICPSRs.append(m["icpsr"])
 
 		newM = m
+
 		if "state_abbrev" in newM:
 			newM["state"] = stateName(newM["state_abbrev"])
+                        if api=="exportORD":
+                                newM["state_icpsr"] = stateIcpsr(newM["state_abbrev"])
 		if "district_code" in newM and "state_abbrev" in newM:
                         newM["cqlabel"] = cqlabel(newM["state_abbrev"], newM["district_code"])
-		if "party_code" in newM:
+		if "party_code" in newM and api!="exportORD":
 			newM["party_noun"] = noun(newM["party_code"])
 			newM["party_name"] = partyName(newM["party_code"])
 			newM["party_color"] = partyColor(newM["party_code"])
 			newM["party_short_name"] = shortName(newM["party_code"])
 
-                if api=="exportCSV":
+                if api=="exportCSV" or api=="exportORD":
                         if 'bioname' in newM:
                                 newM['bioname'] = newM['bioname'].encode('utf-8')
                         if "nominate" in newM:

@@ -24,6 +24,9 @@ def stateNameToAbbrev(stateName):
 def stateName(shortName):
 	return stateLookup(shortName)["name"]
 
+def stateIcpsr(shortName):
+	return stateLookup(shortName)["state_icpsr"]
+
 if __name__=="__main__":
 	print stateLookup("AK")
 	print stateLookup("DC")
