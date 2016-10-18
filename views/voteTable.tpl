@@ -48,6 +48,7 @@
 				%	for v in voteFields:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
 							{{vote[v]}}
+				%			break
 				%			done=1
 				%		end
 				%	end
