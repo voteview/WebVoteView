@@ -98,7 +98,7 @@ function outVotes(groupBy)
 		// Add spacers before the next category
 		if(i && groupBy!="state_abbrev" && groupBy!="x") { $("<li>&nbsp;</li>").appendTo(baseList); }
 		// Category header
-		var partyLabel = $("<li></li>").css("padding-bottom","3px");
+		var partyLabel = $("<li></li>").css("padding-bottom","3px").css("-webkit-column-break-after","avoid");
 		console.log(key);
 		var headerLabel = sortedKeys[key];
 		if(headerLabel=="Abs") { headerLabel="Absent"; }

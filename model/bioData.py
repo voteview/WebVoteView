@@ -47,12 +47,8 @@ def checkForPartySwitch(person):
 
 	otherIcpsrs = []
 	for congress in searchBoundaries:
-		if "bioName" in person:
-			lookup = memberLookup({'congress': congress, 'name': person["bioName"]},1)
-		elif "fname" in person:
-			lookup = memberLookup({'congress': congress, 'name': person["fname"]},1)
-		else:
-			lookup = memberLookup({'congress': congress, 'name': person["name"]},1)
+		if "bioname" in person:
+			lookup = memberLookup({'congress': congress, 'name': person["bioname"]},1)
 
 		if "errormessage" in lookup:
 			continue
