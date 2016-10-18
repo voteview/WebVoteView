@@ -440,6 +440,11 @@ function updateRequest()
 	// Get the initial list of rollcalls and replace all elements in the container with them
 	function getRollcalls()
 	{
+		if($("#searchTextInput").val().length==9 && ($("#searchTextInput").val().substring(0,2)=="RH" || $("#searchTextInput").val().substring(0,2)=="RS"))
+		{
+			window.location='/rollcall/'+$("#searchTextInput").val();
+			return;
+		}
 		globalQueueRequests=0;
 		$.ajax({
 			type: "POST",
