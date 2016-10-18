@@ -106,8 +106,12 @@
 
 									<div style="padding:30px;padding-bottom:0px;">
 										<input id="support" name="support" type="text" class="span2" value="" 
-											data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-ticks="[0, 50, 100]" data-slider-value="[0,100]"
-											data-slider-ticks-labels="['0%', '50%', '100%']" data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
+											data-slider-min="0" data-slider-max="100" 
+											data-slider-step="1" 
+											data-slider-value="[0,100]"
+											data-slider-ticks="[0, 50, 100]" 
+											data-slider-ticks-labels="['0%', '50%', '100%']" 
+											data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
 											data-slider-id="support-bucket" >
 									</div>
 								</div>
@@ -391,6 +395,7 @@
 		$("#support").slider({value: [0,{{args["supportMax"]}}]});
 		% else:
 		$("#support").slider({});
+		$("#support").slider('relayout');
 		% end
 		% if "keyvote" in args:
 		$("input[value={{args["keyvote"]}}]").attr("checked",true);

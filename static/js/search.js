@@ -189,6 +189,7 @@ function toggleAdvancedSearch(instant)
 			{
 				$('#results-selects').animate({width: 'toggle', opacity: 'toggle'},125, 'linear');
 				$('#support').slider('refresh');
+				$("#support").slider("relayout");
 			});
 		}
 	}
@@ -200,7 +201,7 @@ function toggleAdvancedSearch(instant)
 		}
 		else { $('#resultsHolder').css('width', '100%'); }
 		$('#results-selects').toggle();
-		setTimeout(function(){$('#support').slider('refresh');}, 20);
+		setTimeout(function(){$('#support').slider('refresh'); $("#support").slider('relayout');}, 20);
 	}
 }
 
@@ -388,6 +389,7 @@ $(document).ready(function(){
 	// Toggle panel icons
 	function toggleChevron(e)
 	{
+		if(e.target.id=="facet-support") { $("#support").slider("relayout"); }
 		$(e.target)
 		.prev('.panel-heading')
 		.find('i.indicator')
