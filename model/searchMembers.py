@@ -42,12 +42,13 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	party_code = qDict["party_code"] if "party_code" in qDict else ""
 	district_code = qDict["district_code"] if "district_code" in qDict else ""
 	id = qDict["id"] if "id" in qDict else ""
+	speaker = qDict["speaker"] if "speaker" in qDict else ""
 
 	if api == "R":
 		maxResults = 5000
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code:
+	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
@@ -115,6 +116,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["bioname"] = {'$regex': last+", "+rest, '$options': 'i'}
 		else:
 			searchQuery["$text"] = {"$search": name}
+
+	if speaker:
+		searchQuery["served_as_speaker"] = 1
 
 	if party_code:
 		searchQuery["party_code"] = int(party_code)
@@ -231,8 +235,9 @@ def getMembersByParty(id, congress, api="Web"):
 		return({'errormessage': 'You must provide a party ID.'})
 
 if __name__ == "__main__":
-	print getMembersByParty(29, 28, "Web_Party")
-	print getMembersByParty(200, 0, "Web_Party")
-	print memberLookup({"icpsr": 29137}, maxResults=10, distinct=1)
-	print [x["bioname"] for x in memberLookup({"state_abbrev": "CA", "district_code": 37},114,1,api="Web")["results"]]
+	print memberLookup({"speaker": 1}, maxResults=50, distinct=1)
+	#print getMembersByParty(29, 28, "Web_Party")
+	#print getMembersByParty(200, 0, "Web_Party")
+	#print memberLookup({"icpsr": 29137}, maxResults=10, distinct=1)
+	#print [x["bioname"] for x in memberLookup({"state_abbrev": "CA", "district_code": 37},114,1,api="Web")["results"]]
 	pass
