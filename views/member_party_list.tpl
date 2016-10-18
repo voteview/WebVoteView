@@ -22,7 +22,7 @@
 % end
 % end
 % for member in resultMembers:
-% 	if len(member["bioname"])>20 and "(" in member["bioname"]:
+% 	if "bioname" in member and len(member["bioname"])>20 and "(" in member["bioname"]:
 %		member["bioname"] = member["bioname"].split(",")[0] + ", " + member["bioname"].split("(")[1].split(")")[0]
 %	end
 		<a href="/person/{{member["icpsr"]}}" class="nohover">
@@ -38,7 +38,7 @@
 		</div>
 		</a>
 % i=i+1
-% if i>=8:
+% if i>=50:
 % break
 % end
 % end

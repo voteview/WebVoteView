@@ -426,11 +426,18 @@ def searchAssemble():
 
     # Member search
     resultMembers = []
+    needScore=1
     if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
         try:
             if len(q.split())==1 and (q.upper().startswith("MH") or q.upper().startswith("MS")):
                 memberSearch = memberLookup({"id": q}, 8, distinct=1, api="Web_FP_Search")
                 #return {"yo search bro": "hello world"}
+            elif q.strip().lower() in ["speaker of the house","speakers of the house","speaker: 1", "speaker:1","house speaker"]:
+                memberSearch = memberLookup({"speaker": 1, "chamber": "house"}, 60, distinct=1, api="Web_FP_Search")
+                needScore=0
+            elif q.strip().lower() in ["potus", "president of the united states", "president", "the president", "president:1", "president: 1"]:
+                memberSearch = memberLookup({"chamber": "President"}, 50, distinct=1, api="Web_FP_Search")
+                needScore=0
             elif len(q.split())==1 and int(q):
                 memberSearch = memberLookup({"icpsr": int(q)}, 8, distinct=1, api="Web_FP_Search")
             else:
@@ -446,7 +453,10 @@ def searchAssemble():
                 elif "fname" in member and member["fname"] is not None:
                     memName = member["fname"]
                 else:
-                    memName = member["name"]
+                    try:
+                        memName = member["name"]
+                    except:
+                        memName = "Error, Invalid Name."
 
                 try:
                     memName = memName.replace(",","").lower()
@@ -465,9 +475,12 @@ def searchAssemble():
 
                 resultMembers.append(member)
     #return(resultMembers)
-    resultMembers.sort(key=lambda x: -x["scoreMatch"])
-    if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
-        resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
+    if needScore:
+        resultMembers.sort(key=lambda x: -x["scoreMatch"])
+        if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
+            resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
+    else:
+        resultMembers.sort(key=lambda x: -x["congress"])
 
     # Date facet
     startdate = defaultValue(bottle.request.params.fromDate)
