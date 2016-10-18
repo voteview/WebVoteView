@@ -566,10 +566,10 @@ def searchAssemble():
     codeString = ""
     if len(clausen):
         for cCode in clausen:
-            codeString += "code.Clausen: "+cCode+" OR "
+            codeString += "codes.Clausen: "+cCode+" OR "
     if len(peltzman):
         for pCode in peltzman:
-            codeString += "code.Peltzman: "+pCode+" OR "
+            codeString += "codes.Peltzman: "+pCode+" OR "
     if len(codeString):
         codeString = codeString[0:-4]
         if q is None or q=="":
