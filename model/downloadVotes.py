@@ -27,10 +27,12 @@ def waterfallQuestion(rollcall):
 	return None
 
 def waterfallText(rollcall):
-	waterfall = ["vote_desc", "vote_document_text", "description", "short_description"]
+	waterfall = ["vote_desc", "vote_document_text", "vote_title", "vote_question_text", "amendment_author", "description", "short_description"]
 	for w in waterfall:
+                print w
 		if w in rollcall and rollcall[w] is not None:
 			return rollcall[w]
+                print rollcall
 
 	return "Vote "+rollcall["id"]
 	
@@ -142,7 +144,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 
 	memberTime2 = time.time()
 	# Now iterate through the rollcalls
-	fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1, "description": 1, "shortdescription": 1, "short_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1}
+	fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1, "description": 1, "shortdescription": 1, "short_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1, 'vote_title':1, 'vote_question_text':1, 'amendment_author':1}
 	rollcalls = db.voteview_rollcalls.find({'id': {'$in': rollcall_ids}}, fieldSetNeed).sort('id')
 	for rollcall in rollcalls:
 		result = [] # Hold new votes output, start blank
