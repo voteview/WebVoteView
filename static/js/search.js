@@ -1,3 +1,4 @@
+var doRedirectForce=0;
 var cookieId = "";
 var mostRecentSearch = "";
 var resultCount = 0;
@@ -466,6 +467,13 @@ function updateRequest()
 				var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
 				var partyNumber = parseInt(xhr.getResponseHeader("Party-Number"));
 			        var needScore = parseInt(xhr.getResponseHeader("Need-Score"));
+				if(xhr.getResponseHeader("Redirect-Url") != undefined && xhr.getResponseHeader("Redirect-Url").length && !doRedirectForce)
+				{
+					console.log(xhr.getResponseHeader("Redirect-Url"));
+					doRedirectForce=1;
+					window.location=xhr.getResponseHeader("Redirect-Url");
+					return;
+				}
 				resultCount = resultsNumber;
 				var resultText = "";
 				if(partyNumber)
