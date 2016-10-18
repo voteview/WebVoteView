@@ -4,6 +4,7 @@ import traceback
 import os
 from stateHelper import stateNameToAbbrev, stateName, stateIcpsr
 from searchParties import partyName, noun, partyColor, shortName
+#from searchMeta import metaLookup
 client = pymongo.MongoClient()
 try:
 	dbConf = json.load(open("./model/db.json","r"))
@@ -13,6 +14,9 @@ except:
         except:
                 dbConf = {'dbname':'voteview'}
 db = client[dbConf["dbname"]]
+
+#m = metaLookup()
+#dimWeight = m['nominate']['second_dimweight']
 
 def cqlabel(state_abbrev, district_code):
         if state_abbrev =="USA":
@@ -145,11 +149,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1}
 	elif api=="R":
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate.dim1": 1, "nominate.dim2": 1, "nominate.geo_mean_probability": 1, "cqlabel": 1, "district_code": 1, "chamber": 1, "congresses": 1}
-        elif api=="exportCSV":
+        elif api=="exportCSV" or api == "exportORD":
                 fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1}
-        elif api=="exportORD":
-                fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "district_code": 1, "chamber": 1}
-	else:
+        else:
 		fieldSet = {"_id": 0}
 	if "$text" in searchQuery:
 		fieldSet["score"] = {"$meta": "textScore"}

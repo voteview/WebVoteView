@@ -3,6 +3,7 @@ import json
 import traceback
 from searchMembers import cqlabel
 from searchParties import partyName, shortName
+from searchMeta import metaLookup
 from pymongo import MongoClient
 client = MongoClient()
 try:
@@ -14,7 +15,8 @@ except:
                 dbConf = {'dbname': 'voteview'}
 db = client[dbConf["dbname"]]
 
-dimweight = 0.4158127 # (was set to  0.4156) needs to be extracted from the DB based on most recent nominate run   
+m = metaLookup()
+dimWeight = m['nominate']['second_dimweight']
 
 def waterfallQuestion(rollcall):
         waterfall = ["vote_question", "question"]
@@ -52,7 +54,7 @@ def add_endpoints(mid, spread):
 		intercept = -slope * (float(mid[0])
 					+ float(mid[1]))
 	else:
-		slope = -float(spread[0] / (float(spread[1]) * dimweight * dimweight))
+		slope = -float(spread[0] / (float(spread[1]) * dimWeight * dimWeight))
 		intercept = (-slope * float(mid[0]) + float(mid[1]))
 		x = [10, -10]
 		y = [intercept + slope * xx for xx in x]
