@@ -411,6 +411,8 @@ def searchAssemble():
             testQ = int(q)
             if testQ>0 and testQ<10000:
                 partySearch = partyLookup({"id": q}, api="Web_FP_Search")
+            else:
+                partySearch = {}
         except:
             partySearch = partyLookup({"name": q}, api="Web_FP_Search")
         if "results" in partySearch:
@@ -427,6 +429,7 @@ def searchAssemble():
     # Member search
     resultMembers = []
     needScore=1
+    redirFlag=0
     if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
         try:
             if len(q.split())==1 and (q.upper().startswith("MH") or q.upper().startswith("MS")):
@@ -440,6 +443,7 @@ def searchAssemble():
                 needScore=0
             elif len(q.split())==1 and int(q):
                 memberSearch = memberLookup({"icpsr": int(q)}, 8, distinct=1, api="Web_FP_Search")
+                redirFlag=1
             else:
                 memberSearch = memberLookup({"name": q}, 8, distinct=1, api="Web_FP_Search")
         except:
@@ -598,6 +602,8 @@ def searchAssemble():
         else:
             highlighter = ""
 
+        if redirFlag==1 and len(resultParties)==0 and len(resultMembers)==1 and (not "rollcalls" in res or len(res["rollcalls"])==0):
+            bottle.response.headers["redirect_url"] = "/person/"+str(resultMembers[0]["icpsr"])
         bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
         bottle.response.headers["member_number"] = len(resultMembers)
 	bottle.response.headers["party_number"] = len(resultParties)
