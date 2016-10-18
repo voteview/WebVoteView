@@ -1032,7 +1032,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 				"description":1,"congress":1,"rollnumber":1,"date":1,"bill":1,"chamber":1,
 				"yea_count":1,"nay_count":1,"percent_support":1,
 				"vote_counts":1, "_id": 0, "id": 1, "date_chamber_rollnumber": 1, "key_flags": 1,
-				"vote_desc": 1, "vote_document_text": 1, "short_description": 1, "vote_question": 1, "question": 1, "vote_result":1}
+				"vote_desc": 1, "vote_document_text": 1, "short_description": 1, "vote_question": 1, "question": 1, "vote_result":1,
+                                'vote_title': 1, 'vote_question_text': 1, 'amendment_author': 1}
 	else:
 		fieldReturns = {"id": 1, "_id": 0, "date_chamber_rollnumber": 1}
 
