@@ -123,6 +123,11 @@
 		</div>
 	</div>
 	% end
+	% if "biography" in person and "speaker of the house" in person["biography"].lower():
+	<div class="alert alert-warning">
+		<strong>Notice:</strong> By custom, the Speaker of the House rarely votes. Votes for {{person["bioname"]}} may appear to be missing as a result.
+	</div>
+	% end
     <div class="row">
         <div class="col-md-12">
 	    <form onsubmit="javascript:startNewSearch();return false;" class="form-horizontal">
@@ -161,6 +166,11 @@
     </div>
 </div>
 
+<script>
+var memberICPSR = {{person["icpsr"]}};
+var congressNum = {{person["congress"]}};
+var globalNextId = {{nextId}};
+</script>
 % if plotIdeology:
 <script>
 var mapParties=1;
@@ -184,8 +194,4 @@ var partyColor = "{{person["party_color"]}}";
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/personIdeology.js"></script>
 % end
-<script>
-var memberICPSR = {{person["icpsr"]}};
-var congressNum = {{person["congress"]}};
-var globalNextId = {{nextId}};</script>
 <script type-"text/javascript" src="{{ STATIC_URL }}js/personVotes.js"></script>

@@ -233,5 +233,6 @@ def getMembersByParty(id, congress, api="Web"):
 if __name__ == "__main__":
 	print getMembersByParty(29, 28, "Web_Party")
 	print getMembersByParty(200, 0, "Web_Party")
+	print memberLookup({"icpsr": 29137}, maxResults=10, distinct=1)
 	print [x["bioname"] for x in memberLookup({"state_abbrev": "CA", "district_code": 37},114,1,api="Web")["results"]]
 	pass
