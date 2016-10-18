@@ -49,6 +49,8 @@ def checkForPartySwitch(person):
 	for congress in searchBoundaries:
 		if "bioname" in person:
 			lookup = memberLookup({'congress': congress, 'name': person["bioname"]},1)
+		else:
+			return {}
 
 		if "errormessage" in lookup:
 			continue

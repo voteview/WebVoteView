@@ -38,12 +38,6 @@ def prepVotes(voteQuery, person):
 					if probResult is not None:
 						votes[i]["myProb"] = probResult
 				except:
-					print person["icpsr"]
-					print iV["votes"]
-					for v in iV["votes"]:
-						print v
-					
-					print traceback.format_exc()
 					print "Error calculating probability of vote."
 					pass
 
