@@ -41,10 +41,10 @@
 		<span id="partyname">
 			<a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a>
 		</span>
-		% if person["state"]!="(President)":
+		% if person["state"]!="President":
 		 of {{person["state"]}} <img src="/static/img/states/{{ person["state_abbrev"]}}.png" style="width:20px;vertical-align:middle;">
 		% else:
-		 , President of the United States <img src="/static/img/states/{{ person["state_abbrev"]}}.png" style="width:20px;vertical-align:middle;">
+		 , President of the United States <img src="/static/img/states/US.png" style="width:20px;vertical-align:middle;">
 		% end
 	    </h4>
 		
@@ -169,21 +169,23 @@ var mapParties=1;
 % else:
 	var chamber = "senate";
 % end
-var memberICPSR = {{person["icpsr"]}};
-var congressNum = {{person["congress"]}};
 var memberIdeal = {{person["nominate"]["dim1"]}};
 var memberIdealBucket = Math.floor({{person["nominate"]["dim1"]}}*10);
 var memberPartyName = "{{person["party_name"]}}";
 var memberPartyCode = "{{person["party_code"]}}";
 var memberNoun = "{{person["party_noun"]}}";
 var partyColor = "{{person["party_color"]}}";
-var globalNextId = {{nextId}};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/personIdeology.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/personIdeology.js"></script>
 % end
+<script>
+var memberICPSR = {{person["icpsr"]}};
+var congressNum = {{person["congress"]}};
+var globalNextId = {{nextId}};</script>
+<script type-"text/javascript" src="{{ STATIC_URL }}js/personVotes.js"></script>
