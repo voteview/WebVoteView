@@ -27,6 +27,11 @@
 % end
 % person["last_name"] = person["bioname"].split(",")[0].upper()[0]+person["bioname"].split(",")[0].lower()[1:]
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+% if person["state"]!="President":
+% 	stateText = " of "+person["state"]+' <img src="/static/img/states/'+person["state_abbrev"]+'.png" style="width:20px;vertical-align:middle;">' 
+% else:
+%	stateText = ', President of the United States <img src="/static/img/states/US.png" style="width:20px;vertical-align:middle;">'
+% end
 <div class="container">
     <div class="row">
         <div class="col-md-2">
@@ -38,14 +43,7 @@
 		</h2>
 
             <h4>
-		<span id="partyname">
-			<a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a>
-		</span>
-		% if person["state"]!="President":
-		 of {{person["state"]}} <img src="/static/img/states/{{ person["state_abbrev"]}}.png" style="width:20px;vertical-align:middle;">
-		% else:
-		 , President of the United States <img src="/static/img/states/US.png" style="width:20px;vertical-align:middle;">
-		% end
+		<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!stateText}}
 	    </h4>
 		
 	    <h4>{{ label }}
