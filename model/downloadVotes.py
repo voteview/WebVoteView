@@ -29,10 +29,8 @@ def waterfallQuestion(rollcall):
 def waterfallText(rollcall):
 	waterfall = ["vote_desc", "vote_document_text", "vote_title", "vote_question_text", "amendment_author", "description", "short_description"]
 	for w in waterfall:
-                print w
 		if w in rollcall and rollcall[w] is not None:
 			return rollcall[w]
-                print rollcall
 
 	return "Vote "+rollcall["id"]
 	
