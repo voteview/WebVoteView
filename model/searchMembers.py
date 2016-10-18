@@ -189,13 +189,13 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
                                 newM["state_icpsr"] = stateIcpsr(newM["state_abbrev"])
 		if "district_code" in newM and "state_abbrev" in newM:
                         newM["cqlabel"] = cqlabel(newM["state_abbrev"], newM["district_code"])
-		if "party_code" in newM and api!="exportORD":
+		if "party_code" in newM and api not in ["exportORD", "exportCSV"]:
 			newM["party_noun"] = noun(newM["party_code"])
 			newM["party_name"] = partyName(newM["party_code"])
 			newM["party_color"] = partyColor(newM["party_code"])
 			newM["party_short_name"] = shortName(newM["party_code"])
 
-                if api=="exportCSV" or api=="exportORD":
+                if api in ["exportCSV", "exportORD"]:
                         if 'bioname' in newM:
                                 newM['bioname'] = newM['bioname'].encode('utf-8')
                         if "nominate" in newM:

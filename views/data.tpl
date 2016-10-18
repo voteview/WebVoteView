@@ -102,6 +102,10 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
     aobj.attr("target", "_blank");
   }
 
+  function padCongress(congress) {
+    var congressPad = ('000'+congress).substring(congress.length);
+    return congressPad;
+  }
 
   $(document).ready(function(){
     $(".dataLink").each(function() {
@@ -110,11 +114,11 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 
       if($(this).find("a").attr("class") == "csv")
       {
-	setCSVLink($(this).find("a"), chamber, congress);
+	setCSVLink($(this).find("a"), chamber, padCongress(congress));
       }
       else
       {
-	setORDLink($(this).find("a"), chamber, congress);
+	setORDLink($(this).find("a"), chamber, padCongress(congress));
       }
     });
 
@@ -125,11 +129,11 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 
       if(dcontent.find("a").attr("class") == "csv")
       {
-        setCSVLink(dcontent.find("a"), chamber, congress);
+        setCSVLink(dcontent.find("a"), chamber, padCongress(congress));
       }
       else
       {
-        setORDLink(dcontent.find("a"), chamber, congress);
+        setORDLink(dcontent.find("a"), chamber, padCongress(congress));
       }
     });
 
