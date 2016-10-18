@@ -10,6 +10,13 @@
 %		return int(round(prob))
 %	end
 % end
+% def fixPunc(text):
+% 	if text.endswith(".") or text.endswith(". "):
+%		return text
+%	else:
+%		return text+". "
+%	end
+% end
 
 % if len(votes):
 		% if not int(skip):
@@ -43,19 +50,26 @@
 				% end
 			    </td>
                             <td style="border-right:1px solid #dddddd;">
-				%	voteFields = ["vote_desc", "vote_document_text", "description", "short_description", "vote_question", "question"]
+				%	voteFields = ["vote_desc", "vote_document_text", "description", "short_description"]
 				%	done=0
 				%	for v in voteFields:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
-							{{vote[v]}}
-				%			break
+							{{fixPunc(vote[v])}}
 				%			done=1
+				%			break
 				%		end
 				%	end
 				%	if done==0:
 						{{rcSuffix(vote["congress"])}} Congress &gt {{vote["chamber"]}} &gt; Vote {{str(vote["rollnumber"])}}
 				%	end
 
+				%	voteFieldsQ = ["vote_question", "question"]
+				%	for v in voteFieldsQ:
+				%		if v in vote and vote[v] is not None and len(vote[v]):
+							{{vote[v]}}
+				%			break
+				%		end
+				%	end
 				% if "key_flags" in vote and len(vote["key_flags"]):
 				<span class="btn btn-default btn-xs" 
 					aria-label="Key Vote" style="margin-left: 10px;" data-toggle="tooltip" 
