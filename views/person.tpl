@@ -10,7 +10,7 @@
 % else:
 %	label = "Served"
 % end
-% if person["yearsOfService"][-1][1]>person["died"] and person["died"] is not None:
+% if "died" in person and person["yearsOfService"][-1][1]>person["died"] and person["died"] is not None:
 %       person["yearsOfService"][-1][1] = person["died"]
 % end
 % if "born" in person and "died" in person and person["born"] is not None and person["died"] is not None:
@@ -120,7 +120,11 @@
 		<div class="col-md-12">
 			<h3>Biography</h3>
 			{{ !person["biography"] }}
+			% if not "bioguide_id" in person:
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></small>
+			% else:
+			<br/><small><em>Courtest of</em> <a href="http://bioguide.congress.gov/scripts/biodisplay.pl?index={{person["bioguide_id"]}}">Biographical Directory of the United States Congress</a></small>
+			% end
 		</div>
 	</div>
 	% end
