@@ -128,7 +128,7 @@
 		</div>
 	</div>
 	% end
-	% if "biography" in person and "speaker of the house" in person["biography"].lower():
+	% if "biography" in person and person["served_as_speaker"] and person["chamber"]!="President":
 	<div class="alert alert-warning">
 		<strong>Notice:</strong> By custom, the Speaker of the House rarely votes. Votes for {{person["bioname"]}} may appear to be missing as a result.
 	</div>
