@@ -10,7 +10,7 @@ from fuzzywuzzy import fuzz
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
-from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty
+from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, nicknameHelper
 from model.searchParties import partyLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.prepVotes import prepVotes
@@ -442,16 +442,15 @@ def searchAssemble():
                 memberSearch = memberLookup({"chamber": "President"}, 50, distinct=1, api="Web_FP_Search")
                 needScore=0
             elif len(q.split())==1 and int(q):
-                memberSearch = memberLookup({"icpsr": int(q)}, 8, distinct=1, api="Web_FP_Search")
+                memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
                 redirFlag=1
             else:
-                memberSearch = memberLookup({"name": q}, 8, distinct=1, api="Web_FP_Search")
+                memberSearch = memberLookup({"name": q}, 20, distinct=1, api="Web_FP_Search")
         except:
-                memberSearch = memberLookup({"name": q}, 8, distinct=1, api="Web_FP_Search")
+                memberSearch = memberLookup({"name": q}, 20, distinct=1, api="Web_FP_Search")
         if "results" in memberSearch:
             for member in memberSearch["results"]:
                 memName = ""
-                print(member)
                 if "bioname" in member and member["bioname"] is not None:
                     memName = member["bioname"]
                 elif "fname" in member and member["fname"] is not None:
@@ -467,9 +466,22 @@ def searchAssemble():
                 except:
                     memName = memName.lower()
 
-                member["scoreMatch"] = fuzz.token_set_ratio(memName, q.replace(",","").lower())
+                searchNameToScore = q.replace(",","").lower()
+                scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
+                scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
+                member["scoreMatch"] = max(scoreBasic, scoreNick)
                 if member["congress"]>=100:
                     member["scoreMatch"] += 10
+                if member["chamber"]=="President":
+                    member["scoreMatch"] += 250
+                if member["chamber"]=="Senate":
+                    member["scoreMatch"] += 10
+                if "congresses" in member:
+                    duration = 0
+                    for cong in member["congresses"]:
+                        duration = duration+(cong[1]-cong[0])
+                    if duration>=5:
+                        member["scoreMatch"] += 7
 
                 if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
                     member["bioImg"] = "silhouette.png"
@@ -478,6 +490,7 @@ def searchAssemble():
                 member["minElected"] = congressToYear(member["congresses"][0][0], 0)
 
                 resultMembers.append(member)
+
     #return(resultMembers)
     if needScore:
         resultMembers.sort(key=lambda x: -x["scoreMatch"])
@@ -485,6 +498,8 @@ def searchAssemble():
             resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
     else:
         resultMembers.sort(key=lambda x: -x["congress"])
+    if len(resultMembers)>8:
+        resultMembers=resultMembers[0:8]
 
     # Date facet
     startdate = defaultValue(bottle.request.params.fromDate)
@@ -527,9 +542,9 @@ def searchAssemble():
 
         if "," in support:
             try:
-                min, max = [int(x) for x in support.split(",")]
-                if min!=0 or max!=100:
-                    q = q + " support:["+str(min)+" to "+str(max)+"]"
+                valMin, valMax = [int(x) for x in support.split(",")]
+                if valMin!=0 or valMax!=100:
+                    q = q + " support:["+str(valMin)+" to "+str(valMax)+"]"
             except:
                 pass
         else:
