@@ -20,5 +20,19 @@ def addressToLatLong(addressString):
 	if "results" in resJSON and "geometry" in resJSON["results"][0] and "location" in resJSON["results"][0]["geometry"]:
 		return resJSON["results"][0]["geometry"]["location"]
 
+def latLongToDistrictCodes(lat, lng):
+	geoClient = client["district_geog"]
+	gquery = {"geometry":{"$geoIntersects":{"$geometry":{"type":"Point","coordinates":[lng, lat]}}}}
+	res = []
+	for r in db.districts.find(gquery,{'properties':1}).sort("properties.startcong",1):
+		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
+		if int(rec[1]):
+			for cng in range(rec[2],rec[3]+1):
+				res.append( [rec[0],cng,int(rec[1])] )
+	return res
+	pass
+
 if __name__=="__main__":
-	print addressToLatLong("405 Hilgard Ave, Los Angeles, CA")
+	coords = addressToLatLong("405 Hilgard Ave, Los Angeles, CA")
+	print coords
+	print latLongToDistrictCodes(coords["lat"], coords["lng"])
