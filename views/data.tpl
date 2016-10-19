@@ -8,7 +8,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
   <div class="row">
     <div class="col-md-9">
 
-      <h3>Live NOMINATE and Related Data</h3>
+      <h3>Realtime NOMINATE and Related Data</h3>
       <p>
 	<div class="dataContainer">
 	  <a href="#" class="dataHeader"><h4>Rollcall parameters and metadata</h4></a>
@@ -54,7 +54,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       </p>
       --->
 
-      <h3>Rollcall Data</h3>
+      <h3>DW-NOMINATE Flat Files</h3>
       <p>
 	<div class="dataContainer">
 	  <a href="#" class="dataHeader"><h4>Roll Call Data (.ORD Vote Matrices)</h4></a>
@@ -62,6 +62,26 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 	    % include('data_dropdowns.tpl')
 	    <div class="dataLink">
 	      <a class="ord" id="rcmat">Download</a>
+	    </div>
+	  </div>
+	</div>
+      </p>
+      <p>
+	<div class="dataContainer">
+	  <a href="#" class="dataHeader"><h4>Rollcall .DAT file</h4></a>
+	  <div class="dataContent" style="display:none;">
+	    <div class="dataLinkFixed">
+	      <a id="rcdat" href="/static/data/dat/rollcall_both_all.dat">Download for all Congresses and Chambers</a>
+	    </div>
+	  </div>
+	</div>
+      </p>
+      <p>
+	<div class="dataContainer">
+	  <a href="#" class="dataHeader"><h4>Member .DAT file</h4></a>
+	  <div class="dataContent" style="display:none;">
+	    <div class="dataLinkFixed">
+	      <a id="memberdat" href="/static/data/dat/member_both_all.dat">Download for all Congresses and Chambers</a>
 	    </div>
 	  </div>
 	</div>
