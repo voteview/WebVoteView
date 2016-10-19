@@ -10,7 +10,7 @@
 % else:
 %	label = "Served"
 % end
-% if person["yearsOfService"][-1][1]>person["died"]:
+% if person["yearsOfService"][-1][1]>person["died"] and person["died"] is not None:
 %       person["yearsOfService"][-1][1] = person["died"]
 % end
 % if "born" in person and "died" in person and person["born"] is not None and person["died"] is not None:
