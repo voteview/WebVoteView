@@ -430,17 +430,19 @@ def searchAssemble():
     resultMembers = []
     needScore=1
     redirFlag=0
+    expandResults=0
     if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
         try:
             if len(q.split())==1 and (q.upper().startswith("MH") or q.upper().startswith("MS")):
                 memberSearch = memberLookup({"id": q}, 8, distinct=1, api="Web_FP_Search")
-                #return {"yo search bro": "hello world"}
             elif q.strip().lower() in ["speaker of the house","speakers of the house","speaker: 1", "speaker:1","house speaker"]:
                 memberSearch = memberLookup({"speaker": 1, "chamber": "house"}, 60, distinct=1, api="Web_FP_Search")
                 needScore=0
+                expandResults=1
             elif q.strip().lower() in ["potus", "president of the united states", "president", "the president", "president:1", "president: 1"]:
                 memberSearch = memberLookup({"chamber": "President"}, 50, distinct=1, api="Web_FP_Search")
                 needScore=0
+                expandResults=1
             elif len(q.split())==1 and int(q):
                 memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
                 redirFlag=1
@@ -498,7 +500,7 @@ def searchAssemble():
             resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
     else:
         resultMembers.sort(key=lambda x: -x["congress"])
-    if len(resultMembers)>8:
+    if len(resultMembers)>8 and not expandResults:
         resultMembers=resultMembers[0:8]
 
     # Date facet
