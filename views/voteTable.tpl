@@ -50,7 +50,7 @@
 				% end
 			    </td>
                             <td style="border-right:1px solid #dddddd;">
-				%	voteFields = ["vote_desc", "vote_document_text", "description", "short_description"]
+				%	voteFields = ["vote_desc", "vote_document_text", "vote_title", "vote_question_text", "amendment_author", "description", "short_description"]
 				%	done=0
 				%	for v in voteFields:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
