@@ -8,11 +8,14 @@ from searchParties import partyName, noun, partyColor, shortName
 client = pymongo.MongoClient()
 try:
 	dbConf = json.load(open("./model/db.json","r"))
+	nicknames = json.load(open("./model/nicknames.json","r"))
 except:
         try:
                 dbConf = json.load(open("./db.json","r"))
+		nicknames = json.load(open("./nicknames.json", "r"))
         except:
                 dbConf = {'dbname':'voteview'}
+		nicknames = []
 db = client[dbConf["dbname"]]
 
 #m = metaLookup()
@@ -136,13 +139,12 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	response = []
 	errormessage = ""
 	i = 0
-	print searchQuery
 
 	# Field return specifications, allows us to return less than all our data to searches.
 	if api=="Web_PI":
 		fieldSet = {"nominate.dim1": 1, "party_code": 1, "icpsr": 1, "chamber":1, "_id": 0}
 	elif api=="Web_FP_Search":
-		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1, "chamber": 1}
 	elif api=="Web_Congress":
 		if chamber:
 			fieldName = "elected_"+chamber.lower()
@@ -156,7 +158,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
         elif api=="exportCSV" or api == "exportORD":
                 fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1}
         else:
-		fieldSet = {"_id": 0}
+		fieldSet = {"_id": 0, "personid": 0}
 	if "$text" in searchQuery:
 		fieldSet["score"] = {"$meta": "textScore"}
 
@@ -234,8 +236,41 @@ def getMembersByParty(id, congress, api="Web"):
 	else:
 		return({'errormessage': 'You must provide a party ID.'})
 
+def nicknameHelper(text, ref=""):
+	if len(ref):
+		refNames = ref.split()
+	else:
+		refNames = []
+
+	name = ""
+	text = text.replace(",","")
+	for word in text.split():
+		if word in refNames:
+			name = name+word+" "
+			continue
+
+		match = [x for x in nicknames if x["name"].lower()==word.lower()]
+		if len(match):
+			match = sorted(match, key=lambda x: len(x["nickname"]))
+			if len(match[0]["nickname"])<len(word):
+				name = name+match[0]["nickname"]+" "
+			else:
+				name = name+word+" "
+		else:
+			matchBack = [x for x in nicknames if x["nickname"].lower()==word.lower()]
+			if len(matchBack):
+				matchBack = sorted(matchBack, key=lambda x: len(x["name"]))
+				if len(matchBack[0]["name"])<len(word):
+					name = name+matchBack[0]["name"]+" "
+				else:
+					name = name+word+" "
+			else:
+				name = name+word+" "
+	name = name.strip()
+	return name
+
 if __name__ == "__main__":
-	print memberLookup({"speaker": 1}, maxResults=50, distinct=1)
+	#print memberLookup({"speaker": 1}, maxResults=50, distinct=1)
 	#print getMembersByParty(29, 28, "Web_Party")
 	#print getMembersByParty(200, 0, "Web_Party")
 	#print memberLookup({"icpsr": 29137}, maxResults=10, distinct=1)
