@@ -928,7 +928,7 @@ def addToQueryDict(queryDict, queryField, toAdd):
 def query(qtext, startdate=None, enddate=None, chamber=None, 
           flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
                   "descriptionShort", "descriptionShortLiteral"],
-          icpsr=None, rowLimit=5000, jsapi=0, sortDir=-1, sortSkip=0, sortScore=1, sortRoll=0, idsOnly=0):
+          icpsr=None, rowLimit=5000, jsapi=0, rapi=0, sortDir=-1, sortSkip=0, sortScore=1, sortRoll=0, idsOnly=0):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -1119,7 +1119,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	maxScore = 0
 	for res in results:
                 # Apply waterfall to text if jsapi
-                if jsapi:
+                if jsapi or rapi:
                         res["text"] = waterfallText(res)
                         res["question"] = waterfallQuestion(res)
 		if not maxScore and needScore and res["score"]>=maxScore:

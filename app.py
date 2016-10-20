@@ -680,8 +680,8 @@ def search():
     enddate = defaultValue(bottle.request.params.enddate)
     chamber = defaultValue(bottle.request.params.chamber)
     icpsr = defaultValue(bottle.request.params.icpsr)
-
-    res = query(q,startdate,enddate,chamber, icpsr=icpsr)
+    rapi = defaultValue(bottle.request.params.rapi,0)
+    res = query(q,startdate,enddate,chamber, icpsr=icpsr, rapi=rapi)
     return(res)
 
 
