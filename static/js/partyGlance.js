@@ -301,7 +301,15 @@ q
 	console.timeEnd("partyList");
     });
 
-$('.close').click(function(e)
+
+$('#toggleAlert').click(function()
 {
+        if($('#alertPartiesGlance').is(':hidden')) { $('#alertPartiesGlance').show(); }
+        else { $('#alertPartiesGlance').hide(); }
+});
+$('#closeAlert').click(function(e)
+{
+        if($('#alertPartiesGlance').is(':hidden')) { $('#alertPartiesGlance').show(); }
+        else { $('#alertPartiesGlance').hide(); }
 	Cookies.set(e.currentTarget.parentElement.id, '1', {expires: 7});
 });
