@@ -1,26 +1,27 @@
+import time
 import math
 import json
 import requests
 from pymongo import MongoClient
+from stateHelper import stateNameToAbbrev
 client = MongoClient()
 
 # Shut up the stupid SSL warning crap
 import requests.packages.urllib3
 requests.packages.urllib3.disable_warnings()
 
+db = client["district_geog"]
 try:
-	dbConf = json.load(open("./model/db.json","r"))
+        authData = json.load(open("auth.json","r"))
 except:
-	dbConf = json.load(open("./db.json","r"))
-db = client[dbConf["dbname"]]
-try:
-	authData = json.load(open("auth.json","r"))
-except:
-	authData = json.load(open("./model/auth.json","r"))
+        authData = json.load(open("./model/auth.json","r"))
 
 def addressToLatLong(addressString):
 	warning = []
 	apiKey = authData["geocodeAPI"]
+	if not addressString:
+		return {"status": 1, "error_message": "You must enter an address to continue."}
+
 	result = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address="+addressString+"&key="+apiKey).text
 	resJSON = json.loads(result)
 	if "status" in resJSON and resJSON["status"]!="OK":
@@ -81,20 +82,18 @@ def latLongToDistrictCodes(lat, lng):
 		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
 		if int(rec[1]):
 			for cng in range(rec[2],rec[3]+1):
-				res.append( [rec[0],cng,int(rec[1])] )
+				res.append( [stateNameToAbbrev(rec[0])["state_abbrev"],cng,int(rec[1])] )
 	return res
 	pass
 
 if __name__=="__main__":
-	tests = [
-			{"Address": "200 Elizabeth Ave, St. John's, NL, Canada", "Expected": 1},
-			{"Address": "405 Hilgard Ave, Los Angeles, CA, USA", "Expected": 0},
-			{"Address": "405 Hilgard Ave, Los Angeles, CA", "Expected": 0},
-			{"Address": "405 Hilgard Ave, Los Angeles", "Expected": 0},
-			{"Address": "Cartoonishly Incorrect Address 6q10ihuds, Los Angeles, CA", "Expected": 1},
-			{"Address": "90033", "Expected": 0},
-			{"Address": "Kansas", "Expected": 0}
-		]
+	start = time.time()
+	addStr = "405 Hilgard Ave, Los Angeles, CA"
+	res = addressToLatLong(addStr)
+	resMem = latLongToDistrictCodes(res["lat"], res["lng"])
+	orSet = []
+	for r in resMem:
+		orSet.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
+	print orSet
 
-	for test in tests:
-		print addressToLatLong(test["Address"]), test["Expected"]
+	print "Duration of lookup:", (time.time()-start)

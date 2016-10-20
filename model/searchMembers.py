@@ -46,16 +46,20 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	district_code = qDict["district_code"] if "district_code" in qDict else ""
 	id = qDict["id"] if "id" in qDict else ""
 	speaker = qDict["speaker"] if "speaker" in qDict else ""
+	idIn = qDict["idIn"] if "idIn" in qDict else []
 
 	if api == "R":
 		maxResults = 5000
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker:
+	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker and not idIn:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
 	searchQuery = {}
+	if api=="districtLookup":
+		searchQuery["id"] = {"$in": qDict["idIn"]}
+
 	if icpsr:
 		try:
 			icpsr = int(icpsr)
@@ -157,11 +161,14 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate.dim1": 1, "nominate.dim2": 1, "nominate.geo_mean_probability": 1, "cqlabel": 1, "district_code": 1, "chamber": 1, "congresses": 1}
         elif api=="exportCSV" or api == "exportORD":
                 fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1}
+	elif api=="districtLookup":
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "nominate.dim1": 1, "district_code": 1, "_id": 0}
         else:
 		fieldSet = {"_id": 0, "personid": 0}
 	if "$text" in searchQuery:
 		fieldSet["score"] = {"$meta": "textScore"}
 
+        print(api)
 	res = db.voteview_members.find(searchQuery, fieldSet)
 
 	if "$text" in searchQuery:
@@ -191,7 +198,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
                                 newM["state_icpsr"] = stateIcpsr(newM["state_abbrev"])
 		if "district_code" in newM and "state_abbrev" in newM:
                         newM["cqlabel"] = cqlabel(newM["state_abbrev"], newM["district_code"])
-		if "party_code" in newM and api not in ["exportORD", "exportCSV"]:
+		if "party_code" in newM and api not in ["exportORD", "exportCSV", "R"]:
 			newM["party_noun"] = noun(newM["party_code"])
 			newM["party_name"] = partyName(newM["party_code"])
 			newM["party_color"] = partyColor(newM["party_code"])
@@ -268,6 +275,13 @@ def nicknameHelper(text, ref=""):
 				name = name+word+" "
 	name = name.strip()
 	return name
+
+def getMembersByPrivate(query):
+	idIn = []
+	for r in db.voteview_members.find({"chamber": "House", "$or": query}, {"id": 1, "_id": 0}):
+		idIn.append(r["id"])
+
+	return memberLookup({"idIn": idIn}, maxResults=200, distinct=0, api="districtLookup")
 
 if __name__ == "__main__":
 	#print memberLookup({"speaker": 1}, maxResults=50, distinct=1)
