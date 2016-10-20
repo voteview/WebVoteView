@@ -245,7 +245,8 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 			elif apitype=="R":
 				if "nominate" in rollcall:
 					nominate = {"mid1": rollcall["nominate"]["mid"][0], "mid2": rollcall["nominate"]["mid"][1],
-						    "spread1": rollcall["nominate"]["spread"][0], "spread2": rollcall["nominate"]["spread"][1]}
+						    "spread1": rollcall["nominate"]["spread"][0], "spread2": rollcall["nominate"]["spread"][1],
+                                                    "nomslope": rollcall['nominate']['slope'], 'nomintercept': rollcall['nominate']['intercept']}
 				else:
 					nominate = {}
 
