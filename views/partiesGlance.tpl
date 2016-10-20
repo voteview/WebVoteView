@@ -17,9 +17,9 @@
 					Parties Overview
 				</h3>
 
-				<h4>Congress at a Glance:</h4>
+				<h4>Congress at a Glance:<span class="glyphicon glyphicon-question-sign" style="font-size:14px;float:right;vertical-align:middle;cursor:pointer;" id="toggleAlert"></span></h4>
 				<div class="alert alert-info fade in" style="margin-bottom:20px;" id="alertPartiesGlance">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
+					<a href="#" id="closeAlert" style="float:right;text-decoration:none;">&times;</a> 
 					<strong>How to Read Chart:</strong> 
 					This chart shows the ideologies of <em>major parties</em> in congress throughout history according to <strong>DW-Nominate</strong>. 
 					Each line represents the median (mid-point) ideology of members of a single party. A lower line means a more liberal party, while a higher line means a more conservative party.
