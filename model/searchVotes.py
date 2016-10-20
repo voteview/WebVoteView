@@ -1053,8 +1053,6 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
-	elif not needScore:
-		print queryDict 
 
 	votes = db.voteview_rollcalls
 	try:
