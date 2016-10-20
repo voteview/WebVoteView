@@ -34,7 +34,7 @@ except:
 SCORE_THRESHOLD = scoreData["scoreThreshold"] if "scoreThreshold" in scoreData else 0.75
 SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" in scoreData else 0.5
 
-fieldTypes = {"codes": "codes", "codes.Clausen": "str", "codes.Peltzman": "str", "codes.Issue": "str", 
+fieldTypes = {"codes": "codes", "codes.Clausen": "code", "codes.Peltzman": "code", "codes.Issue": "code",
 		"description": "flexstr", "congress": "int", "short_description": "flexstr", "vote_desc": "flexstr", 
 		"vote_document_text": "flexstr", "bill": "str", "alltext": "alltext", "yea": "int", "nay": "int", 
 		"yea_count": "int", "nay_count": "int", "percent_support": "int", "key_flags": "key_flags",
@@ -683,6 +683,8 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 	# CODES: Search all code fields
 	if fieldType=="codes":
 		queryDict = addToQueryDict(queryDict, "$or", [{x: {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"}} for x in fieldTypes if x.startswith("codes.")])
+        elif fieldType=="code":
+		queryDict = addToQueryDict(queryDict, queryField, {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"})
 	elif fieldType=="fulltext":
 		queryDict = addToQueryDict(queryDict, "$text", {"$search": queryWords.lower()})
 		needScore = 1
