@@ -667,6 +667,13 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 		if queryWords.strip()[0]=="\"" and queryWords.strip()[-1]=="\"":
 			queryWords = queryWords[1:-1].lower()
 			print "alltext to regexp or"
+			# Do a fulltext query to isolate candidate superset
+			validIdStart = []
+			for r in db.voteview_rollcalls.find({"$text": {"$search": queryWords.lower()}}, {"_id": 0, "id": 1}):
+				validIdStart.append(r["id"])
+			# Add candidate votes to query
+			queryDict = addToQueryDict(queryDict, "id", {"$in": validIdStart})
+			# Now regex from the candidates
 			queryDict = addToQueryDict(queryDict, "$or", [{x: {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"}} for x in fieldTypes if fieldTypes[x] in ["str", "fulltext","flexstr"]])
 		        return [queryDict, needScore, ""]
 		else:
@@ -682,6 +689,14 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 	elif fieldType=="str":		
 		if queryWords[0]=="\"" and queryWords[-1]=="\"":
 			queryWords = queryWords[1:-1]
+
+		# Do a fulltext query to isolate candidate superset.
+		validIdStart = []
+		for r in db.voteview_rollcalls.find({"$text": {"$search": queryWords.lower()}}, {"_id": 0, "id": 1}):
+			validIdStart.append(r["id"])
+		# Add candidate votes to query
+		queryDict = addToQueryDict(queryDict, "id", {"$in": validIdStart})
+		# Now regex from the candidates
 		queryDict = addToQueryDict(queryDict, queryField, {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"})
 
 	# STREXACT fields: have to exactly match the full field, was used for 'bill' but no longer
@@ -1023,7 +1038,6 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			pass
 
 	if icpsr is not None:
-		#queryDict["votes."+icpsr] = {"$exists": 1}		
 		queryDict["votes.id"] = icpsr
 
 	# Get results
@@ -1039,6 +1053,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
+	elif not needScore:
+		print queryDict 
 
 	votes = db.voteview_rollcalls
 	try:
