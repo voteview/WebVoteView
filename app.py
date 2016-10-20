@@ -439,7 +439,7 @@ def searchAssemble():
                 memberSearch = memberLookup({"speaker": 1, "chamber": "house"}, 60, distinct=1, api="Web_FP_Search")
                 needScore=0
                 expandResults=1
-            elif q.strip().lower() in ["potus", "president of the united states", "president", "the president", "president:1", "president: 1"]:
+            elif q.strip().lower() in ["potus", "president of the united states", "president", "the president", "president:1", "president: 1","presidents","presidents of the united states","presidents of the united states of america","president of the united states of america"]:
                 memberSearch = memberLookup({"chamber": "President"}, 50, distinct=1, api="Web_FP_Search")
                 needScore=0
                 expandResults=1
@@ -447,9 +447,9 @@ def searchAssemble():
                 memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
                 redirFlag=1
             else:
-                memberSearch = memberLookup({"name": q}, 20, distinct=1, api="Web_FP_Search")
+                memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
         except:
-                memberSearch = memberLookup({"name": q}, 20, distinct=1, api="Web_FP_Search")
+                memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
         if "results" in memberSearch:
             for member in memberSearch["results"]:
                 memName = ""
@@ -472,6 +472,7 @@ def searchAssemble():
                 scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
                 scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
                 member["scoreMatch"] = max(scoreBasic, scoreNick)
+		print q, "/", memName, "/", scoreBasic, scoreNick
                 if member["congress"]>=100:
                     member["scoreMatch"] += 10
                 if member["chamber"]=="President":
