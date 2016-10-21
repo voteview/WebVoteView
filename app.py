@@ -154,6 +154,10 @@ def congress(chamber="senate"):
     output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress)
     return output
 
+@app.route("/district")
+def district():
+    output = bottle.template("views/district")
+    return output
 
 @app.route("/parties")
 @app.route("/parties/<party>/<congStart>")
@@ -341,11 +345,11 @@ def getmembersbycongress():
     if api=="Web_Congress":
         for i in range(0,len(out["results"])):
             memberRow = out["results"][i]
-            padICPSR = str(memberRow["icpsr"]).zfill(6)
-            if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
-                memberRow["bioImgURL"] = padICPSR+".jpg"
-            else:
-                memberRow["bioImgURL"] = "silhouette.png"
+            #padICPSR = str(memberRow["icpsr"]).zfill(6)
+            #if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
+            #    memberRow["bioImgURL"] = padICPSR+".jpg"
+            #else:
+            #    memberRow["bioImgURL"] = "silhouette.png"
 
             memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
 
@@ -356,31 +360,32 @@ def getmembersbycongress():
 
 @app.route("/api/geocode")
 def geocode():
-	q = defaultValue(bottle.request.params.q,"")
-	if not q:
-		return {"status": 1, "error_message": "No address specified."}
-	else:
-		return addressToLatLong(q)
+    q = defaultValue(bottle.request.params.q,"")
+    if not q:
+        return {"status": 1, "error_message": "No address specified."}
+    else:
+        return addressToLatLong(q)
 
 @app.route("/api/districtLookup")
 def districtLookup():
-	try:
-		lat = float(defaultValue(bottle.request.params.lat,0))
-		long = float(defaultValue(bottle.request.params.long,0))
-	except:
-		return {"status": 1, "error_message": "Invalid lat/long coordinates."}
-	results = latLongToDistrictCodes(lat, long)
-	if len(results):
-		orQ = []
-		for r in results:
-			orQ.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
-		results = getMembersByPrivate(orQ)
-		if "results" in results:
-			return {"status": 0, "results": results["results"]}
-		else:
-			return {"status": 1, "error_message": "No matches."}
-	else:
-		return {"status": 1, "error_message": "No matches."}
+    try:
+        lat = float(defaultValue(bottle.request.params.lat,0))
+        long = float(defaultValue(bottle.request.params.long,0))
+    except:
+        return {"status": 1, "error_message": "Invalid lat/long coordinates."}
+
+    results = latLongToDistrictCodes(lat, long)
+    if len(results):
+        orQ = []
+        for r in results:
+            orQ.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
+        results = getMembersByPrivate(orQ)
+        if "results" in results:
+            return {"status": 0, "results": results["results"]}
+        else:
+            return {"status": 1, "error_message": "No matches."}
+    else:
+        return {"status": 1, "error_message": "No matches."}
 
 @app.route("/api/getmembersbyparty")
 def getmembersbyparty():
@@ -395,11 +400,11 @@ def getmembersbyparty():
 	if api=="Web_Party":
 		for i in range(0,len(out["results"])):
 			memberRow = out["results"][i]
-			padICPSR = str(memberRow["icpsr"]).zfill(6)
-			if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
-				memberRow["bioImgURL"] = padICPSR+".jpg"
-			else:
-				memberRow["bioImgURL"] = "silhouette.png"
+			#padICPSR = str(memberRow["icpsr"]).zfill(6)
+			#if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
+			#	memberRow["bioImgURL"] = padICPSR+".jpg"
+			#else:
+			#	memberRow["bioImgURL"] = "silhouette.png"
 
 			memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
 			out["results"][i] = memberRow
