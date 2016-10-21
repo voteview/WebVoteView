@@ -36,6 +36,7 @@
 			$("#loadProgress").show().html("<strong>Loading...</strong> Matching address to map coordinates... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
 			$("#resultsMembers").hide().html("");
 			$("#addressCorrected").html("");
+			$("#google_map").html("");
 			setTimeout(doLatLong, 20);
 		}
 	}
@@ -79,7 +80,7 @@
 	function doMembers(lat, lng)
 	{
 		var markerPos = {lat: lat, lng: lng};
-		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos});
+		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true});
 		var market = new google.maps.Marker({position: markerPos, map: map});
 
 		$.ajax({
