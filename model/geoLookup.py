@@ -74,10 +74,30 @@ def addressToLatLong(addressString):
 				warning.append("Google Maps could not locate your town or city. Some historical results may be based on an approximate location.")
 			else:
 				warning.append("Google Maps could not locate your town or city. The results below may be based on an approximate location")
-		if "location_type" in resJSON["results"][0]["geometry"] and resJSON["results"][0]["geometry"]["location_type"] in ["APPROXIMATE", "GEOMETRIC_CENTER"]:
+
+		isZip=0
+		if len(addressString)==10:
+			try:
+				zipBase = int(addressString[0:5])
+				zipExtend = int(addressString[6:])
+				isZip=1
+				warning.append("The information below is accurate to the ZIP Code level. To be certain you have the right results, enter more address detail.")
+			except:
+				pass
+		elif len(addressString)==5:
+			try:
+				zip = int(addressString)
+				isZip=1
+				warning.append("The information below is accurate to the ZIP Code level. To be certain you have the right results, enter more address detail.")
+			except:
+				pass
+
+		if not isZip and "location_type" in resJSON["results"][0]["geometry"] and resJSON["results"][0]["geometry"]["location_type"] in ["APPROXIMATE", "GEOMETRIC_CENTER"]:
 			warning.append("Address lookup did not return an exact result. The information below may be incorrect. Please adjust the address you entered to improve result quality.")
-		if "partial_match" in resJSON["results"][0]:
+
+		if not isZip and "partial_match" in resJSON["results"][0]:
 			warning.append("The address you entered could not be matched exactly by Google Maps. The information below may be incorrect. Please adjust the address you entered to improve results. "+stateName)
+
 		if "geometry" in resJSON["results"][0] and "bounds" in resJSON["results"][0]["geometry"] and "northeast" in resJSON["results"][0]["geometry"]["bounds"] and "southwest" in resJSON["results"][0]["geometry"]["bounds"]:
 			latDiffMiles = abs(resJSON["results"][0]["geometry"]["bounds"]["northeast"]["lat"] - resJSON["results"][0]["geometry"]["bounds"]["southwest"]["lat"]) * 69
 			latAvg = (resJSON["results"][0]["geometry"]["bounds"]["northeast"]["lat"] + resJSON["results"][0]["geometry"]["bounds"]["southwest"]["lat"])/2
