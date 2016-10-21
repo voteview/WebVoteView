@@ -766,7 +766,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
                 if queryWords == "1":
                         queryDict["key_flags"] = {"$exists": 1}
                 elif queryWords == "CQ":
-                        queryDict["key_flags"] = {"$in": queryWords}
+                        queryDict["key_flags"] = {"$in": [queryWords]}
 
 	# CHAMBER type: Senate or House?
 	elif fieldType=="chamber":
