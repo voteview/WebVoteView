@@ -1,81 +1,109 @@
-%
-%
-%
-% # Placeholder for district lookup.
-%
-%
-%
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % rebase('base.tpl', title='District View', extra_css=['map.css', 'scatter.css'])
 % include('header.tpl')
-% memberLabel = (chamber.title()=="Senate" and "Senators" or "Representatives")
+
 <div class="container">
-	<div id="loading-container">
-		<h3>Loading members</h3>
-		<img src="{{ STATIC_URL }}img/loading.gif" />
-	</div>
+	<h2>THIS PAGE HAS NOT BEEN LAID OUT YET. NO UI OR DESIGN WORK HAS BEEN DONE.</h2>
 
-	<div id="content">
-		<div id="header" style="height:40px;">
-			<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">
-				<select id="congSelector">
-				% for i in range(maxCongress, 0, -1):
-				      	% yearLow = 1787+2*i
-					% yearHigh = yearLow + 2
-					% if int(i)==int(congress):
-					<option value="{{i}}" SELECTED>{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
-					% else:
-					<option value="{{i}}">{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
-					% end
-				% end
-				</select>
-				 &gt; <abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">{{memberLabel}}</abbr>
-			</div>
-			<div style="float:right;padding-right:50px;" id="partyComposition">
-			</div>
-		</div>
+	<h3>Your District Through History</h3>
+	Enter your address or click the map pin below to the begin:<br/>
 
-		<!-- Nominate graph -->
-		<h4>DW-Nominate Plot
-				<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:22px;vertical-align:middle;cursor:pointer" 
-					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
-					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}.png', {backgroundColor: 'white'}); return false;"
-					></span>
-		</h4>
-
-		<div id="scatter-container" style="margin:0 auto 10px auto;">
-			<div id="scatter-bg">
-				<svg id="svg-bg"></svg> 
-			</div>
-			<div id="scatter-chart">
-			</div>
-		</div>
-
-		<div style="text-align:middle;padding-bottom:10px;">
-			<h4 style="display:inline;">Roster</h4> 
-			(Sort by
-			<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
-			<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
-			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-			<a href="#" onclick="javascript:resort('elected{{chamber[0].upper()+chamber[1:]}}');return false;">Seniority</a>)
-		</div>
-		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
-		</ul>
-
-	</div>
+	Address: <input type="text" id="addressInput"> <input type="button" value="Go" onclick="javascript:latLongWrapper();"> <span id="addressCorrected"></span>
+	<br/>
+	<div id="warnings" style="display:none;"></div>
+	<div id="lookupLoad" style="display:none;">Address matched. Loading members...</div>
+	<div id="resultsMembers"></div>
 </div>
+<script>
+	if(navigator.geolocation)
+	{
+		console.log('html5 location support.');
+		function success(position)
+		{
+			console.log(position.coords);
+		}
+		function error()
+		{
+			return;
+		}
+		navigator.geolocation.getCurrentPosition(success, error);
+	}
 
-<script language="javascript">
-var chamber_param = "{{ chamber }}";
-var mapParties = 1;
+	function latLongWrapper()
+	{
+		$("#warnings").hide();
+		$("#lookupLoad").hide();
+		$("#resultsMembers").hide().html("");
+		$("#addressCorrected").html("");
+		setTimeout(doLatLong, 20);
+	}
+
+	function doLatLong()
+	{
+		$.ajax({
+			dataType: "JSON",
+			url: "/api/geocode?q="+$("#addressInput").val(),
+			success: function(data, status, xhr)
+			{
+				if(data["status"])
+				{	
+					$("#warnings").html("");
+					console.log("Error! Oh no!");
+					var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> "+data["error_message"])
+					errorDiv.appendTo($("#warnings"));
+					$("#warnings").fadeIn();
+					return;
+				}
+				else
+				{
+					console.log(data);
+					if(data["warnings"]!=undefined && data["warnings"].length)
+					{
+						$("#warnings").html("");
+						var warningDiv = $("<div></div>").addClass("alert alert-warning").html("<strong>Warning:</strong> "+data["warnings"][0]);
+						warningDiv.appendTo($("#warnings"));
+						$("#warnings").fadeIn();
+						$("#addressCorrected").html("<strong>Address Lookup:</strong> "+data["formatted_address"]);
+					}
+					$("#lookupLoad").fadeIn();
+					doMembers(data["lat"], data["lng"]);
+				}
+			}
+		});
+	}
+
+	function doMembers(lat, lng)
+	{
+		$.ajax({
+			dataType: "JSON",
+			url: "/api/districtLookup?lat="+lat+"&long="+lng,
+			success: function(data, status, xhr)
+			{
+				$("#lookupLoad").fadeOut();
+				console.log("ok good");
+				var table = $("<table><thead><tr><td>Congress</td><td>District</td><td>Party</td><td>Member</td></tr></thead></table>");
+				var tbody = $("<tbody></tbody>");
+				$.each(data["results"], function(k, v)
+				{
+					console.log(v);
+					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"];});
+					$("<td>"+v["congress"]+"</td>").appendTo(tr);
+					$("<td>"+v["state_abbrev"]+"-"+v["district_code"]+"</td>").appendTo(tr);
+					$("<td>"+v["party_name"]+"</td>").appendTo(tr);
+					$("<td><a href=\"/person/"+v["icpsr"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
+					tr.appendTo(tbody);
+				});
+				tbody.appendTo(table);
+				table.appendTo($("#resultsMembers"));
+				$("#resultsMembers").fadeIn();
+			}
+		});
+	}
 </script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
+<script>var congressNum=114;</script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>
 
