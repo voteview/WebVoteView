@@ -12,11 +12,8 @@
 		<li>6000 S Sepulveda Blvd, Culver City, CA</li>
 		<li>222 S Milton Rd, Flagstaff, AZ</li>
 		<li>5649 Lauretta St, San Diego, CA</li>
-		<li>514 Palisades Dr, Pacific Palisades, CA</li>
 		<li>206 Washington St SW, Atlanta, GA, 30334</li>
-		<li>444 N Rexford Dr, Beverly Hills, CA</li>
 		<li>150 Rideau St, Ottawa, Ontario, CA</li>
-		<li>5919 Franklin Ave, Los Angeles, CA</li>
 		<li>161 Caruso Ave, Glendale, CA</li>
 		<li>3111 World Dr, Orlando, FL</li>
 		<li>1101 W Sligh Ave, Tampa, FL</li>
