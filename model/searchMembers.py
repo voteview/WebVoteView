@@ -203,6 +203,12 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			newM["party_name"] = partyName(newM["party_code"])
 			newM["party_color"] = partyColor(newM["party_code"])
 			newM["party_short_name"] = shortName(newM["party_code"])
+		
+		# Check if an image exists.
+		if os.path.isfile("/var/www/voteview/static/img/bios/"+str(newM["icpsr"]).zfill(6)+".jpg"):
+			newM["bioImgURL"] = str(newM["icpsr"]).zfill(6)+".jpg"
+		else:
+			newM["bioImgURL"] = "silhouette.png"
 
                 if api in ["exportCSV", "exportORD"]:
                         if 'bioname' in newM:
