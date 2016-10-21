@@ -46,11 +46,28 @@ def addressToLatLong(addressString):
 
 			if country==1:
 				if countryName!="United States":
-					return {"status": 1, "error_message": "The address you entered was from outside United States."}
+					if countryName=="Puerto Rico" or countryName=="Guam" or countryName=="U.S. Virgin Islands" or countryName=="Northern Mariana Islands" or countryName=="American Samoa":
+						link = ""
+						if countryName=="Puerto Rico":
+							link = "https://en.wikipedia.org/wiki/Resident_Commissioner_of_Puerto_Rico"
+						elif countryName=="Guam":
+							link = "https://en.wikipedia.org/wiki/Guam%27s_at-large_congressional_district"
+						elif countryName=="U.S. Virgin Islands":
+							link = "https://en.wikipedia.org/wiki/List_of_Delegates_to_the_United_States_House_of_Representatives_from_the_United_States_Virgin_Islands"
+						elif countryName=="Northern Mariana Islands":
+							link = "https://en.wikipedia.org/wiki/United_States_congressional_delegations_from_the_Northern_Mariana_Islands"
+						elif countryName=="American Samoa":
+							link = "https://en.wikipedia.org/wiki/List_of_Delegates_to_the_United_States_House_of_Representatives_from_American_Samoa"
+						return {"status": 1, "error_message": "Voteview.com does not track non-voting delegates sent by unincorporated territories of the United States.<br/><br/>For more information about historical delegates from "+countryName+", check Wikipedia:<br/><a href=\""+link+"\">"+link+"</a><br/><br/>"}
+					else:
+						return {"status": 1, "error_message": "The address you entered was from outside United States. ("+countryName+")"}
 			if country==0:
 				return {"status": 1, "error_message": "Google Maps failed to complete a lookup for the address you entered."}
 			if state==0:
 				return {"status": 1, "error_message": "Google Maps failed to locate a state matching the address you entered."}
+
+		if stateName=="District of Columbia":
+			warning.append("Voteview.com does not track non-voting delegates sent by D.C. to the House of Representatives. The Representatives listed below served when what is today the District of Columbia was located within Maryland's 3rd Congressional district. For more information, see Wikipedia:<br/><a href=\"https://en.wikipedia.org/wiki/Maryland%27s_3rd_congressional_district\">https://en.wikipedia.org/wiki/Maryland%27s_3rd_congressional_district</a>.<br/><br/>For more information about voting rights in D.C., see Wikipedia:<br/><a href=\"https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights\">https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights</a>")
 
 		if city==0 and stateName not in ["Alaska", "Delaware", "Wyoming"]:
 			if stateName in ["Alaska", "Delaware", "Montana", "North Dakota", "South Dakota", "Vermont", "Wyoming"]:
@@ -60,7 +77,7 @@ def addressToLatLong(addressString):
 		if "location_type" in resJSON["results"][0]["geometry"] and resJSON["results"][0]["geometry"]["location_type"] in ["APPROXIMATE", "GEOMETRIC_CENTER"]:
 			warning.append("Address lookup did not return an exact result. The information below may be incorrect. Please adjust the address you entered to improve result quality.")
 		if "partial_match" in resJSON["results"][0]:
-			warning.append("Some of the address you entered could not be matched by Google Maps. The information below may be incorrect. Please adjust the address you entered to improve results.")
+			warning.append("The address you entered could not be matched exactly by Google Maps. The information below may be incorrect. Please adjust the address you entered to improve results. "+stateName)
 		if "geometry" in resJSON["results"][0] and "bounds" in resJSON["results"][0]["geometry"] and "northeast" in resJSON["results"][0]["geometry"]["bounds"] and "southwest" in resJSON["results"][0]["geometry"]["bounds"]:
 			latDiffMiles = abs(resJSON["results"][0]["geometry"]["bounds"]["northeast"]["lat"] - resJSON["results"][0]["geometry"]["bounds"]["southwest"]["lat"]) * 69
 			latAvg = (resJSON["results"][0]["geometry"]["bounds"]["northeast"]["lat"] + resJSON["results"][0]["geometry"]["bounds"]["southwest"]["lat"])/2
@@ -78,7 +95,7 @@ def latLongToDistrictCodes(lat, lng):
 	geoClient = client["district_geog"]
 	gquery = {"geometry":{"$geoIntersects":{"$geometry":{"type":"Point","coordinates":[lng, lat]}}}}
 	res = []
-	for r in db.districts.find(gquery,{'properties':1}).sort("properties.startcong",1):
+	for r in db.districts.find(gquery,{'properties':1}):
 		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
 		if int(rec[1]):
 			for cng in range(rec[2],rec[3]+1):
@@ -88,7 +105,7 @@ def latLongToDistrictCodes(lat, lng):
 
 if __name__=="__main__":
 	start = time.time()
-	addStr = "405 Hilgard Ave, Los Angeles, CA"
+	addStr = "1101 W Sligh Ave, Tampa, FL"
 	res = addressToLatLong(addStr)
 	resMem = latLongToDistrictCodes(res["lat"], res["lng"])
 	orSet = []
