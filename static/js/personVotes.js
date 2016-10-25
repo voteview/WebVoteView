@@ -33,7 +33,10 @@ function nextPageSearch()
 
 					$('[data-toggle="tooltip"]').tooltip();
 					$("#loadIndicator").hide();
-					$("#voteDataTable").trigger("update");
+					$("#voteDataTable").tablesorter({headers: {5: {sorter: 'splitFunc'}}});
+					$("#voteDataTable").bind("tablesorter-ready", function() { $('[data-toggle="tooltip"]').tooltip(); });
+					$("#voteDataTable").bind("sortEnd",hideDates);
+					//$("#voteDataTable").trigger("update");
 				}});
 	return;
 }
@@ -82,5 +85,5 @@ $(document).ready(function(){
 	}
 	$("#voteDataTable").tablesorter({headers: {5: {sorter: 'splitFunc'}}});
 	$("#voteDataTable").bind("tablesorter-ready", function() { $('[data-toggle="tooltip"]').tooltip(); });
-	//$("#voteDataTable").bind("sortEnd",hideDates);
+	$("#voteDataTable").bind("sortEnd",hideDates);
 });
