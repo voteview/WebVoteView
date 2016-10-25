@@ -1,0 +1,38 @@
+#!/bin/bash
+start=$(date +%s)
+userid=$(whoami) # Ensure we're running as root
+hostname=$(hostname) # Ensure we're on voteview.
+timestamp=$(date +%s)
+
+if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
+	echo "Connecting to development server for hourly dump"
+	scp -r rudkin@128.97.229.160:/usr/scripts/hourly_backup/patch.zip
+	if [[ -f ./patch.zip ]]; then
+		echo "Patch downloaded, beginning application"
+		# Unzip
+		mkdir hourly_patch
+		unzip patch.zip -d hourly_patch
+		# Copy the static files
+		cp -r hourly_patch/store/ /var/www/voteview/
+		# Apply the DB patches
+		mongo voteview hourly_patch/db/rollcalls.js
+		mongo voteview hourly_patch/db/members.js
+		# Remove temp folder
+		rm -rf hourly_patch
+		# Move the patch to a timestamped archive.
+		mv patch.zip /usr/scripts/patch_backups/patch_$timestamp.zip
+		# Remote delete patch
+		ssh rudkin@128.97.229.160 << EOF
+		rm -rf /usr/scripts/hourly_backup/patch.zip
+EOF
+	else
+		echo "No patch found, ending now."
+	fi
+elif [ "$userid" = "root" ]; then
+	echo "You must be on production voteview to run deployment script"
+else
+        echo "You must be root to run deployment script"
+fi
+endT=$(date +%s)
+runtime=$((endT-start))
+echo "Total runtime $runtime seconds"
