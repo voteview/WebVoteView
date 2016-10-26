@@ -89,31 +89,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "CA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "LA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "TN"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "AL"
+                "state": "OH"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "OH"
+                "state": "LA"
             }, 
             {
                 "both": 0.0, 
@@ -131,13 +119,7 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "NE"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "MN"
+                "state": "AL"
             }, 
             {
                 "both": 0.0, 
@@ -185,6 +167,18 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MN"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "OR"
             }, 
             {
@@ -204,6 +198,12 @@
                 "house": 0.0, 
                 "senate": 0.0, 
                 "state": "WV"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "NE"
             }
         ]
     }

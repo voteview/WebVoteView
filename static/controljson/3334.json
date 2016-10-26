@@ -1,6 +1,6 @@
 [
     {
-        "congress": 81, 
+        "congress": 36, 
         "data": [
             {
                 "both": 0.0, 
@@ -15,8 +15,8 @@
                 "state": "DE"
             }, 
             {
-                "both": 0.0, 
-                "house": 0.0, 
+                "both": 12.5, 
+                "house": 25.0, 
                 "senate": 0.0, 
                 "state": "GA"
             }, 
@@ -45,14 +45,14 @@
                 "state": "NJ"
             }, 
             {
-                "both": 1.0, 
-                "house": 2.0, 
+                "both": 0.0, 
+                "house": 0.0, 
                 "senate": 0.0, 
                 "state": "NY"
             }, 
             {
-                "both": 0.0, 
-                "house": 0.0, 
+                "both": 25.0, 
+                "house": 50.0, 
                 "senate": 0.0, 
                 "state": "NC"
             }, 
@@ -69,8 +69,8 @@
                 "state": "SC"
             }, 
             {
-                "both": 0.0, 
-                "house": 0.0, 
+                "both": 3.5, 
+                "house": 7.0, 
                 "senate": 0.0, 
                 "state": "VA"
             }, 
@@ -81,8 +81,8 @@
                 "state": "RI"
             }, 
             {
-                "both": 0.0, 
-                "house": 0.0, 
+                "both": 25.0, 
+                "house": 50.0, 
                 "senate": 0.0, 
                 "state": "KY"
             }, 
@@ -93,8 +93,8 @@
                 "state": "VT"
             }, 
             {
-                "both": 0.0, 
-                "house": 0.0, 
+                "both": 35.0, 
+                "house": 70.0, 
                 "senate": 0.0, 
                 "state": "TN"
             }, 
@@ -203,92 +203,7 @@
             {
                 "both": 0.0, 
                 "house": 0.0, 
-                "senate": 0.0, 
                 "state": "KS"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "NV"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WV"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "NE"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "CO"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "ID"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "MT"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "ND"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "SD"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WY"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "UT"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "OK"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "AZ"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "NM"
             }
         ]
     }

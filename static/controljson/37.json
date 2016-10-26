@@ -83,17 +83,6 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "CA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "state": "LA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "TN"
             }, 
             {
@@ -101,6 +90,11 @@
                 "house": 0.0, 
                 "senate": 0.0, 
                 "state": "OH"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "state": "LA"
             }, 
             {
                 "both": 0.0, 
@@ -113,12 +107,6 @@
                 "house": 0.0, 
                 "senate": 0.0, 
                 "state": "IL"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "MN"
             }, 
             {
                 "both": 0.0, 
@@ -145,6 +133,12 @@
             }, 
             {
                 "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "IA"
+            }, 
+            {
+                "both": 0.0, 
                 "senate": 0.0, 
                 "state": "TX"
             }, 
@@ -152,13 +146,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "IA"
+                "state": "WI"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "WI"
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MN"
             }, 
             {
                 "both": 0.0, 

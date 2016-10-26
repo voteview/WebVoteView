@@ -96,31 +96,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "CA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "LA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "TN"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "AL"
+                "state": "OH"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "OH"
+                "state": "LA"
             }, 
             {
                 "both": 0.0, 
@@ -141,16 +129,10 @@
                 "state": "MS"
             }, 
             {
-                "both": 33.5, 
-                "house": 67.0, 
+                "both": 0.0, 
+                "house": 0.0, 
                 "senate": 0.0, 
-                "state": "NE"
-            }, 
-            {
-                "both": 10.0, 
-                "house": 20.0, 
-                "senate": 0.0, 
-                "state": "MN"
+                "state": "AL"
             }, 
             {
                 "both": 0.0, 
@@ -180,31 +162,7 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "ID"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "FL"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "TX"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "CO"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WA"
             }, 
             {
                 "both": 0.0, 
@@ -216,7 +174,25 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 10.0, 
+                "house": 20.0, 
+                "senate": 0.0, 
+                "state": "MN"
             }, 
             {
                 "both": 0.0, 
@@ -243,6 +219,24 @@
                 "state": "WV"
             }, 
             {
+                "both": 33.5, 
+                "house": 67.0, 
+                "senate": 0.0, 
+                "state": "NE"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CO"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ID"
+            }, 
+            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
@@ -259,6 +253,12 @@
                 "house": 0.0, 
                 "senate": 50.0, 
                 "state": "SD"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "WA"
             }, 
             {
                 "both": 0.0, 
@@ -362,18 +362,6 @@
                 "state": "VT"
             }, 
             {
-                "both": 6.5, 
-                "house": 13.0, 
-                "senate": 0.0, 
-                "state": "CA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "LA"
-            }, 
-            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
@@ -383,13 +371,13 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "AL"
+                "state": "OH"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "OH"
+                "state": "LA"
             }, 
             {
                 "both": 0.0, 
@@ -410,16 +398,10 @@
                 "state": "MS"
             }, 
             {
-                "both": 41.5, 
-                "house": 33.0, 
-                "senate": 50.0, 
-                "state": "NE"
-            }, 
-            {
-                "both": 7.0, 
-                "house": 14.0, 
+                "both": 0.0, 
+                "house": 0.0, 
                 "senate": 0.0, 
-                "state": "MN"
+                "state": "AL"
             }, 
             {
                 "both": 0.0, 
@@ -449,31 +431,7 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "ID"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "FL"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "TX"
-            }, 
-            {
-                "both": 50.0, 
-                "house": 100.0, 
-                "senate": 0.0, 
-                "state": "CO"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WA"
             }, 
             {
                 "both": 0.0, 
@@ -485,7 +443,25 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WI"
+            }, 
+            {
+                "both": 6.5, 
+                "house": 13.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 7.0, 
+                "house": 14.0, 
+                "senate": 0.0, 
+                "state": "MN"
             }, 
             {
                 "both": 0.0, 
@@ -512,6 +488,24 @@
                 "state": "WV"
             }, 
             {
+                "both": 41.5, 
+                "house": 33.0, 
+                "senate": 50.0, 
+                "state": "NE"
+            }, 
+            {
+                "both": 50.0, 
+                "house": 100.0, 
+                "senate": 0.0, 
+                "state": "CO"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ID"
+            }, 
+            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
@@ -528,6 +522,12 @@
                 "house": 0.0, 
                 "senate": 50.0, 
                 "state": "SD"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "WA"
             }, 
             {
                 "both": 0.0, 
@@ -634,31 +634,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "CA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "LA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "TN"
-            }, 
-            {
-                "both": 8.5, 
-                "house": 17.0, 
-                "senate": 0.0, 
-                "state": "AL"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
                 "state": "OH"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "LA"
             }, 
             {
                 "both": 0.0, 
@@ -679,22 +667,10 @@
                 "state": "MS"
             }, 
             {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "UT"
-            }, 
-            {
-                "both": 33.5, 
+                "both": 8.5, 
                 "house": 17.0, 
-                "senate": 50.0, 
-                "state": "NE"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
                 "senate": 0.0, 
-                "state": "MN"
+                "state": "AL"
             }, 
             {
                 "both": 0.0, 
@@ -724,31 +700,7 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "ID"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "FL"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "TX"
-            }, 
-            {
-                "both": 25.0, 
-                "house": 50.0, 
-                "senate": 0.0, 
-                "state": "CO"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WA"
             }, 
             {
                 "both": 0.0, 
@@ -760,7 +712,25 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MN"
             }, 
             {
                 "both": 0.0, 
@@ -787,6 +757,24 @@
                 "state": "WV"
             }, 
             {
+                "both": 33.5, 
+                "house": 17.0, 
+                "senate": 50.0, 
+                "state": "NE"
+            }, 
+            {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0, 
+                "state": "CO"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "ID"
+            }, 
+            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
@@ -808,7 +796,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "WA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "UT"
             }
         ]
     }, 
@@ -906,34 +906,22 @@
                 "state": "VT"
             }, 
             {
-                "both": 14.5, 
-                "house": 29.0, 
-                "senate": 0.0, 
-                "state": "CA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "LA"
-            }, 
-            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
                 "state": "TN"
             }, 
             {
-                "both": 5.0, 
-                "house": 10.0, 
+                "both": 0.0, 
+                "house": 0.0, 
                 "senate": 0.0, 
-                "state": "AL"
+                "state": "OH"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "OH"
+                "state": "LA"
             }, 
             {
                 "both": 0.0, 
@@ -954,22 +942,10 @@
                 "state": "MS"
             }, 
             {
-                "both": 0.0, 
-                "house": 0.0, 
+                "both": 5.0, 
+                "house": 10.0, 
                 "senate": 0.0, 
-                "state": "UT"
-            }, 
-            {
-                "both": 58.5, 
-                "house": 67.0, 
-                "senate": 50.0, 
-                "state": "NE"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "MN"
+                "state": "AL"
             }, 
             {
                 "both": 0.0, 
@@ -996,34 +972,10 @@
                 "state": "MI"
             }, 
             {
-                "both": 75.0, 
-                "house": 100.0, 
-                "senate": 50.0, 
-                "state": "ID"
-            }, 
-            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
                 "state": "FL"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "TX"
-            }, 
-            {
-                "both": 25.0, 
-                "house": 50.0, 
-                "senate": 0.0, 
-                "state": "CO"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WA"
             }, 
             {
                 "both": 0.0, 
@@ -1035,7 +987,25 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WI"
+            }, 
+            {
+                "both": 14.5, 
+                "house": 29.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MN"
             }, 
             {
                 "both": 0.0, 
@@ -1062,6 +1032,24 @@
                 "state": "WV"
             }, 
             {
+                "both": 58.5, 
+                "house": 67.0, 
+                "senate": 50.0, 
+                "state": "NE"
+            }, 
+            {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0, 
+                "state": "CO"
+            }, 
+            {
+                "both": 75.0, 
+                "house": 100.0, 
+                "senate": 50.0, 
+                "state": "ID"
+            }, 
+            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
@@ -1083,7 +1071,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "WA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "UT"
             }
         ]
     }, 
@@ -1184,31 +1184,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "CA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "LA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "TN"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "AL"
+                "state": "OH"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "OH"
+                "state": "LA"
             }, 
             {
                 "both": 0.0, 
@@ -1232,19 +1220,7 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "UT"
-            }, 
-            {
-                "both": 45.0, 
-                "house": 57.0, 
-                "senate": 33.0, 
-                "state": "NE"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "MN"
+                "state": "AL"
             }, 
             {
                 "both": 0.0, 
@@ -1271,34 +1247,10 @@
                 "state": "MI"
             }, 
             {
-                "both": 25.0, 
-                "house": 0.0, 
-                "senate": 50.0, 
-                "state": "ID"
-            }, 
-            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
                 "state": "FL"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "TX"
-            }, 
-            {
-                "both": 25.0, 
-                "house": 50.0, 
-                "senate": 0.0, 
-                "state": "CO"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WA"
             }, 
             {
                 "both": 0.0, 
@@ -1310,7 +1262,25 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MN"
             }, 
             {
                 "both": 0.0, 
@@ -1337,6 +1307,24 @@
                 "state": "WV"
             }, 
             {
+                "both": 45.0, 
+                "house": 57.0, 
+                "senate": 33.0, 
+                "state": "NE"
+            }, 
+            {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0, 
+                "state": "CO"
+            }, 
+            {
+                "both": 25.0, 
+                "house": 0.0, 
+                "senate": 50.0, 
+                "state": "ID"
+            }, 
+            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
@@ -1358,7 +1346,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "WA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "UT"
             }
         ]
     }, 
@@ -1459,31 +1459,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "CA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "LA"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
                 "state": "TN"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "AL"
+                "state": "OH"
             }, 
             {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "OH"
+                "state": "LA"
             }, 
             {
                 "both": 0.0, 
@@ -1507,19 +1495,7 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
-                "state": "UT"
-            }, 
-            {
-                "both": 33.0, 
-                "house": 33.0, 
-                "senate": 33.0, 
-                "state": "NE"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "MN"
+                "state": "AL"
             }, 
             {
                 "both": 0.0, 
@@ -1546,34 +1522,10 @@
                 "state": "MI"
             }, 
             {
-                "both": 50.0, 
-                "house": 100.0, 
-                "senate": 0.0, 
-                "state": "ID"
-            }, 
-            {
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
                 "state": "FL"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "TX"
-            }, 
-            {
-                "both": 25.0, 
-                "house": 50.0, 
-                "senate": 0.0, 
-                "state": "CO"
-            }, 
-            {
-                "both": 0.0, 
-                "house": 0.0, 
-                "senate": 0.0, 
-                "state": "WA"
             }, 
             {
                 "both": 0.0, 
@@ -1585,7 +1537,25 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "TX"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WI"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "CA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "MN"
             }, 
             {
                 "both": 0.0, 
@@ -1612,6 +1582,24 @@
                 "state": "WV"
             }, 
             {
+                "both": 33.0, 
+                "house": 33.0, 
+                "senate": 33.0, 
+                "state": "NE"
+            }, 
+            {
+                "both": 25.0, 
+                "house": 50.0, 
+                "senate": 0.0, 
+                "state": "CO"
+            }, 
+            {
+                "both": 50.0, 
+                "house": 100.0, 
+                "senate": 0.0, 
+                "state": "ID"
+            }, 
+            {
                 "both": 50.0, 
                 "house": 100.0, 
                 "senate": 0.0, 
@@ -1633,7 +1621,19 @@
                 "both": 0.0, 
                 "house": 0.0, 
                 "senate": 0.0, 
+                "state": "WA"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
                 "state": "WY"
+            }, 
+            {
+                "both": 0.0, 
+                "house": 0.0, 
+                "senate": 0.0, 
+                "state": "UT"
             }
         ]
     }
