@@ -66,7 +66,9 @@
 				<img src="/static/img/export.png" style="cursor:pointer;width:24px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
 			</span>
 		</div>
-		<div class="panel-body" style="cursor:pointer;" onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';">
+		<a href="/rollcall/{{rollcall["id"]}}" class="nohover">
+		<div class="panel-body" style="cursor:pointer;">
+			<!-- onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';"> -->
 			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p>
 				<small>
@@ -98,8 +100,8 @@
 			% if "score" in rollcall and debug:
 				<p style="font-size:8px;"><em>Debug: {{round(rollcall["score"],2)}}</em></p>
 			% end
-
 		</div>
+		</a>
 	</div>
 % end
 

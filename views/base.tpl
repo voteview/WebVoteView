@@ -23,15 +23,10 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection"/>
         <link href="{{ STATIC_URL }}css/dc.css" media="all" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" media="screen, projection"/>
-        <!--[if lt IE 8]><link rel="stylesheet" href="{{STATIC_URL}}css/ie.css" type="text/css" media="screen, projection"><![endif]-->
         
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/libs/js.cookie.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/footer.js"></script>
-         <!--[if (gte IE 6)&(lte IE 8)]>
-                <script type="text/javascript" src="{{STATIC_URL}}js/selectivizr-min.js"></script>
-                <script type="text/javascript" src="{{STATIC_URL}}js/respond.min.js"></script>
-        <![endif]-->
 
         <script src="{{STATIC_URL}}js/modernizr.custom.74326.js"></script>
 	% for extra in extra_js:
