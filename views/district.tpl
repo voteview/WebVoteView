@@ -4,10 +4,8 @@
 % include('header.tpl')
 
 <div class="container">
-	<h2>THIS PAGE HAS NOT BEEN LAID OUT YET. NO UI OR DESIGN WORK HAS BEEN DONE.</h2>
-
 	Sample test addresses:<br/>
-	<ul style="columns:4;">
+	<ul style="columns:3;">
 		<li>12040 Louise Ave, Los Angeles, CA</li>
 		<li>6000 S Sepulveda Blvd, Culver City, CA</li>
 		<li>222 S Milton Rd, Flagstaff, AZ</li>
@@ -29,7 +27,7 @@
 
 	<h3>Your District Through History</h3>
 	To see who has represented you through history, enter your address <span id="geolocationTutorial" style="display:none;">or click the map pin below</span> to begin:<br/>
-	<small><em>Privacy Notice: Voteview.com uses this information to fulfill your request. Address information is not saved or stored.</em></small><br/><br/>
+	<small><em>Privacy Notice: Voteview.com uses this information solely to fulfill your request. Address information is not logged, saved, or stored.</em></small><br/><br/>
 
 	<form id="submit-address-form" action="." method="post">
 	<div class="col-md-1" style="padding-top:5px;padding-bottom:5px;">
