@@ -67,10 +67,9 @@
 	<div class="row" id="loadBar">
 		<div class="col-md-12">
 			<h4>
-				Loading 
+				Loading graphics...
 				<img src="/static/img/loading.gif" style="margin-left:10px;width:24px;vertical-align:middle;">
 			</h4>
-			We are currently constructing the map and plots you requested, please wait...
 		</div>
 	</div>
 
