@@ -851,6 +851,9 @@ def setSearch():
 
     return model.stashCart.setSearch(id, search)
 
+@app.route("/outdated")
+def outdate():
+    return bottle.template("views/outdated")
 
 @app.route("/api/version")
 def apiVersion():
