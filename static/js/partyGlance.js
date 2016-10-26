@@ -78,9 +78,12 @@ q
 		return bTotal - aTotal;
 	});
 
+	var cutoff = 143;
 	var tempParties = parties;
 	tempParties.sort(function(a,b){ return b[1]["count"] - a[1]["count"]; });
-	$.each(tempParties, function(ip, op) { if(op[1]["count"]>=100) { partyList.push(op[1]); } else { return false; }});
+	$.each(tempParties, function(ip, op) { if(op[1]["count"]>=cutoff) { partyList.push(op[1]); } else { return false; }});
+	var numQualifyingParties = partyList.length;
+	console.log(partyList);
 
 	// Append each party's median to the grand median so we have a set of medians for every congress.
 	var memSetScatter = [];
@@ -138,7 +141,7 @@ q
 	function colHack(d) { return 0; }
 	function scatterCol(d) { return d.key[2]; }
 	var fullColSet = [];
-	for(var i=0;i!=11;i++)
+	for(var i=0;i!=numQualifyingParties;i++)
 	{
 		fullColSet.push(colorSchemes[partyColorMap[partyNameSimplify(parties[i][1]["name"])]][1]);
 	}
@@ -172,9 +175,9 @@ q
 		dc.lineChart(dimChart).group(dimSet[7]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[7][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		dc.lineChart(dimChart).group(dimSet[8]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[8][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		dc.lineChart(dimChart).group(dimSet[9]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[9][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
-		dc.scatterPlot(dimChart).group(dimSet[10])
-					.colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]])
-					.colorAccessor(colHack).keyAccessor(keyHack).valueAccessor(valHack).symbolSize(5),
+		//dc.scatterPlot(dimChart).group(dimSet[10])
+		//			.colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]])
+		//			.colorAccessor(colHack).keyAccessor(keyHack).valueAccessor(valHack).symbolSize(5),
 		dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 	    ])
 	    .on('postRender', function() { d3.select(".dc-chart svg").select("g.sub").selectAll("path.symbol").attr('opacity','0.5'); })
