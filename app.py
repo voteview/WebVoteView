@@ -232,8 +232,10 @@ def person(icpsr=0):
         timeIt("bioImg")
 
         # Get years of service
-        person["yearsOfService"] = yearsOfService(person["icpsr"])
-        person["congressesOfService"] = congressesOfService(person["icpsr"])
+        person["yearsOfService"] = yearsOfService(person["icpsr"],"")
+	person["yearsOfServiceSenate"] = yearsOfService(person["icpsr"],"Senate")
+	person["yearsOfServiceHouse"] = yearsOfService(person["icpsr"],"House")
+        person["congressesOfService"] = congressesOfService(person["icpsr"],"")
         person["congressLabels"] = {}
         for congressChunk in person["congressesOfService"]:
             for cong in range(congressChunk[0], congressChunk[1]+1):
