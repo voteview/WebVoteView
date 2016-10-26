@@ -5,11 +5,7 @@
 % include('header.tpl')
 % current_page_number = 1
 % import datetime
-% if len(person["yearsOfService"]) and person["yearsOfService"][-1][1]>datetime.datetime.now().year:
-%	label = "Serving"
-% else:
-%	label = "Served"
-% end
+
 % if "died" in person and person["yearsOfService"][-1][1]>person["died"] and person["died"] is not None:
 %       person["yearsOfService"][-1][1] = person["died"]
 % end
@@ -48,10 +44,18 @@
             <h4>
 		<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!stateText}}
 	    </h4>
-		
-	    <h4>{{ label }}
+
+	    % for serviceSet in ["Senate", "House"]:
+		% if "yearsOfService"+serviceSet in person and len(person["yearsOfService"+serviceSet]):
+	    <h4>
+		% if person["yearsOfService"+serviceSet][-1][1]>datetime.datetime.now().year:
+			Serving in {{serviceSet}}
+		% else:
+			Served in {{serviceSet}}
+		% end
+
 		% z = 0
-		% for chunk in person["yearsOfService"]:
+		% for chunk in person["yearsOfService"+serviceSet]:
 			% if chunk[1]>=datetime.datetime.now().year:
 			% chunk[1] = "Present"
 			% end
@@ -62,6 +66,8 @@
 			% z = z + 1
 		% end
 	    </h4>
+		% end
+	    % end
 	    % if "altPeople" in person and len(person["altPeople"]):
 	    <h5>
 		% k = 0
