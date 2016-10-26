@@ -1,3 +1,18 @@
+// From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
+function getGetOrdinal(n) {
+    var s=["th","st","nd","rd"],
+    v=n%100;
+    return n+(s[(v-20)%10]||s[v]||s[0]);
+ }
+
+function congToYears(n) { return [1787+(2*n), 1787+(2*n)+2]; }
+
+function lzPad(t)
+{
+	if(parseInt(t)<10) { return "0"+t; }
+	else { return t; }
+}
+
 	$(document).ready(function(){
 		$("#submit-address-form").submit(function(event)
 		{
@@ -93,14 +108,26 @@
 				var table = $("<table><thead><tr><th>Congress</th><th>District</th><th>Party</th><th>Member</th></tr></thead></table>")
 						.addClass("table table-hover dc-data-table");
 				var tbody = $("<tbody></tbody>");
+				var lastICPSR = 0;
 				$.each(data["results"], function(k, v)
 				{
 					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"];});
-					$("<td>"+v["congress"]+"</td>").appendTo(tr);
-					$("<td>"+v["state_abbrev"]+"-"+v["district_code"]+"</td>").appendTo(tr);
-					$("<td>"+v["party_noun"]+"</td>").appendTo(tr);
+					if(lastICPSR!=parseInt(v["icpsr"]))
+					{
+						$("<td>"+getGetOrdinal(v["congress"])+" ("+congToYears(v["congress"])[0]+"-"+congToYears(v["congress"])[1]+")</td>").appendTo(tr);
+						$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
+						$("<td>"+v["party_noun"]+"</td>").css("border-left","3px solid "+colorSchemes[v["party_color"]][0]).appendTo(tr);
+						$("<td><a href=\"/person/"+v["icpsr"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
+						lastICPSR = parseInt(v["icpsr"]);
+					}
+					else
+					{
+						$("<td>"+getGetOrdinal(v["congress"])+" ("+congToYears(v["congress"])[0]+"-"+congToYears(v["congress"])[1]+")</td>").appendTo(tr);
+						$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
+						$("<td></td>").css("border-left","3px solid "+colorSchemes[v["party_color"]][0]).appendTo(tr);
+						$("<td></td>").appendTo(tr);
 
-					$("<td><a href=\"/person/"+v["icpsr"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
+					}
 					tr.appendTo(tbody);
 				});
 				tbody.appendTo(table);
