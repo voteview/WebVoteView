@@ -265,7 +265,7 @@ q
 			majParty.appendTo($("#partySet"));
 			j=1;
 		}
-		if(parties[i][1]["count"]<100 && j==1)
+		if(parties[i][1]["count"]<130 && j==1)
 		{
 			var minParty = $("<div></div>").css("clear","both").css("padding-top","10px").css("padding-bottom","10px").html("<big>Historical Minor Parties</big>");
 			minParty.appendTo($("#partySet"));
