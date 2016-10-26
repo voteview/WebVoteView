@@ -320,7 +320,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                                           'log_likelihood': nominate['log_likelihood'], 'classified': nominate['classified'], 'pre': nominate['pre'], 'description': description.encode('utf-8')})
                         
                         if apitype != "exportCSV":
-                                z.update({'keyvote': rollcall["key_flags"], 'votes': result, 'codes': codes, 'nominate': nominate, 'description': description, 'question': question})
+                                z.update({'key_flags': rollcall["key_flags"], 'votes': result, 'codes': codes, 'nominate': nominate, 'description': description, 'question': question})
 
 
 			# Get other people's results from the party results aggregate.
