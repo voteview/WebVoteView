@@ -162,7 +162,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
         elif api=="exportCSV" or api == "exportORD":
                 fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1}
 	elif api=="districtLookup":
-		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "nominate.dim1": 1, "district_code": 1, "_id": 0}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "nominate.dim1": 1, "district_code": 1, "_id": 0, "chamber": 1, "congresses": 1}
         else:
 		fieldSet = {"_id": 0, "personid": 0}
 	if "$text" in searchQuery:
@@ -284,7 +284,7 @@ def nicknameHelper(text, ref=""):
 
 def getMembersByPrivate(query):
 	idIn = []
-	for r in db.voteview_members.find({"chamber": "House", "$or": query}, {"id": 1, "_id": 0}):
+	for r in db.voteview_members.find(query, {"id": 1, "_id": 0}):
 		idIn.append(r["id"])
 
 	return memberLookup({"idIn": idIn}, maxResults=200, distinct=0, api="districtLookup")

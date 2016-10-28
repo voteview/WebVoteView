@@ -61,4 +61,5 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/district.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHpW18spAq_48_xICFApSrUttTzcWBDA8"></script>
