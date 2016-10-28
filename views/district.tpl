@@ -5,19 +5,24 @@
 
 <div class="container">
 	Sample test addresses:<br/>
-	<ul style="columns:3;">
+	<ul style="columns:3;" id="testData">
 		<li>12040 Louise Ave, Los Angeles, CA</li>
-		<li>6000 S Sepulveda Blvd, Culver City, CA</li>
 		<li>222 S Milton Rd, Flagstaff, AZ</li>
-		<li>5649 Lauretta St, San Diego, CA</li>
 		<li>206 Washington St SW, Atlanta, GA, 30334</li>
 		<li>150 Rideau St, Ottawa, Ontario, CA</li>
-		<li>161 Caruso Ave, Glendale, CA</li>
 		<li>3111 World Dr, Orlando, FL</li>
-		<li>1101 W Sligh Ave, Tampa, FL</li>
+		<li>120 e 4th st, juneau</li>
+		<li>415 S. Beretania Street Honolulu, Hawaii</li>
+		<li>	900 Court Street NE, Salem, Oregon, US</li>
+		<li>416 Sid Snyder Avenue SW, Olympia</li>
+		<li>600 Dexter Ave, Montgomery, AL 36130</li>
+		<li>500 Woodlane St, Little Rock, AR</li>
+		<li> 200 E Colfax Ave, Denver, CO</li>
+		<li> 210 Capitol Ave, Hartford, CT 06106</li>
+		<li>141 Mullett Run St, milford, de</li>
 		<li>226 W 46th St, New York, NY</li>
+		<li> 700 W Jefferson St, Boise</li>
 		<li>1234 Urb Los Olmos, Ponce, PR, 00731</li>
-		<li>Av. De Diego, San Juan, Puerto Rico</li>
 		<li>1245 Pale San Vitores Rd, Tamuning, Guam</li>
 		<li>6450 Coki Point, St. Thomas, USVI</li>
 		<li>P.O. Box 504272, Mariana Islands</li>
