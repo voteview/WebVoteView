@@ -1,7 +1,7 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % plotTitle = "Plot Vote: "+rcSuffix(rollcall["congress"])+" Congress > "+rollcall["chamber"]+" > "+str(rollcall["rollnumber"])
-% rebase('base.tpl',title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js","/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
+% rebase('base.tpl',title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js","/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
 % include('header.tpl')
 % notes = []
 % if int(rollcall["congress"])<86:
@@ -203,4 +203,3 @@ var mapParties = {{ mapParties }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteCharts.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteFilterbar.js"></script>
-<!--<script type="text/javascript" src="{{ STATIC_URL }}js/voteChartDecorate.js"></script> -->
