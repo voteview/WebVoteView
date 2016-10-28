@@ -6,6 +6,7 @@
 % orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff"}
 
 % def doHighlight(highlighter, text):
+%     	stopwords = [x.strip() for x in open("model/stop_words.txt","r").read().split("\n")]
 %	if not len(highlighter):
 %		return text
 %	end
@@ -36,7 +37,11 @@
 %		else:
 %			ternary = "3"
 %		end
-%		newS += text[last:s.start()] + '<span class="searchHighlight'+(ternary)+'">'+text[s.start():s.end()]+'</span>'
+%		if not text[s.start():s.end()].lower() in stopwords:
+%			newS += text[last:s.start()] + '<span class="searchHighlight'+(ternary)+'">'+text[s.start():s.end()]+'</span>'
+%		else:
+%			newS += text[last:s.start()] + ' '+text[s.start():s.end()]
+%		end
 %		last = s.end()
 %	end
 %	newS += text[last:]

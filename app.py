@@ -508,7 +508,7 @@ def searchAssemble():
                 scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
                 scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
                 member["scoreMatch"] = max(scoreBasic, scoreNick)
-		print q, "/", memName, "/", scoreBasic, scoreNick
+		#print q, "/", memName, "/", scoreBasic, scoreNick
                 if member["congress"]>=100:
                     member["scoreMatch"] += 10
                 if member["chamber"]=="President":
@@ -666,7 +666,7 @@ def searchAssemble():
         if not "rollcalls" in res:
             out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=resultParties)
         else:
-            print(res['rollcalls'])
+            #print(res['rollcalls'])
             out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
     return(out)
 
