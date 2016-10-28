@@ -117,20 +117,34 @@ def latLongToDistrictCodes(lat, lng):
 	res = []
 	for r in db.districts.find(gquery,{'properties':1}):
 		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
-		if int(rec[1]):
-			for cng in range(rec[2],rec[3]+1):
-				res.append( [stateNameToAbbrev(rec[0])["state_abbrev"],cng,int(rec[1])] )
+		#if int(rec[1]):
+		for cng in range(rec[2],rec[3]+1):
+			res.append( [stateNameToAbbrev(rec[0])["state_abbrev"],cng,int(rec[1])] )
 	return res
 	pass
 
 if __name__=="__main__":
 	start = time.time()
-	addStr = "1101 W Sligh Ave, Tampa, FL"
+	addStr = "233 S Wacker Dr, Chicago, IL 60606"
 	res = addressToLatLong(addStr)
 	resMem = latLongToDistrictCodes(res["lat"], res["lng"])
 	orSet = []
+	atLargeSet = []
 	for r in resMem:
-		orSet.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
-	print orSet
+		state_abbrev = r[0]
+		if r[2]!=0:
+			orSet.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
+		else:
+			atLargeSet.append(r[1])
+	if len(atLargeSet):
+		print "At-large congresses"
+		for l in atLargeSet:
+			print l
+			sameCongDistrict = len([x for x in orSet if x["congress"]==l])
+			if sameCongDistrict: # Have a district, just need the at large.
+				pass
+			else: # No same district
+				for dc in [1,99,98]:
+					orSet.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
 
 	print "Duration of lookup:", (time.time()-start)
