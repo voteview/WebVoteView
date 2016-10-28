@@ -13,6 +13,12 @@ function lzPad(t)
 	else { return t; }
 }
 
+function loadText(t)
+{
+	$("#addressInput").val(t);
+	latLongWrapper();	
+}
+
 	$(document).ready(function(){
 		$("#submit-address-form").submit(function(event)
 		{
@@ -20,6 +26,7 @@ function lzPad(t)
 			latLongWrapper();
 		});
 		if($("#addressInput").val()) { latLongWrapper(); }
+		$("ul#testData li").on("click",function(){ console.log($(this).val()); loadText(this.innerHTML); });
 	});
 
 	var myLat, myLong;

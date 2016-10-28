@@ -92,6 +92,9 @@ def addressToLatLong(addressString):
 			except:
 				pass
 
+		if resJSON["results"][0]["geometry"]["location"]["lat"]>39.8333 and resJSON["results"][0]["geometry"]["location"]["lat"]<39.83334 and resJSON["results"][0]["geometry"]["location"]["long"]>-98.5856 and resJSON["results"][0]["geometry"]["location"]["long"]<-98.5855:
+			warning.append("Google Maps did not correctly resolve your address. To be certain you have the right results, enter more address detail.")
+
 		if not isZip and "location_type" in resJSON["results"][0]["geometry"] and resJSON["results"][0]["geometry"]["location_type"] in ["APPROXIMATE", "GEOMETRIC_CENTER"]:
 			warning.append("Address lookup did not return an exact result. The information below may be incorrect. Please adjust the address you entered to improve result quality.")
 
