@@ -350,11 +350,6 @@ def getmembersbycongress():
     if api=="Web_Congress":
         for i in range(0,len(out["results"])):
             memberRow = out["results"][i]
-            #padICPSR = str(memberRow["icpsr"]).zfill(6)
-            #if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
-            #    memberRow["bioImgURL"] = padICPSR+".jpg"
-            #else:
-            #    memberRow["bioImgURL"] = "silhouette.png"
 
             memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
 
@@ -423,11 +418,6 @@ def getmembersbyparty():
 	if api=="Web_Party":
 		for i in range(0,len(out["results"])):
 			memberRow = out["results"][i]
-			#padICPSR = str(memberRow["icpsr"]).zfill(6)
-			#if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
-			#	memberRow["bioImgURL"] = padICPSR+".jpg"
-			#else:
-			#	memberRow["bioImgURL"] = "silhouette.png"
 
 			memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
 			out["results"][i] = memberRow
