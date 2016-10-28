@@ -379,8 +379,22 @@ def districtLookup():
     results = latLongToDistrictCodes(lat, long)
     if len(results):
         orQ = []
+        atLargeSet = []
+        state_abbrev = ""
         for r in results:
-            orQ.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
+            state_abbrev = r[0]
+            if r[2]:
+                orQ.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
+            else:
+                atLargeSet.append(r[1])
+        if len(atLargeSet):
+            for l in atLargeSet:
+                matchDistrict = len([x for x in orQ if x["congress"]==l])
+                if matchDistrict:
+                    pass
+                else:
+                    for dc in [1,98,99]:
+                        orQ.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
         results = getMembersByPrivate(orQ)
         if "results" in results:
             return {"status": 0, "results": results["results"]}
