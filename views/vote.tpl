@@ -190,6 +190,7 @@ var chamber = "{{ rollcall["chamber"] }}";
 var congressNum = "{{ str(rollcall["congress"]).zfill(3) }}";
 var rcID = "{{ rollcall["id"] }}";
 var mapParties = {{ mapParties }};
+var nomDWeight = {{ dimweight }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
