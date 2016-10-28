@@ -133,6 +133,7 @@ function loadText(t)
 				var tbody = $("<tbody></tbody>");
 				var lastICPSR = 0;
 				var lastCong = 0;
+				var lastState = ""
 				$.each(data["results"], function(k, v)
 				{
 					if(lastCong>38 && v["congress"]<37)
@@ -144,7 +145,27 @@ function loadText(t)
 						td.appendTo(tr);
 						tr.appendTo(tbody);
 					}
+					if(lastState=="West Virginia" && v["state"]=="Virginia")
+					{
+						var virgDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: West Virginia breaks away from Virginia to form a new state.");
+						var tr = $("<tr></tr>");
+						var td = $("<td colspan=\"4\"></td>");
+						virgDiv.appendTo(td);
+						td.appendTo(tr);
+						tr.appendTo(tbody);
+					}
+					if(lastState=="Maine" && v["state"]=="Massachusetts")
+					{
+						var maineDiv = $("<div></div>").addClass("alert alert-info").html("<strong>1820</strong>: Maine votes to secede from Massachusetts and is admitted to the union as a state.");
+						var tr = $("<tr></tr>");
+						var td = $("<td colspan=\"4\"></td>");
+						maineDiv.appendTo(td);
+						td.appendTo(tr);
+						tr.appendTo(tbody);
+					}
+
 					lastCong = parseInt(v["congress"]);
+					lastState = v["state"];
 					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"];});
 					if(lastICPSR!=parseInt(v["icpsr"]))
 					{
