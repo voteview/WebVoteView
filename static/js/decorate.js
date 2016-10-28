@@ -7,7 +7,6 @@ function decorateNominate(oc,data) {
 
 	var margin = 50;
 	var marginCircle = 25; // Distance of the main circle to the axis
-        var nomDWeight = 0.4158127;
 	var tickLength = 15;
 	var scale = 1.0; // sets radius of the outer circle in nominate units
 	var cutlineMult = 1.0; // sets how far into space the cutline is blasted off into. (Aaron added this, but it doesn't do anything?)
