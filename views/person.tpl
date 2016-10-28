@@ -165,7 +165,7 @@
 	    </form>
 
 		<div id="memberVotesTable">
-			%include('voteTable.tpl', skip=0)
+			%include('member_votes.tpl', skip=0)
 		</div>
 		<div style="float:right;">
 			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a> 

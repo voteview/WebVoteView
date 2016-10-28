@@ -667,7 +667,7 @@ def searchAssemble():
         bottle.response.headers["rollcall_number"] = -999
         bottle.response.headers["member_number"] = 0
         bottle.response.headers["nextId"] = 0
-        out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers, resultParties=resultParties)
+        out = bottle.template("views/search_results", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers, resultParties=resultParties)
     else:
         if "fulltextSearch" in res:
             highlighter = res["fulltextSearch"]
@@ -682,10 +682,10 @@ def searchAssemble():
         bottle.response.headers["nextId"] = res["nextId"]
         bottle.response.headers["need_score"] = res["needScore"]
         if not "rollcalls" in res:
-            out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=resultParties)
+            out = bottle.template("views/search_results", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=resultParties)
         else:
             #print(res['rollcalls'])
-            out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
+            out = bottle.template("views/search_results", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
     return(out)
 
 @app.route("/api/getMemberVotesAssemble")
@@ -721,7 +721,7 @@ def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 		voteQuery = query(qtext, rowLimit=25, jsapi=1)
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
-        output = bottle.template("views/voteTable",person=person, votes=votes, skip=skip, nextId=voteQuery["nextId"])
+        output = bottle.template("views/member_votes",person=person, votes=votes, skip=skip, nextId=voteQuery["nextId"])
 
 	bottle.response.headers["nextId"] = voteQuery["nextId"]
 	return(output)
