@@ -3,4 +3,5 @@ email-validator==1.0.1
 fuzzywuzzy==0.11.1
 pymongo==3.3.0
 requests==2.11.1
+titlecase==0.8.1
 xlwt==1.1.2
