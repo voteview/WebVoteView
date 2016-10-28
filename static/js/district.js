@@ -132,8 +132,19 @@ function loadText(t)
 						.addClass("table table-hover dc-data-table");
 				var tbody = $("<tbody></tbody>");
 				var lastICPSR = 0;
+				var lastCong = 0;
 				$.each(data["results"], function(k, v)
 				{
+					if(lastCong>38 && v["congress"]<37)
+					{
+						var civilWarDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: "+v["state"]+" does not seat a delegation in the US Congress.");
+						var tr = $("<tr></tr>");
+						var td = $("<td colspan=\"4\"></td>");
+						civilWarDiv.appendTo(td);
+						td.appendTo(tr);
+						tr.appendTo(tbody);
+					}
+					lastCong = parseInt(v["congress"]);
 					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"];});
 					if(lastICPSR!=parseInt(v["icpsr"]))
 					{
@@ -149,7 +160,6 @@ function loadText(t)
 						$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
 						$("<td></td>").css("border-left","3px solid "+colorSchemes[v["party_color"]][0]).appendTo(tr);
 						$("<td></td>").appendTo(tr);
-
 					}
 					tr.appendTo(tbody);
 				});

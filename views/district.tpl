@@ -22,6 +22,14 @@
 		<li>141 Mullett Run St, milford, de</li>
 		<li>226 W 46th St, New York, NY</li>
 		<li> 700 W Jefferson St, Boise</li>
+		<li>geographic center of the united states</li>
+		<li>1007 E Grand, Des Moines, IA</li>
+		<li>700 Capital Ave, Frankfort, KY</li>
+		<li>bourbon st, new orleans</li>
+		<li style="font-weight:700;">augusta, me</li>
+		<li>1900 Kanawha Boulevard East, Charleston, West Virginia</li>
+		<li>100 State Cir, Annapolis, MD</li>
+		<li>24 Beacon St, Boston, MA</li>
 		<li>1234 Urb Los Olmos, Ponce, PR, 00731</li>
 		<li>1245 Pale San Vitores Rd, Tamuning, Guam</li>
 		<li>6450 Coki Point, St. Thomas, USVI</li>
