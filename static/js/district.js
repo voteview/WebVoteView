@@ -105,6 +105,22 @@ function lzPad(t)
 			{
 				$("#loadProgress").fadeOut();
 				console.log("ok good");
+				if(data["resCurr"].length)
+				{
+					$("<h4>Current Congressperson and Senators</h4>").appendTo("#resultsMembers");
+					var memberList = $("<ul></ul>").css("columns","auto 3")
+								.css("list-style-type","none").css("overflow","auto")
+								.css("width","100%").css("margin-left",0).css("padding-left",0).css("margin-bottom","15px")
+								.css("display","block").attr("id","memberList");
+					memberList.appendTo("#resultsMembers");
+					//boxDiv.appendTo("#resultsMembers")
+					$.each(data["resCurr"], function(k,v)
+					{
+						constructPlot(v, 0);
+					});
+				}
+
+				$("<h4>Historical Representatives</h4>").appendTo("#resultsMembers");
 				var table = $("<table><thead><tr><th>Congress</th><th>District</th><th>Party</th><th>Member</th></tr></thead></table>")
 						.addClass("table table-hover dc-data-table");
 				var tbody = $("<tbody></tbody>");

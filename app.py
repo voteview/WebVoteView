@@ -382,7 +382,8 @@ def districtLookup():
         atLargeSet = []
         state_abbrev = ""
         for r in results:
-            state_abbrev = r[0]
+            if not len(state_abbrev):
+                state_abbrev = r[0]
             if r[2]:
                 orQ.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
             else:
@@ -395,9 +396,12 @@ def districtLookup():
                 else:
                     for dc in [1,98,99]:
                         orQ.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
-        results = getMembersByPrivate(orQ)
+        results = getMembersByPrivate({"chamber": "House", "$or": orQ})
+
         if "results" in results:
-            return {"status": 0, "results": results["results"]}
+            currentCong = next((x["district_code"] for x in results["results"] if x["congress"]==114), None)
+            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": 114}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": 114}]})
+            return {"status": 0, "results": results["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
         else:
             return {"status": 1, "error_message": "No matches."}
     else:
