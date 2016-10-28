@@ -480,7 +480,6 @@ def searchAssemble():
 		elif party["count"] > 100:
 			party["scoreMatch"] += 10
                 resultParties.append(party)
-
 	resultParties.sort(key=lambda x: (-x["scoreMatch"], -x["maxCongress"]))
 
     # Member search
@@ -529,19 +528,20 @@ def searchAssemble():
                 scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
                 scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
                 member["scoreMatch"] = max(scoreBasic, scoreNick)
-		#print q, "/", memName, "/", scoreBasic, scoreNick
+		member["bonusMatch"] = 0
+		print q, "/", memName, "/", scoreBasic, scoreNick
                 if member["congress"]>=100:
-                    member["scoreMatch"] += 10
+                    member["bonusMatch"] += 10
                 if member["chamber"]=="President":
-                    member["scoreMatch"] += 250
+                    member["bonusMatch"] += 25
                 if member["chamber"]=="Senate":
-                    member["scoreMatch"] += 10
+                    member["bonusMatch"] += 10
                 if "congresses" in member:
                     duration = 0
                     for cong in member["congresses"]:
                         duration = duration+(cong[1]-cong[0])
                     if duration>=5:
-                        member["scoreMatch"] += 7
+                        member["bonusMatch"] += 7
 
                 if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
                     member["bioImg"] = "silhouette.png"
@@ -553,9 +553,12 @@ def searchAssemble():
 
     #return(resultMembers)
     if needScore:
-        resultMembers.sort(key=lambda x: -x["scoreMatch"])
+        print "results before truncation"
+        print resultMembers
+        print "end ====="
         if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
             resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
+        resultMembers.sort(key=lambda x: -(x["scoreMatch"] + x["bonusMatch"]))
     else:
         resultMembers.sort(key=lambda x: -x["congress"])
     if len(resultMembers)>8 and not expandResults:
