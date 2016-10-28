@@ -260,26 +260,32 @@ def nicknameHelper(text, ref=""):
 	for word in text.split():
 		if word in refNames:
 			name = name+word+" "
-			continue
-
-		match = [x for x in nicknames if x["name"].lower()==word.lower()]
-		if len(match):
-			match = sorted(match, key=lambda x: len(x["nickname"]))
-			if len(match[0]["nickname"])<len(word):
-				name = name+match[0]["nickname"]+" "
-			else:
-				name = name+word+" "
 		else:
-			matchBack = [x for x in nicknames if x["nickname"].lower()==word.lower()]
-			if len(matchBack):
-				matchBack = sorted(matchBack, key=lambda x: len(x["name"]))
-				if len(matchBack[0]["name"])<len(word):
-					name = name+matchBack[0]["name"]+" "
-				else:
-					name = name+word+" "
-			else:
-				name = name+word+" "
+			name=name+singleNicknameSub(word)+" "
+
 	name = name.strip()
+	#print "Nickname tester: ", text, name
+	return name
+
+def singleNicknameSub(name):
+	done=0
+	steps=0
+	while done==0 and steps<20:
+		candidates = []
+		candidates = candidates + [x["nickname"] for x in nicknames if x["name"].lower()==name.lower()]
+		candidates = candidates + [x["name"] for x in nicknames if x["nickname"].lower()==name.lower()]
+		if len(candidates):
+			candidates.append(name)
+			candidates = sorted(list(set(candidates)), key=lambda x: (len(x), x))
+			newName = candidates[0]
+			if newName!=name:
+				#print "Map from ", name, "to ", newName
+				name = newName
+				steps=steps+1
+			else:
+				#print "No map from here."
+				done=1
+		done=1
 	return name
 
 def getMembersByPrivate(query):
