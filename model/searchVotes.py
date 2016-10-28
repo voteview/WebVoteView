@@ -14,11 +14,14 @@ from downloadVotes import waterfallText, waterfallQuestion
 client = pymongo.MongoClient()
 try:
 	dbConf = json.load(open("./model/db.json","r"))
+	stopWords = [x.strip() for x in open("./model/stop_words.txt","r").read().split("\n")]
 	db = client[dbConf["dbname"]]
 except:
         try:
                 dbConf = json.load(open("./db.json","r"))
+		stopWords = [x.strip() for x in open("./stop_words.txt","r").read().split("\n")]
         except:
+		stopWords = []
                 dbConf = {'dbname': 'voteview'}
         db = client[dbConf["dbname"]]
 
@@ -1016,6 +1019,11 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		except:
 			return { 'recordcount':0,'rollcalls':[],'errormessage':'Error resolving query string.'}
 
+		wordSet = [x.lower() for x in qtext.split()]
+		anyWords = 0
+		if all([w.lower() in stopWords for w in wordSet]):
+			return { 'recordcount':0, 'rollcalls':[], 'errormessage':"All the words you searched for are too common. Please be more specific with your search query."}
+
 		if len(qtext)>2500:
 			return { 'recordcount':0,'rollcalls':[],'errormessage':"Query is too long. Please shorten query length."}
 
@@ -1187,7 +1195,8 @@ if __name__ == "__main__":
 		#print results
 		#results = query('"defense commissary"')
 		#print results
-		print query("congress:113 chamber:House", idsOnly = 1)
+		#print query("congress:113 chamber:House", idsOnly = 1)
+		print query("the and")
 		#query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
 		#query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
 		#query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
