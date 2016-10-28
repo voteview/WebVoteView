@@ -1,6 +1,7 @@
 import traceback
 import model.downloadVotes
 
+# Completes the member-vote merge.
 def prepVotes(voteQuery, person):
 	if not "errorMessage" in voteQuery and "rollcalls" in voteQuery:
 		votes = voteQuery["rollcalls"]
