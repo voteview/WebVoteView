@@ -12,6 +12,7 @@ import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, nicknameHelper, getMembersByPrivate
 from model.searchParties import partyLookup
+from model.searchMeta import metaLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.prepVotes import prepVotes
 from model.geoLookup import addressToLatLong, latLongToDistrictCodes
@@ -297,7 +298,9 @@ def rollcall(rollcall_id=""):
         output = bottle.template("views/error", errorMessage=rollcall["errormessage"])
         return(output)
 
-    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
+    meta = metaLookup()
+
+    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate']['second_dimweight'], mapParties=mapParties)
     return(output)
 
 
