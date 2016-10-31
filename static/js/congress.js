@@ -41,8 +41,16 @@ function nomPlot()
 	var xDimension = ndx.dimension(
 		function(d) 
 		{
-			var x = d.nominate.oneDimNominate;
-			var y = d.nominate.twoDimNominate;
+			if(d.nominate!=undefined)
+			{
+				var x = d.nominate.dim1;
+				var y = d.nominate.dim2;
+			}
+			else
+			{
+				var x = 999;
+				var y = 999;
+			}
 			return [x,y];
 		}
 	);
@@ -70,6 +78,7 @@ function nomPlot()
 	.dimension(xDimension)
 	.mouseZoomable(false)
 	.group(xGroup)
+	.data(function(group) { return group.all().filter(function(d) { return d.key!=[999,999]; });})
 	.symbolSize(7)
 	.colorCalculator(function(d) {
 		var color = "#CCC";
@@ -124,6 +133,8 @@ function reloadBios()
 		{
 			validSet = [];
 			resultCache = data;
+			$("#sortChamber").unbind('click')
+			$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
 			writeBioTable();
 			nomPlot();
 			compositionBar();
@@ -161,8 +172,8 @@ function compositionBar()
 {
 	var partyCount={}
 	$.each(resultCache["results"], function(i, d) {
-		if(partyCount[d.partyname]==undefined) { partyCount[d.partyname]=1; }
-		else { partyCount[d.partyname]++; }
+		if(partyCount[d.party_short_name]==undefined) { partyCount[d.party_short_name]=1; }
+		else { partyCount[d.party_short_name]++; }
 	});
 	
 	$("#partyComposition").html("");

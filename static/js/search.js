@@ -1,3 +1,4 @@
+var doRedirectForce=0;
 var cookieId = "";
 var mostRecentSearch = "";
 var resultCount = 0;
@@ -188,6 +189,7 @@ function toggleAdvancedSearch(instant)
 			{
 				$('#results-selects').animate({width: 'toggle', opacity: 'toggle'},125, 'linear');
 				$('#support').slider('refresh');
+				$("#support").slider("relayout");
 			});
 		}
 	}
@@ -199,7 +201,7 @@ function toggleAdvancedSearch(instant)
 		}
 		else { $('#resultsHolder').css('width', '100%'); }
 		$('#results-selects').toggle();
-		setTimeout(function(){$('#support').slider('refresh');}, 20);
+		setTimeout(function(){$('#support').slider('refresh'); $("#support").slider('relayout');}, 20);
 	}
 }
 
@@ -332,12 +334,16 @@ $(document).ready(function(){
 	// On form change we reset the search and do the initial AJAX call
 	$("#faceted-search-form input:not(#searchTextInput), #sort").change(function() 
 	{
+		$('#sortScore').val(1);
+		$('#sortD').val(-1);
 		updateRequest();
 	});
 
 	// Prevent form submission, force an AJAX call everytime we update the search bar
 	$("#faceted-search-form").submit(function(event) 
 	{
+		$('#sortScore').val(1);
+		$('#sortD').val(-1);
 		event.preventDefault();
 		updateRequest();
 	});
@@ -383,6 +389,7 @@ $(document).ready(function(){
 	// Toggle panel icons
 	function toggleChevron(e)
 	{
+		if(e.target.id=="facet-support") { $("#support").slider("relayout"); }
 		$(e.target)
 		.prev('.panel-heading')
 		.find('i.indicator')
@@ -398,6 +405,9 @@ $(document).ready(function(){
 	}
 	if($('#facet-clausen input[type=checkbox]:checked').length) {
 		$("#facet-clausen").collapse('show');
+	}
+	if($('#facet-keyvote input[type=checkbox]:checked').length) {
+		$("facet-keyvote").collapse('show');
 	}
 	if($('#fromDate').val()  || $("#toDate").val()) {
 		$("#facet-date").collapse('show');
@@ -430,6 +440,11 @@ function updateRequest()
 	// Get the initial list of rollcalls and replace all elements in the container with them
 	function getRollcalls()
 	{
+		if($("#searchTextInput").val().length==9 && ($("#searchTextInput").val().substring(0,2)=="RH" || $("#searchTextInput").val().substring(0,2)=="RS"))
+		{
+			window.location='/rollcall/'+$("#searchTextInput").val();
+			return;
+		}
 		globalQueueRequests=0;
 		$.ajax({
 			type: "POST",
@@ -458,6 +473,14 @@ function updateRequest()
 				var resultsNumber = parseInt(xhr.getResponseHeader("Rollcall-Number"));
 				var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
 				var partyNumber = parseInt(xhr.getResponseHeader("Party-Number"));
+			        var needScore = parseInt(xhr.getResponseHeader("Need-Score"));
+				if(xhr.getResponseHeader("Redirect-Url") != undefined && xhr.getResponseHeader("Redirect-Url").length && !doRedirectForce)
+				{
+					console.log(xhr.getResponseHeader("Redirect-Url"));
+					doRedirectForce=1;
+					window.location=xhr.getResponseHeader("Redirect-Url");
+					return;
+				}
 				resultCount = resultsNumber;
 				var resultText = "";
 				if(partyNumber)
@@ -477,6 +500,31 @@ function updateRequest()
 				else if(resultsNumber==0) resultText = "0 results found.";
 				else { resultText = "Error completing search."; }
 				$("#results-number").html(resultText);
+			   
+			        // Control how sorting buttons appear
+			        if(needScore && $("#sortScore").val() == 1)
+				{
+				        $("#relevanceAppear")[0].style.display = "inline-block";
+				        $("#relevanceSort")[0].className = "selectedSort";
+				        $("#newestSort")[0].className = "";
+				        $("#oldestSort")[0].className = "";
+				} else if ($("#sortD").val() == -1)
+			        {
+				        $("#relevanceSort")[0].className = "";
+				        $("#newestSort")[0].className = "selectedSort";
+				        $("#oldestSort")[0].className = "";
+				} else if ($("#sortD").val() == 1)
+				{
+				        $("#relevanceSort")[0].className = "";
+				        $("#newestSort")[0].className = "";
+				        $("#oldestSort")[0].className = "selectedSort";
+				}
+
+			        if(!needScore)
+				{
+				        $("#relevanceAppear")[0].style.display = "none";
+				}
+
 
 				if(resultsNumber<0) 
 				{

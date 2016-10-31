@@ -1,6 +1,6 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'])
+% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js"])
 % include('header.tpl')
 % memberLabel = (chamber.title()=="Senate" and "Senators" or "Representatives")
 <div class="container">
@@ -33,7 +33,7 @@
 		<h4>DW-Nominate Plot
 				<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:22px;vertical-align:middle;cursor:pointer" 
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
-					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}.png', {backgroundColor: 'white'}); return false;"
+					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}_{{congress}}.png', {backgroundColor: 'white'}); return false;"
 					></span>
 		</h4>
 
@@ -52,7 +52,7 @@
 			<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
 			<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
 			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-			<a href="#" onclick="javascript:resort('elected{{chamber[0].upper()+chamber[1:]}}');return false;">Seniority</a>)
+			<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a>)
 		</div>
 		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
 		</ul>

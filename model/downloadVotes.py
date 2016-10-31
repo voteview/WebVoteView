@@ -1,23 +1,44 @@
 import time
 import json
 import traceback
+from searchMembers import cqlabel
+from searchParties import partyName, shortName
+from searchMeta import metaLookup
 from pymongo import MongoClient
 client = MongoClient()
 try:
 	dbConf = json.load(open("./model/db.json","r"))
 except:
-	dbConf = json.load(open("./db.json","r"))
+        try:
+                dbConf = json.load(open("./db.json","r"))
+        except:
+                dbConf = {'dbname': 'voteview'}
 db = client[dbConf["dbname"]]
 
-dimweight = 0.4158127 # (was set to  0.4156) needs to be extracted from the DB based on most recent nominate run   
+m = metaLookup()
+dimWeight = m['nominate']['second_dimweight']
 
+def waterfallQuestion(rollcall):
+        waterfall = ["vote_question", "question"]
+	for w in waterfall:
+		if w in rollcall and rollcall[w] is not None:
+			return rollcall[w]
+
+	return None
+
+def waterfallText(rollcall):
+	waterfall = ["vote_desc", "vote_document_text", "vote_title", "vote_question_text", "amendment_author", "description", "short_description"]
+	for w in waterfall:
+		if w in rollcall and rollcall[w] is not None:
+			return rollcall[w]
+
+	return "Vote "+rollcall["id"]
+	
 def add_endpoints(mid, spread):
 	"""Add attributes to nomimate attribute that aid in
 	drawing cutting lines
 	"""
 
-	print mid, spread
-	
 	if (spread[0] == 0 and
 			float(spread[1]) == 0 and
 			float(mid[0]) == 0 and
@@ -33,7 +54,7 @@ def add_endpoints(mid, spread):
 		intercept = -slope * (float(mid[0])
 					+ float(mid[1]))
 	else:
-		slope = -float(spread[0] / (float(spread[1]) * dimweight * dimweight))
+		slope = -float(spread[0] / (float(spread[1]) * dimWeight * dimWeight))
 		intercept = (-slope * float(mid[0]) + float(mid[1]))
 		x = [10, -10]
 		y = [intercept + slope * xx for xx in x]
@@ -52,16 +73,15 @@ def _get_yeanayabs(vote_id):
 	elif vote_id < 10:
 		return "Abs"
 
-def downloadAPI(rollcall_id, apitype="Web"):
-	rollcalls_col = db.voteview_rollcalls
-	members_col = db.voteview_members
-
+def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 	starttime = time.time()
 	# Setup API version response
-	if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
-		apiVersion = "Web 2016-07"
+        webexportapis = ["Web", "Web_Person", "exportJSON", "exportCSV"]
+
+	if apitype in webexportapis:
+		apiVersion = "Web 2016-10"
 	elif apitype=="R":
-		apiVersion = "R 2016-02"
+		apiVersion = "R 2016-10"
 
 	if not rollcall_id or len(rollcall_id)==0:
 		response = {'errormessage': 'No rollcall id specified.', 'apitype': apiVersion}
@@ -77,7 +97,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 
 	 # Abuse filter
 	maxVotes = 100
-	if apitype=="exportJSON":
+	if apitype in ["exportJSON", "exportCSV"]:
 		maxVotes = 500
 	if len(rollcall_ids)>maxVotes:
 		response = {'errormessage': 'API abuse. Too many votes.', 'apitype': apiVersion}
@@ -90,70 +110,115 @@ def downloadAPI(rollcall_id, apitype="Web"):
 	found = {}
 	for rid in rollcall_ids:
 		found[rid] = 0
-	print found
 
-	rollcalls = rollcalls_col.find({'id': {'$in': rollcall_ids}})
+	setupTime = time.time()
+	# Do we need to fold in members?
+	peopleIds = []
+	memberSet = []
+	if apitype=="Web_Person": # I need to fold in one specific member
+		needPeople=-1 # Just one specific member
+		peopleIds = [voterId]
+	elif apitype=="exportCSV":
+		needPeople=0 # No members at all
+	else:
+		needPeople=1 
+		peopleIds = db.voteview_rollcalls.distinct("votes.icpsr", {"id": {"$in": rollcall_ids}}) # All relevant members
+
+	congresses = []
+	for rollcall_id in rollcall_ids:
+		try:
+			congresses.append(int(rollcall_id[2:5]))
+		except:
+			pass
+
+	memberTime1 = time.time()
+	# Now fetch the members
+	memberSet = []
+	if len(peopleIds):
+		memberFields = {"icpsr":1, "nominate":1, "bioname":1, "party_code":1, "state_abbrev":1, "chamber":1, "district_code": 1, "congress": 1, "id":1} 
+		members = db.voteview_members.find({"icpsr": {"$in": peopleIds}, "congress": {"$in": congresses}}, memberFields)
+		for m in members:
+			memberSet.append(m)
+
+	memberTime2 = time.time()
+	# Now iterate through the rollcalls
+	fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1, "description": 1, "shortdescription": 1, "short_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1, 'vote_title':1, 'vote_question_text':1, 'amendment_author':1}
+	rollcalls = db.voteview_rollcalls.find({'id': {'$in': rollcall_ids}}, fieldSetNeed).sort('id')
 	for rollcall in rollcalls:
-		result = []
-		try: # Lazy way to verify the rollcall is real
-			# Pull all members in a single query.
-			memberSet = []
-			for vote in rollcall['votes']:
-				memberSet.append(vote["id"])
-			members = members_col.find({'id': {'$in': memberSet}})
+		result = [] # Hold new votes output, start blank
+		try: 
+			# If we need some people, let's iterate through the voters and fill them out
+			if needPeople!=0:
+				metaMembers = [m for m in memberSet if m["congress"] == rollcall["congress"]]
+				for v in rollcall["votes"]:
+					newV = {}
+					# Only add the person if they're in our validated list of people we want.
+					if v["icpsr"] in peopleIds:
+						#print "In here"
+						newV.update(v)
+			
+						# Do the match from the member list
+						try:
+							memberMap = next((m for m in metaMembers if m["icpsr"]==v["icpsr"]), None)
+							if memberMap is None:
+								print v["icpsr"], "Error! We don't have a member with this icpsr. Skipping"
+						except:
+							print v["icpsr"], "Error! We don't have a member with this icpsr. Skipping"
+							continue
 
-			for member in members:
-				bestName = ""
-				if "bioName" in member and member["bioName"] is not None:
-					bestName = member["bioName"]
-				elif "fname" in member and member["fname"] is not None:
-					bestName = member["fname"]
-				else:
-					bestName = member["name"]
+						# Now assemble the matching.
+						if apitype=="Web" or apitype=="Web_Person" or apitype=="exportJSON":
+							newV["vote"] = _get_yeanayabs(newV["cast_code"])
+							del newV["cast_code"] # We are not returning cast code.
+							try:
+								newV["x"] = memberMap["nominate"]["dim1"]
+							except:
+								pass
+							try:
+								newV["y"] = memberMap["nominate"]["dim2"]
+							except:
+								pass
 
-				# Web returns different fields than R
-				if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person": # 'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0])
-					v = {
-						'vote': _get_yeanayabs([m["v"] for m in rollcall['votes'] if m["id"]==member["id"]][0]),
-						'name': bestName,
-						'id': member['id'],
-						'party': member['partyname'],
-						'state': member['stateAbbr'],
-					}
-					try:
-						v['prob'] = [int(round(m["p"])) for m in rollcall["votes"] if m["id"]==member["id"]][0]
-					except:
-						pass
+							if "prob" in newV:
+								newV["prob"] = int(round(newV["prob"]))
+							newV["name"] = memberMap["bioname"]
+							newV["party"] = partyName(memberMap["party_code"])
+							newV["party_short_name"] = shortName(memberMap["party_code"])
+							newV["party_code"] = memberMap["party_code"]
+							newV["state_abbrev"] = memberMap["state_abbrev"]
+							
+							if memberMap["state_abbrev"] == "USA":
+								newV["district"] = "POTUS"
+							elif memberMap["district_code"] > 70:
+								newV["district"] = "%s00" % memberMap["state_abbrev"]
+							elif memberMap["district_code"] and memberMap["district_code"] <= 70:
+								newV["district"] = "%s%02d" % (memberMap["state_abbrev"], memberMap["district_code"])
+							else:
+								newV["district"] = ""
+						# And for the R API
+						elif apitype=="R" or apitype=="exportXLS":
+							try:
+								del newV["prob"]
+							except:
+								pass
 
-					if member['nominate']['oneDimNominate']:
-						v['x'] = member['nominate']['oneDimNominate']
-						v['y'] = member['nominate']['twoDimNominate']
+							if "nominate" in memberMap and "dim1" in memberMap["nominate"]:
+								newV["dim1"] = memberMap["nominate"]["dim1"]
+								newV["dim2"] = memberMap["nominate"]["dim2"]
+                                                        newV["id"] = memberMap["id"]
+							newV["name"] = memberMap["bioname"]
+							newV["party_code"] = memberMap["party_code"]
+							newV["state_abbrev"] = memberMap["state_abbrev"]
+							newV["cqlabel"] = cqlabel(memberMap["state_abbrev"], memberMap["district_code"])
+                                                        newV['district_code'] = memberMap['district_code']
+						# Append the new voter to the list of voters.
+						result.append(newV)
+					else:
+						continue
 
-					if member['stateAbbr'] == "POTUS":
-						v['district'] = "POTUS"
-					elif member['districtCode'] > 70:
-						v['district'] = "%s00" % member['stateAbbr']
-					elif member['districtCode'] and member['districtCode'] <= 70:
-						v['district'] = "%s%02d" % (member['stateAbbr'], member['districtCode'])
-					if not "district" in v: # We do this to force null districts to exist so as to avoid breaking DC_rollcall
-						v["district"] = ""
-					result.append(v)
-				elif apitype=="R": # [m["v"] for m in rollcall["votes"] if m["id"]==member["id"]][0]
-					v = {
-						'vote': [m["v"] for m in rollcall["votes"] if m["id"]==member["id"]][0],
-						'name': member['fname'],
-						'id':member['id'],
-						'icpsr': member['icpsr'],
-						'party': member['party'],
-						'state': member['state'],
-						'cqlabel': member['cqlabel']
-					}
-					if member['nominate']['oneDimNominate']:
-						v['nom1'] = member['nominate']['oneDimNominate']
-						v['nom2'] = member['nominate']['twoDimNominate']
-					result.append(v)
 
 			# Top level nominate metadata
+			# Debug code to delete nominate data so we can regenerate it.
 			if "nominate" in rollcall and "slope" in rollcall["nominate"]:
 				del rollcall["nominate"]["slope"]
 			if "nominate" in rollcall and "intercept" in rollcall["nominate"]:
@@ -163,35 +228,105 @@ def downloadAPI(rollcall_id, apitype="Web"):
 			if "nominate" in rollcall and "y" in rollcall["nominate"]:
 				del rollcall["nominate"]["y"]
 
+			# Generate other nominate fields
 			if "nominate" in rollcall and "mid" in rollcall["nominate"] and "spread" in rollcall["nominate"] and rollcall["nominate"]["spread"][0] is not None:
 				rollcall["nominate"]["slope"], rollcall["nominate"]["intercept"], rollcall["nominate"]["x"], rollcall["nominate"]["y"] = add_endpoints(rollcall["nominate"]["mid"], rollcall["nominate"]["spread"])
+			# Ensure everything has at least some nominate field.
+			elif "nominate" not in rollcall:
+				rollcall["nominate"] = {}
 
-			if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
+			# Flatten nominate for the R API.
+			if apitype in webexportapis:
 				nominate = rollcall['nominate']
+                                checkNom = ['classified', 'pre', 'log_likelihood']
+                                for f in checkNom:
+                                        if f not in nominate:
+                                                nominate[f] = ''
 			elif apitype=="R":
-				nominate = {k: rollcall['nominate'][k] for k in ['intercept', 'slope']}
+				if "nominate" in rollcall:
+					nominate = {"mid1": rollcall["nominate"]["mid"][0], "mid2": rollcall["nominate"]["mid"][1],
+						    "spread1": rollcall["nominate"]["spread"][0], "spread2": rollcall["nominate"]["spread"][1],
+                                                    "nomslope": rollcall['nominate']['slope'], 'nomintercept': rollcall['nominate']['intercept']}
+				else:
+					nominate = {}
 
 			# Top level rollcall item.
 			found[rollcall["id"]] = 1
 
-			# Collapse codes for R
-			if apitype=="Web" or apitype=="exportJSON" or apitype=="Web_Person":
-				codes = rollcall["code"]
-			elif apitype=="R":
-				codes = rollcall["code"]
-				for key, value in codes.iteritems():
-					codes[key] = '; '.join(value)
+			# Get the best available description.
+			description = waterfallText(rollcall)
+			# Truncate the description for the R API.
+			if apitype=="R" or apitype=="exportCSV":
+				if len(description)<=255:
+					pass
+				else:
+					baseDesc = description[0:254]
+					rest = description[255:]
+					try:
+						cutoff = rest.index(". ")
+						if cutoff<255:
+							baseDesc = baseDesc + rest[0:cutoff]
+						else:
+							baseDesc = baseDesc + rest[0:255]+"..."
+					except:
+						if len(rest)<255:
+							baseDesc = baseDesc+rest
+						else:
+							baseDesc = baseDesc + rest[0:255]+"..."
+					description = baseDesc
 
-			if not "keyvote" in rollcall:
-				rollcall["keyvote"] = []
+                        # Get the best available question
+                        question = waterfallQuestion(rollcall)
+                        if 'vote_result' not in rollcall:
+                                rollcall['vote_result'] = None
+
+			# Collapse codes for R
+                        if apitype == "exportCSV" or apitype == "exportXLS":
+                                codeFields = {"Clausen1": "" , "Issue1": "", "Issue2": "", "Peltzman1": "", "Peltzman2": ""}
+                                if 'codes' in rollcall:
+                                        for key, value in rollcall["codes"].iteritems():
+                                                if len(value) == 1:
+                                                        codeFields[key + '1'] = value[0]
+                                                else:
+                                                        codeFields[key + '1'] = value[0]
+                                                        codeFields[key + '2'] = value[1]
+                        elif apitype in webexportapis:
+				if "codes" in rollcall:
+					codes = rollcall["codes"]
+				else:
+					codes = {}
+			elif apitype=="R":
+				if "codes" in rollcall:
+					codes = rollcall["codes"]
+					for key, value in codes.iteritems():
+						codes[key] = '; '.join(value)
+				else:
+					codes = {}
+
+			# Pre-allocate keyvote flags.
+			if not "key_flags" in rollcall:
+				rollcall["key_flags"] = []
 				
-			z = {'votes': result, 'nominate': nominate, 'chamber': rollcall['chamber'],
-				'congress': rollcall['congress'], 'date': rollcall['date'], 'rollnumber': rollcall['rollnumber'],
-				'description': rollcall['description'], 'id': rollcall['id'], 'code': codes,
-				'yea': rollcall["yea"], 'nay': rollcall["nay"], 'keyvote': rollcall["keyvote"]}
+			# Output object:
+                        z = {'id': rollcall['id'], 'chamber': rollcall['chamber'], 'congress': rollcall['congress'], 'date': rollcall['date'],
+                             'rollnumber': rollcall['rollnumber'], 'yea': rollcall["yea_count"],
+                             'nay': rollcall["nay_count"], 'vote_result': rollcall['vote_result']}
+                        if apitype == "exportCSV" or apitype == "exportXLS":
+                                z.update({k:v for k,v in codeFields.iteritems()})
+                                z.update({'keyvote': ''.join(rollcall['key_flags']), 
+                                          'spread.dim1': nominate['spread'][0], 'spread.dim2': nominate['spread'][1],
+                                          'mid.dim1': nominate['mid'][0], 'mid.dim2': nominate['mid'][1],
+                                          'slope': nominate['slope'], 'intercept': nominate['intercept'],
+                                          'log_likelihood': nominate['log_likelihood'], 'classified': nominate['classified'], 'pre': nominate['pre'], 'description': description.encode('utf-8')})
+                        
+                        if apitype != "exportCSV":
+                                z.update({'key_flags': rollcall["key_flags"], 'votes': result, 'codes': codes, 'nominate': nominate, 'description': description, 'question': question})
+
+
+			# Get other people's results from the party results aggregate.
 			if apitype=="Web_Person":
-				print "in here"
-				z["resultparty"] = rollcall["resultparty"]
+				z["party_vote_counts"] = rollcall["party_vote_counts"]
+
 			rollcall_results.append(z)
 
 		except: # Invalid vote id
@@ -206,6 +341,7 @@ def downloadAPI(rollcall_id, apitype="Web"):
 				errormeta.append(str(voteID))
 
 	endtime = time.time()
+	#print round(setupTime-starttime,2), round(memberTime1-setupTime,2), round(memberTime2-memberTime1,2), round(endtime-memberTime2,2)
 	response = {}
 	if len(rollcall_results):
 		response["rollcalls"] = rollcall_results
@@ -233,9 +369,13 @@ def downloadStash(id):
 			return downloadAPI(voteIds, apitype="exportJSON")			
 
 if __name__=="__main__":
-#	print downloadStash("3a5c69e7")
-#	print downloadAPI("S1140430")
-#	print downloadAPI("H1030301", "R")
-	print downloadAPI("S0090027", "Web_Person")
-	#print downloadAPI("S1140473", "Web_Person")["rollcalls"][0]["nominate"]
+	#print downloadAPI("RS1140430")
+	#print "=====Start 2"
+	#print downloadAPI("RH1030301", "R")
+	#print "=====Start 3"
+	#print downloadAPI("RS0090027", "Web_Person", "09366")
+	#print "=====Start 4"
+	#print downloadAPI("RS1140473", "Web_Person", "09366")["rollcalls"][0]["nominate"]
+	print "=====Start 5"
+	print downloadAPI(["RH0800005", "RH1140005", "RH0310005", "RS0990005"], "R")
 	pass

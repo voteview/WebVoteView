@@ -23,8 +23,6 @@ function reloadIdeology()
 	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHistWrap);
 }
 
-$(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
-
 // Wrapper to update default loadings for the person's ideal point.
 function drawHistWrap(error, data)
 {
@@ -36,10 +34,12 @@ function drawHistWrap(error, data)
 		if(!foundRep && d.icpsr==memberICPSR)
 		{
 			console.log(d);
-			memberIdeal = d.nominate.oneDimNominate;
-			memberPartyName = d.partyname;
+			memberIdeal = d.nominate.dim1;
+			memberPartyCode = d.party_code;
+			memberNoun = d.party_noun;
+			partyColor = d.party_color;
 			chamber = d.chamber.toLowerCase();
-			$("#partyname").html("<a href=\"/parties/"+d.party+"\">"+memberPartyName+"</a>");
+			$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
 			memberIdealBucket = Math.floor(memberIdeal*10);
 			foundRep=1;
 			return false;
@@ -66,13 +66,14 @@ function drawHist(error, data)
 	var ctPartyTotal=0;
 	var oneDims = [];
 	data["results"].forEach(function (d) {
-		oneDims.push(d.nominate.oneDimNominate);
+		if(d.nominate==undefined) { return true; }
+		oneDims.push(d.nominate.dim1);
 		ctTotal+=1;
-		if(d.nominate.oneDimNominate>memberIdeal) { ctGreater+=1; }
-		if(d.partyname==memberPartyName)
+		if(d.nominate.dim1>memberIdeal) { ctGreater+=1; }
+		if(d.party_code==memberPartyCode)
 		{
 			ctPartyTotal+=1;
-			if(d.nominate.oneDimNominate>memberIdeal) { ctPartyGreater+=1; }
+			if(d.nominate.dim1>memberIdeal) { ctPartyGreater+=1; }
 		}
 	});
 
@@ -88,10 +89,10 @@ function drawHist(error, data)
 
 		if(ctPartyTotal>1)
 		{
-			if(libPartyPercentage==100) { label += "The most liberal "+memberPartyName+" of the "+getGetOrdinal(congressNum)+" Congress."; }
-			else if(libPartyPercentage==0) { label += "The most conservative "+memberPartyName+" of the "+getGetOrdinal(congressNum)+" Congress."; }
-			else if(libPartyPercentage>50) { label += "More liberal than "+libPartyPercentage+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
-			else { label += "More conservative than "+(100-libPartyPercentage)+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
+			if(libPartyPercentage==100) { label += "The most liberal "+memberNoun+" of the "+getGetOrdinal(congressNum)+" Congress."; }
+			else if(libPartyPercentage==0) { label += "The most conservative "+memberNoun+" of the "+getGetOrdinal(congressNum)+" Congress."; }
+			else if(libPartyPercentage>50) { label += "More liberal than "+libPartyPercentage+"% of "+memberNoun+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
+			else { label += "More conservative than "+(100-libPartyPercentage)+"% of "+memberNoun+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
 		}
 	}
 
@@ -114,7 +115,7 @@ function drawHist(error, data)
 				if(d.key==memberIdealBucket)
 				{
 					try{
-						return colorSchemes[partyColorMap[partyNameSimplify(memberPartyName)]][0];
+						return colorSchemes[partyColor][0];
 					} catch(e) { return "#000000"; }
 				}
 				else { return "#CCCCCC"; } 
@@ -157,67 +158,3 @@ function drawHist(error, data)
 	}
 }
 
-function loadSavedVotes()
-{
-	if(cookieId.length)
-	{
-		$("#memberSearchBox").val("saved: "+cookieId);
-		startNewSearch()
-	}
-}
-
-function startNewSearch()
-{
-	globalNextId=0;
-	nextPageSearch();
-}
-
-function nextPageSearch()
-{
-		if(!globalNextId) $("#memberVotesTable").animate({opacity: 0});
-		else $("#loadIndicator").fadeIn();
-		$.ajax("/api/getMemberVotesAssemble?icpsr="+memberICPSR+"&qtext="+$("#memberSearchBox").val()+"&skip="+globalNextId, 	
-			{"type": "GET", "success": function(d, status, xhr)
-				{
-					if($('#memberSearch').val().length) { $("#voteLabel").html("Search Results"); console.log('fwd'); }
-					else { $("#voteLabel").html("Selected Votes"); console.log('back'); }
-					if(!globalNextId) $("#memberVotesTable").animate({opacity: 1});
-
-					if(globalNextId==0) { $('#memberVotesTable').html(d); }
- 					else { $('#voteDataTable > tbody').append(d); }
-
-					globalNextId = xhr.getResponseHeader("Nextid");
-					if(globalNextId==0) { $("#nextVotes").fadeOut(); }
-					else { $("#nextVotes").fadeIn(); }
-
-					$('[data-toggle="tooltip"]').tooltip();
-					$("#loadIndicator").hide();
-					$("#voteDataTable").trigger("update");
-				}});
-	return;
-}
-
-$.tablesorter.addParser({
-	id: 'splitFunc', is: function(s) { return false },
-	format: function(s) 
-	{ 
-		var numbers = s.split("-");
-		if(parseInt(numbers[1])==0 && parseInt(numbers[0])>0) { return 1; }
-		else if(parseInt(numbers[1])==0) { return 0; }
-		else { return parseFloat(numbers[0])/parseFloat(numbers[1]); }
-	},
-	type: 'numeric'
-});
-$(document).ready(function(){
-	cookieId = Cookies.get('stash_id');
-	if(cookieId==undefined || cookieId.length<8) $('#loadStash').hide();
-	else
-	{
-		$.ajax("/api/stash/get?id="+cookieId, {"type": "GET", "success": function(d, status, xhr)
-			{
-				if(d["old"].length || d["votes"].length) { $("#loadStash").show(); console.log('Stash votes exist.'); }
-				else { $("#loadStash").hide(); console.log('No stash votes.'); }
-			}});
-	}
-	$("#voteDataTable").tablesorter({headers: {5: {sorter: 'splitFunc'}}});
-});

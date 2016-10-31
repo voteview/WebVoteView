@@ -7,7 +7,6 @@ function decorateNominate(oc,data) {
 
 	var margin = 50;
 	var marginCircle = 25; // Distance of the main circle to the axis
-        var nomDWeight = 0.4158127;
 	var tickLength = 15;
 	var scale = 1.0; // sets radius of the outer circle in nominate units
 	var cutlineMult = 1.0; // sets how far into space the cutline is blasted off into. (Aaron added this, but it doesn't do anything?)
@@ -64,7 +63,7 @@ function decorateNominate(oc,data) {
 
 	// Hacky way to shade region where yea vote is expected...
 	var plotCut=1;
-	if(data.rollcalls==undefined || data.rollcalls[0].nominate==undefined || data.rollcalls[0].nominate.x==undefined)
+	if(data.rollcalls==undefined || data.rollcalls[0].nominate==undefined || data.rollcalls[0].nominate.x==undefined || data.rollcalls[0].nominate.pre < 0.05)
 	{
 		plotCut=0;
 	}
@@ -72,6 +71,7 @@ function decorateNominate(oc,data) {
 	{
 	    if(data.rollcalls[0].congress==0) var vn = data.rollcalls[0].nominate.imputed;
 	    else var vn = data.rollcalls[0].nominate;
+	    console.log(vn);
 	}
 
 	// Hack to gracefully fail when we don't have nominate data. AR
@@ -238,7 +238,6 @@ function decorateNominate(oc,data) {
              .attr("transform", sprintf("rotate(-90 20 %d)", yAxisMin + yAxisLen/2));
 	// End Y axis
 
-
 	// Add yea and nay locations to the plot on top of the dots
 	  
 	// Problem is that with Y/N on top we can't select point under/near the Y/N
@@ -282,16 +281,17 @@ function decorateNominate(oc,data) {
 			.attr("y", ynpts[1])
 			.attr("transform",sprintf("rotate(%d %d %d)", 180+angle, ynpts[0], ynpts[1]));
 
-		// Fit box (only if cutline is displayed
-		ggg.append('text').text(sprintf("PRE: %4.2f", vn.pre == null ? 0 : vn.pre))
-			.attr("class", "fitbox")
-			.attr("x", xAxisMax - 75)
-			.attr("y", yAxisMax - 5);
-   
-		ggg.append('text').text(sprintf("Classified: %4.2f",vn.classified == null ? 0 : vn.classified ))
-			.attr("class", "fitbox")
-			.attr("x", xAxisMax - 75)
-			.attr("y", yAxisMax - 25);
+		// Fit box regardless if cutline exists
+		ggg.append('text').text(sprintf("PRE: %4.2f", (vn.pre == null || isNaN(vn.pre) || vn.pre=="") ? 0 : vn.pre))
+		    .attr("class", "fitbox")
+		    .attr("x", xAxisMax - 75)
+		    .attr("y", yAxisMax - 5);
+
+		ggg.append('text').text(sprintf("Classified: %4.2f", (vn.classified == null || isNaN(vn.classified) || vn.classified=="") ? 0 : vn.classified ))
+		    .attr("class", "fitbox")
+		    .attr("x", xAxisMax - 75)
+		    .attr("y", yAxisMax - 25);
+
 
 	}
 }

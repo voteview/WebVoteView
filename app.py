@@ -10,10 +10,12 @@ from fuzzywuzzy import fuzz
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
-from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty
+from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, nicknameHelper, getMembersByPrivate
 from model.searchParties import partyLookup
+from model.searchMeta import metaLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.prepVotes import prepVotes
+from model.geoLookup import addressToLatLong, latLongToDistrictCodes
 import model.downloadXLS
 import model.stashCart
 import model.partyData
@@ -35,11 +37,9 @@ def clearTime():
     timeLabels = []
     timeNums = []
 
-
 def timeIt(label):
     timeLabels.append(label)
     timeNums.append(time.time())
-
 
 def zipTimes():
     tN = []
@@ -122,9 +122,9 @@ def about():
 
 @app.route("/data")
 def data():
-    output = bottle.template("views/data")
+    maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+    output = bottle.template("views/data", maxCongress=maxCongress)
     return output
-
 
 @app.route("/research")
 def research():
@@ -155,6 +155,10 @@ def congress(chamber="senate"):
     output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress)
     return output
 
+@app.route("/district")
+def district():
+    output = bottle.template("views/district")
+    return output
 
 @app.route("/parties")
 @app.route("/parties/<party>/<congStart>")
@@ -207,13 +211,8 @@ def person(icpsr=0):
     # If we have no error, follow through
     if not "errormessage" in person:
         person = person["results"][0]
-        if "bioName" in person and person["bioName"] is not None:
-            person["canonicalName"] = person["bioName"]
-        elif "fname" in person and person["fname"] is not None:
-            person["canonicalName"] = person["fname"]
-        else:
-            person["canonicalName"] = person["name"]
-
+	if not "bioname" in person:
+		person["bioname"] = "ERROR NO NAME IN DATABASE PLEASE FIX."
         votes = []
         # Look up votes
 
@@ -234,8 +233,10 @@ def person(icpsr=0):
         timeIt("bioImg")
 
         # Get years of service
-        person["yearsOfService"] = yearsOfService(person["icpsr"])
-        person["congressesOfService"] = congressesOfService(person["icpsr"])
+        person["yearsOfService"] = yearsOfService(person["icpsr"],"")
+	person["yearsOfServiceSenate"] = yearsOfService(person["icpsr"],"Senate")
+	person["yearsOfServiceHouse"] = yearsOfService(person["icpsr"],"House")
+        person["congressesOfService"] = congressesOfService(person["icpsr"],"")
         person["congressLabels"] = {}
         for congressChunk in person["congressesOfService"]:
             for cong in range(congressChunk[0], congressChunk[1]+1):
@@ -262,17 +263,17 @@ def person(icpsr=0):
 
 
         timeIt("partySwitches")
-        voteQuery = query(qtext="voter: "+str(person["id"]), rowLimit=25, jsapi=1)
+        voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1)
         timeIt("gotVotes")
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
 
-        if "bio" in person:
-            person["bio"] = person["bio"].replace("a Representative","Representative")
+        if "biography" in person:
+            person["biography"] = person["biography"].replace("a Representative","Representative")
 
         timeIt("readyOut")
         # Go to the template.
-        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"])
+        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"], voteQuery=voteQuery)
         return(output)
 
     # If we have an error, return an error page
@@ -297,7 +298,9 @@ def rollcall(rollcall_id=""):
         output = bottle.template("views/error", errorMessage=rollcall["errormessage"])
         return(output)
 
-    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], mapParties=mapParties)
+    meta = metaLookup()
+
+    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate']['second_dimweight'], mapParties=mapParties)
     return(output)
 
 
@@ -347,11 +350,6 @@ def getmembersbycongress():
     if api=="Web_Congress":
         for i in range(0,len(out["results"])):
             memberRow = out["results"][i]
-            padICPSR = str(memberRow["icpsr"]).zfill(6)
-            if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
-                memberRow["bioImgURL"] = padICPSR+".jpg"
-            else:
-                memberRow["bioImgURL"] = "silhouette.png"
 
             memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
 
@@ -359,6 +357,53 @@ def getmembersbycongress():
 
     out["timeElapsed"] = time.time()-st
     return out
+
+@app.route("/api/geocode")
+def geocode():
+    q = defaultValue(bottle.request.params.q,"")
+    if not q:
+        return {"status": 1, "error_message": "No address specified."}
+    else:
+        return addressToLatLong(q)
+
+@app.route("/api/districtLookup")
+def districtLookup():
+    try:
+        lat = float(defaultValue(bottle.request.params.lat,0))
+        long = float(defaultValue(bottle.request.params.long,0))
+    except:
+        return {"status": 1, "error_message": "Invalid lat/long coordinates."}
+
+    results = latLongToDistrictCodes(lat, long)
+    if len(results):
+        orQ = []
+        atLargeSet = []
+        state_abbrev = ""
+        for r in results:
+            if not len(state_abbrev):
+                state_abbrev = r[0]
+            if r[2]:
+                orQ.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
+            else:
+                atLargeSet.append(r[1])
+        if len(atLargeSet):
+            for l in atLargeSet:
+                matchDistrict = len([x for x in orQ if x["congress"]==l])
+                if matchDistrict:
+                    pass
+                else:
+                    for dc in [1,98,99]:
+                        orQ.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
+        results = getMembersByPrivate({"chamber": "House", "$or": orQ})
+
+        if "results" in results:
+            currentCong = next((x["district_code"] for x in results["results"] if x["congress"]==114), None)
+            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": 114}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": 114}]})
+            return {"status": 0, "results": results["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
+        else:
+            return {"status": 1, "error_message": "No matches."}
+    else:
+        return {"status": 1, "error_message": "No matches."}
 
 @app.route("/api/getmembersbyparty")
 def getmembersbyparty():
@@ -373,11 +418,6 @@ def getmembersbyparty():
 	if api=="Web_Party":
 		for i in range(0,len(out["results"])):
 			memberRow = out["results"][i]
-			padICPSR = str(memberRow["icpsr"]).zfill(6)
-			if os.path.isfile("static/img/bios/"+padICPSR+".jpg"):
-				memberRow["bioImgURL"] = padICPSR+".jpg"
-			else:
-				memberRow["bioImgURL"] = "silhouette.png"
 
 			memberRow["minElected"] = congressToYear(memberRow["congresses"][0][0],0)
 			out["results"][i] = memberRow
@@ -418,6 +458,8 @@ def searchAssemble():
             testQ = int(q)
             if testQ>0 and testQ<10000:
                 partySearch = partyLookup({"id": q}, api="Web_FP_Search")
+            else:
+                partySearch = {}
         except:
             partySearch = partyLookup({"name": q}, api="Web_FP_Search")
         if "results" in partySearch:
@@ -428,40 +470,68 @@ def searchAssemble():
 		elif party["count"] > 100:
 			party["scoreMatch"] += 10
                 resultParties.append(party)
-
 	resultParties.sort(key=lambda x: (-x["scoreMatch"], -x["maxCongress"]))
 
     # Member search
     resultMembers = []
+    needScore=1
+    redirFlag=0
+    expandResults=0
     if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
         try:
             if len(q.split())==1 and (q.upper().startswith("MH") or q.upper().startswith("MS")):
                 memberSearch = memberLookup({"id": q}, 8, distinct=1, api="Web_FP_Search")
-                #return {"yo search bro": "hello world"}
+            elif q.strip().lower() in ["speaker of the house","speakers of the house","speaker: 1", "speaker:1","house speaker"]:
+                memberSearch = memberLookup({"speaker": 1, "chamber": "house"}, 60, distinct=1, api="Web_FP_Search")
+                needScore=0
+                expandResults=1
+            elif q.strip().lower() in ["potus", "president of the united states", "president", "the president", "president:1", "president: 1","presidents","presidents of the united states","presidents of the united states of america","president of the united states of america"]:
+                memberSearch = memberLookup({"chamber": "President"}, 50, distinct=1, api="Web_FP_Search")
+                needScore=0
+                expandResults=1
             elif len(q.split())==1 and int(q):
-                memberSearch = memberLookup({"icpsr": int(q)}, 8, distinct=1, api="Web_FP_Search")
+                memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
+                redirFlag=1
             else:
-                memberSearch = memberLookup({"name": q}, 8, distinct=1, api="Web_FP_Search")
+                memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
         except:
-                memberSearch = memberLookup({"name": q}, 8, distinct=1, api="Web_FP_Search")
+                memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
         if "results" in memberSearch:
             for member in memberSearch["results"]:
                 memName = ""
-                if "bioName" in member and member["bioName"] is not None:
-                    memName = member["bioName"]
+                if "bioname" in member and member["bioname"] is not None:
+                    memName = member["bioname"]
                 elif "fname" in member and member["fname"] is not None:
                     memName = member["fname"]
                 else:
-                    memName = member["name"]
+                    try:
+                        memName = member["name"]
+                    except:
+                        memName = "Error, Invalid Name."
 
                 try:
                     memName = memName.replace(",","").lower()
                 except:
                     memName = memName.lower()
 
-                member["scoreMatch"] = fuzz.token_set_ratio(memName, q.replace(",","").lower())
+                searchNameToScore = q.replace(",","").lower()
+                scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
+                scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
+                member["scoreMatch"] = max(scoreBasic, scoreNick)
+		member["bonusMatch"] = 0
+		print q, "/", memName, "/", scoreBasic, scoreNick
                 if member["congress"]>=100:
-                    member["scoreMatch"] += 10
+                    member["bonusMatch"] += 10
+                if member["chamber"]=="President":
+                    member["bonusMatch"] += 25
+                if member["chamber"]=="Senate":
+                    member["bonusMatch"] += 10
+                if "congresses" in member:
+                    duration = 0
+                    for cong in member["congresses"]:
+                        duration = duration+(cong[1]-cong[0])
+                    if duration>=5:
+                        member["bonusMatch"] += 7
 
                 if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
                     member["bioImg"] = "silhouette.png"
@@ -470,10 +540,19 @@ def searchAssemble():
                 member["minElected"] = congressToYear(member["congresses"][0][0], 0)
 
                 resultMembers.append(member)
+
     #return(resultMembers)
-    resultMembers.sort(key=lambda x: -x["scoreMatch"])
-    if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
-        resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
+    if needScore:
+        print "results before truncation"
+        print resultMembers
+        print "end ====="
+        if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
+            resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
+        resultMembers.sort(key=lambda x: -(x["scoreMatch"] + x["bonusMatch"]))
+    else:
+        resultMembers.sort(key=lambda x: -x["congress"])
+    if len(resultMembers)>8 and not expandResults:
+        resultMembers=resultMembers[0:8]
 
     # Date facet
     startdate = defaultValue(bottle.request.params.fromDate)
@@ -516,9 +595,9 @@ def searchAssemble():
 
         if "," in support:
             try:
-                min, max = [int(x) for x in support.split(",")]
-                if min!=0 or max!=100:
-                    q = q + " support:["+str(min)+" to "+str(max)+"]"
+                valMin, valMax = [int(x) for x in support.split(",")]
+                if valMin!=0 or valMax!=100:
+                    q = q + " support:["+str(valMin)+" to "+str(valMax)+"]"
             except:
                 pass
         else:
@@ -555,10 +634,10 @@ def searchAssemble():
     codeString = ""
     if len(clausen):
         for cCode in clausen:
-            codeString += "code.Clausen: "+cCode+" OR "
+            codeString += "codes.Clausen: "+cCode+" OR "
     if len(peltzman):
         for pCode in peltzman:
-            codeString += "code.Peltzman: "+pCode+" OR "
+            codeString += "codes.Peltzman: "+pCode+" OR "
     if len(codeString):
         codeString = codeString[0:-4]
         if q is None or q=="":
@@ -574,30 +653,35 @@ def searchAssemble():
     except:
         sortD = -1
 
+    sortScore = int(defaultValue(bottle.request.params.sortScore,1))
     icpsr = defaultValue(bottle.request.params.icpsr)
     jsapi = 1
     rowLimit = 50
-    res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId)
+    res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId, sortScore=sortScore)
 
     if "errormessage" in res:
         bottle.response.headers["rollcall_number"] = -999
         bottle.response.headers["member_number"] = 0
         bottle.response.headers["nextId"] = 0
-        out = bottle.template("views/search_list", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers)
+        out = bottle.template("views/search_results", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers, resultParties=resultParties)
     else:
         if "fulltextSearch" in res:
             highlighter = res["fulltextSearch"]
         else:
             highlighter = ""
 
+        if redirFlag==1 and len(resultParties)==0 and len(resultMembers)==1 and (not "rollcalls" in res or len(res["rollcalls"])==0):
+            bottle.response.headers["redirect_url"] = "/person/"+str(resultMembers[0]["icpsr"])
         bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
         bottle.response.headers["member_number"] = len(resultMembers)
 	bottle.response.headers["party_number"] = len(resultParties)
         bottle.response.headers["nextId"] = res["nextId"]
+        bottle.response.headers["need_score"] = res["needScore"]
         if not "rollcalls" in res:
-            out = bottle.template("views/search_list", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=resultParties)
+            out = bottle.template("views/search_results", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=resultParties)
         else:
-            out = bottle.template("views/search_list", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
+            #print(res['rollcalls'])
+            out = bottle.template("views/search_results", rollcalls = res["rollcalls"], highlighter=highlighter, errormessage="", resultMembers=resultMembers, resultParties=resultParties) 
     return(out)
 
 @app.route("/api/getMemberVotesAssemble")
@@ -623,9 +707,9 @@ def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 	votes = []
 
 	if qtext:
-		qtext = qtext+" AND (voter: "+str(person["id"])+")"
+		qtext = qtext+" AND (voter: "+str(person["icpsr"])+")"
 	else:
-		qtext = "voter: "+str(person["id"])
+		qtext = "voter: "+str(person["icpsr"])
 
 	if skip:
 		voteQuery = query(qtext, rowLimit=25, jsapi=1, sortSkip=skip)
@@ -633,7 +717,7 @@ def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 		voteQuery = query(qtext, rowLimit=25, jsapi=1)
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
-        output = bottle.template("views/voteTable",person=person, votes=votes, skip=skip, nextId=voteQuery["nextId"])
+        output = bottle.template("views/member_votes",person=person, votes=votes, skip=skip, nextId=voteQuery["nextId"])
 
 	bottle.response.headers["nextId"] = voteQuery["nextId"]
 	return(output)
@@ -646,8 +730,8 @@ def search():
     enddate = defaultValue(bottle.request.params.enddate)
     chamber = defaultValue(bottle.request.params.chamber)
     icpsr = defaultValue(bottle.request.params.icpsr)
-
-    res = query(q,startdate,enddate,chamber, icpsr=icpsr)
+    rapi = defaultValue(bottle.request.params.rapi,0)
+    res = query(q,startdate,enddate,chamber, icpsr=icpsr, rapi=rapi)
     return(res)
 
 
@@ -783,6 +867,9 @@ def setSearch():
 
     return model.stashCart.setSearch(id, search)
 
+@app.route("/outdated")
+def outdate():
+    return bottle.template("views/outdated")
 
 @app.route("/api/version")
 def apiVersion():

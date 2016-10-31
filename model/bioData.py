@@ -1,13 +1,28 @@
 from searchMembers import memberLookup
 
-def congressesOfService(icpsr):
+def congressesOfService(icpsr, chamber=""):
 	if type(icpsr)!=type(str("")) or len(icpsr)<6:
 		icpsr = str(icpsr).zfill(6)
 
-	terms = memberLookup({"icpsr": icpsr},50)
+	terms = memberLookup({"icpsr": icpsr},30)
 	if not "results" in terms:
 		return -1
 
+	if not chamber or not len(chamber):
+		if "congresses" in terms["results"][0]:
+			return terms["results"][0]["congresses"]
+	elif chamber=="House":
+		if "congresses_house" in terms["results"][0]:
+			return terms["results"][0]["congresses_house"]
+		else:
+			return []
+	elif chamber=="Senate":
+		if "congresses_senate" in terms["results"][0]:
+			return terms["results"][0]["congresses_senate"]
+		else:
+			return []
+
+	return []
 	congressNums = sorted([x["congress"] for x in terms["results"]])
 	congressChunks = []
 	start=0
@@ -26,8 +41,8 @@ def congressesOfService(icpsr):
 
 	return congressChunks
 
-def yearsOfService(icpsr):
-	congressesSet = congressesOfService(icpsr)
+def yearsOfService(icpsr, chamber=""):
+	congressesSet = congressesOfService(icpsr,chamber)
 	yearChunks = []
 	for s in congressesSet:
 		yearChunks.append([congressToYear(s[0],0),congressToYear(s[1],1)])
@@ -47,12 +62,10 @@ def checkForPartySwitch(person):
 
 	otherIcpsrs = []
 	for congress in searchBoundaries:
-		if "bioName" in person:
-			lookup = memberLookup({'congress': congress, 'name': person["bioName"]},1)
-		elif "fname" in person:
-			lookup = memberLookup({'congress': congress, 'name': person["fname"]},1)
+		if "bioname" in person:
+			lookup = memberLookup({'congress': congress, 'name': person["bioname"]},1)
 		else:
-			lookup = memberLookup({'congress': congress, 'name': person["name"]},1)
+			return {}
 
 		if "errormessage" in lookup:
 			continue

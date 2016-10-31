@@ -265,7 +265,7 @@ div.full .slider-tick.in-selection { background-image: linear-gradient(to bottom
 #support-bucket .slider-tick { background: #00a5e5; width:16px; height:16px; margin-top:-3px;}
 #support-bucket .slider-selection { background: #00a5e5; }
 
-#panY { height:470px; vertical-align:top; position:absolute; left:900px; top:40px; }
+#panY { height:490px; vertical-align:top; position:absolute; left:910px; top:40px; width:20px; max-width:20px;}
 #panX { width:850px; position: absolute; left:30px; top: 535px; }
 #panX .slider-handle { background: #3284bf; }
 #panY .slider-handle { background: #3284bf; }

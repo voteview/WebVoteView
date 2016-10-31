@@ -1,7 +1,7 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % plotTitle = "Plot Vote: "+rcSuffix(rollcall["congress"])+" Congress > "+rollcall["chamber"]+" > "+str(rollcall["rollnumber"])
-% rebase('base.tpl',title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js","/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
+% rebase('base.tpl',title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js","/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
 % include('header.tpl')
 % notes = []
 % if int(rollcall["congress"])<86:
@@ -20,16 +20,16 @@
 % 	noteText = ""
 % end
 
-% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+% orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff"}
 
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
-				% if "keyvote" in rollcall and len(rollcall["keyvote"]):
+				% if "key_flags" in rollcall and len(rollcall["key_flags"]):
 				<span class="btn btn-default btn-lg" 
 					style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" 
-					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["keyvote"][0]]}}.">
+					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end
@@ -42,29 +42,34 @@
 			<p style="float:left;margin-right:20px;">
 				<strong>Result:</strong> 
 				{{ rollcall["yea"] }}-{{ rollcall["nay"] }}
-				% if rollcall["yea"]>rollcall["nay"]:
-				 (Passed)
-				% else:
-				 (Failed)
+				% if rollcall['vote_result']:
+				 ({{ rollcall['vote_result']}})
 				% end
 			</p>
 			% end
-			% if len(rollcall["code"]["Clausen"]):
-			<p style="float:left;">
-				<strong>Vote Subject Matter:</strong> {{ rollcall["code"]["Clausen"][0] }} / {{ rollcall["code"]["Peltzman"][0] }}
+			% if "codes" in rollcall and ("Peltzman" in rollcall["codes"] or "Clausen" in rollcall["codes"]):
+			<p style="float:left;"><strong>Vote Subject Matter:</strong>
+			% if "Clausen" in rollcall["codes"]:
+			{{ rollcall["codes"]["Clausen"][0] }}
+			% if "Peltzman" in rollcall["codes"]:
+			/ {{ rollcall["codes"]["Peltzman"][0] }}
+			% end
+			% end
 			</p>
 			% end
-			<p style="clear:both;">{{ rollcall["description"] }}</p>
+			% if rollcall["question"]:
+			<p style="clear:both;"><strong>Question: </strong>{{ rollcall["question"] }}</p>
+			% end
+			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>
 		</div>
 	</div>
 
 	<div class="row" id="loadBar">
 		<div class="col-md-12">
 			<h4>
-				Loading 
+				Loading graphics...
 				<img src="/static/img/loading.gif" style="margin-left:10px;width:24px;vertical-align:middle;">
 			</h4>
-			We are currently constructing the map and plots you requested, please wait...
 		</div>
 	</div>
 
@@ -83,8 +88,8 @@
 						Map 
 	
 						<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;"
-							onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
-							data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
+						      onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;" 
+						data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 						</span>
 	
 						%if len(noteText):
@@ -141,7 +146,6 @@
 							style="margin-left:5px;width:22px;vertical-align:middle;" 
 							data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS.">
 					</a>
-					<!--<a href="#" onclick="javascript:updateVoteChart();">(Test)</a>-->
 				</h4> 
 				<div id="party-chart">
 					<span id="suppressVoteChartControls" style="display:none;"><span class="filter"></span></span>
@@ -186,6 +190,7 @@ var chamber = "{{ rollcall["chamber"] }}";
 var congressNum = "{{ str(rollcall["congress"]).zfill(3) }}";
 var rcID = "{{ rollcall["id"] }}";
 var mapParties = {{ mapParties }};
+var nomDWeight = {{ dimweight }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
@@ -199,4 +204,3 @@ var mapParties = {{ mapParties }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteCharts.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteFilterbar.js"></script>
-<!--<script type="text/javascript" src="{{ STATIC_URL }}js/voteChartDecorate.js"></script> -->

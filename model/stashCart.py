@@ -250,6 +250,9 @@ def setSearch(id, search):
 		# We don't have one.
 		errorMessages.append("Unknown or expired stash ID sent from user.")
 		id = initializeCart()["id"]
+		savedVoteIDs = []
+		votes = []
+		old = []
 	else:
 		if "old" in res:
 			old = res["old"]
@@ -286,6 +289,9 @@ def shareableLink(id, text):
 	if any([x.lower() in internalText for x in swearData]):
 		errorMessages.append("Error: Link name contains inappropriate term. Links are public-facing and must not contain swears or abusive words.")
 
+        if db.stash.find_one({'id': internalText}):
+                errorMessages.append("Error: Link name already exists.")
+
 	link = ""
 	if not len(errorMessages):
 		res = db.stash.find_one({'id': id})
@@ -303,11 +309,6 @@ def shareableLink(id, text):
 				old = res["old"]
 			else:
 				old = []
-
-			if "votes" in res:
-				votes = res["votes"]
-			else:
-				votes = []
 
 			combVotes = list(set(votes + old))
 			expires = indefExpiry()

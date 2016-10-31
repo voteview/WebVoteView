@@ -106,8 +106,12 @@
 
 									<div style="padding:30px;padding-bottom:0px;">
 										<input id="support" name="support" type="text" class="span2" value="" 
-											data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-ticks="[0, 50, 100]" data-slider-value="[0,100]"
-											data-slider-ticks-labels="['0%', '50%', '100%']" data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
+											data-slider-min="0" data-slider-max="100" 
+											data-slider-step="1" 
+											data-slider-value="[0,100]"
+											data-slider-ticks="[0, 50, 100]" 
+											data-slider-ticks-labels="['0%', '50%', '100%']" 
+											data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
 											data-slider-id="support-bucket" >
 									</div>
 								</div>
@@ -122,13 +126,6 @@
               </div>
               <div id="facet-clausen" class="panel-collapse facet-content collapse">
                 <div class="panel-body">
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" value="Key Vote" name="keyvote">
-					<strong>Key Vote</strong>
-				</label>
-			</div>
-
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" value="Government Management" name="clausen">
@@ -148,21 +145,21 @@
                         <input type="checkbox" value="Foreign and Defense Policy" name="clausen">
                         Foreign and Defense Policy
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Social Welfare" name="clausen">
                         Social Welfare
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                      <label>
                         <input type="checkbox" value="Agriculture" name="clausen">
                         Agriculture
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                      <label>
@@ -253,22 +250,46 @@
 
                 </div>
               </div>
-            </div>
-
-				</div>
-				<input type="hidden" name="sortD" id="sortD" value="-1">
-			</form>
-
+	    </div>
+	    <div id="panel-keyvote" class="panel panel-primary">
+	      <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-keyvote">
+		<h3 class="panel-title">Key Vote <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+	      </div>
+	      <div id="facet-keyvote" class="panel-collapse facet-content collapse">
+		<div class="panel-body">
+		  <div class="checkbox">
+		    <label>
+		      <input type="checkbox" name="keyvote" id="optionsKeyvotes1" value="1">
+			Any
+		      </label>
+		    </div>
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" name="keyvote" id="optionsKeyvotes2" value="CQ">
+			  Congressional Quarterly
+			</label>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	      </div>
+	      
+		  
+		<input type="hidden" name="sortD" id="sortD" value="-1">
+		  <input type="hidden" name="sortScore" id="sortScore" value="1">
+		  </form>
+		  
 			<div id="resultsHolder" class="col-md-12" style="float:right;">
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-6">
 							<h4 id="results-number"></h4>
 						</div>
-						<div class="col-md-3" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
+						<div class="col-md-6" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
 							<strong>Sort by </strong>
-							<a href="#" onclick="javascript:$('#sortD').val(-1);updateRequest();return false;">Newest</a> / 
-							<a href="#" onclick="javascript:$('#sortD').val(1);updateRequest();return false;">Oldest</a>
+							<div id="relevanceAppear" style="display:none;"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
+							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
+							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
 					</div>
 				</div>
@@ -316,9 +337,6 @@
 			<div class="footerIcon" id="exportJSON">
 				<a href="#" onClick="javascript:exportJSON();return false;">Download to JSON</a>
 			</div>
-			<div class="footerIcon" id="format3">
-				Download to Format3
-			</div>
 			<div class="footerIcon">
 				<span onClick="javascript:loadSavedVotes();" class="glyphicon glyphicon-upload" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Load Votes into Search" data-container="body"></span>
 			</div>
@@ -349,7 +367,6 @@
 	<span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Saved Votes"></span>
 </div>
 
-
 <script>
 	// Pass query string arguments back into faceted search.
 	$(document).ready(function()
@@ -378,6 +395,10 @@
 		$("#support").slider({value: [0,{{args["supportMax"]}}]});
 		% else:
 		$("#support").slider({});
+		$("#support").slider('relayout');
+		% end
+		% if "keyvote" in args:
+		$("input[value={{args["keyvote"]}}]").attr("checked",true);
 		% end
 		% if "chamber" in args or "congress" in args or "fromDate" in args or "toDate" in args or "supportMin" in args or "supportMax" in args:
 		toggleAdvancedSearch(1);

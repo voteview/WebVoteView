@@ -1,57 +1,61 @@
 % import datetime
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase("base.tpl",title=person["canonicalName"], extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css"])
+% rebase("base.tpl",title=person["bioname"], extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css"])
 % include('header.tpl')
 % current_page_number = 1
 % import datetime
-% if len(person["yearsOfService"]) and person["yearsOfService"][-1][1]>datetime.datetime.now().year:
-%	label = "Serving"
-% else:
-%	label = "Served"
+
+% if "died" in person and person["yearsOfService"][-1][1]>person["died"] and person["died"] is not None:
+%       person["yearsOfService"][-1][1] = person["died"]
 % end
-% if "born" in person and "died" in person:
+% if "born" in person and "died" in person and person["born"] is not None and person["died"] is not None:
 % 	lifeString = "("+str(person["born"])+"-"+str(person["died"])+")"
-% elif "born" in person and not "died" in person and person["born"]<1900:
+% elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None) and person["born"]<1900:
 %	lifeString = "("+str(person["born"])+"-??)"
-% elif "born" in person and not "died" in person:
+% elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None):
 %	lifeString = "("+str(person["born"])+"-)"
-% elif "died" in person:
+% elif "died" in person and person["died"] is not None:
 %	lifeString = "(??-"+str(person["died"])+")"
 % else:
 %	lifeString = ""
 % end
 % plotIdeology=0
-% if "nominate" in person and "oneDimNominate" in person["nominate"] and person["nominate"]["oneDimNominate"] is not None:
+% if "nominate" in person and "dim1" in person["nominate"] and person["nominate"]["dim2"] is not None:
 %	plotIdeology = 1
 % end
-% person["lastName"] = person["canonicalName"].split(",")[0].upper()[0]+person["canonicalName"].split(",")[0].lower()[1:]
+% person["last_name"] = person["bioname"].split(",")[0].upper()[0]+person["bioname"].split(",")[0].lower()[1:]
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
+% if person["state"]!="President":
+% 	stateText = " of "+person["state"]+' <img src="/static/img/states/'+person["state_abbrev"]+'.png" style="width:20px;vertical-align:middle;">' 
+% else:
+%	stateText = ', President of the United States <img src="/static/img/states/US.png" style="width:20px;vertical-align:middle;">'
+% end
 <div class="container">
-
     <div class="row">
         <div class="col-md-2">
-            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;">
+            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;padding-right:5px;">
         </div>
         <div class="col-md-5">
 		<h2 style="word-wrap:break-word;">
-			{{ person["canonicalName"] }} {{lifeString}}
+			{{ person["bioname"] }} {{lifeString}}
 		</h2>
 
             <h4>
-		<span id="partyname">
-			<a href="/parties/{{person["party"]}}">{{ person["partyname"] }}</a>
-		</span>
-		% if person["stateName"]!="(President)":
-		 of {{person["stateName"]}} <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;">
-		% else:
-		 , President of the United States <img src="/static/img/states/{{ person["stateAbbr"]}}.png" style="width:20px;vertical-align:middle;">
-		% end
+		<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!stateText}}
 	    </h4>
-		
-	    <h4>{{ label }}
+
+	    % for serviceSet in ["Senate", "House"]:
+		% if "yearsOfService"+serviceSet in person and len(person["yearsOfService"+serviceSet]):
+	    <h4>
+		% if person["yearsOfService"+serviceSet][-1][1]>datetime.datetime.now().year:
+			Serving in {{serviceSet}}
+		% else:
+			Served in {{serviceSet}}
+		% end
+
 		% z = 0
-		% for chunk in person["yearsOfService"]:
+		% for chunk in person["yearsOfService"+serviceSet]:
 			% if chunk[1]>=datetime.datetime.now().year:
 			% chunk[1] = "Present"
 			% end
@@ -62,6 +66,8 @@
 			% z = z + 1
 		% end
 	    </h4>
+		% end
+	    % end
 	    % if "altPeople" in person and len(person["altPeople"]):
 	    <h5>
 		% k = 0
@@ -74,7 +80,7 @@
 			% if k>0:
 				, 
 			% end
-	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["partyname"] }}</a> (
+	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party_noun"] }}</a> (
 			% z = 0
 			% for chunk in alt["yearsOfService"]:
 				% if z > 0:
@@ -90,7 +96,7 @@
 	    % if "website" in person:
 		<h5><a href="{{person["website"]}}" target="_blank">Official Website</a></h5>
 	    % end
-	    % if "twitter" in person:
+	    % if "twitter" in person and len(person["twitter"]):
 		<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
 	    % end
         </div>
@@ -115,13 +121,22 @@
 	</div>
 	% end
     </div>
-	% if "bio" in person:
+	% if "biography" in person:
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Biography</h3>
-			{{ !person["bio"] }}
+			{{ !person["biography"] }}
+			% if not "bioguide_id" in person:
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></small>
+			% else:
+			<br/><small><em>Courtest of</em> <a href="http://bioguide.congress.gov/scripts/biodisplay.pl?index={{person["bioguide_id"]}}">Biographical Directory of the United States Congress</a></small>
+			% end
 		</div>
+	</div>
+	% end
+	% if "biography" in person and "served_as_speaker" in person and person["served_as_speaker"] and person["chamber"]!="President":
+	<div class="alert alert-warning">
+		<strong>Notice:</strong> By custom, the Speaker of the House rarely votes. Votes for {{person["bioname"]}} may appear to be missing as a result.
 	</div>
 	% end
     <div class="row">
@@ -150,7 +165,7 @@
 	    </form>
 
 		<div id="memberVotesTable">
-			%include('voteTable.tpl', skip=0)
+			%include('member_votes.tpl', skip=0)
 		</div>
 		<div style="float:right;">
 			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a> 
@@ -161,6 +176,12 @@
         </div>
     </div>
 </div>
+
+<script>
+var memberICPSR = {{person["icpsr"]}};
+var congressNum = {{person["congress"]}};
+var globalNextId = {{nextId}};
+</script>
 % if plotIdeology:
 <script>
 var mapParties=1;
@@ -169,18 +190,19 @@ var mapParties=1;
 % else:
 	var chamber = "senate";
 % end
-var memberICPSR = {{person["icpsr"]}};
-var congressNum = {{person["congress"]}};
-var memberIdeal = {{person["nominate"]["oneDimNominate"]}};
-var memberIdealBucket = Math.floor({{person["nominate"]["oneDimNominate"]}}*10);
-var memberPartyName = "{{person["partyname"]}}";
-var globalNextId = {{nextId}};
+var memberIdeal = {{person["nominate"]["dim1"]}};
+var memberIdealBucket = Math.floor({{person["nominate"]["dim1"]}}*10);
+var memberPartyName = "{{person["party_name"]}}";
+var memberPartyCode = "{{person["party_code"]}}";
+var memberNoun = "{{person["party_noun"]}}";
+var partyColor = "{{person["party_color"]}}";
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/personIdeology.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/personIdeology.js"></script>
 % end
+<script type-"text/javascript" src="{{ STATIC_URL }}js/personVotes.js"></script>
