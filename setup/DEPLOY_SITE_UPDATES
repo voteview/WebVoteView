@@ -36,6 +36,8 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	mongodump --collection voteview_rollcalls --db voteview
 	echo "Dumping parties..."
 	mongodump --collection voteview_parties --db voteview
+	echo "Dumping meta..."
+	mongodump --colection voteview_metadata --db voteview
 	echo "Done dump"
 EOF
 	echo "Connecting to server to download dump..."
@@ -72,7 +74,7 @@ EOF
 	echo "Checking API version to verify site has started..."
 	curl "http://voteview.polisci.ucla.edu/api/version"
 	echo ""
-	downtime = $((downtimeStop-downtimeStart))
+	downtime=$((downtimeStop-downtimeStart))
 	echo "Total downtime $downtime seconds"
 elif [ "$userid" = "root" ]; then
 	echo "You must be on production voteview to run deployment script"
