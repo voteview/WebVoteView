@@ -9,6 +9,3 @@ static/img/wiki/*
 **/*deprecated*
 **/deprecated/*
 server.txt
-static/data/csv
-static/data/ord
-static/data/dat
