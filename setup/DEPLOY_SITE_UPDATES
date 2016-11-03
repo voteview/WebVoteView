@@ -51,7 +51,6 @@ EOF
 	downtimestart=$(date +%s)
 	echo "Stopping web server to substitute directory"
 	service nginx stop
-	service uwsgi stop
 	rm -rf vv-backup
 	mv voteview vv-backup
 	mv WebVoteView voteview
@@ -66,13 +65,13 @@ EOF
 	echo "Starting server to substitute directory"
 	nginx -v
 	service nginx start
-	service uwsgi start
+	touch /etc/uwsgi/reboot
 	downtimeStop=$(date +%s)
 	echo "Done deployment."
 	echo "Previous version of site in /var/www/vv-backup"
 	echo "Current version of site in /var/www/voteview"
 	echo "Checking API version to verify site has started..."
-	curl "http://voteview.polisci.ucla.edu/api/version"
+	curl "https://voteview.polisci.ucla.edu/api/version"
 	echo ""
 	downtime=$((downtimestop-downtimestart))
 	echo "Total downtime $downtime seconds"
