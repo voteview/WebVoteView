@@ -4,9 +4,10 @@
 % include('header.tpl')
 
 <div class="container">
-	Sample test addresses (click to search):<br/>
+	Sample test addresses:<br/>
 	<ul style="columns:3;" id="testData">
 		<li>12040 Louise Ave, Los Angeles, CA</li>
+		<li>222 S Milton Rd, Flagstaff, AZ</li>
 		<li>206 Washington St SW, Atlanta, GA, 30334</li>
 		<li>150 Rideau St, Ottawa, Ontario, CA</li>
 		<li>3111 World Dr, Orlando, FL</li>
@@ -16,7 +17,6 @@
 		<li>416 Sid Snyder Avenue SW, Olympia</li>
 		<li>600 Dexter Ave, Montgomery, AL 36130</li>
 		<li>500 Woodlane St, Little Rock, AR</li>
-		<li>222 S Milton Rd, Flagstaff, AZ</li>
 		<li> 200 E Colfax Ave, Denver, CO</li>
 		<li> 210 Capitol Ave, Hartford, CT 06106</li>
 		<li>141 Mullett Run St, milford, de</li>
@@ -50,13 +50,7 @@
 		<li>1100 Gervais St, Columbia, SC </li>
 		<li>500 E Capitol Ave, Pierre, SD</li>
 		<li>600 Charlotte Ave, Nashville, TN</li>
-		<li>1100 Congress Ave, Austin</li>
-		<li>valley of the gods</li>
-		<li>115 State St, Montpelier, VT</li>
-		<li>1000 Bank St, Richmond, VA</li>
-		<li>West Virginia State Capitol, Charleston, WV</li>
-		<li>2 E Main, Madison, WI</li>
-		<li>yellowstone national park</li>
+		
 		<li>1234 Urb Los Olmos, Ponce, PR, 00731</li>
 		<li>1245 Pale San Vitores Rd, Tamuning, Guam</li>
 		<li>6450 Coki Point, St. Thomas, USVI</li>
