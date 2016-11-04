@@ -4,8 +4,9 @@
 % include('header.tpl')
 
 <div class="container">
+	<a href="#" onclick="javascript:$('#testData').css('overflow','auto').css('height','400px'); return false;">+</a> 
 	Sample test addresses (click to search):<br/>
-	<ul style="columns:3;" id="testData">
+	<ul style="columns:3; height:50px; overflow:hidden;" id="testData">
 		<li>12040 Louise Ave, Los Angeles, CA</li>
 		<li>206 Washington St SW, Atlanta, GA, 30334</li>
 		<li>150 Rideau St, Ottawa, Ontario, CA</li>
