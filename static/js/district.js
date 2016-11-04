@@ -1,4 +1,6 @@
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
+var globalEnableLocation = 0;
+
 function getGetOrdinal(n) {
     var s=["th","st","nd","rd"],
     v=n%100;
@@ -19,7 +21,19 @@ function loadText(t)
 	latLongWrapper();	
 }
 
+function resetResults()
+{
+	$("#resultsMembers").hide().html("");
+	$("#addressCorrected").html("");
+	$("#google_map").html("");
+	$("#warnings").hide().html("");
+	$("#loadProgress").hide().html("");
+}
+
 	$(document).ready(function(){
+		$("#addressInput").on("focus",function() {
+			if($("#addressInput").val()=="MY LOCATION") { $("#addressInput").val(""); }
+		});
 		$("#submit-address-form").submit(function(event)
 		{
 			event.preventDefault();
@@ -32,6 +46,7 @@ function loadText(t)
 	var myLat, myLong;
 	if(navigator.geolocation)
 	{
+		globalEnableLocation=1;
 		console.log('html5 location support.');
 		$("#locationButton").show();
 		function success(position)
@@ -39,30 +54,39 @@ function loadText(t)
 			console.log(position.coords);
 			myLat = position.coords.latitude;
 			myLong = position.coords.longitude;
-			$("#geolocationTutorial").show();
 			$("#addressInput").val("MY LOCATION");
+			resetResults();
+			$("#loadProgress").html("<strong>Loading...</strong> Location matched, looking up historical representatives... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
 			doMembers(myLat, myLong);
 		}
 		function error()
 		{
+			resetResults();
+			$("#loadProgress").show().html("<strong>Error:</strong> Error looking up your location. Most commonly this occurs because you are having internet connection trouble or you have privacy settings designed to block web access to your location.");
 			return;
 		}
 		function getLocation()
 		{
+			resetResults();
+			$("#loadProgress").show().html("<strong>Loading...</strong> Looking up your current location... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
 			navigator.geolocation.getCurrentPosition(success, error);
 		}
+		$("#geolocationTutorial").show();
 	}
 
 	function latLongWrapper()
 	{
-		if($("#addressInput").val()=="MY LOCATION" && myLat!=undefined && myLong!=undefined) { doMembers(myLat, myLong); }
+		resetResults();
+		if($("#addressInput").val()=="MY LOCATION" && globalEnableLocation && myLat!=undefined && myLong!=undefined) { doMembers(myLat, myLong); }
+		else if($("#addressInput").val()=="MY LOCATION")
+		{
+			$("#warnings").html("").show();
+			var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> Error accessing your location, either due to internet connectivity or privacy settings. Please manually type an address to continue.");
+			errorDiv.appendTo($("#warnings"));
+		}
 		else
 		{
-			$("#warnings").hide();
 			$("#loadProgress").show().html("<strong>Loading...</strong> Matching address to map coordinates... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
-			$("#resultsMembers").hide().html("");
-			$("#addressCorrected").html("");
-			$("#google_map").html("");
 			setTimeout(doLatLong, 20);
 		}
 	}
@@ -77,7 +101,6 @@ function loadText(t)
 				console.log(data);
 				if(data["status"])
 				{	
-					$("#warnings").html("");
 					$("#loadProgress").fadeOut();
 					console.log("Error! Oh no!");
 					var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> "+data["error_message"])
