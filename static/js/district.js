@@ -1,4 +1,6 @@
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
+var myLat, myLong;
+var slowTimer;
 var globalEnableLocation = 0;
 
 function getGetOrdinal(n) {
@@ -39,11 +41,12 @@ function resetResults()
 			event.preventDefault();
 			latLongWrapper();
 		});
-		if($("#addressInput").val()) { latLongWrapper(); }
+		if($("#cachedLat").val()) { myLat = $("#cachedLat").val(); }
+		if($("#cachedLong").val()) { myLong = $("#cachedLong").val(); }
+		if($("#addressInput").val()) { setTimeout(function(){latLongWrapper();},1000); }
 		$("ul#testData li").on("click",function(){ console.log($(this).val()); loadText(this.innerHTML); });
 	});
 
-	var myLat, myLong;
 	if(navigator.geolocation)
 	{
 		globalEnableLocation=1;
@@ -51,16 +54,20 @@ function resetResults()
 		$("#locationButton").show();
 		function success(position)
 		{
+			clearTimeout(slowTimer);
 			console.log(position.coords);
 			myLat = position.coords.latitude;
 			myLong = position.coords.longitude;
+			$("#cachedLat").val(myLat);
+			$("#cachedLong").val(myLong);
 			$("#addressInput").val("MY LOCATION");
 			resetResults();
-			$("#loadProgress").html("<strong>Loading...</strong> Location matched, looking up historical representatives... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
+			$("#loadProgress").show().html("<strong>Loading...</strong> Location matched, looking up historical representatives... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
 			doMembers(myLat, myLong);
 		}
 		function error()
 		{
+			clearTimeout(slowTimer);
 			resetResults();
 			$("#loadProgress").show().html("<strong>Error:</strong> Error looking up your location. Most commonly this occurs because you are having internet connection trouble or you have privacy settings designed to block web access to your location.");
 			return;
@@ -69,6 +76,8 @@ function resetResults()
 		{
 			resetResults();
 			$("#loadProgress").show().html("<strong>Loading...</strong> Looking up your current location... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
+			console.log('show 2');
+			slowTimer = setTimeout(function() { $("#loadProgress").html($("#loadProgress").html()+"<br/>This process seems to be taking an unusually long time to complete. The delay is related to your internet connection, router, or web browser and is not connected to our server."); }, 5000);
 			navigator.geolocation.getCurrentPosition(success, error);
 		}
 		$("#geolocationTutorial").show();
@@ -77,7 +86,7 @@ function resetResults()
 	function latLongWrapper()
 	{
 		resetResults();
-		if($("#addressInput").val()=="MY LOCATION" && globalEnableLocation && myLat!=undefined && myLong!=undefined) { doMembers(myLat, myLong); }
+		if($("#addressInput").val()=="MY LOCATION" && globalEnableLocation && $("#cachedLat").val() && $("#cachedLong").val()) { doMembers(parseFloat($("#cachedLat").val()), parseFloat($("#cachedLong").val())); }
 		else if($("#addressInput").val()=="MY LOCATION")
 		{
 			$("#warnings").html("").show();
@@ -128,7 +137,7 @@ function resetResults()
 
 	function doMembers(lat, lng)
 	{
-		var markerPos = {lat: lat, lng: lng};
+ 		var markerPos = {lat: lat, lng: lng};
 		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true});
 		var market = new google.maps.Marker({position: markerPos, map: map});
 
