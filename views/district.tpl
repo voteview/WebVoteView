@@ -83,6 +83,7 @@
 			<div class="input-group-btn">
 				<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 			</div>
+			<input type="hidden" id="cachedLat"> <input type="hidden" id="cachedLong">
 		</div>
 	</div>
 	<div class="col-md-5" id="addressCorrected">
