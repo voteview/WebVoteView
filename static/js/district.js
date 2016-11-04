@@ -33,6 +33,7 @@ function loadText(t)
 	if(navigator.geolocation)
 	{
 		console.log('html5 location support.');
+		$("#locationButton").show();
 		function success(position)
 		{
 			console.log(position.coords);
@@ -46,7 +47,10 @@ function loadText(t)
 		{
 			return;
 		}
-		navigator.geolocation.getCurrentPosition(success, error);
+		function getLocation()
+		{
+			navigator.geolocation.getCurrentPosition(success, error);
+		}
 	}
 
 	function latLongWrapper()

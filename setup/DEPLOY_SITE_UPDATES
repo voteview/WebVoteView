@@ -21,6 +21,8 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 
 	echo "Server setup: production"
 	echo "0" > WebVoteView/server.txt
+	rm WebVoteView/robots.txt
+	mv WebVoteView/robots-prod.txt WebVoteView/robots.txt
 
 	echo "Copying secure authentication files from existing deployment."
 	cp voteview/model/*.json WebVoteView/model/
