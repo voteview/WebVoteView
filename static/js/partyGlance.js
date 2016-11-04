@@ -281,6 +281,19 @@ q
 		if(minCong==maxCong) { textLabel += "in the "+getGetOrdinal(minCong)+" Congress"; }
 		else if(maxCong>=max) { textLabel += "from the "+getGetOrdinal(minCong)+" Congress onwards"; }
 		else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress until the "+getGetOrdinal(maxCong)+" Congress"; }
+
+		if(parties[i][1]["voting_dates"].length)
+		{
+			if(parties[i][1]["voting_dates"][1]=="0000-00-00")
+			{
+				textLabel += "<br/>Since "+parties[i][1]["voting_dates"][0];
+			}
+			else
+			{
+				textLabel += "<br/>"+parties[i][1]["voting_dates"][0]+" to "+parties[i][1]["voting_dates"][1];
+			}
+		}
+		
 		try { var partyColorScheme = partyColorMap[partyNameSimplify(parties[i][1]["name"])];}
 		catch(e) { var partyColorScheme = "grey"; }
 
