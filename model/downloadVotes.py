@@ -180,7 +180,10 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 								pass
 
 							if "prob" in newV:
-								newV["prob"] = int(round(newV["prob"]))
+								try:
+									newV["prob"] = int(round(newV["prob"]))
+								except:
+									newV["prob"] = 0
 							newV["name"] = memberMap["bioname"]
 							newV["party"] = partyName(memberMap["party_code"])
 							newV["party_short_name"] = shortName(memberMap["party_code"])
