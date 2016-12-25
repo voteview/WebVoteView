@@ -39,7 +39,7 @@ SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" i
 
 fieldTypes = {"codes": "codes", "codes.Clausen": "code", "codes.Peltzman": "code", "codes.Issue": "code",
 		"description": "flexstr", "congress": "int", "short_description": "flexstr", "vote_desc": "flexstr", 
-		"vote_document_text": "flexstr", "bill": "str", "alltext": "alltext", "yea": "int", "nay": "int", 
+		"vote_document_text": "flexstr", "bill": "str", "vote_title": "flexstr", "vote_question_text": "flexstr", "alltext": "alltext", "yea": "int", "nay": "int", 
 		"yea_count": "int", "nay_count": "int", "percent_support": "int", "key_flags": "key_flags",
 	        "support": "int", "voter": "voter", "chamber": "chamber", "saved": "saved", "dates": "date", "id": "strexact",
 		"startdate": "date", "enddate": "date", "keyvote": "key_flags"}
@@ -114,7 +114,7 @@ def queryDispatcher(textQ):
 	if not ":" in textQ:
 		# If there's a literal string, adding description results in a regex over just that field
 		# Otherwise it will hit the fulltext index, just like alltext would
-		textQ = "description: " + textQ
+		textQ = "alltext: " + textQ
 		simpleSearch, needScore, errorMessage = parseFreeformQuery(textQ)
 		return [simpleSearch, needScore, errorMessage]
 
