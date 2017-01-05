@@ -138,7 +138,7 @@ function resetResults()
 	function doMembers(lat, lng)
 	{
  		var markerPos = {lat: lat, lng: lng};
-		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true});
+		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: false});
 		var market = new google.maps.Marker({position: markerPos, map: map});
 
 		$.ajax({
@@ -203,9 +203,11 @@ function resetResults()
 					lastCong = parseInt(v["congress"]);
 					lastState = v["state"];
 					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"];});
+					dateSet = congToYears(v["congress"]);
+					console.log(dateSet[0].toString().substr(2,2));
 					if(lastICPSR!=parseInt(v["icpsr"]))
 					{
-						$("<td>"+getGetOrdinal(v["congress"])+" ("+congToYears(v["congress"])[0]+"-"+congToYears(v["congress"])[1]+")</td>").appendTo(tr);
+						$("<td>"+getGetOrdinal(v["congress"])+" ("+dateSet[0]+"-"+dateSet[1].toString().substr(2,2)+")</td>").appendTo(tr);
 						$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
 						$("<td>"+v["party_noun"]+"</td>").css("border-left","3px solid "+colorSchemes[v["party_color"]][0]).appendTo(tr);
 						$("<td><a href=\"/person/"+v["icpsr"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
@@ -213,7 +215,7 @@ function resetResults()
 					}
 					else
 					{
-						$("<td>"+getGetOrdinal(v["congress"])+" ("+congToYears(v["congress"])[0]+"-"+congToYears(v["congress"])[1]+")</td>").appendTo(tr);
+						$("<td>"+getGetOrdinal(v["congress"])+" ("+dateSet[0]+"-"+dateSet[1].toString().substr(2,2)+")</td>").appendTo(tr);
 						$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
 						$("<td></td>").css("border-left","3px solid "+colorSchemes[v["party_color"]][0]).appendTo(tr);
 						$("<td></td>").appendTo(tr);
