@@ -41,6 +41,11 @@ function resetResults()
 			event.preventDefault();
 			latLongWrapper();
 		});
+		$("#submit-geolocation").click(function(event)
+		{
+			event.preventDefault();
+			getLocation();
+		});
 		if($("#cachedLat").val()) { myLat = $("#cachedLat").val(); }
 		if($("#cachedLong").val()) { myLong = $("#cachedLong").val(); }
 		if($("#addressInput").val()) { setTimeout(function(){latLongWrapper();},1000); }
@@ -69,14 +74,18 @@ function resetResults()
 		{
 			clearTimeout(slowTimer);
 			resetResults();
-			$("#loadProgress").show().html("<strong>Error:</strong> Error looking up your location. Most commonly this occurs because you are having internet connection trouble or you have privacy settings designed to block web access to your location.");
+			$("#warnings").html("").show();
+			var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> Error looking up your location. Most commonly this occurs because you are having internet connection trouble or you have privacy settings designed to block web access to your location.");
+			errorDiv.appendTo($("#warnings"));
+
 			return;
 		}
-		function getLocation()
+		function getLocation(event)
 		{
+			console.log(event);
+			console.log('I AM HERE, IN THE GETLOCATION FUNCTION');
 			resetResults();
 			$("#loadProgress").show().html("<strong>Loading...</strong> Looking up your current location... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
-			console.log('show 2');
 			slowTimer = setTimeout(function() { $("#loadProgress").html($("#loadProgress").html()+"<br/>This process seems to be taking an unusually long time to complete. The delay is related to your internet connection, router, or web browser and is not connected to our server."); }, 5000);
 			navigator.geolocation.getCurrentPosition(success, error);
 		}
@@ -85,8 +94,16 @@ function resetResults()
 
 	function latLongWrapper()
 	{
+		console.log('I AM HERE, IN THE ADDRESS LOOKUP.');
 		resetResults();
-		if($("#addressInput").val()=="MY LOCATION" && globalEnableLocation && $("#cachedLat").val() && $("#cachedLong").val()) { doMembers(parseFloat($("#cachedLat").val()), parseFloat($("#cachedLong").val())); }
+		if($("#addressInput").val()=="")
+		{
+			$("#warnings").html("").show();
+			var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> No address specified.");
+			errorDiv.appendTo($("#warnings"));
+			return;
+		}
+		else if($("#addressInput").val()=="MY LOCATION" && globalEnableLocation && $("#cachedLat").val() && $("#cachedLong").val()) { doMembers(parseFloat($("#cachedLat").val()), parseFloat($("#cachedLong").val())); }
 		else if($("#addressInput").val()=="MY LOCATION")
 		{
 			$("#warnings").html("").show();
@@ -102,6 +119,7 @@ function resetResults()
 
 	function doLatLong()
 	{
+		console.log('I AM HERE, CACHED LAT LONG TO DISTRICT LOOKUP.');
 		$.ajax({
 			dataType: "JSON",
 			url: "/api/geocode?q="+$("#addressInput").val(),
