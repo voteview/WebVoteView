@@ -9,7 +9,6 @@ function decorateNominate(oc,data) {
 	var marginCircle = 25; // Distance of the main circle to the axis
 	var tickLength = 15;
 	var scale = 1.0; // sets radius of the outer circle in nominate units
-	var cutlineMult = 1.0; // sets how far into space the cutline is blasted off into. (Aaron added this, but it doesn't do anything?)
 
 	// Calculate circle attrs
 	var radiusX = (width - margin)/2 - marginCircle;
@@ -42,15 +41,15 @@ function decorateNominate(oc,data) {
 		.attr("cy", circleCenter.y)
 		.attr("rx", radiusX)
                 .attr("ry", radiusY);
-     /* Checking to be sure midpoint is where it should be...
+     /* Checking to be sure midpoint is where it should be... 
         vn = data.rollcalls[0].nominate;
 	gg
 		.append("ellipse")
 		.attr("cx", circleCenter.x + radiusX*vn.mid[0])
 		.attr("cy", circleCenter.y - radiusY*vn.mid[1])
-		.attr("rx", 5)
-		.attr("ry", 5)
-		.attr("fill","black");  */
+		.attr("rx", 20)
+		.attr("ry", 20)
+		.attr("fill","green");   */
 
 
 	gg
@@ -73,6 +72,8 @@ function decorateNominate(oc,data) {
 	    else var vn = data.rollcalls[0].nominate;
 	    console.log(vn);
 	}
+        
+        console.log(vn);
 
 	// Hack to gracefully fail when we don't have nominate data. AR
 	if(plotCut)
@@ -95,39 +96,39 @@ function decorateNominate(oc,data) {
 				break;
 			case 1:
         			var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-						circleCenter.y-radiusY*vn.y[0]/scale*1.2],
+						circleCenter.y-radiusY*vn.y[0]/scale*1.0002],
                         	 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2 ], 
+                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.0002 ], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2 ], 
+                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.0002 ], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale ,
-                        	   circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
+                        	   circleCenter.y-radiusY*(vn.y[1])/scale*1.0002 ], 
                         	 [ circleCenter.x+radiusX*vn.x[1]/scale,
-                        	   circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
+                        	   circleCenter.y-radiusY*vn.y[1]/scale*1.0002 ] ]; 
 			        break;
 			case 2:
 			        var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-	                           circleCenter.y-radiusY*(vn.y[0])/scale*1.2 ],
+	                           circleCenter.y-radiusY*(vn.y[0])/scale*1.0002 ],
 	                        [  circleCenter.x+radiusX*(vn.x[0])/scale,
-	                           circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ], 
+	                           circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.0002 ], 
         	                [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-				  circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ],
+				  circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.0002 ],
       	                   	[ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                           	  circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ],
+                           	  circleCenter.y-radiusY*(vn.y[1])/scale*1.0002 ],
                          	[ circleCenter.x+radiusX*vn.x[1]/scale,
-                           	  circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
+                           	  circleCenter.y-radiusY*vn.y[1]/scale*1.0002 ] ]; 
 				break;
 			case 3:
         			var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-                        	   circleCenter.y-radiusY*vn.y[0]/scale*1.2 ],
+                        	   circleCenter.y-radiusY*vn.y[0]/scale*1.0002 ],
                         	 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-                        	   circleCenter.y-radiusY*(vn.y[0]+10)/scale*1.2 ], 
+                        	   circleCenter.y-radiusY*(vn.y[0]+10)/scale*1.0002 ], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2], 
+                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.0002], 
                         	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
+                        	   circleCenter.y-radiusY*(vn.y[1])/scale*1.0002 ], 
                         	 [ circleCenter.x+radiusX*vn.x[1]/scale,
-                        	   circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
+                        	   circleCenter.y-radiusY*vn.y[1]/scale*1.0002 ] ]; 
 				break;
 		}
 		if (isNaN(angle)) { polyData = [[0,0 ], [0, width],[width, width],[width, 0]] };
@@ -145,24 +146,6 @@ function decorateNominate(oc,data) {
 			.attr("id","yea-semi")
 			.attr("style","stroke:#000000;stroke-width:2;fill:#FFFFED;clip-path:url(#scatterclip)");
 
-		// Exterior circle? I don't really know what this is giving us, so I suppress it
-		/*gg
-		.append("ellipse")
-			.attr("cx", circleCenter.x)
-			.attr("cy", circleCenter.y)
-			.attr("rx", radiusX/scale)
-			.attr("ry", radiusY/scale)
-			.attr("id", "dashed-circle").attr("style","fill:#00ff00;");*/
-
-		// This is the cut line -- suppressed because the stroke from the shaded polygon works better?
-	        /*gg
-		.append("line")
-			.attr("x1", radiusX/scale*vn.x[0] + circleCenter.x)
-			.attr("x2", radiusX/scale*vn.x[1] + circleCenter.x)
-			.attr("y1", circleCenter.y - radiusY/scale*vn.y[0])
-			.attr("y2", circleCenter.y - radiusY/scale*vn.y[1])
-			.attr("id","cutline")
-			.attr("style","stroke:#000000;stroke-width:2; clip-path:url(#scatterclip)");*/
 	}
 	else
 	{
@@ -242,17 +225,59 @@ function decorateNominate(oc,data) {
 	  
 	// Problem is that with Y/N on top we can't select point under/near the Y/N
 	// Need a way to insert after the dots but before the brush. Putting the Y/N group right
-	// before the brush group does it. --JBL	  
-	var ggg = ocSVG.insert("g",".brush");
-	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
-		// Code to calculate where the YN text axis goes.
-		var ynpts =    [circleCenter.x + radiusX/scale*(vn.mid[0]+vn.spread[0]),
-				circleCenter.y - radiusY/scale*(vn.mid[1]+vn.spread[1]),
-				circleCenter.x + radiusX/scale*(vn.mid[0]-vn.spread[0]),
-				circleCenter.y - radiusY/scale*(vn.mid[1]-vn.spread[1])];
-		var angle = 57.29578*Math.atan((vn.spread[1]*nomDWeight)/(vn.spread[0]));
+	// before the brush group does it. --JBL	 
 
-		// This is basically a hack based on what quadrant the text angle is in.
+	var ggg = ocSVG.insert("g",".brush");
+
+
+	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
+	       // Calculate where the YN text axis goes.
+	       function closestpt(vn) {
+		    var b = vn.slope;
+                    var angle = Math.atan( (vn.spread[1]*nomDWeight)/(vn.spread[0]) );
+		    var a = vn.mid[1] - b*vn.mid[0];
+		    var xstar = -b*a/(1+b*b);
+		    var obj = {
+			angle: angle,
+			b: b,
+			a: a,
+		        xstar: xstar,
+			ystar: b*xstar + a,
+			offsetX: 0.05*Math.cos(angle)*Math.sign(vn.spread[0]),
+			offsetY: (vn.slope>0?1:-1)*0.05*Math.sin(angle)*Math.sign(vn.spread[1])/nomDWeight 
+		    }
+		    return(obj);
+		}
+	        
+                var ynp = closestpt(vn);
+
+
+	        // PT on cutline closest to centroid
+	        gg
+		 .append("ellipse")
+		 .attr("cx", circleCenter.x + radiusX*ynp.xstar)
+		 .attr("cy", circleCenter.y - radiusY*ynp.ystar)
+		 .attr("rx", 2)
+		 .attr("ry", 2)
+ 		 .attr("fill","purple");  
+
+	        // PT on cutline at mid1,mid2
+	        gg
+		 .append("ellipse")
+		 .attr("cx", circleCenter.x + radiusX*vn.mid[0])
+		 .attr("cy", circleCenter.y - radiusY*vn.mid[1])
+		 .attr("rx", 2)
+		 .attr("ry", 2)
+ 		 .attr("fill","green");  
+
+		var ynpts =    [circleCenter.x + radiusX/scale*(ynp.xstar+ynp.offsetX),
+				circleCenter.y - radiusY/scale*(ynp.ystar-ynp.offsetY),
+				circleCenter.x + radiusX/scale*(ynp.xstar-ynp.offsetX),
+				circleCenter.y - radiusY/scale*(ynp.ystar+ynp.offsetY)];
+
+	        var angle = 57.29578*ynp.angle;
+
+		// This is a hack based on what quadrant the text angle is in.
 		var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
 		switch( cs ) 
 		{
@@ -261,11 +286,6 @@ function decorateNominate(oc,data) {
 			case 2: angle = 270-angle; break;
 			case 3: angle = -90-angle; break;
 		}
-
-		// Plot the yea-nay line.      
-		ggg.append('polyline')
-			.attr("class", "yeanay-line")
-			.attr("points", ynpts.join(" "));
 
 		// Plot the Y text using ynpts[2], [3] and rotating by the angle above.
 		ggg.append('text').text('Y')
