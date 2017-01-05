@@ -77,7 +77,7 @@
 	<div class="col-md-7">
 		<div class="input-group">
 			<div class="input-group-btn" id="locationButton" style="display:none;">
-				<button onclick="javascript:getLocation();return false;" class="btn btn-primary"><span class="glyphicon glyphicon-map-marker"></span></button>
+				<button id="submit-geolocation" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-map-marker"></span></button>
 			</div>
 			<input type="text" id="addressInput" class="form-control" placeholder="Enter an address or ZIP code.">
 			<div class="input-group-btn">
