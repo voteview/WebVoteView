@@ -74,7 +74,7 @@
 	<div class="col-md-1" style="padding-top:5px;padding-bottom:5px;">
 		<strong>Address:</strong> 
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-7">
 		<div class="input-group">
 			<div class="input-group-btn" id="locationButton" style="display:none;">
 				<button onclick="javascript:getLocation();return false;" class="btn btn-primary"><span class="glyphicon glyphicon-map-marker"></span></button>
@@ -86,17 +86,17 @@
 			<input type="hidden" id="cachedLat"> <input type="hidden" id="cachedLong">
 		</div>
 	</div>
-	<div class="col-md-5" id="addressCorrected">
+	<div class="col-md-4" id="addressCorrected">
 	</div>
 	</form>
 </div>
 <div class="container" style="padding-top:10px; padding-bottom: 30px;">
-	<div class="col-md-7">
+	<div class="col-md-8">
 		<div id="warnings" style="display:none;"></div>
 		<div id="loadProgress" style="display:none;"></div>
 		<div id="resultsMembers"></div>
 	</div>
-	<div class="col-md-5" style="height:300px;">
+	<div class="col-md-4" style="height:300px;">
 		<div id="google_map" style="width:100%;height:100%;"></div>
 	</div>
 </div>

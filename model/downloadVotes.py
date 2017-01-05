@@ -54,8 +54,7 @@ def add_endpoints(mid, spread):
 		intercept = -slope * (float(mid[0])
 					+ float(mid[1]))
 	else:
-                # JBL: Are we using this?
-		slope = -float(spread[1] * dimWeight / (float(spread[0])))
+		slope = -float(spread[0]) / (float(spread[1])*dimWeight*dimWeight)
 		intercept = -slope * float(mid[0]) + float(mid[1])
 		x = [10, -10]
 		y = [intercept + slope * xx for xx in x]
