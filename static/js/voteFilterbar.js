@@ -67,20 +67,20 @@ function pollFilters2()
 
 		var baseString = "";
 		var p=0;
+
 		for(var party in newDict)
 		{
 			var pString = "";
-			if(p) { baseString+= "; "; }
+			if(p && p+1==Object.keys(newDict).length) { baseString+= "; and "; }
+			else if(p) { baseString+= "; "; }
 			pString += party+"s voting ";
 			var z=0;
-			for(var voteType in newDict[party])
-			{
-				if(z && z+1==newDict[party].length) { pString += ", and "; }
-				else if(z) { pString += ", "; }
-				pString += newDict[party][voteType];
-				z+=1;
-			}
-			if(z==3) pString = party+"s voting";
+			var voteSet = newDict[party].sort();
+			if(voteSet.length==3) { pString = party+"s regardless of vote"; }
+			else if(voteSet.length==2 && voteSet[0]=="Abs") { pString = party+"s who voted "+voteSet[1]+" or did not vote"; }
+			else if(voteSet.length==2) { pString = party+"s who voted Yea or Nay"; }
+			else if(voteSet.length==1 && voteSet[0]=="Abs") { pString = party+"s who did not vote"; }
+			else if(voteSet.length==1) { pString = party+"s who voted "+voteSet[0]; }
 			baseString += pString;
 			p+=1;
 		}
