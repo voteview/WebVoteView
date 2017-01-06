@@ -152,7 +152,9 @@ def congress(chamber="senate"):
     maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
     congress = defaultValue(bottle.request.params.congress,maxCongress)
 
-    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress)
+    meta = metaLookup()
+
+    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress, dimweight=meta["nominate"]["second_dimweight"])
     return output
 
 @app.route("/district")
