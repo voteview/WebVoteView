@@ -44,7 +44,7 @@ function outVotes(groupBy)
 		else { voteSubset["name"] = lastName; }
 		if(groupBy=="prob") {
 			var key = "Voted";
-			if(voteSubset["vote"] == "Abs") { key = "Absent (Least to Most Likely Yea)";}
+			if(voteSubset["vote"] == "Abs") { key = "Not Voting (Least to Most Likely Yea)";}
 			if(groupings[key] != undefined) { groupings[key].push(voteSubset); }
 			else { groupings[key] = [voteSubset]; }
 		}
@@ -101,7 +101,7 @@ function outVotes(groupBy)
 		var partyLabel = $("<li></li>").css("padding-bottom","3px").css("-webkit-column-break-after","avoid");
 		console.log(key);
 		var headerLabel = sortedKeys[key];
-		if(headerLabel=="Abs") { headerLabel="Absent"; }
+		if(headerLabel=="Abs") { headerLabel="Not Voting"; }
 		if(groupBy=="state_abbrev") { headerLabel = stateMap[headerLabel]; }
 		if(groupBy!="x" && sortedKeys[key] != "Voted")
 		{
