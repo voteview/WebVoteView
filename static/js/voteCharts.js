@@ -285,6 +285,8 @@ function drawWidgets(error, data, geodata)
 			return color; 
 		})
 		.highlightedSize(10)
+		.existenceAccessor(function(d) { 
+			return parseFloat(String(d.key).split(",")[0])>-98; })
 		.x(d3.scale.linear().domain([-1.0, 1.0])) 
 		.y(d3.scale.linear().domain([-1.2, 1.2]));
 
