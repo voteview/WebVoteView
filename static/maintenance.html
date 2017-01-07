@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<title>Voteview.com | Maintenance</title>
+		<style>
+			body
+			{
+				margin-top:200px;
+				margin-left:auto;
+				margin-right:auto;
+				width:600px;
+				font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+				color: #555555;
+				line-height:1.5;
+			}
+		</style>
+		<script>
+			function estimateDate()
+			{
+				var d = new Date();
+				var fixedDiff = new Date(d.getTime() + 5*60*1000);
+
+				if(fixedDiff.toLocaleDateString()==d.toLocaleDateString())
+				{
+					document.getElementById("returnTime").innerHTML = " ("+fixedDiff.toLocaleTimeString()+")";
+				}
+				else
+				{
+					document.getElementById("returnTime").innerHTML = " ("+fixedDiff.toLocaleTimeString()+" on "+fixedDiff.toLocaleDateString()+")";
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Voteview.com Maintenance</h1>
+		Voteview.com is currently disabled during a scheduled technical maintenance. 
+
+		We are taking this opportunity to keep our site up to date, improve performance, and add features. 
+
+		We anticipate that the site will be back within <strong>5 minutes</strong><span id="returnTime"></span>. We apologize for any inconvenience.
+
+		<script>estimateDate();</script>
+	</body>
+</html>
