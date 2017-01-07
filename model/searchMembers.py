@@ -46,13 +46,14 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	district_code = qDict["district_code"] if "district_code" in qDict else ""
 	id = qDict["id"] if "id" in qDict else ""
 	speaker = qDict["speaker"] if "speaker" in qDict else ""
+	freshman = qDict["freshman"] if "freshman" in qDict else ""
 	idIn = qDict["idIn"] if "idIn" in qDict else []
 
 	if api == "R":
 		maxResults = 5000
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker and not idIn:
+	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker and not idIn and not freshman:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
@@ -126,6 +127,17 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 
 	if speaker:
 		searchQuery["served_as_speaker"] = 1
+
+	if freshman:
+		try:
+			maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
+		except:
+			try:
+				maxCongress = json.load(open("../static/config.json","r"))["maxCongress"]
+			except:
+				maxCongress = 115
+	
+		searchQuery["congresses.0.0"] = maxCongress
 
 	if party_code:
 		searchQuery["party_code"] = int(party_code)
