@@ -27,6 +27,7 @@ function outVotes(groupBy)
 		}
 	}
 
+	var errorCount=0;
 	for(var i=0;i!=filteredVotes.length;i++)
 	{
 		if(filteredVotes[i]["name"] == undefined) { continue; }
@@ -37,7 +38,11 @@ function outVotes(groupBy)
 			"icpsr": filteredVotes[i]["icpsr"],
 			"x": parseFloat(filteredVotes[i]["x"])
 		};
-		console.log(voteSubset);
+		if(groupBy=="x" && isNaN(voteSubset["x"]))
+		{
+			errorCount+=1;
+			continue;
+		}
 		if(filteredVotes[i]["prob"] != undefined) { voteSubset["prob"] = filteredVotes[i]["prob"]; }
 		var lastName = filteredVotes[i]["name"].split(",")[0];
 		if(dedupeLastNames.indexOf(lastName)!=-1) { voteSubset["name"] = filteredVotes[i]["name"].split(" ").slice(0,2).join(" "); }
@@ -53,8 +58,7 @@ function outVotes(groupBy)
 			else { groupings[filteredVotes[i][groupBy]] = [voteSubset]; }
 		}
 	}
-	console.log(groupings);
-        console.log(filteredVotes.length);
+
 	// Output table
 	function numSort(a, b) { return a-b; }
 	if(groupBy=="x") { var sortedKeys = Object.keys(groupings).sort(numSort); }
@@ -99,7 +103,7 @@ function outVotes(groupBy)
 		if(i && groupBy!="state_abbrev" && groupBy!="x") { $("<li>&nbsp;</li>").appendTo(baseList); }
 		// Category header
 		var partyLabel = $("<li></li>").css("padding-bottom","3px").css("-webkit-column-break-after","avoid");
-		console.log(key);
+		//console.log(key);
 		var headerLabel = sortedKeys[key];
 		if(headerLabel=="Abs") { headerLabel="Not Voting"; }
 		if(groupBy=="state_abbrev") { headerLabel = stateMap[headerLabel]; }
@@ -153,6 +157,14 @@ function outVotes(groupBy)
 		var ideologyLabel = $("<li></li>").css("padding-bottom","3px");
 		$("<strong>Most Conservative</strong> <span class='glyphicon glyphicon-arrow-up'></span>").appendTo(ideologyLabel);
 		ideologyLabel.appendTo(baseList);
+
+		if(errorCount)
+		{
+			var missingIdeology = $("<li></li>").css("padding-bottom","3px");
+			if(errorCount>1) $("<strong>"+errorCount+" members have no ideology score.</strong>").appendTo(missingIdeology);
+			else $("<strong>"+errorCount+" member has no ideology score.</strong").appendTo(missingIdeology);
+			missingIdeology.appendTo(baseList);
+		}
 	}
 
 	$("#voteList").html(baseList);
