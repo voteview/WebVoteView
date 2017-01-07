@@ -521,7 +521,11 @@ def searchAssemble():
                 scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
                 member["scoreMatch"] = max(scoreBasic, scoreNick)
 		member["bonusMatch"] = 0
-		print q, "/", memName, "/", scoreBasic, scoreNick
+                try: # Issue with printing diacritic-containing results to terminal/log.
+                    print q, "/", memName, "/", scoreBasic, scoreNick
+                except:
+                    pass
+
                 if member["congress"]>=100:
                     member["bonusMatch"] += 10
                 if member["chamber"]=="President":
