@@ -9,3 +9,4 @@ static/img/wiki/*
 **/*deprecated*
 **/deprecated/*
 server.txt
+static/maintenance
