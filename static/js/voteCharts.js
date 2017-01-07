@@ -131,9 +131,15 @@ function drawWidgets(error, data, geodata)
 			    x = x/dlen;
 			    y = y/dlen;
 			}
+		        // JBL: Hack to stop new members from being placed in the upper left corner of the scatter.
+		        if (typeof d.x == 'undefined') {
+			    x = -99; y = -99;
+			}
 			return [x, y];
 		}
 	);
+
+
 	var xGroup = xDimension.group().reduce(
 		function (p, d) 
 		{
@@ -155,6 +161,7 @@ function drawWidgets(error, data, geodata)
 		{
 			return {members: []} ;
 		}); // This is not super clear to me.
+
 
 	// Dimension 5: What state you're from.
 	var stateDimension = ndx.dimension(function(d) { return d.state_abbrev; });
@@ -235,7 +242,8 @@ function drawWidgets(error, data, geodata)
 		.labelOffsetX(40)
 		.label(function(d)
 		{
-			var textLabel = d.key.substr(3,d.key.length)+": "+d.key.substr(0,3)
+			if(d.key.substr(0,3)=="Abs") { var textLabel = d.key.substr(3,d.key.length)+": Not Voting"; }
+			else { var textLabel = d.key.substr(3,d.key.length)+": "+d.key.substr(0,3) }
 			return textLabel
 		})
 		.ordering(function(d){ // Sort Yea-to-Nay, Alphabetically, set independents separately.
