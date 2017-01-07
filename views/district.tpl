@@ -1,9 +1,11 @@
+% devserver=int(open("./server.txt","r").read().strip())
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % rebase('base.tpl', title='District View', extra_css=['map.css', 'scatter.css'])
 % include('header.tpl')
 
 <div class="container">
+	% if devserver:
 	<a href="#" onclick="javascript:$('#testData').css('overflow','auto').css('height','400px'); return false;">+</a> 
 	Sample test addresses (click to search):<br/>
 	<ul style="columns:3; height:50px; overflow:hidden;" id="testData">
@@ -65,6 +67,7 @@
 		<li>3222 main highway, pago pago tutuila, american samoa</li>
 		<li>1600 pennsylvania ave, washington dc</li>
 	</ul>
+	% end
 
 	<h3>Your District Through History</h3>
 	To see who has represented you through history, enter your address <span id="geolocationTutorial" style="display:none;">or click the map pin below</span> to begin:<br/>
