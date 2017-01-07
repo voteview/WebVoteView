@@ -479,21 +479,33 @@ def searchAssemble():
     needScore=1
     redirFlag=0
     expandResults=0
+    currentYear = str(datetime.datetime.now().year)
     if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
         try:
+            # Search overrides for custom search use cases.
+            # Vote by known ID
             if len(q.split())==1 and (q.upper().startswith("MH") or q.upper().startswith("MS")):
                 memberSearch = memberLookup({"id": q}, 8, distinct=1, api="Web_FP_Search")
+            # List all speakers
             elif q.strip().lower() in ["speaker of the house","speakers of the house","speaker: 1", "speaker:1","house speaker"]:
                 memberSearch = memberLookup({"speaker": 1, "chamber": "house"}, 60, distinct=1, api="Web_FP_Search")
                 needScore=0
                 expandResults=1
+            # List all presidents
             elif q.strip().lower() in ["potus", "president of the united states", "president", "the president", "president:1", "president: 1","presidents","presidents of the united states","presidents of the united states of america","president of the united states of america"]:
                 memberSearch = memberLookup({"chamber": "President"}, 50, distinct=1, api="Web_FP_Search")
                 needScore=0
                 expandResults=1
+            # List all freshmen
+            elif q.strip().lower() in ["freshmen", "freshman", "new hires", "first-years", "just elected", "tenderfoot", "newly elected", "class of "+currentYear]:
+                memberSearch = memberLookup({"freshman": 1}, 75, distinct=1, api="Web_FP_Search")
+                needScore=0
+                expandResults=1
+            # ICPSR of user
             elif len(q.split())==1 and int(q):
                 memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
                 redirFlag=1
+            # Okay, probably a normal search then.
             else:
                 memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
         except:
