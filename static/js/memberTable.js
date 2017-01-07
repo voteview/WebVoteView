@@ -25,6 +25,8 @@ function writeBioTable()
 	rC = resultCache["results"];
 	$("#memberList").fadeOut(200,function()
 	{
+		if(sortBy==undefined) { console.log("Default to sorting by name."); sortBy="name"; }
+
 		$("#memberList").html("");
 		if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioname > b.bioname ? 1 : -1; }); }
 		else if(sortBy=="party") { rC.sort(function(a,b) { return (a.party_noun==b.party_noun)?(a.bioname>b.bioname?1:-1):(a.party_noun>b.party_noun?1:-1); }); }
@@ -32,24 +34,32 @@ function writeBioTable()
 		else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioname>b.bioname?1:-1):(a.minElected>b.minElected?1:-1); }); }
 		else if(sortBy=="elected_senate") { rC.sort(function(a,b) { return (a.elected_senate==b.elected_senate)?(a.bioname>b.bioname?1:-1):(a.elected_senate>b.elected_senate?1:-1); }); }
 		else if(sortBy=="elected_house") { rC.sort(function(a,b) { return (a.elected_house==b.elected_house)?(a.bioname>b.bioname?1:-1):(a.elected_house>b.elected_house?1:-1); }); }
-		else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; }); }
+		else if(sortBy=="nominate") 
+		{ 
+			rC.sort(function(a,b) 
+			{
+				return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; 
+			}); 
+		}
 	
-		console.log(sortBy);
 		if(sortBy=="nominate") { writeColumnHeader("Most Liberal","arrow-down"); }
 		else if(sortBy=="elected" || sortBy=="elected_senate" || sortBy=="elected_house") { writeColumnHeader("Most Senior","arrow-down"); }
 	
+		var errorCount=0;
 		$.each(rC,function(k, v)
 		{
-			constructPlot(v);
+			if(sortBy=="nominate" && v.nominate==undefined) { errorCount=errorCount+1; }
+			else { constructPlot(v); }
 		});
 	
 		if(sortBy=="nominate") { writeColumnHeader("Most Conservative","arrow-up"); }
 		else if(sortBy=="elected" || sortBy=="elected_senate" || sortBy=="elected_house") { writeColumnHeader("Most Junior","arrow-up"); }
-	
+		if(errorCount>1) { writeColumnHeader(errorCount+" members have no ideology score."); }
+		else if(errorCount) { writeColumnHeader(errorCount+" member has no ideology score."); }
+
 		$('#memberList').fadeIn(200);
 		if(hasFilter)
 		{
-			console.log('ok hide them');
 			hideMembersUnselected();
 		}
 	});
@@ -57,6 +67,7 @@ function writeBioTable()
 
 function constructPlot(member, margins)
 {
+	console.log(member);
 	if(margins==undefined)
 	{
 		var mImg = "20px";
