@@ -128,12 +128,12 @@ function genPartyColors()
 }
 
 // Blend an array of colors
-function blendColors(members)
+function blendColors(members,voteShade = true)
 {
 	var r = 0, g = 0 , b = 0, i, rgbColor;
 	for (i = 0; i < members.length; i++) 
 	{
-		if(members[i].vote != undefined)
+		if(members[i].vote != undefined & voteShade == true)
 		{
 			rgbColor = d3.rgb(partyColors[members[i].vote + partyNameSimplify(members[i].party_short_name)]);
 		}
