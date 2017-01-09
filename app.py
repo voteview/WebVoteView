@@ -485,8 +485,10 @@ def searchAssemble():
     needScore=1
     redirFlag=0
     expandResults=0
+    suppressRollcalls=0
     currentYear = str(datetime.datetime.now().year)
-    if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
+    memberSearch = {}
+    if q is not None and not nextId and not ":" in q and len(q):
         try:
             # Search overrides for custom search use cases.
             # Vote by known ID
@@ -512,71 +514,87 @@ def searchAssemble():
                 memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
                 redirFlag=1
             # Okay, probably a normal search then.
-            else:
+            elif len(q.split())<=5:
                 memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
         except:
                 memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
-        if "results" in memberSearch:
-            for member in memberSearch["results"]:
-                memName = ""
-                if "bioname" in member and member["bioname"] is not None:
-                    memName = member["bioname"]
-                elif "fname" in member and member["fname"] is not None:
-                    memName = member["fname"]
-                else:
-                    try:
-                        memName = member["name"]
-                    except:
-                        memName = "Error, Invalid Name."
 
+    # Biography search
+    if q is not None and len(q) and len(q.split())>1 and q.lower().split()[0]=="biography:":
+        bioSearch = " ".join(q.strip().lower().split()[1:])
+        memberSearch = memberLookup({"biography": bioSearch}, 50, distinct=1, api="Web_FP_Search")
+        suppressRollcalls = 1
+        expandResults = 1
+
+    if "results" in memberSearch:
+        for member in memberSearch["results"]:
+            memName = ""
+            if "bioname" in member and member["bioname"] is not None:
+                memName = member["bioname"]
+            elif "fname" in member and member["fname"] is not None:
+                memName = member["fname"]
+            else:
                 try:
-                    memName = memName.replace(",","").lower()
+                    memName = member["name"]
                 except:
-                    memName = memName.lower()
+                    memName = "Error, Invalid Name."
 
-                searchNameToScore = q.replace(",","").lower()
-                scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
-                scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
-                member["scoreMatch"] = max(scoreBasic, scoreNick)
-		member["bonusMatch"] = 0
-                try: # Issue with printing diacritic-containing results to terminal/log.
-                    print q, "/", memName, "/", scoreBasic, scoreNick
-                except:
-                    pass
+            try:
+                memName = memName.replace(",","").lower()
+            except:
+                memName = memName.lower()
 
-                if member["congress"]>=100:
-                    member["bonusMatch"] += 10
-                if member["chamber"]=="President":
-                    member["bonusMatch"] += 25
-                if member["chamber"]=="Senate":
-                    member["bonusMatch"] += 10
-                if "congresses" in member:
-                    duration = 0
-                    for cong in member["congresses"]:
-                        duration = duration+(cong[1]-cong[0])
-                    if duration>=5:
-                        member["bonusMatch"] += 7
+            searchNameToScore = q.replace(",","").lower()
+            scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
+            scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
+            member["scoreMatch"] = max(scoreBasic, scoreNick)
+            member["bonusMatch"] = 0
+            try: # Issue with printing diacritic-containing results to terminal/log.
+                print q, "/", memName, "/", scoreBasic, scoreNick
+            except:
+                pass
 
-                if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
-                    member["bioImg"] = "silhouette.png"
-                else:
-                    member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"
-                member["minElected"] = congressToYear(member["congresses"][0][0], 0)
+            if member["congress"]>=100:
+                member["bonusMatch"] += 10
+            if member["chamber"]=="President":
+                member["bonusMatch"] += 25
+            if member["chamber"]=="Senate":
+                member["bonusMatch"] += 10
+            if "congresses" in member:
+                duration = 0
+                for cong in member["congresses"]:
+                    duration = duration+(cong[1]-cong[0])
+                if duration>=5:
+                    member["bonusMatch"] += 7
 
-                resultMembers.append(member)
+            if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
+                member["bioImg"] = "silhouette.png"
+            else:
+                member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"
+            member["minElected"] = congressToYear(member["congresses"][0][0], 0)
 
-    #return(resultMembers)
-    if needScore:
-        print "results before truncation"
-        print resultMembers
-        print "end ====="
-        if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
-            resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
-        resultMembers.sort(key=lambda x: -(x["scoreMatch"] + x["bonusMatch"]))
-    else:
-        resultMembers.sort(key=lambda x: -x["congress"])
-    if len(resultMembers)>8 and not expandResults:
-        resultMembers=resultMembers[0:8]
+            resultMembers.append(member)
+
+        #return(resultMembers)
+        if needScore:
+            print "results before truncation"
+            print resultMembers
+            print "end ====="
+            if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
+                resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
+            resultMembers.sort(key=lambda x: -(x["scoreMatch"] + x["bonusMatch"]))
+        else:
+            resultMembers.sort(key=lambda x: -x["congress"])
+        if len(resultMembers)>8 and not expandResults:
+            resultMembers=resultMembers[0:8]
+
+    if suppressRollcalls:
+        print "SUPPRESSING PROPERLY"
+        bottle.response.headers["rollcall_number"] = 0
+        bottle.response.headers["member_number"] = len(resultMembers)
+        bottle.response.headers["party_number"] = 0
+        out = bottle.template("views/search_results", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=[])
+        return out
 
     # Date facet
     startdate = defaultValue(bottle.request.params.fromDate)

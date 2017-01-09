@@ -48,12 +48,13 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	speaker = qDict["speaker"] if "speaker" in qDict else ""
 	freshman = qDict["freshman"] if "freshman" in qDict else ""
 	idIn = qDict["idIn"] if "idIn" in qDict else []
+	biography = qDict["biography"] if "biography" in qDict else ""
 
 	if api == "R":
 		maxResults = 5000
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker and not idIn and not freshman:
+	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker and not idIn and not freshman and not biography:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
@@ -91,6 +92,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["state_abbrev"] = state.upper() # States are all stored upper-case
 		else:
 			searchQuery["state_abbrev"] = stateNameToAbbrev(state.upper())
+
+	if biography:
+		print "i'm in here"
+		searchQuery["biography"] = {"$regex": biography, "$options": "i"}
 
 	if congress:
 		try:
@@ -160,6 +165,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	if api=="Web_PI":
 		fieldSet = {"nominate.dim1": 1, "party_code": 1, "icpsr": 1, "chamber":1, "_id": 0}
 	elif api=="Web_FP_Search":
+		print searchQuery
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1, "chamber": 1}
 	elif api=="Web_Congress":
 		if chamber:
