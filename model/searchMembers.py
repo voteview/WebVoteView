@@ -180,7 +180,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
         elif api=="exportCSV" or api == "exportORD":
                 fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1}
 	elif api=="districtLookup":
-		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "nominate.dim1": 1, "district_code": 1, "_id": 0, "chamber": 1, "congresses": 1}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "nominate.dim1": 1, "nominate.dim2": 1, "district_code": 1, "_id": 0, "chamber": 1, "congresses": 1}
         else:
 		fieldSet = {"_id": 0, "personid": 0}
 	if "$text" in searchQuery:
