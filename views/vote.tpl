@@ -204,3 +204,4 @@ var nomDWeight = {{ dimweight }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteCharts.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteFilterbar.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/nominateHeatMap.js"></script>
