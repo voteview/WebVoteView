@@ -271,7 +271,7 @@ def person(icpsr=0):
 
 
         timeIt("partySwitches")
-        voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1)
+        voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1, request=bottle.request)
         timeIt("gotVotes")
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
@@ -681,7 +681,7 @@ def searchAssemble():
     icpsr = defaultValue(bottle.request.params.icpsr)
     jsapi = 1
     rowLimit = 50
-    res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId, sortScore=sortScore)
+    res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId, sortScore=sortScore, request=bottle.request)
 
     if "errormessage" in res:
         bottle.response.headers["rollcall_number"] = -999
@@ -736,9 +736,9 @@ def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 		qtext = "voter: "+str(person["icpsr"])
 
 	if skip:
-		voteQuery = query(qtext, rowLimit=25, jsapi=1, sortSkip=skip)
+		voteQuery = query(qtext, rowLimit=25, jsapi=1, sortSkip=skip, request=bottle.request)
 	else:
-		voteQuery = query(qtext, rowLimit=25, jsapi=1)
+		voteQuery = query(qtext, rowLimit=25, jsapi=1, request=bottle.request)
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
         output = bottle.template("views/member_votes",person=person, votes=votes, skip=skip, nextId=voteQuery["nextId"])
@@ -755,7 +755,7 @@ def search():
     chamber = defaultValue(bottle.request.params.chamber)
     icpsr = defaultValue(bottle.request.params.icpsr)
     rapi = defaultValue(bottle.request.params.rapi,0)
-    res = query(q,startdate,enddate,chamber, icpsr=icpsr, rapi=rapi)
+    res = query(q,startdate,enddate,chamber, icpsr=icpsr, rapi=rapi, request=bottle.request)
     return(res)
 
 
