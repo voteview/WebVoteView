@@ -153,8 +153,27 @@ function resetResults()
 		});
 	}
 
+	function compareSort(a, b)
+	{
+		if(a.congress > b.congress) { return -1; }
+		else if(a.congress < b.congress) { return 1; }
+		else
+		{
+			if(a.party_noun < b.party_noun) { return -1; }
+			else if(a.party_noun > b.party_noun) { return 1; }
+			else
+			{
+				if(a.bioname < b.bioname) { return -1; }
+				else { return 1; }
+			}
+		}
+	}
+
 	function doMembers(lat, lng)
 	{
+		console.log("Entering this now.");
+		console.log(lat);
+		console.log(lng);
  		var markerPos = {lat: lat, lng: lng};
 		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: false});
 		var market = new google.maps.Marker({position: markerPos, map: map});
@@ -165,7 +184,6 @@ function resetResults()
 			success: function(data, status, xhr)
 			{
 				$("#loadProgress").fadeOut();
-				console.log("ok good");
 				if(data["resCurr"].length)
 				{
 					$("<h4>Current Congressperson and Senators</h4>").appendTo("#resultsMembers");
@@ -173,6 +191,7 @@ function resetResults()
 								.css("list-style-type","none").css("overflow","auto")
 								.css("width","100%").css("margin-left",0).css("padding-left",0).css("margin-bottom","15px")
 								.css("display","block").attr("id","memberList");
+				        console.log(data["resCurr"]);
 					memberList.appendTo("#resultsMembers");
 					//boxDiv.appendTo("#resultsMembers")
 					$.each(data["resCurr"], function(k,v)
@@ -185,12 +204,22 @@ function resetResults()
 				var table = $("<table><thead><tr><th>Congress</th><th>District</th><th>Party</th><th>Member</th></tr></thead></table>")
 						.addClass("table table-hover dc-data-table");
 				var tbody = $("<tbody></tbody>");
-				var lastICPSR = 0;
-				var lastCong = 0;
-				var lastState = ""
-				$.each(data["results"], function(k, v)
+
+				// For visual design, we do a pocket algorithm; save the last guy, compare to current guy, see what's changed.
+				var lastResult = {};
+				var myResults = data["results"].sort(compareSort);
+				$.each(myResults, function(k, v)
 				{
-					if(lastCong>38 && v["congress"]<37)
+					// Check to see if we have other members at the same time
+					var multiMember=0;
+					if(v["congress"]<90)
+					{	
+						var howMany = $.grep(myResults, function(n,i) { return (n["congress"]==v["congress"]); });
+						if(howMany.length>1) { multiMember=1; }
+					}
+
+					// Explainers for weird edge cases (partition/joining or the Civil War)
+					if(lastResult["congress"]>38 && v["congress"]<37)
 					{
 						var civilWarDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: "+v["state"]+" does not seat a delegation in the US Congress.");
 						var tr = $("<tr></tr>");
@@ -199,7 +228,7 @@ function resetResults()
 						td.appendTo(tr);
 						tr.appendTo(tbody);
 					}
-					if(lastState=="West Virginia" && v["state"]=="Virginia")
+					if(lastResult["state"]=="West Virginia" && v["state"]=="Virginia")
 					{
 						var virgDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: West Virginia breaks away from Virginia to form a new state.");
 						var tr = $("<tr></tr>");
@@ -208,7 +237,7 @@ function resetResults()
 						td.appendTo(tr);
 						tr.appendTo(tbody);
 					}
-					if(lastState=="Maine" && v["state"]=="Massachusetts")
+					if(lastResult["state"]=="Maine" && v["state"]=="Massachusetts")
 					{
 						var maineDiv = $("<div></div>").addClass("alert alert-info").html("<strong>1820</strong>: Maine votes to secede from Massachusetts and is admitted to the union as a state.");
 						var tr = $("<tr></tr>");
@@ -218,18 +247,15 @@ function resetResults()
 						tr.appendTo(tbody);
 					}
 
-					lastCong = parseInt(v["congress"]);
-					lastState = v["state"];
+
 					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"];});
 					dateSet = congToYears(v["congress"]);
-					console.log(dateSet[0].toString().substr(2,2));
-					if(lastICPSR!=parseInt(v["icpsr"]))
+					if(parseInt(lastResult["icpsr"])!=parseInt(v["icpsr"]))
 					{
 						$("<td>"+getGetOrdinal(v["congress"])+" ("+dateSet[0]+"-"+dateSet[1].toString().substr(2,2)+")</td>").appendTo(tr);
 						$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
 						$("<td>"+v["party_noun"]+"</td>").css("border-left","3px solid "+colorSchemes[v["party_color"]][0]).appendTo(tr);
 						$("<td><a href=\"/person/"+v["icpsr"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
-						lastICPSR = parseInt(v["icpsr"]);
 					}
 					else
 					{
@@ -239,10 +265,101 @@ function resetResults()
 						$("<td></td>").appendTo(tr);
 					}
 					tr.appendTo(tbody);
+
+					lastResult = v;
 				});
 				tbody.appendTo(table);
 				table.appendTo($("#resultsMembers"));
 				$("#resultsMembers").fadeIn();
+				nomPlotDistrict(data["results"]);
+
 			}
 		});
 	}
+
+
+
+
+function nomPlotDistrict(dataToUse)
+{
+	var nominateScatterChart = dc.scatterPlot("#scatter-chart");
+	console.log('ok');
+	var ndx = crossfilter(dataToUse);
+	var all = ndx.groupAll();
+	var xDimension = ndx.dimension(
+		function(d) 
+		{
+			if(d.nominate!=undefined)
+			{
+				var x = d.nominate.dim1;
+				var y = d.nominate.dim2;
+			}
+			else
+			{
+				var x = 999;
+				var y = 999;
+			}
+			return [x,y];
+		}
+	);
+	var xGroup = xDimension.group().reduce(
+		function(p, d)
+		{
+			p.members.push(d);
+			return p;
+		},
+	
+		function(p, d)
+		{
+			var index = p.members.indexOf(d);
+			if(index > -1) { p.members.splice(index, 1); }
+			return p;
+		},
+	
+		function() { return {members: []} ; }
+	);
+
+	nominateScatterChart
+	.width(600)
+	.height(290)
+	.margins({top:25,right:25,bottom:75,left:75})
+	.dimension(xDimension)
+	.mouseZoomable(false)
+	.group(xGroup)
+	.data(function(group) { return group.all().filter(function(d) { return d.key!=[999,999]; });})
+	.symbolSize(7)
+	.colorCalculator(function(d) {
+		var color = "#CCC";
+		try {
+			if(d.value.members.length > 0){
+				color = blendColors(d.value.members);
+			}
+		}catch(e){
+			console.log(e);
+		}
+		return color;
+	})
+	.highlightedSize(10)
+	.x(d3.scale.linear().domain([-1.0,1.0]))
+	.y(d3.scale.linear().domain([-1.2,1.2]));
+
+	/*nominateScatterChart.on("filtered", function()
+	{
+		if(updateFilterTimer) { clearTimeout(updateFilterTimer); }
+		updateFilterTimer = setTimeout(function()
+		{
+			var filterSelect= xDimension.top(Infinity);
+			validSet = [];
+			for(var i in filterSelect)
+			{
+				validSet.push(filterSelect[i].icpsr);
+			}
+			hasFilter=1;
+			hideMembersUnselected();
+		}, 300);
+	});*/
+
+	dc.filterAll();
+	dc.renderAll();
+	decorateNominate(nominateScatterChart, dataToUse);
+}
