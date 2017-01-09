@@ -160,12 +160,13 @@ def congress(chamber="senate"):
 
     meta = metaLookup()
 
-    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress, dimweight=meta["nominate"]["second_dimweight"])
+    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress, dimweight=meta["nominate"]["second_dimweight"], nomBeta=meta["nominate"]["beta"])
     return output
 
 @app.route("/district")
 def district():
-    output = bottle.template("views/district")
+    meta = metaLookup()
+    output = bottle.template("views/district", dimweight=meta["nominate"]["second_dimweight"], nomBeta=meta["nominate"]["beta"])
     return output
 
 @app.route("/parties")
@@ -308,7 +309,7 @@ def rollcall(rollcall_id=""):
 
     meta = metaLookup()
 
-    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate']['second_dimweight'], mapParties=mapParties)
+    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate']['second_dimweight'], nomBeta=meta["nominate"]["beta"], mapParties=mapParties)
     return(output)
 
 
@@ -372,7 +373,7 @@ def geocode():
     if not q:
         return {"status": 1, "error_message": "No address specified."}
     else:
-        return addressToLatLong(q)
+        return addressToLatLong(bottle.request, q)
 
 @app.route("/api/districtLookup")
 def districtLookup():
@@ -382,7 +383,10 @@ def districtLookup():
     except:
         return {"status": 1, "error_message": "Invalid lat/long coordinates."}
 
-    results = latLongToDistrictCodes(lat, long)
+    results = latLongToDistrictCodes(bottle.request, lat, long)
+    if type(results) == type({}): # Quota error.
+        return results
+
     if len(results):
         orQ = []
         atLargeSet = []
@@ -402,12 +406,12 @@ def districtLookup():
                 else:
                     for dc in [1,98,99]:
                         orQ.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
-        results = getMembersByPrivate({"chamber": "House", "$or": orQ})
+        resultsM = getMembersByPrivate({"chamber": "House", "$or": orQ})
 
-        if "results" in results:
-            currentCong = next((x["district_code"] for x in results["results"] if x["congress"]==114), None)
-            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": 114}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": 114}]})
-            return {"status": 0, "results": results["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
+        if "results" in resultsM:
+            currentCong = next((x["district_code"] for x in resultsM["results"] if x["congress"]==115), None)
+            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": 115}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": 115}]})
+            return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
         else:
             return {"status": 1, "error_message": "No matches."}
     else:
