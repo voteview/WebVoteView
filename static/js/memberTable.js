@@ -26,7 +26,6 @@ function writeBioTable()
 	$("#memberList").fadeOut(200,function()
 	{
 		if(sortBy==undefined) { console.log("Default to sorting by name."); sortBy="name"; }
-
 		$("#memberList").html("");
 		if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioname > b.bioname ? 1 : -1; }); }
 		else if(sortBy=="party") { rC.sort(function(a,b) { return (a.party_noun==b.party_noun)?(a.bioname>b.bioname?1:-1):(a.party_noun>b.party_noun?1:-1); }); }
@@ -67,7 +66,6 @@ function writeBioTable()
 
 function constructPlot(member, margins)
 {
-	console.log(member);
 	if(margins==undefined)
 	{
 		var mImg = "20px";
@@ -114,7 +112,9 @@ function constructPlot(member, margins)
 	var bioTextInner = "<strong>"+memberNameFinal+"</strong><br/>"+member["party_noun"]+"<br/>"+member["state"]+"<br/>";
 	if(member["minElected"]!=undefined)
 	{
-		bioTextInner += "Elected "+member["minElected"];
+		if(chamber_param=="senate" && member["elected_senate"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_senate"])); }
+		else if(chamber_param=="house" && member["elected_house"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_house"])); }
+		else bioTextInner += "Elected "+member["minElected"];
 	}	
 	else if(member["congresses"]!=undefined)
 	{
