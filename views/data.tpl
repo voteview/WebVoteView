@@ -54,10 +54,10 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       </p>
       --->
 
-      <h3>DW-NOMINATE Flat Files</h3>
+      <h3>Roll call data</h3>
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Roll Call Data (.ORD Vote Matrices)</h4></a>
+	  <a href="#" class="dataHeader"><h4>Roll Call Vote Matrices (.ORD files)</h4></a>
 	  <div class="dataContent" style="display:none;">
 	    % include('data_dropdowns.tpl')
 	    <div class="dataLink">
@@ -66,6 +66,9 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 	  </div>
 	</div>
       </p>
+
+
+      <h3>DW-NOMINATE Flat Files</h3>
       <p>
 	<div class="dataContainer">
 	  <a href="#" class="dataHeader"><h4>Rollcall .DAT file</h4></a>
