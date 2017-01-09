@@ -274,11 +274,20 @@ function drawWidgets(error, data, geodata)
 		.mouseZoomable(false)
 		.group(xGroup)
 		.symbolSize(7)
+                .symbol(function (d) {
+		     try {
+			 var v = d.value.members[0].vote; 
+			 if(v == "Yea") {return "triangle-up"}; 
+			 if(v == "Nay") {return "triangle-down"};
+		     }catch(e){
+		     }
+		     return "circle"
+                }) 
 		.colorCalculator(function (d) { 
 			var color = "#CCC";
 			try {
 				if(d.value.members.length > 0){   
-				color = blendColors(d.value.members);
+				color = blendColors(d.value.members,false);
 				}
 			}catch(e){
 			}
