@@ -97,6 +97,7 @@
 	var party_param = "{{ party }}";
 	var mapParties=1;
 	var congressNum={{congStart}};
+	var chamber_param = "both";
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
