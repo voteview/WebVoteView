@@ -65,6 +65,7 @@ var chamber_param = "{{ chamber }}";
 var congressNum = {{congress}};
 var mapParties = 1;
 var nomDWeight = {{dimweight}};
+var nomBeta = {{ nomBeta }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
