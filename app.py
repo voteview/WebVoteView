@@ -19,6 +19,7 @@ from model.geoLookup import addressToLatLong, latLongToDistrictCodes
 import model.downloadXLS
 import model.stashCart
 import model.partyData
+import model.logQuota
 
 # Turn this off on production:
 devserver = int(open("server.txt","r").read().strip())
@@ -891,7 +892,7 @@ def outdate():
 
 @app.route("/api/version")
 def apiVersion():
-    return({'apiversion': 'Q4 Sep 22, 2016'})
+    return({'apiversion': 'Q4 Sep 22, 2016', 'request_hash': model.logQuota.generateSessionID(bottle.request)})
 
 if __name__ == '__main__':
     bottle.run(host='localhost', port=8080, debug=True)
