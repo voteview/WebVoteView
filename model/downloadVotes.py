@@ -1,6 +1,8 @@
 import time
+import os
 import json
 import traceback
+import math
 from searchMembers import cqlabel
 from searchParties import partyName, shortName
 from searchMeta import metaLookup
@@ -189,6 +191,10 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 							newV["party_short_name"] = shortName(memberMap["party_code"])
 							newV["party_code"] = memberMap["party_code"]
 							newV["state_abbrev"] = memberMap["state_abbrev"]
+							if os.path.isfile("./static/img/bios/"+str(memberMap["icpsr"]).zfill(6)+".jpg") or os.path.isfile("../static/img/bios/"+str(memberMap["icpsr"]).zfill(6)+".jpg"):
+								newV["img"] = str(memberMap["icpsr"]).zfill(6)+".jpg"
+							else:
+								newV["img"] = "silhouette.png"
 							
 							if memberMap["state_abbrev"] == "USA":
 								newV["district"] = "POTUS"
@@ -224,7 +230,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 				pivotCopy = [x for x in result if "x" in x and x["x"] is not None]
 				pivotCopy = sorted(pivotCopy, key=lambda x: x["x"])
 				if len(pivotCopy)%2:
-					median = [pivotCopy[math.ceil(len(pivotCopy)/2)-1]["icpsr"]]
+					median = [pivotCopy[int(math.ceil(len(pivotCopy)/2))-1]["icpsr"]]
 				else:
 					median = [pivotCopy[(len(pivotCopy)/2)-1]["icpsr"], pivotCopy[(len(pivotCopy)/2)]["icpsr"]]
 				for i in xrange(len(result)):
