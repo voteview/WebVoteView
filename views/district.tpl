@@ -101,13 +101,28 @@
 	</div>
 	<div class="col-md-4" style="height:300px;">
 		<div id="google_map" style="width:100%;height:100%;"></div>
+
+		<div id="scatter-container" style="margin:20px auto 10px auto;">
+			<div id="scatter-bg">
+				<svg id="svg-bg"></svg> 
+			</div>
+			<div id="scatter-chart">
+			</div>
+		</div>
 	</div>
 </div>
-<script>var congressNum=114;</script>
+<script>
+var congressNum=114;
+var mapParties = 1;
+var nomDWeight = {{dimweight}};
+var nomBeta = {{ nomBeta }};
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/district.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHpW18spAq_48_xICFApSrUttTzcWBDA8"></script>
