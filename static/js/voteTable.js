@@ -1,4 +1,4 @@
-var baseTipVoter = d3.select("body").append("div").attr("class", "d3-tip").style("visibility","hidden").attr("id","voterTooltip");
+var baseTipVoter = d3.select("body").append("div").attr("class", "d3-tip").style("visibility","hidden").attr("id","voterTooltip").style("min-width","320px");
 
 function outVotes(groupBy)
 {
@@ -38,9 +38,11 @@ function outVotes(groupBy)
 			"state_abbrev": filteredVotes[i]["state_abbrev"],
 			"icpsr": filteredVotes[i]["icpsr"],
 			"x": parseFloat(filteredVotes[i]["x"]),
-			"fullName": filteredVotes[i]["name"]
+			"fullName": filteredVotes[i]["name"],
 		};
 		if(filteredVotes[i]["flags"] != undefined) { voteSubset["flags"] = filteredVotes[i]["flags"]; }
+		if(filteredVotes[i]["img"] != undefined) { voteSubset["img"] = filteredVotes[i]["img"]; }
+
 		if(groupBy=="x" && isNaN(voteSubset["x"]))
 		{
 			errorCount+=1;
@@ -156,31 +158,44 @@ function outVotes(groupBy)
 						if(pp["prob"]<25) { var probText = '<span style="color:red;">'+pp["prob"]+'%</span>'; }
 						else { var probText = pp["prob"]+"%"; }
 
-						baseText += "<strong>Ideology Score:</strong> "+pp["x"]+" <em>DW-NOMINATE First Dimension</em><br/>"; 
-						if(pp["vote"]=="Abs") { baseText += "<strong>Not Voting</strong>. If "+pp["name"]+" had voted, we predict they would vote 'Yea' with "+probText+" probability.<br/>"; }
-						else { baseText += "<strong>Voted "+pp["vote"]+"</strong>. Predicted probability of this vote: "+probText+"."; }
+						baseText += "<strong>Ideology Score:</strong> "+pp["x"]+"<br/>(<em>DW-NOMINATE First Dimension</em>)<br/><br/>"; 
+						if(pp["vote"]=="Abs") { 
+							baseText += "<strong>Not Voting</strong>.";
+							if(pp["prob"]!=undefined) { baseText += "If "+pp["name"]+" had voted, we predict they would vote 'Yea' with "+probText+" probability.<br/>"; }
+						}
+						else 
+						{ 
+							baseText += "<strong>Voted "+pp["vote"]+"</strong>. ";
+							if(pp["prob"]!=undefined) { baseText += "Predicted probability of this vote: "+probText+"."; }
+						}
 		
-						if(pp["flags"]=="median") { baseText += "<br/><strong>Pivotal Voter:</strong> Median Voter."; }
-						else if(pp["flags"]=="fbPivot") { baseText += "<br/><strong>Pivotal Voter:</strong> 60th Vote for Cloture"; }
+						if(pp["flags"]=="median") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Median Voter."; }
+						else if(pp["flags"]=="fbPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> 60th Vote for Cloture"; }
+						else if(pp["flags"]=="veto") { baseText == "<br/><br/><strong>Pivotal Voter:</strong> Veto override."; }
 					}
 					else { baseText += "We do not have a score for this member yet.<br/>"; }
 
-					baseTipVoter.html(baseText);
-					var eW = parseInt(baseTipVoter.style("width"));
-					var eH = parseInt(baseTipVoter.style("height"));
-					var tH = parseInt($(this).height());
-					var tW = parseInt($(this).width());
+					var profileImg = $("<img>").attr("src","/static/img/bios/"+pp["img"]).css("width","80px").css("padding-right","10px").css("vertical-align","middle").addClass("pull-left");
+					var textChunk = $("<div></div>").css("font-size","0.9em").css("vertical-align","middle").css("padding-top","5px").html(baseText);
+					baseTipVoter.html("");
+					profileImg.appendTo(baseTipVoter);
+					textChunk.appendTo(baseTipVoter);
+
+					var eWV = parseInt(baseTipVoter.style("width"));
+					var eHV = parseInt(baseTipVoter.style("height"));
+					var tHV = parseInt($(this).height());
+					var tWV = parseInt($(this).width());
 					$("#voterTooltip").removeClass().addClass("d3-tip");
 					baseTipVoter.style("visibility","visible");
 					if($(this).offset().left < $(document).width() / 2)
 					{
-						baseTipVoter.style("left", ($(this).offset().left + (tW*0.6))+"px");
+						baseTipVoter.style("left", ($(this).offset().left + (tWV*0.6))+"px");
 					}
 					else
 					{
-						baseTipVoter.style("left", ($(this).offset().left - (tW*0.1) - eW)+"px");
+						baseTipVoter.style("left", ($(this).offset().left - (tWV*0.1) - eWV)+"px");
 					}
-					baseTipVoter.style("top", ($(this).offset().top + (tH/2) - (eH/2))+"px");
+					baseTipVoter.style("top", ($(this).offset().top + (tHV/2) - (eHV/2))+"px");
 				})
 				.on("mouseout",function() { baseTipVoter.style("visibility","hidden"); });
 			})(person);
