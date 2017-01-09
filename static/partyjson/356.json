@@ -1,19 +1,19 @@
 [
     {
         "congress": 51, 
-        "grandMean": 0.18, 
-        "grandMedian": 0.18, 
+        "grandMean": 0.181, 
+        "grandMedian": 0.181, 
         "grandSet": [
-            0.18
+            0.181
         ], 
         "nMembers": 1
     }, 
     {
         "congress": 66, 
-        "grandMean": -0.078, 
-        "grandMedian": -0.078, 
+        "grandMean": -0.077, 
+        "grandMedian": -0.077, 
         "grandSet": [
-            -0.078
+            -0.077
         ], 
         "nMembers": 1
     }
