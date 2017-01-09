@@ -10,22 +10,27 @@ client = pymongo.MongoClient()
 try:
 	dbConf = json.load(open("./model/db.json","r"))
 	nicknames = json.load(open("./model/nicknames.json","r"))
+	authFile = json.load(open("./model/auth.json","r"))
 except:
 	try:
 		dbConf = json.load(open("./db.json","r"))
+		authFile = json.load(open("./auth.json","r"))
 	except:
 		dbConf = {'dbname':'voteview'}
 		nicknames = []
 
 db = client[dbConf["dbname"]]
-authFile = json.load(open("./model/auth.json","r"))
 
 # Wrapper for getting user IP
 def getIP(request):
+	if request is None:
+		return "127.0.0.1"
 	return request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
 
 # Wrapper for getting user agent
 def getUserAgent(request):
+	if request is None:
+		return "Local Python"
 	return request.get_header("User-Agent")
 
 # Wrapper to load the salt and generate the user session ID
@@ -41,15 +46,21 @@ def generateSessionID(request):
 def logSearch(request, search):
 	doc = {"session": generateSessionID(request), "time": int(time.time())}
 	doc.update(search)
-
+	if "query" in doc and type(doc["query"])==type({}):
+		doc["query"] = json.dumps(doc["query"])
+	if "query_extra" in doc and type(doc["query_extra"])==type({}):
+		doc["query_extra"] = json.dumps(doc["query_extra"])
 	db.search_log.insert(doc)
 
 # Check user's quota status
 def checkQuota(request):
+	if request is None: # Local execution.
+		return {"status": 0}
+
 	session = generateSessionID(request)
 
-	r = db.api_quota.findOne({"session": session}, {"score": 1, "_id": 0})
-	if r["score"] <= authFile["quotaLimit"]:
+	r = db.api_quota.find_one({"session": session}, {"score": 1, "_id": 0})
+	if not r or r["score"] <= authFile["quotaLimit"]:
 		return {"status": 0}
 	else:
 		whitelisted = 0
@@ -75,8 +86,9 @@ def checkQuota(request):
 # Add a cost to user's quota
 def addQuota(request, score):
 	session = generateSessionID(request)
-	r = db.api_quota.findOne({"session": session}, {"score": 1, "_id": 0})
+	r = db.api_quota.find_one({"session": session}, {"score": 1, "_id": 0})
 	if r:
 		db.api_quota.update({"session": session}, {"$set": {"score": r["score"]+score}})
 	else:
 		db.api_quota.insert({"session": session, "score": score})
+
