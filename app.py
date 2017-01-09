@@ -120,6 +120,11 @@ def about():
     output = bottle.template('views/about')
     return output
 
+@app.route("/quota")
+@app.route("/abuse")
+def quota():
+    output = bottle.template("views/quota")
+    return output
 
 @app.route("/data")
 def data():
