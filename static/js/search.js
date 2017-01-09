@@ -680,3 +680,15 @@ function cleanLink(text)
 		 .toLowerCase();
 	return text;
 }
+
+$('#toggleAlert').click(function()
+{
+        if($('#alertWelcome').is(':hidden')) { $('#alertWelcome').show(); }
+        else { $('#alertWelcome').hide(); }
+});
+$('#closeAlert').click(function(e)
+{
+        if($('#alertWelcome').is(':hidden')) { $('#alertWelcome').show(); }
+        else { $('#alertWelcome').hide(); }
+	Cookies.set(e.currentTarget.parentElement.id, '1', {expires: 14});
+});
