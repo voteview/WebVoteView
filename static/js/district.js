@@ -1,3 +1,5 @@
+var tooltipIdeology = $("<div></div>").addClass("d3-tip").css("visibility","hidden").attr("id","tooltipIdeology").appendTo(document.body);
+
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
 var myLat, myLong;
 var slowTimer;
@@ -193,7 +195,6 @@ function resetResults()
 								.css("display","block").attr("id","memberList");
 				        console.log(data["resCurr"]);
 					memberList.appendTo("#resultsMembers");
-					//boxDiv.appendTo("#resultsMembers")
 					$.each(data["resCurr"], function(k,v)
 					{
 						constructPlot(v, 0);
@@ -201,7 +202,7 @@ function resetResults()
 				}
 
 				$("<h4>Historical Representatives</h4>").appendTo("#resultsMembers");
-				var table = $("<table><thead><tr><th>Congress</th><th>District</th><th>Party</th><th>Member</th></tr></thead></table>")
+				var table = $("<table><thead><tr><th>Congress</th><th>District</th><th>Nom</th><th>Party</th><th>Member</th></tr></thead></table>")
 						.addClass("table table-hover dc-data-table");
 				var tbody = $("<tbody></tbody>");
 
@@ -223,7 +224,7 @@ function resetResults()
 					{
 						var civilWarDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: "+v["state"]+" does not seat a delegation in the US Congress.");
 						var tr = $("<tr></tr>");
-						var td = $("<td colspan=\"4\"></td>");
+						var td = $("<td colspan=\"5\"></td>");
 						civilWarDiv.appendTo(td);
 						td.appendTo(tr);
 						tr.appendTo(tbody);
@@ -232,7 +233,7 @@ function resetResults()
 					{
 						var virgDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: West Virginia breaks away from Virginia to form a new state.");
 						var tr = $("<tr></tr>");
-						var td = $("<td colspan=\"4\"></td>");
+						var td = $("<td colspan=\"5\"></td>");
 						virgDiv.appendTo(td);
 						td.appendTo(tr);
 						tr.appendTo(tbody);
@@ -241,7 +242,7 @@ function resetResults()
 					{
 						var maineDiv = $("<div></div>").addClass("alert alert-info").html("<strong>1820</strong>: Maine votes to secede from Massachusetts and is admitted to the union as a state.");
 						var tr = $("<tr></tr>");
-						var td = $("<td colspan=\"4\"></td>");
+						var td = $("<td colspan=\"5\"></td>");
 						maineDiv.appendTo(td);
 						td.appendTo(tr);
 						tr.appendTo(tbody);
@@ -250,20 +251,43 @@ function resetResults()
 
 					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"];});
 					dateSet = congToYears(v["congress"]);
-					if(parseInt(lastResult["icpsr"])!=parseInt(v["icpsr"]))
+					
+					if(v["nominate"]!=undefined && v["nominate"]["dim1"]!=undefined) { var nomOffset = Math.floor((v["nominate"]["dim1"]+1.01)*50); }
+
+					$("<td>"+getGetOrdinal(v["congress"])+" ("+dateSet[0]+"-"+dateSet[1].toString().substr(2,2)+")</td>").appendTo(tr);
+					$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
+					if(v["nominate"]!=undefined && v["nominate"]["dim1"]!=undefined)
 					{
-						$("<td>"+getGetOrdinal(v["congress"])+" ("+dateSet[0]+"-"+dateSet[1].toString().substr(2,2)+")</td>").appendTo(tr);
-						$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
-						$("<td>"+v["party_noun"]+"</td>").css("border-left","3px solid "+colorSchemes[v["party_color"]][0]).appendTo(tr);
-						$("<td><a href=\"/person/"+v["icpsr"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
+						var nomDiv = $("<span></span>").css("border-right","3px solid "+colorSchemes[v["party_color"]][0])
+										.css("width",nomOffset+"%").css("height","100%").css("overflow","auto").css("display","block");
+							
+						var holdingTD = $("<td></td>").css("padding","0").css("width","20px");
+						nomDiv.appendTo(holdingTD);
+						holdingTD.appendTo(tr);
 					}
 					else
 					{
-						$("<td>"+getGetOrdinal(v["congress"])+" ("+dateSet[0]+"-"+dateSet[1].toString().substr(2,2)+")</td>").appendTo(tr);
-						$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
-						$("<td></td>").css("border-left","3px solid "+colorSchemes[v["party_color"]][0]).appendTo(tr);
 						$("<td></td>").appendTo(tr);
 					}
+					$("<td>"+v["party_noun"]+"</td>").appendTo(tr);
+					$("<td><a href=\"/person/"+v["icpsr"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
+
+					// Use a closure to pin tooltips onto each row. 
+					(function(v){
+						tr.on("mouseover", function()
+						{
+							$("#tooltipIdeology").html("");
+							if(v["nominate"]!=undefined) { $("#tooltipIdeology").html("<strong>Ideology Score:</strong> "+v["nominate"]["dim1"]); }
+							else { $("#tooltipIdeology").html("<strong>No Ideology Score</strong>"); }
+
+							$("#tooltipIdeology").removeClass().addClass("d3-tip");
+							$("#tooltipIdeology").css("left",($(this).offset().left+50)+"px");
+							$("#tooltipIdeology").css("top",$(this).offset().top+"px");
+							$("#tooltipIdeology").css("visibility","visible");			
+						});
+						tr.on("mouseout",function() { $("#tooltipIdeology").css("visibility","hidden"); });
+					})(v);
+
 					tr.appendTo(tbody);
 
 					lastResult = v;
@@ -271,95 +295,7 @@ function resetResults()
 				tbody.appendTo(table);
 				table.appendTo($("#resultsMembers"));
 				$("#resultsMembers").fadeIn();
-				nomPlotDistrict(data["results"]);
-
 			}
 		});
 	}
 
-
-
-
-function nomPlotDistrict(dataToUse)
-{
-	var nominateScatterChart = dc.scatterPlot("#scatter-chart");
-	console.log('ok');
-	var ndx = crossfilter(dataToUse);
-	var all = ndx.groupAll();
-	var xDimension = ndx.dimension(
-		function(d) 
-		{
-			if(d.nominate!=undefined)
-			{
-				var x = d.nominate.dim1;
-				var y = d.nominate.dim2;
-			}
-			else
-			{
-				var x = 999;
-				var y = 999;
-			}
-			return [x,y];
-		}
-	);
-	var xGroup = xDimension.group().reduce(
-		function(p, d)
-		{
-			p.members.push(d);
-			return p;
-		},
-	
-		function(p, d)
-		{
-			var index = p.members.indexOf(d);
-			if(index > -1) { p.members.splice(index, 1); }
-			return p;
-		},
-	
-		function() { return {members: []} ; }
-	);
-
-	nominateScatterChart
-	.width(600)
-	.height(290)
-	.margins({top:25,right:25,bottom:75,left:75})
-	.dimension(xDimension)
-	.mouseZoomable(false)
-	.group(xGroup)
-	.data(function(group) { return group.all().filter(function(d) { return d.key!=[999,999]; });})
-	.symbolSize(7)
-	.colorCalculator(function(d) {
-		var color = "#CCC";
-		try {
-			if(d.value.members.length > 0){
-				color = blendColors(d.value.members);
-			}
-		}catch(e){
-			console.log(e);
-		}
-		return color;
-	})
-	.highlightedSize(10)
-	.x(d3.scale.linear().domain([-1.0,1.0]))
-	.y(d3.scale.linear().domain([-1.2,1.2]));
-
-	/*nominateScatterChart.on("filtered", function()
-	{
-		if(updateFilterTimer) { clearTimeout(updateFilterTimer); }
-		updateFilterTimer = setTimeout(function()
-		{
-			var filterSelect= xDimension.top(Infinity);
-			validSet = [];
-			for(var i in filterSelect)
-			{
-				validSet.push(filterSelect[i].icpsr);
-			}
-			hasFilter=1;
-			hideMembersUnselected();
-		}, 300);
-	});*/
-
-	dc.filterAll();
-	dc.renderAll();
-	decorateNominate(nominateScatterChart, dataToUse);
-}
