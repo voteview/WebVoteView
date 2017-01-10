@@ -47,6 +47,9 @@ def prepVotes(voteQuery, person):
 					votes[i]["partyVote"] = next((v for k, v in iV["party_vote_counts"].iteritems() if k==str(person["party_code"])),None) 
 					if votes[i]["partyVote"] is not None:
 						votes[i]["pVSum"] = sum([1*v if int(k)<=3 else -1*v if int(k)<=6 else 0 for k, v in votes[i]["partyVote"].iteritems()])
+						votes[i]["yea"] = sum([1*v if int(k)<=3 else 0 for k, v in votes[i]["partyVote"].iteritems()])
+						votes[i]["nay"] = sum([1*v if int(k)>3 and int(k)<=6 else 0 for k, v in votes[i]["partyVote"].iteritems()])
+						votes[i]["abs"] = sum([1*v if int(k)>6 else 0 for k, v in votes[i]["partyVote"].iteritems()])
 						votes[i]["partyLabelVote"] = "Yea" if votes[i]["pVSum"]>0 else "Nay" if votes[i]["pVSum"]<0 else "Tie"
 					else:
 						votes[i]["partyLabelVote"] = "N/A"
