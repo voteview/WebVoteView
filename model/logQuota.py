@@ -52,13 +52,25 @@ def logSearch(request, search):
 		doc["query_extra"] = json.dumps(doc["query_extra"])
 	db.search_log.insert(doc)
 
+# Return remaining credits
+def getCredits(request):
+	if request is None:
+		return 0
+
+	session = generateSessionID(request)
+
+	r = db.api_quota.find_one({"session": session}, {"score": 1, "_id": 0})
+	if not r:
+		return authFile["quotaLimit"]
+	else:
+		return authFile["quotaLimit"] - r["score"]
+
 # Check user's quota status
 def checkQuota(request):
 	if request is None: # Local execution.
 		return {"status": 0}
 
 	session = generateSessionID(request)
-
 	r = db.api_quota.find_one({"session": session}, {"score": 1, "_id": 0})
 	if not r or r["score"] <= authFile["quotaLimit"]:
 		return {"status": 0}
