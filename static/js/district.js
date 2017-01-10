@@ -261,7 +261,7 @@ function resetResults()
 						var nomDiv = $("<span></span>").css("border-right","3px solid "+colorSchemes[v["party_color"]][0])
 										.css("width",nomOffset+"%").css("height","100%").css("overflow","auto").css("display","block");
 							
-						var holdingTD = $("<td></td>").css("padding","0").css("width","20px");
+						var holdingTD = $("<td></td>").css("padding","0").css("width","20px").css("border-left","1px solid grey").css("border-right","1px solid grey");
 						nomDiv.appendTo(holdingTD);
 						holdingTD.appendTo(tr);
 					}
@@ -281,7 +281,7 @@ function resetResults()
 							else { $("#tooltipIdeology").html("<strong>No Ideology Score</strong>"); }
 
 							$("#tooltipIdeology").removeClass().addClass("d3-tip");
-							$("#tooltipIdeology").css("left",($(this).offset().left+50)+"px");
+							$("#tooltipIdeology").css("left",($(this).offset().left+75)+"px");
 							$("#tooltipIdeology").css("top",$(this).offset().top+"px");
 							$("#tooltipIdeology").css("visibility","visible");			
 						});
