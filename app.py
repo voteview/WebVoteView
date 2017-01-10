@@ -926,7 +926,7 @@ def outdate():
 
 @app.route("/api/version")
 def apiVersion():
-    return({'apiversion': 'Q4 Sep 22, 2016', 'request_hash': model.logQuota.generateSessionID(bottle.request)})
+    return({'apiversion': 'Q1 Jan 10, 2017', 'request_hash': model.logQuota.generateSessionID(bottle.request), 'quota_credits': model.logQuota.getCredits(bottle.request)})
 
 if __name__ == '__main__':
     bottle.run(host='localhost', port=8080, debug=True)
