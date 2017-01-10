@@ -366,7 +366,7 @@
 			</div>
 			<div class="footerBig">
 				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
-				<span id="shareTextInput">http://voteview.polisci.ucla.edu/s/
+				<span id="shareTextInput">{{ base_url }}s/
 					<input id="shareLinkText" type="text" placeholder="type-short-name"> 
 					<input type="submit" value="Create" onClick="javascript:shareLink();javascript:clipboardCopyHack(document.getElementById('shareTextInput'))">
 				</span>
