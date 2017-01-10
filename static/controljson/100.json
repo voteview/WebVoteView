@@ -24114,14 +24114,14 @@
                 "state": "DE"
             }, 
             {
-                "both": 13.5, 
-                "house": 27.0, 
+                "both": 14.5, 
+                "house": 29.0, 
                 "senate": 0.0, 
                 "state": "GA"
             }, 
             {
-                "both": 95.0, 
-                "house": 90.0, 
+                "both": 94.0, 
+                "house": 88.0, 
                 "senate": 100.0, 
                 "state": "MD"
             }, 
@@ -24138,26 +24138,26 @@
                 "state": "NH"
             }, 
             {
-                "both": 81.0, 
-                "house": 62.0, 
+                "both": 79.0, 
+                "house": 58.0, 
                 "senate": 100.0, 
                 "state": "NJ"
             }, 
             {
-                "both": 82.5, 
-                "house": 65.0, 
+                "both": 83.5, 
+                "house": 67.0, 
                 "senate": 100.0, 
                 "state": "NY"
             }, 
             {
-                "both": 10.5, 
-                "house": 21.0, 
+                "both": 11.5, 
+                "house": 23.0, 
                 "senate": 0.0, 
                 "state": "NC"
             }, 
             {
-                "both": 39.5, 
-                "house": 29.0, 
+                "both": 39.0, 
+                "house": 28.0, 
                 "senate": 50.0, 
                 "state": "PA"
             }, 
@@ -24180,8 +24180,8 @@
                 "state": "RI"
             }, 
             {
-                "both": 7.0, 
-                "house": 14.0, 
+                "both": 8.5, 
+                "house": 17.0, 
                 "senate": 0.0, 
                 "state": "KY"
             }, 
@@ -24192,8 +24192,8 @@
                 "state": "VT"
             }, 
             {
-                "both": 10.0, 
-                "house": 20.0, 
+                "both": 11.0, 
+                "house": 22.0, 
                 "senate": 0.0, 
                 "state": "TN"
             }, 
@@ -24204,20 +24204,20 @@
                 "state": "OH"
             }, 
             {
-                "both": 6.5, 
-                "house": 13.0, 
+                "both": 8.5, 
+                "house": 17.0, 
                 "senate": 0.0, 
                 "state": "LA"
             }, 
             {
-                "both": 34.0, 
-                "house": 18.0, 
+                "both": 36.0, 
+                "house": 22.0, 
                 "senate": 50.0, 
                 "state": "IN"
             }, 
             {
-                "both": 81.5, 
-                "house": 63.0, 
+                "both": 80.5, 
+                "house": 61.0, 
                 "senate": 100.0, 
                 "state": "IL"
             }, 
@@ -24252,14 +24252,14 @@
                 "state": "AR"
             }, 
             {
-                "both": 65.5, 
-                "house": 31.0, 
+                "both": 68.0, 
+                "house": 36.0, 
                 "senate": 100.0, 
                 "state": "MI"
             }, 
             {
-                "both": 46.5, 
-                "house": 43.0, 
+                "both": 45.5, 
+                "house": 41.0, 
                 "senate": 50.0, 
                 "state": "FL"
             }, 
@@ -24270,26 +24270,26 @@
                 "state": "IA"
             }, 
             {
-                "both": 16.0, 
-                "house": 32.0, 
+                "both": 15.5, 
+                "house": 31.0, 
                 "senate": 0.0, 
                 "state": "TX"
             }, 
             {
-                "both": 41.5, 
-                "house": 33.0, 
+                "both": 44.0, 
+                "house": 38.0, 
                 "senate": 50.0, 
                 "state": "WI"
             }, 
             {
-                "both": 88.0, 
-                "house": 76.0, 
+                "both": 87.0, 
+                "house": 74.0, 
                 "senate": 100.0, 
                 "state": "CA"
             }, 
             {
-                "both": 78.0, 
-                "house": 56.0, 
+                "both": 81.5, 
+                "house": 63.0, 
                 "senate": 100.0, 
                 "state": "MN"
             }, 
@@ -24306,9 +24306,9 @@
                 "state": "KS"
             }, 
             {
-                "both": 75.0, 
-                "house": 83.0, 
-                "senate": 67.0, 
+                "both": 62.5, 
+                "house": 75.0, 
+                "senate": 50.0, 
                 "state": "NV"
             }, 
             {
@@ -24354,8 +24354,8 @@
                 "state": "SD"
             }, 
             {
-                "both": 82.0, 
-                "house": 64.0, 
+                "both": 80.0, 
+                "house": 60.0, 
                 "senate": 100.0, 
                 "state": "WA"
             }, 
@@ -24378,8 +24378,8 @@
                 "state": "OK"
             }, 
             {
-                "both": 22.5, 
-                "house": 45.0, 
+                "both": 22.0, 
+                "house": 44.0, 
                 "senate": 0.0, 
                 "state": "AZ"
             }, 
