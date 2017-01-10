@@ -23,6 +23,7 @@ svg.map {
 
 #mapTooltip { position: absolute; z-index: 200; }
 #voterTooltip { position: absolute; z-index: 200; }
+#tooltipIdeology { position: absolute; z-index: 200; }
 .d3-tip {
   line-height: 1;
   padding: 12px;
