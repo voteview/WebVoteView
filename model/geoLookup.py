@@ -134,8 +134,7 @@ def latLongToDistrictCodes(request, lat, lng):
 	res = []
 	for r in db.districts.find(gquery,{'properties':1}):
 		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
-		#if int(rec[1]):
-		for cng in range(rec[2],rec[3]+1):
+		for cng in range(int(rec[2]),int(rec[3])+1):
 			res.append( [stateNameToAbbrev(rec[0])["state_abbrev"],cng,int(rec[1])] )
 
 	logQuota.addQuota(request, 2) # Costlier because it's more intense on our side.
@@ -158,7 +157,6 @@ if __name__=="__main__":
 	if len(atLargeSet):
 		print "At-large congresses"
 		for l in atLargeSet:
-			print l
 			sameCongDistrict = len([x for x in orSet if x["congress"]==l])
 			if sameCongDistrict: # Have a district, just need the at large.
 				pass
