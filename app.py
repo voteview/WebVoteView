@@ -383,6 +383,7 @@ def geocode():
 
 @app.route("/api/districtLookup")
 def districtLookup():
+    maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
     try:
         lat = float(defaultValue(bottle.request.params.lat,0))
         long = float(defaultValue(bottle.request.params.long,0))
@@ -415,8 +416,8 @@ def districtLookup():
         resultsM = getMembersByPrivate({"chamber": "House", "$or": orQ})
 
         if "results" in resultsM:
-            currentCong = next((x["district_code"] for x in resultsM["results"] if x["congress"]==115), None)
-            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": 115}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": 115}]})
+            currentCong = next((x["district_code"] for x in resultsM["results"] if x["congress"]==maxCongress), None)
+            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": maxCongress}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": maxCongress}]})
             return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
         else:
             return {"status": 1, "error_message": "No matches."}
