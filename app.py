@@ -52,6 +52,10 @@ def zipTimes():
     return zip(timeLabels, tN)
 
 
+def getBase(urlparts):
+    domain = urlparts.scheme + "://" + urlparts.netloc + "/"
+    return domain
+
 # Helper function for handling bottle arguments and setting defaults:
 def defaultValue(x,value = None):
     return x is not "" and x or value
@@ -72,6 +76,8 @@ def callback(path):
 def index():
     clearTime()
     timeIt("begin")
+
+    BASE_URL = getBase(bottle.request.urlparts)
 
     try:
         argDict = {}
@@ -106,7 +112,7 @@ def index():
             except:
                 pass
         timeIt("doneAssembly")
-        output = bottle.template("views/search", args=argDict, timeSet=zipTimes())
+        output = bottle.template("views/search", args=argDict, timeSet=zipTimes(), base_url=BASE_URL)
     except:
         output = bottle.template("views/error", errorMessage = traceback.format_exc())
         #errorMessage="Error: One or more of the parameters you used to call this page was misspecified.")
@@ -872,12 +878,13 @@ def stash(verb):
 @app.route("/api/shareableLink", method="POST")
 def shareLink():
     try:
+        BASE_URL = getBase(bottle.request.urlparts)
         id = defaultValue(bottle.request.params.id, "")
         text = defaultValue(bottle.request.params.text, "")
     except:
         return {"errorMessage": "Invalid ID or text"}
 
-    return model.stashCart.shareableLink(id, text)
+    return model.stashCart.shareableLink(id, text, base_url = BASE_URL)
 
 
 @app.route("/api/addAll")
