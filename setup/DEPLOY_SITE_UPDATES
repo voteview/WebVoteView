@@ -56,6 +56,9 @@ EOF
 	rm -rf vv-backup
 	mv voteview vv-backup
 	mv WebVoteView voteview
+	touch /var/www/voteview/static/maintenance
+	service nginx start
+	downtimeStop=$(date +%s)
 
 	echo "Restoring database dump"
 	cd dump_db
@@ -65,10 +68,8 @@ EOF
 	echo "Done restoring database dump"
 
 	echo "Starting server to substitute directory"
-	nginx -v
-	service nginx start
 	touch /etc/uwsgi/reboot
-	downtimeStop=$(date +%s)
+	rm /var/www/voteview/static/maintenance
 	echo "Done deployment."
 	echo "Previous version of site in /var/www/vv-backup"
 	echo "Current version of site in /var/www/voteview"

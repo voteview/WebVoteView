@@ -1,7 +1,7 @@
-bottle==0.12.9
-email-validator==1.0.1
-fuzzywuzzy==0.11.1
-pymongo==3.3.0
-requests==2.11.1
+bottle==0.12.13
+email-validator==1.0.2
+fuzzywuzzy==0.14.0
+pymongo==3.4.0
+requests==2.12.4
 titlecase==0.8.1
-xlwt==1.1.2
+xlwt==1.2.0
