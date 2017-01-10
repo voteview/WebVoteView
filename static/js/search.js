@@ -633,7 +633,7 @@ function shareLink()
 				$('#shareTextInput').hide();
 				var a = $("<a></a>").attr("href",res["link"]).html(res["link"]).appendTo("#shareTextLink");
 				$("#shareTextLink").show();
-				if("http://voteview.polisci.ucla.edu/s/"+shortLink!=res["link"])
+				if("{{STATIC_URL}}" + "/s/"+shortLink!=res["link"])
 				{
 					$("#shareLinkStatus").hide().html("Link copied to clipboard.<br/>Note: The link has been modified.").fadeIn();
 				}
