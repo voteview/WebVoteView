@@ -273,7 +273,7 @@ def setSearch(id, search):
 	db.stash.update({'id': id}, {'$set': {'search': search, 'old': savedVoteIDs, 'votes': [], 'expiry': expires}}, upsert=False, multi=False)
 	return {"id": id, "search": search, "errors": errorMessages, "old": savedVoteIDs, "votes": []}
 
-def shareableLink(id, text):
+def shareableLink(id, text, base_url):
 	errorMessages = []
 
 	#text = re.sub('[^a-zA-Z0-9_\- ]','',text)
@@ -313,7 +313,7 @@ def shareableLink(id, text):
 			combVotes = list(set(votes + old))
 			expires = indefExpiry()
 			db.stash.insert_one({'id': internalText, 'old': combVotes, 'expiry': expires})
-			link = "http://voteview.polisci.ucla.edu/s/"+internalText
+			link = base_url + "s/"+internalText
 	else:
 		pass
 
