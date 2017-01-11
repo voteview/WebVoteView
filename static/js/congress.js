@@ -213,9 +213,26 @@ function compositionBar()
 
 function hideMembersUnselected()
 {
+
 	$("#memberList > li.memberResultBox").each(function(i, d) {
 		if(validSet.indexOf(parseInt($(d).attr("id")))!=-1 || validSet.length==0) { $(d).show(); }
 		else { $(d).hide(); }
 	});
+
+        // Set number of columns by number of selected members
+        if(validSet.length < 5){
+	        $("#memberList").css("columns","1").css("width","25%");
+	} else if (validSet.length < 9)
+	{
+	        $("#memberList").css("columns","2").css("width","50%")
+	} else if (validSet.length < 13)
+	{
+	        $("#memberList").css("columns","3").css("width","75%")
+	} else
+	{
+	        $("#memberList").css("columns","4").css("width","100%")
+	}
+
+        
 }
 
