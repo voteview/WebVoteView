@@ -1,3 +1,5 @@
+var isDoingSelect=0;
+
 /*
     Draws the background circles, labels and text for the scatter chart
 */
@@ -134,9 +136,12 @@ function decorateNominate(oc,data) {
 	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
             var vn = data.rollcalls[0].nominate;
 
-            var gggg = gg.append("g").attr("id","heat-map").attr("transform","translate(75,50)");
+            var gggg = gg.append("g")
+                          .attr("id","heat-map")
+                          .attr("transform","translate(75,53)"); //JBL: Note sure why we need the extra 3px y offset, but it seems to work. 
+
 	    nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1], 
-	   		    7.1, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#ffffcc"]);
+	   		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#ffffcc"]);
 
 	       // Calculate where the YN text axis goes.
 	       function closestpt(vn) {
@@ -174,8 +179,8 @@ function decorateNominate(oc,data) {
 		// .append("ellipse")
 		// .attr("cx", circleCenter.x + radiusX*vn.mid[0])
 		// .attr("cy", circleCenter.y - radiusY*vn.mid[1])
-		// .attr("rx", 2)
-		// .attr("ry", 2)
+		// .attr("rx", 3)
+		// .attr("ry", 3)
  		// .attr("fill","green");  
 
 		var ynpts =    [circleCenter.x + radiusX/scale*(ynp.xstar+ynp.offsetX),
@@ -219,7 +224,55 @@ function decorateNominate(oc,data) {
 		    .attr("class", "fitbox")
 		    .attr("x", xAxisMax - 75)
 		    .attr("y", yAxisMax - 25);
-
-
 	}
+
+        // JBL: Tooltip under development as of 10-Jan-17
+        // Tooltip for Prob(yea)
+        if (plotCut==1) { // only tooltip if cutline exists...
+
+            // Collecting info to find vote prob for heat map
+	    if(!$(".hm_tooltip").length) // Make sure we don't already have a tooltip
+	    {
+		$("<div></div>")
+			.attr("id","hm_tooltip")
+			.css("z-index",10).css("visibility","hidden")
+			.css("opacity",0.8).appendTo(document.body); 
+	    }
+
+            var brush = ocSVG.select(".brush");
+
+	    brush.on("mouseover",function() { if(!isDoingSelect) { $("#hm_tooltip").css("visibility","visible").css("opacity",0.8); }});
+            brush.on("mousemove",function() {
+			var ypdiv = $("#hm_tooltip");
+                        var cx = this.getBBox().width/2,
+                            cy = this.getBBox().height/2+1.5, 
+                            x  =  (d3.mouse(this)[0] - cx)/394.5,
+                            y  = -(d3.mouse(this)[1] - cy)/134,
+			    yeaProb = nomProbYea(x,y,vn.mid[0],vn.mid[1],vn.spread[0],
+                                                     vn.spread[1],nomDWeight,nomBeta);
+			    // Magic constants!
+
+	                    if ((x*x+y*y)<1.0) {
+                                if(yeaProb>0.99) {
+        		           dispProb = ">0.99"
+                                } else if(yeaProb<0.01) {
+                                   dispProb = "<0.01"
+                                } else {
+                                   dispProb = "=" + Math.round(100*yeaProb)/100;         
+                                }
+				if(!isDoingSelect) ypdiv.css("visibility","visible");
+				ypdiv.html("Pr(Yea)" + dispProb ).css("z-index",10)
+				   .css("left",d3.event.pageX+"px")
+				   .css("top",(d3.event.pageY-28)+"px");
+			    }
+	                    else { // Cursor is on nominate plot, but not in the Oval 
+                                ypdiv.css("visibility","hidden"); 
+			    }
+                      }); 
+            // Don't show tooltip if user is making a range selection
+            brush.on("mousedown",function() { $("#hm_tooltip").css("visibility","hidden"); isDoingSelect=1; });     
+            brush.on("mouseup",function() { $("#hm_tooltip").css("visibility","visible"); isDoingSelect=0; });     
+	    brush.on("mouseout", function() { $("#hm_tooltip").css("visibility","hidden"); });
+	};
 }
+
