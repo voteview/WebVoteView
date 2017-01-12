@@ -100,7 +100,7 @@ def addQuota(request, score):
 	session = generateSessionID(request)
 	r = db.api_quota.find_one({"session": session}, {"score": 1, "_id": 0})
 	if r:
-		db.api_quota.update({"session": session}, {"$set": {"score": r["score"]+score}})
+		db.api_quota.update_one({"session": session}, {"$set": {"score": r["score"]+score}})
 	else:
 		db.api_quota.insert({"session": session, "score": score})
 
