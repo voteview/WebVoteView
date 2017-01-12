@@ -30,11 +30,6 @@ function nomProbYea(x1,x2,m1,m2,s1,s2,w,b) {
 
 function nominateHeatmap(svg,m1,m2,s1,s2,b,w,width,height,cells,colorRamp) {
     //div for tooltip to live in...
-    var div = d3.select("body").append("div")
-	.attr("class", "hm_tooltip")
-        .attr("id","hm_tooltip")
-	.style("opacity", 0);
-
     var SQRT3 = Math.sqrt(3);
 
     var nominateScale = {x: d3.scale.linear().domain([-1,1]).range([0,width]) ,
@@ -53,6 +48,7 @@ function nominateHeatmap(svg,m1,m2,s1,s2,b,w,width,height,cells,colorRamp) {
     var x1unit = 2.0/cells * SQRT3;
     var x2unit = 2.0/cells ;
 
+    console.log("Precomputing heat map hexes.");
     for (var x2 = -1-x2unit; x2 <= 1+x2unit; x2+=x2unit*3/4/w) {
 	var offset = odd ? 0 : x1unit/4.0; 
 	for (var x1 = offset; x1 <= Math.sqrt(1+2.2*x1unit-x2*x2); x1+=x1unit/2) {
@@ -61,6 +57,10 @@ function nominateHeatmap(svg,m1,m2,s1,s2,b,w,width,height,cells,colorRamp) {
 	}
 	odd = !odd;
     }
+
+	console.log("Hexes precomputed: "+points.length);
+	points = $.grep(points, function(p) { return(p.p>0.05); });
+	console.log("Post-pruning hexes: "+points.length);
 
     //Set the hexagon radius
     var hexRadius = width/cells/2.0 + 1;
@@ -181,4 +181,4 @@ function nominateHeatkey(key,h,colors) {
 //var leg = d3.select("#hm_legend").append("svg").attr("align","right")
 
 //nominateHeatkey(leg,h=height*0.66,colorRamp);
-//nominateHeatmap(svg, 0.5, 0.0, 0.3, 0.0, b=7.1, w, width, cells=40, colorRamp=colorRamp);
+//nominateHeatmap(svg, 0.5, 0.0, 0.3, 0.0, 7.1, w, width, cells=40, colorRamp=colorRamp);
