@@ -127,9 +127,9 @@
 			<h3>Biography</h3>
 			{{ !person["biography"] }}
 			% if not "bioguide_id" in person:
-			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">Biographical Directory of the United States Congress</a></small>
+			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">The Biographical Directory of the United States Congress</a></small>
 			% else:
-			<br/><small><em>Courtest of</em> <a href="http://bioguide.congress.gov/scripts/biodisplay.pl?index={{person["bioguide_id"]}}">Biographical Directory of the United States Congress</a></small>
+			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/scripts/biodisplay.pl?index={{person["bioguide_id"]}}">Biographical Directory of the United States Congress</a></small>
 			% end
 		</div>
 	</div>
