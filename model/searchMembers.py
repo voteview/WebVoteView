@@ -178,7 +178,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	elif api=="R":
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate.dim1": 1, "nominate.dim2": 1, "nominate.geo_mean_probability": 1, "cqlabel": 1, "district_code": 1, "chamber": 1, "congresses": 1}
         elif api=="exportCSV" or api == "exportORD":
-                fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1}
+                fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate": 1, "district_code": 1, "chamber": 1, "state_name_trunc": 1, "last_means": 1, "occupancy": 1, "name": 1}
 	elif api=="districtLookup":
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "nominate.dim1": 1, "nominate.dim2": 1, "district_code": 1, "_id": 0, "chamber": 1, "congresses": 1}
         else:
@@ -189,8 +189,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
         print(api)
 	res = db.voteview_members.find(searchQuery, fieldSet)
 
-	if "$text" in searchQuery:
-		sortedRes = res.sort([('score', {'$meta': 'textScore'})])
+
+        if "$text" in searchQuery:
+		sortedRes = res.sort([('score', {'$meta': 'textScore'})]).limit(20)
 	elif api=="exportORD":
                 db.voteview_members.ensure_index([('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)], name="ordIndex")
                 sortedRes = res.sort([('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)])
