@@ -26,12 +26,12 @@
 					<th width="9%" style="text-align:right;">Date</th>
                         		<th width="62%">Description</th>
 					<th width="6%">Party Vote</th>
-					<th width="6%">Memb. Vote</th>
+					<th width="6%">Member Vote</th>
 					<th width="6%" style="text-align:center;">
 					<span class="glyphicon glyphicon-question-sign"
 						style="margin-left:0px;width:2px;vertical-align:middle;cursor:pointer;" 
 						data-toggle="tooltip" data-html="true" data-position="bottom"
-						title="<div align=&quot;left&quot; style=&quot;font-weight:normal;&quot;><strong><u>Vote Probability</u></strong><br/>This column represents how likely the member was to cast the vote that they ultimately did cast. Unlikely votes are colored red.<br/><br/>For members who abstained from voting, we show the probability they would have voted 'Yea' if they had voted, colored in grey.</div>">
+						title="<div align=&quot;left&quot; style=&quot;font-weight:normal;&quot;><strong><u>Vote Probability</u></strong><br/>How likely the member was to cast the vote that they ultimately did cast. Unlikely votes are colored red.<br/><br/>For members who abstained from voting, we show the probability they would have voted 'Yea' if they had voted, colored in grey.</div>">
 					</span>
 					<br>Vote Prob.</th>
 					<th width="7%" style="text-align:right;">Result</th>
@@ -81,12 +81,19 @@
 			    <td>{{vote["partyLabelVote"]}}</td>
 			    <td>
 				% if vote["partyLabelVote"]!="N/A" and vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
-					<span style="color:red;">{{vote["myVote"]}}
+					<span style="color:red;">{{vote["myVote"]}}</span>
 				% else:
 					{{vote["myVote"]}}
 				% end
 			    </td>
-			    <td align="right">
+			    % if not "myProb" in vote:
+			    %	imputed = "0000"
+			    % elif vote["myVote"]=="Abs":
+			    % 	imputed = "0"+str(vote["myProb"]).zfill(3)
+			    % else:
+			    % 	imputed = "1"+str(vote["myProb"]).zfill(3)
+			    % end
+			    <td align="right" data-impute-sort="{{imputed}}">
 				% if "myProb" in vote:				 
 					% if vote["myVote"]=="Abs":	  
 					<span style="color:#b3b3b3;">{{fixVoteProb(vote["myProb"])}}%</span>
@@ -107,6 +114,7 @@
 		% if not int(skip):
                 </table>
 		% end
+		{{ vote["yea"] }} {{ vote["nay"] }}
 % else:
 	<h3>Member has not voted on any votes matching search terms.</h3>
 % end
