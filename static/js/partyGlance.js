@@ -279,9 +279,13 @@ q
 		var minCong = parties[i][1]["minCongress"];
 		var maxCong = parties[i][1]["maxCongress"];
 		var textLabel = "Active ";
-		if(minCong==maxCong) { textLabel += "in the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"-"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)"; }
-		else if(maxCong>=max) { console.log(parties[i][1]); textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) onwards"; }
-		else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) until the "+getGetOrdinal(maxCong)+" Congress (<small>"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)."; }
+		try
+		{
+			if(minCong==maxCong) { textLabel += "in the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"-"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)"; }
+			else if(maxCong>=max) { console.log(parties[i][1]); textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) onwards"; }
+			else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) until the "+getGetOrdinal(maxCong)+" Congress (<small>"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)."; }
+		}
+		catch(e) { textLabel += "Error here"; }
 
 		try { var partyColorScheme = partyColorMap[partyNameSimplify(parties[i][1]["name"])];}
 		catch(e) { var partyColorScheme = "grey"; }
