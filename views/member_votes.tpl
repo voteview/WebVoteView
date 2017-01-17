@@ -114,7 +114,6 @@
 		% if not int(skip):
                 </table>
 		% end
-		{{ vote["yea"] }} {{ vote["nay"] }}
 % else:
 	<h3>Member has not voted on any votes matching search terms.</h3>
 % end
