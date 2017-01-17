@@ -35,7 +35,6 @@ $(document).ready(function()
 
 function nomPlot()
 {
-	console.log('ok');
 	var ndx = crossfilter(resultCache["results"]);
 	var all = ndx.groupAll();
 	var xDimension = ndx.dimension(
@@ -71,9 +70,11 @@ function nomPlot()
 		function() { return {members: []} ; }
 	);
 
-	nominateScatterChart
+    nominateScatterChart
+        .clipPadding(4)
+        .transitionDuration(250) // JBL:Speed up symbol size changes on brush per AB request                                             
 	.width(890)
-	.height(432)
+	.height(790*nomDWeight+100)
 	.margins({top:25,right:25,bottom:75,left:75})
 	.dimension(xDimension)
 	.mouseZoomable(false)
@@ -93,7 +94,7 @@ function nomPlot()
 	})
 	.highlightedSize(10)
 	.x(d3.scale.linear().domain([-1.0,1.0]))
-	.y(d3.scale.linear().domain([-1.2,1.2]));
+	.y(d3.scale.linear().domain([-1.0,1.0]));
 
 	nominateScatterChart.on("filtered", function()
 	{
@@ -113,7 +114,30 @@ function nomPlot()
 
 	dc.filterAll();
 	dc.renderAll();
-	decorateNominate(nominateScatterChart, resultCache);
+        decorateNominate(nominateScatterChart, resultCache);
+
+        // Make brush box appear on click
+        var scb = nominateScatterChart.select(".brush");
+        scb.on('click', function(){
+  	  var extent = nominateScatterChart.brush().extent();
+	  var x = nominateScatterChart.x().invert(d3.mouse(this)[0]),
+	      y = nominateScatterChart.y().invert(d3.mouse(this)[1]);
+	  // Only draw box if there isn't one already there...
+ 	  if (extent[0][0]==extent[1][0] & extent[0][1]==extent[1][1]) {
+	      if (x*x + y*y <= 1) {
+		  var insideBox = $.grep(nominateScatterChart.data(), function(n, i) {
+			return (n["value"]["members"][0]["nominate"]["dim1"] >= x-0.025 &&
+				n["value"]["members"][0]["nominate"]["dim1"] <= x+0.025 &&
+				n["value"]["members"][0]["nominate"]["dim2"] >= y-0.025/nomDWeight &&
+				n["value"]["members"][0]["nominate"]["dim2"] <= y+0.025/nomDWeight);
+		 });
+		if(insideBox.length) { nominateScatterChart.brush().extent([[x-0.025,y-0.025/nomDWeight],[x+0.025,y+0.025/nomDWeight]]).event(scb); }
+		else { nominateScatterChart.brush().extent([[x,y],[x,y]]).event(scb); }
+	      } else {
+		  nominateScatterChart.brush().extent([[x,y],[x,y]]).event(scb);
+	      }
+	  }
+        });
 }
 
 function rechamber()
