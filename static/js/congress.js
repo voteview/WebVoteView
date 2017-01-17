@@ -244,12 +244,12 @@ function hideMembersUnselected()
 	});
 
         // Set number of columns by number of selected members
-        if(validSet.length < 5){
+        if(validSet.length && validSet.length < 5){
 	        $("#memberList").css("columns","1").css("width","25%");
-	} else if (validSet.length < 9)
+	} else if (validSet.length && validSet.length < 9)
 	{
 	        $("#memberList").css("columns","2").css("width","50%")
-	} else if (validSet.length < 13)
+	} else if (validSet.length && validSet.length < 13)
 	{
 	        $("#memberList").css("columns","3").css("width","75%")
 	} else
