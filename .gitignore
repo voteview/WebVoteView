@@ -8,5 +8,6 @@ static/deprecated
 static/img/wiki/*
 **/*deprecated*
 **/deprecated/*
+static/img/twitterCard/*
 server.txt
 static/maintenance
