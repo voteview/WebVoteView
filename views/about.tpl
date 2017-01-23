@@ -46,7 +46,7 @@ This project was made possibe by support from <a href="http://www.hewlett.org">T
 					<strong>Project Lead:</strong>
 					<p style="padding-left:50px;">
 						<a href="http://www.polisci.ucla.edu/people/jeffrey-b-lewis">Jeffrey B. Lewis</a><br/>
-						Professor and Chair, University of California Los Angeles
+						Professor, University of California Los Angeles
 					</p>
 				</li>
 				<li>
