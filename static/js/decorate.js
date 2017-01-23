@@ -1,21 +1,21 @@
 var isDoingSelect=0;
+var delayUpdateToolip;
 
 /*
     Draws the background circles, labels and text for the scatter chart
 */
 function decorateNominate(oc,data) {
 
+        var scmargins = oc.margins()
 	var width = oc.width();
         var height = oc.height();
-
-	var margin = 50;
-	var marginCircle = 25; // Distance of the main circle to the axis
+	var margin = scmargins['left']-scmargins['right'];
+	var marginCircle = scmargins['right']; // Distance of the main circle to the axis
 	var tickLength = 15;
-	var scale = 1.0; // sets radius of the outer circle in nominate units
 
-	// Calculate circle attrs
+	// Calculate ellipse attrs
 	var radiusX = (width - margin)/2 - marginCircle;
-        var radiusY = (nomDWeight*width - margin)/2 - marginCircle;
+        var radiusY = nomDWeight*radiusX;
 	var circleCenter = { "x": (width + margin)/2, "y": (height - margin)/2 };
 
 	// Select the base SVG
@@ -27,19 +27,6 @@ function decorateNominate(oc,data) {
 	// Place bg stuff in SVG tree in front of .chart-body scatter points
 	var svgbg = ocSVG.insert("g",".chart-body");	
         var gg = svgbg.append("g").attr("id","scatter-background");
-
-
-        /* Check alignment....	
-        gg
-		.append("ellipse")
-                        .attr("stroke","blue")
-                        .attr("stroke-width","2px")
-                        .attr("fill","none")
-			.attr("rx", radiusX)
-                        .attr("ry", radiusY)
-			.attr("cx", circleCenter.x)
-		        .attr("cy", circleCenter.y);
-        */
 
 	// X-axis
         var xAxisMin = circleCenter.x - radiusX;
@@ -110,6 +97,17 @@ function decorateNominate(oc,data) {
 	// before the brush group does it. --JBL	 
 
 	var ggg = ocSVG.insert("g",".brush");
+
+                plotCut=0;
+                gg
+  		   .append("ellipse")
+                        .attr("stroke","blue")
+                        .attr("stroke-width","1px")
+                        .attr("fill","none")
+			.attr("rx", radiusX)
+                        .attr("ry", radiusY)
+			.attr("cx", circleCenter.x)
+		        .attr("cy", circleCenter.y);
         
         var plotCut = 1;
         if (data.rollcalls==undefined || data.rollcalls[0].nominate==undefined || 
@@ -130,18 +128,19 @@ function decorateNominate(oc,data) {
         {
             if(data.rollcalls[0].congress==0) var vn = data.rollcalls[0].nominate.imputed;
             else var vn = data.rollcalls[0].nominate;
-            console.log(vn);
+            //console.log(vn);
         }
 
 	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
             var vn = data.rollcalls[0].nominate;
-
+	    
+	    var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
             var gggg = gg.append("g")
                           .attr("id","heat-map")
-                          .attr("transform","translate(75,53)"); //JBL: Note sure why we need the extra 3px y offset, but it seems to work. 
+                          .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")"); 
 
 	    nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1], 
-	   		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#ffffcc"]);
+	    		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#ffffcc"]);
 
 	       // Calculate where the YN text axis goes.
 	       function closestpt(vn) {
@@ -163,30 +162,10 @@ function decorateNominate(oc,data) {
 	        
                 var ynp = closestpt(vn);
 
-                // JBL: Uncomment followed to debug problems with location of Y and N labels
-
-	        // PT on cutline closest to centroid
-	        //gg
-		// .append("ellipse")
-		// .attr("cx", circleCenter.x + radiusX*ynp.xstar)
-		// .attr("cy", circleCenter.y - radiusY*ynp.ystar)
-		// .attr("rx", 2)
-		// .attr("ry", 2)
- 		// .attr("fill","purple");  
-
-	        // PT on cutline at mid1,mid2
-	        //gg
-		// .append("ellipse")
-		// .attr("cx", circleCenter.x + radiusX*vn.mid[0])
-		// .attr("cy", circleCenter.y - radiusY*vn.mid[1])
-		// .attr("rx", 3)
-		// .attr("ry", 3)
- 		// .attr("fill","green");  
-
-		var ynpts =    [circleCenter.x + radiusX/scale*(ynp.xstar+ynp.offsetX),
-				circleCenter.y - radiusY/scale*(ynp.ystar-ynp.offsetY),
-				circleCenter.x + radiusX/scale*(ynp.xstar-ynp.offsetX),
-				circleCenter.y - radiusY/scale*(ynp.ystar+ynp.offsetY)];
+ 		var ynpts =    [circleCenter.x + radiusX*(ynp.xstar+ynp.offsetX),
+				circleCenter.y - radiusY*(ynp.ystar-ynp.offsetY),
+				circleCenter.x + radiusX*(ynp.xstar-ynp.offsetX),
+				circleCenter.y - radiusY*(ynp.ystar+ynp.offsetY)];
 
 	        var angle = 57.29578*ynp.angle;
 
@@ -226,7 +205,7 @@ function decorateNominate(oc,data) {
 		    .attr("y", yAxisMax - 25);
 	}
 
-        // JBL: Tooltip under development as of 10-Jan-17
+
         // Tooltip for Prob(yea)
         if (plotCut==1) { // only tooltip if cutline exists...
 
@@ -238,20 +217,18 @@ function decorateNominate(oc,data) {
 			.css("z-index",10).css("visibility","hidden")
 			.css("opacity",0.8).appendTo(document.body); 
 	    }
-
-            var brush = ocSVG.select(".brush");
-
+            var yunits = radiusY;
+	    var xunits = radiusX;
+            var brush = ocSVG.select(".brush") 
 	    brush.on("mouseover",function() { if(!isDoingSelect) { $("#hm_tooltip").css("visibility","visible").css("opacity",0.8); }});
             brush.on("mousemove",function() {
 			var ypdiv = $("#hm_tooltip");
-                        var cx = this.getBBox().width/2,
-                            cy = this.getBBox().height/2+1.5, 
-                            x  =  (d3.mouse(this)[0] - cx)/394.5,
-                            y  = -(d3.mouse(this)[1] - cy)/134,
+                        var cx = circleCenter.x-hmTranslate.x,
+                            cy = circleCenter.y-hmTranslate.y,
+                            x  =  (d3.mouse(this)[0] - cx)/xunits,
+                            y  = -(d3.mouse(this)[1] - cy)/yunits,
 			    yeaProb = nomProbYea(x,y,vn.mid[0],vn.mid[1],vn.spread[0],
                                                      vn.spread[1],nomDWeight,nomBeta);
-			    // Magic constants!
-
 	                    if ((x*x+y*y)<1.0) {
                                 if(yeaProb>0.99) {
         		           dispProb = ">0.99"
@@ -261,13 +238,15 @@ function decorateNominate(oc,data) {
                                    dispProb = "=" + Math.round(100*yeaProb)/100;         
                                 }
 				if(!isDoingSelect) ypdiv.css("visibility","visible");
-				ypdiv.html("Pr(Yea)" + dispProb ).css("z-index",10)
+				ypdiv.html("Pr(Yea)" + dispProb).css("z-index",10)
 				   .css("left",d3.event.pageX+"px")
 				   .css("top",(d3.event.pageY-28)+"px");
 			    }
 	                    else { // Cursor is on nominate plot, but not in the Oval 
                                 ypdiv.css("visibility","hidden"); 
 			    }
+		            //console.log("x=" + d3.mouse(this)[0] + ",y=" + d3.mouse(this)[1]);
+		            //console.log("x=" + x + ",y=" + y);
                       }); 
             // Don't show tooltip if user is making a range selection
             brush.on("mousedown",function() { $("#hm_tooltip").css("visibility","hidden"); isDoingSelect=1; });     

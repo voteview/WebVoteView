@@ -140,6 +140,9 @@ function blendColors(members,voteShade = true)
 		else
 		{
 			rgbColor = d3.rgb(partyColors["Yea"+partyNameSimplify(members[i].party_short_name)]);
+		        if(members[i].vote=='Abs') {
+			    rgbColor = d3.rgb(partyColors["Abs"+partyNameSimplify(members[i].party_short_name)]);
+			}
 		}
 		r = r + rgbColor.r;
 		g = g + rgbColor.g;
