@@ -19,8 +19,8 @@
 				in American history on a map of the United States and on a liberal-conservative ideological map, including information about the ideological position of
 				voting Senators and Representatives. For more information about Voteview and NOMINATE, click <a href="/about">here</a>. <strong>Academics interested in NOMINATE data can download it on our <a href="/data">data page</a>.</strong><br/><br/>
 
-				Below, you can search every rollcall vote. By default, the most recent votes are shown below. Suggested searches will pre-populate automatically if you need help thinking of something to look for,
-				or you can use the advanced search to select various parameters. We are still working to get this site ready for the public and would love to hear
+				Below, you can search every rollcall vote. By default, the most recent votes are shown below. Suggested searches will show up in the search bar and you can use the advanced search to change the conditions for your query. You can also check out the <a href="/district">history of your district</a> and see how <a href="/parties">political parties have evolved over time.</a>
+				We are still working to get this site ready for the public and would love to hear
 				your feedback which you can send on the <a href="/about">About</a> page.
 			</div>
 		</div>
