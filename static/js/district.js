@@ -51,7 +51,8 @@ function resetResults()
 		if($("#cachedLat").val()) { myLat = $("#cachedLat").val(); }
 		if($("#cachedLong").val()) { myLong = $("#cachedLong").val(); }
 		if($("#addressInput").val()) { setTimeout(function(){latLongWrapper();},1000); }
-		$("ul#testData li").on("click",function(){ console.log($(this).val()); loadText(this.innerHTML); });
+  	        $("ul#testData li").on("click",function(){ console.log($(this).val()); loadText(this.innerHTML); });
+		$("ul#notableExamples li").on("click",function(){ console.log($(this).val()); loadText(this.innerHTML); });
 	});
 
 	if(navigator.geolocation)
@@ -177,7 +178,7 @@ function resetResults()
 		console.log(lat);
 		console.log(lng);
  		var markerPos = {lat: lat, lng: lng};
-		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: false});
+	    var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: true, zoomControl: true});
 		var market = new google.maps.Marker({position: markerPos, map: map});
 
 		$.ajax({
