@@ -4,16 +4,12 @@ userid=$(whoami) # Ensure we're running as root
 hostname=$(hostname) # Ensure we're on voteview.
 
 if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
-	echo "Beginning git download of latest master"
+	echo "Beginning SCP of latest deployed code."
 	mkdir update-voteview
 	cd update-voteview
-	wget https://github.com/JeffreyBLewis/WebVoteView/archive/master.zip
-	unzip master.zip
-	rm master.zip
-	mv WebVoteView-master/ ../WebVoteView/
+	scp -r rudkin@128.97.229.160:/var/www/voteview/ ./
 	cd ..
-	rmdir update-voteview
-	rm -rf WebVoteView/git-synchronize
+	mv update-voteview WebVoteView
 
 	echo "Ensuring we have the right python module requirements"
 	pip install -r WebVoteView/setup/requirements.txt -U
@@ -24,22 +20,13 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	rm WebVoteView/robots.txt
 	mv WebVoteView/robots-prod.txt WebVoteView/robots.txt
 
-	echo "Copying secure authentication files from existing deployment."
-	cp voteview/model/*.json WebVoteView/model/
-
 	echo "Connecting to development server for database dump"
 	ssh rudkin@128.97.229.160 << EOF
 	echo "Creating a database backup"
 	mkdir dump_db
 	cd dump_db
-	echo "Dumping members..."
-	mongodump --collection voteview_members --db voteview
-	echo "Dumping votes..."
-	mongodump --collection voteview_rollcalls --db voteview
-	echo "Dumping parties..."
-	mongodump --collection voteview_parties --db voteview
-	echo "Dumping meta..."
-	mongodump --colection voteview_metadata --db voteview
+	echo "Dumping full database..."
+	mongodump 
 	echo "Done dump"
 EOF
 	echo "Connecting to server to download dump..."
@@ -61,11 +48,25 @@ EOF
 	downtimeStop=$(date +%s)
 
 	echo "Restoring database dump"
+	mkdir dump_db_output_log
+	cd dump_db_output_log
+	mongodump -v -c search_log -d voteview
+	mongodump -v -c stash -d voteview
+	cd ..
+	echo "Zipping backup of search log"
+	zip -r backup_search_log_$((start)).zip dump_db_output_log
+
 	cd dump_db
 	mongorestore --drop dump
 	cd ..
 	rm -rf dump_db
-	echo "Done restoring database dump"
+	echo "Done restoring dev database dump."
+	
+	cd dump_db_output_log
+	mongo voteview --eval "db.search_log.drop()"
+	mongo voteview --eval "db.stash.drop()"
+	mongorestore dump
+	echo "Done restoring search log and stash log."
 
 	echo "Starting server to substitute directory"
 	touch /etc/uwsgi/reboot
