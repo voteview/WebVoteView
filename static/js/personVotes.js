@@ -71,6 +71,15 @@ $.tablesorter.addParser({
 	},
 	type: 'numeric'
 });
+$.tablesorter.addParser({
+	id: 'probFunc', is: function(s) { return false },
+	format: function(s, table, cell)
+	{
+		var cell = $(cell);
+		return cell.attr("data-impute-sort");
+	},
+	type: 'numeric'
+});
 
 $(document).ready(function(){
 	cookieId = Cookies.get('stash_id');
@@ -83,7 +92,7 @@ $(document).ready(function(){
 				else { $("#loadStash").hide(); console.log('No stash votes.'); }
 			}});
 	}
-	$("#voteDataTable").tablesorter({headers: {5: {sorter: 'splitFunc'}}});
+	$("#voteDataTable").tablesorter({headers: {4: {sortInitialOrder: 'desc', sorter: 'probFunc'}, 5: {sorter: 'splitFunc'}}});
 	$("#voteDataTable").bind("tablesorter-ready", function() { $('[data-toggle="tooltip"]').tooltip(); });
 	$("#voteDataTable").bind("sortEnd",hideDates);
 });

@@ -9,6 +9,7 @@ import traceback
 import time
 import re
 import json
+import logQuota
 from downloadVotes import waterfallText, waterfallQuestion
 
 client = pymongo.MongoClient()
@@ -39,7 +40,7 @@ SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" i
 
 fieldTypes = {"codes": "codes", "codes.Clausen": "code", "codes.Peltzman": "code", "codes.Issue": "code",
 		"description": "flexstr", "congress": "int", "short_description": "flexstr", "vote_desc": "flexstr", 
-		"vote_document_text": "flexstr", "bill": "str", "alltext": "alltext", "yea": "int", "nay": "int", 
+		"vote_document_text": "flexstr", "bill": "str", "vote_title": "flexstr", "vote_question_text": "flexstr", "alltext": "alltext", "yea": "int", "nay": "int", 
 		"yea_count": "int", "nay_count": "int", "percent_support": "int", "key_flags": "key_flags",
 	        "support": "int", "voter": "voter", "chamber": "chamber", "saved": "saved", "dates": "date", "id": "strexact",
 		"startdate": "date", "enddate": "date", "keyvote": "key_flags"}
@@ -114,7 +115,7 @@ def queryDispatcher(textQ):
 	if not ":" in textQ:
 		# If there's a literal string, adding description results in a regex over just that field
 		# Otherwise it will hit the fulltext index, just like alltext would
-		textQ = "description: " + textQ
+		textQ = "alltext: " + textQ
 		simpleSearch, needScore, errorMessage = parseFreeformQuery(textQ)
 		return [simpleSearch, needScore, errorMessage]
 
@@ -933,7 +934,8 @@ def addToQueryDict(queryDict, queryField, toAdd):
 def query(qtext, startdate=None, enddate=None, chamber=None, 
           flds = ["id", "Issue", "Peltzman", "Clausen", "description", "descriptionLiteral",
                   "descriptionShort", "descriptionShortLiteral"],
-          icpsr=None, rowLimit=5000, jsapi=0, rapi=0, sortDir=-1, sortSkip=0, sortScore=1, sortRoll=0, idsOnly=0):
+          icpsr=None, rowLimit=5000, jsapi=0, rapi=0, sortDir=-1, sortSkip=0, sortScore=1, sortRoll=0, idsOnly=0,
+	  request=None):
 	""" Takes the query, deals with any of the custom parameters coming in from the R package,
 	and then dispatches freeform text queries to the query dispatcher.
 
@@ -961,12 +963,18 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	sortSkip: int
 		Pagination is slow as hell in MongoDB, so we can take a maximum ID to make
 		mock pagination. Then, we should return a "nextID" parameter for the next page.
+	request: Bottle.request Object
+		Passes user request details to the log/quota module; if none, assume command line.
 	
 	Returns
 	-------
 	dict
 		Dict of results to be run through json.dumps for later output
 	"""
+
+	quotaCheck = logQuota.checkQuota(request) # Are we over quota?
+	if quotaCheck["status"]: # Yes, so error out
+		return {"recordcount": 0, "rollcalls": [], "errormessage": quotaCheck["errormessage"]}
 
 	if qtext:
 		qtext = qtext.encode('utf-8')
@@ -981,7 +989,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	needScore = 0
 	# Process the date
 	if startdate is None and enddate is None and chamber is None and qtext is None and not jsapi:
-		return { 'recordcount':0,'rollcalls':[],'errormessage':"No query specified."}
+		logQuota.addQuota(request, 1) # Add to quota.
+		logQuota.logSearch(request, {"query": "", "resultNum": -1}) # Log the failed search: No search
+		return { 'recordcount':0,'rollcalls':[],'errormessage':"No query specified."} # Return the regular error.
 
 	if startdate is not None or enddate is not None:
 		nextyear = str(date.today().year + 1)
@@ -998,6 +1008,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			else:
 				queryDict["date"]["$lte"] = enddate
 		if startdate and enddate and startdate>enddate:
+			logQuota.addQuota(request, 1) # Add to quota
+			logQuota.logSearch(request, {"query": "Invalid query: Start date after emd date.", "resultNum": -1}) # Log the failed search: No search
 			return { 'recordcount':0,'rollcalls':[],'errormessage':"Start Date should be on or before End Date"}
 
 	# Process the chamber
@@ -1008,6 +1020,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		elif chamber=="H":
 			chamber="House"
 		if chamber not in ["House","Senate"]:
+			logQuota.addQuota(request, 1) # Add to quota
+			logQuota.logSearch(request, {"query": "Invalid query: Invalid chamber", "resultNum": -1}) # Log the failed search: no search
 			return { 'recordcount':0,'rollcalls':[],'errormessage':"Invalid chamber entered. Chamber can be \"House\" or \"Senate\"."}
 
 		queryDict["chamber"] = chamber
@@ -1017,14 +1031,20 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			from urllib import unquote_plus
 			qtext = unquote_plus(qtext)
 		except:
+			logQuota.addQuota(request, 1)
+			logQuota.logSearch(request, {"query": "Invalid query: Character encoding error?", "query_extra": qtext, "resultNum": -1})
 			return { 'recordcount':0,'rollcalls':[],'errormessage':'Error resolving query string.'}
 
 		wordSet = [x.lower() for x in qtext.split()]
 		anyWords = 0
 		if all([w.lower() in stopWords for w in wordSet]):
+			logQuota.addQuota(request, 1)
+			logQuota.logSearch(request, {"query": "Invalid Query: All words on stoplist.", "query_extra": qtext, "resultNum": -1})
 			return { 'recordcount':0, 'rollcalls':[], 'errormessage':"All the words you searched for are too common. Please be more specific with your search query."}
 
 		if len(qtext)>2500:
+			logQuota.addQuota(request, 1)
+			logQuota.logSearch(request, {"query": "Invalid Query: Too long.", "query_extra": qtext, "resultNum": -1})
 			return { 'recordcount':0,'rollcalls':[],'errormessage':"Query is too long. Please shorten query length."}
 
 		try:
@@ -1035,9 +1055,13 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			if errorMessage:
 				print "Error parsing the query"
 				print errorMessage
+				logQuota.addQuota(request, 1)
+				logQuota.logSearch(request, {"query": "Invalid Query; parsing issue.", "query_extra": qtext, "resultNum": -1})
 				return {'recordcount':0,'rollcalls':[],'errormessage':errorMessage}
 		except Exception as e:
 			print traceback.format_exc()
+			logQuota.addQuota(request, 1)
+			logQuota.logSearch(request, {"query": "Invalid Query; parsing issue.", "query_extra": qtext, "resultNum": -1})
 			return { 'recordcount':0,'rollcalls':[],'errormessage':"Error parsing freeform query. We are working on building out query debug messages to provide better feedback.", 'detailederror': traceback.format_exc(), 'q': qtext}
 
 		try:
@@ -1064,6 +1088,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	if needScore:
 		fieldReturns["score"] = {"$meta": "textScore"}
 
+	quotaCost=0
 	votes = db.voteview_rollcalls
 	try:
 		sortSkip = int(sortSkip)
@@ -1084,23 +1109,31 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 			rowLimit = baseRowLimit
 			if not jsapi:
 				results = votes.find(queryDict,fieldReturns).limit(rowLimit+5)
-                        else:
-                                if sortScore:
-                                        results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(sortSkip).limit(rowLimit+5)
+			else:
+				if sortScore:
+					results = votes.find(queryDict,fieldReturns).sort([("score", {"$meta": "textScore"})]).skip(sortSkip).limit(rowLimit+5)
                                 else:
-                                        results = votes.find(queryDict,fieldReturns).sort("date_chamber_rollnumber", sortDir).skip(sortSkip).limit(rowLimit+5)
+					results = votes.find(queryDict,fieldReturns).sort("date_chamber_rollnumber", sortDir).skip(sortSkip).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
 				if "many text expressions" in mongoErr:
+					logQuota.addQuota(request, 1)
+					logQuota.logSearch(request, {"query": "Invalid Query: Multiple full-text.", "query_extra": queryDict, "resultNum": -1})
 					return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Search queries are limited to one full-text search. Please use quotation marks to search for exact matches or simplify search query.'}
 				else:
+					logQuota.addQuota(request, 1)
+					logQuota.logSearch(request, {"query": "Invalid Query: Unknown error", "query_extra": queryDict, "resultNum": -1})
 					return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Error during database query. Detailed error: '+mongoErr}
 			except:
 				print traceback.format_exc()
+				logQuota.addQuota(request, 1)
+				logQuota.logSearch(request, {"query": "Invalid Query: Unknown error.", "query_extra": queryDict, "resultNum": -1})
 				return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Unknown error during database query. Please check query syntax and try again.'}
 		except:
 			print traceback.format_exc()
+			logQuota.addQuota(request, 1)
+			logQuota.logSearch(request, {"query": "Invalid Query: Unknown error.", "query_extra": queryDict, "resultNum": -1})
 			returnDict = {"rollcalls": [], "recordcount": 0, "errormessage": "Invalid query."}
 			return returnDict			
 	else:
@@ -1115,11 +1148,17 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		except pymongo.errors.OperationFailure, e:
 			try:
 				junk, mongoErr = e.message.split("failed: ")
+				logQuota.addQuota(request, 1)
+				logQuota.logSearch(request, {"query": "Invalid Query: Unknown error: "+mongoErr, "query_extra": queryDict, "resultNum": -1})
 				return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Error during database query. Detailed error: '+mongoErr}
 			except:
+				logQuota.addQuota(request, 1)
+				logQuota.logSearch(request, {"query": "Invalid Query: Unknown error.", "query_extra": queryDict, "resultNum": -1})
 				return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Unknown error during database query. Please check query syntax and try again.'}
 		except:
 			print traceback.format_exc()
+			logQuota.addQuota(request, 1)
+			logQuota.logSearch(request, {"query": "Invalid Query: Unknown error", "query_extra": queryDict, "resultNum": -1})
 			returnDict = {"rollcalls": [], "recordcount": 0, "errormessage": "Invalid query."}
 			return returnDict
 
@@ -1158,7 +1197,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	returnDict["rollcalls"] = mr
 	returnDict["recordcount"] = len(mr)
 	returnDict["recordcountTotal"] = resCount
-	returnDict["apiversion"] = "Q3 2016-10-13"
+	returnDict["apiversion"] = "Q3 2017-01-08"
 	returnDict["nextId"] = nextId 
 	if "$text" in queryDict:
 		returnDict["fulltextSearch"] = [v for k, v in queryDict["$text"].iteritems()][0]
@@ -1170,6 +1209,17 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 	endTime = time.time()
 	elapsedTime = endTime - beginTime
 	returnDict["elapsedTime"] = round(elapsedTime,3)
+
+	# Quota cost depends on execution time.
+	if elapsedTime>10:
+		logQuota.addQuota(request, 10)
+		logQuota.logSearch(request, {"query": queryDict, "query_extra": "Very slow query", "resultNum": resCount})
+	elif elapsedTime>2:
+		logQuota.addQuota(request, 2)
+		logQuota.logSearch(request, {"query": queryDict, "query_extra": "Slow query", "resultNum": resCount})
+	else:
+		logQuota.addQuota(request, 1)
+		logQuota.logSearch(request, {"query": queryDict, "resultNum": resCount})
 
 	print len(returnDict["rollcalls"]),
 	print resCount

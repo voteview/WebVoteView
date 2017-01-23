@@ -191,6 +191,7 @@ var congressNum = "{{ str(rollcall["congress"]).zfill(3) }}";
 var rcID = "{{ rollcall["id"] }}";
 var mapParties = {{ mapParties }};
 var nomDWeight = {{ dimweight }};
+var nomBeta = {{ nomBeta }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
@@ -204,3 +205,4 @@ var nomDWeight = {{ dimweight }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteCharts.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/voteFilterbar.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/nominateHeatMap.js"></script>

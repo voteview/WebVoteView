@@ -633,7 +633,7 @@ function shareLink()
 				$('#shareTextInput').hide();
 				var a = $("<a></a>").attr("href",res["link"]).html(res["link"]).appendTo("#shareTextLink");
 				$("#shareTextLink").show();
-				if("http://voteview.polisci.ucla.edu/s/"+shortLink!=res["link"])
+				if("{{STATIC_URL}}" + "/s/"+shortLink!=res["link"])
 				{
 					$("#shareLinkStatus").hide().html("Link copied to clipboard.<br/>Note: The link has been modified.").fadeIn();
 				}
@@ -680,3 +680,15 @@ function cleanLink(text)
 		 .toLowerCase();
 	return text;
 }
+
+$('#toggleAlert').click(function()
+{
+        if($('#alertWelcome').is(':hidden')) { $('#alertWelcome').show(); }
+        else { $('#alertWelcome').hide(); }
+});
+$('#closeAlert').click(function(e)
+{
+        if($('#alertWelcome').is(':hidden')) { $('#alertWelcome').show(); }
+        else { $('#alertWelcome').hide(); }
+	Cookies.set(e.currentTarget.parentElement.id, '1', {expires: 14});
+});

@@ -1,11 +1,11 @@
 [
     {
         "congress": 28, 
-        "grandMean": 0.236, 
+        "grandMean": 0.235, 
         "grandMedian": 0.229, 
         "grandSet": [
-            0.125, 
-            0.354
+            0.124, 
+            0.353
         ], 
         "nMembers": 3
     }

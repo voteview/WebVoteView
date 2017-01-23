@@ -1,7 +1,10 @@
+var isDoingSelect=0;
+
 /*
     Draws the background circles, labels and text for the scatter chart
 */
 function decorateNominate(oc,data) {
+
 	var width = oc.width();
         var height = oc.height();
 
@@ -9,7 +12,6 @@ function decorateNominate(oc,data) {
 	var marginCircle = 25; // Distance of the main circle to the axis
 	var tickLength = 15;
 	var scale = 1.0; // sets radius of the outer circle in nominate units
-	var cutlineMult = 1.0; // sets how far into space the cutline is blasted off into. (Aaron added this, but it doesn't do anything?)
 
 	// Calculate circle attrs
 	var radiusX = (width - margin)/2 - marginCircle;
@@ -23,158 +25,21 @@ function decorateNominate(oc,data) {
 	ocSVG.selectAll(".axis").remove();
 
 	// Place bg stuff in SVG tree in front of .chart-body scatter points
-	var svgbg = ocSVG.insert("g",".chart-body");
-		    
-	svgbg
-	        .append("clipPath")
-			.attr("id", "scatterclip")
+	var svgbg = ocSVG.insert("g",".chart-body");	
+        var gg = svgbg.append("g").attr("id","scatter-background");
+
+
+        /* Check alignment....	
+        gg
 		.append("ellipse")
+                        .attr("stroke","blue")
+                        .attr("stroke-width","2px")
+                        .attr("fill","none")
 			.attr("rx", radiusX)
                         .attr("ry", radiusY)
 			.attr("cx", circleCenter.x)
 		        .attr("cy", circleCenter.y);
-
-	var gg = svgbg.append("g").attr("id","scatter-background");
-
-	d3.select("clipPath#scatterclip")
-		.append("ellipse")
-		.attr("cx", circleCenter.x)
-		.attr("cy", circleCenter.y)
-		.attr("rx", radiusX)
-                .attr("ry", radiusY);
-     /* Checking to be sure midpoint is where it should be...
-        vn = data.rollcalls[0].nominate;
-	gg
-		.append("ellipse")
-		.attr("cx", circleCenter.x + radiusX*vn.mid[0])
-		.attr("cy", circleCenter.y - radiusY*vn.mid[1])
-		.attr("rx", 5)
-		.attr("ry", 5)
-		.attr("fill","black");  */
-
-
-	gg
-		.append("ellipse")
-		.attr("cx", circleCenter.x)
-		.attr("cy", circleCenter.y)
-		.attr("rx", radiusX)
-		.attr("ry", radiusY)
-		.attr("id","dashed-circle");
-
-	// Hacky way to shade region where yea vote is expected...
-	var plotCut=1;
-	if(data.rollcalls==undefined || data.rollcalls[0].nominate==undefined || data.rollcalls[0].nominate.x==undefined || data.rollcalls[0].nominate.pre < 0.05)
-	{
-		plotCut=0;
-	}
-	else
-	{
-	    if(data.rollcalls[0].congress==0) var vn = data.rollcalls[0].nominate.imputed;
-	    else var vn = data.rollcalls[0].nominate;
-	    console.log(vn);
-	}
-
-	// Hack to gracefully fail when we don't have nominate data. AR
-	if(plotCut)
-	{
-
-		var angle = vn.slope == null ? NaN : vn.slope;
-		var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
-		switch( cs ) {
-			case 0:
-				var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-						 circleCenter.y-radiusY*vn.y[0]/scale ],
-						 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-						 circleCenter.y-radiusY*(vn.y[0]+10)/scale ], 
-						 [ circleCenter.x+radiusX*(vn.x[1]+10)/scale,  
-						 circleCenter.y-radiusY*(vn.y[1]+10)/scale ], 
-						 [ circleCenter.x+radiusX*(vn.x[1]+10)/scale,
-						 circleCenter.y-radiusY*(vn.y[1])/scale ], 
-						 [ circleCenter.x+radiusX*vn.x[1]/scale,
-						 circleCenter.y-radiusY*vn.y[1]/scale  ] ];
-				break;
-			case 1:
-        			var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-						circleCenter.y-radiusY*vn.y[0]/scale*1.2],
-                        	 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2 ], 
-                        	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2 ], 
-                        	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale ,
-                        	   circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
-                        	 [ circleCenter.x+radiusX*vn.x[1]/scale,
-                        	   circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
-			        break;
-			case 2:
-			        var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-	                           circleCenter.y-radiusY*(vn.y[0])/scale*1.2 ],
-	                        [  circleCenter.x+radiusX*(vn.x[0])/scale,
-	                           circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ], 
-        	                [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-				  circleCenter.y-radiusY*(vn.y[0]-10)/scale*1.2 ],
-      	                   	[ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                           	  circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ],
-                         	[ circleCenter.x+radiusX*vn.x[1]/scale,
-                           	  circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
-				break;
-			case 3:
-        			var polyData = [ [ circleCenter.x+radiusX*vn.x[0]/scale,
-                        	   circleCenter.y-radiusY*vn.y[0]/scale*1.2 ],
-                        	 [ circleCenter.x+radiusX*(vn.x[0])/scale,
-                        	   circleCenter.y-radiusY*(vn.y[0]+10)/scale*1.2 ], 
-                        	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1]-10)/scale*1.2], 
-                        	 [ circleCenter.x+radiusX*(vn.x[1]-10)/scale,
-                        	   circleCenter.y-radiusY*(vn.y[1])/scale*1.2 ], 
-                        	 [ circleCenter.x+radiusX*vn.x[1]/scale,
-                        	   circleCenter.y-radiusY*vn.y[1]/scale*1.2 ] ]; 
-				break;
-		}
-		if (isNaN(angle)) { polyData = [[0,0 ], [0, width],[width, width],[width, 0]] };
-
-		// This is the polygon for the shaded area.
-		gg.selectAll("polygon")
-			.data([polyData])
-			.enter()
-			.append("polygon")
-			.attr("points",function(d) {
-				return d.map( function(d) {
-					return [d[0], d[1]].join(",");
-				}).join(" ");
-			})
-			.attr("id","yea-semi")
-			.attr("style","stroke:#000000;stroke-width:2;fill:#FFFFED;clip-path:url(#scatterclip)");
-
-		// Exterior circle? I don't really know what this is giving us, so I suppress it
-		/*gg
-		.append("ellipse")
-			.attr("cx", circleCenter.x)
-			.attr("cy", circleCenter.y)
-			.attr("rx", radiusX/scale)
-			.attr("ry", radiusY/scale)
-			.attr("id", "dashed-circle").attr("style","fill:#00ff00;");*/
-
-		// This is the cut line -- suppressed because the stroke from the shaded polygon works better?
-	        /*gg
-		.append("line")
-			.attr("x1", radiusX/scale*vn.x[0] + circleCenter.x)
-			.attr("x2", radiusX/scale*vn.x[1] + circleCenter.x)
-			.attr("y1", circleCenter.y - radiusY/scale*vn.y[0])
-			.attr("y2", circleCenter.y - radiusY/scale*vn.y[1])
-			.attr("id","cutline")
-			.attr("style","stroke:#000000;stroke-width:2; clip-path:url(#scatterclip)");*/
-	}
-	else
-	{
-		// Yet another copy of the main circle?
-		gg
-		.append("ellipse")
-			.attr("cx", circleCenter.x)
-			.attr("cy", circleCenter.y)
-			.attr("rx", radiusX/scale)
-	                .attr("ry", radiusY/scale)
-			.attr("id", "dashed-circle");
-	}
+        */
 
 	// X-axis
         var xAxisMin = circleCenter.x - radiusX;
@@ -242,17 +107,90 @@ function decorateNominate(oc,data) {
 	  
 	// Problem is that with Y/N on top we can't select point under/near the Y/N
 	// Need a way to insert after the dots but before the brush. Putting the Y/N group right
-	// before the brush group does it. --JBL	  
-	var ggg = ocSVG.insert("g",".brush");
-	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
-		// Code to calculate where the YN text axis goes.
-		var ynpts =    [circleCenter.x + radiusX/scale*(vn.mid[0]+vn.spread[0]),
-				circleCenter.y - radiusY/scale*(vn.mid[1]+vn.spread[1]),
-				circleCenter.x + radiusX/scale*(vn.mid[0]-vn.spread[0]),
-				circleCenter.y - radiusY/scale*(vn.mid[1]-vn.spread[1])];
-		var angle = 57.29578*Math.atan((vn.spread[1]*nomDWeight)/(vn.spread[0]));
+	// before the brush group does it. --JBL	 
 
-		// This is basically a hack based on what quadrant the text angle is in.
+	var ggg = ocSVG.insert("g",".brush");
+        
+        var plotCut = 1;
+        if (data.rollcalls==undefined || data.rollcalls[0].nominate==undefined || 
+            data.rollcalls[0].nominate.x==undefined || data.rollcalls[0].nominate.pre < 0.05) 
+        {
+                plotCut=0;
+                gg
+  		   .append("ellipse")
+                        .attr("stroke","black")
+                        .attr("stroke-width","1px")
+                        .attr("fill","none")
+			.attr("rx", radiusX)
+                        .attr("ry", radiusY)
+			.attr("cx", circleCenter.x)
+		        .attr("cy", circleCenter.y);
+        }
+        else
+        {
+            if(data.rollcalls[0].congress==0) var vn = data.rollcalls[0].nominate.imputed;
+            else var vn = data.rollcalls[0].nominate;
+            console.log(vn);
+        }
+
+	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
+            var vn = data.rollcalls[0].nominate;
+
+            var gggg = gg.append("g")
+                          .attr("id","heat-map")
+                          .attr("transform","translate(75,53)"); //JBL: Note sure why we need the extra 3px y offset, but it seems to work. 
+
+	    nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1], 
+	   		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#ffffcc"]);
+
+	       // Calculate where the YN text axis goes.
+	       function closestpt(vn) {
+		    var b = vn.slope;
+                    var angle = Math.atan( (vn.spread[1]*nomDWeight)/(vn.spread[0]) );
+		    var a = vn.mid[1] - b*vn.mid[0];
+		    var xstar = -b*a/(1+b*b);
+		    var obj = {
+			angle: angle,
+			b: b,
+			a: a,
+		        xstar: xstar,
+			ystar: b*xstar + a,
+			offsetX: 0.05*Math.cos(angle)*Math.sign(vn.spread[0]),
+			offsetY: (vn.slope>0?1:-1)*0.05*Math.sin(angle)*Math.sign(vn.spread[1])/nomDWeight 
+		    }
+		    return(obj);
+		}
+	        
+                var ynp = closestpt(vn);
+
+                // JBL: Uncomment followed to debug problems with location of Y and N labels
+
+	        // PT on cutline closest to centroid
+	        //gg
+		// .append("ellipse")
+		// .attr("cx", circleCenter.x + radiusX*ynp.xstar)
+		// .attr("cy", circleCenter.y - radiusY*ynp.ystar)
+		// .attr("rx", 2)
+		// .attr("ry", 2)
+ 		// .attr("fill","purple");  
+
+	        // PT on cutline at mid1,mid2
+	        //gg
+		// .append("ellipse")
+		// .attr("cx", circleCenter.x + radiusX*vn.mid[0])
+		// .attr("cy", circleCenter.y - radiusY*vn.mid[1])
+		// .attr("rx", 3)
+		// .attr("ry", 3)
+ 		// .attr("fill","green");  
+
+		var ynpts =    [circleCenter.x + radiusX/scale*(ynp.xstar+ynp.offsetX),
+				circleCenter.y - radiusY/scale*(ynp.ystar-ynp.offsetY),
+				circleCenter.x + radiusX/scale*(ynp.xstar-ynp.offsetX),
+				circleCenter.y - radiusY/scale*(ynp.ystar+ynp.offsetY)];
+
+	        var angle = 57.29578*ynp.angle;
+
+		// This is a hack based on what quadrant the text angle is in.
 		var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
 		switch( cs ) 
 		{
@@ -261,11 +199,6 @@ function decorateNominate(oc,data) {
 			case 2: angle = 270-angle; break;
 			case 3: angle = -90-angle; break;
 		}
-
-		// Plot the yea-nay line.      
-		ggg.append('polyline')
-			.attr("class", "yeanay-line")
-			.attr("points", ynpts.join(" "));
 
 		// Plot the Y text using ynpts[2], [3] and rotating by the angle above.
 		ggg.append('text').text('Y')
@@ -291,7 +224,55 @@ function decorateNominate(oc,data) {
 		    .attr("class", "fitbox")
 		    .attr("x", xAxisMax - 75)
 		    .attr("y", yAxisMax - 25);
-
-
 	}
+
+        // JBL: Tooltip under development as of 10-Jan-17
+        // Tooltip for Prob(yea)
+        if (plotCut==1) { // only tooltip if cutline exists...
+
+            // Collecting info to find vote prob for heat map
+	    if(!$(".hm_tooltip").length) // Make sure we don't already have a tooltip
+	    {
+		$("<div></div>")
+			.attr("id","hm_tooltip")
+			.css("z-index",10).css("visibility","hidden")
+			.css("opacity",0.8).appendTo(document.body); 
+	    }
+
+            var brush = ocSVG.select(".brush");
+
+	    brush.on("mouseover",function() { if(!isDoingSelect) { $("#hm_tooltip").css("visibility","visible").css("opacity",0.8); }});
+            brush.on("mousemove",function() {
+			var ypdiv = $("#hm_tooltip");
+                        var cx = this.getBBox().width/2,
+                            cy = this.getBBox().height/2+1.5, 
+                            x  =  (d3.mouse(this)[0] - cx)/394.5,
+                            y  = -(d3.mouse(this)[1] - cy)/134,
+			    yeaProb = nomProbYea(x,y,vn.mid[0],vn.mid[1],vn.spread[0],
+                                                     vn.spread[1],nomDWeight,nomBeta);
+			    // Magic constants!
+
+	                    if ((x*x+y*y)<1.0) {
+                                if(yeaProb>0.99) {
+        		           dispProb = ">0.99"
+                                } else if(yeaProb<0.01) {
+                                   dispProb = "<0.01"
+                                } else {
+                                   dispProb = "=" + Math.round(100*yeaProb)/100;         
+                                }
+				if(!isDoingSelect) ypdiv.css("visibility","visible");
+				ypdiv.html("Pr(Yea)" + dispProb ).css("z-index",10)
+				   .css("left",d3.event.pageX+"px")
+				   .css("top",(d3.event.pageY-28)+"px");
+			    }
+	                    else { // Cursor is on nominate plot, but not in the Oval 
+                                ypdiv.css("visibility","hidden"); 
+			    }
+                      }); 
+            // Don't show tooltip if user is making a range selection
+            brush.on("mousedown",function() { $("#hm_tooltip").css("visibility","hidden"); isDoingSelect=1; });     
+            brush.on("mouseup",function() { $("#hm_tooltip").css("visibility","visible"); isDoingSelect=0; });     
+	    brush.on("mouseout", function() { $("#hm_tooltip").css("visibility","hidden"); });
+	};
 }
+

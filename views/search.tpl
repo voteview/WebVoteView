@@ -6,7 +6,23 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h3>Search Voteview.com</h3>
+			<h3>
+				Search Voteview.com 
+				<span class="glyphicon glyphicon-question-sign" style="font-size:14px;float:right;vertical-aklign:middle;cursor:pointer;" id="toggleAlert"></span>
+			</h3>
+
+			<div class="alert alert-info fade in" style="margin-bottom:2px;" id="alertWelcome">
+				<a href="#" id="closeAlert" style="float:right;text-decoration:none;">&times;</a>
+				<strong>Welcome!</strong>
+
+				You have reached the <strong>beta version</strong> of the new Voteview.com. This is a website that allows users to view every congressional roll call vote
+				in American history on a map of the United States and on a liberal-conservative ideological map, including information about the ideological position of
+				voting Senators and Representatives. For more information about Voteview and NOMINATE, click <a href="/about">here</a>. <strong>Academics interested in NOMINATE data can download it on our <a href="/data">data page</a>.</strong><br/><br/>
+
+				Below, you can search every rollcall vote. By default, the most recent votes are shown below. Suggested searches will pre-populate automatically if you need help thinking of something to look for,
+				or you can use the advanced search to select various parameters. We are still working to get this site ready for the public and would love to hear
+				your feedback which you can send on the <a href="/about">About</a> page.
+			</div>
 		</div>
 	</div>
 
@@ -350,7 +366,7 @@
 			</div>
 			<div class="footerBig">
 				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
-				<span id="shareTextInput">http://voteview.polisci.ucla.edu/s/
+				<span id="shareTextInput">{{ base_url }}s/
 					<input id="shareLinkText" type="text" placeholder="type-short-name"> 
 					<input type="submit" value="Create" onClick="javascript:shareLink();javascript:clipboardCopyHack(document.getElementById('shareTextInput'))">
 				</span>

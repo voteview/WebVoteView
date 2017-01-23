@@ -131,9 +131,15 @@ function drawWidgets(error, data, geodata)
 			    x = x/dlen;
 			    y = y/dlen;
 			}
+		        // JBL: Hack to stop new members from being placed in the upper left corner of the scatter.
+		        if (typeof d.x == 'undefined') {
+			    x = -99; y = -99;
+			}
 			return [x, y];
 		}
 	);
+
+
 	var xGroup = xDimension.group().reduce(
 		function (p, d) 
 		{
@@ -155,6 +161,7 @@ function drawWidgets(error, data, geodata)
 		{
 			return {members: []} ;
 		}); // This is not super clear to me.
+
 
 	// Dimension 5: What state you're from.
 	var stateDimension = ndx.dimension(function(d) { return d.state_abbrev; });
@@ -235,7 +242,8 @@ function drawWidgets(error, data, geodata)
 		.labelOffsetX(40)
 		.label(function(d)
 		{
-			var textLabel = d.key.substr(3,d.key.length)+": "+d.key.substr(0,3)
+			if(d.key.substr(0,3)=="Abs") { var textLabel = d.key.substr(3,d.key.length)+": Not Voting"; }
+			else { var textLabel = d.key.substr(3,d.key.length)+": "+d.key.substr(0,3) }
 			return textLabel
 		})
 		.ordering(function(d){ // Sort Yea-to-Nay, Alphabetically, set independents separately.
@@ -266,17 +274,28 @@ function drawWidgets(error, data, geodata)
 		.mouseZoomable(false)
 		.group(xGroup)
 		.symbolSize(7)
+                .symbol(function (d) {
+		     try {
+			 var v = d.value.members[0].vote; 
+			 if(v == "Yea") {return "triangle-up"}; 
+			 if(v == "Nay") {return "triangle-down"};
+		     }catch(e){
+		     }
+		     return "circle"
+                }) 
 		.colorCalculator(function (d) { 
 			var color = "#CCC";
 			try {
 				if(d.value.members.length > 0){   
-				color = blendColors(d.value.members);
+				color = blendColors(d.value.members,false);
 				}
 			}catch(e){
 			}
 			return color; 
 		})
 		.highlightedSize(10)
+		.existenceAccessor(function(d) { 
+			return parseFloat(String(d.key).split(",")[0])>-98; })
 		.x(d3.scale.linear().domain([-1.0, 1.0])) 
 		.y(d3.scale.linear().domain([-1.2, 1.2]));
 

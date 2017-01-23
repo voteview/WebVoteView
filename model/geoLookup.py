@@ -2,6 +2,7 @@ import time
 import math
 import json
 import requests
+import logQuota
 from pymongo import MongoClient
 from stateHelper import stateNameToAbbrev
 client = MongoClient()
@@ -16,7 +17,11 @@ try:
 except:
         authData = json.load(open("./model/auth.json","r"))
 
-def addressToLatLong(addressString):
+def addressToLatLong(request, addressString):
+	quotaCheck = logQuota.checkQuota(request) # Are we over quota?
+	if quotaCheck["status"]: # Yes, so error out
+		return {"status": 1, "error_message": quotaCheck["errormessage"]}
+
 	warning = []
 	apiKey = authData["geocodeAPI"]
 	if not addressString:
@@ -110,19 +115,29 @@ def addressToLatLong(addressString):
 			if latDiffMiles*longDiffMiles > 100 and stateName not in ["Alaska", "Delaware", "Montana", "North Dakota", "South Dakota", "Vermont", "Wyoming"]:
 				warning.append("Google Maps returned an imprecise result for your address. Results may be accurate to your state, but not your exact location. Please adjust the address you entered to improve results.") 
 
+		logQuota.addQuota(request, 1) # Add to quota.
+		logQuota.logSearch(request, {"query": "Address Lookup: "+addressString, "resultNum": 1}) # Log the address lookup
+
 		return {"status": 0, "lat": resJSON["results"][0]["geometry"]["location"]["lat"], "lng": resJSON["results"][0]["geometry"]["location"]["lng"], "formatted_address": resJSON["results"][0]["formatted_address"], "warnings": warning}
 	else:
+		logQuota.addQuota(request, 1) # Add to quota.
+		logQuota.logSearch(request, {"query": "Address Lookup: "+addressString, "resultNum": -1}) # Log the failed address lookup
 		return {"status": 1, "error_message": "Google Maps failed to complete a lookup for the address you entered."}
 
-def latLongToDistrictCodes(lat, lng):
+def latLongToDistrictCodes(request, lat, lng):
+	quotaCheck = logQuota.checkQuota(request) # Are we over quota?
+	if quotaCheck["status"]: # Yes, so error out
+		return {"status": 1, "error_message": quotaCheck["errormessage"]}
+
 	geoClient = client["district_geog"]
 	gquery = {"geometry":{"$geoIntersects":{"$geometry":{"type":"Point","coordinates":[lng, lat]}}}}
 	res = []
 	for r in db.districts.find(gquery,{'properties':1}):
 		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
-		#if int(rec[1]):
-		for cng in range(rec[2],rec[3]+1):
+		for cng in range(int(rec[2]),int(rec[3])+1):
 			res.append( [stateNameToAbbrev(rec[0])["state_abbrev"],cng,int(rec[1])] )
+
+	logQuota.addQuota(request, 2) # Costlier because it's more intense on our side.
 	return res
 	pass
 
@@ -142,7 +157,6 @@ if __name__=="__main__":
 	if len(atLargeSet):
 		print "At-large congresses"
 		for l in atLargeSet:
-			print l
 			sameCongDistrict = len([x for x in orSet if x["congress"]==l])
 			if sameCongDistrict: # Have a district, just need the at large.
 				pass

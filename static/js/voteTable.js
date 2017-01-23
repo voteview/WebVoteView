@@ -1,3 +1,4 @@
+var baseTipVoter = d3.select("body").append("div").attr("class", "d3-tip").style("visibility","hidden").attr("id","voterTooltip").style("min-width","320px");
 
 function outVotes(groupBy)
 {
@@ -27,6 +28,7 @@ function outVotes(groupBy)
 		}
 	}
 
+	var errorCount=0;
 	for(var i=0;i!=filteredVotes.length;i++)
 	{
 		if(filteredVotes[i]["name"] == undefined) { continue; }
@@ -35,16 +37,24 @@ function outVotes(groupBy)
 			"vote": filteredVotes[i]["vote"],
 			"state_abbrev": filteredVotes[i]["state_abbrev"],
 			"icpsr": filteredVotes[i]["icpsr"],
-			"x": parseFloat(filteredVotes[i]["x"])
+			"x": parseFloat(filteredVotes[i]["x"]),
+			"fullName": filteredVotes[i]["name"],
 		};
-		console.log(voteSubset);
+		if(filteredVotes[i]["flags"] != undefined) { voteSubset["flags"] = filteredVotes[i]["flags"]; }
+		if(filteredVotes[i]["img"] != undefined) { voteSubset["img"] = filteredVotes[i]["img"]; }
+
+		if(groupBy=="x" && isNaN(voteSubset["x"]))
+		{
+			errorCount+=1;
+			continue;
+		}
 		if(filteredVotes[i]["prob"] != undefined) { voteSubset["prob"] = filteredVotes[i]["prob"]; }
 		var lastName = filteredVotes[i]["name"].split(",")[0];
 		if(dedupeLastNames.indexOf(lastName)!=-1) { voteSubset["name"] = filteredVotes[i]["name"].split(" ").slice(0,2).join(" "); }
 		else { voteSubset["name"] = lastName; }
 		if(groupBy=="prob") {
 			var key = "Voted";
-			if(voteSubset["vote"] == "Abs") { key = "Absent (Least to Most Likely Yea)";}
+			if(voteSubset["vote"] == "Abs") { key = "Not Voting (Least to Most Likely Yea)";}
 			if(groupings[key] != undefined) { groupings[key].push(voteSubset); }
 			else { groupings[key] = [voteSubset]; }
 		}
@@ -53,8 +63,7 @@ function outVotes(groupBy)
 			else { groupings[filteredVotes[i][groupBy]] = [voteSubset]; }
 		}
 	}
-	console.log(groupings);
-        console.log(filteredVotes.length);
+
 	// Output table
 	function numSort(a, b) { return a-b; }
 	if(groupBy=="x") { var sortedKeys = Object.keys(groupings).sort(numSort); }
@@ -76,6 +85,8 @@ function outVotes(groupBy)
 	{
 	        baseList = baseList.css("columns","4").css("width","100%")
 	}
+
+	// 
 	
 	var rowCount=0;
 	var i=0; var colCount=0;
@@ -99,9 +110,8 @@ function outVotes(groupBy)
 		if(i && groupBy!="state_abbrev" && groupBy!="x") { $("<li>&nbsp;</li>").appendTo(baseList); }
 		// Category header
 		var partyLabel = $("<li></li>").css("padding-bottom","3px").css("-webkit-column-break-after","avoid");
-		console.log(key);
 		var headerLabel = sortedKeys[key];
-		if(headerLabel=="Abs") { headerLabel="Absent"; }
+		if(headerLabel=="Abs") { headerLabel="Not Voting"; }
 		if(groupBy=="state_abbrev") { headerLabel = stateMap[headerLabel]; }
 		if(groupBy!="x" && sortedKeys[key] != "Voted")
 		{
@@ -122,6 +132,7 @@ function outVotes(groupBy)
 			// Style and assemble list item
 			var li = $("<li></li>").css("display","inline-block").css("width","100%").css("padding-bottom","3px");
 			var span = $("<span></span>").css("background-color","white").css("padding-right","5px");
+			if(person["flags"]!=undefined && groupBy=="x") { $("<span>* </span>").css("color","red").appendTo(span); }
 			$("<a></a>").attr("href","/person/"+person["icpsr"])
 					.html(outLabel).appendTo(span);
 			span.appendTo(li);
@@ -135,6 +146,59 @@ function outVotes(groupBy)
 				li.addClass("dotted");
 			}
 			li.appendTo(baseList);
+
+			// Use a closure to assign the current person's data to the tooltip.
+			(function(pp) 
+			{
+				li.on("mouseover", function() {
+					var baseText = "<strong><u>"+pp["fullName"]+"</u></strong> ("+pp["party"].substr(0,1)+"-"+pp["state_abbrev"]+")<br/><br/>"; 
+
+					if(!isNaN(pp["x"])) 
+					{ 
+						if(pp["prob"]<25) { var probText = '<span style="color:red;">'+pp["prob"]+'%</span>'; }
+						else { var probText = pp["prob"]+"%"; }
+
+						baseText += "<strong>Ideology Score:</strong> "+pp["x"]+"<br/>(<em>DW-NOMINATE First Dimension</em>)<br/><br/>"; 
+						if(pp["vote"]=="Abs") { 
+							baseText += "<strong>Not Voting</strong>.";
+							if(pp["prob"]!=undefined) { baseText += "If "+pp["name"]+" had voted, we predict they would vote 'Yea' with "+probText+" probability.<br/>"; }
+						}
+						else 
+						{ 
+							baseText += "<strong>Voted "+pp["vote"]+"</strong>. ";
+							if(pp["prob"]!=undefined) { baseText += "Predicted probability of this vote: "+probText+"."; }
+						}
+		
+						if(pp["flags"]=="median") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Median Voter."; }
+						else if(pp["flags"]=="fbPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> 60th Vote for Cloture"; }
+						else if(pp["flags"]=="veto") { baseText == "<br/><br/><strong>Pivotal Voter:</strong> Veto override."; }
+					}
+					else { baseText += "We do not have a score for this member yet.<br/>"; }
+
+					var profileImg = $("<img>").attr("src","/static/img/bios/"+pp["img"]).css("width","80px").css("padding-right","10px").css("vertical-align","middle").addClass("pull-left");
+					var textChunk = $("<div></div>").css("font-size","0.9em").css("vertical-align","middle").css("padding-top","5px").html(baseText);
+					baseTipVoter.html("");
+					profileImg.appendTo(baseTipVoter);
+					textChunk.appendTo(baseTipVoter);
+
+					var eWV = parseInt(baseTipVoter.style("width"));
+					var eHV = parseInt(baseTipVoter.style("height"));
+					var tHV = parseInt($(this).height());
+					var tWV = parseInt($(this).width());
+					$("#voterTooltip").removeClass().addClass("d3-tip");
+					baseTipVoter.style("visibility","visible");
+					if($(this).offset().left < $(document).width() / 2)
+					{
+						baseTipVoter.style("left", ($(this).offset().left + (tWV*0.6))+"px");
+					}
+					else
+					{
+						baseTipVoter.style("left", ($(this).offset().left - (tWV*0.1) - eWV)+"px");
+					}
+					baseTipVoter.style("top", ($(this).offset().top + (tHV/2) - (eHV/2))+"px");
+				})
+				.on("mouseout",function() { baseTipVoter.style("visibility","hidden"); });
+			})(person);
 		}
 
 		if(sortedKeys[key] == "Voted" && groupBy=="prob")
@@ -153,7 +217,16 @@ function outVotes(groupBy)
 		var ideologyLabel = $("<li></li>").css("padding-bottom","3px");
 		$("<strong>Most Conservative</strong> <span class='glyphicon glyphicon-arrow-up'></span>").appendTo(ideologyLabel);
 		ideologyLabel.appendTo(baseList);
+
+		if(errorCount)
+		{
+			var missingIdeology = $("<li></li>").css("padding-bottom","3px");
+			if(errorCount>1) $("<strong>"+errorCount+" members have no ideology score.</strong>").appendTo(missingIdeology);
+			else $("<strong>"+errorCount+" member has no ideology score.</strong").appendTo(missingIdeology);
+			missingIdeology.appendTo(baseList);
+		}
 	}
 
 	$("#voteList").html(baseList);
+	//$('[data-toggle="tooltip"]').tooltip();
 }

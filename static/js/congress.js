@@ -35,7 +35,6 @@ $(document).ready(function()
 
 function nomPlot()
 {
-	console.log('ok');
 	var ndx = crossfilter(resultCache["results"]);
 	var all = ndx.groupAll();
 	var xDimension = ndx.dimension(
@@ -71,9 +70,11 @@ function nomPlot()
 		function() { return {members: []} ; }
 	);
 
-	nominateScatterChart
+    nominateScatterChart
+        .clipPadding(4)
+        .transitionDuration(250) // JBL:Speed up symbol size changes on brush per AB request                                             
 	.width(890)
-	.height(432)
+	.height(790*nomDWeight+100)
 	.margins({top:25,right:25,bottom:75,left:75})
 	.dimension(xDimension)
 	.mouseZoomable(false)
@@ -93,7 +94,7 @@ function nomPlot()
 	})
 	.highlightedSize(10)
 	.x(d3.scale.linear().domain([-1.0,1.0]))
-	.y(d3.scale.linear().domain([-1.2,1.2]));
+	.y(d3.scale.linear().domain([-1.0,1.0]));
 
 	nominateScatterChart.on("filtered", function()
 	{
@@ -113,7 +114,30 @@ function nomPlot()
 
 	dc.filterAll();
 	dc.renderAll();
-	decorateNominate(nominateScatterChart, resultCache);
+        decorateNominate(nominateScatterChart, resultCache);
+
+        // Make brush box appear on click
+        var scb = nominateScatterChart.select(".brush");
+        scb.on('click', function(){
+  	  var extent = nominateScatterChart.brush().extent();
+	  var x = nominateScatterChart.x().invert(d3.mouse(this)[0]),
+	      y = nominateScatterChart.y().invert(d3.mouse(this)[1]);
+	  // Only draw box if there isn't one already there...
+ 	  if (extent[0][0]==extent[1][0] & extent[0][1]==extent[1][1]) {
+	      if (x*x + y*y <= 1) {
+		  var insideBox = $.grep(nominateScatterChart.data(), function(n, i) {
+			return (n["value"]["members"][0]["nominate"]["dim1"] >= x-0.025 &&
+				n["value"]["members"][0]["nominate"]["dim1"] <= x+0.025 &&
+				n["value"]["members"][0]["nominate"]["dim2"] >= y-0.025/nomDWeight &&
+				n["value"]["members"][0]["nominate"]["dim2"] <= y+0.025/nomDWeight);
+		 });
+		if(insideBox.length) { nominateScatterChart.brush().extent([[x-0.025,y-0.025/nomDWeight],[x+0.025,y+0.025/nomDWeight]]).event(scb); }
+		else { nominateScatterChart.brush().extent([[x,y],[x,y]]).event(scb); }
+	      } else {
+		  nominateScatterChart.brush().extent([[x,y],[x,y]]).event(scb);
+	      }
+	  }
+        });
 }
 
 function rechamber()
@@ -145,16 +169,17 @@ function reloadBios()
 function getVPP(congress)
 {
 	// This is a hack; we just list thresholds at which the VP/ President of the Senate switches
-	var VPParty = {	"111": "Democrat", "107": "Republican", "103": "Democrat", "97": "Republican",
-			"95": "Democrat", "91": "Republican", "87": "Democrat", "83": "Republican",
-			"81": "Democrat", "80": "Vacant", "73": "Democrat", "67": "Republican",
-			"63": "Democrat", "59": "Republican", "58": "Vacant", "55": "Republican",
-			"53": "Democrat", "51": "Republican", "50": "Vacant", "49": "Democrat",
-			"48": "Vacant", "41": "Republican", "40": "Vacant", "39": "Democrat",
-			"37": "Republican", "35": "Democrat", "34": "Vacant", "33": "Democrat",
-			"32": "Vacant", "31": "Whig", "29": "Democrat", "28": "Vacant", "27": "Whig",
-			"25": "Democrat", "20": "Jackson", "15": "Democrat-Republican", "14": "Vacant",
-			"5": "Democrat-Republican", "4": "Federalist", "1": "Pro-Administration"};
+	var VPParty = {	"115": "Republican", "111": "Democrat", "107": "Republican", "103": "Democrat", 
+			"97": "Republican", "95": "Democrat", "91": "Republican", "87": "Democrat", 
+			"83": "Republican", "81": "Democrat", "80": "Vacant", "73": "Democrat", 
+			"67": "Republican", "63": "Democrat", "59": "Republican", "58": "Vacant", 
+			"55": "Republican", "53": "Democrat", "51": "Republican", "50": "Vacant", 
+			"49": "Democrat", "48": "Vacant", "41": "Republican", "40": "Vacant", 
+			"39": "Democrat", "37": "Republican", "35": "Democrat", "34": "Vacant", 
+			"33": "Democrat", "32": "Vacant", "31": "Whig", "29": "Democrat", 
+			"28": "Vacant", "27": "Whig", "25": "Democrat", "20": "Jackson", 
+			"15": "Democrat-Republican", "14": "Vacant", "5": "Democrat-Republican", 
+			"4": "Federalist", "1": "Pro-Administration"};
 
 	// Sort the dict keys and reverse them so the short-circuit in the loop below works
 	var keys = Object.keys(VPParty);
@@ -212,9 +237,26 @@ function compositionBar()
 
 function hideMembersUnselected()
 {
+
 	$("#memberList > li.memberResultBox").each(function(i, d) {
 		if(validSet.indexOf(parseInt($(d).attr("id")))!=-1 || validSet.length==0) { $(d).show(); }
 		else { $(d).hide(); }
 	});
+
+        // Set number of columns by number of selected members
+        if(validSet.length && validSet.length < 5){
+	        $("#memberList").css("columns","1").css("width","25%");
+	} else if (validSet.length && validSet.length < 9)
+	{
+	        $("#memberList").css("columns","2").css("width","50%")
+	} else if (validSet.length && validSet.length < 13)
+	{
+	        $("#memberList").css("columns","3").css("width","75%")
+	} else
+	{
+	        $("#memberList").css("columns","4").css("width","100%")
+	}
+
+        
 }
 

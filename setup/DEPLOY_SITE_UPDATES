@@ -21,6 +21,8 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 
 	echo "Server setup: production"
 	echo "0" > WebVoteView/server.txt
+	rm WebVoteView/robots.txt
+	mv WebVoteView/robots-prod.txt WebVoteView/robots.txt
 
 	echo "Copying secure authentication files from existing deployment."
 	cp voteview/model/*.json WebVoteView/model/
@@ -48,13 +50,15 @@ EOF
 	rm -rf dump_db
 EOF
 
-	downtimeStart = $(date +%s)
+	downtimestart=$(date +%s)
 	echo "Stopping web server to substitute directory"
 	service nginx stop
-	service uwsgi stop
 	rm -rf vv-backup
 	mv voteview vv-backup
 	mv WebVoteView voteview
+	touch /var/www/voteview/static/maintenance
+	service nginx start
+	downtimeStop=$(date +%s)
 
 	echo "Restoring database dump"
 	cd dump_db
@@ -64,17 +68,15 @@ EOF
 	echo "Done restoring database dump"
 
 	echo "Starting server to substitute directory"
-	nginx -v
-	service nginx start
-	service uwsgi start
-	downtimeStop = $(date +%s)
+	touch /etc/uwsgi/reboot
+	rm /var/www/voteview/static/maintenance
 	echo "Done deployment."
 	echo "Previous version of site in /var/www/vv-backup"
 	echo "Current version of site in /var/www/voteview"
 	echo "Checking API version to verify site has started..."
-	curl "http://voteview.polisci.ucla.edu/api/version"
+	curl "https://voteview.polisci.ucla.edu/api/version"
 	echo ""
-	downtime=$((downtimeStop-downtimeStart))
+	downtime=$((downtimestop-downtimestart))
 	echo "Total downtime $downtime seconds"
 elif [ "$userid" = "root" ]; then
 	echo "You must be on production voteview to run deployment script"

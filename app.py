@@ -19,6 +19,7 @@ from model.geoLookup import addressToLatLong, latLongToDistrictCodes
 import model.downloadXLS
 import model.stashCart
 import model.partyData
+import model.logQuota
 
 # Turn this off on production:
 devserver = int(open("server.txt","r").read().strip())
@@ -51,6 +52,10 @@ def zipTimes():
     return zip(timeLabels, tN)
 
 
+def getBase(urlparts):
+    domain = urlparts.scheme + "://" + urlparts.netloc + "/"
+    return domain
+
 # Helper function for handling bottle arguments and setting defaults:
 def defaultValue(x,value = None):
     return x is not "" and x or value
@@ -71,6 +76,8 @@ def callback(path):
 def index():
     clearTime()
     timeIt("begin")
+
+    BASE_URL = getBase(bottle.request.urlparts)
 
     try:
         argDict = {}
@@ -105,7 +112,7 @@ def index():
             except:
                 pass
         timeIt("doneAssembly")
-        output = bottle.template("views/search", args=argDict, timeSet=zipTimes())
+        output = bottle.template("views/search", args=argDict, timeSet=zipTimes(), base_url=BASE_URL)
     except:
         output = bottle.template("views/error", errorMessage = traceback.format_exc())
         #errorMessage="Error: One or more of the parameters you used to call this page was misspecified.")
@@ -119,6 +126,11 @@ def about():
     output = bottle.template('views/about')
     return output
 
+@app.route("/quota")
+@app.route("/abuse")
+def quota():
+    output = bottle.template("views/quota")
+    return output
 
 @app.route("/data")
 def data():
@@ -152,12 +164,15 @@ def congress(chamber="senate"):
     maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
     congress = defaultValue(bottle.request.params.congress,maxCongress)
 
-    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress)
+    meta = metaLookup()
+
+    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress, dimweight=meta["nominate"]["second_dimweight"], nomBeta=meta["nominate"]["beta"])
     return output
 
 @app.route("/district")
 def district():
-    output = bottle.template("views/district")
+    meta = metaLookup()
+    output = bottle.template("views/district", dimweight=meta["nominate"]["second_dimweight"], nomBeta=meta["nominate"]["beta"])
     return output
 
 @app.route("/parties")
@@ -263,7 +278,7 @@ def person(icpsr=0):
 
 
         timeIt("partySwitches")
-        voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1)
+        voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1, request=bottle.request)
         timeIt("gotVotes")
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
@@ -300,7 +315,7 @@ def rollcall(rollcall_id=""):
 
     meta = metaLookup()
 
-    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate']['second_dimweight'], mapParties=mapParties)
+    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate']['second_dimweight'], nomBeta=meta["nominate"]["beta"], mapParties=mapParties)
     return(output)
 
 
@@ -364,17 +379,21 @@ def geocode():
     if not q:
         return {"status": 1, "error_message": "No address specified."}
     else:
-        return addressToLatLong(q)
+        return addressToLatLong(bottle.request, q)
 
 @app.route("/api/districtLookup")
 def districtLookup():
+    maxCongress = json.load(open("static/config.json","r"))["maxCongress"]
     try:
         lat = float(defaultValue(bottle.request.params.lat,0))
         long = float(defaultValue(bottle.request.params.long,0))
     except:
         return {"status": 1, "error_message": "Invalid lat/long coordinates."}
 
-    results = latLongToDistrictCodes(lat, long)
+    results = latLongToDistrictCodes(bottle.request, lat, long)
+    if type(results) == type({}): # Quota error.
+        return results
+
     if len(results):
         orQ = []
         atLargeSet = []
@@ -394,12 +413,12 @@ def districtLookup():
                 else:
                     for dc in [1,98,99]:
                         orQ.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
-        results = getMembersByPrivate({"chamber": "House", "$or": orQ})
+        resultsM = getMembersByPrivate({"chamber": "House", "$or": orQ})
 
-        if "results" in results:
-            currentCong = next((x["district_code"] for x in results["results"] if x["congress"]==114), None)
-            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": 114}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": 114}]})
-            return {"status": 0, "results": results["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
+        if "results" in resultsM:
+            currentCong = next((x["district_code"] for x in resultsM["results"] if x["congress"]==maxCongress), None)
+            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": maxCongress}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": maxCongress}]})
+            return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
         else:
             return {"status": 1, "error_message": "No matches."}
     else:
@@ -477,82 +496,116 @@ def searchAssemble():
     needScore=1
     redirFlag=0
     expandResults=0
-    if q is not None and not nextId and not ":" in q and len(q.split())<5 and len(q):
+    suppressRollcalls=0
+    currentYear = str(datetime.datetime.now().year)
+    memberSearch = {}
+    if q is not None and not nextId and not ":" in q and len(q):
         try:
+            # Search overrides for custom search use cases.
+            # Vote by known ID
             if len(q.split())==1 and (q.upper().startswith("MH") or q.upper().startswith("MS")):
                 memberSearch = memberLookup({"id": q}, 8, distinct=1, api="Web_FP_Search")
+            # List all speakers
             elif q.strip().lower() in ["speaker of the house","speakers of the house","speaker: 1", "speaker:1","house speaker"]:
                 memberSearch = memberLookup({"speaker": 1, "chamber": "house"}, 60, distinct=1, api="Web_FP_Search")
                 needScore=0
                 expandResults=1
+            # List all presidents
             elif q.strip().lower() in ["potus", "president of the united states", "president", "the president", "president:1", "president: 1","presidents","presidents of the united states","presidents of the united states of america","president of the united states of america"]:
                 memberSearch = memberLookup({"chamber": "President"}, 50, distinct=1, api="Web_FP_Search")
                 needScore=0
                 expandResults=1
+            # List all freshmen
+            elif q.strip().lower() in ["freshmen", "freshman", "new hires", "first-years", "just elected", "tenderfoot", "newly elected", "class of "+currentYear]:
+                memberSearch = memberLookup({"freshman": 1}, 75, distinct=1, api="Web_FP_Search")
+                needScore=0
+                expandResults=1
+            # ICPSR of user
             elif len(q.split())==1 and int(q):
                 memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
                 redirFlag=1
-            else:
+            # Okay, probably a normal search then.
+            elif len(q.split())<=5:
                 memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
         except:
                 memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
-        if "results" in memberSearch:
-            for member in memberSearch["results"]:
-                memName = ""
-                if "bioname" in member and member["bioname"] is not None:
-                    memName = member["bioname"]
-                elif "fname" in member and member["fname"] is not None:
-                    memName = member["fname"]
-                else:
-                    try:
-                        memName = member["name"]
-                    except:
-                        memName = "Error, Invalid Name."
 
+    # Biography search
+    if q is not None and len(q) and len(q.split())>1 and q.lower().split()[0]=="biography:":
+        bioSearch = " ".join(q.strip().lower().split()[1:])
+        memberSearch = memberLookup({"biography": bioSearch}, 50, distinct=1, api="Web_FP_Search")
+        suppressRollcalls = 1
+        expandResults = 1
+
+    if "results" in memberSearch:
+        for member in memberSearch["results"]:
+            memName = ""
+            if "bioname" in member and member["bioname"] is not None:
+                memName = member["bioname"]
+            elif "fname" in member and member["fname"] is not None:
+                memName = member["fname"]
+            else:
                 try:
-                    memName = memName.replace(",","").lower()
+                    memName = member["name"]
                 except:
-                    memName = memName.lower()
+                    memName = "Error, Invalid Name."
 
-                searchNameToScore = q.replace(",","").lower()
-                scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
-                scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
-                member["scoreMatch"] = max(scoreBasic, scoreNick)
-		member["bonusMatch"] = 0
-		print q, "/", memName, "/", scoreBasic, scoreNick
-                if member["congress"]>=100:
-                    member["bonusMatch"] += 10
-                if member["chamber"]=="President":
-                    member["bonusMatch"] += 25
-                if member["chamber"]=="Senate":
-                    member["bonusMatch"] += 10
-                if "congresses" in member:
-                    duration = 0
-                    for cong in member["congresses"]:
-                        duration = duration+(cong[1]-cong[0])
-                    if duration>=5:
-                        member["bonusMatch"] += 7
+            try:
+                memName = memName.replace(",","").lower()
+            except:
+                memName = memName.lower()
 
-                if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
-                    member["bioImg"] = "silhouette.png"
-                else:
-                    member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"
-                member["minElected"] = congressToYear(member["congresses"][0][0], 0)
+            searchNameToScore = q.replace(",","").lower()
+            scoreBasic = fuzz.token_set_ratio(memName, q.replace(",","").lower()) # Score base search
+            scoreNick = fuzz.token_set_ratio(nicknameHelper(memName, searchNameToScore), nicknameHelper(searchNameToScore)) # Come up with a best nickname match
+            member["scoreMatch"] = max(scoreBasic, scoreNick)
+            member["bonusMatch"] = 0
+            try: # Issue with printing diacritic-containing results to terminal/log.
+                print q, "/", memName, "/", scoreBasic, scoreNick
+            except:
+                pass
 
-                resultMembers.append(member)
+            if member["congress"]>=100:
+                member["bonusMatch"] += 10
+            if member["chamber"]=="President":
+                member["bonusMatch"] += 25
+            if member["chamber"]=="Senate":
+                member["bonusMatch"] += 10
+            if "congresses" in member:
+                duration = 0
+                for cong in member["congresses"]:
+                    duration = duration+(cong[1]-cong[0])
+                if duration>=5:
+                    member["bonusMatch"] += 7
 
-    #return(resultMembers)
-    if needScore:
-        print "results before truncation"
-        print resultMembers
-        print "end ====="
-        if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
-            resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
-        resultMembers.sort(key=lambda x: -(x["scoreMatch"] + x["bonusMatch"]))
-    else:
-        resultMembers.sort(key=lambda x: -x["congress"])
-    if len(resultMembers)>8 and not expandResults:
-        resultMembers=resultMembers[0:8]
+            if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
+                member["bioImg"] = "silhouette.png"
+            else:
+                member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"
+            member["minElected"] = congressToYear(member["congresses"][0][0], 0)
+
+            resultMembers.append(member)
+
+        #return(resultMembers)
+        if needScore:
+            print "results before truncation"
+            print resultMembers
+            print "end ====="
+            if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
+                resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
+            resultMembers.sort(key=lambda x: -(x["scoreMatch"] + x["bonusMatch"]))
+        else:
+            resultMembers.sort(key=lambda x: -x["congress"])
+        if len(resultMembers)>8 and not expandResults:
+            resultMembers=resultMembers[0:8]
+
+    if suppressRollcalls:
+        print "SUPPRESSING PROPERLY"
+        bottle.response.headers["rollcall_number"] = 0
+        bottle.response.headers["member_number"] = len(resultMembers)
+        bottle.response.headers["party_number"] = 0
+        out = bottle.template("views/search_results", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=[])
+        return out
 
     # Date facet
     startdate = defaultValue(bottle.request.params.fromDate)
@@ -657,7 +710,7 @@ def searchAssemble():
     icpsr = defaultValue(bottle.request.params.icpsr)
     jsapi = 1
     rowLimit = 50
-    res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId, sortScore=sortScore)
+    res = query(q, startdate, enddate, chamber, icpsr=icpsr, rowLimit=rowLimit, jsapi=jsapi, sortDir=sortD, sortSkip=nextId, sortScore=sortScore, request=bottle.request)
 
     if "errormessage" in res:
         bottle.response.headers["rollcall_number"] = -999
@@ -712,9 +765,9 @@ def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
 		qtext = "voter: "+str(person["icpsr"])
 
 	if skip:
-		voteQuery = query(qtext, rowLimit=25, jsapi=1, sortSkip=skip)
+		voteQuery = query(qtext, rowLimit=25, jsapi=1, sortSkip=skip, request=bottle.request)
 	else:
-		voteQuery = query(qtext, rowLimit=25, jsapi=1)
+		voteQuery = query(qtext, rowLimit=25, jsapi=1, request=bottle.request)
 
 	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
         output = bottle.template("views/member_votes",person=person, votes=votes, skip=skip, nextId=voteQuery["nextId"])
@@ -731,7 +784,7 @@ def search():
     chamber = defaultValue(bottle.request.params.chamber)
     icpsr = defaultValue(bottle.request.params.icpsr)
     rapi = defaultValue(bottle.request.params.rapi,0)
-    res = query(q,startdate,enddate,chamber, icpsr=icpsr, rapi=rapi)
+    res = query(q,startdate,enddate,chamber, icpsr=icpsr, rapi=rapi, request=bottle.request)
     return(res)
 
 
@@ -826,12 +879,13 @@ def stash(verb):
 @app.route("/api/shareableLink", method="POST")
 def shareLink():
     try:
+        BASE_URL = getBase(bottle.request.urlparts)
         id = defaultValue(bottle.request.params.id, "")
         text = defaultValue(bottle.request.params.text, "")
     except:
         return {"errorMessage": "Invalid ID or text"}
 
-    return model.stashCart.shareableLink(id, text)
+    return model.stashCart.shareableLink(id, text, base_url = BASE_URL)
 
 
 @app.route("/api/addAll")
@@ -873,7 +927,7 @@ def outdate():
 
 @app.route("/api/version")
 def apiVersion():
-    return({'apiversion': 'Q4 Sep 22, 2016'})
+    return({'apiversion': 'Q1 Jan 10, 2017', 'request_hash': model.logQuota.generateSessionID(bottle.request), 'quota_credits': model.logQuota.getCredits(bottle.request)})
 
 if __name__ == '__main__':
     bottle.run(host='localhost', port=8080, debug=True)

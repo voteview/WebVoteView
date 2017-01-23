@@ -17,7 +17,9 @@
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta name="description" content="View, map, and investigate congressional votes throughout history, classify legislators as liberal or conservatives." />
-
+	% if devserver:
+	<meta name=”robots” content=”noindex,nofollow,noarchive,nosnippet,noodp,noydir" />
+	% end
         <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection"/>
