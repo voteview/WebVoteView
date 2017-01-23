@@ -31,8 +31,8 @@
     }, 
     {
         "congress": 71, 
-        "grandMean": 0.06, 
-        "grandMedian": 0.15, 
+        "grandMean": 0.061, 
+        "grandMedian": 0.151, 
         "grandSet": [
             -0.179, 
             0.21
