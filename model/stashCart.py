@@ -6,19 +6,22 @@ import time
 from searchVotes import query
 
 client = pymongo.MongoClient()
-dbConf = json.load(open("./model/db.json","r"))
-db = client[dbConf["dbname"]]
 
 # Swear filter is a combination of:
 # https://gist.github.com/jamiew/1112488
 # https://gist.github.com/tjrobinson/2366772
 try:
 	swearData = json.load(open("swearFilter.json","r"))["swears"]
+	dbConf = json.load(open("db.json","r"))
+	db = client[dbConf["dbname"]]
 except:
 	try:
 		swearData = json.load(open("./model/swearFilter.json","r"))["swears"]
+		dbConf = json.load(open("./model/db.json","r"))
+		db = client[dbConf["dbname"]]
 	except:
-			swearData = []
+		print "nope"
+		swearData = []
 
 def initializeCart():
 	# What's going on here? UUID is a hash function. It generates a long unique identifier.
@@ -32,6 +35,7 @@ def initializeCart():
 	# Create a stash document.
 	db.stash.insert_one({'id': uniqueUUID, 'expiry': expires})
 
+	
 	# Expires
 	return({'id': uniqueUUID})
 
@@ -56,6 +60,7 @@ def delAll(id, search):
 		return {"errors": ["Can't remove votes; no results from search."]}
 
 def updateExpiry():
+	print "Updating expiry to new time tag"
 	# Current expiry: 7 days.
 	return int(time.time())+(7*24*60*60)
 
@@ -70,6 +75,7 @@ def checkExists(id):
 		return {"status": 0}
 
 def addVotes(id, votes):
+	print "Beginning new add"
 	errorMessages = []
 
 	# User supplied invalid ID, generate a new one
@@ -81,16 +87,20 @@ def addVotes(id, votes):
 		id = initializeCart()["id"]
 		errorMessages.append("Invalid stash ID sent from user.")
 
+	print "Past the initial hurdle"
 	expires = updateExpiry()
 
+	print "Did I get some votes?"
 	if type(votes) == type(0):
 		votes = [votes]
 	elif type(votes) != type([]):
 		errorMessages.append("Invalid votes received from user to add.")
 
+	print "Now checking"
 	# Pull it
 	res = db.stash.find_one({'id': id})
 	if res is None:
+		print "Did not find."
 		# We don't have one.
 		errorMessages.append("Unknown or expired stash ID sent from user.")
 		id = initializeCart()["id"]
@@ -320,8 +330,8 @@ def shareableLink(id, text, base_url):
 	return {"link": link, "errors": errorMessages}
 
 if __name__ == "__main__":
-	id = "e5ed4eb1"
-	print addVotes(id, ["H1140981", "H1140953"])
+	id = "3d94a6d6"
+	print addVotes(id, ["RS1150001", "RS1150002"])
 	#print delVotes(id, [40])
 	#print getVotes(id)
 	#addVotes(id, 14)
