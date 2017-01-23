@@ -1,6 +1,6 @@
 'use strict';
 
-/* jshint globalstrict: true */
+/* jshint globalstript: true */
 /* global dc,d3,crossfilter,colorbrewer */
 
 // All of our charts are now accessible globally.
@@ -125,6 +125,7 @@ function drawWidgets(error, data, geodata)
 	var xDimension = ndx.dimension(
 		//Project outlying ideal points onto the outer circle 		    
 		function(d) {
+			//console.log(d);
 			var x = d.x;  var y = d.y;
 		        var dlen = Math.sqrt(x*x + y*y);
 		        if (dlen>1.0) {
@@ -162,7 +163,7 @@ function drawWidgets(error, data, geodata)
 			return {members: []} ;
 		}); // This is not super clear to me.
 
-
+    
 	// Dimension 5: What state you're from.
 	var stateDimension = ndx.dimension(function(d) { return d.state_abbrev; });
 	var stateGroup = stateDimension.group().reduce(
@@ -206,40 +207,97 @@ function drawWidgets(error, data, geodata)
 			});
 			p.members.push(d);
 			return p;
+	       },
+
+	       function (p, d) {
+		        //console.log('huh');
+                        // Remove at large members
+                        var atlargecode = d.state + "00";
+                        var atlarge = $.grep(data.rollcalls[0].votes, function(e){return e.district == atlargecode; });
+                        $.each(atlarge, function(member) {
+                            p.members.splice( $.inArray(atlarge[member], p.members), 1);
+                        });
+
+                        var index = p.members.indexOf(d);
+                        if (index > -1) {
+                            p.members.splice(index, 1);
+                        }
+                        return p;
+              },
+
+              function () {
+                        return {members: []} ;
+              });
+    
+        /* JBL working on making Classification & PRE dynamic; 
+
+        // Dimension 7: Fit
+        var fitDimension = ndx.dimension(function(d) { return d; });
+	var fitGroup = fitDimension.group().reduce(
+		function (p, d)
+	        {
+		    if (d.vote == "Yea" | d.vote == "Nay") {
+			p.correct += (d.prob>=50 ? 1 : 0);
+			p.noes += (d.vote=="Nay" ? 1 : 0);
+			p.yeas += (d.vote=="Yea" ? 1 : 0);
+			p.denom++;
+			console.log(p);
+		    }
+		    return p;
 		},
+		function (p, d) 
+    	        {
+		    if (d.vote == "Yea" | d.vote == "Nay") {
+			p.correct -= (d.prob>=50 ? 1 : 0);
+			p.noes -= (d.vote=="Nay" ? 1 : 0);
+			p.yeas -= (d.vote=="Yea" ? 1 : 0);
+			--p.denom;
+		    }
+		    return p;
+		},
+		function ()
+		{
+		    return {yeas:0, noes:0, denom:0, correct:0} ;
+		});
 
-	function (p, d) {
-		//console.log('huh');
-            // Remove at large members
-            var atlargecode = d.state + "00";
-            var atlarge = $.grep(data.rollcalls[0].votes, function(e){return e.district == atlargecode; });
-            $.each(atlarge, function(member) {
-                p.members.splice( $.inArray(atlarge[member], p.members), 1);
-            });
+        //In practice, can't set up numberDisplay these before the decorate.js is called?!
+    
+        d3.select("#scatter-chart").append("div").attr("id","chart-scatter-pre");
+        d3.select("#scatter-chart").append("div").attr("id","chart-scatter-class");
+    
+        var preValue = dc.numberDisplay('#chart-scatter-pre');
+        var classValue = dc.numberDisplay('#chart-scatter-class');
+        preValue
+	  .valueAccessor( function(d) {
+	      var ne = Math.min(d.value.yeas, d.value.noes);
+	      var me = d.value.denom - d.value.correct;
+	      var pre =  (ne - me)/ne + 0.005
+	      return pre > 0 ? pre : 0;
+	  })
+	  .group(fitGroup)
+          .formatNumber(d3.format(".2f"));
 
-            var index = p.members.indexOf(d);
-            if (index > -1) {
-              p.members.splice(index, 1);
-            }
-            return p;
-        },
-
-        function () {
-            return {members: []} ;
-        });
-
+        classValue
+	  .valueAccessor( function(d) { return d.value.correct/d.value.denom + 0.005 } )
+	  .group(fitGroup)
+          .formatNumber(d3.format(".2f"));
+    
+         JBL: End of dynamic PRE/Classified Dev */
+     
 	// DIMENSIONS HAVE BEEN DEFINED =========
 
 	// NOW BEGIN CHART SPECIFICATIONS =======
-	votePartyChart
-		.width(280).height(320)
-		.dimension(votePartyDimension).group(votePartyGroup)
+        votePartyChart
+  	        .width(280).height(320)  
+	        .dimension(votePartyDimension)
+                .group(votePartyGroup)
 		.elasticX(true)
-		.colorCalculator(function (d) {
-			return partyColors[d.key];
+	        .colorAccessor(function (d) {
+			return d.key;
 		})
+                .colors(function(d) { return partyColors[d] }) 
 		.fixedBarHeight(24).gap(10)
-		.labelOffsetX(40)
+	        .labelOffsetX(40)
 		.label(function(d)
 		{
 			if(d.key.substr(0,3)=="Abs") { var textLabel = d.key.substr(3,d.key.length)+": Not Voting"; }
@@ -265,17 +323,34 @@ function drawWidgets(error, data, geodata)
 		.transitionDuration(200)
         	.xAxis().ticks(4);
 
-	// Nominate scatter chart setup
+	// Nominate scatter chart 
+
+        // User sets width and can also change margins, but axis text size 
+        // is not adapt to sizing so best to leave margins.  Should probably
+        // have width set in template or css to better separation of style and logi.
+
+        var scWidth = 890; // Set overall width of scatter plot
+        var scMargins = {top:25,right:25,bottom:75,left:75};
+        var scHeight = (scWidth-scMargins['left']-scMargins['right'])*nomDWeight+scMargins['top']+scMargins['bottom']; 
+
 	nominateScatterChart
-		.width(890)
-		.height(424)
-		.margins({top:25,right:25,bottom:75,left:75})
+                .clipPadding(4) // JBL:fixes problem with symbols on ellipse boundary being clipped
+                .transitionDuration(250) // JBL:Speed up symbol size changes on brush per AB request
+		.width(scWidth)
+		.height(scHeight)
+		.margins(scMargins)
 		.dimension(xDimension)
 		.mouseZoomable(false)
 		.group(xGroup)
-		.symbolSize(7)
+	        .symbolSize(7)
+      	        .excludedSize(4)
+   
+                .emptySize(3)           // JBL: Empty settings control rendering pnts that are crossfiltered out
+                .emptyOpacity(0.5)
+                .emptyColor("#999999")             
                 .symbol(function (d) {
 		     try {
+			 //console.log(d);
 			 var v = d.value.members[0].vote; 
 			 if(v == "Yea") {return "triangle-up"}; 
 			 if(v == "Nay") {return "triangle-down"};
@@ -283,21 +358,22 @@ function drawWidgets(error, data, geodata)
 		     }
 		     return "circle"
                 }) 
-		.colorCalculator(function (d) { 
+		.colorAccessor(function (d) { 
 			var color = "#CCC";
 			try {
-				if(d.value.members.length > 0){   
-				color = blendColors(d.value.members,false);
-				}
+			    if(d.value.members.length > 0){   
+				color = blendColors(d.value.members,true); //JBL: true/false toggles Y/N coloring of plot symbols
+			    }
 			}catch(e){
 			}
 			return color; 
 		})
-		.highlightedSize(10)
-		.existenceAccessor(function(d) { 
-			return parseFloat(String(d.key).split(",")[0])>-98; })
-		.x(d3.scale.linear().domain([-1.0, 1.0])) 
-		.y(d3.scale.linear().domain([-1.2, 1.2]));
+                .colors(function(d) {return d})
+	        .existenceAccessor(function(d) {
+		    if(d.value.members.length==0){ return false };
+		    return parseFloat(String(d.key).split(",")[0])>-98; })
+	 	.x(d3.scale.linear().domain([-1, 1])) 
+		.y(d3.scale.linear().domain([-1, 1]));
 
 	// Updates the total number of units selected on the selection bar.
 	dc.dataCount("#data-count")
@@ -316,7 +392,7 @@ function drawWidgets(error, data, geodata)
 			.width(890).height(500) // Basic dimensions
 			.dimension((chamber=="House")?districtDimension:stateDimension) // How the data are separated and grouped.
 			.group((chamber=="House")?districtGroup:stateGroup)
-			.colorCalculator(function (d) { // What color does each unit use
+			.colorAccessor(function (d) { // What color does each unit use
 				//if(d!=undefined && d.members.length>0) { for(var i=0;i!=d.members.length;i++) { d.members[i].party="Democrat"; } }
 				var color = "#eee";
 				try {
@@ -328,6 +404,7 @@ function drawWidgets(error, data, geodata)
 				}
 				return color; 
 			})
+  	                .colors(function(d) {return d})
 			.overlayGeoJson(mapTopo, (chamber=="House")?"district":"state", function (d) { // Folds in the data.
 				return d.id;
 			})
@@ -362,12 +439,38 @@ function drawWidgets(error, data, geodata)
 	nominateScatterChart.on("filtered", pollFilters);
 	outVotes();
 
+        // Make brush box appear on click
+        var scb = nominateScatterChart.select(".brush");
+        scb.on('click', function(){
+	  var sizeOfBox = 0.03/2;
+  	  var extent = nominateScatterChart.brush().extent();
+	  var x = nominateScatterChart.x().invert(d3.mouse(this)[0]),
+	      y = nominateScatterChart.y().invert(d3.mouse(this)[1]);
+	  // Only draw box if there isn't one already there...
+ 	  if (extent[0][0]==extent[1][0] & extent[0][1]==extent[1][1]) {
+	      if (x*x + y*y <= 1) {
+		  var insideBox = $.grep(nominateScatterChart.data(), function(n, i) {
+		      return (  n["value"]["members"].length > 0 && //JBL: Allows box when selection in effect
+			        n["value"]["members"][0]["x"] >= x-sizeOfBox &&
+				n["value"]["members"][0]["x"] <= x+sizeOfBox &&
+				n["value"]["members"][0]["y"] >= y-sizeOfBox/nomDWeight &&
+				n["value"]["members"][0]["y"] <= y+sizeOfBox/nomDWeight);
+		 });
+		if(insideBox.length) { nominateScatterChart.brush().extent([[x-sizeOfBox,y-sizeOfBox/nomDWeight],[x+sizeOfBox,y+sizeOfBox/nomDWeight]]).event(scb); }
+		else { nominateScatterChart.brush().extent([[x,y],[x,y]]).event(scb); }
+	      } else {
+		  nominateScatterChart.brush().extent([[x,y],[x,y]]).event(scb);
+	      }
+	  }
+        });
+
 }
 
 
 // Easier to update steps to take on a full filter reset by running this.
 function doFullFilterReset()
 {
+	console.log("Start full filter reset.");
 	// Hide the bar.
 	$("#selectionFilterBar").slideUp();
 	// Deselect everything.
