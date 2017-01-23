@@ -69,8 +69,22 @@
 	</ul>
 	% end
 
-	<h3>Your District Through History</h3>
-	To see who has represented you through history, enter your address <span id="geolocationTutorial" style="display:none;">or click the map pin below</span> to begin:<br/>
+	<h3>Representing places through time</h3>
+	
+	<p>To find all of the house members who have represented a particular place through history, enter the address <span id="geolocationTutorial" style="display:none;">or click the map pin to search your current location</span>.  For fun, click on one of the notable example addresses below:</p>	
+	<ul style="columns:3; overflow:hidden; cursor: pointer;" id="notableExamples">
+		<li>520 Chestnut St, Philadelphia, PA 19106</li>
+		<li>19 N Square, Boston, MA 02113</li>
+		<li>3003 W Casino Rd, Everett, WA 98204</li>
+		<li>2120 James M Wood Blvd, Los Angeles, CA 90006</li>
+		<li>3302 Grand Ave. Louisville, KY 402112130</li>
+		<li>11350 Constitution Hwy, VA 22957</li>
+		<li>Window Rock, AZ 86515</li>
+		<li>300 Alamo Plaza, San Antonio, TX 78205</li>
+		<li>1060 W Addison St, Chicago, IL 60613</li>
+	</ul>
+	
+<br/>
 	<small><em>Privacy Notice: Voteview.com uses this information solely to fulfill your request. Address information is not logged, saved, or stored.</em></small><br/><br/>
 
 	<form id="submit-address-form" action="." method="post">
