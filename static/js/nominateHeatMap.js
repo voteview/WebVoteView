@@ -91,35 +91,16 @@ function nominateHeatmap(svg,m1,m2,s1,s2,b,w,width,height,cells,colorRamp) {
 	.attr("stroke-width", "0px")
 	.style("fill", function (d,i) {
 	       return colorScale(d.p);
-	    })
-	/* .on("mouseover", function(d) {
-            div.transition()
-                .duration(500)
-                .style("opacity", .9);
-            div.html( Math.round(100*d.p) + "% @ (" 
-                      + Math.round(100*nominateScaleR.x(d.x))/100 + "," 
-		      + Math.round(100*nominateScaleR.y(d.y))/100 + ")" )
-               .style("left", (d3.event.pageX) + "px")
-	       .style("top", (d3.event.pageY - 28) + "px"); 
-	    levline.attr("y1",levscale(100*d.p))
-		.attr("y2",levscale(100*d.p))
-                .attr("transform", "translate(0,10)")
-		.attr("stroke-width","2px");
-  })
-	.on("mouseout", function(d) {
-            div.transition()
-                .duration(200)
-                .style("opacity", 0);
-	    levline.attr("stroke-width","0px")}) */;
+	});
 
     svg.append("ellipse").attr("cx", nominateScale.x(0))
 	.attr("cy", nominateScale.y(0))
                     .attr("rx", nominateScale.x(1)/2)
                     .attr("ry", nominateScale.y(-1)/2)
                     .attr("fill","none")
-                    .attr("stroke","black").attr("stroke-width","1px");   
+                    .attr("stroke","gray").attr("stroke-width","1px");   
     // Add cutline
-    var b = -s1/(s2*w*w + 0.005);
+    var b = -s1/(s2*w*w + 0.0005);
     var a = m2 - b*m1;
 
     svg.append("line")
