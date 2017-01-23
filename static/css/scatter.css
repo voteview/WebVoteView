@@ -16,6 +16,7 @@ svg.scatter {
 	text-anchor:middle; 
 	font-size: 4em; 
 	fill:#BBB; 
+	opacity:0.8;
 	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -56,3 +57,18 @@ svg.scatter {
 	stroke-width:0;
 	fill:#FFF;
 }
+
+#hm_tooltip {
+        position: absolute;
+        text-align: center;
+        width: 80px;
+        padding: 2px;
+        font: 10px sans-serif;
+        background: lightsteelblue;
+	opacity: 50;
+        border: 0px;
+        border-radius: 8px;
+        pointer-events: none;
+}
+
+.dc-chart .symbol .selected { stroke: black; stroke-width: 2px; }
