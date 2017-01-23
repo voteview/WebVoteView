@@ -139,6 +139,7 @@ function addAllVotes()
 		{
 			if(data["old"]) { cachedVotes["old"] = data["old"]; }
 			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
+			if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 			updateStashCart();
 			selectIncludedVotes();						
 		}
@@ -155,7 +156,7 @@ function delAllVotes()
 		{
 			if(data["old"]) { cachedVotes["old"] = data["old"]; }
 			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
-			console.log(cachedVotes);
+			if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 			updateStashCart();
 			selectIncludedVotes();						
 		}
@@ -272,6 +273,7 @@ $(document).ready(function(){
 			{
 				cachedVotes["old"] = data["old"];
 				cachedVotes["votes"] = data["votes"];
+				if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 				updateStashCart();
 				console.log("Loaded votes: "+cachedVotes["old"].length+" old and "+cachedVotes["votes"].length+" new");
 				selectIncludedVotes();
@@ -359,8 +361,10 @@ $(document).ready(function(){
 				data: "id="+cookieId+"&votes="+this.value,
 				success: function(res, status, xhr)
 				{
+					console.log(res);
 					if(res["old"]) { cachedVotes["old"] = res["old"]; }
 					if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
+					if(res["id"]!=cookieId) { Cookies.set("stash_id", res["id"]); cookieId=res["id"]; }
 					console.log('added one');
 					console.log(cachedVotes);
 					updateStashCart();
@@ -377,6 +381,7 @@ $(document).ready(function(){
 				success: function(res, status, xhr)
 				{
 					console.log('Removed');
+					if(res["id"]!=cookieId) { Cookies.set("stash_id", res["id"]); cookieId=res["id"]; }
 					if(res["old"]) { cachedVotes["old"] = res["old"]; }
 					if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
 					console.log(cachedVotes);
