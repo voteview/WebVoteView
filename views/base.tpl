@@ -5,6 +5,7 @@
 % setdefault('extra_js', '')
 % setdefault('body_id', '')
 % setdefault('body_class', '')
+% setdefault('twitter_card', '')
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -37,6 +38,15 @@
 	% for extra in extra_css:
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}" type="text/css" />
 	% end
+
+	% if twitter_card:
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@voteview">
+	<meta name="twitter:title" content="John Smith (Republican, PA): Ideology and Votes on Voteview.com">
+	<meta name="twitter:description" content="John Smith is more liberal than 65% of the 115th Congress, and more conservative than 55% of Democrats">
+	<meta name="twitter:image" content="http://128.97.229.160/static/img/testOut.png">
+	% end
+
     </head>
 	% if not devserver:
     <body id="{{ body_id }}" class="{{ body_class }}">

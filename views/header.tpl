@@ -4,24 +4,41 @@
   <div id="wbv-header" class="row">
     <div class="col-md-12">
       <ul class="nav nav-pills pull-right">
+
         <li><a href="/">search</a></li>
+
         <li>
-          <a data-toggle="dropdown" href="#">explore</a>
+          <a data-toggle="dropdown" href="#">chamber</a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-	      <li><a href="/district">Your District</a></li>
-	      <li class="divider"></li>
-	      <li><a href="/parties/all">Parties</a></li>
-	      <li><a href="/congress/senate">Senators</a></li>
-	      <li><a href="/congress/house">Representatives</a></li>
-	      <li class="divider"></li>
-              <li><a href="/explore/senate">Senate Votes</a></li>
-              <li><a href="/explore/house">House Votes</a></li>
+            <li><a href="/congress/senate">Senate</a></li>
+            <li><a href="/congress/house">House of Representatives</a></li>
             </ul>
         </li>
-	<li><a href="http://voteviewblog.com/" target="_blank">blog</a></li>
+
+        <li><a href="/parties/all">party</a></li>
+
+        <li><a href="/district">geography</a></li>   
+
+        <!-- JBL: Hide the summary page until it does more useful stuff...  <li>
+          <a data-toggle="dropdown" href="#">summary</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <li><a href="/explore/senate">Senate votes</a></li>
+              <li><a href="/explore/house">House votes</a></li>
+            </ul>
+        </li> -->
+
         <li><a href="/data">data</a></li>
+
+        <li><a href="http://voteviewblog.com/" target="_blank">blog</a></li>
+
         <!--<li><a href="/research">research</a></li>-->
-        <li><a href="/about">about</a></li>
+
+        <li><a data-toggle="dropdown" href="#">about</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <li><a href="/about">The project</a></li>
+              <li><a href="/legacy">Legacy site</a></li>
+            </ul>
+	</li>
       </ul>
 
 	<h1 id="brand">
