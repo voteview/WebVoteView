@@ -362,7 +362,8 @@ def getmembersbycongress():
         chamber = ""
     api = defaultValue(bottle.request.params.api,"")
     out = getMembersByCongress(congress,chamber,api)
-    if api=="Web_Congress":
+    if api=="Web_Congress" and "results" in out:
+        print out
         for i in range(0,len(out["results"])):
             memberRow = out["results"][i]
 
@@ -434,7 +435,7 @@ def getmembersbyparty():
 		congress = 0
 	api = defaultValue(bottle.request.params.api,"")
 	out = getMembersByParty(id, congress, api)
-	if api=="Web_Party":
+	if api=="Web_Party" and "results" in out:
 		for i in range(0,len(out["results"])):
 			memberRow = out["results"][i]
 
