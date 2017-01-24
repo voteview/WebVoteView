@@ -278,10 +278,12 @@ def person(icpsr=0):
 
 
         timeIt("partySwitches")
-        voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1, request=bottle.request)
+        #voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1, request=bottle.request)
         timeIt("gotVotes")
 
-	votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
+	#votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
+	votes = []
+	voteQuery = {"nextId": 0}
 
         if "biography" in person:
             person["biography"] = person["biography"].replace("a Representative","Representative")
