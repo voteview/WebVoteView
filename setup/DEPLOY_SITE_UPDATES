@@ -39,7 +39,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Dumping parties..."
 	mongodump --collection voteview_parties --db voteview
 	echo "Dumping meta..."
-	mongodump --colection voteview_metadata --db voteview
+	mongodump --collection voteview_metadata --db voteview
 	echo "Done dump"
 EOF
 	echo "Connecting to server to download dump..."
@@ -85,4 +85,6 @@ else
 fi
 endT=$(date +%s)
 runtime=$((endT-start))
+maintenancetime=$((endT-downtimeStop)
+echo "Total maintenance time $maintenancetime seconds"
 echo "Total runtime $runtime seconds"
