@@ -40,7 +40,8 @@ function drawHistWrap(error, data)
 			partyColor = d.party_color;
 			chamber = d.chamber.toLowerCase();
 			$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
-			memberIdealBucket = Math.floor(memberIdeal*10);
+			memberIdealBucket = Math.floor(memberIdeal*numBins);
+			console.log(memberIdealBucket);
 			foundRep=1;
 			return false;
 		}
@@ -59,7 +60,6 @@ function drawHist(error, data)
 	{
 		return(0);
 	}
-
 	var ctGreater=0;
 	var ctTotal=0;
 	var ctPartyGreater=0;
@@ -105,7 +105,7 @@ function drawHist(error, data)
 
 	var ndx = crossfilter(oneDims);
 	var oneDimDimension = ndx.dimension(function(d) { return d; });
-	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*10); });
+	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*numBins); });
 
 	var nominateHist = dc.barChart("#nominateHist");
 	nominateHist.width(420).height(130).margins({top: 10, right:10, bottom: 30, left:20})
@@ -121,11 +121,11 @@ function drawHist(error, data)
 				else { return "#CCCCCC"; } 
 			 })
 	.renderTitle(false)
-	.x(d3.scale.linear().domain([-10, 10]))
-	.xAxis().ticks(20).tickFormat(function(v) 
+	.x(d3.scale.linear().domain([-numBins, numBins]))
+	.xAxis().ticks(numBins*2).tickFormat(function(v) 
 	{
-		if(v==-10) return "Liberal";
-		else if(v==9) return "Conservative";
+		if(v==-numBins) return "Liberal";
+		else if(v==numBins-(1*Math.ceil(numBins/10))) return "Conservative";
 	});
 
 	nominateHist.on("postRender", function(c){
