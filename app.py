@@ -419,7 +419,10 @@ def districtLookup():
         if "results" in resultsM:
             currentCong = next((x["district_code"] for x in resultsM["results"] if x["congress"]==maxCongress), None)
             currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": maxCongress}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": maxCongress}]})
-            return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
+            if "results" in currentLookup:
+                return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
+            else:
+                return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": []}
         else:
             return {"status": 1, "error_message": "No matches."}
     else:

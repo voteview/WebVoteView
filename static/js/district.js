@@ -221,12 +221,21 @@ function resetResults()
 					}
 
 					// Explainers for weird edge cases (partition/joining or the Civil War)
-					if(lastResult["congress"]>38 && v["congress"]<37)
+					if(lastResult["congress"]>38 && lastResult["congress"]<=45 && v["congress"]<37 && v["congress"]>=30)
 					{
 						var civilWarDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: "+v["state"]+" does not seat a delegation in the US Congress.");
 						var tr = $("<tr></tr>");
 						var td = $("<td colspan=\"5\"></td>");
 						civilWarDiv.appendTo(td);
+						td.appendTo(tr);
+						tr.appendTo(tbody);
+					}
+					if(lastResult["state"]=="Maryland" && Math.abs(v["congress"]-lastResult["congress"])>20)
+					{
+						var maryDiv = $("<div></div>").addClass("alert alert-info").html("<strong>D.C.</strong>: The changing shapes of congressional districts occasionally include the address you entered in Maryland. As above, Voteview.com does not track D.C. delegates.");
+						var tr = $("<tr></tr>");
+						var td = $("<td colspan=\"5\"></td>");
+						maryDiv.appendTo(td);
 						td.appendTo(tr);
 						tr.appendTo(tbody);
 					}

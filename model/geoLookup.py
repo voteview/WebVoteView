@@ -72,7 +72,7 @@ def addressToLatLong(request, addressString):
 				return {"status": 1, "error_message": "Google Maps failed to locate a state matching the address you entered."}
 
 		if stateName=="District of Columbia":
-			warning.append("Voteview.com does not track non-voting delegates sent by D.C. to the House of Representatives. The Representatives listed below served when what is today the District of Columbia was located within Maryland's 3rd Congressional district. For more information, see Wikipedia:<br/><a href=\"https://en.wikipedia.org/wiki/Maryland%27s_3rd_congressional_district\">https://en.wikipedia.org/wiki/Maryland%27s_3rd_congressional_district</a>.<br/><br/>For more information about voting rights in D.C., see Wikipedia:<br/><a href=\"https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights\">https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights</a>")
+			warning.append("The address you entered is located in or around D.C. Voteview.com does not track non-voting delegates sent by D.C. to the House of Representatives. The Representatives listed below served when the location you entered was located in Maryland. For more information, see Wikipedia:<br/><a href=\"https://en.wikipedia.org/wiki/Maryland%27s_3rd_congressional_district\">https://en.wikipedia.org/wiki/Maryland%27s_3rd_congressional_district</a>.<br/><br/>For more information about voting rights in D.C., see Wikipedia:<br/><a href=\"https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights\">https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights</a>")
 
 		if city==0 and stateName not in ["Alaska", "Delaware", "Wyoming"]:
 			if stateName in ["Alaska", "Delaware", "Montana", "North Dakota", "South Dakota", "Vermont", "Wyoming"]:
