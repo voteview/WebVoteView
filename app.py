@@ -286,9 +286,15 @@ def person(icpsr=0):
         if "biography" in person:
             person["biography"] = person["biography"].replace("a Representative","Representative")
 
+	if not "twitter_card" in person:
+		twitter_card=0
+	else:
+		twitter_card = person["twitter_card"]
+		twitter_card["icpsr"] = person["icpsr"]
+
         timeIt("readyOut")
         # Go to the template.
-        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"], voteQuery=voteQuery, twitter_card=1)
+        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"], voteQuery=voteQuery, twitter_card=twitter_card)
         return(output)
 
     # If we have an error, return an error page
