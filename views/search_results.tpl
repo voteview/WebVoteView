@@ -101,7 +101,7 @@
 			% end
 			<p><strong>Description</strong>: {{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
 
-			% debug = False
+			% debug = True
 			% if "score" in rollcall and debug:
 				<p style="font-size:8px;"><em>Debug: {{round(rollcall["score"],2)}}</em></p>
 			% end
