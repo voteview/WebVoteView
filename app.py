@@ -288,7 +288,7 @@ def person(icpsr=0):
 
         timeIt("readyOut")
         # Go to the template.
-        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"], voteQuery=voteQuery)
+        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"], voteQuery=voteQuery, twitter_card=1)
         return(output)
 
     # If we have an error, return an error page
