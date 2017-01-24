@@ -33,11 +33,7 @@
 
         <!--<li><a href="/research">research</a></li>-->
 
-        <li><a data-toggle="dropdown" href="#">about</a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-              <li><a href="/about">The project</a></li>
-              <li><a href="/legacy">Legacy site</a></li>
-            </ul>
+        <li><a href="/about">about</a></li>
 	</li>
       </ul>
 
