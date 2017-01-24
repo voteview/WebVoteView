@@ -165,7 +165,6 @@
 	    </form>
 
 		<div id="memberVotesTable">
-			%include('member_votes.tpl', skip=0)
 		</div>
 		<div style="float:right;">
 			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a> 
@@ -180,7 +179,7 @@
 <script>
 var memberICPSR = {{person["icpsr"]}};
 var congressNum = {{person["congress"]}};
-var globalNextId = {{nextId}};
+var globalNextId = 0;
 </script>
 % if plotIdeology:
 <script>
