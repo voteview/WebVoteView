@@ -44,7 +44,7 @@
 	<meta name="twitter:site" content="@voteview">
 	<meta name="twitter:title" content="{{twitter_card["title"]}}">
 	<meta name="twitter:description" content="{{twitter_card["body"]}}"
-	<meta name="twitter:image" content="http://128.97.229.160/static/img/twitterCard/{{str(twitter_card["icpsr"]).zfill(6)}}.png">
+	<meta name="twitter:image" content="https://voteview.polisci.ucla.edu/static/img/twitterCard/{{str(twitter_card["icpsr"]).zfill(6)}}.png">
 	% end
 
     </head>
