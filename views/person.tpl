@@ -190,8 +190,9 @@ var mapParties=1;
 % else:
 	var chamber = "senate";
 % end
+var numBins = 15; // This is actually multiplied by 2, so 15*2 = 30.
 var memberIdeal = {{person["nominate"]["dim1"]}};
-var memberIdealBucket = Math.floor({{person["nominate"]["dim1"]}}*10);
+var memberIdealBucket = Math.floor({{person["nominate"]["dim1"]}}*numBins);
 var memberPartyName = "{{person["party_name"]}}";
 var memberPartyCode = "{{person["party_code"]}}";
 var memberNoun = "{{person["party_noun"]}}";
