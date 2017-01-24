@@ -26,7 +26,7 @@ The primary dimension through most of American history has been "liberal" vs. "c
 dimension picks up differences within the major political parties over slavery, currency, nativism, civil rights,
 and lifestyle issues during periods of American history.<br/><br/>
 
-UCLA's Department of Political Science hosts and maintains NOMINATE score data and Voteview.com. We welcome feedback,
+UCLA's Department of Political Science hosts and maintains NOMINATE score data and voteview. We welcome feedback,
 questions, and media enquiries concerning this project.
 
 <!--
@@ -62,7 +62,7 @@ This project was made possibe by support from <a href="http://www.hewlett.org">T
 				</li>
 				
 				<li>
-					<strong>Lead Database Developer:</strong> <a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
+					<strong>Lead Database Developer, Voteview.com:</strong> <a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
 				</li>
 				<li>
 					<strong>Lead Developer, Voteview.com:</strong> Aaron Rudkin, University of California Los Angeles</li>
