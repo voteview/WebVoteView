@@ -8,13 +8,12 @@
 		<div class="col-md-9">
 			<h3>About the project</h3>
 		
-			<p> <strong>Voteview.com</strong> is a website
-that allows users to view every congressional roll call vote in American 
+			<p> <strong>Voteview</strong> allows users to view every congressional roll call vote in American 
 history on a map of the United States and on a liberal-conservative 
 ideological map including information about the ideological positions of 
 voting Senators and Representatives.  The original version of Voteview was 
 developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon 
-University between 1989-1992.<br/><br/>
+University between 1989-1992. The legacy website is at <a href="http://k7moa.com">k7moa.com</a>.<br/><br/>
 
 Ideological positions are calculated using the <strong>DW-NOMINATE</strong>
 (<strong>D</strong>ynamic <strong>W</strong>eighted <strong>NOMINA</strong>l <strong>T</strong>hree-step <strong>E</strong>stimation).

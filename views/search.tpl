@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<h3>
-				Search Voteview.com 
+				Search voteview.com 
 				<span class="glyphicon glyphicon-question-sign" style="font-size:14px;float:right;vertical-aklign:middle;cursor:pointer;" id="toggleAlert"></span>
 			</h3>
 
@@ -15,7 +15,7 @@
 				<a href="#" id="closeAlert" style="float:right;text-decoration:none;">&times;</a>
 				<strong>Welcome!</strong>
 
-				You have reached the <strong>beta version</strong> of the new Voteview.com. This is a website that allows users to view every congressional roll call vote
+				You have reached the <strong>beta version</strong> of the new voteview.com. This is a website that allows users to view every congressional roll call vote
 				in American history on a map of the United States and on a liberal-conservative ideological map, including information about the ideological position of
 				voting Senators and Representatives. For more information about Voteview and NOMINATE, click <a href="/about">here</a>. <strong>Academics interested in NOMINATE data can download it on our <a href="/data">data page</a>.</strong><br/><br/>
 
