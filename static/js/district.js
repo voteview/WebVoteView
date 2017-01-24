@@ -203,7 +203,7 @@ function resetResults()
 				}
 
 				$("<h4>Historical Representatives</h4>").appendTo("#resultsMembers");
-				var table = $("<table><thead><tr><th>Congress</th><th>District</th><th>Nom</th><th>Party</th><th>Member</th></tr></thead></table>")
+				var table = $("<table><thead><tr><th>Congress</th><th>District</th><th>Ideology</th><th>Party</th><th>Member</th></tr></thead></table>")
 						.addClass("table table-hover dc-data-table");
 				var tbody = $("<tbody></tbody>");
 
@@ -278,11 +278,11 @@ function resetResults()
 						tr.on("mouseover", function()
 						{
 							$("#tooltipIdeology").html("");
-							if(v["nominate"]!=undefined) { $("#tooltipIdeology").html("<strong>Ideology Score:</strong> "+v["nominate"]["dim1"]); }
+							if(v["nominate"]!=undefined) { $("#tooltipIdeology").html(v["nominate"]["dim1"]); }
 							else { $("#tooltipIdeology").html("<strong>No Ideology Score</strong>"); }
 
 							$("#tooltipIdeology").removeClass().addClass("d3-tip");
-							$("#tooltipIdeology").css("left",($(this).offset().left+75)+"px");
+							$("#tooltipIdeology").css("left",($(this).offset().left+245)+"px");
 							$("#tooltipIdeology").css("top",$(this).offset().top+"px");
 							$("#tooltipIdeology").css("visibility","visible");			
 						});
