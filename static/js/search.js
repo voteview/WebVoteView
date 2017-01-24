@@ -442,6 +442,8 @@ function updateRequest()
 	}
 }
 
+var globalSlowLoadTimer;
+
 	// Get the initial list of rollcalls and replace all elements in the container with them
 	function getRollcalls()
 	{
@@ -457,6 +459,11 @@ function updateRequest()
 			data: $('#faceted-search-form').serialize() + "&jsapi=1",
 			beforeSend:function(){
 				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
+				globalSlowLoadTimer = setTimeout(function()
+				{
+					$('#results-list').html('<div id="loading-container" style="text-align:left;"><img src="/static/img/loading.gif" alt="Loading..." /> <h4>Loading... We apologize that your search query is taking a long time to complete. Your search is still processing. <!--Please continue to wait and excuse us while we work on improving Voteview.com--></h4></div>');
+				}, 5000);
+
 				mostRecentSearch = $("#searchTextInput").val();
 				$.ajax({
 					dataType: "JSON",
@@ -474,6 +481,7 @@ function updateRequest()
 			},
 			success: function(res, status, xhr) 
 			{
+				clearTimeout(globalSlowLoadTimer);
 				metaPageloaded = 0; // Reset page load count. We use this for stopping auto-scroll after 10 pages.
 				var resultsNumber = parseInt(xhr.getResponseHeader("Rollcall-Number"));
 				var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
