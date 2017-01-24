@@ -85,6 +85,6 @@ else
 fi
 endT=$(date +%s)
 runtime=$((endT-start))
-maintenancetime=$((endT-downtimeStop)
+maintenancetime=$((endT-downtimeStop))
 echo "Total maintenance time $maintenancetime seconds"
 echo "Total runtime $runtime seconds"
