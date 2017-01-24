@@ -42,9 +42,9 @@
 	% if twitter_card:
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="@voteview">
-	<meta name="twitter:title" content="John Smith (Republican, PA): Ideology and Votes on Voteview.com">
-	<meta name="twitter:description" content="John Smith is more liberal than 65% of the 115th Congress, and more conservative than 55% of Democrats">
-	<meta name="twitter:image" content="http://128.97.229.160/static/img/testOut.png">
+	<meta name="twitter:title" content="{{twitter_card["title"]}}">
+	<meta name="twitter:description" content="{{twitter_card["body"]}}"
+	<meta name="twitter:image" content="http://128.97.229.160/static/img/twitterCard/{{str(twitter_card["icpsr"]).zfill(6)}}.png">
 	% end
 
     </head>
@@ -53,13 +53,6 @@
 	% else:
     <body id="{{ body_id }}" class="{{ body_class }}" style="border-left:20px solid red;">
 	% end
-        <!--[if lt IE 8]>
-            <div class="chromeframe">
-                    <p>Hi. It looks like you're using an older browser that does not support VoteView.<br/>
-                    Please <a href="http://whatbrowser.org/">upgrade your browser</a>.
-                    </p>
-            </div>
-        <![endif]-->
         {{!base}}
 
 
