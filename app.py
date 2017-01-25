@@ -5,6 +5,7 @@ import datetime
 import time
 import json
 import bottle
+import unidecode
 from fuzzywuzzy import fuzz
 
 from model.searchVotes import query
@@ -37,6 +38,27 @@ timeNums = []
 def clearTime():
     timeLabels = []
     timeNums = []
+
+# Linearize name
+def linearName(text):
+	print text
+	if "," in text:
+		chunks = text.split(", ")
+		if len(chunks)>=3:
+			newText = chunks[1]+" "+chunks[0]+", "+chunks[2:]
+		else:
+			newText = chunks[1]+" "+chunks[0]
+		return newText
+	else:
+		return text
+
+# Change text strings to SEO-friendly link strings.
+def slugify(text):
+	text = unidecode.unidecode(text).lower()	
+	text = linearName(text)
+	text = re.sub(r"[^a-z0-9]+","-",text).strip()
+	text = re.sub(r"[-]+","-",text)
+	return text
 
 def timeIt(label):
     timeLabels.append(label)
@@ -498,6 +520,7 @@ def searchAssemble():
 			party["scoreMatch"] += 25
 		elif party["count"] > 100:
 			party["scoreMatch"] += 10
+		party["seo_name"] = slugify(party["fullName"])
                 resultParties.append(party)
 	resultParties.sort(key=lambda x: (-x["scoreMatch"], -x["maxCongress"]))
 
@@ -593,7 +616,7 @@ def searchAssemble():
             else:
                 member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"
             member["minElected"] = congressToYear(member["congresses"][0][0], 0)
-            member["seo_name"] = seo_text(member["bioname"])
+            member["seo_name"] = slugify(member["bioname"])
             resultMembers.append(member)
 
         #return(resultMembers)
