@@ -278,12 +278,6 @@ def person(icpsr=0):
 
 
         timeIt("partySwitches")
-        #voteQuery = query(qtext="voter: "+str(person["icpsr"]), rowLimit=25, jsapi=1, request=bottle.request)
-        timeIt("gotVotes")
-
-	#votes = prepVotes(voteQuery, person) # Outsourced the vote assembly to a model for future API buildout.
-	votes = []
-	voteQuery = {"nextId": 0}
 
         if "biography" in person:
             person["biography"] = person["biography"].replace("a Representative","Representative")
@@ -296,7 +290,7 @@ def person(icpsr=0):
 
         timeIt("readyOut")
         # Go to the template.
-        output = bottle.template("views/person",person=person, votes=votes, timeSet=zipTimes(), skip=0, nextId=voteQuery["nextId"], voteQuery=voteQuery, twitter_card=twitter_card)
+        output = bottle.template("views/person",person=person, timeSet=zipTimes(), skip=0, twitter_card=twitter_card)
         return(output)
 
     # If we have an error, return an error page
