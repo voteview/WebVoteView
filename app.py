@@ -757,7 +757,7 @@ def searchAssemble():
             highlighter = ""
 
         if redirFlag==1 and len(resultParties)==0 and len(resultMembers)==1 and (not "rollcalls" in res or len(res["rollcalls"])==0):
-            bottle.response.headers["redirect_url"] = "/person/"+str(resultMembers[0]["icpsr"])
+            bottle.response.headers["redirect_url"] = "/person/"+str(resultMembers[0]["icpsr"])+"/"+resultMembers[0]["seo_name"]
         bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
         bottle.response.headers["member_number"] = len(resultMembers)
 	bottle.response.headers["party_number"] = len(resultParties)
