@@ -83,7 +83,7 @@ q
 	tempParties.sort(function(a,b){ return b[1]["count"] - a[1]["count"]; });
 	$.each(tempParties, function(ip, op) { if(op[1]["count"]>=cutoff) { partyList.push(op[1]); } else { return false; }});
 	var numQualifyingParties = partyList.length;
-	console.log(partyList);
+	//console.log(partyList);
 
 	// Append each party's median to the grand median so we have a set of medians for every congress.
 	var memSetScatter = [];
@@ -210,7 +210,7 @@ q
 						{	
 							$('#mapTooltip').removeClass().addClass('d3-tip')
 									.addClass(partyColorMap[partyNameSimplify(parties[j][1]["name"])])
-							console.log($('#mapTooltip').attr('class'));
+							//console.log($('#mapTooltip').attr('class'));
 						} catch(err) { console.log(err); }
 					}
 					else
@@ -253,7 +253,7 @@ q
 	var j=0;
 	for(var i=0;i!=parties.length;i++)
 	{
-		console.log(parties[i]);
+		//console.log(parties[i]);
 		// Breaks between Major, Historical Major, and Historical Minor Parties
 		if(i==0)
 		{
@@ -282,7 +282,7 @@ q
 		try
 		{
 			if(minCong==maxCong) { textLabel += "in the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"-"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)"; }
-			else if(maxCong>=max) { console.log(parties[i][1]); textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) onwards"; }
+			else if(maxCong>=max) { textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) onwards"; }
 			else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) until the "+getGetOrdinal(maxCong)+" Congress (<small>"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)."; }
 		}
 		catch(e) { textLabel += "Error here"; }

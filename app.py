@@ -179,6 +179,9 @@ def district():
 @app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
 def parties(party="all", congStart=-1):
+	if type(congStart)==type(""): # Capture SEO-friendly links.
+		congStart=-1
+
 	# Just default for now
 	try:
 		party = int(party)
@@ -208,7 +211,8 @@ def parties(party="all", congStart=-1):
 
 @app.route("/person")
 @app.route("/person/<icpsr>")
-def person(icpsr=0):
+@app.route("/person/<icpsr>/<garbage>")
+def person(icpsr=0, garbage=""):
     clearTime()
     timeIt("begin")
     if not icpsr:
@@ -589,7 +593,7 @@ def searchAssemble():
             else:
                 member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"
             member["minElected"] = congressToYear(member["congresses"][0][0], 0)
-
+            member["seo_name"] = seo_text(member["bioname"])
             resultMembers.append(member)
 
         #return(resultMembers)
