@@ -163,7 +163,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 
 	# Field return specifications, allows us to return less than all our data to searches.
 	if api=="Web_PI":
-		fieldSet = {"nominate.dim1": 1, "party_code": 1, "icpsr": 1, "chamber":1, "_id": 0}
+		fieldSet = {"nominate.dim1": 1, "party_code": 1, "district_code": 1, "icpsr": 1, "chamber":1, "_id": 0}
 	elif api=="Web_FP_Search":
 		print searchQuery
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1, "chamber": 1}
