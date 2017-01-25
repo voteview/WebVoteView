@@ -92,7 +92,8 @@ $(document).ready(function(){
 				else { $("#loadStash").hide(); console.log('No stash votes.'); }
 			}});
 	}
-	$("#voteDataTable").tablesorter({headers: {4: {sortInitialOrder: 'desc', sorter: 'probFunc'}, 5: {sorter: 'splitFunc'}}});
+	startNewSearch();
+	/*$("#voteDataTable").tablesorter({headerTemplate: "{content}{icon}", headers: {4: {sortInitialOrder: 'desc', sorter: 'probFunc'}, 5: {sorter: 'splitFunc'}}});
 	$("#voteDataTable").bind("tablesorter-ready", function() { $('[data-toggle="tooltip"]').tooltip(); });
-	$("#voteDataTable").bind("sortEnd",hideDates);
+	$("#voteDataTable").bind("sortEnd",hideDates);*/
 });
