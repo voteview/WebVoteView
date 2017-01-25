@@ -250,26 +250,32 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 
             # Sort by ideology, and then identify the median and pivots
             if apitype == "Web":
-                pivotCopy = [
-                    x for x in result if "x" in x and x["x"] is not None]
+                median = []
+                pivotCopy = [x for x in result if "x" in x and x["x"] is not None]
                 pivotCopy = sorted(pivotCopy, key=lambda x: x["x"])
                 if len(pivotCopy) % 2:
-                    median = [
-                        pivotCopy[int(math.ceil(len(pivotCopy) / 2)) - 1]["icpsr"]]
+                    median = [pivotCopy[int(math.ceil(len(pivotCopy) / 2)) - 1]["icpsr"]]
                 else:
                     median = [pivotCopy[
                         (len(pivotCopy) / 2) - 1]["icpsr"], pivotCopy[(len(pivotCopy) / 2)]["icpsr"]]
-                for i in xrange(len(result)):
-                    if result[i]["icpsr"] in median:
-                        result[i]["flags"] = "median"
 
                 # Filibuster pivot
+                fbPivot = []
                 if rollcall["chamber"] == "Senate" and rollcall["congress"] >= 94 and len(pivotCopy) >= 60:
                     fbPivot = [pivotCopy[59]["icpsr"],
                                pivotCopy[len(pivotCopy) - 60]["icpsr"]]
-                    for i in xrange(len(result)):
-                        if result[i]["icpsr"] in fbPivot:
-                            result[i]["flags"] = "fbPivot"
+                # Veto Override pivot
+                numVotes = len([x for x in result if "vote" in x and x["vote"]!="Abs"])
+                voPivotNum = int(math.ceil(float(numVotes)*float(2)/float(3)))
+                voPivot = [pivotCopy[voPivotNum]["icpsr"], pivotCopy[len(pivotCopy) - voPivotNum - 1]["icpsr"]]
+
+                for i in xrange(len(result)):
+                    if result[i]["icpsr"] in median:
+                        result[i]["flags"] = "median"
+                    if result[i]["icpsr"] in fbPivot:
+                        result[i]["flags"] = "fbPivot"
+                    if result[i]["icpsr"] in voPivot:
+                        result[i]["flags"] = "voPivot"
 
             # Top level nominate metadata
             # Debug code to delete nominate data so we can regenerate it.
