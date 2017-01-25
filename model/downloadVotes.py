@@ -6,6 +6,7 @@ import math
 from searchMembers import cqlabel
 from searchParties import partyName, shortName
 from searchMeta import metaLookup
+from slugify import slugify
 from pymongo import MongoClient
 client = MongoClient()
 try:
@@ -205,6 +206,13 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                                 except:
                                     newV["prob"] = 0
                             newV["name"] = memberMap["bioname"]
+                            try:
+                                newV["seo_name"] = slugify(newV["name"])
+                            except:
+                                print "error can't slugify"
+                                print traceback.format_exc()
+                                pass
+
                             newV["party"] = partyName(memberMap["party_code"])
                             newV["party_short_name"] = shortName(
                                 memberMap["party_code"])
