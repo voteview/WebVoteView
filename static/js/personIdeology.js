@@ -40,6 +40,12 @@ function drawHistWrap(error, data)
 			partyColor = d.party_color;
 			chamber = d.chamber.toLowerCase();
 			$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
+			if(d.district_code != undefined && d.district_code!=0 && d.district_code!=98 && d.district_code!=99)
+			{
+				$("#district_label").html(getGetOrdinal(d.district_code)+" congressional district");
+				$("#show_district").css("display","block");
+			}
+			else $("#show_district").css("display","none");
 			memberIdealBucket = Math.floor(memberIdeal*numBins);
 			console.log(memberIdealBucket);
 			foundRep=1;
