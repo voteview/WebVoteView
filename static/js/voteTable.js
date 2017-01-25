@@ -171,7 +171,7 @@ function outVotes(groupBy)
 		
 						if(pp["flags"]=="median") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Median Voter."; }
 						else if(pp["flags"]=="fbPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> 60th Vote for Cloture"; }
-						else if(pp["flags"]=="veto") { baseText == "<br/><br/><strong>Pivotal Voter:</strong> Veto override."; }
+						else if(pp["flags"]=="voPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Veto override."; }
 					}
 					else { baseText += "We do not have a score for this member yet.<br/>"; }
 
