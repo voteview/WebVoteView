@@ -4,6 +4,7 @@ import traceback
 import os
 from stateHelper import stateNameToAbbrev, stateName, stateIcpsr
 from searchParties import partyName, noun, partyColor, shortName
+from slugify import slugify
 #from searchMeta import metaLookup
 client = pymongo.MongoClient()
 try:
@@ -236,6 +237,8 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
                                 for k,v in newM["nominate"].iteritems():
                                         newM[k] = v
                                 del newM["nominate"]
+
+		newM["seo_name"] = slugify(newM["bioname"])
 
 		response.append(newM)
 		i=i+1

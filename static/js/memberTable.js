@@ -102,10 +102,10 @@ function constructPlot(member, margins)
 	}
 
 	var memberBox = $("<li></li>")  .addClass("memberResultBox")
-					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"];})
+					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"]+"/"+member["seo_name"];})
 					.css("break-inside","avoid-column")
 					.css("overflow","hidden").css("padding-right",mL);
-	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]).attr("class","nohover").css("display", "block;");
+	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]+"/"+member["seo_name"]).attr("class","nohover").css("display", "block;");
 	var imgBox = $("<img />").css("width","80px").css("height","80px").css("padding-right",mImg).attr("class","pull-left")
 					.attr("src","/static/img/bios/"+member["bioImgURL"]);
 
