@@ -126,7 +126,9 @@
 		<div class="col-md-12">
 			<h3>Biography</h3>
 			{{ !person["biography"] }}
-			% if not "bioguide_id" in person:
+			% if "bio_flag" in person:
+			<br><small><em>Biographical text written by {{person["bio_flag"]}}</em></small>
+			% elif not "bioguide_id" in person:
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">The Biographical Directory of the United States Congress</a></small>
 			% else:
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/scripts/biodisplay.pl?index={{person["bioguide_id"]}}">Biographical Directory of the United States Congress</a></small>
