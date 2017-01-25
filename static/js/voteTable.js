@@ -175,10 +175,14 @@ function outVotes(groupBy)
 					}
 					else { baseText += "We do not have a score for this member yet.<br/>"; }
 
-					var profileImg = $("<img>").attr("src","/static/img/bios/"+pp["img"]).css("width","80px").css("padding-right","10px").css("vertical-align","middle").addClass("pull-left");
+					var profileImg = $("<img>").attr("src","/static/img/bios/"+pp["img"]).css("width","80px");
+					var profileImgDiv = $("<div></div>").css("padding-right","10px")
+									.css("vertical-align","middle").css("height","100%").css("min-height","100px")
+									.addClass("pull-left");
 					var textChunk = $("<div></div>").css("font-size","0.9em").css("vertical-align","middle").css("padding-top","5px").html(baseText);
 					baseTipVoter.html("");
-					profileImg.appendTo(baseTipVoter);
+					profileImg.appendTo(profileImgDiv);
+					profileImgDiv.appendTo(baseTipVoter);
 					textChunk.appendTo(baseTipVoter);
 
 					var eWV = parseInt(baseTipVoter.style("width"));
