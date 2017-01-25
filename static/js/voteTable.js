@@ -39,6 +39,7 @@ function outVotes(groupBy)
 			"icpsr": filteredVotes[i]["icpsr"],
 			"x": parseFloat(filteredVotes[i]["x"]),
 			"fullName": filteredVotes[i]["name"],
+			"seo_name": filteredVotes[i]["seo_name"]
 		};
 		if(filteredVotes[i]["flags"] != undefined) { voteSubset["flags"] = filteredVotes[i]["flags"]; }
 		if(filteredVotes[i]["img"] != undefined) { voteSubset["img"] = filteredVotes[i]["img"]; }
@@ -133,7 +134,7 @@ function outVotes(groupBy)
 			var li = $("<li></li>").css("display","inline-block").css("width","100%").css("padding-bottom","3px");
 			var span = $("<span></span>").css("background-color","white").css("padding-right","5px");
 			if(person["flags"]!=undefined && groupBy=="x") { $("<span>* </span>").css("color","red").appendTo(span); }
-			$("<a></a>").attr("href","/person/"+person["icpsr"])
+			$("<a></a>").attr("href","/person/"+person["icpsr"]+"/"+person["seo_name"])
 					.html(outLabel).appendTo(span);
 			span.appendTo(li);
 
