@@ -7,7 +7,7 @@
 
 % i=0
 % for party in resultParties:
-		<div class="col-md-3 memberResultBox {{party["colorScheme"]}}" onClick="javascript:window.location='/parties/{{party["id"]}}';">
+		<div class="col-md-3 memberResultBox {{party["colorScheme"]}}" onClick="javascript:window.location='/parties/{{party["id"]}}/{{party["fullName"].lower().replace(' ','-')}}';">
 			% if "logo" in party or (party["id"]==100 or party["id"]==200):
 			<img src="/static/img/parties/{{party["id"]}}.png" style="height:80px;padding-right:20px;vertical-align:middle;" class="pull-left">
 			% end
