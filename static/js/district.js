@@ -259,7 +259,7 @@ function resetResults()
 					}
 
 
-					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"];});
+					var tr = $("<tr></tr>").on("click",function(){window.location='/person/'+v["icpsr"]+"/"+v["seo_name"];});
 					dateSet = congToYears(v["congress"]);
 					
 					if(v["nominate"]!=undefined && v["nominate"]["dim1"]!=undefined) { var nomOffset = Math.floor((v["nominate"]["dim1"]+1.01)*50); }
@@ -280,7 +280,7 @@ function resetResults()
 						$("<td></td>").appendTo(tr);
 					}
 					$("<td>"+v["party_noun"]+"</td>").appendTo(tr);
-					$("<td><a href=\"/person/"+v["icpsr"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
+					$("<td><a href=\"/person/"+v["icpsr"]+"/"+v["seo_name"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
 
 					// Use a closure to pin tooltips onto each row. 
 					(function(v){
