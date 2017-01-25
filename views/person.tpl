@@ -31,6 +31,11 @@
 % else:
 %	stateText = ', President of the United States <img src="/static/img/states/US.png" style="width:20px;vertical-align:middle;">'
 % end
+% if not "district_code" in person or person["district_code"] in [0, 98, 99]:
+% 	districtDisplay = "none"
+% else:
+%	districtDisplay = "block"
+% end
 <div class="container">
     <div class="row">
         <div class="col-md-2">
@@ -43,6 +48,10 @@
 
             <h4>
 		<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!stateText}}
+	    </h4>
+
+	    <h4 id="show_district" style="display:{{districtDisplay}}">
+		<span id="district_label">{{rcSuffix(person["district_code"])}} congressional district</span>
 	    </h4>
 
 	    % for serviceSet in ["Senate", "House"]:
