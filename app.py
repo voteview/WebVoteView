@@ -17,6 +17,7 @@ from model.searchMeta import metaLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.prepVotes import prepVotes
 from model.geoLookup import addressToLatLong, latLongToDistrictCodes
+from model.slugify import slugify
 import model.downloadXLS
 import model.stashCart
 import model.partyData
@@ -39,26 +40,6 @@ def clearTime():
     timeLabels = []
     timeNums = []
 
-# Linearize name
-def linearName(text):
-	print text
-	if "," in text:
-		chunks = text.split(", ")
-		if len(chunks)>=3:
-			newText = chunks[1]+" "+chunks[0]+", "+chunks[2:]
-		else:
-			newText = chunks[1]+" "+chunks[0]
-		return newText
-	else:
-		return text
-
-# Change text strings to SEO-friendly link strings.
-def slugify(text):
-	text = unidecode.unidecode(text).lower()	
-	text = linearName(text)
-	text = re.sub(r"[^a-z0-9]+","-",text).strip()
-	text = re.sub(r"[-]+","-",text)
-	return text
 
 def timeIt(label):
     timeLabels.append(label)
