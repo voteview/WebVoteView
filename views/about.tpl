@@ -51,7 +51,7 @@ This project was made possibe by support from <a href="http://www.hewlett.org">T
 				<li>
 					<strong>Directors Emeritus:</strong>
 					<p style="padding-left:50px;">
-						<a href="http://polisci.uga.edu/directory/faculty_staff/poole-keith">Keith T. Poole</a><br/>
+						<a href="http://spia.uga.edu/faculty-member/keith-poole/">Keith T. Poole</a><br/>
 						Philip H. Alston, Jr. Distinguished Professor, University of Georgia<br/>
 						Professor Emeritus, University of California San Diego
 					<p>
