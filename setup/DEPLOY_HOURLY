@@ -22,12 +22,11 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 		rm -rf hourly_patch
 		# Move the patch to a timestamped archive.
 		mv patch.zip /usr/scripts/patch_backups/patch_$timestamp.zip
-		# Write the date when the succesfully applied update had beeen completed
 		# Remote delete patch
 		ssh rudkin@128.97.229.160 << EOF
-		rm -rf /usr/scripts/voteview_metadata/hourly_backup/patch.zip
+		unlink /usr/scripts/voteview_metadata/hourly_backup/patch.zip
+		rm -rf /usr/scripts/voteview_metadata/hourly_backup/patch-true.zip
 		rm -rf /usr/scripts/voteview_metadata/hourly_backup/db
-		mv /usr/scripts/voteview_metadata/hourly_backup/patch_written /usr/scripts/voteview_metadata/hourly_backup/patch_applied
 EOF
 	else
 		echo "No patch found, ending now."
