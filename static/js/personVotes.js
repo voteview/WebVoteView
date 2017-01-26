@@ -33,7 +33,8 @@ function nextPageSearch()
 
 					$('[data-toggle="tooltip"]').tooltip();
 					$("#loadIndicator").hide();
-					$("#voteDataTable").tablesorter({headers: {5: {sorter: 'splitFunc'}}});
+					$("#voteDataTable").tablesorter({headerTemplate: "{content}", headers: {4: {sortInitialOrder: 'desc', sorter: 'probFunc'}, 5: {sorter: 'splitFunc'}}});
+
 					$("#voteDataTable").bind("tablesorter-ready", function() { $('[data-toggle="tooltip"]').tooltip(); });
 					$("#voteDataTable").bind("sortEnd",hideDates);
 					//$("#voteDataTable").trigger("update");
@@ -93,7 +94,5 @@ $(document).ready(function(){
 			}});
 	}
 	startNewSearch();
-	/*$("#voteDataTable").tablesorter({headerTemplate: "{content}{icon}", headers: {4: {sortInitialOrder: 'desc', sorter: 'probFunc'}, 5: {sorter: 'splitFunc'}}});
-	$("#voteDataTable").bind("tablesorter-ready", function() { $('[data-toggle="tooltip"]').tooltip(); });
-	$("#voteDataTable").bind("sortEnd",hideDates);*/
+
 });
