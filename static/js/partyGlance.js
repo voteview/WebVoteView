@@ -83,7 +83,6 @@ q
 	tempParties.sort(function(a,b){ return b[1]["count"] - a[1]["count"]; });
 	$.each(tempParties, function(ip, op) { if(op[1]["count"]>=cutoff) { partyList.push(op[1]); } else { return false; }});
 	var numQualifyingParties = partyList.length;
-	//console.log(partyList);
 
 	// Append each party's median to the grand median so we have a set of medians for every congress.
 	var memSetScatter = [];
@@ -152,6 +151,8 @@ q
 	for(var tickCtr = 6; tickCtr<max;tickCtr+=10) { xAxisTickValues.push(tickCtr); }
 	if(max-xAxisTickValues[xAxisTickValues.length-1]>5) xAxisTickValues.push(xAxisTickValues[xAxisTickValues.length-1]+5);
 
+	console.log(parties[1]);
+
 	dimChart
 	    .width(1160)
 	    .height(400)
@@ -210,7 +211,6 @@ q
 						{	
 							$('#mapTooltip').removeClass().addClass('d3-tip')
 									.addClass(partyColorMap[partyNameSimplify(parties[j][1]["name"])])
-							//console.log($('#mapTooltip').attr('class'));
 						} catch(err) { console.log(err); }
 					}
 					else
@@ -233,7 +233,7 @@ q
 				{
 					if(j<partyList.length)
 					{
-						window.location="/parties/"+parties[j][0];
+						window.location="/parties/"+parties[j][0]+"/"+parties[j][1]["seo_name"];
 					} 
 				});
 			})(i, this);
@@ -253,7 +253,6 @@ q
 	var j=0;
 	for(var i=0;i!=parties.length;i++)
 	{
-		//console.log(parties[i]);
 		// Breaks between Major, Historical Major, and Historical Minor Parties
 		if(i==0)
 		{
@@ -292,7 +291,7 @@ q
 
 		var pName = $("<div></div>").addClass('col-md-3').addClass("memberResultBox").addClass(partyColorScheme)
 						.data('partyID',partyID);
-		var linkBox = $("<a></a>").attr("class","nohover").attr("href","/parties/"+partyID);
+		var linkBox = $("<a></a>").attr("class","nohover").attr("href","/parties/"+partyID+"/"+parties[i][1]["seo_name"]);
 
 		if(j==0) // Major current party with logo
 		{
