@@ -109,9 +109,14 @@
 		<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
 	    % end
         </div>
-	% if plotIdeology:
 	<div class="col-md-4">
+		% if plotIdeology:
 		<div id="nominateHist" class="dc-chart">
+			% if "number_of_votes" in person["nominate"] and person["nominate"]["number_of_votes"]<100:
+			<div class="alert alert-info" role="alert">
+			<strong>Note:</strong> This member has cast relatively few votes and so their ideological score may be unstable or inaccurate.
+			</div>
+			% end
 			<h5 style="padding-top:20px;padding-bottom:0px;">
 				Ideology
 				% if len(person["congressLabels"])>1:
@@ -127,8 +132,17 @@
 				<small style="padding-left:10px;"><a href="#" onclick="javascript:viewAllCong();return false;">View all members</a></small>
 			</h5>
 		</div>
+
+		% else:
+		<div class="alert alert-info" role="alert">
+			% if person["chamber"]!="President":
+			<strong>Note:</strong> We can only calculate an ideological score for members who have completed a minimum number of rollcall votes.
+			% else:
+			<strong>Note:</strong> We can only calculate an ideological score for members who have voted many times. Presidents vote only through their choice to veto legislation. This President has not amassed enough Vetoes to reliably calculate an ideological score. (Is this accurate?)
+			% end
+		</div>
+		% end
 	</div>
-	% end
     </div>
 	% if "biography" in person:
 	<div class="row">
