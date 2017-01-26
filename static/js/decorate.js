@@ -201,6 +201,8 @@ function decorateNominate(oc,data) {
 		    .attr("class", "fitbox")
 		    .attr("x", xAxisMax - 75)
 		    .attr("y", yAxisMax - 25);
+
+		var legendType=1;
 	}
 	else
 	{
@@ -210,12 +212,14 @@ function decorateNominate(oc,data) {
 			ggg.append('text').text("Non-Ideological Vote")
 				.attr("class","fitbox").attr("x", xAxisMax - 110)
 				.attr("y", yAxisMax - 0);
+			var legendType=2;
 		}
 		else
 		{
 			ggg.append('text').text("NOMINATE not yet computed")
 				.attr("class","fitbox").attr("x", xAxisMax - 75)
 				.attr("y", yAxisMax - 25);
+			var legendType=3;
 		}
 		//console.log(data.rollcalls[0].nominate);
 	}
@@ -257,8 +261,18 @@ function decorateNominate(oc,data) {
 				   .css("left",d3.event.pageX+"px")
 				   .css("top",(d3.event.pageY-28)+"px");
 			    }
-	                    else { // Cursor is on nominate plot, but not in the Oval 
-                                ypdiv.css("visibility","hidden"); 
+	                    else if(x>0.81&&y<=-0.77) 
+			    {
+				if(!isDoingSelect) ypdiv.css("visibility","visible");
+				ypdiv.html("<strong>PRE:</strong> How much our classification improves on a guess.<br/><strong>Classified:</strong> The percentage of votes that we classify correctly.");
+				ypdiv.css("z-index",10)
+				   .css("left",d3.event.pageX+"px")
+				   .css("top",(d3.event.pageY-28)+"px");
+			    }
+			    else
+			    {
+ 				// Cursor is on nominate plot, but not in the Oval 
+				ypdiv.css("visibility","hidden");
 			    }
 		            //console.log("x=" + d3.mouse(this)[0] + ",y=" + d3.mouse(this)[1]);
 		            //console.log("x=" + x + ",y=" + y);
