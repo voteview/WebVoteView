@@ -182,3 +182,32 @@ line.cutline {
 .searchHighlight2  { background-color: #fffbcc; padding: 2px; }
 .searchHighlight3  { background-color: #aff; padding: 2px; }
 .searchHighlight { background-color: #f99; padding: 2px; }
+
+.tablesorter-headerAsc div.tablesorter-header-inner:after {
+	font-family: "Glyphicons Halflings";
+	font-style: normal; font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: relative;
+	left: 2px;
+	content: "\e151";
+}
+.tablesorter-headerDesc div.tablesorter-header-inner:after {
+	font-family: "Glyphicons Halflings";
+	font-style: normal; font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: relative;
+	left: 2px;
+	content: "\e152";
+}
+.tablesorter-headerUnSorted div.tablesorter-header-inner:after {
+	font-family: "Glyphicons Halflings";
+	font-style: normal; font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: relative;
+	left: 2px;
+	content: "\e150";
+}
+
