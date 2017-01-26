@@ -9,11 +9,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=UTF8">
         <title>Voteview | {{ title }}</title>
-
         <meta http-equiv="X-UA-Compatible" content="chrome=IE7" />
-
         <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -21,7 +19,23 @@
 	% if devserver:
 	<meta name=”robots” content=”noindex,nofollow,noarchive,nosnippet,noodp,noydir" />
 	% end
-        <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+<style>
+/* Temporarily inlining fonts locally while I investigate a bug. */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato Regular'), url('/static/LatoLatin/fonts/LatoLatin-Regular.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url('/static/LatoLatin/fonts/LatoLatin-Bold.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+</style>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection"/>
         <link href="{{ STATIC_URL }}css/dc.css" media="all" rel="stylesheet" type="text/css" />

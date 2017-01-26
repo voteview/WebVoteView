@@ -1,3 +1,5 @@
+text { font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
 svg.scatter {
     position: relative;
     top: -25px;
@@ -17,12 +19,10 @@ svg.scatter {
 	font-size: 4em; 
 	fill:#BBB; 
 	opacity:0.8;
-	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .fitbox {
 	text-anchor:bottom;
-	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size:9pt
 }
 
