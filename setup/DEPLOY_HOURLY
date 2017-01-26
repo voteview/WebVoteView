@@ -6,7 +6,7 @@ timestamp=$(date +%s)
 
 if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Connecting to development server for hourly dump"
-	scp -r rudkin@128.97.229.160:/usr/scripts/hourly_backup/patch.zip
+	scp -r rudkin@128.97.229.160:/usr/scripts/voteview_metadata/hourly_backup/patch.zip
 	if [[ -f ./patch.zip ]]; then
 		echo "Patch downloaded, beginning application"
 		# Unzip
@@ -23,7 +23,8 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 		mv patch.zip /usr/scripts/patch_backups/patch_$timestamp.zip
 		# Remote delete patch
 		ssh rudkin@128.97.229.160 << EOF
-		rm -rf /usr/scripts/hourly_backup/patch.zip
+		rm -rf /usr/scripts/voteview_metadata/hourly_backup/patch.zip
+		rm -rf /usr/scripts/voteview_metadata/hourly_backup/db
 EOF
 	else
 		echo "No patch found, ending now."
