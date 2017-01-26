@@ -21,9 +21,9 @@
 				<div class="alert alert-info fade in" style="margin-bottom:20px;" id="alertPartiesGlance">
 					<a href="#" id="closeAlert" style="float:right;text-decoration:none;">&times;</a> 
 					<strong>How to Read Chart:</strong> 
-					This chart shows the ideologies of <em>major parties</em> in congress throughout history according to <strong>DW-Nominate</strong>. 
+					This chart shows the ideologies of <em>major parties</em> in Congress throughout history according to <strong>DW-Nominate</strong>. 
 					Each line represents the median (mid-point) ideology of members of a single party. A lower line means a more liberal party, while a higher line means a more conservative party.
-					The grey line shows the median across all parties in congress at a given point. As control of congress changes hands after elections, large swings in the median ideology are visible. The pale dots in the background show the range of ideologies within a party. Move your mouse over party lines for more details, click a line to explore a single party.
+					The grey line shows the median across all parties in Congress at a given point. As control of Congress changes hands after elections, large swings in the median ideology are visible. The pale dots in the background show the range of ideologies within a party. Move your mouse over party lines for more details, click a line to explore a single party.
 				</div>
 
 				<div id="dim-chart"></div>
