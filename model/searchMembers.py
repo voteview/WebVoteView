@@ -238,7 +238,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
                                         newM[k] = v
                                 del newM["nominate"]
 
-		newM["seo_name"] = slugify(newM["bioname"])
+		try:
+			newM["seo_name"] = slugify(newM["bioname"])
+		except:
+			pass
 
 		response.append(newM)
 		i=i+1
