@@ -42,8 +42,9 @@
 	% if twitter_card:
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="@voteview">
+	<meta name="twitter:creator" content="@voteview">
 	<meta name="twitter:title" content="{{twitter_card["title"]}}">
-	<meta name="twitter:description" content="{{twitter_card["body"]}}"
+	<meta name="twitter:description" content="{{twitter_card["body"]}}">
 	<meta name="twitter:image" content="https://voteview.polisci.ucla.edu/static/img/twitterCard/{{str(twitter_card["icpsr"]).zfill(6)}}.png">
 	% end
 
