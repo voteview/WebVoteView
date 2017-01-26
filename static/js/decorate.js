@@ -132,8 +132,6 @@ function decorateNominate(oc,data) {
         }
 
 	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
-            var vn = data.rollcalls[0].nominate;
-	    
 	    var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
             var gggg = gg.append("g")
                           .attr("id","heat-map")
@@ -203,6 +201,23 @@ function decorateNominate(oc,data) {
 		    .attr("class", "fitbox")
 		    .attr("x", xAxisMax - 75)
 		    .attr("y", yAxisMax - 25);
+	}
+	else
+	{
+		var nomData = data.rollcalls[0].nominate;
+		if(nomData != undefined && nomData.pre != undefined)
+		{
+			ggg.append('text').text("Non-Ideological Vote")
+				.attr("class","fitbox").attr("x", xAxisMax - 110)
+				.attr("y", yAxisMax - 0);
+		}
+		else
+		{
+			ggg.append('text').text("NOMINATE not yet computed")
+				.attr("class","fitbox").attr("x", xAxisMax - 75)
+				.attr("y", yAxisMax - 25);
+		}
+		//console.log(data.rollcalls[0].nominate);
 	}
 
 
