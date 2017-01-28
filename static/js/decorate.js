@@ -5,7 +5,7 @@ var delayUpdateToolip;
     Draws the background circles, labels and text for the scatter chart
 */
 function decorateNominate(oc,data) {
-
+    
         var scmargins = oc.margins()
 	var width = oc.width();
         var height = oc.height();
@@ -97,23 +97,11 @@ function decorateNominate(oc,data) {
 	// before the brush group does it. --JBL	 
 
 	var ggg = ocSVG.insert("g",".brush");
-
-                plotCut=0;
-                gg
-  		   .append("ellipse")
-                        .attr("stroke","blue")
-                        .attr("stroke-width","1px")
-                        .attr("fill","none")
-			.attr("rx", radiusX)
-                        .attr("ry", radiusY)
-			.attr("cx", circleCenter.x)
-		        .attr("cy", circleCenter.y);
         
-        var plotCut = 1;
-        if (data.rollcalls==undefined || data.rollcalls[0].nominate==undefined || 
-            data.rollcalls[0].nominate.x==undefined || data.rollcalls[0].nominate.pre < 0.05) 
+        var hasNominate = 1;
+        if (data.rollcalls==undefined || data.rollcalls[0].nominate==undefined)  
         {
-                plotCut=0;
+                hasNominatate=0;
                 gg
   		   .append("ellipse")
                         .attr("stroke","black")
@@ -130,8 +118,8 @@ function decorateNominate(oc,data) {
             else var vn = data.rollcalls[0].nominate;
             //console.log(vn);
         }
-
-	if (plotCut && vn.mid[0] * vn.mid[0] != 0) { // Only drawn if there is a cutline!
+    var voteShare = Math.max(data.rollcalls[0].yea, data.rollcalls[0].nay)/(data.rollcalls[0].yea+data.rollcalls[0].nay);
+    if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre>0) ) { // Only drawn if there is a cutline!
 	    var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
             var gggg = gg.append("g")
                           .attr("id","heat-map")
@@ -205,11 +193,14 @@ function decorateNominate(oc,data) {
 		var legendType=1;
 	}
 	else
-	{
+        {
 		var nomData = data.rollcalls[0].nominate;
 		if(nomData != undefined && nomData.pre != undefined)
 		{
-			ggg.append('text').text("Non-Ideological Vote")
+			ggg.append('text').text("Lopsided vote with")
+				.attr("class","fitbox").attr("x", xAxisMax - 110)
+				.attr("y", yAxisMax - 12);
+			ggg.append('text').text("no ideological division")
 				.attr("class","fitbox").attr("x", xAxisMax - 110)
 				.attr("y", yAxisMax - 0);
 			var legendType=2;
@@ -221,12 +212,18 @@ function decorateNominate(oc,data) {
 				.attr("y", yAxisMax - 25);
 			var legendType=3;
 		}
+
+ 	        var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
+                var gggg = gg.append("g")
+                          .attr("id","heat-map")
+                          .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")");
+	        var pctYea = globalData.rollcalls[0].yea/(globalData.rollcalls[0].yea+globalData.rollcalls[0].nay);
+   	        lopsidedHeatmap(gggg,nomDWeight,2*radiusX, 2*radiusY,["#FFFFFF","#ffffcc"],pctYea);
 		//console.log(data.rollcalls[0].nominate);
 	}
 
-
         // Tooltip for Prob(yea)
-        if (plotCut==1) { // only tooltip if cutline exists...
+        if (hasNominate==1) { //Show it as long as nominate has been fit
 
             // Collecting info to find vote prob for heat map
 	    if(!$(".hm_tooltip").length) // Make sure we don't already have a tooltip
@@ -245,9 +242,15 @@ function decorateNominate(oc,data) {
                         var cx = circleCenter.x-hmTranslate.x,
                             cy = circleCenter.y-hmTranslate.y,
                             x  =  (d3.mouse(this)[0] - cx)/xunits,
-                            y  = -(d3.mouse(this)[1] - cy)/yunits,
-			    yeaProb = nomProbYea(x,y,vn.mid[0],vn.mid[1],vn.spread[0],
-                                                     vn.spread[1],nomDWeight,nomBeta);
+                            y  = -(d3.mouse(this)[1] - cy)/yunits;
+		        if (vn.spread[0]!=0 & vn.spread[1]!=0) {
+		            // Votes with cutlines...
+			    var yeaProb = nomProbYea(x,y,vn.mid[0],vn.mid[1],vn.spread[0],
+                                                 vn.spread[1],nomDWeight,nomBeta);
+			} else {
+			    // Lopsided vote case...
+			    var yeaProb = data.rollcalls[0].yea/(data.rollcalls[0].yea+data.rollcalls[0].nay); 
+			}
 	                    if ((x*x+y*y)<1.0) {
                                 if(yeaProb>0.99) {
         		           dispProb = ">0.99"
