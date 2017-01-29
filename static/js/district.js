@@ -32,6 +32,7 @@ function resetResults()
 	$("#google_map").html("");
 	$("#warnings").hide().html("");
 	$("#loadProgress").hide().html("");
+	$("#perm_link_holder").html("");
 }
 
 	$(document).ready(function(){
@@ -70,7 +71,7 @@ function resetResults()
 			$("#cachedLong").val(myLong);
 			$("#addressInput").val("MY LOCATION");
 			resetResults();
-			$("#loadProgress").show().html("<strong>Loading...</strong> Location matched, looking up historical representatives... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
+			$("#loadProgress").show().html("<strong>Loading...</strong> Location matched, looking up historical representatives... <img src=\"/static/img/loading.gif\" style=\"width:16px;\">");
 			doMembers(myLat, myLong);
 		}
 		function error()
@@ -88,7 +89,7 @@ function resetResults()
 			console.log(event);
 			console.log('I AM HERE, IN THE GETLOCATION FUNCTION');
 			resetResults();
-			$("#loadProgress").show().html("<strong>Loading...</strong> Looking up your current location... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
+			$("#loadProgress").show().html("<strong>Loading...</strong> Looking up your current location... <img src=\"/static/img/loading.gif\" style=\"width:16px;\">");
 			slowTimer = setTimeout(function() { $("#loadProgress").html($("#loadProgress").html()+"<br/>This process seems to be taking an unusually long time to complete. The delay is related to your internet connection, router, or web browser and is not connected to our server."); }, 5000);
 			navigator.geolocation.getCurrentPosition(success, error);
 		}
@@ -115,7 +116,7 @@ function resetResults()
 		}
 		else
 		{
-			$("#loadProgress").show().html("<strong>Loading...</strong> Matching address to map coordinates... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
+			$("#loadProgress").show().html("<strong>Loading...</strong> Matching address to map coordinates... <img src=\"/static/img/loading.gif\" style=\"width:16px;\">");
 			setTimeout(doLatLong, 20);
 		}
 	}
@@ -149,7 +150,7 @@ function resetResults()
 						$("#warnings").fadeIn();
 					}
 					$("#addressCorrected").html("<strong>Address Lookup:</strong><br/><small>"+data["formatted_address"]+"</small>");
-					$("#loadProgress").html("<strong>Loading...</strong> Address matched, looking up historical representatives... <img src=\"static/img/loading.gif\" style=\"width:16px;\">");
+					$("#loadProgress").html("<strong>Loading...</strong> Address matched, looking up historical representatives... <img src=\"/static/img/loading.gif\" style=\"width:16px;\">");
 					doMembers(data["lat"], data["lng"]);
 				}
 			}
@@ -201,6 +202,9 @@ function resetResults()
 						constructPlot(v, 0);
 					});
 				}
+
+				var permLink = $("<a></a>").attr("href","/district/"+encodeURI($("#addressInput").val())).html("Permanent Link to this address search.");
+				permLink.appendTo($("#perm_link_holder"));
 
 				$("<h4>Historical Representatives</h4>").appendTo("#resultsMembers");
 				var table = $("<table><thead><tr><th>Congress</th><th>District</th><th>Ideology</th><th>Party</th><th>Member</th></tr></thead></table>")
@@ -304,6 +308,7 @@ function resetResults()
 				});
 				tbody.appendTo(table);
 				table.appendTo($("#resultsMembers"));
+				//permLink.appendTo($("#resultsMembers"));
 				$("#resultsMembers").fadeIn();
 			}
 		});
