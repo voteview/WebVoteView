@@ -28,6 +28,23 @@ function nomProbYea(x1,x2,m1,m2,s1,s2,w,b) {
     return( cdf( Uy-Un, 0.0, 1.0) );
 }
 
+function lopsidedHeatmap(svg,w,width,height,colorRamp,pctYea) {
+    var nominateScale = {x: d3.scale.linear().domain([-1,1]).range([0,width]) ,
+			 y: d3.scale.linear().domain([-1,1]).range([height,0]) };
+    var nominateScaleR = {x: d3.scale.linear().range([-1,1]).domain([0,width]) ,
+                          y: d3.scale.linear().range([1,-1]).domain([0,height]) };
+    var colorScale = d3.scale.linear()
+	.domain([0,1])
+	.range(colorRamp);
+    svg.append("ellipse")
+        .attr("stroke","grey")
+        .attr("cx", nominateScale.x(0))
+        .attr("cy", nominateScale.y(0))
+        .attr("rx", nominateScale.x(1)/2)
+        .attr("ry", nominateScale.y(-1)/2)
+        .attr("fill",colorScale(pctYea));
+}
+
 function nominateHeatmap(svg,m1,m2,s1,s2,b,w,width,height,cells,colorRamp) {
     //div for tooltip to live in...
     var SQRT3 = Math.sqrt(3);
