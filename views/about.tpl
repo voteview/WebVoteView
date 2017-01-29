@@ -11,22 +11,30 @@
 			<p> <strong>Voteview</strong> allows users to view every congressional roll call vote in American 
 history on a map of the United States and on a liberal-conservative 
 ideological map including information about the ideological positions of 
-voting Senators and Representatives.  The original version of Voteview was 
+voting Senators and Representatives.  The original <span title="The original Voteview derived from a simulation coded by Poole and Rosenthal in FORTRAN for the University of Pittsburgh Supercomputer Center. Voteview for DOS was coded in QuickBasic by Douglas Skiba." style="text-decoration:underline">Voteview of DOS</span> was 
 developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon 
-University between 1989-1992. The legacy website is at <a href="http://k7moa.com">k7moa.com</a>.<br/><br/>
+University between 1989 and 1992.  Poole and Rosenthal developed <span title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Window" style="text-decoration:underline">Voteview for Windows</span> in 1993 at Princeton University and that work was continued by Boris Shor. The legacy website is at <a href="http://k7moa.com">k7moa.com</a>.
+<br/><br/>
+The new voteview.com combines the visualizations provided by the now
+obsolete Voteview desktop system, data and NOMINATE estimates provided
+by the old voteview.com web site, and uptodate voting data from the
+current Congress with new search, download and visualization
+functionality.<br/><br/>
 
 Ideological positions are calculated using the <strong>DW-NOMINATE</strong>
 (<strong>D</strong>ynamic <strong>W</strong>eighted <strong>NOMINA</strong>l <strong>T</strong>hree-step <strong>E</strong>stimation).
 This procedure was developed by Poole and Rosenthal in the 1980s and is a "scaling procedure", representing
 legislators on a spatial map. In this sense, a spatial map is much like a road map--the closeness of two
-legislators on the map shows how similar their voting records are. Using this measure of distance, D-NOMINATE
-is able to recover the "dimensions" that inform congressional voting behaviour.<br/><br/>
+legislators on the map shows how similar their voting records are. Using this measure of distance, DW-NOMINATE
+is able to recover the "dimensions" that inform congressional voting behavior.<br/><br/>
 
 The primary dimension through most of American history has been "liberal" vs. "conservative" (also referred to as "left" vs. "right"). A second
 dimension picks up differences within the major political parties over slavery, currency, nativism, civil rights,
 and lifestyle issues during periods of American history.<br/><br/>
 
-UCLA's Department of Political Science hosts and maintains NOMINATE score data and voteview. We welcome feedback,
+The technical details of the DW-NOMINATE model can be found in Poole's <a href="https://www.cambridge.org/catalogue/catalogue.asp?isbn=9780521617475">Spatial Models of Parliamentary Voting</a>.  Poole and Rosenthal's <a href="http://www.transactionpub.com/title/Ideology-and-Congress-978-1-4128-0608-4.html">Ideology and Congress</a> explores the nature of voting in Congress and the political history of the United States through the lens of the ideological dimensions recovered by DW-NOMINATE and is a useful companion to this site.<br/><br/>
+
+UCLA's Department of Political Science and Social Science Computing host and maintain NOMINATE score data and voteview. We welcome feedback,
 questions, and media enquiries concerning this project.
 
 <!--
@@ -57,7 +65,8 @@ This project was made possibe by support from <a href="http://www.hewlett.org">T
 					<p>
 					<p style="padding-left:50px;">
 						<a href="http://politics.as.nyu.edu/object/HowardRosenthal">Howard Rosenthal</a><br/>
-						Professor of Politics, New York University
+						Professor of Politics, New York University<br/>
+						Roger Williams Straus Professor of Social Sciences, Emeritus, Princeton University.
 					</p>
 				</li>
 				
