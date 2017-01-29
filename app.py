@@ -1,3 +1,4 @@
+import urllib
 import re
 import traceback
 import os
@@ -173,9 +174,10 @@ def congress(chamber="senate"):
     return output
 
 @app.route("/district")
-def district():
+@app.route("/district/<search>")
+def district(search=""):
     meta = metaLookup()
-    output = bottle.template("views/district", dimweight=meta["nominate"]["second_dimweight"], nomBeta=meta["nominate"]["beta"])
+    output = bottle.template("views/district", search=search, dimweight=meta["nominate"]["second_dimweight"], nomBeta=meta["nominate"]["beta"])
     return output
 
 @app.route("/parties")
