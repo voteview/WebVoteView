@@ -515,6 +515,32 @@ def searchAssemble():
     suppressRollcalls=0
     currentYear = str(datetime.datetime.now().year)
     memberSearch = {}
+
+    # Building state delegation queries
+    jobs = ["representatives", "reps", "senators", "members", "senate", "house", "house delegation", "senate delegation", "congressmen", "congresspersons", "congressional delegation", "congress delegation", "delegation"]
+    prepositions = ["of", "in", "from"]
+    stateMap = {}
+    abbrevStateName = []
+    fullStateName = []
+    stateQueries = []
+    # Load the abbrev to full name map.
+    stateSet = json.load(open("./model/states.json","r"))
+    for stateLabel in stateSet:
+        abbrevStateName.append(stateLabel["state_abbrev"])
+        fullStateName.append(stateLabel["name"])
+        stateMap[stateLabel["name"]] = stateLabel["state_abbrev"]
+        # First, add to the query list the exact names of states/abbrevs
+        stateQueries.append(stateLabel["name"].lower())
+        stateQueries.append(stateLabel["state_abbrev"].lower())
+        for job in jobs:
+            for preposition in prepositions:
+                # Then both current-prefixed and non-current prefixed versions of each combination for names and abbrevs.
+                stateQueries.append("current "+job+" "+preposition+" "+stateLabel["state_abbrev"].lower())
+                stateQueries.append("current "+job+" "+preposition+" "+stateLabel["name"].lower())
+                stateQueries.append(job+" "+preposition+" "+stateLabel["state_abbrev"].lower())
+                stateQueries.append(job+" "+preposition+" "+stateLabel["name"].lower())
+
+    stateQueries = list(set(stateQueries))
     if q is not None and not nextId and not ":" in q and len(q):
         try:
             # Search overrides for custom search use cases.
@@ -534,6 +560,38 @@ def searchAssemble():
             # List all freshmen
             elif q.strip().lower() in ["freshmen", "freshman", "new hires", "first-years", "just elected", "tenderfoot", "newly elected", "class of "+currentYear]:
                 memberSearch = memberLookup({"freshman": 1}, 75, distinct=1, api="Web_FP_Search")
+                needScore=0
+                expandResults=1
+            # List state delegation
+            elif q.strip().lower() in stateQueries:
+                # A priori assume that any query that hits here is a members-only query unless it's the exact state name.
+                foundExact = 0
+
+                # Which chamber do we think they're asking for?
+                chamberFind=""
+                if "senators" in q.strip().lower() or "senate" in q.strip().lower():
+                    chamberFind="Senate"
+                elif "representatives" in q.strip().lower() or "reps" in q.strip().lower() or "house" in q.strip().lower():
+                    chamberFind="House"
+
+                # Which state do we think they're asking for?
+                stateName = ""
+                for state in fullStateName:
+                    if state.lower() in q.strip().lower():
+                        stateName = stateMap[state]
+                        if state.lower()==q.strip().lower():
+                            foundExact=1
+                        break
+                if not stateName:
+                    for state in abbrevStateName:
+                        if state.lower() in q.strip().lower():
+                            stateName = state
+                            if state.lower()==q.strip().lower():
+                                foundExact=1
+                            break
+
+                memberSearch = memberLookup({"state_abbrev": stateName, "congress": 115, "chamber": chamberFind}, 100, distinct=1, api="Web_FP_Search") 
+                suppressRollcalls = -1*(foundExact-1) # Switch 1 to 0 or vice versa
                 needScore=0
                 expandResults=1
             # ICPSR of user
@@ -577,7 +635,8 @@ def searchAssemble():
             member["scoreMatch"] = max(scoreBasic, scoreNick)
             member["bonusMatch"] = 0
             try: # Issue with printing diacritic-containing results to terminal/log.
-                print q, "/", memName, "/", scoreBasic, scoreNick
+                #print q, "/", memName, "/", scoreBasic, scoreNick
+                pass
             except:
                 pass
 
@@ -604,9 +663,9 @@ def searchAssemble():
 
         #return(resultMembers)
         if needScore:
-            print "results before truncation"
-            print resultMembers
-            print "end ====="
+            #print "results before truncation"
+            #print resultMembers
+            #print "end ====="
             if len(resultMembers) and resultMembers[0]["scoreMatch"]>=100:
                 resultMembers = [x for x in resultMembers if x["scoreMatch"]>=100]
             resultMembers.sort(key=lambda x: -(x["scoreMatch"] + x["bonusMatch"]))
@@ -616,7 +675,7 @@ def searchAssemble():
             resultMembers=resultMembers[0:8]
 
     if suppressRollcalls:
-        print "SUPPRESSING PROPERLY"
+        #print "SUPPRESSING PROPERLY"
         bottle.response.headers["rollcall_number"] = 0
         bottle.response.headers["member_number"] = len(resultMembers)
         bottle.response.headers["party_number"] = 0
