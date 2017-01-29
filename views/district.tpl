@@ -96,7 +96,13 @@
 			<div class="input-group-btn" id="locationButton" style="display:none;">
 				<button id="submit-geolocation" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-map-marker"></span></button>
 			</div>
-			<input type="text" id="addressInput" class="form-control" placeholder="Enter an address or ZIP code.">
+			<input type="text" id="addressInput" 
+				class="form-control" placeholder="Enter an address or ZIP code."
+% if len(search):
+				value="{{search}}"
+% end
+			>
+
 			<div class="input-group-btn">
 				<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 			</div>
@@ -113,9 +119,12 @@
 		<div id="loadProgress" style="display:none;"></div>
 		<div id="resultsMembers"></div>
 	</div>
-	<div class="col-md-4" style="height:300px;">
+	<div class="col-md-4" style="height:300px;" id="mapContainer">
 		<div id="google_map" style="width:100%;height:100%;"></div>
+		<br/><br/>
+		<div id="perm_link_holder"></div>
 
+		<!--
 		<div id="scatter-container" style="margin:20px auto 10px auto;">
 			<div id="scatter-bg">
 				<svg id="svg-bg"></svg> 
@@ -123,6 +132,7 @@
 			<div id="scatter-chart">
 			</div>
 		</div>
+		-->
 	</div>
 </div>
 <script>
@@ -130,6 +140,7 @@ var congressNum=114;
 var mapParties = 1;
 var nomDWeight = {{dimweight}};
 var nomBeta = {{ nomBeta }};
+var predefinedSearch = "{{ search }}";
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
