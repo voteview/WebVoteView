@@ -6,6 +6,9 @@ timestamp=$(date +%s)
 
 if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Connecting to development server for hourly dump"
+	ssh rudkin@128.97.229.160 << EOF
+	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+EOF
 	scp -r rudkin@128.97.229.160:/usr/scripts/voteview_metadata/hourly_backup/patch.zip
 	if [[ -f ./patch.zip ]]; then
 		echo "Patch downloaded, beginning application"
@@ -27,9 +30,14 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 		unlink /usr/scripts/voteview_metadata/hourly_backup/patch.zip
 		rm -rf /usr/scripts/voteview_metadata/hourly_backup/patch-true.zip
 		rm -rf /usr/scripts/voteview_metadata/hourly_backup/db
+		rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+		touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
 EOF
 	else
 		echo "No patch found, ending now."
+		ssh rudkin@128.97.229.160 << EOF
+		rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+EOF
 	fi
 elif [ "$userid" = "root" ]; then
 	echo "You must be on production voteview to run deployment script"
