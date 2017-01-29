@@ -1,7 +1,12 @@
 % import datetime
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase("base.tpl",title=person["bioname"], extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css"])
+% if type(twitter_card)==type({}) and "title" in twitter_card:
+% 	pageTitle = twitter_card["title"].replace("Voteview.com: ","")+": "+twitter_card["body"]
+% else:
+%	pageTitle = person["bioname"]
+% end
+% rebase("base.tpl",title=pageTitle, extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css"])
 % include('header.tpl')
 % current_page_number = 1
 % import datetime
@@ -138,7 +143,7 @@
 			% if person["chamber"]!="President":
 			<strong>Note:</strong> We can only calculate an ideological score for members who have completed a minimum number of rollcall votes.
 			% else:
-			<strong>Note:</strong> We can only calculate an ideological score for members who have voted many times. Presidents vote only through their choice to veto legislation. This President has not amassed enough Vetoes to reliably calculate an ideological score. (Is this accurate?)
+			<strong>Note:</strong> Data on presidential position-taking comes from CQ. CQ has not supplied us with a sufficient amount of data about {{person["bioname"]}} to calculate an ideological score.
 			% end
 		</div>
 		% end
