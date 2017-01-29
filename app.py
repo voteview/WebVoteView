@@ -539,6 +539,14 @@ def searchAssemble():
                 stateQueries.append("current "+job+" "+preposition+" "+stateLabel["name"].lower())
                 stateQueries.append(job+" "+preposition+" "+stateLabel["state_abbrev"].lower())
                 stateQueries.append(job+" "+preposition+" "+stateLabel["name"].lower())
+    # Time period capture:
+    rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+    timePeriods = []
+    for i in xrange(115,0,-1):
+        timePeriods.append(str(i)+" congress")
+        timePeriods.append("congress "+str(i))
+        timePeriods.append(rcSuffix(i)+" congress")
+        timePeriods.append("congress: "+str(i))
 
     stateQueries = list(set(stateQueries))
     if q is not None and not nextId and not ":" in q and len(q):
@@ -563,7 +571,7 @@ def searchAssemble():
                 needScore=0
                 expandResults=1
             # List state delegation
-            elif q.strip().lower() in stateQueries:
+            elif any([s in q.strip().lower() for s in stateQueries]):
                 # A priori assume that any query that hits here is a members-only query unless it's the exact state name.
                 foundExact = 0
 
@@ -584,16 +592,39 @@ def searchAssemble():
                         break
                 if not stateName:
                     for state in abbrevStateName:
-                        if state.lower() in q.strip().lower():
+                        if any([qs == state.lower() for qs in q.strip().lower().split()]):
                             stateName = state
                             if state.lower()==q.strip().lower():
                                 foundExact=1
                             break
 
-                memberSearch = memberLookup({"state_abbrev": stateName, "congress": 115, "chamber": chamberFind}, 100, distinct=1, api="Web_FP_Search") 
-                suppressRollcalls = -1*(foundExact-1) # Switch 1 to 0 or vice versa
-                needScore=0
-                expandResults=1
+                # Which congress do we think they're asking for?
+                congress = 0
+                if "current" in q.strip().lower():
+                    congress = 115
+                else:
+                    for timeP in timePeriods:
+                        if timeP in q.strip().lower():
+                            suppressRollcalls=1
+                            numeral = 0
+                            for numeralTime in timeP.split(" "):
+                                numeral = numeralTime.replace("th","").replace("nd","").replace("rd","")
+                                if numeral.isdigit():
+                                    numeral = int(numeral)
+                                    break
+                            if numeral:
+                                congress = numeral
+                                break
+                if not congress:
+                    congress = 115
+
+                if chamberFind and stateName and congress:
+                    memberSearch = memberLookup({"state_abbrev": stateName, "congress": congress, "chamber": chamberFind}, 100, distinct=1, api="Web_FP_Search") 
+                    suppressRollcalls = -1*(foundExact-1) # Switch 1 to 0 or vice versa
+                    needScore=0
+                    expandResults=1
+                else:
+                    pass                    
             # ICPSR of user
             elif len(q.split())==1 and int(q):
                 memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
@@ -602,6 +633,7 @@ def searchAssemble():
             elif len(q.split())<=5:
                 memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
         except:
+                print traceback.format_exc()
                 memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
 
     # Biography search
