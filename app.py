@@ -531,7 +531,7 @@ def searchAssemble():
         stateMap[stateLabel["name"]] = stateLabel["state_abbrev"]
         # First, add to the query list the exact names of states/abbrevs
         stateQueries.append(stateLabel["name"].lower())
-        stateQueries.append(stateLabel["state_abbrev"].lower())
+        #stateQueries.append(stateLabel["state_abbrev"].lower())
         for job in jobs:
             for preposition in prepositions:
                 # Then both current-prefixed and non-current prefixed versions of each combination for names and abbrevs.
@@ -571,7 +571,9 @@ def searchAssemble():
                 needScore=0
                 expandResults=1
             # List state delegation
-            elif any([s in q.strip().lower() for s in stateQueries]):
+            elif len([s for s in stateQueries if s in q.strip().lower()]) or len([s for s in abbrevStateName if s.lower()==q.strip().lower()]):
+                print "State delegation lookup"
+		print [s for s in stateQueries if s in q.strip().lower()]
                 # A priori assume that any query that hits here is a members-only query unless it's the exact state name.
                 foundExact = 0
 
@@ -624,6 +626,7 @@ def searchAssemble():
                     needScore=0
                     expandResults=1
                 else:
+                    print "Something failed in state delegation lookup."
                     pass                    
             # ICPSR of user
             elif len(q.split())==1 and int(q):
