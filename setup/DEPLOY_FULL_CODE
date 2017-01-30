@@ -7,9 +7,9 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Beginning SCP of latest deployed code."
 	mkdir update-voteview
 	cd update-voteview
-	scp -r rudkin@128.97.229.160:/var/www/voteview/ ./
+	rsync --exclude=.git --exclude=static/db/ --exclude=static/img/wiki --exclude=static/dumpNom rudkin@128.97.229.160:/var/www/voteview ./
 	cd ..
-	mv update-voteview WebVoteView
+	mv update-voteview/voteview WebVoteView
 
 	echo "Ensuring we have the right python module requirements"
 	pip install -r WebVoteView/setup/requirements.txt -U
