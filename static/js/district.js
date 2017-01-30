@@ -52,14 +52,14 @@ function resetResults()
 		if($("#cachedLat").val()) { myLat = $("#cachedLat").val(); }
 		if($("#cachedLong").val()) { myLong = $("#cachedLong").val(); }
 		if($("#addressInput").val()) { setTimeout(function(){latLongWrapper();},1000); }
-  	        $("ul#testData li").on("click",function(){ console.log($(this).val()); loadText(this.innerHTML); });
-		$("ul#notableExamples li").on("click",function(){ console.log($(this).val()); loadText(this.innerHTML); });
+  	        $("ul#testData li").on("click",function(){ loadText(this.innerHTML); });
+		$("ul#notableExamples li").on("click",function(){ loadText(this.innerHTML); });
 	});
 
 	if(navigator.geolocation)
 	{
 		globalEnableLocation=1;
-		console.log('html5 location support.');
+		console.log('html5 location support detected.');
 		$("#locationButton").show();
 		function success(position)
 		{
@@ -86,8 +86,7 @@ function resetResults()
 		}
 		function getLocation(event)
 		{
-			console.log(event);
-			console.log('I AM HERE, IN THE GETLOCATION FUNCTION');
+			console.log('doing html5 geolocation lookup on user request');
 			resetResults();
 			$("#loadProgress").show().html("<strong>Loading...</strong> Looking up your current location... <img src=\"/static/img/loading.gif\" style=\"width:16px;\">");
 			slowTimer = setTimeout(function() { $("#loadProgress").html($("#loadProgress").html()+"<br/>This process seems to be taking an unusually long time to complete. The delay is related to your internet connection, router, or web browser and is not connected to our server."); }, 5000);
@@ -98,7 +97,7 @@ function resetResults()
 
 	function latLongWrapper()
 	{
-		console.log('I AM HERE, IN THE ADDRESS LOOKUP.');
+		console.log('wrapper translates box input to geocode.');
 		resetResults();
 		if($("#addressInput").val()=="")
 		{
@@ -106,6 +105,10 @@ function resetResults()
 			var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> No address specified.");
 			errorDiv.appendTo($("#warnings"));
 			return;
+		}
+		else if($("#addressInput").val()=="MAP CENTER" && cachedCoords.length==2)
+		{
+			setTimeout(function(){doMembers(cachedCoords[0], cachedCoords[1])}, 20);
 		}
 		else if($("#addressInput").val()=="MY LOCATION" && globalEnableLocation && $("#cachedLat").val() && $("#cachedLong").val()) { doMembers(parseFloat($("#cachedLat").val()), parseFloat($("#cachedLong").val())); }
 		else if($("#addressInput").val()=="MY LOCATION")
@@ -123,13 +126,12 @@ function resetResults()
 
 	function doLatLong()
 	{
-		console.log('I AM HERE, CACHED LAT LONG TO DISTRICT LOOKUP.');
+		console.log('sending an address to the geocoder.');
 		$.ajax({
 			dataType: "JSON",
 			url: "/api/geocode?q="+$("#addressInput").val(),
 			success: function(data, status, xhr)
 			{
-				console.log(data);
 				if(data["status"])
 				{	
 					$("#loadProgress").fadeOut();
@@ -141,7 +143,6 @@ function resetResults()
 				}
 				else
 				{
-					console.log(data);
 					if(data["warnings"]!=undefined && data["warnings"].length)
 					{
 						$("#warnings").html("");
@@ -173,23 +174,56 @@ function resetResults()
 		}
 	}
 
+	function precisionRound(num, p)
+	{
+		return +(Math.round(num+"e+"+p)+"e-"+p);
+	}
+
+	var globalMap;
+	var markerSet = [];
+	var cachedCoords = [];
+	var initialLoad=0;
 	function doMembers(lat, lng)
 	{
-		console.log("Entering this now.");
 		console.log(lat);
 		console.log(lng);
+
+		// We started a load, so don't fire the map move event while we're loading
+		initialLoad = 1;
+		// Cache the lookup coordinates to make the map mover work
+		cachedCoords = [lat, lng];
  		var markerPos = {lat: lat, lng: lng};
 		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: true, zoomControl: true});
+		globalMap = map;
 		// Put the marker in the lat/long
 		var marker = new google.maps.Marker({position: markerPos, map: map});
+		markerSet.push(marker);
 		// If the user moves the viewport, update the map?
 		google.maps.event.addListener(map, 'idle', function()
 		{
-			console.log("idle now");
-			var coords = [map.getCenter().lat(), map.getCenter().lng()];
-			//$("#addressInput").val(coords[0]+", "+coords[1]);
-			//resetResults();
-			//doLatLong();			
+			// Okay, next time you can fire the event
+			if(initialLoad) { initialLoad=0; return; }
+
+			// If the event fired but we didn't move, don't redo the search
+			if(precisionRound(map.getCenter().lat(),5)==precisionRound(cachedCoords[0],5) && precisionRound(map.getCenter().lng(),5)==precisionRound(cachedCoords[1],5)) { return; }
+
+			console.log("map viewport move detected.");
+
+			for(var i=0;i<markerSet.length;i++)
+			{
+				markerSet[i].setMap(null);
+			}
+			markerSet = [];
+
+			//var marker = new google.maps.Marker({position: {lat: map.getCenter().lat(), lng: map.getCenter().lng()}, map: globalMap});
+			//markerSet.push(marker);
+			
+			cachedCoords = [map.getCenter().lat(), map.getCenter().lng()];
+			console.log("New coords to search: ");
+			console.log(cachedCoords);
+			$("#addressInput").val("MAP CENTER");
+			resetResults();
+			latLongWrapper();
 		});
 
 		$.ajax({
@@ -205,7 +239,6 @@ function resetResults()
 								.css("list-style-type","none").css("overflow","auto")
 								.css("width","100%").css("margin-left",0).css("padding-left",0).css("margin-bottom","15px")
 								.css("display","block").attr("id","memberList");
-				        console.log(data["resCurr"]);
 					memberList.appendTo("#resultsMembers");
 					$.each(data["resCurr"], function(k,v)
 					{
