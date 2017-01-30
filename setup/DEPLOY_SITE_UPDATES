@@ -52,12 +52,21 @@ EOF
 EOF
 
 	downtimestart=$(date +%s)
+	# Stop NGINX, move files
 	echo "Stopping web server to substitute directory"
 	service nginx stop
 	rm -rf vv-backup
 	mv voteview vv-backup
 	mv WebVoteView voteview
+
+	# Put site in maintenance mode
 	touch /var/www/voteview/static/maintenance
+
+	# Recursively change permissions so we don't need root to edit files on prod.
+	chown -R rudkin voteview
+	chgrp -R voteview voteview
+
+	# Start NGINX
 	service nginx start
 	downtimeStop=$(date +%s)
 
