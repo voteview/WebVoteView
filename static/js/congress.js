@@ -200,9 +200,12 @@ function compositionBar()
 		if(partyCount[d.party_short_name]==undefined) { partyCount[d.party_short_name]=1; }
 		else { partyCount[d.party_short_name]++; }
 	});
+
+	console.log($("#content").width());
+	var chartWidth = Math.min(300,Math.max(200,Math.round($("#content").width()*0.27)));
 	
 	$("#partyComposition").html("");
-	var svgBucket = d3.select("#partyComposition").append("svg").attr("width",300).attr("height",21);
+	var svgBucket = d3.select("#partyComposition").append("svg").attr("width",chartWidth).attr("height",21);
 	var x=0; 
 	var sorted_parties = Object.keys(partyCount).sort();
 	
@@ -212,7 +215,7 @@ function compositionBar()
 	{
 		pN = sorted_parties[pNi];
 		if(partyCount[pN]>maxN || (partyCount[pN]==maxN && pN==getVPP(congressNum) && chamber_param=="senate")) { maxN=partyCount[pN]; maxP = pN; }
-		var wid = Math.round(300*(partyCount[pN]/resultCache["results"].length));
+		var wid = Math.round(chartWidth*(partyCount[pN]/resultCache["results"].length));
 		try {var voteCol = colorSchemes[partyColorMap[partyNameSimplify(pN)]][0]; } catch(e) { var voteCol = '#000000'; }
 		var rect = svgBucket.append("rect")
 				.attr("x",x).attr("y",3).attr("width",wid).attr("height",15)
