@@ -20,58 +20,22 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	rm WebVoteView/robots.txt
 	mv WebVoteView/robots-prod.txt WebVoteView/robots.txt
 
-	echo "Connecting to development server for database dump"
-	ssh rudkin@128.97.229.160 << EOF
-	echo "Creating a database backup"
-	mkdir dump_db
-	cd dump_db
-	echo "Dumping full database..."
-	mongodump 
-	echo "Done dump"
-EOF
-	echo "Connecting to server to download dump..."
-	scp -r rudkin@128.97.229.160:dump_db ./
-
-	echo "Connecting to remote server to remove remote dump."
-	ssh rudkin@128.97.229.160 << EOF
-	rm -rf dump_db
-EOF
-
 	downtimestart=$(date +%s)
 	echo "Stopping web server to substitute directory"
 	service nginx stop
 	rm -rf vv-backup
+	chown -R rudkin WebVoteView
+	chgrp -R voteview WebVoteView
 	mv voteview vv-backup
 	mv WebVoteView voteview
 	touch /var/www/voteview/static/maintenance
 	service nginx start
 	downtimeStop=$(date +%s)
 
-	echo "Restoring database dump"
-	mkdir dump_db_output_log
-	cd dump_db_output_log
-	mongodump -v -c search_log -d voteview
-	mongodump -v -c stash -d voteview
-	cd ..
-	echo "Zipping backup of search log"
-	zip -r backup_search_log_$((start)).zip dump_db_output_log
-
-	cd dump_db
-	mongorestore --drop dump
-	cd ..
-	rm -rf dump_db
-	echo "Done restoring dev database dump."
-	
-	cd dump_db_output_log
-	mongo voteview --eval "db.search_log.drop()"
-	mongo voteview --eval "db.stash.drop()"
-	mongorestore dump
-	echo "Done restoring search log and stash log."
-
 	echo "Starting server to substitute directory"
 	touch /etc/uwsgi/reboot
 	rm /var/www/voteview/static/maintenance
-	echo "Done deployment."
+	echo "Done CODE ONLY deployment."
 	echo "Previous version of site in /var/www/vv-backup"
 	echo "Current version of site in /var/www/voteview"
 	echo "Checking API version to verify site has started..."
