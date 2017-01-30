@@ -1,4 +1,7 @@
 #!/bin/bash
+exit
+# Don't run the script right now.
+
 start=$(date +%s)
 userid=$(whoami) # Ensure we're running as root
 hostname=$(hostname) # Ensure we're on voteview.
