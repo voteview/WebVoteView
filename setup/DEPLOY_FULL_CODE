@@ -7,7 +7,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Beginning SCP of latest deployed code."
 	mkdir update-voteview
 	cd update-voteview
-	rsync --exclude=.git --exclude=static/db/ --exclude=static/img/wiki --exclude=static/dumpNom rudkin@128.97.229.160:/var/www/voteview ./
+	rsync -av --exclude=.git --exclude=static/db/ --exclude=static/img/wiki --exclude=static/dumpNom rudkin@128.97.229.160:/var/www/voteview ./
 	cd ..
 	mv update-voteview/voteview WebVoteView
 
