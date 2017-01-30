@@ -151,8 +151,9 @@ q
 	for(var tickCtr = 6; tickCtr<max;tickCtr+=10) { xAxisTickValues.push(tickCtr); }
 	if(max-xAxisTickValues[xAxisTickValues.length-1]>5) xAxisTickValues.push(xAxisTickValues[xAxisTickValues.length-1]+5);
 
-	console.log(parties[1]);
-
+	// Try to scale the chart to make it a little more suitable for low resolution
+	var chartWidth = Math.min(1140,Math.max(700,Math.round($("#content").width()*0.92)));
+	var chartHeight = Math.max(280,Math.round(chartWidth/2.9));
 	dimChart
 	    .width(1160)
 	    .height(400)
@@ -163,7 +164,7 @@ q
 	    .renderTitle(false)
 	    .x(d3.scale.linear().domain([1, max+1]))
 	    .y(d3.scale.linear().domain([-0.6,0.7]))
-	    .margins({top: 0, right: 50, bottom: 50, left: 50})
+	    .margins({top: 0, right: 0, bottom: 50, left: 50})
 	    .compose([
 		dc.scatterPlot(dimChart).group(scatterGroup).colors(function(d){return fullColSet[d];}).colorAccessor(scatterCol).symbolSize(4),
 		dc.lineChart(dimChart).group(dimSet[0]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[0][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis").renderTitle(true).title(function(p) { return JSON.stringify(p); }),
