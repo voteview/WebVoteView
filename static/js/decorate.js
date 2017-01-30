@@ -101,7 +101,7 @@ function decorateNominate(oc,data) {
         var hasNominate = 1;
         if (data.rollcalls==undefined || data.rollcalls[0].nominate==undefined)  
         {
-                hasNominatate=0;
+                hasNominate=0;
                 gg
   		   .append("ellipse")
                         .attr("stroke","black")
@@ -111,14 +111,17 @@ function decorateNominate(oc,data) {
                         .attr("ry", radiusY)
 			.attr("cx", circleCenter.x)
 		        .attr("cy", circleCenter.y);
+		var voteShare=0;
         }
         else
         {
             if(data.rollcalls[0].congress==0) var vn = data.rollcalls[0].nominate.imputed;
             else var vn = data.rollcalls[0].nominate;
+            var voteShare = Math.max(data.rollcalls[0].yea, data.rollcalls[0].nay)/(data.rollcalls[0].yea+data.rollcalls[0].nay);
             //console.log(vn);
         }
-    var voteShare = Math.max(data.rollcalls[0].yea, data.rollcalls[0].nay)/(data.rollcalls[0].yea+data.rollcalls[0].nay);
+
+
     if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre>0) ) { // Only drawn if there is a cutline!
 	    var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
             var gggg = gg.append("g")
@@ -194,32 +197,34 @@ function decorateNominate(oc,data) {
 	}
 	else
         {
-		var nomData = data.rollcalls[0].nominate;
-		if(nomData != undefined && nomData.pre != undefined)
+		if(data.rollcalls != undefined)
 		{
-			ggg.append('text').text("Lopsided vote with")
-				.attr("class","fitbox").attr("x", xAxisMax - 110)
-				.attr("y", yAxisMax - 12);
-			ggg.append('text').text("no ideological division")
-				.attr("class","fitbox").attr("x", xAxisMax - 110)
-				.attr("y", yAxisMax - 0);
-			var legendType=2;
+			var nomData = data.rollcalls[0].nominate;
+			if(nomData != undefined && nomData.pre != undefined)
+			{
+				ggg.append('text').text("Lopsided vote with")
+					.attr("class","fitbox").attr("x", xAxisMax - 110)
+					.attr("y", yAxisMax - 12);
+				ggg.append('text').text("no ideological division")
+					.attr("class","fitbox").attr("x", xAxisMax - 110)
+					.attr("y", yAxisMax - 0);
+				var legendType=2;
+			}
+			else
+			{
+				ggg.append('text').text("NOMINATE not yet computed")
+					.attr("class","fitbox").attr("x", xAxisMax - 75)
+					.attr("y", yAxisMax - 25);
+				var legendType=3;
+			}
+	
+	 	        var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
+	                var gggg = gg.append("g")
+	                          .attr("id","heat-map")
+	                          .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")");
+		        var pctYea = globalData.rollcalls[0].yea/(globalData.rollcalls[0].yea+globalData.rollcalls[0].nay);
+	   	        lopsidedHeatmap(gggg,nomDWeight,2*radiusX, 2*radiusY,["#FFFFFF","#ffffcc"],pctYea);
 		}
-		else
-		{
-			ggg.append('text').text("NOMINATE not yet computed")
-				.attr("class","fitbox").attr("x", xAxisMax - 75)
-				.attr("y", yAxisMax - 25);
-			var legendType=3;
-		}
-
- 	        var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
-                var gggg = gg.append("g")
-                          .attr("id","heat-map")
-                          .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")");
-	        var pctYea = globalData.rollcalls[0].yea/(globalData.rollcalls[0].yea+globalData.rollcalls[0].nay);
-   	        lopsidedHeatmap(gggg,nomDWeight,2*radiusX, 2*radiusY,["#FFFFFF","#ffffcc"],pctYea);
-		//console.log(data.rollcalls[0].nominate);
 	}
 
         // Tooltip for Prob(yea)
