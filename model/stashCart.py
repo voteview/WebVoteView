@@ -131,7 +131,7 @@ def addVotes(id, votes):
 			search = r["search"]
 
 	# Do the update as necessary.
-	db.stash.update({'id': id}, {'$set': {'votes': nVotes, 'expiry': expires}}, upsert=False, multi=False)
+	db.stash.update_one({'id': id}, {'$set': {'votes': nVotes, 'expiry': expires}}, upsert=False, multi=False)
 
 	# Return everything.
 	return {'id': id, 'votes': nVotes, 'old': old, 'search': search, 'errors': errorMessages}
@@ -174,7 +174,7 @@ def delVotes(id, votes):
 		else:
 			search = r["search"]
 
-	db.stash.update({'id': id}, {'$set': {'votes': nVotes, 'old': old, 'expiry': expires}}, upsert=False, multi=False)
+	db.stash.update_one({'id': id}, {'$set': {'votes': nVotes, 'old': old, 'expiry': expires}}, upsert=False, multi=False)
 
 	return {'id': id, 'votes': nVotes, 'errors': errorMessages, 'search': search, 'old': old}
 
@@ -280,7 +280,7 @@ def setSearch(id, search):
 		search = ""
 
 	expires = updateExpiry()
-	db.stash.update({'id': id}, {'$set': {'search': search, 'old': savedVoteIDs, 'votes': [], 'expiry': expires}}, upsert=False, multi=False)
+	db.stash.update_one({'id': id}, {'$set': {'search': search, 'old': savedVoteIDs, 'votes': [], 'expiry': expires}}, upsert=False, multi=False)
 	return {"id": id, "search": search, "errors": errorMessages, "old": savedVoteIDs, "votes": []}
 
 def shareableLink(id, text, base_url):
