@@ -179,8 +179,18 @@ function resetResults()
 		console.log(lat);
 		console.log(lng);
  		var markerPos = {lat: lat, lng: lng};
-	    var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: true, zoomControl: true});
-		var market = new google.maps.Marker({position: markerPos, map: map});
+		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: true, zoomControl: true});
+		// Put the marker in the lat/long
+		var marker = new google.maps.Marker({position: markerPos, map: map});
+		// If the user moves the viewport, update the map?
+		google.maps.event.addListener(map, 'idle', function()
+		{
+			console.log("idle now");
+			var coords = [map.getCenter().lat(), map.getCenter().lng()];
+			//$("#addressInput").val(coords[0]+", "+coords[1]);
+			//resetResults();
+			//doLatLong();			
+		});
 
 		$.ajax({
 			dataType: "JSON",
