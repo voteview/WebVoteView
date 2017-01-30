@@ -21,3 +21,10 @@ do
     echo "Compressing $file"
     optipng -o7 -preserve "$file"
 done
+
+# Compress TCs
+for file in $(find ./twitterCard/ -name '*.png')
+do
+    echo "Compressing $file"
+    optipng -o7 -preserve "$file"
+done
