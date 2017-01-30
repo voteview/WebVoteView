@@ -3,7 +3,7 @@ from searchMembers import memberLookup, nicknameHelper
 from bioData import congressToYear
 from searchParties import partyLookup
 from slugify import slugify
-
+import traceback
 import os
 import json
 import datetime
@@ -58,7 +58,9 @@ def assembleSearch(q, nextId, bottle):
 		fullStateName.append(stateLabel["name"])
 		stateMap[stateLabel["name"]] = stateLabel["state_abbrev"]
 		# First, add to the query list the exact names of states/abbrevs
-		stateQueries.append(stateLabel["name"].lower())
+		if stateLabel["name"].lower()!="washington":
+			stateQueries.append(stateLabel["name"].lower())
+
 		for job in jobs:
 			for preposition in prepositions:
 				# Then both current-prefixed and non-current prefixed versions of each combination for names and abbrevs.
