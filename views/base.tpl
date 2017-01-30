@@ -10,7 +10,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF8">
-        <title>Voteview | {{ title }}</title>
+        <title>{{"DEV SERVER" if devserver==1 else "Voteview"}} | {{ title }}</title>
         <meta http-equiv="X-UA-Compatible" content="chrome=IE7" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -67,6 +67,14 @@
     <body id="{{ body_id }}" class="{{ body_class }}">
 	% else:
     <body id="{{ body_id }}" class="{{ body_class }}" style="border-left:20px solid red;">
+	<div style="position:fixed; left:0px; bottom:0px; width:200px; height:30px; background-color: white; border-top: 3px solid red; border-right: 3px solid red;">
+		<a href="https://voteview.polisci.ucla.edu/" id="prodLink">
+		<strong><big><big>View on production</big></big></strong>
+		</a>
+		<script>
+			document.getElementById("prodLink").href = "https://voteview.polisci.ucla.edu"+window.location.href.split(".160")[1];
+		</script>
+	</div>
 	% end
         {{!base}}
 
