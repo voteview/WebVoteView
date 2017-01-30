@@ -216,7 +216,7 @@ q
 					}
 					else
 					{
-						$('mapTooltip').removeClass().addClass('d3-tip');
+						$('#mapTooltip').removeClass().addClass('d3-tip').addClass("grey");
 					}
 					eH = baseToolTip.style("height");
 					eW = baseToolTip.style("width");
