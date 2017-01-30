@@ -50,7 +50,7 @@ def logSearch(request, search):
 		doc["query"] = json.dumps(doc["query"])
 	if "query_extra" in doc and type(doc["query_extra"])==type({}):
 		doc["query_extra"] = json.dumps(doc["query_extra"])
-	db.search_log.insert(doc)
+	db.search_log.insert_one(doc)
 
 # Return remaining credits
 def getCredits(request):
@@ -102,5 +102,5 @@ def addQuota(request, score):
 	if r:
 		db.api_quota.update_one({"session": session}, {"$set": {"score": r["score"]+score}})
 	else:
-		db.api_quota.insert({"session": session, "score": score})
+		db.api_quota.insert_one({"session": session, "score": score})
 
