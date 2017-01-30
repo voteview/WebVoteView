@@ -117,9 +117,9 @@
 	<div class="col-md-4">
 		% if plotIdeology:
 		<div id="nominateHist" class="dc-chart">
-			% if "number_of_votes" in person["nominate"] and person["nominate"]["number_of_votes"]<100:
+			% if "total_number_of_votes" in person["nominate"] and person["nominate"]["total_number_of_votes"]<100:
 			<div class="alert alert-info" role="alert">
-			<strong>Note:</strong> This member has cast relatively few votes and so their ideological score may be unstable or inaccurate.
+			<strong>Note:</strong> This member has cast relatively few votes and so their ideological score may be unstable or inaccurate. Members who have cast at least 100 votes have more reliable scores.
 			</div>
 			% end
 			<h5 style="padding-top:20px;padding-bottom:0px;">
