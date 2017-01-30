@@ -18,7 +18,7 @@ def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 	except:
 		return({"error": "The email you have entered cannot be verified."})
 
-	if any(x.lower() in userEmail.lower() for x in emailList):
+	if any([x.lower() in userEmail.lower().split("@")[1] for x in emailList if len(x.strip())]):
 		return({"error": "We do not allow contact from disposable email address services."})
 
 	if len(title) > 200: 
@@ -26,7 +26,7 @@ def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 	if len(body) > 5000:
 		body = body[0:5000]
 	if not userEmail:
-		userEmail = "contact@voteview.polisci.ucla.edu"
+		userEmail = "jblewis@ucla.edu"
 
 	if not test:
 		try:
@@ -60,4 +60,4 @@ def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 			return {"error": "Error sending email. Please try again later."}
 
 if __name__ == "__main__":
-	print sendEmail("Test", "test 1234", "rudkin@ucla.edu", "", "124", 1)
+	print sendEmail("Test email from gwu", "test 1234", "binder@gwu.edu", "", "127.0.0.1", 1)
