@@ -12,14 +12,13 @@ from fuzzywuzzy import fuzz
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
 from model.emailContact import sendEmail
-from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, nicknameHelper, getMembersByPrivate
+from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, getMembersByPrivate
 from model.searchParties import partyLookup
 from model.searchMeta import metaLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.prepVotes import prepVotes
 from model.geoLookup import addressToLatLong, latLongToDistrictCodes
 from model.searchAssemble import assembleSearch
-from model.slugify import slugify
 import model.downloadXLS
 import model.stashCart
 import model.partyData
@@ -285,7 +284,6 @@ def person(icpsr=0, garbage=""):
                         person["bioImg"] = str(altPerson["icpsr"]).zfill(6)+".jpg"
                         bioFound = 1
                     person["altPeople"].append(altPerson)
-
 
         timeIt("partySwitches")
 
