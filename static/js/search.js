@@ -444,7 +444,7 @@ function updateRequest()
 
 function stripJunkFromSearch(text)
 {
-	return encodeURIComponent(text.replace("/"," "));
+	return encodeURIComponent(text.replace("/"," ").replace(/<(?:.|\n)*?>/gm, ''));
 }
 
 var globalSlowLoadTimer;
@@ -457,7 +457,7 @@ var globalSlowLoadTimer;
 			window.location='/rollcall/'+$("#searchTextInput").val();
 			return;
 		}
-		if($("#searchTextInput").val().length) { $("#searchTextInput").val($("#searchTextInput").val().replace("/"," ")); }
+		if($("#searchTextInput").val().length) { $("#searchTextInput").val($("#searchTextInput").val().replace("/"," ").replace(/<(?:.|\n)*?>/gm, '')); }
 		globalQueueRequests=0;
 		$.ajax({
 			type: "POST",
@@ -493,7 +493,7 @@ var globalSlowLoadTimer;
 					var setOPS = 0;
 					if(window.history.state==undefined || window.history.state["search"] == undefined)
 					{
-						window.history.pushState({"search": $("#searchTextInput").val()}, "Searched for "+$("#searchTextInput").val(), "/search/"+$("#searchTextInput").val());
+						window.history.pushState({"search": $("#searchTextInput").val()}, "Searched for "+$("#searchTextInput").val(), "/search/"+stripJunkFromSearch($("#searchTextInput").val()));
 						setOPS=1;
 					}
 					else if(window.history.state["search"]==$("#searchTextInput").val())
@@ -502,7 +502,7 @@ var globalSlowLoadTimer;
 					}
 					else
 					{
-						window.history.pushState({"search": $("#searchTextInput").val()}, "Searched for "+$("#searchTextInput").val(), "/search/"+$("#searchTextInput").val());
+						window.history.pushState({"search": $("#searchTextInput").val()}, "Searched for "+$("#searchTextInput").val(), "/search/"+stripJunkFromSearch($("#searchTextInput").val()));
 						setOPS=1;
 					}
 
