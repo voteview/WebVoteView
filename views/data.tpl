@@ -8,10 +8,19 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
   <div class="row">
     <div class="col-md-9">
 
-      <h3>Realtime NOMINATE and Related Data</h3>
+      <h3>Realtime NOMINATE Ideology and Related Data</h3>
       <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Rollcall parameters and metadata</h4></a>
+      This section contains .csv files that provide descriptive data as well as ideological data for congressional rollcalls, members of congress, and parties. You can find information such the descriptions of rollcalls, what proportion of voting members were correctly classified by the ideological cutting line for that rollcall, the ideological position of members of congress, and more.
+      </p>
+      <p>
+      Both the rollcall data and the data on members are split into chambers and congresses, although you can select some combinations of the two to download. The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
+      </p>
+      <p>
+      You can see the <a href="about/">about</a> page for more information about NOMINATE and complete data documentation is forthcoming.
+      </p>
+      <p>
+        <div class="dataContainer">
+	  <a href="#" class="dataHeader"><h4>Information about congressional rollcalls (.csv)</h4></a>
 	  <div class="dataContent" style="display:none;">
 	    % include('data_dropdowns.tpl')
 	    <div class="dataLink">
@@ -23,7 +32,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Member ideal points and metadata</h4></a>
+	  <a href="#" class="dataHeader"><h4>Information about members of congress (.csv)</h4></a>
 	  <div class="dataContent" style="display:none;">
 	    % include('data_dropdowns.tpl')
 	    <div class="dataLink">
@@ -34,7 +43,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       </p>
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Party ideology and metadata</h4></a>
+	  <a href="#" class="dataHeader"><h4>Information about political parties (.csv)</h4></a>
 	  <div class="dataContent" style="display:none;">
 	    <div class="dataLinkFixed">
 	      <a id="party" href="/static/data/csv/party/party_all.csv">Download for all Congresses and Chambers</a>
@@ -53,11 +62,11 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 	</div>
       </p>
       --->
-
-      <h3>Roll call data</h3>
+      <br>
+      <h4>Legacy Voteview File Formats</h3>
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Roll Call Vote Matrices (.ORD files)</h4></a>
+	  <a href="#" class="dataHeader"><h5>Legacy Rollcall Vote Matrices (.ORD files)</h5></a>
 	  <div class="dataContent" style="display:none;">
 	    % include('data_dropdowns.tpl')
 	    <div class="dataLink">
@@ -66,12 +75,9 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 	  </div>
 	</div>
       </p>
-
-
-      <h3>DW-NOMINATE Flat Files</h3>
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Rollcall .DAT file</h4></a>
+	  <a href="#" class="dataHeader"><h5>Legacy Rollcall Flatfiles (.DAT files)</h5></a>
 	  <div class="dataContent" style="display:none;">
 	    <div class="dataLinkFixed">
 	      <a id="rcdat" href="/static/data/dat/rollcall_both_all.dat">Download for all Congresses and Chambers</a>
@@ -81,7 +87,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       </p>
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Member .DAT file</h4></a>
+	  <a href="#" class="dataHeader"><h5>Legacy Member Flatfiles (.DAT files)</h5></a>
 	  <div class="dataContent" style="display:none;">
 	    <div class="dataLinkFixed">
 	      <a id="memberdat" href="/static/data/dat/member_both_all.dat">Download for all Congresses and Chambers</a>
@@ -91,11 +97,11 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       </p>
 
 
-      <h3>Support Files</h3>
+      <h4>Extra Legacy Information</h4>
       <p>
 	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
       </p>
-
+      <br>
       <h3>Complete Database</h3>
       <p>
 	<a href="/static/db/current.zip">Complete database</a> (approx. 100MB zipped).<br/>
