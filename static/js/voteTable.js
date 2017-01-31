@@ -55,7 +55,7 @@ function outVotes(groupBy)
 		else { voteSubset["name"] = lastName; }
 		if(groupBy=="prob") {
 			var key = "Voted";
-			if(voteSubset["vote"] == "Abs") { key = "Not Voting (Least to Most Likely Yea)";}
+			if(voteSubset["vote"] == "Abs") { key = "Not Voting (Least to Most Likely To Vote With Party)";}
 			if(groupings[key] != undefined) { groupings[key].push(voteSubset); }
 			else { groupings[key] = [voteSubset]; }
 		}
@@ -129,11 +129,23 @@ function outVotes(groupBy)
 			if(groupBy=="party") outLabel = person["name"]+" ("+person["state_abbrev"]+") ";
 			else if(groupBy=="state") outLabel = person["name"]+" ("+person["party"].substr(0,1)+") ";
 			else outLabel = person["name"]+" ("+person["party"].substr(0,1) + "-" +person["state_abbrev"] + ")";
+
+			// Check if the current user is our sponsor.
+			var isSponsor = 0;
+			if(globalData["rollcalls"][0]["sponsor"]!=undefined && person["icpsr"]==globalData["rollcalls"][0]["sponsor"])
+			{
+				isSponsor=1;
+			}
 			
 			// Style and assemble list item
 			var li = $("<li></li>").css("display","inline-block").css("width","100%").css("padding-bottom","3px");
-			var span = $("<span></span>").css("background-color","white").css("padding-right","5px");
+			if(isSponsor)	var span = $("<span></span>").css("background-color","yellow").css("padding-right","5px");
+			else var span = $("<span></span>").css("background-color","white").css("padding-right","5px");
+
 			if(person["flags"]!=undefined && groupBy=="x") { $("<span>* </span>").css("color","red").appendTo(span); }
+
+			if(isSponsor) { li.css("background-color","yellow"); $("<span>* </span>").css("color","red").appendTo(span); }
+
 			$("<a></a>").attr("href","/person/"+person["icpsr"]+"/"+person["seo_name"])
 					.html(outLabel).appendTo(span);
 			span.appendTo(li);
@@ -141,7 +153,8 @@ function outVotes(groupBy)
 			// If we're not grouping on vote, right-float vote and class the LI to use the dot leaders.
 			if(groupBy!="vote") 
 			{ 
-				var addVote = $("<span>"+person["vote"]+"</span>").css("background-color","white").css("float","right").css("padding-right","40px")
+				if(isSponsor) var addVote = $("<span>"+person["vote"]+"</span>").css("background-color","yellow").css("float","right").css("padding-right","40px")
+				else var addVote = $("<span>"+person["vote"]+"</span>").css("background-color","white").css("float","right").css("padding-right","40px")
 				if(person["prob"]!=undefined && parseInt(person["prob"])<25 && sortedKeys[key] == "Voted") { addVote.css("color","red"); }
 				addVote.appendTo(li); 
 				li.addClass("dotted");
@@ -162,7 +175,7 @@ function outVotes(groupBy)
 						baseText += "<strong>Ideology Score:</strong> "+pp["x"]+"<br/>(<em>DW-NOMINATE First Dimension</em>)<br/><br/>"; 
 						if(pp["vote"]=="Abs") { 
 							baseText += "<strong>Not Voting</strong>.";
-							if(pp["prob"]!=undefined) { baseText += "If "+pp["name"]+" had voted, we predict they would vote 'Yea' with "+probText+" probability.<br/>"; }
+							if(pp["prob"]!=undefined) { baseText += "If "+pp["name"]+" had voted, we predict they would vote with their party with "+probText+" probability.<br/>"; }
 						}
 						else 
 						{ 
@@ -173,6 +186,7 @@ function outVotes(groupBy)
 						if(pp["flags"]=="median") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Median Voter."; }
 						else if(pp["flags"]=="fbPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> 60th Vote for Cloture"; }
 						else if(pp["flags"]=="voPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Veto override."; }
+						if(globalData["rollcalls"][0]["sponsor"] != undefined && pp["icpsr"]==globalData["rollcalls"][0]["sponsor"]) { baseText += "<br/><br/><strong>Sponsor:</strong> This member sponsored the bill or amendment."; }
 					}
 					else { baseText += "We do not have a score for this member yet.<br/>"; }
 
