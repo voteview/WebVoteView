@@ -339,8 +339,14 @@ def rollcall(rollcall_id=""):
         return(output)
 
     meta = metaLookup()
+    sponsor = {}
+    if "rollcalls" in rollcall and "sponsor" in rollcall["rollcalls"][0]:
+        try:
+            sponsor = [x for x in rollcall["rollcalls"][0]["votes"] if x["icpsr"]==rollcall["rollcalls"][0]["sponsor"]][0]
+        except:
+            sponsor = {}
 
-    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate']['second_dimweight'], nomBeta=meta["nominate"]["beta"], mapParties=mapParties)
+    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate']['second_dimweight'], nomBeta=meta["nominate"]["beta"], mapParties=mapParties, sponsor=sponsor)
     return(output)
 
 
