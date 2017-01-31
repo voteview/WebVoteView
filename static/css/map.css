@@ -61,8 +61,19 @@ svg.map {
 	right: 20px;
 }
 
-ul.voteTable li.dotted:before 
-{ 
-	float:left; width:0; white-space: nowrap;
-	content: "\00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \0087  \0087  \0087  \0087";
+@media screen
+{
+	ul.voteTable li.dotted:before 
+	{ 
+		float:left; width:0; white-space: nowrap;
+		content: "\00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \0087  \0087  \0087  \0087";
+	}
+}
+@media print
+{
+	ul.voteTable li.dotted:before 
+	{ 
+		float:left; width:0; white-space: nowrap;
+		content: "";
+	}
 }
