@@ -77,7 +77,8 @@ def callback(path):
 # Index
 @app.route("/")
 @app.route("/search/")
-def index():
+@app.route("/search/<search_string>")
+def index(search_string=""):
     clearTime()
     timeIt("begin")
 
@@ -116,7 +117,7 @@ def index():
             except:
                 pass
         timeIt("doneAssembly")
-        output = bottle.template("views/search", args=argDict, timeSet=zipTimes(), base_url=BASE_URL)
+        output = bottle.template("views/search", args=argDict, search_string=search_string, timeSet=zipTimes(), base_url=BASE_URL)
     except:
         output = bottle.template("views/error", errorMessage = traceback.format_exc())
         #errorMessage="Error: One or more of the parameters you used to call this page was misspecified.")
