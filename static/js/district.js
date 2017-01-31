@@ -235,10 +235,7 @@ function resetResults()
 				if(data["resCurr"].length)
 				{
 					$("<h4>Current Congressperson and Senators</h4>").appendTo("#resultsMembers");
-					var memberList = $("<ul></ul>").css("columns","auto 3")
-								.css("list-style-type","none").css("overflow","auto")
-								.css("width","100%").css("margin-left",0).css("padding-left",0).css("margin-bottom","15px")
-								.css("display","block").attr("id","memberList");
+					var memberList = $("<ul></ul>").attr("id","memberList").addClass("geography");
 					memberList.appendTo("#resultsMembers");
 					$.each(data["resCurr"], function(k,v)
 					{
