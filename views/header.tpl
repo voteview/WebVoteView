@@ -3,7 +3,7 @@
 <div class="container">
   <div id="wbv-header" class="row">
     <div class="col-md-12">
-      <ul class="nav nav-pills pull-right">
+      <ul class="nav nav-pills pull-right noprint">
 
         <li><a href="/">search</a></li>
 
@@ -38,6 +38,7 @@
       </ul>
 
 	<h1 id="brand">
+		<span class="printOnly">UCLA Presents </span>
 		% if devserver:
 		<a href="/"><span style="background-color:red;color:yellow;">voteview.com beta DEV SERVER</span></a>
 		% else:
