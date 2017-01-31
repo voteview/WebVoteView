@@ -48,7 +48,7 @@
 			</p>
 			% end
 			% if "codes" in rollcall and ("Peltzman" in rollcall["codes"] or "Clausen" in rollcall["codes"]):
-			<p style="float:left;"><strong>Vote Subject Matter:</strong>
+			<p style="float:left;margin-right:20px;"><strong>Vote Subject Matter:</strong>
 			% if "Clausen" in rollcall["codes"]:
 			{{ rollcall["codes"]["Clausen"][0] }}
 			% if "Peltzman" in rollcall["codes"]:
@@ -57,7 +57,10 @@
 			% end
 			</p>
 			% end
-			% if rollcall["question"]:
+			% if "name" in sponsor:
+			<p><strong>Sponsor:</strong> <a href="/person/{{sponsor["icpsr"]}}/{{sponsor["seo_name"]}}">{{sponsor["name"]}}</a></p>
+			% end
+			% if "question" in rollcall and rollcall["question"]:
 			<p style="clear:both;"><strong>Question: </strong>{{ rollcall["question"] }}</p>
 			% end
 			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>
