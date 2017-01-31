@@ -68,7 +68,7 @@ function constructPlot(member, margins)
 {
 	if(margins==undefined)
 	{
-		var mImg = "20px";
+		var mImg = "10px";
 		var mL = "5px";
 	}
 	else
@@ -101,13 +101,13 @@ function constructPlot(member, margins)
 		memberNameFinal = member["bioname"];
 	}
 
-	var memberBox = $("<li></li>")  .addClass("memberResultBox")
+	var memberBox = $("<li></li>")  .addClass("memberResultBox").addClass("columnResultBox")
 					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"]+"/"+member["seo_name"];})
-					.css("break-inside","avoid-column")
-					.css("overflow","hidden").css("padding-right",mL);
+					.css("padding-right",mL);
 	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]+"/"+member["seo_name"]).attr("class","nohover").css("display", "block;");
-	var imgBox = $("<img />").css("width","80px").css("height","80px").css("padding-right",mImg).attr("class","pull-left")
-					.attr("src","/static/img/bios/"+member["bioImgURL"]);
+	var imgBox = $("<img />").addClass("pull-left").addClass("bio")
+				.css("margin-right",mImg)
+				.attr("src","/static/img/bios/"+member["bioImgURL"]);
 
 	var bioTextInner = "<strong>"+memberNameFinal+"</strong><br/>"+member["party_noun"]+"<br/>"+member["state"]+"<br/>";
 	if(member["minElected"]!=undefined)
@@ -121,8 +121,8 @@ function constructPlot(member, margins)
 		bioTextInner += "Elected "+(1787+(member["congresses"][0][0]*2));
 	}
 
-	var bioText = $("<span></span>").css("font-size","0.9em").css("padding-right","0px")
-					.html(bioTextInner);
+	var bioText = $("<span></span>").html(bioTextInner);
+
 	imgBox.appendTo(linkBox);
 	bioText.appendTo(linkBox);
 	linkBox.appendTo(memberBox);
