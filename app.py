@@ -260,6 +260,20 @@ def person(icpsr=0, garbage=""):
         person["yearsOfService"] = yearsOfService(person["icpsr"],"")
 	person["yearsOfServiceSenate"] = yearsOfService(person["icpsr"],"Senate")
 	person["yearsOfServiceHouse"] = yearsOfService(person["icpsr"],"House")
+	# Fix final date of service to match final voting date.
+	try:
+		if len(person["yearsOfServiceSenate"]):
+			if person["yearsOfServiceSenate"][-1][1] > int(person["voting_dates"]["Senate"][1].split("-")[0]) and int(person["voting_dates"]["Senate"][1].split("-")[0]):
+				person["yearsOfServiceSenate"][-1][1] = int(person["voting_dates"]["Senate"][1].split("-")[0])
+	except:
+		pass
+	try:
+		if len(person["yearsOfServiceHouse"]):
+			if person["yearsOfServiceHouse"][-1][1] > int(person["voting_dates"]["House"][1].split("-")[0]) and int(person["voting_dates"]["House"][1].split("-")[0]):
+				person["yearsOfServiceHouse"][-1][1] = int(person["voting_dates"]["House"][1].split("-")[0])
+	except:
+		pass
+
         person["congressesOfService"] = congressesOfService(person["icpsr"],"")
         person["congressLabels"] = {}
         for congressChunk in person["congressesOfService"]:
