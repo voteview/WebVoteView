@@ -96,7 +96,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 
 	if biography:
 		print "i'm in here"
-		searchQuery["biography"] = {"$regex": biography, "$options": "i"}
+		searchQuery["biography"] = {"$regex": biography, "$options": i}
 
 	if congress:
 		try:
@@ -123,11 +123,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			return({"errormessage": "Invalid congress ID supplied."})
 
 	if name:
-		if not " " in name: # Last name only
-			searchQuery["bioname"] = {'$regex': name, '$options': 'i'}
-		elif ", " in name: # Last, First
+		if ", " in name: # Last, First
 			last, rest = name.split(", ",1)
-			searchQuery["bioname"] = {'$regex': last+", "+rest, '$options': 'i'}
+			searchQuery["$text"] = {"$search": rest+" "+last}
 		else:
 			searchQuery["$text"] = {"$search": name}
 
@@ -187,9 +185,14 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	if "$text" in searchQuery:
 		fieldSet["score"] = {"$meta": "textScore"}
 
-        print(api)
 	res = db.voteview_members.find(searchQuery, fieldSet)
-
+	# Try to induce regex if a name search fails?
+	hypotheticalCount = res.count()
+	if "$text" in searchQuery and hypotheticalCount==0:
+		print "No results from a name search, fall back to regex"
+		del searchQuery["$text"]
+		searchQuery["bioname"] = {'$regex': name, '$options': 'i'}
+		res = db.voteview_members.find(searchQuery, fieldSet)
 
         if "$text" in searchQuery:
 		sortedRes = res.sort([('score', {'$meta': 'textScore'})]).limit(20)
