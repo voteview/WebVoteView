@@ -11,7 +11,7 @@
 			% if "logo" in party or (party["id"]==100 or party["id"]==200):
 			<img src="/static/img/parties/{{party["id"]}}.png" style="height:80px;padding-right:20px;vertical-align:middle;" class="pull-left">
 			% end
-			<div style="font-size:0.9em;vertical-align:middle;padding-top:15px;">
+			<div style="padding-top:15px;">
 				<strong>{{party["fullName"]}}</strong><br/>
 				Active from {{congressToYear(party["minCongress"])}} to {{congressToYear(party["maxCongress"])+1}}<br/>
 			</div>
@@ -27,8 +27,8 @@
 %	end
 		<a href="/person/{{member["icpsr"]}}/{{member["seo_name"]}}" class="nohover">
 		<div class="col-md-3 memberResultBox">
-			<img src="/static/img/bios/{{member["bioImg"]}}" style="width:80px;height:80px;padding-right:10px;vertical-align:middle;" class="pull-left">
-			<div style="font-size:0.9em;vertical-align:middle;padding-top:5px;">
+			<img class="bio pull-left" src="/static/img/bios/{{member["bioImg"]}}" style="margin-right:10px;" class="pull-left">
+			<div style="vertical-align:middle;padding-top:5px;">
 				% if "bioname" in member and member["bioname"] is not None:
 					<strong>{{member["bioname"]}}</strong> ({{member["party_name"][0:1]}})<br/>
 				% end
