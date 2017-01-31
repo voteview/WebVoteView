@@ -87,21 +87,21 @@
 					<h4 style="float:left;clear:none;vertical-align:middle;">
 						Map 
 	
-						<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;"
+						<span class="glyphicon glyphicon-save noprint" style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;"
 						      onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;" 
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 						</span>
 	
 						%if len(noteText):
-							<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" class="left-tooltip" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
+							<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" class="left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
 						%end
 	
 					</h4>
 					</span>
 	
 					<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;"> <!-- This span tells DC where to put the map -->
-						<button id="zoomIn" class="glyphicon glyphicon-plus " style="position:absolute;left:25px;top:40px;width:30px;height:30px;" onClick="javascript:doZoom(1);return false;"></button>
-						<button id="zoomOut" class="glyphicon glyphicon-minus" style="position:absolute;left:25px;top:80px;width:30px;height:30px;" onClick="javascript:doZoom(-1);return false;"></button>
+						<button id="zoomIn" class="glyphicon glyphicon-plus noprint" style="position:absolute;left:25px;top:40px;width:30px;height:30px;" onClick="javascript:doZoom(1);return false;"></button>
+						<button id="zoomOut" class="glyphicon glyphicon-minus noprint" style="position:absolute;left:25px;top:80px;width:30px;height:30px;" onClick="javascript:doZoom(-1);return false;"></button>
 	
 						<input id="ex1" data-slider-id="panY" type="text" data-slider-min="0" data-slider-max="500" data-slider-step="1"
 								data-slider-orientation="vertical" data-slider-tooltip="hide" data-slider-handle="custom">
@@ -109,7 +109,7 @@
 								data-slider-step="1" data-slider-tooltip="hide" data-slider-handle="custom">
 						<span id="suppressMapControls" style="display:none;"><span class="filter"></span></span>
 					</span>
-					<div class="alert alert-info" role="alert" id="warnParty" style="display:none;"> <!-- This div warns about party combining -->
+					<div class="alert alert-info noprint" role="alert" id="warnParty" style="display:none;"> <!-- This div warns about party combining -->
 						<strong>Note:</strong> This map combines minor parties to increase visual clarity. 
 						<a href="/rollcall/{{rollcall["id"]}}?mapParties=0">Click here to view all parties separately.</a>
 					</div>
@@ -117,7 +117,7 @@
 
 				<!-- Nominate graph -->
 				<h4>DW-Nominate Cutting Line
-					<span class="glyphicon glyphicon-save"
+					<span class="glyphicon glyphicon-save noprint"
 						onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
 						style="margin-left:5px;width:18px;vertical-align:middle;cursor:pointer;" 
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
@@ -133,7 +133,7 @@
 					</div>
 				</div>
 			</div> <!-- Outside the first column onto the second column (the vote table). -->
-			<div class="col-md-2" id="vote_chart_float" style="position:static"> 
+			<div class="col-md-2 noprint" id="vote_chart_float" style="position:static"> 
 				<h4>Votes
 					<a href="/api/download?rollcall_id={{rollcall["id"]}}">
 						<span class="glyphicon glyphicon-save"
@@ -154,10 +154,10 @@
 		</div>
 
 		<div class="row" style="margin-bottom:50px;">
-			<div class="col-md-12">
+			<div class="col-md-12" id="voteBucket">
 				<div>
 					<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">Votes</div>
-					<div style="text-align:middle;padding-top:3px;">
+					<div style="text-align:middle;padding-top:3px;" class="noprint">
 						(Sort by 
 						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 
 						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>, 
