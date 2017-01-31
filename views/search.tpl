@@ -2,6 +2,7 @@
 % rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css"])
 % include('header.tpl')
 % setdefault('args',{})
+% setdefault('search_string',"")
 <div class="container">
 
 	<div class="row">
@@ -32,7 +33,7 @@
 
 				<div id="search-bar-container" class="col-md-12">
 					<div class="input-group">
-						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a term to search for">
+						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a term to search for" value="{{search_string}}">
 						<div class="input-group-btn">
 							<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
