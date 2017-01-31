@@ -442,6 +442,11 @@ function updateRequest()
 	}
 }
 
+function stripJunkFromSearch(text)
+{
+	return encodeURIComponent(text.replace("/"," "));
+}
+
 var globalSlowLoadTimer;
 
 	// Get the initial list of rollcalls and replace all elements in the container with them
@@ -452,6 +457,7 @@ var globalSlowLoadTimer;
 			window.location='/rollcall/'+$("#searchTextInput").val();
 			return;
 		}
+		if($("#searchTextInput").val().length) { $("#searchTextInput").val($("#searchTextInput").val().replace("/"," ")); }
 		globalQueueRequests=0;
 		$.ajax({
 			type: "POST",
@@ -482,7 +488,34 @@ var globalSlowLoadTimer;
 			success: function(res, status, xhr) 
 			{
 				clearTimeout(globalSlowLoadTimer);
-				metaPageloaded = 0; // Reset page load count. We use this for stopping auto-scroll after 10 pages.
+				if($("#searchTextInput").val().length)
+				{
+					var setOPS = 0;
+					if(window.history.state==undefined || window.history.state["search"] == undefined)
+					{
+						window.history.pushState({"search": $("#searchTextInput").val()}, "Searched for "+$("#searchTextInput").val(), "/search/"+$("#searchTextInput").val());
+						setOPS=1;
+					}
+					else if(window.history.state["search"]==$("#searchTextInput").val())
+					{
+						console.log("history state still saved, don't need to redo.");
+					}
+					else
+					{
+						window.history.pushState({"search": $("#searchTextInput").val()}, "Searched for "+$("#searchTextInput").val(), "/search/"+$("#searchTextInput").val());
+						setOPS=1;
+					}
+
+					if(setOPS)
+					{
+						window.onpopstate = function(event)
+						{
+							$("#searchTextInput").val(event.state["search"]);
+							getRollcalls();
+						};
+
+					}
+				}
 				var resultsNumber = parseInt(xhr.getResponseHeader("Rollcall-Number"));
 				var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
 				var partyNumber = parseInt(xhr.getResponseHeader("Party-Number"));
