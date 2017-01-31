@@ -157,7 +157,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
     memberTime2 = time.time()
     # Now iterate through the rollcalls
     fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1,
-                    "description": 1, "shortdescription": 1, "short_description": 1, "vote_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1, 'vote_title': 1, 'vote_question_text': 1, 'amendment_author': 1, "sponsor": 1}
+                    "description": 1, "shortdescription": 1, "short_description": 1, "vote_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1, 'vote_title': 1, 'vote_question_text': 1, 'amendment_author': 1, "sponsor": 1, "bill_number": 1}
     rollcalls = db.voteview_rollcalls.find(
         {'id': {'$in': rollcall_ids}}, fieldSetNeed).sort('id').batch_size(10)
     for rollcall in rollcalls:
@@ -383,7 +383,8 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                  'nay': rollcall["nay_count"], 'vote_result': rollcall['vote_result']}
             if "sponsor" in rollcall:
                 z["sponsor"] = rollcall["sponsor"]
-
+            if "bill_number" in rollcall:
+                z["bill_number"] = rollcall["bill_number"]
             if apitype == "exportCSV" or apitype == "exportXLS":
                 z.update({k: v for k, v in codeFields.iteritems()})
                 z.update({'keyvote': ''.join(rollcall['key_flags']),

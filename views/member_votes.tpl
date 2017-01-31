@@ -50,6 +50,9 @@
 				% end
 			    </td>
                             <td style="border-right:1px solid #dddddd;">
+				%	if "bill_number" in vote:
+					<strong>{{vote["bill_number"]}}</strong><br/>
+				%	end
 				%	voteFields = ["vote_description", "vote_desc", "vote_document_text", "vote_title", "vote_question_text", "amendment_author", "description", "short_description"]
 				%	done=0
 				%	for v in voteFields:
@@ -62,11 +65,11 @@
 				%	if done==0:
 						{{rcSuffix(vote["congress"])}} Congress &gt {{vote["chamber"]}} &gt; Vote {{str(vote["rollnumber"])}}
 				%	end
-
+				
 				%	voteFieldsQ = ["vote_question", "question"]
 				%	for v in voteFieldsQ:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
-							{{vote[v]}}
+							<em>{{vote[v]}}</em>
 				%			break
 				%		end
 				%	end
@@ -75,6 +78,13 @@
 					aria-label="Key Vote" style="margin-left: 10px;" data-toggle="tooltip" 
 					data-placement="bottom" title="Vote classified as a 'Key Vote' by {{orgMapping[vote["key_flags"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
+				</span>
+				% end
+				% if "sponsor" in vote and vote["sponsor"]==person["icpsr"]:
+				<span class="btn btn-default btn-xs"
+					aria-label="Sponsor" style="margin-left: 10px;" data-toggle="tooltip"
+					data-placement="bottom" title="This person sponsored the bill being voted on.">
+					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Sponsor
 				</span>
 				% end
 			    </td>
