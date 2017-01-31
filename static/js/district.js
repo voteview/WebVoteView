@@ -120,6 +120,12 @@ function resetResults()
 		else
 		{
 			$("#loadProgress").show().html("<strong>Loading...</strong> Matching address to map coordinates... <img src=\"/static/img/loading.gif\" style=\"width:16px;\">");
+			window.history.pushState({"search": $("#addressInput").val()}, "Search for "+$("#addressInput").val(), "/district/"+$("#addressInput").val());
+			window.onpopstate = function(event)
+			{
+				$("#addressInput").val(event.state["search"]);
+				latLongWrapper();
+			}
 			setTimeout(doLatLong, 20);
 		}
 	}
