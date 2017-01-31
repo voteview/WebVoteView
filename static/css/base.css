@@ -268,3 +268,31 @@ ul#memberList.geography
 	content: "\e150";
 }
 
+
+@media print
+{
+	body { border-left: 0; }
+	body.devbody { border-left:0; }
+	.noprint
+	{
+		display:none;
+	}
+	#voteBucket
+	{
+		page-break-before: always;
+	}
+}
+@media screen
+{
+	body.devbody { border-left:20px solid red; }
+	.printOnly { display:none; }
+}
+
+#devHelpWidget
+{
+	position:fixed; 
+	left:0px; bottom:0px; 
+	width:200px; height:30px; 
+	background-color: white; 
+	border-top: 3px solid red; border-right: 3px solid red;
+}
