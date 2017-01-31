@@ -172,11 +172,68 @@ line.cutline {
 .tooltip > .tooltip-arrow { opacity: 0.9; }
 .left-tooltip + .tooltip > .tooltip-inner { text-align:left; min-width:400px;}
 
+#memberList
+{
+	min-width: 800px;
+}
+
+ul#memberList.geography
+{
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	columns: auto 3;
+	list-style-type: none;
+	overflow: auto;
+	margin-left: 0;
+	padding-left: 0;
+	margin-bottom: 15px;
+	display: block;
+}
+
 .memberResultBox
 {
 	cursor: pointer;
 	height: 85px;
 	margin-bottom: 5px;
+	overflow: hidden;
+}
+
+@media screen and (min-width: 1200px) 
+{
+	.memberResultBox img.bio
+	{
+		width: 64px;
+		height: 80px; 
+		vertical-align: middle;
+	}
+
+
+	.memberResultBox span, .memberResultBox div
+	{
+		padding-right: 0px;
+		font-size: 0.9em;
+	}
+}
+@media screen and (max-width: 1199px) 
+{
+	.memberResultBox img.bio
+	{
+		width: 56px;
+		height: 70px;
+		vertical-align: middle;
+	}
+
+	.memberResultBox span, .memberResultBox div
+	{
+		padding-right: 0px;
+		font-size: 0.8em;
+	}
+}
+
+.columnResultBox
+{
+	break-inside: avoid-column;
 }
 
 .searchHighlight2  { background-color: #fffbcc; padding: 2px; }
