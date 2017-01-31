@@ -37,9 +37,9 @@
 }
 </style>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection, print"/>
         <link href="{{ STATIC_URL }}css/dc.css" media="all" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" media="screen, projection"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" media="screen, projection, print"/>
         
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/libs/js.cookie.js"></script>
@@ -66,8 +66,8 @@
 	% if not devserver:
     <body id="{{ body_id }}" class="{{ body_class }}">
 	% else:
-    <body id="{{ body_id }}" class="{{ body_class }}" style="border-left:20px solid red;">
-	<div style="position:fixed; left:0px; bottom:0px; width:200px; height:30px; background-color: white; border-top: 3px solid red; border-right: 3px solid red;">
+    <body id="{{ body_id }}" class="{{ body_class }} devbody">
+	<div id="devHelpWidget" class="noprint">
 		<a href="https://voteview.polisci.ucla.edu/" id="prodLink">
 		<strong><big><big>View on production</big></big></strong>
 		</a>
