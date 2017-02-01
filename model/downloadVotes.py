@@ -391,7 +391,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                           'spread.dim1': nominate['spread'][0], 'spread.dim2': nominate['spread'][1],
                           'mid.dim1': nominate['mid'][0], 'mid.dim2': nominate['mid'][1],
                           'slope': nominate['slope'], 'intercept': nominate['intercept'],
-                          'log_likelihood': nominate['log_likelihood'], 'classified': nominate['classified'], 'pre': nominate['pre'], 'description': description.encode('utf-8'), 'geo_mean_probability': nominate['geo_mean_probability']})
+                          'log_likelihood': nominate['log_likelihood'], 'classified': nominate['classified'], 'pre': nominate['pre'], 'question': None if not question else question.encode('utf-8'), 'description': description.encode('utf-8'), 'geo_mean_probability': nominate['geo_mean_probability']})
 
             if apitype != "exportCSV":
                 z.update({'key_flags': rollcall["key_flags"], 'votes': result, 'codes': codes,
