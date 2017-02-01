@@ -29,6 +29,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 
 	echo "Connecting to development server for database dump"
 	ssh rudkin@128.97.229.160 << EOF
+	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
 	echo "Creating a database backup"
 	mkdir dump_db
 	cd dump_db
@@ -49,6 +50,9 @@ EOF
 	echo "Connecting to remote server to remove remote dump."
 	ssh rudkin@128.97.229.160 << EOF
 	rm -rf dump_db
+	touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
+	rm /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+
 EOF
 
 	downtimestart=$(date +%s)
