@@ -20,10 +20,10 @@ EOF
 		unzip patch.zip -d hourly_patch
 		# Copy the static files
 		cp -r hourly_patch/store/ /var/www/voteview/
+
 		# Apply the DB patches
-		mongo voteview hourly_patch/db/rollcalls.js
-		mongo voteview hourly_patch/db/members.js
-		mongo voteview hourly_patch/db/parties.js
+                mongorestore --oplogReplay hourly_patch/oplogRestore/
+
 		# Remove temp folder
 		rm -rf hourly_patch
 		# Move the patch to a timestamped archive.
@@ -32,7 +32,6 @@ EOF
 		ssh rudkin@128.97.229.160 << EOF
 		unlink /usr/scripts/voteview_metadata/hourly_backup/patch.zip
 		rm -rf /usr/scripts/voteview_metadata/hourly_backup/patch-true.zip
-		rm -rf /usr/scripts/voteview_metadata/hourly_backup/db
 		rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
 		touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
 EOF
