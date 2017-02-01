@@ -4,12 +4,13 @@ userid=$(whoami) # Ensure we're running as root
 hostname=$(hostname) # Ensure we're on voteview.
 
 if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
-	echo "Beginning SCP of latest deployed code."
+	echo "Beginning rsync of latest deployed code."
 	mkdir update-voteview
 	cd update-voteview
 	rsync -av --exclude=.git --exclude=static/db/ --exclude=static/img/wiki --exclude=static/dumpNom rudkin@128.97.229.160:/var/www/voteview ./
 	cd ..
 	mv update-voteview/voteview WebVoteView
+	rm -rf update-voteview
 
 	echo "Ensuring we have the right python module requirements"
 	pip install -r WebVoteView/setup/requirements.txt -U
@@ -19,6 +20,8 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "0" > WebVoteView/server.txt
 	rm WebVoteView/robots.txt
 	mv WebVoteView/robots-prod.txt WebVoteView/robots.txt
+	rm WebVoteView/README.md
+	rm WebVoteView/git-synchronize
 
 	downtimestart=$(date +%s)
 	echo "Stopping web server to substitute directory"
