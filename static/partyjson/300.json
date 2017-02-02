@@ -12,7 +12,8 @@
             0.552, 
             0.584
         ], 
-        "nMembers": 11
+        "nMembers": 11, 
+        "pctAgainst": 11.0
     }, 
     {
         "congress": 32, 
@@ -24,7 +25,8 @@
             0.425, 
             0.53
         ], 
-        "nMembers": 7
+        "nMembers": 7, 
+        "pctAgainst": 8.0
     }, 
     {
         "congress": 33, 
@@ -37,6 +39,7 @@
             0.519, 
             0.53
         ], 
-        "nMembers": 8
+        "nMembers": 8, 
+        "pctAgainst": 6.0
     }
 ]
