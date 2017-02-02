@@ -6,7 +6,8 @@
         "grandSet": [
             0.397
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 48, 
@@ -18,6 +19,7 @@
             0.374, 
             0.397
         ], 
-        "nMembers": 7
+        "nMembers": 7, 
+        "pctAgainst": 0.0
     }
 ]

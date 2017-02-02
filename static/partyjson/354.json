@@ -10,7 +10,8 @@
             0.095, 
             0.157
         ], 
-        "nMembers": 8
+        "nMembers": 8, 
+        "pctAgainst": 7.0
     }, 
     {
         "congress": 56, 
@@ -21,7 +22,8 @@
             -0.05, 
             0.071
         ], 
-        "nMembers": 5
+        "nMembers": 5, 
+        "pctAgainst": 4.0
     }, 
     {
         "congress": 57, 
@@ -30,6 +32,7 @@
         "grandSet": [
             -0.198
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }
 ]
