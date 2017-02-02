@@ -6,7 +6,8 @@
         "grandSet": [
             0.176
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 64, 
@@ -15,7 +16,8 @@
         "grandSet": [
             -0.026
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 65, 
@@ -24,7 +26,8 @@
         "grandSet": [
             -0.026
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 67, 
@@ -33,7 +36,8 @@
         "grandSet": [
             -0.026
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 68, 
@@ -42,7 +46,8 @@
         "grandSet": [
             0.176
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 69, 
@@ -51,7 +56,8 @@
         "grandSet": [
             0.176
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 70, 
@@ -60,6 +66,7 @@
         "grandSet": [
             0.176
         ], 
-        "nMembers": 1
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }
 ]
