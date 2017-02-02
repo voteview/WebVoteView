@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # exit
 # Don't run the script right now.
 
@@ -14,18 +13,22 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	ssh rudkin@128.97.229.160 << EOF
 	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
 EOF
-	scp -r rudkin@128.97.229.160:/usr/scripts/voteview_metadata/hourly_backup/patch.zip
+	scp -r rudkin@128.97.229.160:/usr/scripts/voteview_metadata/hourly_backup/patch.zip ./patch.zip
 	if [[ -f ./patch.zip ]]; then
 		echo "Patch downloaded, beginning application"
 		# Unzip
 		mkdir hourly_patch
 		unzip patch.zip -d hourly_patch
+
+		echo "Patch unzipped, ready copying static files"
 		# Copy the static files
 		cp -r hourly_patch/store/ /var/www/voteview/
 
+		echo "Static files deployed, moving DB"
 		# Apply the DB patches
                 mongorestore --oplogReplay hourly_patch/oplogRestore/
 
+		echo "Cleanup"
 		# Remove temp folder
 		rm -rf hourly_patch
 		# Move the patch to a timestamped archive.
@@ -37,6 +40,10 @@ EOF
 		rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
 		touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
 EOF
+		echo "Fixing local permissions"
+		chown -R rudkin voteview
+		chgrp -R voteview voteview
+
 	else
 		echo "No patch found, ending now."
 		ssh rudkin@128.97.229.160 << EOF
