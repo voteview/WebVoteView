@@ -1,5 +1,7 @@
 #!/bin/bash
-exit
+
+
+# exit
 # Don't run the script right now.
 
 start=$(date +%s)
