@@ -1,0 +1,329 @@
+date_generated,id,congress,chamber,rollnumber,date,keyvote,question,description,yea,nay,Issue1,Issue2,Peltzman1,Peltzman2,Clausen1,mid.dim1,mid.dim2,spread.dim1,spread.dim2,pre,classified,log_likelihood,geo_mean_probability
+2017-02-01 15:42:25,RH0100001,10,House,1,1807-10-28,,,CHOOSE COMMS BY BALLOT VS. BY SPEAKER,24,87,,,Internal Organization,,Miscellaneous Policy,0.332,-0.943,0.056,0.349,0.042,0.793,-50.056,0.637
+2017-02-01 15:42:25,RH0100002,10,House,2,1807-11-05,,,ATTACK ON FRIGATE CHESAPEAKE,24,93,,,Foreign Policy Resolutions,Defense Policy Resolutions,Foreign and Defense Policy,0.439,0.565,-0.235,0.305,0.667,0.932,-22.311,0.826
+2017-02-01 15:42:25,RH0100003,10,House,3,1807-11-10,,,NAVY APPS.,124,2,,,Defense Policy Budget,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100004,10,House,4,1807-11-17,,,SECRECY OF PROCEDINGS,22,104,,,Internal Organization,,Miscellaneous Policy,0.09,0.489,-0.023,-0.826,0.409,0.897,-32.959,0.77
+2017-02-01 15:42:25,RH0100005,10,House,5,1807-11-21,,,BUY INVISIBLE INK FORMULA,54,53,,,Budget Special Interest,,Government Management,0.091,-0.354,-0.118,-0.13,0.528,0.766,-55.156,0.597
+2017-02-01 15:42:25,RH0100006,10,House,6,1807-11-26,,,OWN 50 ACRES TO VOTE IN MISS.,41,79,Voting Rights,,Domestic Social Policy,,Civil Liberties,-0.619,0.61,0.104,0.313,0.0,0.658,-67.059,0.572
+2017-02-01 15:42:25,RH0100007,10,House,7,1807-11-26,,,NO VOTING IN MISS. UNTIL OK W/GA.,35,86,Voting Rights,,Domestic Social Policy,,Civil Liberties,0.095,-0.929,0.162,0.329,0.286,0.793,-48.96,0.667
+2017-02-01 15:42:25,RH0100008,10,House,8,1807-11-27,,,PHILA. MERCH. WANT TRADE RESTORED,50,79,Tariffs,,Regulation General Interest,,Government Management,0.637,0.613,-0.164,0.691,0.48,0.798,-52.303,0.667
+2017-02-01 15:42:25,RH0100009,10,House,9,1807-12-02,,,BUILD BRIDGE OVER POTOMAC,85,43,Public Works,,Budget Special Interest,,Government Management,-0.425,0.063,-0.046,0.053,0.0,0.664,-81.212,0.53
+2017-02-01 15:42:25,RH0100010,10,House,10,1807-12-02,,,VOTING RIGHTS IN MISS. TERR.,73,55,Voting Rights,,Domestic Social Policy,,Civil Liberties,0.11,-0.173,0.003,-0.318,0.309,0.703,-73.839,0.562
+2017-02-01 15:42:25,RH0100011,10,House,11,1807-12-04,,,GRADUALLY ARM THE MILITIA,111,16,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.134,-0.964,-0.046,-0.406,0.125,0.89,-40.618,0.726
+2017-02-01 15:42:25,RH0100012,10,House,12,1807-12-04,,,ARM SOME OF THE MILITIA,48,78,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.343,0.121,-0.022,-0.802,0.625,0.857,-46.556,0.691
+2017-02-01 15:42:25,RH0100013,10,House,13,1807-12-04,,,"BUY SOME ARMS NOW, SOME LATER",41,86,,,Defense Policy Budget,,Foreign and Defense Policy,-0.158,0.237,0.044,-0.568,0.366,0.795,-54.268,0.652
+2017-02-01 15:42:25,RH0100014,10,House,14,1807-12-04,,,ARM THE MILITIA,72,55,,,Defense Policy Budget,,Foreign and Defense Policy,-0.456,0.589,0.109,0.621,0.473,0.772,-56.781,0.639
+2017-02-01 15:42:25,RH0100015,10,House,15,1807-12-11,,,BUILD GUNBOATS,112,19,,,Defense Policy Budget,,Foreign and Defense Policy,-0.147,-0.735,0.048,-0.716,0.105,0.87,-29.416,0.799
+2017-02-01 15:42:25,RH0100016,10,House,16,1807-12-14,,,PET. TO RESTORE SOME TRADE,79,38,Tariffs,,Regulation General Interest,,Government Management,-0.055,0.644,-0.121,0.13,0.105,0.709,-62.54,0.586
+2017-02-01 15:42:25,RH0100017,10,House,17,1807-12-15,,,PROCEDURAL MOTION,48,78,,,Internal Organization,,Miscellaneous Policy,0.343,0.121,-0.022,-0.802,0.625,0.857,-46.556,0.691
+2017-02-01 15:42:25,RH0100018,10,House,18,1807-12-15,,,PET. TO RESTORE SOME TRADE,64,52,Tariffs,,Regulation General Interest,,Government Management,0.745,0.418,-0.06,0.72,0.462,0.759,-56.484,0.615
+2017-02-01 15:42:25,RH0100019,10,House,19,1807-12-15,,,PET. TO RESTORE SOME TRADE,48,69,Tariffs,,Regulation General Interest,,Government Management,0.052,0.201,0.041,-0.411,0.479,0.786,-59.441,0.602
+2017-02-01 15:42:25,RH0100020,10,House,20,1807-12-15,,,PET. TO RESTORE SOME TRADE,14,103,Tariffs,,Regulation General Interest,,Government Management,-0.604,-0.753,0.226,-0.339,0.0,0.88,-38.747,0.718
+2017-02-01 15:42:25,RH0100021,10,House,21,1807-12-15,,,PET. TO RESTORE SOME TRADE,44,60,Tariffs,,Regulation General Interest,,Government Management,0.46,0.688,0.075,-0.378,0.273,0.692,-56.649,0.58
+2017-02-01 15:42:25,RH0100022,10,House,22,1807-12-15,,,PET. TO RESTORE SOME TRADE,46,55,Tariffs,,Regulation General Interest,,Government Management,0.56,0.565,-0.134,0.649,0.522,0.782,-44.092,0.646
+2017-02-01 15:42:25,RH0100023,10,House,23,1807-12-17,,,END SALT DUTY,78,45,Tariffs,,Regulation Special Interest,,Government Management,0.65,-0.496,0.101,0.371,0.2,0.707,-67.527,0.578
+2017-02-01 15:42:25,RH0100024,10,House,24,1807-12-17,,,DUTIES & MEDIT. FUND,107,14,Tariffs,,Regulation General Interest,,Government Management,0.101,-0.808,0.15,-0.965,0.429,0.934,-17.16,0.868
+2017-02-01 15:42:25,RH0100025,10,House,25,1807-12-21,,,SHIPS MUST POST BONDS,45,82,Tax rates,,Defense Policy Resolutions,,Foreign and Defense Policy,0.16,0.185,-0.136,-0.129,0.4,0.787,-55.991,0.643
+2017-02-01 15:42:25,RH0100026,10,House,26,1807-12-21,,,EMBARGO ON SHIPPING,36,92,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.342,-0.022,-0.173,0.75,0.694,0.914,-26.278,0.814
+2017-02-01 15:42:25,RH0100027,10,House,27,1807-12-21,,,EMBARGO ON SHIPPING,46,82,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.051,-0.289,-0.15,0.322,0.543,0.836,-46.987,0.693
+2017-02-01 15:42:25,RH0100028,10,House,28,1807-12-21,,,EMBARGO ON SHIPPING,52,75,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.017,-0.183,-0.13,0.349,0.596,0.835,-53.037,0.659
+2017-02-01 15:42:25,RH0100029,10,House,29,1807-12-21,,,EMBARGO ON SHIPPING,40,81,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.406,0.323,-0.164,0.5,0.6,0.868,-36.852,0.737
+2017-02-01 15:42:25,RH0100030,10,House,30,1807-12-21,,,EMBARGO ON SHIPPING,83,44,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.377,0.257,0.195,-0.786,0.727,0.906,-29.718,0.791
+2017-02-01 15:42:25,RH0100031,10,House,31,1807-12-22,,,BUILD FORTS & GUNBOATS,35,78,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.137,0.991,-0.204,-0.048,0.429,0.823,-42.95,0.684
+2017-02-01 15:42:25,RH0100032,10,House,32,1807-12-23,,,DISPUTED ELEC. OF WILLIAM MCCREERY,70,37,Disputed Elections to Congress,,Internal Organization,,Miscellaneous Policy,0.197,0.98,0.094,0.039,0.27,0.748,-59.19,0.575
+2017-02-01 15:42:25,RH0100033,10,House,33,1807-12-24,,,DISPUTED ELEC. OF WILLIAM MCCREERY,8,92,Disputed Elections to Congress,,Internal Organization,,Miscellaneous Policy,-0.424,-0.906,0.201,0.019,0.0,0.92,-25.87,0.772
+2017-02-01 15:42:25,RH0100034,10,House,34,1807-12-24,,,DISPUTED ELEC. OF WILLIAM MCCREERY,89,18,Disputed Elections to Congress,,Internal Organization,,Miscellaneous Policy,-0.28,-0.96,-0.099,-0.118,-0.111,0.813,-48.643,0.635
+2017-02-01 15:42:25,RH0100035,10,House,35,1807-12-31,,,DID SPAIN PAY GEN. WILKINSON,68,40,Impeachments and Investigations,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.266,-0.151,0.029,-0.44,0.375,0.769,-51.977,0.618
+2017-02-01 15:42:25,RH0100036,10,House,36,1808-01-01,,,EMBARGO ON SHIPPING,29,68,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.277,0.297,0.218,0.406,0.483,0.845,-32.515,0.715
+2017-02-01 15:42:25,RH0100037,10,House,37,1808-01-02,,,EMBARGO ON SHIPPING,73,22,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.249,-0.243,0.096,-1.073,0.727,0.937,-18.898,0.82
+2017-02-01 15:42:25,RH0100038,10,House,38,1808-01-04,,,EMBARGO ON SHIPPING,91,16,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.073,-0.997,-0.089,-0.237,-0.187,0.822,-44.702,0.659
+2017-02-01 15:42:25,RH0100039,10,House,39,1808-01-04,,,CLAIMS ON GA. LAND,71,37,Public Lands,,Government Organization,,Government Management,0.305,-0.89,-0.15,-0.448,0.351,0.778,-43.634,0.668
+2017-02-01 15:42:25,RH0100040,10,House,40,1808-01-04,,,CLAIMS ON GA. LAND,41,66,Public Lands,,Government Organization,,Government Management,0.076,-0.388,0.157,0.373,0.683,0.879,-39.483,0.691
+2017-02-01 15:42:25,RH0100041,10,House,41,1808-01-05,,,DID SPAIN PAY GEN. WILKINSON,72,38,Impeachments and Investigations,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.416,-0.549,0.078,-0.624,0.526,0.836,-48.106,0.646
+2017-02-01 15:42:25,RH0100042,10,House,42,1808-01-07,,,DID SPAIN PAY GEN. WILKINSON,90,19,Impeachments and Investigations,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.481,-0.132,-0.152,0.494,-0.158,0.798,-42.952,0.674
+2017-02-01 15:42:25,RH0100043,10,House,43,1808-01-08,,,EMBARGO ON SHIPPING,39,58,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.064,-0.379,-0.234,0.515,0.667,0.866,-27.958,0.75
+2017-02-01 15:42:25,RH0100044,10,House,44,1808-01-13,,,DID SPAIN PAY GEN. WILKINSON,72,49,Impeachments and Investigations,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.301,-0.053,-0.078,0.791,0.531,0.81,-50.051,0.661
+2017-02-01 15:42:25,RH0100045,10,House,45,1808-01-13,,,DID SPAIN PAY GEN. WILKINSON,119,0,Impeachments and Investigations,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100046,10,House,46,1808-01-15,,,CERTAIN GOVT. SALARIES,26,82,,,Budget Special Interest,,Government Management,0.101,0.763,0.055,-0.273,0.077,0.778,-53.971,0.607
+2017-02-01 15:42:25,RH0100047,10,House,47,1808-01-21,,,DID SPAIN PAY GEN. WILKINSON,46,59,Impeachments and Investigations,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.14,0.023,-0.091,0.636,0.63,0.838,-38.579,0.693
+2017-02-01 15:42:25,RH0100048,10,House,48,1808-01-25,,,INCREASE NO. OF SEAMEN,51,64,,,Defense Policy Budget,,Foreign and Defense Policy,0.604,0.689,-0.108,0.405,0.412,0.739,-57.713,0.605
+2017-02-01 15:42:25,RH0100049,10,House,49,1808-01-25,,,INCREASE NO. OF SEAMEN,108,10,,,Defense Policy Budget,,Foreign and Defense Policy,0.081,-0.781,-0.201,-2.002,0.6,0.966,-8.4,0.931
+2017-02-01 15:42:25,RH0100050,10,House,50,1808-01-27,,,MILITARY PEACE ESTAB.,41,78,,,Defense Policy Budget,,Foreign and Defense Policy,0.306,-0.698,0.073,0.35,0.317,0.765,-62.02,0.594
+2017-02-01 15:42:25,RH0100051,10,House,51,1808-01-30,,,ATTNY. GEN. EXPENSES,101,11,,,Government Organization,,Government Management,0.932,-0.362,0.111,-0.194,0.0,0.902,-39.51,0.703
+2017-02-01 15:42:25,RH0100052,10,House,52,1808-02-02,,,MOVE GOVT. TO PHILA.,68,47,,,Government Organization,,Government Management,0.092,0.962,-0.103,0.116,0.128,0.643,-68.148,0.553
+2017-02-01 15:42:25,RH0100053,10,House,53,1808-02-04,,,MOVE GOVT. TO PHILA.,61,63,,,Government Organization,,Government Management,0.041,0.447,-0.108,0.018,0.426,0.718,-70.091,0.568
+2017-02-01 15:42:25,RH0100054,10,House,54,1808-02-05,,,MOVE GOVT. TO PHILA.,51,68,,,Government Organization,,Government Management,-0.05,0.999,0.133,-0.016,0.275,0.689,-67.461,0.567
+2017-02-01 15:42:25,RH0100055,10,House,55,1808-02-05,,,MOVE GOVT. TO PHILA.,69,53,,,Government Organization,,Government Management,-0.05,0.999,0.072,0.071,0.151,0.631,-76.6,0.534
+2017-02-01 15:42:25,RH0100056,10,House,56,1808-02-06,,,MOVE GOVT. TO PHILA.,33,86,,,Government Organization,,Government Management,0.457,0.89,-0.086,0.002,0.091,0.748,-63.734,0.585
+2017-02-01 15:42:25,RH0100057,10,House,57,1808-02-06,,,MOVE GOVT. TO PHILA.,56,54,,,Government Organization,,Government Management,0.055,0.327,0.102,-0.056,0.352,0.682,-63.068,0.564
+2017-02-01 15:42:25,RH0100058,10,House,58,1808-02-08,,,MOVE GOVT. TO PHILA.,60,58,,,Government Organization,,Government Management,-0.097,0.995,0.093,0.064,0.345,0.678,-72.106,0.543
+2017-02-01 15:42:25,RH0100059,10,House,59,1808-02-09,,,MOVE GOVT. TO PHILA.,35,51,,,Government Organization,,Government Management,-0.038,0.988,0.131,-0.062,0.2,0.674,-48.054,0.572
+2017-02-01 15:42:25,RH0100060,10,House,60,1808-02-12,,,LET JOSEPH STORY COME TO HOUSE HEARING,28,76,,,Internal Organization,,Miscellaneous Policy,0.415,-0.91,-0.184,-0.113,0.393,0.837,-35.539,0.711
+2017-02-01 15:42:25,RH0100061,10,House,61,1808-02-17,,,AID SAMUEL WHITING,56,41,,,Budget Special Interest,,Government Management,0.155,-0.988,-0.124,-0.128,0.244,0.68,-52.299,0.583
+2017-02-01 15:42:25,RH0100062,10,House,62,1808-02-19,,,PUBLIC CONTRACT LAW,50,61,,,Domestic Social Policy,,Civil Liberties,-0.1,0.145,0.115,0.323,0.48,0.766,-54.83,0.61
+2017-02-01 15:42:25,RH0100063,10,House,63,1808-02-24,,,HOW TO REMOVE JUDGES,82,27,Constitutional Amendments,,Domestic Social Policy,,Civil Liberties,0.125,-0.992,0.177,-0.184,0.556,0.89,-31.105,0.752
+2017-02-01 15:42:25,RH0100064,10,House,64,1808-02-28,,,ASK PRES. FOR FRENCH CORRESP.,60,62,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.133,0.354,-0.225,0.507,0.6,0.803,-45.686,0.688
+2017-02-01 15:42:25,RH0100065,10,House,65,1808-02-29,,,EMBARGO ON SHIPPING,97,21,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.421,-0.013,0.194,-0.361,0.524,0.915,-20.319,0.842
+2017-02-01 15:42:25,RH0100066,10,House,66,1808-03-02,,,PUBLIC CONTRACT LAW,19,73,,,Domestic Social Policy,,Civil Liberties,0.485,0.139,-0.091,-0.445,-0.053,0.783,-38.044,0.661
+2017-02-01 15:42:25,RH0100067,10,House,67,1808-03-03,,,PUBLIC CONTRACT LAW,65,44,,,Domestic Social Policy,,Civil Liberties,0.486,-0.874,0.177,0.413,0.5,0.798,-48.964,0.638
+2017-02-01 15:42:25,RH0100068,10,House,68,1808-03-07,,,COURTS MARTIAL LAW,65,43,,,Domestic Social Policy,,Civil Liberties,0.051,-0.007,0.406,-1.681,0.791,0.917,-20.261,0.829
+2017-02-01 15:42:25,RH0100069,10,House,69,1808-03-08,,,SALE OF PUBLIC ARMS,86,21,,,Budget Special Interest,,Government Management,0.426,0.539,0.137,-0.031,0.333,0.869,-36.537,0.711
+2017-02-01 15:42:25,RH0100070,10,House,70,1808-03-08,,,ERECT MONUMENT TO TRIPOLI BATTLE,48,59,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.047,0.063,-0.144,0.13,0.458,0.757,-51.285,0.619
+2017-02-01 15:42:25,RH0100071,10,House,71,1808-03-09,,,COURTS MARTIAL LAW,22,89,,,Domestic Social Policy,,Civil Liberties,0.361,0.339,-0.253,0.404,0.682,0.937,-19.305,0.84
+2017-02-01 15:42:25,RH0100072,10,House,72,1808-03-12,,,COURTS MARTIAL LAW,62,52,,,Domestic Social Policy,,Civil Liberties,0.058,0.06,0.256,-1.04,0.654,0.842,-32.723,0.75
+2017-02-01 15:42:25,RH0100073,10,House,73,1808-03-14,,,ASK PRES. FOR FRENCH CORRESP.,44,66,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.174,0.224,-0.204,0.661,0.705,0.882,-37.639,0.71
+2017-02-01 15:42:25,RH0100074,10,House,74,1808-03-16,,,EXTEND U.S. MINT IN PHILA.,83,19,,,Budget General Interest,,Government Management,-0.378,0.584,-0.155,-0.07,-0.105,0.794,-44.774,0.645
+2017-02-01 15:42:25,RH0100075,10,House,75,1808-03-18,,,PHILIP KEY IS ENTITLED TO HIS SEAT,79,28,Disputed Elections to Congress,,Internal Organization,,Miscellaneous Policy,-0.31,-0.246,-0.12,0.085,0.071,0.757,-54.638,0.6
+2017-02-01 15:42:25,RH0100076,10,House,76,1808-03-18,,,PHILIP KEY IS ENTITLED TO HIS SEAT,57,52,Disputed Elections to Congress,,Internal Organization,,Miscellaneous Policy,0.089,0.601,-0.142,0.156,0.442,0.734,-56.441,0.596
+2017-02-01 15:42:25,RH0100077,10,House,77,1808-03-18,,,"EMBARGO & ARMING SHIPS, STOP TRADE W/FRANCE",24,84,,,Defense Policy Resolutions,Foreign Policy Resolutions,Foreign and Defense Policy,0.144,-0.464,-0.192,0.399,0.542,0.898,-23.6,0.804
+2017-02-01 15:42:25,RH0100078,10,House,78,1808-03-19,,,RATIONS RATE FOR MIL.,47,62,,,Defense Policy Budget,,Foreign and Defense Policy,0.199,0.931,0.016,-0.071,0.043,0.587,-73.293,0.51
+2017-02-01 15:42:25,RH0100079,10,House,79,1808-03-19,,,RATIONS RATE FOR MIL.,59,45,,,Defense Policy Budget,,Foreign and Defense Policy,0.348,0.92,0.055,-0.069,0.089,0.606,-67.847,0.521
+2017-02-01 15:42:25,RH0100080,10,House,80,1808-03-21,,,INCREASE SIZE OF INF.,63,45,,,Defense Policy Budget,,Foreign and Defense Policy,0.499,0.151,0.007,0.549,0.4,0.75,-55.74,0.597
+2017-02-01 15:42:25,RH0100081,10,House,81,1808-03-21,,,ELIMINATE U.S. DEBT,35,74,Banking and Finance,,Budget General Interest,,Government Management,-0.17,-0.005,0.209,-0.031,0.286,0.771,-47.227,0.648
+2017-02-01 15:42:25,RH0100082,10,House,82,1808-03-30,,,ASK PRES. FOR FRENCH CORRESP.,93,24,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.075,0.426,-0.079,0.878,0.292,0.855,-35.883,0.736
+2017-02-01 15:42:25,RH0100083,10,House,83,1808-03-31,,,SECRECY OF PRES'S MESSAGE,42,77,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.157,-0.476,-0.225,0.901,0.762,0.916,-27.04,0.797
+2017-02-01 15:42:25,RH0100084,10,House,84,1808-03-31,,,SECRECY OF PRES'S MESSAGE,45,71,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.057,-0.04,-0.386,1.485,0.844,0.94,-23.105,0.819
+2017-02-01 15:42:25,RH0100085,10,House,85,1808-04-01,,,SECRECY OF PRES'S MESSAGE,45,71,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.092,-0.021,-0.482,1.804,0.844,0.94,-17.63,0.859
+2017-02-01 15:42:25,RH0100086,10,House,86,1808-04-01,,,SECRECY OF PRES'S MESSAGE,45,73,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.069,-0.055,-0.49,1.777,0.867,0.949,-17.119,0.865
+2017-02-01 15:42:25,RH0100087,10,House,87,1808-04-02,,,SECRECY OF PRES'S MESSAGE,106,1,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100088,10,House,88,1808-04-02,,,SECRECY OF PRES'S MESSAGE,85,22,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-1.0,-0.003,-0.088,-0.012,0.0,0.794,-50.547,0.624
+2017-02-01 15:42:25,RH0100089,10,House,89,1808-04-02,,,SECRECY OF PRES'S MESSAGE,70,40,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.118,0.086,-0.167,0.833,0.575,0.845,-39.88,0.696
+2017-02-01 15:42:25,RH0100090,10,House,90,1808-04-07,,,INCREASE SIZE OF MILITARY,96,16,,,Defense Policy Budget,,Foreign and Defense Policy,0.013,-0.735,0.06,-0.58,0.312,0.902,-27.011,0.786
+2017-02-01 15:42:25,RH0100091,10,House,91,1808-04-07,,,INCREASE SIZE OF MILITARY,38,53,,,Defense Policy Budget,,Foreign and Defense Policy,-0.117,-0.007,0.171,-0.24,0.421,0.758,-44.971,0.61
+2017-02-01 15:42:25,RH0100092,10,House,92,1808-04-07,,,INCREASE SIZE OF MILITARY,58,28,,,Defense Policy Budget,,Foreign and Defense Policy,0.083,0.015,0.231,-0.732,0.679,0.895,-24.001,0.756
+2017-02-01 15:42:25,RH0100093,10,House,93,1808-04-07,,,INCREASE SIZE OF MILITARY,25,60,,,Defense Policy Budget,,Foreign and Defense Policy,-0.309,-0.469,-0.081,0.754,0.48,0.847,-28.48,0.715
+2017-02-01 15:42:25,RH0100094,10,House,94,1808-04-09,,,ARMING THE MILITIA,41,50,,,Defense Policy Budget,,Foreign and Defense Policy,0.354,-0.374,0.214,1.406,0.707,0.868,-23.968,0.768
+2017-02-01 15:42:25,RH0100095,10,House,95,1808-04-09,,,ESTAB. POST ROADS,27,49,,,Government Organization,,Government Management,0.421,-0.907,-0.071,-0.059,0.111,0.684,-45.885,0.547
+2017-02-01 15:42:25,RH0100096,10,House,96,1808-04-12,,,ESTAB. POST ROADS,70,31,,,Government Organization,,Government Management,0.419,0.145,0.053,0.151,0.0,0.693,-59.272,0.556
+2017-02-01 15:42:25,RH0100097,10,House,97,1808-04-16,,,PUBLIC CONTRACTS LAW,59,27,,,Domestic Social Policy,,Civil Liberties,0.223,-0.2,0.168,0.271,0.481,0.837,-31.632,0.692
+2017-02-01 15:42:25,RH0100098,10,House,98,1808-04-16,,,ARMING THE MILITIA,30,39,,,Defense Policy Budget,,Foreign and Defense Policy,0.462,0.833,0.023,-0.124,0.0,0.565,-46.22,0.512
+2017-02-01 15:42:25,RH0100099,10,House,99,1808-04-16,,,ADJOURN,26,32,,,Internal Organization,,Miscellaneous Policy,0.493,0.87,-0.004,-0.034,0.0,0.552,-39.709,0.504
+2017-02-01 15:42:25,RH0100100,10,House,100,1808-04-18,,,ARMING THE MILITIA,54,33,,,Defense Policy Budget,,Foreign and Defense Policy,0.548,-0.526,0.213,0.78,0.545,0.828,-33.215,0.683
+2017-02-01 15:42:25,RH0100101,10,House,101,1808-04-19,,,EMBARGO ON SHIPPING,22,70,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.273,-0.645,-0.066,0.569,0.227,0.815,-31.492,0.71
+2017-02-01 15:42:25,RH0100102,10,House,102,1808-04-19,,,EMBARGO ON SHIPPING,26,73,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.477,-0.648,-0.064,0.723,0.154,0.778,-36.39,0.692
+2017-02-01 15:42:25,RH0100103,10,House,103,1808-04-19,,,EMBARGO ON SHIPPING,43,58,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.17,0.093,-0.222,1.208,0.814,0.921,-24.656,0.783
+2017-02-01 15:42:25,RH0100104,10,House,104,1808-04-19,,,EMBARGO ON SHIPPING,45,59,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.34,0.252,-0.214,1.233,0.8,0.913,-28.023,0.764
+2017-02-01 15:42:25,RH0100105,10,House,105,1808-04-19,,,EMBARGO ON SHIPPING,60,38,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.072,-0.137,0.116,-0.703,0.789,0.918,-29.46,0.74
+2017-02-01 15:42:25,RH0100106,10,House,106,1808-04-20,,,INVEST. HARRY INNES,48,25,Impeachments and Investigations,,Domestic Social Policy,,Civil Liberties,-0.208,-0.393,0.038,-0.377,0.36,0.781,-37.02,0.602
+2017-02-01 15:42:25,RH0100107,10,House,107,1808-04-21,,,WHEN CONG. SHOULD MEET,61,30,,,Internal Organization,,Miscellaneous Policy,-0.018,-0.427,-0.05,-0.289,0.333,0.78,-48.555,0.587
+2017-02-01 15:42:25,RH0100108,10,House,108,1808-04-21,,,GIVE SOME PROP. TO NEW ORLEANS,29,58,Public Lands,,Budget Special Interest,,Government Management,0.202,0.281,-0.201,0.337,0.552,0.851,-28.895,0.717
+2017-02-01 15:42:25,RH0100109,10,House,109,1808-04-22,,,EMBARGO ON SHIPPING,74,20,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.146,-0.332,0.319,-0.989,0.75,0.947,-13.179,0.869
+2017-02-01 15:42:25,RH0100110,10,House,110,1808-04-22,,,EMBARGO ON SHIPPING,64,25,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.109,-0.018,0.621,-1.184,0.84,0.955,-9.516,0.899
+2017-02-01 15:42:25,RH0100111,10,House,111,1808-04-22,,,EMBARGO ON SHIPPING,58,36,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.003,-0.02,0.336,-0.35,0.694,0.883,-25.655,0.761
+2017-02-01 15:42:25,RH0100112,10,House,112,1808-04-22,,,EMBARGO ON SHIPPING,88,6,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.792,-0.61,0.116,-0.254,0.0,0.936,-25.55,0.762
+2017-02-01 15:42:25,RH0100113,10,House,113,1808-04-22,,,EMBARGO ON SHIPPING,69,32,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.277,-0.961,-0.061,-0.041,-0.031,0.673,-63.275,0.534
+2017-02-01 15:42:25,RH0100114,10,House,114,1808-04-23,,,EMBARGO ON SHIPPING,74,26,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.117,-0.033,0.554,-0.971,0.769,0.94,-13.325,0.875
+2017-02-01 15:42:25,RH0100115,10,House,115,1808-04-23,,,PREPARE FRIGATES FOR BATTLE,40,51,,,Defense Policy Budget,,Foreign and Defense Policy,0.275,-0.961,0.155,0.297,0.425,0.747,-42.894,0.624
+2017-02-01 15:42:25,RH0100116,10,House,116,1808-04-23,,,PREPARE FRIGATES FOR BATTLE,55,42,,,Defense Policy Budget,,Foreign and Defense Policy,0.036,-0.09,0.182,0.105,0.619,0.835,-40.148,0.661
+2017-02-01 15:42:25,RH0100117,10,House,117,1808-04-23,,,BUILD PART OF CAPITOL BLDG.,75,14,Public Works,,Budget Special Interest,,Government Management,0.451,-0.892,-0.1,-0.906,0.357,0.899,-25.035,0.755
+2017-02-01 15:42:25,RH0100118,10,House,118,1808-04-25,,,INVEST. GEN. WILKINSON,52,30,Impeachments and Investigations,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.45,0.062,-0.073,1.512,0.567,0.841,-24.613,0.741
+2017-02-01 15:42:25,RH0100119,10,House,119,1808-04-25,,,BUILD PART OF CAPITOL BLDG.,73,8,Public Works,,Budget Special Interest,,Government Management,0.74,-0.673,0.041,-0.934,0.0,0.901,-20.336,0.778
+2017-02-01 15:42:25,RH0100120,10,House,120,1808-11-10,,,EMBARGO ON SHIPPING,83,9,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.366,-0.065,-0.236,-0.117,0.0,0.902,-21.294,0.793
+2017-02-01 15:42:25,RH0100121,10,House,121,1808-11-17,,,EMBARGO ON SHIPPING,56,58,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.043,0.113,-0.178,0.445,0.661,0.833,-45.126,0.673
+2017-02-01 15:42:25,RH0100122,10,House,122,1808-11-18,,,GOVERNING U.S. TERRITORIES,57,52,,,Government Organization,,Government Management,-0.054,-0.143,-0.095,0.102,0.288,0.661,-64.227,0.555
+2017-02-01 15:42:25,RH0100123,10,House,123,1808-11-21,,,EMBARGO ON SHIPPING,42,71,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.059,-0.203,-0.244,1.058,0.786,0.92,-26.217,0.793
+2017-02-01 15:42:25,RH0100124,10,House,124,1808-12-01,,,EMBARGO ON SHIPPING,26,96,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.35,0.079,-0.334,0.65,0.846,0.967,-11.587,0.909
+2017-02-01 15:42:25,RH0100125,10,House,125,1808-12-02,,,EMBARGO (PROCEDURAL MOTION),101,18,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.336,0.077,-0.153,0.181,-0.056,0.84,-45.916,0.68
+2017-02-01 15:42:25,RH0100126,10,House,126,1808-12-09,,,12 MORE REVENUE CUTTERS,90,26,,,Defense Policy Budget,,Foreign and Defense Policy,0.29,-0.139,0.174,-0.537,0.423,0.871,-24.694,0.808
+2017-02-01 15:42:25,RH0100127,10,House,127,1808-12-12,,,SEC. OF PRES'S COMM. W/PARIS & LONDON,42,81,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.154,-0.055,-0.187,0.768,0.762,0.919,-29.221,0.789
+2017-02-01 15:42:25,RH0100128,10,House,128,1808-12-12,,,ADJOURN,47,65,,,Internal Organization,,Miscellaneous Policy,0.324,0.423,-0.25,0.938,0.681,0.866,-34.447,0.735
+2017-02-01 15:42:25,RH0100129,10,House,129,1808-12-13,,,WILL NOT SUBMIT TO FRANCE & BRITAIN,121,2,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100130,10,House,130,1808-12-13,,,WILL NOT SUBMIT TO FRANCE & BRITAIN,113,2,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100131,10,House,131,1808-12-13,,,WILL NOT SUBMIT TO FRANCE & BRITAIN,118,2,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100132,10,House,132,1808-12-16,,,ADJOURN,43,58,,,Internal Organization,,Miscellaneous Policy,0.556,0.455,-0.143,0.696,0.558,0.812,-41.252,0.665
+2017-02-01 15:42:25,RH0100133,10,House,133,1808-12-17,,,ADJOURN,5,39,,,Internal Organization,,Miscellaneous Policy,0.07,-0.855,-0.034,0.466,0.2,0.909,-12.048,0.76
+2017-02-01 15:42:25,RH0100134,10,House,134,1808-12-17,,,DOORKEEPING GET ABSENT MEMBERS,9,50,,,Internal Organization,,Miscellaneous Policy,0.804,0.571,-0.141,0.149,0.111,0.864,-20.615,0.705
+2017-02-01 15:42:25,RH0100135,10,House,135,1808-12-17,,,PROHIBIT FRENCH & BRITISH SHIPS INTO U.S.,42,68,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.029,-0.009,-0.362,0.944,0.762,0.909,-25.498,0.793
+2017-02-01 15:42:25,RH0100136,10,House,136,1808-12-17,,,PROHIBIT FRENCH & BRITISH SHIPS INTO U.S.,45,70,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.079,0.006,-0.323,0.912,0.8,0.922,-23.609,0.814
+2017-02-01 15:42:25,RH0100137,10,House,137,1808-12-17,,,PROHIBIT FRENCH & BRITISH SHIPS INTO U.S.,48,69,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.054,0.035,-0.316,0.784,0.771,0.906,-28.436,0.784
+2017-02-01 15:42:25,RH0100138,10,House,138,1808-12-17,,,PROHIBIT FRENCH & BRITISH SHIPS INTO U.S.,86,32,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.431,0.439,0.314,-0.903,0.844,0.958,-18.491,0.855
+2017-02-01 15:42:25,RH0100139,10,House,139,1808-12-17,,,PROHIBIT FRENCH & BRITISH SHIPS INTO U.S.,84,31,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.344,0.258,0.324,-1.036,0.871,0.965,-14.581,0.881
+2017-02-01 15:42:25,RH0100140,10,House,140,1808-12-17,,,PROHIBIT BRITISH SHIPS INTO U.S.,92,28,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.242,-0.028,0.581,-1.079,0.857,0.967,-7.34,0.941
+2017-02-01 15:42:25,RH0100141,10,House,141,1808-12-17,,,PROHIBIT FRENCH SHIPS INTO U.S.,97,24,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.328,0.044,0.346,-0.578,0.792,0.959,-10.035,0.92
+2017-02-01 15:42:25,RH0100142,10,House,142,1808-12-17,,,PROHIBIT SHIPS FROM ANYONE VIOLATING U.S. NEUT.,96,26,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.278,-0.015,0.435,-0.803,0.846,0.967,-9.652,0.924
+2017-02-01 15:42:25,RH0100143,10,House,143,1808-12-17,,,PROHIBIT IMPORTS FROM FRANCE & BRITAIN,82,36,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.081,-0.157,0.366,-0.697,0.75,0.924,-18.831,0.852
+2017-02-01 15:42:25,RH0100144,10,House,144,1808-12-17,,,PROHIBIT IMPORTS FROM FRANCE & BRITAIN,84,30,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.196,-0.038,0.323,-0.661,0.767,0.939,-14.195,0.883
+2017-02-01 15:42:25,RH0100145,10,House,145,1808-12-19,,,FREE 36 U.S. HOSTAGES IN CARTHAGENA,50,34,Mediterranean Pirates,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.001,0.025,0.202,-0.19,0.559,0.821,-35.774,0.653
+2017-02-01 15:42:25,RH0100146,10,House,146,1808-12-20,,,EMBARGO ON SHIPPING,49,64,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.188,0.246,-0.163,0.693,0.612,0.83,-42.42,0.685
+2017-02-01 15:42:25,RH0100147,10,House,147,1808-12-22,,,EMBARGO ON SHIPPING,61,58,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.041,-0.006,-0.831,1.369,0.707,0.856,-33.544,0.753
+2017-02-01 15:42:25,RH0100148,10,House,148,1808-12-23,,,INCREASE NO. NAVY MEN,77,29,,,Defense Policy Budget,,Foreign and Defense Policy,0.164,-0.098,0.152,-0.267,0.5,0.867,-36.668,0.705
+2017-02-01 15:42:25,RH0100149,10,House,149,1808-12-23,,,INCREASE NO. NAVY MEN,93,17,,,Defense Policy Budget,,Foreign and Defense Policy,0.546,-0.205,0.127,-0.875,0.647,0.945,-20.083,0.832
+2017-02-01 15:42:25,RH0100150,10,House,150,1808-12-28,,,PAY A.J. VALLARD $1000 FOR IMPROVING CANNON,55,44,,,Defense Policy Budget,,Foreign and Defense Policy,0.433,0.857,0.166,-0.426,0.5,0.778,-45.517,0.631
+2017-02-01 15:42:25,RH0100151,10,House,151,1808-12-28,,,PAY A.J. VALLARD $1000 FOR IMPROVING CANNON,25,59,,,Defense Policy Budget,,Foreign and Defense Policy,0.307,0.309,-0.263,0.599,0.76,0.929,-13.519,0.851
+2017-02-01 15:42:25,RH0100152,10,House,152,1808-12-30,,,"RAISE 50,000 MAN ARMY",77,34,,,Defense Policy Budget,,Foreign and Defense Policy,0.348,0.16,0.282,-1.117,0.824,0.945,-18.395,0.846
+2017-02-01 15:42:25,RH0100153,10,House,153,1808-12-31,,,ADJOURN,60,45,,,Internal Organization,,Miscellaneous Policy,0.113,0.459,-0.145,0.334,0.6,0.829,-48.754,0.629
+2017-02-01 15:42:25,RH0100154,10,House,154,1809-01-03,,,ADJOURN,60,10,,,Internal Organization,,Miscellaneous Policy,0.185,0.983,-0.213,0.761,-0.1,0.843,-21.516,0.735
+2017-02-01 15:42:25,RH0100155,10,House,155,1809-01-04,,,PROCEDURAL MOTION,53,46,,,Internal Organization,,Miscellaneous Policy,0.014,0.932,-0.16,0.026,0.565,0.796,-48.829,0.608
+2017-02-01 15:42:25,RH0100156,10,House,156,1809-01-04,,,EMBARGO ON SHIPPING,23,91,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.484,0.762,-0.04,-0.607,0.136,0.832,-50.076,0.642
+2017-02-01 15:42:25,RH0100157,10,House,157,1809-01-04,,,EMBARGO ON SHIPPING,62,49,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.042,0.3,-0.169,0.344,0.531,0.793,-48.587,0.646
+2017-02-01 15:42:25,RH0100158,10,House,158,1809-01-04,,,ADJOURN,40,38,,,Internal Organization,,Miscellaneous Policy,0.003,-0.354,-0.12,-0.115,0.395,0.705,-42.336,0.581
+2017-02-01 15:42:25,RH0100159,10,House,159,1809-01-05,,,EMBARGO ON SHIPPING,41,51,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.045,0.007,-0.151,0.321,0.575,0.813,-38.841,0.653
+2017-02-01 15:42:25,RH0100160,10,House,160,1809-01-05,,,"STOP EMBARGO JUNE, 1809",27,75,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.166,-0.01,-0.656,0.979,0.926,0.98,-6.949,0.934
+2017-02-01 15:42:25,RH0100161,10,House,161,1809-01-05,,,"STOP EMBARGO MARCH, 1809",35,81,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.151,-0.062,-0.574,1.276,0.914,0.974,-9.19,0.923
+2017-02-01 15:42:25,RH0100162,10,House,162,1809-01-05,,,INSULTING THE PRESIDENT ABT. EMBARGO,71,28,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.303,0.158,0.419,-1.508,0.929,0.98,-9.298,0.909
+2017-02-01 15:42:25,RH0100163,10,House,163,1809-01-05,,,PROCEDURAL MOTION,99,10,,,Internal Organization,,Miscellaneous Policy,0.335,-0.801,0.07,-0.506,-0.1,0.898,-25.334,0.791
+2017-02-01 15:42:25,RH0100164,10,House,164,1809-01-05,,,EMBARGO ON SHIPPING,31,70,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.143,-0.023,-0.584,1.149,0.903,0.97,-7.054,0.933
+2017-02-01 15:42:25,RH0100165,10,House,165,1809-01-05,,,EMBARGO ON SHIPPING,73,29,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.173,-0.011,0.573,-1.061,0.931,0.98,-6.648,0.936
+2017-02-01 15:42:25,RH0100166,10,House,166,1809-01-05,,,EMBARGO ON SHIPPING,35,79,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.161,-0.002,-0.208,0.255,0.629,0.885,-36.82,0.722
+2017-02-01 15:42:25,RH0100167,10,House,167,1809-01-05,,,EMBARGO ON SHIPPING,35,68,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.108,-0.027,-0.5,1.507,0.943,0.981,-9.967,0.908
+2017-02-01 15:42:25,RH0100168,10,House,168,1809-01-05,,,EMBARGO ON SHIPPING,71,32,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.059,-0.227,0.571,-1.344,0.969,0.99,-6.323,0.94
+2017-02-01 15:42:25,RH0100169,10,House,169,1809-01-09,,,INCREASE NO. OF MARINES,40,78,,,Defense Policy Budget,,Foreign and Defense Policy,0.049,-0.872,-0.078,0.134,0.256,0.752,-63.265,0.582
+2017-02-01 15:42:25,RH0100170,10,House,170,1809-01-10,,,INCREASE NO. OF GUNBOATS,28,93,,,Defense Policy Budget,,Foreign and Defense Policy,0.313,-0.049,-0.186,0.563,0.5,0.884,-25.473,0.81
+2017-02-01 15:42:25,RH0100171,10,House,171,1809-01-10,,,STATION GUNBOATS AT PORTS,64,59,,,Defense Policy Budget,,Foreign and Defense Policy,-0.435,0.901,-0.138,-0.338,0.407,0.715,-68.71,0.572
+2017-02-01 15:42:25,RH0100172,10,House,172,1809-01-11,,,INCREASE MARINES & NAVY,58,59,,,Defense Policy Budget,,Foreign and Defense Policy,-0.472,0.882,0.162,0.455,0.466,0.735,-62.391,0.587
+2017-02-01 15:42:25,RH0100173,10,House,173,1809-01-12,,,INCREASE NO. OF MARINES,69,53,,,Defense Policy Budget,,Foreign and Defense Policy,-0.042,0.999,0.193,0.097,0.604,0.828,-53.954,0.643
+2017-02-01 15:42:25,RH0100174,10,House,174,1809-01-14,,,RELIEF OF SICK & DISABLED SEAMEN,69,37,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.371,0.484,-0.123,-0.266,0.243,0.733,-55.082,0.592
+2017-02-01 15:42:25,RH0100175,10,House,175,1809-01-16,,,RELIEF OF SICK & DISABLED SEAMEN,65,30,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.57,-0.68,-0.061,-0.561,0.2,0.745,-46.345,0.611
+2017-02-01 15:42:25,RH0100176,10,House,176,1809-01-16,,,OUTFIT FRIGATES,68,55,,,Defense Policy Budget,,Foreign and Defense Policy,0.049,0.05,0.158,0.143,0.593,0.82,-52.987,0.648
+2017-02-01 15:42:25,RH0100177,10,House,177,1809-01-16,,,INCREASE SEAMEN FROM 2000 TO 4449,41,73,,,Defense Policy Budget,,Foreign and Defense Policy,0.318,-0.09,-0.063,-0.186,0.175,0.708,-66.652,0.554
+2017-02-01 15:42:25,RH0100178,10,House,178,1809-01-18,,,CREATE ILL. & IND. TERR.,69,37,,,Government Organization,,Government Management,0.994,-0.108,0.04,-0.11,0.0,0.651,-67.1,0.531
+2017-02-01 15:42:25,RH0100179,10,House,179,1809-01-18,,,INCREASE MARINES & NAVY,67,53,,,Defense Policy Budget,,Foreign and Defense Policy,0.041,0.133,0.107,0.137,0.308,0.697,-63.538,0.586
+2017-02-01 15:42:25,RH0100180,10,House,180,1809-01-20,,,WHEN NEXT CONG. SHOULD MEET,80,26,,,Internal Organization,,Miscellaneous Policy,-0.297,-0.459,-0.001,-0.586,0.077,0.774,-41.321,0.677
+2017-02-01 15:42:25,RH0100181,10,House,181,1809-01-23,,,PLACE U.S. IN BETTER DEF. STATE,72,45,,,Defense Policy Budget,,Foreign and Defense Policy,0.106,0.041,0.175,-0.558,0.733,0.897,-37.723,0.724
+2017-02-01 15:42:25,RH0100182,10,House,182,1809-01-23,,,PLACE U.S. IN BETTER DEF. STATE,16,65,,,Defense Policy Budget,,Foreign and Defense Policy,0.16,-0.174,-0.376,0.866,0.875,0.975,-7.053,0.917
+2017-02-01 15:42:25,RH0100183,10,House,183,1809-01-25,,,PRES. FURNISH INFO. ON B. LINCOLN,93,24,Impeachments and Investigations,,Government Organization,,Government Management,-0.311,0.071,-0.126,0.282,-0.125,0.769,-53.941,0.631
+2017-02-01 15:42:25,RH0100184,10,House,184,1809-01-25,,,PRES. FURNISH INFO. ON B. LINCOLN,1,117,Impeachments and Investigations,,Government Organization,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100185,10,House,185,1809-01-26,,,ARM THE SHIPS,38,78,,,Defense Policy Budget,,Foreign and Defense Policy,-0.137,-0.257,0.152,0.111,0.237,0.75,-55.605,0.619
+2017-02-01 15:42:25,RH0100186,10,House,186,1809-01-27,,,ARM THE SHIPS,102,23,,,Defense Policy Budget,,Foreign and Defense Policy,0.63,-0.776,-0.03,-0.685,0.348,0.88,-44.06,0.703
+2017-02-01 15:42:25,RH0100187,10,House,187,1809-02-03,,,EMBARGO ON SHIPPING & LETS. OF MARQUE,29,93,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.209,-0.006,0.338,-0.104,0.31,0.836,-36.783,0.74
+2017-02-01 15:42:25,RH0100188,10,House,188,1809-02-09,,,NO TRADE W/FRANCE & BRITAIN,65,55,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.023,0.053,0.366,-0.762,0.782,0.9,-30.858,0.773
+2017-02-01 15:42:25,RH0100189,10,House,189,1809-02-09,,,NO TRADE W/FRANCE & BRITAIN,55,36,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.037,0.013,0.561,-1.359,0.806,0.923,-13.316,0.864
+2017-02-01 15:42:25,RH0100190,10,House,190,1809-02-13,,,ADJOURN,24,54,,,Internal Organization,,Miscellaneous Policy,0.438,0.429,-0.101,0.11,0.292,0.782,-37.88,0.615
+2017-02-01 15:42:25,RH0100191,10,House,191,1809-02-13,,,COMP. DANIEL COTTON,58,36,,,Budget Special Interest,,Government Management,-0.111,0.397,-0.134,-0.021,0.417,0.777,-47.38,0.604
+2017-02-01 15:42:25,RH0100192,10,House,192,1809-02-16,,,GEN. TARIFF,85,27,Tariffs,,Regulation General Interest,,Government Management,0.176,0.002,0.612,-0.886,0.778,0.946,-13.257,0.888
+2017-02-01 15:42:25,RH0100193,10,House,193,1809-02-16,,,GEN. TARIFF,67,26,Tariffs,,Regulation General Interest,,Government Management,0.123,0.017,0.558,-1.277,0.846,0.957,-11.184,0.887
+2017-02-01 15:42:25,RH0100194,10,House,194,1809-02-21,,,NO TRADE W/FRANCE & BRITAIN,38,72,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.134,0.02,0.264,-0.319,0.421,0.8,-42.859,0.677
+2017-02-01 15:42:25,RH0100195,10,House,195,1809-02-21,,,END EMBARGO AFTER MARCH 1809,39,84,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.155,-0.01,0.247,-0.026,0.436,0.821,-45.98,0.688
+2017-02-01 15:42:25,RH0100196,10,House,196,1809-02-21,,,REPEAL EMBARGO EXCEPT FOR FRANCE & BRITAIN,47,75,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.036,-0.101,-0.26,0.644,0.766,0.91,-31.836,0.77
+2017-02-01 15:42:25,RH0100197,10,House,197,1809-02-23,,,REV. WAR PENSION,48,50,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.121,-0.977,0.093,-0.075,0.354,0.684,-59.023,0.548
+2017-02-01 15:42:25,RH0100198,10,House,198,1809-02-24,,,NO LETTERS OF MARQUE OR REPRISAL,74,33,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.144,0.095,-0.267,0.472,0.303,0.785,-39.264,0.693
+2017-02-01 15:42:25,RH0100199,10,House,199,1809-02-24,,,REPEAL EMBARGO,33,82,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.156,-0.014,0.262,0.019,0.455,0.843,-38.641,0.715
+2017-02-01 15:42:25,RH0100200,10,House,200,1809-02-24,,,END EMBARGO AFTER MAY 1809,47,66,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.056,0.002,0.442,-0.143,0.787,0.912,-27.289,0.785
+2017-02-01 15:42:25,RH0100201,10,House,201,1809-02-25,,,$1M ADDITIONAL FOR FORTIFICATIONS,61,45,,,Defense Policy Budget,,Foreign and Defense Policy,-0.002,-0.903,-0.214,-0.056,0.467,0.774,-43.66,0.662
+2017-02-01 15:42:25,RH0100202,10,House,202,1809-02-25,,,$1M ADDITIONAL FOR FORTIFICATIONS,49,62,,,Defense Policy Budget,,Foreign and Defense Policy,-0.006,-0.896,0.22,0.058,0.551,0.802,-45.464,0.664
+2017-02-01 15:42:25,RH0100203,10,House,203,1809-02-25,,,EMBARGO ON SHIPPING,60,60,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.015,0.098,0.887,-0.836,0.833,0.917,-27.136,0.798
+2017-02-01 15:42:25,RH0100204,10,House,204,1809-02-25,,,SEIZE BRITISH TERR. BORDERING U.S.,56,67,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.213,-0.945,-0.13,0.217,0.571,0.805,-63.033,0.599
+2017-02-01 15:42:25,RH0100205,10,House,205,1809-02-25,,,EMBARGO ON SHIPPING,64,64,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.007,0.083,0.677,-0.611,0.812,0.906,-26.561,0.813
+2017-02-01 15:42:25,RH0100206,10,House,206,1809-02-25,,,EMBARGO ON SHIPPING (ADJOURN),57,70,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.074,-0.115,0.723,-0.548,0.86,0.937,-24.301,0.826
+2017-02-01 15:42:25,RH0100207,10,House,207,1809-02-25,,,PRES. USE OF VOL. MILITIA,25,95,,,Defense Policy Budget,,Foreign and Defense Policy,-0.243,-0.97,0.163,0.039,0.0,0.792,-52.08,0.648
+2017-02-01 15:42:25,RH0100208,10,House,208,1809-02-25,,,EMBARGO ON SHIPPING (ADJOURN),50,70,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.052,0.032,0.892,-0.578,0.76,0.9,-27.536,0.795
+2017-02-01 15:42:25,RH0100209,10,House,209,1809-02-25,,,EMBARGO ON SHIPPING,48,74,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.079,0.061,0.638,-0.904,0.708,0.885,-28.071,0.794
+2017-02-01 15:42:25,RH0100210,10,House,210,1809-02-25,,,IF U.S. SHIP SEIZED LET. OF MAR. & REPRISAL,48,73,,,Foreign Policy Resolutions,Defense Policy Resolutions,Foreign and Defense Policy,-0.06,0.093,0.256,-0.495,0.562,0.826,-43.096,0.7
+2017-02-01 15:42:25,RH0100211,10,House,211,1809-02-25,,,EMBARGO ON SHIPPING,31,91,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.191,0.052,0.214,-0.288,0.194,0.795,-46.856,0.681
+2017-02-01 15:42:25,RH0100212,10,House,212,1809-02-25,,,EMBARGO ON SHIPPING,50,70,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.07,0.034,0.303,-0.521,0.68,0.867,-39.367,0.72
+2017-02-01 15:42:25,RH0100213,10,House,213,1809-02-25,,,NO PARTIAL SUSPENSION OF EMBARGO,59,56,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.028,0.202,0.214,-0.102,0.714,0.861,-40.324,0.704
+2017-02-01 15:42:25,RH0100214,10,House,214,1809-02-25,,,"MAR. 15, 1809 PARTIAL SUSP. OF EMBARGO",86,30,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.591,0.787,0.078,0.006,0.067,0.759,-61.904,0.586
+2017-02-01 15:42:25,RH0100215,10,House,215,1809-02-27,,,EMBARGO ON SHIPPING,81,40,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.773,0.634,0.152,-0.559,0.425,0.81,-51.76,0.652
+2017-02-01 15:42:25,RH0100216,10,House,216,1809-02-28,,,ADJOURN,2,85,,,Internal Organization,,Miscellaneous Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100217,10,House,217,1809-02-28,,,REV. WAR DISABLED VETS.,53,32,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.189,-0.073,0.073,-0.189,0.375,0.765,-46.242,0.58
+2017-02-01 15:42:25,RH0100218,10,House,218,1809-02-28,,,REV. WAR DISABLED VETS.,32,59,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.779,-0.627,0.002,0.225,-0.031,0.637,-58.029,0.529
+2017-02-01 15:42:25,RH0100219,10,House,219,1809-02-28,,,MONEY FOR PRESIDENT,78,11,,,Budget Special Interest,,Government Management,-0.155,-0.988,-0.08,-0.247,0.0,0.876,-32.156,0.697
+2017-02-01 15:42:25,RH0100220,10,House,220,1809-03-01,,,STATE RULES IN FED. COURTS,25,67,,,Domestic Social Policy,,Civil Liberties,-0.221,-0.036,0.137,0.028,-0.08,0.707,-45.311,0.611
+2017-02-01 15:42:25,RH0100221,10,House,221,1809-03-01,,,BUILD PART OF CAPITOL BLDG.,67,21,,,Budget Special Interest,,Government Management,-0.48,0.07,-0.073,0.092,0.0,0.761,-47.628,0.582
+2017-02-01 15:42:25,RH0100222,10,House,222,1809-03-02,,,BUILD TURNPIKE IN VA.,35,57,Public Works,,Budget Special Interest,,Government Management,0.234,0.971,-0.102,0.061,0.286,0.728,-52.932,0.563
+2017-02-01 15:42:25,RH0100223,10,House,223,1809-03-02,,,BUILD TURNPIKE IN VA.,34,60,Public Works,,Budget Special Interest,,Government Management,0.3,0.954,-0.073,0.023,0.176,0.702,-57.151,0.544
+2017-02-01 15:42:25,RH0100224,10,House,224,1809-03-02,,,HOW TO SPEND MONEY IN WAR & NAVY DEPTS.,3,73,,,Defense Policy Budget,,Foreign and Defense Policy,0.653,-0.103,-0.163,0.214,0.333,0.974,-10.764,0.868
+2017-02-01 15:42:25,RH0100225,10,House,225,1809-03-02,,,ELIM. $1M FOR FORTS IN HARBORS,48,30,,,Defense Policy Budget,,Foreign and Defense Policy,0.097,-0.745,0.133,0.056,0.2,0.692,-42.134,0.583
+2017-02-01 15:42:25,RH0100226,10,House,226,1809-03-03,,,CIT. CAN'T USE FOR. FLAGS FOR SHIPS,73,16,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.253,0.025,0.418,-0.517,0.875,0.978,-7.81,0.916
+2017-02-01 15:42:25,RH0100227,10,House,227,1809-03-03,,,HOW TO SPEND MONEY IN WAR & NAVY DEPTS.,37,55,,,Defense Policy Budget,,Foreign and Defense Policy,-0.103,0.754,-0.106,-0.178,0.27,0.707,-51.449,0.572
+2017-02-01 15:42:25,RH0100228,10,House,228,1809-03-03,,,INC. SIZE OF MARINE CORPS,54,28,,,Defense Policy Budget,,Foreign and Defense Policy,0.084,-0.996,-0.169,-0.228,0.321,0.768,-36.95,0.637
+2017-02-01 15:42:25,RH0100229,10,House,229,1809-03-03,,,TOO MUCH MONEY PAID TO GEN. WILKINSON,56,48,,,Defense Policy Budget,,Foreign and Defense Policy,-0.056,0.084,-0.317,1.895,0.646,0.837,-28.284,0.762
+2017-02-01 15:42:25,RH0100230,10,House,230,1809-03-03,,,THANKS TO JOSEPH VARNUM,68,9,,,Internal Organization,,Miscellaneous Policy,-0.157,-0.68,0.124,-0.762,0.444,0.935,-10.99,0.867
+2017-02-01 15:42:25,RH0100231,10,House,231,1809-11-23,,,REMOVE SEC. OF COMM. W/AMB. IN PARIS & LONDON,113,1,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RH0100232,10,House,232,1809-11-23,,,REMOVE SEC. OF COMM. W/AMB. IN PARIS & LONDON,31,82,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.174,-0.623,-0.095,0.538,0.452,0.85,-39.228,0.707
+2017-02-01 15:42:25,RH0100233,10,House,233,1809-11-24,,,REMOVE SEC. OF COMM. W/AMB. IN PARIS & LONDON,29,82,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.003,-0.495,-0.077,0.519,0.483,0.865,-36.095,0.722
+2017-02-01 15:42:25,RH0100234,10,House,234,1809-11-24,,,REMOVE SEC. OF COMM. W/AMB. IN PARIS & LONDON,39,67,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.114,-0.02,-0.387,0.945,0.769,0.915,-17.683,0.846
+2017-02-01 15:42:25,RH0100235,10,House,235,1809-11-25,,,PUBLISH SEC. JOURNAL REGARDING SECRECY,101,16,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.175,0.784,-0.088,0.611,-0.062,0.855,-35.659,0.737
+2017-02-01 15:42:25,RH0100236,10,House,236,1809-11-25,,,PUBLISH SEC. JOURNAL REGARDING SECRECY,95,23,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.296,0.036,-0.171,0.505,0.174,0.839,-43.414,0.692
+2017-02-01 15:42:25,RH0100237,10,House,237,1809-11-25,,,REMOVE SEC. OF COMM. W/AMB. IN PARIS & LONDON,43,72,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.052,-0.312,-0.153,0.578,0.698,0.887,-37.594,0.721
+2017-02-01 15:42:25,RS0100001,10,Senate,1,1807-12-01,,,CLOSE PORTS TO MOST BRITISH VESSELS,3,26,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.615,-0.191,-0.688,0.58,1.0,1.0,-0.86,0.971
+2017-02-01 15:42:25,RS0100002,10,Senate,2,1807-12-02,,,FORTIFY HARBORS BUILD GUNBOATS,26,3,,,Defense Policy Budget,,Foreign and Defense Policy,0.612,-0.201,0.688,-0.579,1.0,1.0,-0.858,0.971
+2017-02-01 15:42:25,RS0100003,10,Senate,3,1807-12-14,,,PET TO RESTORE SOME TRADE,16,13,,,Regulation General Interest,,Government Management,0.762,0.606,-0.101,0.758,0.308,0.69,-16.287,0.57
+2017-02-01 15:42:25,RS0100004,10,Senate,4,1807-12-18,,,EMBARGO ON SHIPPING (PROC),22,7,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.729,-0.645,-0.012,-0.813,0.286,0.828,-8.998,0.733
+2017-02-01 15:42:25,RS0100005,10,Senate,5,1807-12-18,,,EMBARGO ON SHIPPING (PROC),12,16,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.766,-0.606,-0.028,0.387,0.333,0.714,-16.225,0.56
+2017-02-01 15:42:25,RS0100006,10,Senate,6,1807-12-18,,,EMBARGO ON SHIPPING,22,6,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.394,-0.919,0.159,-1.059,0.5,0.893,-6.451,0.794
+2017-02-01 15:42:25,RS0100007,10,Senate,7,1807-12-30,,,FORTIFY HARBORS BUILD GUNBOATS,11,16,,,Defense Policy Budget,,Foreign and Defense Policy,-0.734,0.083,0.069,0.754,0.273,0.704,-11.179,0.661
+2017-02-01 15:42:25,RS0100008,10,Senate,8,1808-01-04,,,ABOLISH MONEY REQUIREMENTS FOR VOTING IN MISS.,20,11,Voting Rights,,Domestic Social Policy,,Civil Liberties,-0.814,-0.513,-0.077,0.384,0.182,0.71,-18.053,0.559
+2017-02-01 15:42:25,RS0100009,10,Senate,9,1808-01-04,,,AMEND MISS. VOTING ACT,3,27,Voting Rights,,Domestic Social Policy,,Civil Liberties,-0.068,-0.997,0.047,0.507,0.333,0.933,-7.216,0.786
+2017-02-01 15:42:25,RS0100010,10,Senate,10,1808-01-05,,,AMEND MISS. VOTING ACT,18,8,Voting Rights,,Domestic Social Policy,,Civil Liberties,0.307,-0.714,-0.107,-0.604,0.25,0.769,-10.354,0.671
+2017-02-01 15:42:25,RS0100011,10,Senate,11,1808-01-06,,,EMBARGO ON SHIPPING,25,5,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.533,-0.06,0.727,-0.061,1.0,1.0,-0.875,0.971
+2017-02-01 15:42:25,RS0100012,10,Senate,12,1808-01-07,,,HEAR J. SMITH FOR PARTICIPATION IN CONSPIRACY WITH BURR,32,0,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RS0100013,10,Senate,13,1808-01-12,,,HEARING OF J. SMITH (PROC),17,9,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.673,-0.647,-0.083,0.29,-0.111,0.615,-16.654,0.527
+2017-02-01 15:42:25,RS0100014,10,Senate,14,1808-01-20,,,HEARING OF J. SMITH (PROC),10,21,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.398,0.782,0.051,-0.309,0.2,0.742,-17.312,0.572
+2017-02-01 15:42:25,RS0100015,10,Senate,15,1808-01-20,,,HEARING OF J. SMITH (PROC),25,6,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.828,0.36,0.055,0.432,0.167,0.839,-13.368,0.65
+2017-02-01 15:42:25,RS0100016,10,Senate,16,1808-01-20,,,HEARING OF J. SMITH,7,23,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.281,-0.96,-0.147,0.092,0.571,0.9,-10.245,0.711
+2017-02-01 15:42:25,RS0100017,10,Senate,17,1808-01-21,,,EXTINGUISH STATE DEBT (PROC),17,16,Banking and Finance,,Budget General Interest,,Government Management,0.466,0.885,0.027,-0.044,0.125,0.576,-22.475,0.506
+2017-02-01 15:42:25,RS0100018,10,Senate,18,1808-01-22,,,BUILD BRIDGE OVER POTOMAC,18,14,Public Works,,D. C.,Budget Special Interest,Government Management,-0.424,0.905,0.017,0.09,0.071,0.594,-21.42,0.512
+2017-02-01 15:42:25,RS0100019,10,Senate,19,1808-01-27,,,RATIFY TREATY W/CHOCTAW,27,0,Treaties,,Indian Affairs,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RS0100020,10,Senate,20,1808-01-27,,,RATIFY TREATY W/ OTTAWA. CHIPPEWA POTAWATTOMIE INDIANS,27,0,Treaties,,Indian Affairs,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RS0100021,10,Senate,21,1808-02-05,,,TRY GEORGIA LAND CLAIMS IN THE SUPREME COURT,22,3,Supreme Court,,Budget Special Interest,,Government Management,0.525,-0.851,-0.076,-1.078,0.0,0.88,-5.865,0.791
+2017-02-01 15:42:25,RS0100022,10,Senate,22,1808-02-17,,,FIX SALARY OF OHIO DISTRICT JUDGE $1500,21,8,Judiciary,,Budget Special Interest,Domestic Social Policy,Government Management,-0.351,0.339,-0.028,0.364,0.0,0.724,-15.578,0.584
+2017-02-01 15:42:25,RS0100023,10,Senate,23,1808-02-26,,,CONFIRM W PICKNEY AS MINISTER AT LONDON,30,0,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RS0100024,10,Senate,24,1808-03-07,,,NO DEATH PENALTY FOR CRIMES AGAINST U.S.,15,17,,,Domestic Social Policy,,Civil Liberties,0.245,0.676,-0.091,0.107,0.333,0.688,-18.409,0.563
+2017-02-01 15:42:25,RS0100025,10,Senate,25,1808-03-07,,,MONUMENT FOR NAVY OFFICERS KILLED AT TRIPOLI,18,12,,,Defense Policy Budget,,Foreign and Defense Policy,-0.195,-0.979,-0.106,-0.001,0.083,0.633,-17.304,0.562
+2017-02-01 15:42:25,RS0100026,10,Senate,26,1808-03-15,,,HEARING OF J. SMITH (PROC),15,17,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.282,-0.959,-0.094,0.184,0.067,0.563,-19.958,0.536
+2017-02-01 15:42:25,RS0100027,10,Senate,27,1808-03-16,,,HEARING OF J. SMITH (PROC),17,15,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.368,-0.929,-0.12,0.238,0.333,0.688,-19.808,0.538
+2017-02-01 15:42:25,RS0100028,10,Senate,28,1808-03-31,,,CONFIRM W. HULL GOV. MICH.,18,10,,,Government Organization,,Government Management,-0.674,0.115,-0.082,-0.559,0.3,0.75,-12.253,0.646
+2017-02-01 15:42:25,RS0100029,10,Senate,29,1808-03-31,,,ISSUE DEBENTURES (DELAY),15,14,Banking and Finance,,Budget General Interest,,Government Management,0.106,-0.282,0.561,1.1,0.786,0.897,-5.661,0.823
+2017-02-01 15:42:25,RS0100030,10,Senate,30,1808-04-06,,,BILL OF TREASON AGAINST U.S.,18,10,,,Domestic Social Policy,,Civil Liberties,0.607,0.795,0.397,-1.03,0.7,0.893,-6.566,0.791
+2017-02-01 15:42:25,RS0100031,10,Senate,31,1808-04-07,,,AMEND COURTS MARSHALL BILL,12,17,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.685,0.708,-0.266,1.016,0.5,0.793,-9.699,0.716
+2017-02-01 15:42:25,RS0100032,10,Senate,32,1808-04-09,,,FIND J. SMITH GUILTY,19,10,Impeachments and Investigations,,Domestic Social Policy,,Civil Liberties,0.081,-0.997,0.112,-0.039,0.3,0.759,-14.797,0.6
+2017-02-01 15:42:25,RS0100033,10,Senate,33,1808-04-12,,,PUBLIC CONTRACTS,21,4,,,Regulation Special Interest,,Government Management,-0.305,0.924,-0.101,0.159,0.0,0.84,-11.415,0.633
+2017-02-01 15:42:25,RS0100034,10,Senate,34,1808-04-13,,,AMEND COURTS MARTIAL BILL,13,17,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.931,-0.193,0.013,0.487,0.077,0.6,-15.893,0.589
+2017-02-01 15:42:25,RS0100035,10,Senate,35,1808-04-14,,,AMEND COURTS MARTIAL BILL,17,12,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.896,-0.176,-0.021,-0.543,0.167,0.655,-14.308,0.611
+2017-02-01 15:42:25,RS0100036,10,Senate,36,1808-04-16,,,RATIFY TREATY U.S. CHEROKEE,22,0,Treaties,,Indian Affairs,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RS0100037,10,Senate,37,1808-04-16,,,RATIFY TREATY W/ SIOUX INDIANS,22,0,Treaties,,Indian Affairs,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RS0100038,10,Senate,38,1808-04-16,,,PRESIDENTIAL POWERS TO EMBARGO,4,24,,,Defense Policy Resolutions,Government Organization,Foreign and Defense Policy,0.859,0.512,-0.507,1.164,0.5,0.929,-3.915,0.87
+2017-02-01 15:42:25,RS0100039,10,Senate,39,1808-04-18,,,AUTHORIZE PRES. TO LAY EMBARGO,24,4,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.817,0.576,0.39,-0.685,0.75,0.964,-3.645,0.878
+2017-02-01 15:42:25,RS0100040,10,Senate,40,1808-04-19,,,EMBARGO ON SHIPPING,9,17,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.043,-0.999,-0.127,0.107,0.222,0.731,-13.354,0.598
+2017-02-01 15:42:25,RS0100041,10,Senate,41,1808-04-19,,,EMBARGO ON SHIPPING,6,20,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.453,-0.172,-0.347,-0.862,0.5,0.885,-9.339,0.698
+2017-02-01 15:42:25,RS0100042,10,Senate,42,1808-04-19,,,EMBARGO ON SHIPPING (PROC),21,6,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.58,-0.79,0.295,0.361,0.667,0.926,-8.582,0.728
+2017-02-01 15:42:25,RS0100043,10,Senate,43,1808-04-20,,,EMBARGO ON SHIPPING,21,5,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.557,-0.82,0.28,0.282,0.8,0.962,-4.273,0.848
+2017-02-01 15:42:25,RS0100044,10,Senate,44,1808-04-20,,,FIX DATE NEXT MEETING OF CONGRESS,18,9,,,Internal Organization,,Miscellaneous Policy,0.861,-0.27,0.024,-0.705,0.444,0.815,-15.351,0.566
+2017-02-01 15:42:25,RS0100045,10,Senate,45,1808-04-21,,,GIVE CONGRESS ABILITY TO DECIDE TO ARM VESSELS,12,14,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.321,-0.947,-0.125,-0.174,0.583,0.808,-11.478,0.643
+2017-02-01 15:42:25,RS0100046,10,Senate,46,1808-04-21,,,ARM AND EQUIP. ARMY,19,4,,,Defense Policy Budget,,Foreign and Defense Policy,-0.917,-0.324,-0.101,0.235,0.0,0.826,-11.262,0.613
+2017-02-01 15:42:25,RS0100047,10,Senate,47,1808-04-22,,,PREPARE SHIPS FOR SERVICE,21,5,,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,-0.381,-0.9,-0.054,-0.225,0.2,0.846,-12.301,0.623
+2017-02-01 15:42:25,RS0100048,10,Senate,48,1808-04-25,,,APPROPRIATE MONEY FOR PUBLIC BUILDINGS,3,18,Public Works,,Budget Special Interest,,Government Management,0.215,-0.977,-0.048,0.303,0.0,0.857,-8.491,0.667
+2017-02-01 15:42:25,RS0100049,10,Senate,49,1808-04-25,,,APPROPRIATE MONEY FOR PUBLIC BUILDINGS,17,4,Public Works,,Budget Special Interest,,Government Management,0.586,-0.785,-0.019,-0.589,-0.25,0.762,-8.409,0.67
+2017-02-01 15:42:25,RS0100050,10,Senate,50,1808-12-02,,,EMBARGO ON SHIPPING,5,26,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.105,0.782,-0.001,-0.355,0.2,0.871,-12.601,0.666
+2017-02-01 15:42:25,RS0100051,10,Senate,51,1808-12-02,,,REPEAL EMBARGO,6,25,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.334,-0.465,-0.682,0.506,0.833,0.968,-1.515,0.952
+2017-02-01 15:42:25,RS0100052,10,Senate,52,1808-12-16,,,PROVISION FOR EMBARGO ACT (PROC),14,14,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.395,0.919,-0.099,0.221,0.286,0.643,-16.609,0.553
+2017-02-01 15:42:25,RS0100053,10,Senate,53,1808-12-21,,,ENFORCE EMBARGO ON SHIPPING,20,7,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.165,0.004,0.699,0.403,0.857,0.963,-1.676,0.94
+2017-02-01 15:42:25,RS0100054,10,Senate,54,1809-01-03,,,EMPLOY ADDITIONAL NAVY FORCE,21,9,,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,-0.306,-0.914,-0.137,0.023,0.0,0.7,-15.689,0.593
+2017-02-01 15:42:25,RS0100055,10,Senate,55,1809-01-05,,,MONEY FOR CAPITAL BUILDING,20,10,Public Works,,D. C.,Budget Special Interest,Government Management,0.26,0.478,-0.031,0.326,0.1,0.7,-17.984,0.549
+2017-02-01 15:42:25,RS0100056,10,Senate,56,1809-01-05,,,MONEY TO PREPARE PRES.'S HOUSE,15,15,Public Works,,D. C.,Budget Special Interest,Government Management,-0.535,-0.306,-0.042,0.482,0.4,0.7,-16.303,0.581
+2017-02-01 15:42:25,RS0100057,10,Senate,57,1809-01-05,,,AMEND BILL FOR COMPLETION OF CAPITAL,16,14,Public Works,,D. C.,Budget Special Interest,Government Management,-0.551,0.007,-0.002,0.453,0.429,0.733,-17.441,0.559
+2017-02-01 15:42:25,RS0100058,10,Senate,58,1809-01-06,,,INQUIRE INTO BRITISH ATTACK ON U.S. FRIGATE,5,24,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.493,0.016,-0.697,0.43,1.0,1.0,-0.415,0.986
+2017-02-01 15:42:25,RS0100059,10,Senate,59,1809-01-06,,,INQUIRE INTO BRITISH ATTACK ON U.S. FRIGATE,7,22,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.284,-0.056,-0.602,0.997,1.0,1.0,-0.697,0.976
+2017-02-01 15:42:25,RS0100060,10,Senate,60,1809-01-07,,,EMBARGO ON SHIPPING,10,20,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.326,0.945,-0.25,0.195,0.8,0.933,-6.812,0.797
+2017-02-01 15:42:25,RS0100061,10,Senate,61,1809-01-07,,,EMBARGO ON SHIPPING,7,23,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.27,0.174,-0.708,0.404,1.0,1.0,-0.297,0.99
+2017-02-01 15:42:25,RS0100062,10,Senate,62,1809-01-07,,,EMBARGO ON SHIPPING,23,7,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.261,0.078,0.699,-0.444,1.0,1.0,-0.285,0.991
+2017-02-01 15:42:25,RS0100063,10,Senate,63,1809-01-07,,,EMBARGO ON SHIPPING (PROC),7,22,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.271,0.185,-0.707,0.421,1.0,1.0,-0.295,0.99
+2017-02-01 15:42:25,RS0100064,10,Senate,64,1809-01-07,,,EMBARGO ON SHIPPING,10,20,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.204,-0.97,-0.687,-0.378,0.8,0.933,-4.823,0.851
+2017-02-01 15:42:25,RS0100065,10,Senate,65,1809-01-07,,,EMBARGO ON SHIPPING,17,13,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.097,0.121,0.124,-0.013,0.692,0.867,-13.454,0.639
+2017-02-01 15:42:25,RS0100066,10,Senate,66,1809-01-07,,,EMBARGO ON SHIPPING,26,4,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.538,-0.151,0.572,-1.136,1.0,1.0,-0.985,0.968
+2017-02-01 15:42:25,RS0100067,10,Senate,67,1809-01-11,,,PRES. CANNOT ORDER MOTTO OR DEVICE PAINTED ON VESSELS,12,12,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.356,0.924,-0.241,0.426,0.583,0.792,-9.261,0.68
+2017-02-01 15:42:25,RS0100068,10,Senate,68,1809-01-12,,,FREE POSTAGE,12,13,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,0.882,-0.121,-0.013,-0.063,0.083,0.56,-16.904,0.509
+2017-02-01 15:42:25,RS0100069,10,Senate,69,1809-01-16,,,MORE MONEY FOR ENGINEERS,12,16,,,Defense Policy Budget,,Foreign and Defense Policy,-0.993,0.121,0.016,-0.114,0.0,0.571,-18.717,0.512
+2017-02-01 15:42:25,RS0100070,10,Senate,70,1809-01-17,,,FIT OUT AND EMPLOY ALL VESSELS,7,23,,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,-0.198,-0.333,0.189,0.238,0.429,0.867,-9.225,0.735
+2017-02-01 15:42:25,RS0100071,10,Senate,71,1809-01-20,,,PUT EXCESS PENSION MONEY IN TREASURY,20,11,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.981,0.192,0.03,0.356,0.0,0.645,-19.437,0.534
+2017-02-01 15:42:25,RS0100072,10,Senate,72,1809-01-20,,,RELIEF FOR SEAMEN,18,14,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.063,0.998,0.086,0.07,0.357,0.719,-19.055,0.551
+2017-02-01 15:42:25,RS0100073,10,Senate,73,1809-01-23,,,AUTHORIZE ADDITIONAL NAVAL FORCE DEPLOYMENT,23,10,,,Defense Policy Budget,Defense Policy Resolutions,Foreign and Defense Policy,-0.046,-0.988,-0.18,-0.143,0.3,0.788,-12.996,0.674
+2017-02-01 15:42:25,RS0100074,10,Senate,74,1809-01-26,,,CONFIRM W. DUANCE AS LIEUTENANT COLONEL OF RIFELMEN,21,10,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.401,0.916,0.546,-0.707,0.9,0.968,-3.551,0.892
+2017-02-01 15:42:25,RS0100075,10,Senate,75,1809-02-02,,,AUTHORIZE SALE PUBLIC LAND-DELEWARE CHESEPAKE OHIO CANAL,18,11,Public Lands,,Budget Special Interest,,Government Management,-0.341,-0.937,-0.054,0.023,0.0,0.621,-18.877,0.522
+2017-02-01 15:42:25,RS0100076,10,Senate,76,1809-02-11,,,CONFIRM GENERAL DEARBORN COLLECTOR OF BOSTON,25,7,Tax rates,,Government Organization,,Government Management,0.47,0.883,0.231,-0.097,0.714,0.938,-5.412,0.844
+2017-02-01 15:42:25,RS0100077,10,Senate,77,1809-02-14,,,EMBARGO ON SHIPPING,8,23,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.331,0.023,-0.654,-0.733,1.0,1.0,-0.488,0.984
+2017-02-01 15:42:25,RS0100078,10,Senate,78,1809-02-14,,,EMBARGO ON SHIPPING,22,9,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.406,0.914,0.266,-0.19,0.778,0.935,-5.338,0.842
+2017-02-01 15:42:25,RS0100079,10,Senate,79,1809-02-16,,,ELIMINATE PROVISION FOR APPT. OF MAJOR IN MARINES,10,17,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.691,0.589,0.097,0.315,0.2,0.704,-16.835,0.536
+2017-02-01 15:42:25,RS0100080,10,Senate,80,1809-02-20,,,AMEND COMMERCIAL INTERCOURSE BILL,11,14,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.26,0.966,-0.143,0.123,0.636,0.84,-11.167,0.64
+2017-02-01 15:42:25,RS0100081,10,Senate,81,1809-02-21,,,AMEND COMMERCIAL INTERCOURSE BILL,21,12,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.521,0.854,0.342,-0.832,0.583,0.848,-8.279,0.778
+2017-02-01 15:42:25,RS0100082,10,Senate,82,1809-02-23,,,IMPOSE DUTIES ON ALL IMPORTED STOCKS WARES AND MERCHANDIS,20,9,Tariffs,,Regulation General Interest,,Government Management,0.156,-0.006,0.68,-0.632,0.889,0.966,-1.941,0.935
+2017-02-01 15:42:25,RS0100083,10,Senate,83,1809-02-24,,,IMPOSE DUTIES (PROC),10,19,Tariffs,,Regulation General Interest,,Government Management,0.104,-0.005,-0.705,0.307,0.9,0.966,-3.269,0.893
+2017-02-01 15:42:25,RS0100084,10,Senate,84,1809-02-25,,,RATIFY TREATY W/ CHIPPEAW OTTAWA WANDOT ....,28,0,Treaties,,Indian Affairs,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RS0100085,10,Senate,85,1809-02-27,,,CONFIRM W. SHORT MINISTER OF ST. PETERSBURG,0,31,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-01 15:42:25,RS0100086,10,Senate,86,1809-02-28,,,PAYMENTS OF ACCOUNT TO U.S. MUST BE MADE IN DOLLARS,14,17,Banking and Finance,,Government Organization,,Miscellaneous Policy,0.441,0.663,-0.094,0.184,0.286,0.677,-18.2,0.556
+2017-02-01 15:42:25,RS0100087,10,Senate,87,1809-02-28,,,AMEND COMMERCIAL INTERCOURSE BILL,17,14,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.968,0.208,0.05,-0.519,0.214,0.645,-19.734,0.529
+2017-02-01 15:42:25,RS0100088,10,Senate,88,1809-02-28,,,AMEND COMMERCIAL INTERCOURSE BILL,25,6,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.489,0.01,0.696,-0.452,1.0,1.0,-0.422,0.986
+2017-02-01 15:42:25,RS0100089,10,Senate,89,1809-03-01,,,APPROPRIATE MONEY TO DEFENSE,23,6,,,Defense Policy Budget,,Foreign and Defense Policy,-0.01,1.0,-0.054,0.208,0.0,0.793,-15.197,0.592
+2017-02-01 15:42:25,RS0100090,10,Senate,90,1809-03-02,,,MORE DUTIES,5,24,Tariffs,,Regulation Special Interest,,Government Management,-0.049,0.966,0.091,-0.326,0.0,0.828,-12.615,0.647
+2017-02-01 15:42:25,RS0100091,10,Senate,91,1809-03-03,,,APPROPRIATE MONEY TO DEFENSE,26,1,,,Defense Policy Budget,,Foreign and Defense Policy,0.756,-0.655,0.16,-2.084,0.0,0.963,-1.418,0.949
