@@ -108,12 +108,12 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 				searchQuery["congress"] = congress
 			elif "[" in congress and "]" in congress and "to" in congress: # congress is a range
 				valText = congress[1:-1]
-				min, max = valText.split(" to ")
+				min, maxC = valText.split(" to ")
 				searchQuery["congress"] = {}
 				if len(min):
 					searchQuery["congress"]["$gte"] = int(min) # From min
-				if len(max):
-					searchQuery["congress"]["$lte"] = int(max) # To max
+				if len(maxC):
+					searchQuery["congress"]["$lte"] = int(maxC) # To max
 			else: # congress is a series of integers, use $in
 				vals = [int(val) for val in congress.split(" ")]
 				searchQuery["congress"] = {}
@@ -185,6 +185,8 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	if "$text" in searchQuery:
 		fieldSet["score"] = {"$meta": "textScore"}
 
+	print searchQuery
+	print fieldSet
 	res = db.voteview_members.find(searchQuery, fieldSet)
 	# Try to induce regex if a name search fails?
 	hypotheticalCount = res.count()
@@ -195,7 +197,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		res = db.voteview_members.find(searchQuery, fieldSet)
 
         if "$text" in searchQuery:
-		sortedRes = res.sort([('score', {'$meta': 'textScore'})]).limit(20)
+		sortedRes = res.sort([('score', {'$meta': 'textScore'})])
 	elif api=="exportORD":
                 db.voteview_members.ensure_index([('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)], name="ordIndex")
                 sortedRes = res.sort([('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)])
@@ -212,7 +214,6 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			continue
 		else:
 			currentICPSRs.append(m["icpsr"])
-
 		newM = m
 
 		if "state_abbrev" in newM:
@@ -324,6 +325,9 @@ def getMembersByPrivate(query):
 	return memberLookup({"idIn": idIn}, maxResults=200, distinct=0, api="districtLookup")
 
 if __name__ == "__main__":
+	results = memberLookup({"name": "harris"}, maxResults=150, distinct=1, api="Web_FP")
+	for r in results["results"]:
+		print r["bioname"]
 	#print memberLookup({"speaker": 1}, maxResults=50, distinct=1)
 	#print getMembersByParty(29, 28, "Web_Party")
 	#print getMembersByParty(200, 0, "Web_Party")

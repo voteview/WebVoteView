@@ -161,15 +161,15 @@ def assembleSearch(q, nextId, bottle):
 					print "Something failed in state delegation lookup."
 					pass					
 			# ICPSR of user
-			elif len(q.split())==1 and int(q):
+			elif len(q.split())==1 and type(q)==type(0) and int(q):
 				memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
 				redirFlag=1
 			# Okay, probably a normal search then.
 			elif len(q.split())<=5:
-				memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
+				memberSearch = memberLookup({"name": q}, 200, distinct=1, api="Web_FP_Search")
 		except:
 			print traceback.format_exc()
-			memberSearch = memberLookup({"name": q}, 40, distinct=1, api="Web_FP_Search")
+			memberSearch = memberLookup({"name": q}, 200, distinct=1, api="Web_FP_Search")
 
 	# Biography search
 	if q is not None and len(q) and len(q.split())>1 and q.lower().split()[0]=="biography:":
@@ -197,12 +197,26 @@ def assembleSearch(q, nextId, bottle):
 			member["scoreMatch"] = max(scoreBasic, scoreNick)
 			member["bonusMatch"] = 0
 
-			if member["congress"]>=100:
+			# Exact last name bonus
+			try:
+				if len(q.split())==1 and "," in member["bioname"] and q.lower().strip()==member["bioname"].lower().split(",")[0]:
+					member["bonusMatch"] += 25
+			except:
+				pass
+
+			# Recency bonus
+			if member["congress"]>=114:
+				member["bonusMatch"] += 15
+			elif member["congress"]>=100:
 				member["bonusMatch"] += 10
+
+			# Chamber bonus
 			if member["chamber"]=="President":
 				member["bonusMatch"] += 25
 			if member["chamber"]=="Senate":
 				member["bonusMatch"] += 10
+
+			# Duration of service bonus
 			if "congresses" in member:
 				duration = 0
 				for cong in member["congresses"]:
