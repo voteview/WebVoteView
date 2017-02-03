@@ -155,8 +155,8 @@ q
 	var chartWidth = Math.min(1140,Math.max(700,Math.round($("#content").width()*0.92)));
 	var chartHeight = Math.max(280,Math.round(chartWidth/2.9));
 	dimChart
-	    .width(1160)
-	    .height(400)
+	    .width(chartWidth)
+	    .height(chartHeight)
 	    .dimension(congressDimension)
 	    //.elasticX(true)
 	    .brushOn(false)
@@ -204,8 +204,21 @@ q
 				d3.select(obj).attr('r',10);
 				d3.select(obj).on("mouseover",function(d)
 				{
+					// Thing that checks if this is a point mouseover or a line mouseover
+					if(d3.select(obj).attr("class")=="line") // Need to detect pixel position to figure out which congress
+					{
+						var d3MouseCoords = d3.mouse(this);
+						var d3CanvasWidth = d3.select(".dc-chart svg").select("g.sub").node().getBBox()["width"];
+						var currCong = Math.ceil(115*d3MouseCoords[0]/(d3CanvasWidth));
+						var dUse = d["values"][currCong-1];
+					}
+					else // We only have one congress, we're good to go.
+					{
+						var dUse = d;
+					}
+
 					clearTimeout(opacityTimer);
-					baseToolTip.html(tooltipText(j, d));
+					baseToolTip.html(tooltipText(j, dUse));
 					if(j<partyList.length)
 					{
 						try
@@ -241,7 +254,7 @@ q
 		};
 
 		d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip circle").each(tempFuncOverride);
-		//d3.select(this).selectAll(".stack-list g.stack path.line").each(tempFuncOverride);
+		d3.select(this).selectAll(".stack-list g.stack path.line").each(tempFuncOverride);
 		//d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip path").each(tempFuncOverride);
 		i=i+1;
 	});
