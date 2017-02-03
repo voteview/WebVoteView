@@ -423,14 +423,24 @@ def districtLookup():
         return {"status": 1, "error_message": "Invalid lat/long coordinates."}
 
     results = latLongToDistrictCodes(bottle.request, lat, long)
-    if type(results) == type({}): # Quota error.
+    if type(results) == type({}) and "status" in results: # Quota error.
         return results
 
-    if len(results):
+    if "isDC" in results:
+        isDC = results["isDC"]
+    else:
+        isDC = 0
+
+    if "results" in results:
+        resLoop = results["results"]
+    else:
+        return {"status": 1, "error_message": "No matches."}
+        
+    if len(resLoop):
         orQ = []
         atLargeSet = []
         state_abbrev = ""
-        for r in results:
+        for r in resLoop:
             if not len(state_abbrev):
                 state_abbrev = r[0]
             if r[2]:
@@ -448,12 +458,16 @@ def districtLookup():
         resultsM = getMembersByPrivate({"chamber": "House", "$or": orQ})
 
         if "results" in resultsM:
-            currentCong = next((x["district_code"] for x in resultsM["results"] if x["congress"]==maxCongress), None)
-            currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": maxCongress}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": maxCongress}]})
-            if "results" in currentLookup:
+            currentCong = 0
+            if not isDC:
+                currentCong = next((x["district_code"] for x in resultsM["results"] if x["congress"]==maxCongress), None)
+                currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": maxCongress}, {"chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": maxCongress}]})
+            if not isDC and "results" in currentLookup:
                 return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
-            else:
+            elif currentCong:
                 return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": []}
+            else:
+                return {"status": 0, "results": resultsM["results"], "currentCong": 0, "resCurr": []}
         else:
             return {"status": 1, "error_message": "No matches."}
     else:
