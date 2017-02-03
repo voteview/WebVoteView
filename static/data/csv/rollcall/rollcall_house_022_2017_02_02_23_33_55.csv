@@ -1,0 +1,463 @@
+date_generated,id,congress,chamber,rollnumber,date,keyvote,question,description,yea,nay,Issue1,Issue2,Peltzman1,Peltzman2,Clausen1,mid.dim1,mid.dim2,spread.dim1,spread.dim2,pre,classified,log_likelihood,geo_mean_probability
+2017-02-02 23:33:55,RH0220001,22,House,1,1831-12-15,,,FORM COMM. ON RDS. & CANALS,95,90,,,Internal Organization,,Miscellaneous Policy,-0.098,0.06,-0.243,0.061,0.789,0.897,-47.975,0.772
+2017-02-02 23:33:55,RH0220002,22,House,2,1832-01-03,,,SUP. CT. APPELL. JURIS.,99,89,Supreme Court,,Domestic Social Policy,,Civil Liberties,-0.041,-0.027,0.271,-0.077,0.787,0.899,-43.903,0.792
+2017-02-02 23:33:55,RH0220003,22,House,3,1832-01-04,,,USE LAND $$ TO FREE SLAVES,125,54,Slavery,,Domestic Social Policy,,Civil Liberties,0.18,-0.394,0.13,-0.03,0.296,0.788,-78.674,0.644
+2017-02-02 23:33:55,RH0220004,22,House,4,1832-01-04,,,USE LAND $$ FOR ED. & INT. IMPROV.,109,70,Public Lands,,Budget General Interest,,Government Management,-0.059,0.727,0.109,0.117,0.343,0.743,-90.207,0.604
+2017-02-02 23:33:55,RH0220005,22,House,5,1832-01-09,,,PET. ASKING RENEWAL OF NATL. BANK CHARTER,100,90,National Bank,,Budget General Interest,,Government Management,-0.116,0.076,-0.249,-0.139,0.811,0.911,-43.13,0.797
+2017-02-02 23:33:55,RH0220006,22,House,6,1832-01-12,,,WHAT EFFECT TARIFFS,113,69,Tariffs,,Regulation General Interest,,Government Management,-0.29,-0.957,0.162,-0.333,0.406,0.775,-81.402,0.639
+2017-02-02 23:33:55,RH0220007,22,House,7,1832-01-13,,,ADJOURN,105,75,,,Internal Organization,,Miscellaneous Policy,0.556,0.098,0.016,0.171,0.0,0.583,-120.337,0.512
+2017-02-02 23:33:55,RH0220008,22,House,8,1832-01-18,,,WHAT EFFECT TARIFFS,93,96,Tariffs,,Regulation General Interest,,Government Management,0.052,0.74,0.234,-0.221,0.753,0.878,-57.848,0.736
+2017-02-02 23:33:55,RH0220009,22,House,9,1832-01-20,,,PENSION FOR JONATHAN SIZER,52,106,,,Budget Special Interest,,Government Management,-0.1,0.611,0.114,-0.205,0.327,0.778,-70.813,0.639
+2017-02-02 23:33:55,RH0220010,22,House,10,1832-01-20,,,PENSION FOR JONATHAN SIZER,119,45,,,Budget Special Interest,,Government Management,-0.156,0.455,-0.116,0.354,0.556,0.878,-59.688,0.695
+2017-02-02 23:33:55,RH0220011,22,House,11,1832-01-21,,,WHAT EFFECT TARIFFS,99,82,Tariffs,,Regulation General Interest,,Government Management,-0.289,-0.715,-0.33,0.436,0.866,0.939,-36.535,0.817
+2017-02-02 23:33:55,RH0220012,22,House,12,1832-01-23,,,WHAT EFFECT TAXES,111,78,Tax rates,,Budget General Interest,,Government Management,-0.223,-0.195,-0.12,0.099,0.487,0.788,-93.431,0.61
+2017-02-02 23:33:55,RH0220013,22,House,13,1832-01-23,,,WHAT EFFECT TAXES,127,59,Tax rates,,Budget General Interest,,Government Management,-0.329,-0.264,-0.197,0.175,0.661,0.892,-60.391,0.723
+2017-02-02 23:33:55,RH0220014,22,House,14,1832-01-24,,,SHOULD SLAVES BE REMOVED TO AFRICA,71,105,Slavery,,Domestic Social Policy,,Civil Liberties,-0.003,0.571,0.168,-0.269,0.535,0.813,-68.159,0.679
+2017-02-02 23:33:55,RH0220015,22,House,15,1832-01-26,,,SUP. CT. APPEL. JURISD.,76,83,Supreme Court,,Domestic Social Policy,,Civil Liberties,0.08,0.997,-0.258,0.15,0.724,0.868,-48.238,0.738
+2017-02-02 23:33:55,RH0220016,22,House,16,1832-01-27,,,AID REPS. OF DAVID DARBIN,130,46,,,Budget Special Interest,,Government Management,-0.669,-0.023,-0.07,-0.18,0.087,0.761,-92.353,0.592
+2017-02-02 23:33:55,RH0220017,22,House,17,1832-01-30,,,SEND FREED SLAVES TO AFRICA,100,80,Slavery,,Domestic Social Policy,,Civil Liberties,-0.131,0.026,-0.221,0.251,0.737,0.883,-56.895,0.729
+2017-02-02 23:33:55,RH0220018,22,House,18,1832-01-30,,,RATIO OF REPS--5TH CENSUS,76,116,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,-0.808,-0.59,0.037,-0.054,0.013,0.609,-126.716,0.517
+2017-02-02 23:33:55,RH0220019,22,House,19,1832-01-31,,,"RATIO OF REPS--1/48,000",94,99,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,-0.146,0.89,-0.028,-0.037,0.202,0.611,-129.777,0.51
+2017-02-02 23:33:55,RH0220020,22,House,20,1832-02-01,,,"RATIO OF REPS--1/44,000",98,96,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.119,0.993,-0.063,0.05,0.271,0.639,-123.712,0.529
+2017-02-02 23:33:55,RH0220021,22,House,21,1832-02-02,,,"RATIO OF REPS--1/44,000",100,94,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.127,0.992,0.069,-0.04,0.298,0.66,-121.684,0.534
+2017-02-02 23:33:55,RH0220022,22,House,22,1832-02-02,,,AT MOST 200 REPS,32,161,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,-0.498,-0.867,0.093,0.132,0.031,0.839,-80.716,0.658
+2017-02-02 23:33:55,RH0220023,22,House,23,1832-02-06,,,REV. WAR PENSIONS,46,117,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.367,-0.015,0.168,-0.535,0.674,0.908,-45.251,0.758
+2017-02-02 23:33:55,RH0220024,22,House,24,1832-02-07,,,"RATIO OF REPS--1/44,000",88,102,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.167,0.986,-0.072,0.038,0.295,0.674,-117.547,0.539
+2017-02-02 23:33:55,RH0220025,22,House,25,1832-02-07,,,"RATIO OF REPS--1/47,000",65,127,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,-0.239,-0.971,0.07,0.063,0.0,0.661,-115.021,0.549
+2017-02-02 23:33:55,RH0220026,22,House,26,1832-02-08,,,"RATIO OF REPS--1/45,000",68,118,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.276,-0.345,-0.059,-0.003,0.088,0.667,-114.125,0.541
+2017-02-02 23:33:55,RH0220027,22,House,27,1832-02-08,,,"RATIO OF REPS--1/46,000",71,116,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.269,0.091,-0.053,-0.019,0.169,0.684,-115.972,0.538
+2017-02-02 23:33:55,RH0220028,22,House,28,1832-02-08,,,"RATIO OF REPS--1/44,400",98,97,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.232,0.973,-0.065,0.091,0.186,0.595,-125.071,0.527
+2017-02-02 23:33:55,RH0220029,22,House,29,1832-02-08,,,"RATIO OF REPS--1/53,000",66,123,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,-0.336,0.447,0.083,0.026,0.121,0.693,-108.287,0.564
+2017-02-02 23:33:55,RH0220030,22,House,30,1832-02-09,,,PRINT BRITISH REPORT ON STEAM ENGINES,120,61,,,Budget Special Interest,,Government Management,-0.232,0.134,-0.186,0.124,0.541,0.845,-61.102,0.713
+2017-02-02 23:33:55,RH0220031,22,House,31,1832-02-13,,,"RATIO OF REPS--1/47,300",82,111,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.23,0.786,0.057,-0.186,0.268,0.689,-120.433,0.536
+2017-02-02 23:33:55,RH0220032,22,House,32,1832-02-13,,,"RATIO OF REPS--1/42,300",48,139,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,-0.876,-0.482,0.063,0.03,0.0,0.743,-106.023,0.567
+2017-02-02 23:33:55,RH0220033,22,House,33,1832-02-13,,,MOVE G. WASHINGTON'S BODY TO D.C.,109,76,,,Domestic Social Policy,,Government Management,-0.163,0.143,-0.14,0.093,0.474,0.784,-80.896,0.646
+2017-02-02 23:33:55,RH0220034,22,House,34,1832-02-14,,,"RATIO OF REPS--1/44,300",108,87,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.267,0.964,-0.057,0.145,0.126,0.61,-125.352,0.526
+2017-02-02 23:33:55,RH0220035,22,House,35,1832-02-14,,,"RATIO OF REPS--1/47,700",92,107,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.234,0.972,-0.084,0.094,0.25,0.653,-120.129,0.547
+2017-02-02 23:33:55,RH0220036,22,House,36,1832-02-14,,,"RATIO OF REPS--1/50,000",56,141,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,-0.232,0.973,0.07,-0.108,0.089,0.741,-109.042,0.575
+2017-02-02 23:33:55,RH0220037,22,House,37,1832-02-14,,,"RATIO OF REPS--1/47,700",105,91,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.194,0.981,0.095,-0.091,0.297,0.673,-113.672,0.56
+2017-02-02 23:33:55,RH0220038,22,House,38,1832-02-15,,,"RATIO OF REPS--1/44,200",80,115,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.14,0.99,-0.098,0.019,0.325,0.723,-109.464,0.57
+2017-02-02 23:33:55,RH0220039,22,House,39,1832-02-15,,,"RATIO OF REPS--1/46,400",61,129,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.244,0.945,-0.128,0.03,0.295,0.774,-91.978,0.616
+2017-02-02 23:33:55,RH0220040,22,House,40,1832-02-15,,,"RATIO OF REPS--1/44,500",66,125,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.159,0.249,-0.107,-0.059,0.409,0.796,-91.942,0.618
+2017-02-02 23:33:55,RH0220041,22,House,41,1832-02-15,,,"RATIO OF REPS--1/55,000",38,154,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,-0.676,-0.458,0.066,0.187,0.0,0.802,-90.723,0.623
+2017-02-02 23:33:55,RH0220042,22,House,42,1832-02-15,,,"RATIO OF REPS--1/47,700",119,75,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.141,0.99,0.106,-0.003,0.347,0.747,-103.942,0.585
+2017-02-02 23:33:55,RH0220043,22,House,43,1832-02-16,,,IMP. NAVIG. IN ALA.,89,86,Public Works,,Budget Special Interest,,Government Management,-0.045,0.997,-0.171,0.035,0.674,0.84,-72.004,0.663
+2017-02-02 23:33:55,RH0220044,22,House,44,1832-02-16,,,BLD. RD. FROM OHIO TO ALA.,92,89,Public Works,,Budget General Interest,,Government Management,-0.077,0.018,-0.199,0.035,0.742,0.873,-58.383,0.724
+2017-02-02 23:33:55,RH0220045,22,House,45,1832-02-16,,,RATIO OF REPS--5TH CENSUS,130,58,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.251,0.968,0.113,-0.0,0.0,0.691,-94.487,0.605
+2017-02-02 23:33:55,RH0220046,22,House,46,1832-02-16,,,PAY S.C. FOR 1812 WAR SERVICES,130,47,,,Defense Policy Budget,,Foreign and Defense Policy,-0.942,0.335,-0.082,-0.216,0.106,0.763,-94.703,0.586
+2017-02-02 23:33:55,RH0220047,22,House,47,1832-02-16,,,BLD. RD. FROM OHIO TO N.C.,84,88,Public Works,,Budget General Interest,,Government Management,-0.064,0.017,-0.185,0.033,0.726,0.866,-59.65,0.707
+2017-02-02 23:33:55,RH0220048,22,House,48,1832-02-16,,,STATUE OF G. WASH. FOR CAPITAL,114,50,,,Government Organization,,Government Management,-0.108,0.994,-0.063,0.151,0.16,0.744,-90.086,0.577
+2017-02-02 23:33:55,RH0220049,22,House,49,1832-02-21,,,IND. RESERV. LAND,73,86,Public Lands,,Indian Affairs,,Government Management,-0.171,-0.025,0.185,0.104,0.671,0.849,-57.798,0.695
+2017-02-02 23:33:55,RH0220050,22,House,50,1832-02-21,,,IND. RESERV. LAND,81,76,Public Lands,,Indian Affairs,,Government Management,0.146,-0.963,-0.123,-0.181,0.513,0.764,-75.34,0.619
+2017-02-02 23:33:55,RH0220051,22,House,51,1832-02-21,,,CHICKASAW IND. RESERV. LAND,92,77,Public Lands,,Indian Affairs,,Government Management,-0.115,-0.143,-0.192,-0.204,0.688,0.858,-54.164,0.726
+2017-02-02 23:33:55,RH0220052,22,House,52,1832-02-24,,,FIXED TERM FOR JUDGES,41,127,Constitutional Amendments,,Domestic Social Policy,,Civil Liberties,-0.39,0.29,0.14,-0.006,0.146,0.792,-70.657,0.657
+2017-02-02 23:33:55,RH0220053,22,House,53,1832-02-27,,,BLD. RD. FROM OHIO TO N.C.,93,82,Public Works,,Budget General Interest,,Government Management,-0.113,0.006,-0.174,-0.042,0.683,0.851,-64.483,0.692
+2017-02-02 23:33:55,RH0220054,22,House,54,1832-03-05,,,HONOR CHEROKEE IND. TREATIES,91,92,,,Indian Affairs,,Government Management,-0.072,-0.161,0.292,0.067,0.813,0.907,-37.645,0.814
+2017-02-02 23:33:55,RH0220055,22,House,55,1832-03-05,,,HONOR CHEROKEE IND. TREATIES,96,93,,,Indian Affairs,,Government Management,-0.093,0.023,-0.296,-0.027,0.849,0.926,-38.834,0.814
+2017-02-02 23:33:55,RH0220056,22,House,56,1832-03-08,,,COMM. TO INVEST. NATL. BANK,88,92,National Bank,,Government Organization,,Government Management,-0.07,0.13,-0.269,-0.143,0.841,0.922,-36.953,0.814
+2017-02-02 23:33:55,RH0220057,22,House,57,1832-03-09,,,COMM. TO INVEST. NATL. BANK,98,93,National Bank,,Government Organization,,Government Management,-0.105,0.012,-0.351,-0.15,0.903,0.953,-31.769,0.847
+2017-02-02 23:33:55,RH0220058,22,House,58,1832-03-09,,,COMPEN. SUSAN DECATUR,72,102,,,Budget Special Interest,,Government Management,0.223,0.919,-0.079,0.041,0.292,0.707,-104.576,0.548
+2017-02-02 23:33:55,RH0220059,22,House,59,1832-03-09,,,COMPEN. SUSAN DECATUR,80,95,,,Budget Special Interest,,Government Management,-0.036,-0.414,-0.102,0.038,0.437,0.743,-94.066,0.584
+2017-02-02 23:33:55,RH0220060,22,House,60,1832-03-09,,,COMPEN. SUSAN DECATUR,78,95,,,Budget Special Interest,,Government Management,0.207,-0.96,0.038,0.089,0.103,0.595,-114.102,0.517
+2017-02-02 23:33:55,RH0220061,22,House,61,1832-03-10,,,DOCS. FOR NATL. BANK INVEST.,68,112,National Bank,,Government Organization,,Government Management,0.136,0.991,0.113,-0.238,0.324,0.744,-88.303,0.612
+2017-02-02 23:33:55,RH0220062,22,House,62,1832-03-10,,,DOCS. FOR NATL. BANK INVEST.,95,82,National Bank,,Government Organization,,Government Management,-0.107,0.041,-0.121,0.232,0.463,0.751,-85.997,0.615
+2017-02-02 23:33:55,RH0220063,22,House,63,1832-03-13,,,COMM. TO INVEST. NATL. BANK,100,101,National Bank,,Government Organization,,Government Management,-0.106,0.036,-0.323,-0.08,0.85,0.925,-38.595,0.825
+2017-02-02 23:33:55,RH0220064,22,House,64,1832-03-14,,,NATL. BANK (ADJOURN),61,129,National Bank,,Government Organization,,Government Management,-0.209,-0.538,0.141,0.137,0.377,0.8,-78.374,0.662
+2017-02-02 23:33:55,RH0220065,22,House,65,1832-03-14,,,COMM. TO INVEST. NATL. BANK,26,164,National Bank,,Government Organization,,Government Management,-0.509,0.861,0.207,0.004,-0.115,0.847,-58.966,0.733
+2017-02-02 23:33:55,RH0220066,22,House,66,1832-03-14,,,NATL. BANK (ADJOURN),53,138,National Bank,,Government Organization,,Government Management,-0.206,-0.833,0.202,0.211,0.491,0.859,-61.095,0.726
+2017-02-02 23:33:55,RH0220067,22,House,67,1832-03-14,,,COMM. TO INVEST. NATL. BANK,94,102,National Bank,,Government Organization,,Government Management,-0.133,0.01,0.405,0.233,0.872,0.939,-31.158,0.853
+2017-02-02 23:33:55,RH0220068,22,House,68,1832-03-14,,,COMM. TO INVEST. NATL. BANK,106,92,National Bank,,Government Organization,,Government Management,-0.146,-0.005,-0.292,-0.115,0.826,0.919,-43.043,0.805
+2017-02-02 23:33:55,RH0220069,22,House,69,1832-03-14,,,NATL. BANK (ADJOURN),70,128,National Bank,,Government Organization,,Government Management,-0.08,-0.686,0.192,0.297,0.543,0.838,-62.303,0.73
+2017-02-02 23:33:55,RH0220070,22,House,70,1832-03-20,,,PAINTINGS IN ROTUNDA,82,91,,,Budget Special Interest,,Government Management,-0.251,-0.918,-0.09,0.107,0.305,0.671,-105.117,0.545
+2017-02-02 23:33:55,RH0220071,22,House,71,1832-03-22,,,REV. WAR PENSIONS,106,60,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.262,-0.003,-0.154,0.396,0.6,0.855,-59.701,0.698
+2017-02-02 23:33:55,RH0220072,22,House,72,1832-03-23,,,ADJOURN,76,70,,,Internal Organization,,Miscellaneous Policy,-0.244,0.951,0.032,0.053,0.171,0.603,-98.571,0.509
+2017-02-02 23:33:55,RH0220073,22,House,73,1832-03-26,,,REORG. ORDNANCE DEPT.,110,54,,,Defense Policy Resolutions,,Foreign and Defense Policy,0.172,-0.208,0.104,-0.032,0.278,0.762,-81.988,0.607
+2017-02-02 23:33:55,RH0220074,22,House,74,1832-03-26,,,NO. OF ORDNANCE SOLDIERS,101,66,,,Defense Policy Budget,,Foreign and Defense Policy,0.181,-0.983,0.088,0.023,0.258,0.707,-96.507,0.561
+2017-02-02 23:33:55,RH0220075,22,House,75,1832-03-27,,,HOW TO SELL PUB. LANDS,118,44,Public Lands,,Budget General Interest,,Government Management,0.056,-0.79,0.089,-0.142,0.114,0.759,-81.931,0.603
+2017-02-02 23:33:55,RH0220076,22,House,76,1832-03-28,,,PAY AMOS EDWARDS,84,78,,,Budget Special Interest,,Government Management,0.327,-0.097,-0.003,-0.144,0.141,0.586,-108.499,0.512
+2017-02-02 23:33:55,RH0220077,22,House,77,1832-04-04,,,BLD. RD. FROM BUFFALO TO NEW ORL.,74,94,Public Works,,Budget General Interest,,Government Management,-0.012,-0.026,-0.257,0.118,0.797,0.911,-40.56,0.786
+2017-02-02 23:33:55,RH0220078,22,House,78,1832-04-13,,,RELIEF OF JOHN TEEL,55,83,,,Budget Special Interest,,Government Management,-0.383,-0.924,-0.159,0.431,0.327,0.732,-64.624,0.626
+2017-02-02 23:33:55,RH0220079,22,House,79,1832-04-14,,,SGT. OF ARMS ARREST SAM HOUSTON,106,65,,,Internal Organization,,Miscellaneous Policy,-0.208,-0.035,-0.142,-0.055,0.523,0.819,-72.439,0.655
+2017-02-02 23:33:55,RH0220080,22,House,80,1832-04-14,,,SGT. OF ARMS ARREST SAM HOUSTON,145,25,,,Internal Organization,,Miscellaneous Policy,-0.498,0.867,-0.193,-0.02,-0.04,0.847,-56.231,0.718
+2017-02-02 23:33:55,RH0220081,22,House,81,1832-04-17,,,ADJOURN AT 11AM,115,27,,,Internal Organization,,Miscellaneous Policy,0.674,-0.481,0.08,-0.066,0.0,0.81,-68.581,0.617
+2017-02-02 23:33:55,RH0220082,22,House,82,1832-04-17,,,ADJOURN AT 11AM,129,22,,,Internal Organization,,Miscellaneous Policy,-0.774,-0.211,-0.101,-0.061,0.0,0.854,-62.15,0.663
+2017-02-02 23:33:55,RH0220083,22,House,83,1832-04-17,,,REV. WAR PENSIONS,81,77,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.0,0.051,0.101,-0.348,0.468,0.741,-78.001,0.61
+2017-02-02 23:33:55,RH0220084,22,House,84,1832-04-18,,,RELEASE SAM HOUSTON (ADJOURN),54,106,,,Internal Organization,,Miscellaneous Policy,-0.998,0.068,0.041,-0.167,0.0,0.662,-98.623,0.54
+2017-02-02 23:33:55,RH0220085,22,House,85,1832-04-19,,,BUY CALENDARS FOR MEMBERS,61,52,,,Internal Organization,,Government Management,0.347,0.29,0.001,0.075,0.0,0.54,-77.406,0.504
+2017-02-02 23:33:55,RH0220086,22,House,86,1832-04-19,,,TRIAL OF SAM HOUSTON,103,82,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.02,0.035,0.122,0.142,0.61,0.827,-81.763,0.643
+2017-02-02 23:33:55,RH0220087,22,House,87,1832-04-20,,,TRIAL OF SAM HOUSTON,62,114,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.305,-0.952,-0.064,-0.007,0.0,0.648,-108.506,0.54
+2017-02-02 23:33:55,RH0220088,22,House,88,1832-04-23,,,TRIAL OF SAM HOUSTON,88,70,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.133,-0.444,0.141,0.146,0.614,0.829,-65.81,0.659
+2017-02-02 23:33:55,RH0220089,22,House,89,1832-04-23,,,PROCEDURAL,90,41,,,Internal Organization,,Miscellaneous Policy,-0.503,-0.864,-0.052,-0.028,0.024,0.695,-81.398,0.537
+2017-02-02 23:33:55,RH0220090,22,House,90,1832-04-24,,,TRIAL OF SAM HOUSTON,31,121,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.419,-0.073,0.139,0.119,-0.032,0.789,-60.04,0.674
+2017-02-02 23:33:55,RH0220091,22,House,91,1832-04-24,,,TRIAL OF SAM HOUSTON,80,77,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.022,-0.184,0.133,0.209,0.623,0.815,-63.701,0.666
+2017-02-02 23:33:55,RH0220092,22,House,92,1832-04-25,,,TRIAL OF SAM HOUSTON,49,124,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,0.061,0.935,-0.109,-0.158,0.143,0.757,-81.474,0.624
+2017-02-02 23:33:55,RH0220093,22,House,93,1832-04-27,,,PROCEDURAL,110,66,,,Internal Organization,,Miscellaneous Policy,0.409,0.209,0.026,0.367,0.106,0.665,-102.118,0.56
+2017-02-02 23:33:55,RH0220094,22,House,94,1832-04-28,,,WHEN NEXT SESSION OF CONG.,83,51,,,Internal Organization,,Miscellaneous Policy,-0.119,0.388,-0.113,0.158,0.373,0.761,-65.471,0.613
+2017-02-02 23:33:55,RH0220095,22,House,95,1832-04-28,,,$$ FOR AMB. TO FRANCE,102,77,,,Foreign Policy Budget,,Foreign and Defense Policy,0.141,-0.245,0.199,0.377,0.701,0.872,-49.676,0.758
+2017-02-02 23:33:55,RH0220096,22,House,96,1832-04-30,,,WHEN NEXT SESSION OF CONG.,74,65,,,Internal Organization,,Miscellaneous Policy,-0.156,-0.288,-0.136,0.182,0.508,0.77,-65.205,0.626
+2017-02-02 23:33:55,RH0220097,22,House,97,1832-04-30,,,PRINT DIPLO. CORRESP. 1783-89,89,68,,,Foreign Policy Budget,,Foreign and Defense Policy,-0.1,0.2,-0.138,0.168,0.485,0.777,-70.481,0.638
+2017-02-02 23:33:55,RH0220098,22,House,98,1832-05-01,,,IND. WAR VETS.,63,108,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.031,0.905,-0.035,-0.107,-0.063,0.608,-110.535,0.524
+2017-02-02 23:33:55,RH0220099,22,House,99,1832-05-01,,,VETS. OF KINGS MT. & GUILFORD CT. HOUSE,46,113,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.48,0.877,0.073,-0.552,0.13,0.748,-75.618,0.622
+2017-02-02 23:33:55,RH0220100,22,House,100,1832-05-01,,,GRANTS OF LAND TO VETS.,51,121,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.123,0.804,0.186,-0.585,0.627,0.89,-52.091,0.739
+2017-02-02 23:33:55,RH0220101,22,House,101,1832-05-01,,,INCLUDE 3 MO. MILITIA VETS.,97,73,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.48,-0.39,-0.056,0.152,0.247,0.676,-106.009,0.536
+2017-02-02 23:33:55,RH0220102,22,House,102,1832-05-01,,,LIMIT CLAIMANTS,74,100,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.052,0.134,0.171,-0.578,0.689,0.868,-57.804,0.717
+2017-02-02 23:33:55,RH0220103,22,House,103,1832-05-01,,,LIMIT CLAIMANTS W/PROP. LT. $1000,73,102,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.227,0.655,0.213,-0.64,0.562,0.817,-66.052,0.686
+2017-02-02 23:33:55,RH0220104,22,House,104,1832-05-01,,,LIMIT CLAIMANTS,112,65,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.028,0.408,-0.266,0.755,0.738,0.904,-46.043,0.771
+2017-02-02 23:33:55,RH0220105,22,House,105,1832-05-01,,,7 YR. PENSION FOR REV. WAR WIDOWS,28,133,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.879,0.477,-0.068,-0.404,0.0,0.826,-70.313,0.646
+2017-02-02 23:33:55,RH0220106,22,House,106,1832-05-01,,,VETS. PENSIONS,125,49,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.09,0.352,-0.191,0.719,0.735,0.925,-42.166,0.785
+2017-02-02 23:33:55,RH0220107,22,House,107,1832-05-02,,,VETS. PENSIONS (DELAY),46,127,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.298,0.11,0.199,-0.713,0.674,0.913,-40.382,0.792
+2017-02-02 23:33:55,RH0220108,22,House,108,1832-05-02,,,VETS. PENSIONS,126,48,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.224,0.234,-0.172,0.568,0.708,0.92,-44.273,0.775
+2017-02-02 23:33:55,RH0220109,22,House,109,1832-05-03,,,PRINT REPORT OF COMM. INVEST. NATL. BANK,110,67,National Bank,,Government Organization,,Government Management,0.051,-0.982,0.24,-0.026,0.612,0.853,-54.183,0.736
+2017-02-02 23:33:55,RH0220110,22,House,110,1832-05-04,,,BLD. ALEXANDRIA CANAL,64,85,Public Works,,Budget Special Interest,,Government Management,-0.067,0.536,-0.148,-0.167,0.703,0.872,-57.123,0.682
+2017-02-02 23:33:55,RH0220111,22,House,111,1832-05-04,,,U.S. BUY 1250 SHARES ALEXANDRIA CANAL CO.,66,83,Public Works,,Budget Special Interest,,Government Management,0.007,0.215,-0.14,-0.072,0.712,0.872,-59.187,0.672
+2017-02-02 23:33:55,RH0220112,22,House,112,1832-05-05,,,IMPROV. OCRACOCK INLET IN N.C.,110,45,Public Works,,Budget Special Interest,,Government Management,-0.053,0.999,-0.178,0.261,0.556,0.871,-51.566,0.717
+2017-02-02 23:33:55,RH0220113,22,House,113,1832-05-05,,,IMPROV. NAVIG. CUMBERLAND RIV.,63,80,Public Works,,Budget Special Interest,,Government Management,-0.037,0.547,-0.127,-0.058,0.556,0.804,-66.759,0.627
+2017-02-02 23:33:55,RH0220114,22,House,114,1832-05-09,,,SAM HOUSTON GUILTY OF CONTEMPT,80,37,,,Internal Organization,,Miscellaneous Policy,-0.892,0.452,-0.022,0.236,-0.135,0.641,-71.557,0.542
+2017-02-02 23:33:55,RH0220115,22,House,115,1832-05-10,,,SAM HOUSTON CASE,72,85,,,Internal Organization,,Miscellaneous Policy,0.005,-0.019,-0.099,0.049,0.431,0.739,-83.899,0.586
+2017-02-02 23:33:55,RH0220116,22,House,116,1832-05-11,,,SAM HOUSTON CASE,116,65,,,Internal Organization,,Miscellaneous Policy,-0.276,0.961,-0.076,0.023,0.092,0.674,-106.253,0.556
+2017-02-02 23:33:55,RH0220117,22,House,117,1832-05-11,,,SAM HOUSTON GUILTY OF CONTEMPT,106,88,,,Internal Organization,,Miscellaneous Policy,-0.073,-0.234,-0.222,-0.251,0.773,0.897,-50.241,0.772
+2017-02-02 23:33:55,RH0220118,22,House,118,1832-05-11,,,SAM HOUSTON CASE,89,106,,,Internal Organization,,Miscellaneous Policy,0.204,-0.9,0.257,0.477,0.708,0.867,-51.796,0.767
+2017-02-02 23:33:55,RH0220119,22,House,119,1832-05-11,,,SAM HOUSTON REPRIMAND,105,89,,,Internal Organization,,Miscellaneous Policy,-0.015,-0.401,-0.243,-0.315,0.753,0.887,-45.815,0.79
+2017-02-02 23:33:55,RH0220120,22,House,120,1832-05-11,,,EXCLUDE SAM HOUSTON FROM HOUSE FLOOR,90,101,,,Internal Organization,,Miscellaneous Policy,0.021,-0.082,-0.19,-0.274,0.756,0.885,-54.24,0.753
+2017-02-02 23:33:55,RH0220121,22,House,121,1832-05-11,,,SAM HOUSTON REPRIMAND,96,84,,,Internal Organization,,Miscellaneous Policy,0.02,-0.528,-0.239,-0.292,0.786,0.9,-42.961,0.788
+2017-02-02 23:33:55,RH0220122,22,House,122,1832-05-14,,,SAM HOUSTON & INDIANS,169,13,,,Internal Organization,Indian Affairs,Miscellaneous Policy,-0.641,0.006,-0.171,-0.026,0.077,0.934,-44.038,0.785
+2017-02-02 23:33:55,RH0220123,22,House,123,1832-05-14,,,SAM HOUSTON & INDIANS,54,125,,,Internal Organization,Indian Affairs,Miscellaneous Policy,-0.13,-0.725,0.167,0.239,0.481,0.844,-60.56,0.713
+2017-02-02 23:33:55,RH0220124,22,House,124,1832-05-14,,,INVEST. SAM HOUSTON,73,96,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.14,0.054,0.244,-0.059,0.712,0.876,-43.306,0.774
+2017-02-02 23:33:55,RH0220125,22,House,125,1832-05-14,,,INVEST. SAM HOUSTON,85,87,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.064,0.16,-0.263,0.018,0.8,0.901,-38.574,0.799
+2017-02-02 23:33:55,RH0220126,22,House,126,1832-05-17,,,INVEST. SAM HOUSTON & OTHERS,81,95,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.015,-0.033,-0.238,-0.104,0.778,0.898,-40.847,0.793
+2017-02-02 23:33:55,RH0220127,22,House,127,1832-05-17,,,"RATIO OF REPS--1/48,000",105,69,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.01,0.258,0.142,0.15,0.623,0.851,-65.542,0.686
+2017-02-02 23:33:55,RH0220128,22,House,128,1832-05-17,,,RATIO OF REPS (ADJOURN),30,151,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.357,-0.144,-0.153,0.069,0.167,0.862,-59.186,0.721
+2017-02-02 23:33:55,RH0220129,22,House,129,1832-05-17,,,TOTAL OF 251 MEMBERS,135,57,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.143,0.529,0.175,0.076,0.509,0.854,-63.77,0.717
+2017-02-02 23:33:55,RH0220130,22,House,130,1832-05-18,,,"$30,000 FOR CLEARING CUMBERLAND RIV.",83,78,Public Works,,Budget Special Interest,,Government Management,-0.093,0.272,-0.164,0.011,0.615,0.814,-62.968,0.676
+2017-02-02 23:33:55,RH0220131,22,House,131,1832-05-18,,,"$150,000 FOR CUMBERLAND RD.",90,72,Public Works,,Budget Special Interest,,Government Management,-0.128,0.122,-0.229,0.03,0.736,0.883,-42.857,0.768
+2017-02-02 23:33:55,RH0220132,22,House,132,1832-05-18,,,INT. IMPROVS.,102,66,Public Works,,Budget General Interest,,Government Management,-0.179,0.001,-0.297,0.231,0.727,0.893,-37.156,0.802
+2017-02-02 23:33:55,RH0220133,22,House,133,1832-05-19,,,INT. IMPROVS.,61,115,Public Works,,Budget General Interest,,Government Management,-0.252,-0.163,0.186,0.004,0.508,0.83,-62.61,0.701
+2017-02-02 23:33:55,RH0220134,22,House,134,1832-05-19,,,INT. IMPROVS.,99,73,Public Works,,Budget General Interest,,Government Management,-0.146,0.053,-0.269,0.151,0.753,0.895,-41.194,0.787
+2017-02-02 23:33:55,RH0220135,22,House,135,1832-05-21,,,PROCEDURAL,62,66,,,Internal Organization,,Miscellaneous Policy,-0.469,-0.883,-0.122,0.358,0.371,0.695,-73.148,0.565
+2017-02-02 23:33:55,RH0220136,22,House,136,1832-05-21,,,"$30,000 FOR POTOMAC RIV. BRIDGE",61,69,Public Works,,Budget Special Interest,D. C.,Government Management,0.007,0.178,-0.108,-0.181,0.557,0.792,-62.477,0.618
+2017-02-02 23:33:55,RH0220137,22,House,137,1832-05-21,,,"$30,000 FOR POTOMAC RIV. BRIDGE",65,61,Public Works,,Budget Special Interest,D. C.,Government Management,-0.092,-0.587,-0.108,0.036,0.492,0.754,-66.811,0.588
+2017-02-02 23:33:55,RH0220138,22,House,138,1832-05-21,,,"$30,000 FOR POTOMAC RIV. BRIDGE",68,62,Public Works,,Budget Special Interest,D. C.,Government Management,-0.167,-0.869,0.137,-0.127,0.435,0.731,-65.988,0.602
+2017-02-02 23:33:55,RH0220139,22,House,139,1832-05-22,,,UNKNOWN,86,69,,,,,,0.061,-0.263,0.455,0.233,0.841,0.929,-20.268,0.877
+2017-02-02 23:33:55,RH0220140,22,House,140,1832-05-23,,,TARIFFS,91,81,Tariffs,,Regulation General Interest,,Government Management,-0.099,-0.109,-0.315,0.245,0.84,0.924,-37.242,0.805
+2017-02-02 23:33:55,RH0220141,22,House,141,1832-05-23,,,ENCOURAGE SILK MANUF.,97,71,,,Budget Special Interest,,Government Management,-0.096,-0.428,0.247,-0.3,0.69,0.869,-46.785,0.757
+2017-02-02 23:33:55,RH0220142,22,House,142,1832-05-24,,,"$20,000 FOR OHIO SHAWNEE RES. LANDS",70,96,,,Indian Affairs,,Government Management,0.041,-0.51,-0.21,-0.041,0.7,0.873,-49.813,0.741
+2017-02-02 23:33:55,RH0220143,22,House,143,1832-05-24,,,REV. WAR PENSIONS,91,74,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.1,0.097,-0.05,0.409,0.432,0.745,-83.87,0.602
+2017-02-02 23:33:55,RH0220144,22,House,144,1832-05-24,,,REV. WAR PENSIONS,115,51,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.0,0.419,-0.145,0.716,0.686,0.904,-46.478,0.756
+2017-02-02 23:33:55,RH0220145,22,House,145,1832-05-25,,,BUY COPIES OF TREATIES FOR HOUSE,94,80,,,Internal Organization,Budget Special Interest,Government Management,0.046,-0.192,0.198,0.267,0.762,0.891,-48.033,0.759
+2017-02-02 23:33:55,RH0220146,22,House,146,1832-05-25,,,"$100,000 FOR POTOMAC RIV. AQUEDUCT",96,70,Public Works,,Budget Special Interest,,Government Management,-0.163,-0.019,-0.196,-0.084,0.629,0.843,-51.513,0.733
+2017-02-02 23:33:55,RH0220147,22,House,147,1832-05-25,,,SUBSCIPT. OF STOCK ALEXANDRIA CANAL CO.,89,78,Public Works,,Budget Special Interest,,Government Management,-0.105,-0.284,-0.18,-0.024,0.641,0.832,-56.287,0.714
+2017-02-02 23:33:55,RH0220148,22,House,148,1832-05-25,,,CHARGES AG. PORT COLLECTOR IN ME.,111,65,,,Government Organization,,Government Management,0.106,-0.008,0.465,0.42,0.815,0.932,-23.576,0.875
+2017-02-02 23:33:55,RH0220149,22,House,149,1832-05-26,,,CHARGES AG. PORT COLLECTOR IN ME.,114,53,,,Government Organization,,Government Management,-0.11,0.994,0.252,0.406,0.585,0.868,-44.093,0.768
+2017-02-02 23:33:55,RH0220150,22,House,150,1832-05-28,,,PRES. & VIOLENCE AG. CONGMN.,78,113,,,Government Organization,,Government Management,0.023,-0.121,-0.307,-0.131,0.859,0.942,-30.741,0.851
+2017-02-02 23:33:55,RH0220151,22,House,151,1832-05-31,,,REV. WAR PENSIONS,127,45,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.186,0.616,-0.083,0.678,0.489,0.866,-54.313,0.729
+2017-02-02 23:33:55,RH0220152,22,House,152,1832-06-01,,,POSTMASTER GEN. & CONTRACTS,108,56,,,Government Organization,,Government Management,0.086,0.375,0.201,0.19,0.696,0.896,-43.924,0.765
+2017-02-02 23:33:55,RH0220153,22,House,153,1832-06-02,,,ADJOURN 10AM DAILY,125,13,,,Internal Organization,,Miscellaneous Policy,-0.835,0.55,-0.108,0.26,0.0,0.906,-40.591,0.745
+2017-02-02 23:33:55,RH0220154,22,House,154,1832-06-02,,,WHEN TO END SESSION,78,81,,,Internal Organization,,Miscellaneous Policy,-0.647,-0.445,-0.057,0.429,0.321,0.667,-91.388,0.563
+2017-02-02 23:33:55,RH0220155,22,House,155,1832-06-02,,,POSTMASTER GEN. & CONTRACTS,117,52,,,Government Organization,,Government Management,0.187,0.114,0.152,0.198,0.558,0.864,-56.985,0.714
+2017-02-02 23:33:55,RH0220156,22,House,156,1832-06-04,,,PROCEDURAL,77,21,,,Internal Organization,,Miscellaneous Policy,0.711,-0.704,0.099,0.077,0.048,0.796,-48.777,0.608
+2017-02-02 23:33:55,RH0220157,22,House,157,1832-06-04,,,RIVERS & HARBORS,82,101,Public Works,,Budget General Interest,,Government Management,-0.022,0.749,0.286,-0.22,0.707,0.869,-48.011,0.769
+2017-02-02 23:33:55,RH0220158,22,House,158,1832-06-04,,,RIVERS & HARBORS,86,101,Public Works,,Budget General Interest,,Government Management,-0.095,0.17,0.337,-0.249,0.791,0.904,-39.063,0.811
+2017-02-02 23:33:55,RH0220159,22,House,159,1832-06-04,,,RIVERS & HARBORS,72,101,Public Works,,Budget General Interest,,Government Management,-0.121,0.123,0.309,-0.182,0.694,0.873,-38.021,0.803
+2017-02-02 23:33:55,RH0220160,22,House,160,1832-06-04,,,N.Y. PORK,114,53,Public Works,,Budget Special Interest,,Government Management,-0.227,0.241,-0.223,0.074,0.623,0.88,-45.775,0.76
+2017-02-02 23:33:55,RH0220161,22,House,161,1832-06-04,,,RIVERS & HARBORS,102,73,Public Works,,Budget General Interest,,Government Management,-0.016,0.635,-0.338,0.333,0.74,0.891,-39.399,0.798
+2017-02-02 23:33:55,RH0220162,22,House,162,1832-06-04,,,CLAIMS OF VA.,104,66,,,Budget Special Interest,,Government Management,0.359,-0.933,0.137,0.168,0.379,0.759,-83.242,0.613
+2017-02-02 23:33:55,RH0220163,22,House,163,1832-06-05,,,RIVERS & HARBORS,86,83,Public Works,,Budget General Interest,,Government Management,-0.029,0.299,0.28,-0.192,0.855,0.929,-37.543,0.801
+2017-02-02 23:33:55,RH0220164,22,House,164,1832-06-05,,,RIVERS & HARBORS,92,73,Public Works,,Budget General Interest,,Government Management,0.031,0.926,-0.369,0.313,0.767,0.897,-36.043,0.804
+2017-02-02 23:33:55,RH0220165,22,House,165,1832-06-05,,,RIVERS & HARBORS,95,67,Public Works,,Budget General Interest,,Government Management,-0.003,0.685,-0.345,0.351,0.761,0.901,-35.028,0.806
+2017-02-02 23:33:55,RH0220166,22,House,166,1832-06-05,,,PROCEDURAL,74,54,,,Internal Organization,,Miscellaneous Policy,-0.701,-0.713,-0.032,0.051,0.019,0.586,-86.504,0.509
+2017-02-02 23:33:55,RH0220167,22,House,167,1832-06-08,,,FUND TREATY W/FRANCE,122,46,Treaties,,Foreign Policy Budget,,Foreign and Defense Policy,-0.05,0.856,0.093,0.223,0.0,0.726,-77.65,0.63
+2017-02-02 23:33:55,RH0220168,22,House,168,1832-06-08,,,TARIFFS,110,51,Tariffs,,Budget General Interest,,Government Management,0.074,-0.461,0.167,-0.155,0.51,0.845,-58.199,0.697
+2017-02-02 23:33:55,RH0220169,22,House,169,1832-06-08,,,PROCEDURAL,67,18,,,Internal Organization,,Miscellaneous Policy,0.056,0.998,0.053,0.213,0.056,0.8,-41.187,0.616
+2017-02-02 23:33:55,RH0220170,22,House,170,1832-06-11,,,GA. IMPRISONING OF MISSIONARIES TO INDS.,106,57,,,Indian Affairs,,Civil Liberties,0.068,0.01,0.367,-0.019,0.789,0.926,-23.509,0.866
+2017-02-02 23:33:55,RH0220171,22,House,171,1832-06-11,,,WHEN TO ADJOURN,81,93,,,Internal Organization,,Miscellaneous Policy,0.119,-0.033,-0.003,0.28,0.296,0.672,-105.156,0.546
+2017-02-02 23:33:55,RH0220172,22,House,172,1832-06-12,,,INCORP. NATL. BANK,115,75,National Bank,,Budget General Interest,,Government Management,-0.053,0.546,0.154,0.201,0.56,0.826,-70.521,0.69
+2017-02-02 23:33:55,RH0220173,22,House,173,1832-06-12,,,INCORP. NATL. BANK,88,111,National Bank,,Budget General Interest,,Government Management,-0.173,0.001,0.345,0.156,0.818,0.92,-41.325,0.812
+2017-02-02 23:33:55,RH0220174,22,House,174,1832-06-13,,,WHEN TO ADJOURN,108,72,,,Internal Organization,,Miscellaneous Policy,0.055,-0.305,-0.033,-0.254,0.25,0.7,-102.043,0.567
+2017-02-02 23:33:55,RH0220175,22,House,175,1832-06-13,,,WHAT WAS JOHN RANDOLPH PAID,94,92,,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.059,-0.006,0.198,0.15,0.707,0.855,-57.022,0.736
+2017-02-02 23:33:55,RH0220176,22,House,176,1832-06-13,,,TARIFFS (ADJOURN),58,74,Tariffs,,Regulation General Interest,,Government Management,0.487,-0.458,-0.069,-0.307,0.293,0.689,-76.294,0.561
+2017-02-02 23:33:55,RH0220177,22,House,177,1832-06-13,,,TARIFFS (ADJOURN),77,55,Tariffs,,Regulation General Interest,,Government Management,0.232,-0.926,-0.047,-0.154,0.145,0.644,-82.041,0.537
+2017-02-02 23:33:55,RH0220178,22,House,178,1832-06-14,,,WHEN TO ADJOURN (PROCEDURAL),70,49,,,Internal Organization,,Miscellaneous Policy,-0.158,-0.454,-0.02,-0.102,0.102,0.63,-78.03,0.519
+2017-02-02 23:33:55,RH0220179,22,House,179,1832-06-14,,,WHEN TO ADJOURN,67,98,,,Internal Organization,,Miscellaneous Policy,0.437,-0.362,0.016,0.302,0.134,0.648,-97.729,0.553
+2017-02-02 23:33:55,RH0220180,22,House,180,1832-06-16,,,MIN. REPORT NATL. BANK,74,70,National Bank,,Government Organization,,Government Management,0.004,-0.39,-0.156,-0.237,0.729,0.868,-51.131,0.701
+2017-02-02 23:33:55,RH0220181,22,House,181,1832-06-16,,,BUY RECORDS OF HOUSE DEBATES,65,106,,,Internal Organization,Budget Special Interest,Government Management,-0.222,-0.031,0.209,-0.087,0.615,0.854,-56.823,0.717
+2017-02-02 23:33:55,RH0220182,22,House,182,1832-06-16,,,BUY RECORDS OF HOUSE DEBATES,109,66,,,Internal Organization,Budget Special Interest,Government Management,0.048,0.921,0.186,0.036,0.576,0.84,-63.759,0.695
+2017-02-02 23:33:55,RH0220183,22,House,183,1832-06-20,,,LADIES CAN SIT IN THE HALL,87,74,Women's Equality,,Internal Organization,,Miscellaneous Policy,0.235,0.868,0.037,-0.016,0.081,0.578,-107.996,0.511
+2017-02-02 23:33:55,RH0220184,22,House,184,1832-06-20,,,WHEN TO ADJOURN,86,87,,,Internal Organization,,Miscellaneous Policy,0.151,0.056,-0.006,0.344,0.384,0.694,-100.6,0.559
+2017-02-02 23:33:55,RH0220185,22,House,185,1832-06-20,,,TARIFFS (PROCEDURAL),105,38,Tariffs,,Regulation General Interest,,Government Management,0.217,0.921,0.067,0.127,0.105,0.762,-76.064,0.587
+2017-02-02 23:33:55,RH0220186,22,House,186,1832-06-21,,,TARIFFS (ADJOURN),15,112,Tariffs,,Regulation General Interest,,Government Management,0.461,0.175,-0.162,-0.125,0.067,0.89,-35.658,0.755
+2017-02-02 23:33:55,RH0220187,22,House,187,1832-06-22,,,RELIEF OF INSOLVENT DEBTORS OF U.S. (PROCEDURAL),57,73,,,Budget Special Interest,,Government Management,-0.178,0.984,-0.0,-0.029,,,-89.463066,0.502
+2017-02-02 23:33:55,RH0220188,22,House,188,1832-06-22,,,"$50,000 TO STOP ASIATIC CHOLERA",110,54,Science and Technology,,Domestic Social Policy,,Social Welfare,-0.344,-0.78,0.064,-0.307,0.037,0.683,-90.3,0.577
+2017-02-02 23:33:55,RH0220189,22,House,189,1832-06-22,,,CLAIMS OF VA.,110,58,,,Budget Special Interest,,Government Management,0.27,0.064,0.068,-0.291,0.138,0.702,-92.676,0.576
+2017-02-02 23:33:55,RH0220190,22,House,190,1832-06-22,,,40% NOT 30% AD VALOREM ON WOOL,113,75,Tariffs,,Regulation Special Interest,,Government Management,-0.124,0.061,-0.46,0.881,0.773,0.91,-37.865,0.818
+2017-02-02 23:33:55,RH0220191,22,House,191,1832-06-22,,,DUTY ON MILLED WOOLEN CLOTH,128,69,Tariffs,,Regulation Special Interest,,Government Management,0.139,0.865,-0.333,0.774,0.725,0.904,-47.907,0.784
+2017-02-02 23:33:55,RH0220192,22,House,192,1832-06-22,,,50% NOT 35% AD VALOREM DUTY ON WOOLEN YARD,110,79,Tariffs,,Regulation Special Interest,,Government Management,-0.111,0.109,-0.309,0.53,0.709,0.878,-45.667,0.785
+2017-02-02 23:33:55,RH0220193,22,House,193,1832-06-22,,,DUTY ON SILK,133,51,Tariffs,,Regulation Special Interest,,Government Management,-0.025,1.0,-0.147,0.27,0.373,0.826,-69.731,0.685
+2017-02-02 23:33:55,RH0220194,22,House,194,1832-06-22,,,DUTY ON SALT,87,101,Tariffs,,Regulation Special Interest,,Government Management,-0.063,0.034,0.667,-1.401,0.862,0.936,-31.267,0.847
+2017-02-02 23:33:55,RH0220195,22,House,195,1832-06-22,,,"DUTY ON CHINA, HATS, BRIDLES, ETC.",105,78,Tariffs,,Regulation Special Interest,,Government Management,-0.081,0.148,-0.565,0.839,0.821,0.923,-33.289,0.834
+2017-02-02 23:33:55,RH0220196,22,House,196,1832-06-22,,,DUTY ON SALT,96,97,Tariffs,,Regulation Special Interest,,Government Management,-0.082,0.077,0.328,-0.266,0.812,0.907,-39.84,0.813
+2017-02-02 23:33:55,RH0220197,22,House,197,1832-06-22,,,ADJOURN,113,74,,,Internal Organization,,Miscellaneous Policy,-0.088,0.996,-0.137,0.075,0.459,0.786,-86.752,0.629
+2017-02-02 23:33:55,RH0220198,22,House,198,1832-06-23,,,BUY HIST. OF REV. FOR HOUSE,77,83,,,Internal Organization,Budget Special Interest,Government Management,-0.09,0.001,0.148,-0.011,0.61,0.813,-67.696,0.655
+2017-02-02 23:33:55,RH0220199,22,House,199,1832-06-23,,,BUY HIST. OF REV. FOR HOUSE,88,93,,,Internal Organization,Budget Special Interest,Government Management,-0.038,-0.003,-0.157,0.033,0.648,0.829,-71.753,0.673
+2017-02-02 23:33:55,RH0220200,22,House,200,1832-06-23,,,DUTY ON MINERAL SALT,84,108,Tariffs,,Regulation Special Interest,,Government Management,-0.013,0.002,-0.304,0.104,0.821,0.922,-37.626,0.822
+2017-02-02 23:33:55,RH0220201,22,House,201,1832-06-23,,,DUTY ON MINERAL SALT,84,98,Tariffs,,Regulation Special Interest,,Government Management,-0.099,0.021,0.495,-0.343,0.857,0.934,-26.695,0.864
+2017-02-02 23:33:55,RH0220202,22,House,202,1832-06-23,,,DUTY ON COTTON GOODS,73,115,Tariffs,,Regulation Special Interest,,Government Management,-0.113,0.117,0.638,-1.307,0.836,0.936,-27.172,0.865
+2017-02-02 23:33:55,RH0220203,22,House,203,1832-06-23,,,DUTY ON IRON,73,113,Tariffs,,Regulation Special Interest,,Government Management,-0.152,0.111,0.576,-0.869,0.877,0.952,-28.93,0.856
+2017-02-02 23:33:55,RH0220204,22,House,204,1832-06-25,,,WHEN TO ADJOURN,118,52,,,Internal Organization,,Miscellaneous Policy,0.216,0.415,0.044,0.227,0.019,0.7,-95.745,0.569
+2017-02-02 23:33:55,RH0220205,22,House,205,1832-06-25,,,DUTY ON WOOL,68,112,Tariffs,,Regulation Special Interest,,Government Management,-0.188,-0.982,0.044,0.052,-0.074,0.594,-117.573,0.52
+2017-02-02 23:33:55,RH0220206,22,House,206,1832-06-25,,,DUTY ON CLOTHS,70,119,Tariffs,,Regulation Special Interest,,Government Management,0.022,-0.388,-0.258,0.2,0.829,0.937,-44.961,0.788
+2017-02-02 23:33:55,RH0220207,22,House,207,1832-06-25,,,10% NOT 18% AD VALOREM DUTY ON SILK,108,86,Tariffs,,Regulation Special Interest,,Government Management,0.176,0.984,-0.061,0.114,0.151,0.624,-121.471,0.535
+2017-02-02 23:33:55,RH0220208,22,House,208,1832-06-25,,,DUTY ON CLOTHS,58,130,Tariffs,,Regulation Special Interest,,Government Management,-0.004,0.654,0.357,-0.795,0.69,0.904,-37.784,0.818
+2017-02-02 23:33:55,RH0220209,22,House,209,1832-06-25,,,DUTY ON CLOTHS,87,100,Tariffs,,Regulation Special Interest,,Government Management,-0.076,-0.195,-0.497,0.85,0.828,0.92,-36.353,0.823
+2017-02-02 23:33:55,RH0220210,22,House,210,1832-06-25,,,$.35 NOT $.40 DUTY ON CLOTHS,102,85,Tariffs,,Regulation Special Interest,,Government Management,-0.107,-0.043,-0.375,0.563,0.835,0.925,-37.794,0.817
+2017-02-02 23:33:55,RH0220211,22,House,211,1832-06-26,,,HOW MUCH $$ DID J. DUNN TAKE,71,97,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.057,-0.334,-0.084,0.173,0.197,0.661,-96.23,0.564
+2017-02-02 23:33:55,RH0220212,22,House,212,1832-06-26,,,DUTY ON SHIP BLDG. MATERIALS,63,112,Tariffs,,Regulation Special Interest,,Government Management,-0.239,0.015,0.142,-0.022,0.476,0.811,-74.737,0.652
+2017-02-02 23:33:55,RH0220213,22,House,213,1832-06-26,,,DRAWBACKS ON SHIP BLDG. MATERIALS,86,88,Tariffs,,Regulation Special Interest,,Government Management,0.112,0.479,0.198,-0.438,0.605,0.805,-58.851,0.713
+2017-02-02 23:33:55,RH0220214,22,House,214,1832-06-26,,,DUTY ON IRON,57,110,Tariffs,,Regulation Special Interest,,Government Management,-0.138,-0.99,-0.255,0.349,0.561,0.85,-51.439,0.735
+2017-02-02 23:33:55,RH0220215,22,House,215,1832-06-26,,,TARIFFS (PROCEDURAL),85,74,Tariffs,,Regulation General Interest,,Government Management,-0.01,-0.026,0.067,-0.021,0.419,0.73,-96.116,0.546
+2017-02-02 23:33:55,RH0220216,22,House,216,1832-06-26,,,DRAWBACKS ON U.S. SHIPS,95,94,Tariffs,,Regulation Special Interest,,Government Management,0.06,0.569,0.2,-0.242,0.67,0.836,-65.329,0.708
+2017-02-02 23:33:55,RH0220217,22,House,217,1832-06-26,,,DRAWBACKS ON SHIP BLDG. MATERIALS,82,100,Tariffs,,Regulation Special Interest,,Government Management,0.244,0.409,-0.083,0.233,0.256,0.665,-104.752,0.562
+2017-02-02 23:33:55,RH0220218,22,House,218,1832-06-26,,,DRAWBACKS ON SHIP BLDG. MATERIALS,93,96,Tariffs,,Regulation Special Interest,,Government Management,0.211,0.919,0.222,-0.371,0.624,0.815,-67.507,0.7
+2017-02-02 23:33:55,RH0220219,22,House,219,1832-06-26,,,DUTY ON IRON,42,135,Tariffs,,Regulation Special Interest,,Government Management,-0.303,0.326,0.168,-0.259,0.262,0.825,-55.84,0.729
+2017-02-02 23:33:55,RH0220220,22,House,220,1832-06-26,,,DUTY ON CLOTHS,85,102,Tariffs,,Regulation Special Interest,,Government Management,-0.014,-0.047,-0.7,0.93,0.824,0.92,-28.761,0.857
+2017-02-02 23:33:55,RH0220221,22,House,221,1832-06-26,,,DRAWBACK ON IRON USED IN FARM EQUIP.,37,124,Tariffs,,Regulation Special Interest,,Government Management,-0.402,-0.129,0.227,-0.287,0.568,0.901,-40.072,0.78
+2017-02-02 23:33:55,RH0220222,22,House,222,1832-06-26,,,TARIFFS (ADJOURN),95,81,Tariffs,,Regulation General Interest,,Government Management,-0.192,0.376,-0.081,-0.113,0.42,0.733,-98.444,0.572
+2017-02-02 23:33:55,RH0220223,22,House,223,1832-06-27,,,"ADJOURN JULY 5, 1832",90,84,,,Internal Organization,,Miscellaneous Policy,0.397,-0.918,0.071,0.144,0.452,0.736,-105.722,0.545
+2017-02-02 23:33:55,RH0220224,22,House,224,1832-06-27,,,"ADJOURN JULY 5, 1832",90,96,,,Internal Organization,,Miscellaneous Policy,0.439,-0.898,0.077,0.213,0.356,0.688,-108.902,0.557
+2017-02-02 23:33:55,RH0220225,22,House,225,1832-06-27,,,BLD. 2 STEAM BATTERIES,74,100,,,Defense Policy Budget,,Foreign and Defense Policy,0.218,0.472,-0.076,0.12,0.257,0.684,-104.199,0.549
+2017-02-02 23:33:55,RH0220226,22,House,226,1832-06-27,,,INCORP. ST. FRANCIS RD. CO.,74,88,Public Works,,Government Organization,,Government Management,-0.0,0.041,-0.082,-0.0,0.338,0.698,-94.203,0.559
+2017-02-02 23:33:55,RH0220227,22,House,227,1832-06-27,,,INTERNAL IMPROV.,98,87,Public Works,,Budget General Interest,,Government Management,-0.281,-0.744,-0.235,0.316,0.713,0.865,-61.932,0.716
+2017-02-02 23:33:55,RH0220228,22,House,228,1832-06-27,,,"30% NOT 25% AD VALOREM ON MITS, GLOVES, ETC.",90,94,Tariffs,,Regulation Special Interest,,Government Management,-0.048,-0.005,-0.769,0.923,0.9,0.951,-20.341,0.895
+2017-02-02 23:33:55,RH0220229,22,House,229,1832-06-27,,,TARIFFS (PROCEDURAL),99,84,Tariffs,,Regulation General Interest,,Government Management,0.027,-0.154,0.127,0.083,0.607,0.82,-80.342,0.645
+2017-02-02 23:33:55,RH0220230,22,House,230,1832-06-27,,,DRAWBACK ON SHIP BLDG. MATERIALS,97,90,Tariffs,,Regulation Special Interest,,Government Management,0.105,0.794,0.318,-0.309,0.822,0.914,-44.726,0.787
+2017-02-02 23:33:55,RH0220231,22,House,231,1832-06-27,,,DRAWBACK ON SHIP BLDG. MATERIALS,65,119,Tariffs,,Regulation Special Interest,,Government Management,-0.447,-0.097,0.047,0.108,0.108,0.685,-112.463,0.543
+2017-02-02 23:33:55,RH0220232,22,House,232,1832-06-27,,,DRAWBACK ON SHIP BLDG. MATERIALS,98,97,Tariffs,,Regulation Special Interest,,Government Management,0.107,0.994,0.272,-0.247,0.732,0.867,-58.675,0.74
+2017-02-02 23:33:55,RH0220233,22,House,233,1832-06-27,,,DUTY ON SAIL DUCK,98,94,Tariffs,,Regulation Special Interest,,Government Management,-0.156,-0.563,0.27,-0.257,0.798,0.901,-50.798,0.768
+2017-02-02 23:33:55,RH0220234,22,House,234,1832-06-27,,,$4.80 = 1 LB. STERLING,79,114,Exchange Rates,,Regulation General Interest,,Government Management,-0.119,0.081,0.696,-0.998,0.797,0.917,-33.196,0.842
+2017-02-02 23:33:55,RH0220235,22,House,235,1832-06-27,,,$40 NOT $35/TON ON HEMP,98,92,Tariffs,,Regulation Special Interest,,Government Management,-0.086,-0.072,-0.231,0.13,0.804,0.905,-52.254,0.76
+2017-02-02 23:33:55,RH0220236,22,House,236,1832-06-27,,,DUTY ON COTTON BAGGING,96,100,Tariffs,,Regulation Special Interest,,Government Management,-0.11,-0.268,-0.39,0.37,0.812,0.908,-38.011,0.824
+2017-02-02 23:33:55,RH0220237,22,House,237,1832-06-27,,,$.63 NO $.50/SQ. YD. BRUSSELS CARPETING,98,92,Tariffs,,Regulation Special Interest,,Government Management,-0.082,0.006,-0.721,0.838,0.88,0.942,-25.126,0.876
+2017-02-02 23:33:55,RH0220238,22,House,238,1832-06-27,,,DUTY ON VENETIAN CARPETING,93,96,Tariffs,,Regulation Special Interest,,Government Management,-0.079,-0.022,-0.762,0.612,0.86,0.931,-27.631,0.864
+2017-02-02 23:33:55,RH0220239,22,House,239,1832-06-27,,,DUTY ON FLANNELS & BAIZES,93,91,Tariffs,,Regulation Special Interest,,Government Management,-0.088,-0.065,-0.769,0.837,0.923,0.962,-18.889,0.902
+2017-02-02 23:33:55,RH0220240,22,House,240,1832-06-27,,,TARIFFS,98,85,Tariffs,,Regulation General Interest,,Government Management,-0.05,0.187,0.107,0.274,0.541,0.787,-82.675,0.636
+2017-02-02 23:33:55,RH0220241,22,House,241,1832-06-27,,,TARIFFS,122,65,Tariffs,,Regulation General Interest,,Government Management,-0.551,0.487,0.005,0.351,0.154,0.706,-98.278,0.591
+2017-02-02 23:33:55,RH0220242,22,House,242,1832-06-28,,,HOW MUCH $$ JOHN DUNN TAKE,47,93,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.047,0.509,0.082,-0.233,0.362,0.786,-69.462,0.609
+2017-02-02 23:33:55,RH0220243,22,House,243,1832-06-28,,,HOW MUCH $$ JOHN DUNN TAKE,104,49,Impeachments and Investigations,,Internal Organization,,Miscellaneous Policy,-0.275,0.142,-0.098,0.22,0.265,0.765,-72.648,0.622
+2017-02-02 23:33:55,RH0220244,22,House,244,1832-06-28,,,"ADJOURN JULY 5, 1832 (PROCEDURAL)",75,95,,,Internal Organization,,Miscellaneous Policy,0.385,-0.851,-0.135,-0.27,0.573,0.812,-79.227,0.627
+2017-02-02 23:33:55,RH0220245,22,House,245,1832-06-28,,,"ADJOURN JULY 9, 1832",139,49,,,Internal Organization,,Miscellaneous Policy,0.416,-0.501,0.116,0.113,0.204,0.793,-89.46,0.621
+2017-02-02 23:33:55,RH0220246,22,House,246,1832-06-28,,,TARIFFS,132,60,Tariffs,,Regulation General Interest,,Government Management,-0.199,0.409,-0.028,0.357,0.25,0.766,-95.466,0.608
+2017-02-02 23:33:55,RH0220247,22,House,247,1832-06-28,,,TARIFFS,133,65,Tariffs,,Regulation General Interest,,Government Management,-0.514,0.599,0.009,0.325,0.123,0.712,-102.966,0.595
+2017-02-02 23:33:55,RH0220248,22,House,248,1832-06-30,,,CHICKASAW TREATY LAND,65,92,Public Lands,,Indian Affairs,,Government Management,0.01,0.064,-0.209,-0.065,0.785,0.911,-42.775,0.762
+2017-02-02 23:33:55,RH0220249,22,House,249,1832-06-30,,,FAST FOR DELIV. FROM ASIATIC CHOLERA,64,102,,,Domestic Social Policy,,Miscellaneous Policy,-0.169,-0.011,0.205,0.009,0.609,0.849,-53.194,0.726
+2017-02-02 23:33:55,RH0220250,22,House,250,1832-06-30,,,FAST FOR DELIV. FROM ASIATIC CHOLERA,99,62,,,Domestic Social Policy,,Miscellaneous Policy,-0.173,0.22,-0.241,0.117,0.645,0.863,-43.975,0.761
+2017-02-02 23:33:55,RH0220251,22,House,251,1832-06-30,,,INCORP. NATL. BANK,74,100,National Bank,,Budget General Interest,,Government Management,-0.139,0.033,1.078,0.331,0.838,0.931,-27.7,0.853
+2017-02-02 23:33:55,RH0220252,22,House,252,1832-06-30,,,INCORP. NATL. BANK,71,112,National Bank,,Budget General Interest,,Government Management,-0.182,-0.011,0.227,0.066,0.676,0.874,-52.285,0.751
+2017-02-02 23:33:55,RH0220253,22,House,253,1832-06-30,,,INCORP. NATL. BANK,57,114,National Bank,,Budget General Interest,,Government Management,-0.166,-0.464,0.203,0.183,0.579,0.86,-50.292,0.745
+2017-02-02 23:33:55,RH0220254,22,House,254,1832-07-02,,,PROCEDURAL,58,114,,,Internal Organization,,Miscellaneous Policy,-0.118,-0.993,0.177,0.134,0.414,0.802,-64.495,0.687
+2017-02-02 23:33:55,RH0220255,22,House,255,1832-07-02,,,STATE TAX ON NATL. BANK,89,93,National Bank,,Budget General Interest,,Government Management,-0.055,0.048,0.183,0.201,0.742,0.874,-56.603,0.733
+2017-02-02 23:33:55,RH0220256,22,House,256,1832-07-02,,,STATE TAX ON NATL. BANK,81,103,National Bank,,Budget General Interest,,Government Management,-0.131,0.017,0.297,0.109,0.827,0.924,-35.125,0.826
+2017-02-02 23:33:55,RH0220257,22,House,257,1832-07-02,,,STATE TAX ON NATL. BANK,67,109,National Bank,,Budget General Interest,,Government Management,-0.082,-0.997,0.219,0.139,0.716,0.892,-55.06,0.731
+2017-02-02 23:33:55,RH0220258,22,House,258,1832-07-02,,,STATE TAX ON NATL. BANK,81,97,National Bank,,Budget General Interest,,Government Management,-0.106,0.046,0.194,0.1,0.778,0.899,-51.716,0.748
+2017-02-02 23:33:55,RH0220259,22,House,259,1832-07-02,,,STATE TAX ON NATL. BANK,88,94,National Bank,,Budget General Interest,,Government Management,-0.081,0.029,0.245,0.109,0.841,0.923,-40.476,0.801
+2017-02-02 23:33:55,RH0220260,22,House,260,1832-07-02,,,TAX ON FOREIGNERS HAVING NATL. BANK STOCK,69,110,National Bank,,Budget Special Interest,,Government Management,-0.044,-0.582,0.163,0.222,0.507,0.81,-64.476,0.698
+2017-02-02 23:33:55,RH0220261,22,House,261,1832-07-02,,,5% INT. PER ANNUM ON N.B. LOANS,83,103,National Bank,,Budget General Interest,,Government Management,-0.123,0.002,0.206,0.005,0.723,0.876,-55.616,0.742
+2017-02-02 23:33:55,RH0220262,22,House,262,1832-07-02,,,TAX ON FORS. HAVING N.B. STOCK,79,101,National Bank,,Budget General Interest,,Government Management,-0.122,0.02,0.287,0.115,0.785,0.906,-37.337,0.813
+2017-02-02 23:33:55,RH0220263,22,House,263,1832-07-02,,,INCORP. NATL. BANK,84,104,National Bank,,Budget General Interest,,Government Management,-0.141,0.095,1.036,0.133,0.869,0.941,-27.089,0.866
+2017-02-02 23:33:55,RH0220264,22,House,264,1832-07-02,,,"N.B. PAYS $250,000 TO U.S. YEARLY",73,109,National Bank,,Budget General Interest,,Government Management,-0.179,0.007,0.271,0.038,0.781,0.912,-41.644,0.795
+2017-02-02 23:33:55,RH0220265,22,House,265,1832-07-02,,,INCORP. NATL. BANK,82,95,National Bank,,Budget General Interest,,Government Management,-0.235,-0.972,-0.136,0.168,0.451,0.746,-91.4,0.597
+2017-02-02 23:33:55,RH0220266,22,House,266,1832-07-03,,,PROCEDURAL,83,90,National Bank,,Internal Organization,,Miscellaneous Policy,-0.278,0.875,-0.129,-0.207,0.59,0.803,-83.275,0.618
+2017-02-02 23:33:55,RH0220267,22,House,267,1832-07-03,,,INCORP. NATL. BANK,96,82,National Bank,,Budget General Interest,,Government Management,-0.103,0.002,-0.162,0.022,0.671,0.848,-67.1,0.686
+2017-02-02 23:33:55,RH0220268,22,House,268,1832-07-03,,,INCORP. NATL. BANK,106,84,National Bank,,Budget General Interest,,Government Management,-0.14,0.036,-0.362,-0.052,0.833,0.926,-34.281,0.835
+2017-02-02 23:33:55,RH0220269,22,House,269,1832-07-03,,,INCORP. NATL. BANK,124,60,National Bank,,Budget General Interest,,Government Management,-0.178,-0.984,-0.165,-0.089,0.333,0.783,-76.04,0.661
+2017-02-02 23:33:55,RH0220270,22,House,270,1832-07-03,,,INCORP. NATL. BANK,109,76,National Bank,,Budget General Interest,,Government Management,-0.163,-0.115,-0.171,0.069,0.632,0.849,-69.964,0.685
+2017-02-02 23:33:55,RH0220271,22,House,271,1832-07-03,,,INCORP. NATL. BANK,107,86,National Bank,,Budget General Interest,,Government Management,-0.142,0.017,-0.353,-0.035,0.837,0.927,-35.694,0.831
+2017-02-02 23:33:55,RH0220272,22,House,272,1832-07-03,,,SALE OF PUB. LANDS,91,88,Public Lands,,Budget General Interest,,Government Management,-0.093,-0.257,0.366,-0.163,0.841,0.922,-33.948,0.827
+2017-02-02 23:33:55,RH0220273,22,House,273,1832-07-04,,,SALE OF PUB. LANDS,88,100,Public Lands,,Budget General Interest,,Government Management,-0.052,0.011,-0.758,0.076,0.898,0.952,-20.418,0.897
+2017-02-02 23:33:55,RH0220274,22,House,274,1832-07-04,,,UNKNOWN,24,131,,,,,,-0.601,-0.799,0.117,0.057,0.083,0.858,-60.723,0.676
+2017-02-02 23:33:55,RH0220275,22,House,275,1832-07-04,,,PAY VA. CLAIMS,90,68,,,Budget Special Interest,,Government Management,0.32,0.947,0.095,-0.135,0.294,0.696,-92.433,0.557
+2017-02-02 23:33:55,RH0220276,22,House,276,1832-07-04,,,ADJOURN,30,113,,,Internal Organization,,Miscellaneous Policy,-0.187,0.982,0.1,-0.198,0.167,0.825,-59.341,0.66
+2017-02-02 23:33:55,RH0220277,22,House,277,1832-07-05,,,APPT. TREATY NEGOTIATORS,81,78,Treaties,,Indian Affairs,Government Organization,Government Management,-0.059,0.005,0.251,0.131,0.846,0.925,-35.182,0.801
+2017-02-02 23:33:55,RH0220278,22,House,278,1832-07-05,,,APPT. TREATY NEGOTIATORS,114,45,Treaties,,Indian Affairs,Government Organization,Government Management,0.131,0.572,0.137,0.176,0.311,0.805,-62.351,0.676
+2017-02-02 23:33:55,RH0220279,22,House,279,1832-07-05,,,FAST FOR DELIV. FROM ASIATIC CHOLERA,46,91,,,Domestic Social Policy,,Miscellaneous Policy,-0.195,-0.007,0.266,0.008,0.609,0.869,-34.17,0.779
+2017-02-02 23:33:55,RH0220280,22,House,280,1832-07-05,,,ADJOURN,71,67,,,Internal Organization,,Miscellaneous Policy,0.096,-0.995,0.187,0.097,0.642,0.826,-50.634,0.693
+2017-02-02 23:33:55,RH0220281,22,House,281,1832-07-06,,,ADJOURN,34,72,,,Internal Organization,,Miscellaneous Policy,-0.302,-0.953,0.169,0.009,0.412,0.811,-45.358,0.652
+2017-02-02 23:33:55,RH0220282,22,House,282,1832-07-06,,,ADJOURN,54,61,,,Internal Organization,,Miscellaneous Policy,-0.214,-0.977,0.102,-0.043,0.333,0.687,-66.866,0.559
+2017-02-02 23:33:55,RH0220283,22,House,283,1832-07-07,,,RELIEF OF COL. JOHN LAURENS,81,44,,,Budget Special Interest,,Government Management,-0.184,0.058,-0.122,0.053,0.318,0.76,-60.427,0.617
+2017-02-02 23:33:55,RH0220284,22,House,284,1832-07-07,,,PROCEDURAL,76,45,,,Internal Organization,,Miscellaneous Policy,-0.485,-0.251,-0.046,0.012,0.067,0.653,-77.641,0.526
+2017-02-02 23:33:55,RH0220285,22,House,285,1832-07-09,,,FAST FOR DELIV. FROM ASIATIC CHOLERA,59,79,,,Domestic Social Policy,,Miscellaneous Policy,-0.164,0.032,0.204,-0.066,0.627,0.841,-44.373,0.725
+2017-02-02 23:33:55,RH0220286,22,House,286,1832-07-09,,,FAST FOR DELIV. FROM ASIATIC CHOLERA,86,70,,,Domestic Social Policy,,Miscellaneous Policy,-0.14,0.99,0.248,0.216,0.829,0.923,-41.151,0.768
+2017-02-02 23:33:55,RH0220287,22,House,287,1832-07-09,,,INSULT OF SPEAKER,95,62,,,Internal Organization,,Miscellaneous Policy,-0.052,-0.802,0.275,-0.139,0.742,0.898,-39.184,0.779
+2017-02-02 23:33:55,RH0220288,22,House,288,1832-07-10,,,TARIFFS,83,78,Tariffs,,Regulation General Interest,,Government Management,-0.098,-0.314,-0.184,-0.006,0.769,0.888,-54.352,0.713
+2017-02-02 23:33:55,RH0220289,22,House,289,1832-07-10,,,DUTY ON WOOL CLOTHS,73,97,Tariffs,,Regulation Special Interest,,Government Management,0.015,-0.013,-0.699,0.818,0.863,0.941,-25.551,0.86
+2017-02-02 23:33:55,RH0220290,22,House,290,1832-07-10,,,$.35 NOT $.45 ON INGRAINED CARPETING,155,15,Tariffs,,Regulation Special Interest,,Government Management,0.29,-0.957,0.122,-0.239,0.0,0.912,-46.774,0.759
+2017-02-02 23:33:55,RH0220291,22,House,291,1832-07-10,,,57% NOT 50% AD VALOREM ON MERINO SHAWLS,121,44,Tariffs,,Regulation Special Interest,,Government Management,0.054,0.999,0.151,0.166,0.318,0.818,-62.787,0.684
+2017-02-02 23:33:55,RH0220292,22,House,292,1832-07-10,,,57% NOT 50% AD VALOREM ON MERINO SHAWLS,84,91,Tariffs,,Regulation Special Interest,,Government Management,0.023,0.344,-0.716,0.764,0.845,0.926,-23.558,0.874
+2017-02-02 23:33:55,RH0220293,22,House,293,1832-07-10,,,DUTY ON SAIL DUCK,69,98,Tariffs,,Regulation Special Interest,,Government Management,-0.079,-0.583,-0.252,0.259,0.812,0.922,-43.15,0.772
+2017-02-02 23:33:55,RH0220294,22,House,294,1832-07-10,,,$.04 NOT $.035/SQ. YD. COTTON BAGGING,77,95,Tariffs,,Regulation Special Interest,,Government Management,-0.014,0.006,-0.549,0.452,0.87,0.942,-26.239,0.859
+2017-02-02 23:33:55,RH0220295,22,House,295,1832-07-10,,,$.03 NOT $.025/LB BROWN SUGAR,78,81,Tariffs,,Regulation Special Interest,,Government Management,-0.094,0.029,0.249,-0.039,0.756,0.881,-40.059,0.777
+2017-02-02 23:33:55,RH0220296,22,House,296,1832-07-10,,,$.03 NOT $.025/LB BROWN SUGAR,74,93,Tariffs,,Regulation Special Interest,,Government Management,-0.012,0.013,-0.577,0.472,0.851,0.934,-24.336,0.864
+2017-02-02 23:33:55,RH0220297,22,House,297,1832-07-10,,,35% NOT 25% AD VALOREM SLATES,63,90,Tariffs,,Regulation Special Interest,,Government Management,-0.187,-0.616,-0.305,0.53,0.762,0.902,-39.418,0.773
+2017-02-02 23:33:55,RH0220298,22,House,298,1832-07-11,,,CENSURE WM. STANBERY,104,25,,,Internal Organization,,Miscellaneous Policy,0.105,0.944,0.165,0.237,0.24,0.853,-38.998,0.739
+2017-02-02 23:33:55,RH0220299,22,House,299,1832-07-11,,,CENSURE WM. STANBERY,83,48,,,Internal Organization,,Miscellaneous Policy,0.083,-0.4,0.207,0.133,0.75,0.908,-34.739,0.767
+2017-02-02 23:33:55,RH0220300,22,House,300,1832-07-11,,,CENSURE WM. STANBERY (PROCEDURAL),53,73,,,Internal Organization,,Miscellaneous Policy,0.195,-0.924,-0.132,-0.148,0.566,0.817,-60.584,0.618
+2017-02-02 23:33:55,RH0220301,22,House,301,1832-07-11,,,CENSURE WM. STANBERY,89,41,,,Internal Organization,,Miscellaneous Policy,0.128,0.019,0.198,0.212,0.634,0.885,-33.044,0.776
+2017-02-02 23:33:55,RH0220302,22,House,302,1832-07-11,,,EXCUSE ADAMS FRM VOTING ON STANBERY CENSURE,59,74,,,Internal Organization,,Miscellaneous Policy,-0.012,-0.954,-0.152,-0.045,0.593,0.82,-60.191,0.636
+2017-02-02 23:33:55,RH0220303,22,House,303,1832-07-11,,,CENSURE WM. STANBERY,93,44,,,Internal Organization,,Miscellaneous Policy,0.076,0.01,0.448,0.248,0.886,0.964,-12.564,0.912
+2017-02-02 23:33:55,RH0220304,22,House,304,1832-07-12,,,J.Q. ADAMS' REFUSAL TO VOTE,59,63,,,Internal Organization,,Miscellaneous Policy,-0.039,-0.066,-0.175,-0.105,0.746,0.877,-40.388,0.718
+2017-02-02 23:33:55,RH0220305,22,House,305,1832-07-12,,,J.Q. ADAMS' REFUSAL TO VOTE,89,63,,,Internal Organization,,Miscellaneous Policy,-0.147,-0.001,-0.204,-0.084,0.651,0.855,-46.712,0.735
+2017-02-02 23:33:55,RH0220306,22,House,306,1832-07-12,,,PUBLISH STEREOTYPE ED. OF LAWS,74,69,,,Budget Special Interest,,Government Management,0.013,-0.12,0.265,0.389,0.797,0.902,-28.57,0.819
+2017-02-02 23:33:55,RH0220307,22,House,307,1832-07-12,,,$1.1M FOR CUMB. & ARK. RIVS.,75,53,Public Works,,Budget Special Interest,,Government Management,-0.092,0.128,-0.304,0.203,0.717,0.883,-29.009,0.797
+2017-02-02 23:33:55,RH0220308,22,House,308,1832-07-12,,,ADJOURN,49,76,,,Internal Organization,,Miscellaneous Policy,-0.133,0.991,0.216,-0.025,0.653,0.864,-41.359,0.718
+2017-02-02 23:33:55,RH0220309,22,House,309,1832-07-13,,,ELIM. LAND CLAIMS ILL. & MO. (ADJOURN),52,30,Public Lands,,Indian Affairs,,Government Management,-0.208,-0.936,0.131,-0.222,0.367,0.768,-39.252,0.62
+2017-02-02 23:33:55,RH0220310,22,House,310,1832-07-13,,,BUY COPIES ELIOT'S DEBATES FOR HOUSE,63,53,,,Internal Organization,Budget Special Interest,Government Management,-0.017,-0.031,0.167,-0.101,0.623,0.828,-43.975,0.684
+2017-02-02 23:33:55,RH0220311,22,House,311,1832-07-13,,,ELIM. LAND CLAIMS ILL. & MO.,67,56,Public Lands,,Indian Affairs,,Government Management,0.022,0.262,0.089,-0.072,0.446,0.748,-67.262,0.579
+2017-02-02 23:33:55,RH0220312,22,House,312,1832-07-13,,,RELIEF OF STEPHEN PLEASONTON,67,46,,,Budget Special Interest,,Government Management,-0.002,0.976,0.042,0.06,-0.065,0.566,-73.844,0.52
+2017-02-02 23:33:55,RH0220313,22,House,313,1832-07-13,,,RELIEF OF REBECCA BLODGET,72,39,,,Budget Special Interest,,Government Management,-0.42,0.844,-0.1,-0.067,0.154,0.703,-62.212,0.571
+2017-02-02 23:33:55,RH0220314,22,House,314,1832-07-14,,,ALTER BRIDGE OVER POTOMAC,47,74,Public Works,,Budget Special Interest,D. C.,Government Management,-0.257,0.966,0.134,0.043,0.34,0.744,-59.825,0.61
+2017-02-02 23:33:55,RH0220315,22,House,315,1832-07-14,,,ALTER BRIDGE OVER POTOMAC,71,44,Public Works,,Budget Special Interest,D. C.,Government Management,-0.265,0.964,-0.128,-0.054,0.341,0.748,-57.71,0.605
+2017-02-02 23:33:55,RH0220316,22,House,316,1832-07-14,,,SETTLE STATE CLAIMS ON U.S. FOR 1812 WAR,52,65,,,Budget General Interest,,Government Management,-0.149,-0.184,0.157,-0.034,0.5,0.778,-48.498,0.661
+2017-02-02 23:33:55,RH0220317,22,House,317,1832-07-14,,,SETTLE STATE CLAIMS ON U.S. FOR 1812 WAR,51,63,,,Budget General Interest,,Government Management,-0.143,0.005,0.175,-0.006,0.608,0.825,-40.667,0.7
+2017-02-02 23:33:55,RH0220318,22,House,318,1832-07-14,,,SETTLE STATE CLAIMS ON U.S. FOR 1812 WAR,76,35,,,Budget General Interest,,Government Management,-0.303,0.003,-0.143,0.077,0.314,0.784,-48.387,0.647
+2017-02-02 23:33:55,RH0220319,22,House,319,1832-07-14,,,PROCEDURAL,37,39,,,Internal Organization,,Miscellaneous Policy,-0.064,0.247,-0.087,-0.057,0.351,0.684,-42.935,0.568
+2017-02-02 23:33:55,RH0220320,22,House,320,1832-12-11,,,SALE OF PUB. LANDS,89,83,Public Lands,,Budget General Interest,,Government Management,-0.086,0.057,-0.239,0.003,0.807,0.907,-43.674,0.776
+2017-02-02 23:33:55,RH0220321,22,House,321,1832-12-11,,,SALE OF PUB. LANDS,106,78,Public Lands,,Budget General Interest,,Government Management,-0.156,0.291,-0.16,-0.009,0.577,0.821,-72.973,0.673
+2017-02-02 23:33:55,RH0220322,22,House,322,1832-12-12,,,"PRINT 10,000 COPIES OF REPT. ABT. NATL. BANK",85,100,National Bank,,Budget General Interest,,Government Management,-0.121,-0.01,0.273,0.196,0.812,0.914,-40.903,0.802
+2017-02-02 23:33:55,RH0220323,22,House,323,1832-12-13,,,PUB. LANDS & CHICKASAW TREATY,74,91,Treaties,,Indian Affairs,,Government Management,0.007,-0.109,-0.209,-0.14,0.797,0.909,-42.414,0.773
+2017-02-02 23:33:55,RH0220324,22,House,324,1832-12-13,,,PRES'S MSG. ABT. SALE OF NATL. BANK STOCK,91,77,National Bank,,Budget General Interest,,Government Management,-0.009,0.013,0.284,0.194,0.857,0.935,-29.267,0.84
+2017-02-02 23:33:55,RH0220325,22,House,325,1832-12-14,,,WHEN TO ADJOURN,80,88,,,Internal Organization,,Miscellaneous Policy,-0.371,0.568,0.053,0.108,0.25,0.643,-106.502,0.53
+2017-02-02 23:33:55,RH0220326,22,House,326,1832-12-14,,,CONST. AMEND. ABT. INT. IMPROVEMENTS,59,118,Constitutional Amendments,,Government Organization,,Government Management,0.186,-0.473,-0.09,0.029,0.153,0.718,-95.317,0.584
+2017-02-02 23:33:55,RH0220327,22,House,327,1832-12-17,,,RELIEF OF JOSEPH DU COMMUN,53,114,,,Budget Special Interest,,Government Management,-0.377,-0.926,-0.045,0.235,-0.038,0.671,-96.47,0.561
+2017-02-02 23:33:55,RH0220328,22,House,328,1832-12-18,,,IND. RESV. LAND & CHICKASAW TREATY,93,88,Treaties,,Indian Affairs,,Government Management,0.094,-0.777,0.232,0.248,0.727,0.867,-49.639,0.76
+2017-02-02 23:33:55,RH0220329,22,House,329,1832-12-20,,,CONST. AMEND. ABT. CONGMN. & CIVIL OFFICE,88,91,Constitutional Amendments,,Government Organization,,Government Management,-0.032,-0.591,0.158,0.081,0.659,0.832,-71.103,0.672
+2017-02-02 23:33:55,RH0220330,22,House,330,1832-12-26,,,WHAT CONGMN. SERVED,54,118,,,Government Organization,,Government Management,-0.01,-0.981,0.094,0.195,0.185,0.744,-83.046,0.617
+2017-02-02 23:33:55,RH0220331,22,House,331,1832-12-26,,,WHAT CONGMN. SERVED,72,103,,,Government Organization,,Government Management,0.156,-0.763,0.045,0.152,0.306,0.714,-107.079,0.542
+2017-02-02 23:33:55,RH0220332,22,House,332,1832-12-26,,,WHAT CONGMN. SERVED,102,73,,,Government Organization,,Government Management,0.208,-0.837,-0.134,-0.311,0.534,0.806,-73.342,0.658
+2017-02-02 23:33:55,RH0220333,22,House,333,1832-12-26,,,"LAND FOR ASYLUMS, BLIND, DEAF, DUMB",70,99,Public Lands,,Domestic Social Policy,,Social Welfare,0.091,0.383,-0.165,0.106,0.6,0.834,-65.205,0.68
+2017-02-02 23:33:55,RH0220334,22,House,334,1832-12-27,,,GET PROCLAMATION FROM PRES. ABT. S.C.,65,106,Nullification/Secession/Reconstruction,,Government Organization,,Government Management,0.271,-0.963,-0.191,-0.136,0.508,0.813,-66.041,0.68
+2017-02-02 23:33:55,RH0220335,22,House,335,1832-12-27,,,"LAND FOR ASYLUMS, BLINK, DEAF, DUMB",84,88,Public Lands,,Domestic Social Policy,,Social Welfare,-0.049,0.013,-0.212,0.111,0.726,0.866,-52.658,0.736
+2017-02-02 23:33:55,RH0220336,22,House,336,1832-12-29,,,WHEN TO ADJOURN,99,70,,,Internal Organization,,Miscellaneous Policy,-0.374,0.904,0.018,0.111,0.0,0.586,-113.229,0.512
+2017-02-02 23:33:55,RH0220337,22,House,337,1833-01-03,,,CONSDIER TARIFF BILLS,106,77,Tariffs,,Regulation General Interest,,Government Management,0.003,-0.061,0.728,-0.64,0.857,0.94,-21.598,0.889
+2017-02-02 23:33:55,RH0220338,22,House,338,1833-01-03,,,POSTAL RATES,89,89,,,Budget Special Interest,,Government Management,-0.084,0.028,0.265,-0.12,0.809,0.904,-44.212,0.78
+2017-02-02 23:33:55,RH0220339,22,House,339,1833-01-03,,,PRINT ONLY HOUSE OR D.C. BUS.,102,70,,,Internal Organization,Budget Special Interest,Government Management,0.056,0.143,0.168,-0.067,0.586,0.831,-62.082,0.697
+2017-02-02 23:33:55,RH0220340,22,House,340,1833-01-04,,,CONSIDER TARIFF BILLS,107,85,Tariffs,,Regulation General Interest,,Government Management,-0.012,-0.008,0.394,-0.432,0.8,0.911,-38.06,0.82
+2017-02-02 23:33:55,RH0220341,22,House,341,1833-01-05,,,APPT. REPORTER OF SUP. CT.,161,14,Supreme Court,,Government Organization,,Government Management,0.303,0.788,0.135,0.31,-0.071,0.914,-42.923,0.782
+2017-02-02 23:33:55,RH0220342,22,House,342,1833-01-05,,,CLAIM OF J.S. FLEMING,94,65,,,Budget Special Interest,,Government Management,-0.76,-0.235,-0.041,0.247,0.185,0.667,-97.631,0.541
+2017-02-02 23:33:55,RH0220343,22,House,343,1833-01-05,,,CONSIDER TARIFF BILLS (PROCEDURAL),71,117,Tariffs,,Regulation General Interest,,Government Management,0.01,-0.27,-0.374,0.434,0.732,0.899,-42.497,0.798
+2017-02-02 23:33:55,RH0220344,22,House,344,1833-01-05,,,CONSIDER TARIFF BILLS (PROCEDURAL),78,111,Tariffs,,Regulation General Interest,,Government Management,0.015,-0.011,-0.695,0.821,0.833,0.931,-25.515,0.874
+2017-02-02 23:33:55,RH0220345,22,House,345,1833-01-05,,,CONSIDER TARIFF BILLS (PROCEDURAL),107,88,Tariffs,,Regulation General Interest,,Government Management,-0.013,0.048,0.703,-0.84,0.864,0.938,-29.647,0.859
+2017-02-02 23:33:55,RH0220346,22,House,346,1833-01-07,,,CONSIDER TARIFF BILLS,118,82,Tariffs,,Regulation General Interest,,Government Management,0.005,-0.039,0.713,-0.751,0.841,0.935,-29.594,0.862
+2017-02-02 23:33:55,RH0220347,22,House,347,1833-01-08,,,TARIFFS,98,89,Tariffs,,Regulation General Interest,,Government Management,0.013,0.384,0.271,-0.194,0.775,0.893,-46.094,0.782
+2017-02-02 23:33:55,RH0220348,22,House,348,1833-01-08,,,RELIEF OF MAJ. GEN. ALEXANDER MACOMB,102,78,,,Budget Special Interest,,Government Management,-0.056,-0.283,0.293,-0.24,0.769,0.9,-39.825,0.802
+2017-02-02 23:33:55,RH0220349,22,House,349,1833-01-12,,,REFUND SEDITION LAW FINE OF MATTHEW LYON,57,91,Alien and Sedition Laws,,Budget Special Interest,,Government Management,0.113,0.765,-0.112,-0.019,0.439,0.784,-75.163,0.602
+2017-02-02 23:33:55,RH0220350,22,House,350,1833-01-15,,,DIST. $$ TO STATES TO BLD. RDS. & CANALS,48,109,Public Works,,Budget General Interest,,Government Management,0.119,0.609,-0.203,-0.046,0.479,0.841,-46.698,0.743
+2017-02-02 23:33:55,RH0220351,22,House,351,1833-01-15,,,S.C. NULLIFYING ORD. & CONVENT.,87,103,Nullification/Secession/Reconstruction,,Government Organization,,Government Management,-0.717,0.152,-0.0,-0.313,,,-112.463235,0.553
+2017-02-02 23:33:55,RH0220352,22,House,352,1833-01-18,,,TARIFFS,96,83,Tariffs,,Regulation General Interest,,Government Management,-0.159,-0.606,0.263,-0.282,0.867,0.939,-44.46,0.78
+2017-02-02 23:33:55,RH0220353,22,House,353,1833-01-22,,,TARIFFS (ADJOURN),68,76,Tariffs,,Regulation General Interest,,Government Management,-0.044,-0.061,-0.692,0.755,0.912,0.958,-15.426,0.898
+2017-02-02 23:33:55,RH0220354,22,House,354,1833-01-22,,,TARIFFS (ADJOURN),71,76,Tariffs,,Regulation General Interest,,Government Management,-0.094,-0.239,-0.692,0.775,0.873,0.939,-16.573,0.893
+2017-02-02 23:33:55,RH0220355,22,House,355,1833-01-24,,,TARIFFS,95,72,Tariffs,,Regulation General Interest,,Government Management,-0.014,0.007,0.31,-0.076,0.819,0.922,-30.64,0.832
+2017-02-02 23:33:55,RH0220356,22,House,356,1833-01-24,,,TARIFFS (ADJOURN),75,79,Tariffs,,Regulation General Interest,,Government Management,-0.033,0.054,-0.819,0.987,0.867,0.935,-19.585,0.881
+2017-02-02 23:33:55,RH0220357,22,House,357,1833-01-24,,,TARIFFS (PROCEDURAL),55,94,Tariffs,,Regulation General Interest,,Government Management,-0.07,-0.843,-0.246,0.248,0.727,0.899,-38.488,0.772
+2017-02-02 23:33:55,RH0220358,22,House,358,1833-01-24,,,TARIFFS (ADJOURN),77,86,Tariffs,,Regulation General Interest,,Government Management,-0.047,-0.083,-0.678,0.939,0.857,0.933,-21.953,0.874
+2017-02-02 23:33:55,RH0220359,22,House,359,1833-01-24,,,TARIFFS,91,78,Tariffs,,Regulation General Interest,,Government Management,-0.047,-0.005,0.737,-0.848,0.897,0.953,-16.259,0.908
+2017-02-02 23:33:55,RH0220360,22,House,360,1833-01-26,,,LET FOR. GUESTS INTO HOUSE,79,50,,,Internal Organization,,Miscellaneous Policy,-0.25,0.29,-0.058,0.041,0.22,0.698,-79.664,0.539
+2017-02-02 23:33:55,RH0220361,22,House,361,1833-01-26,,,ADJOURN,74,62,,,Internal Organization,,Miscellaneous Policy,-0.125,-0.023,-0.276,0.213,0.855,0.934,-26.675,0.822
+2017-02-02 23:33:55,RH0220362,22,House,362,1833-01-28,,,ADJOURN,85,75,,,Internal Organization,,Miscellaneous Policy,-0.1,-0.014,-0.714,0.608,0.907,0.956,-21.621,0.874
+2017-02-02 23:33:55,RH0220363,22,House,363,1833-01-29,,,HOW MUCH $$ TARIFFS RAISE,78,82,Tariffs,,Regulation General Interest,,Government Management,-0.101,0.044,0.779,-0.503,0.885,0.944,-21.648,0.873
+2017-02-02 23:33:55,RH0220364,22,House,364,1833-01-29,,,HOW MUCH $$ TARIFFS RAISE,53,71,Tariffs,,Regulation General Interest,,Government Management,-0.126,0.171,0.725,-0.473,0.868,0.944,-14.313,0.891
+2017-02-02 23:33:55,RH0220365,22,House,365,1833-01-29,,,TARIFFS,94,67,Tariffs,,Regulation General Interest,,Government Management,0.019,-0.053,0.416,-0.458,0.866,0.944,-26.172,0.85
+2017-02-02 23:33:55,RH0220366,22,House,366,1833-01-30,,,ADJOURN,71,54,,,Internal Organization,,Miscellaneous Policy,-0.168,0.073,-0.191,0.226,0.63,0.84,-40.72,0.722
+2017-02-02 23:33:55,RH0220367,22,House,367,1833-01-31,,,TARIFFS,97,79,Tariffs,,Regulation General Interest,,Government Management,-0.016,-0.003,0.302,-0.246,0.848,0.932,-35.754,0.816
+2017-02-02 23:33:55,RH0220368,22,House,368,1833-01-31,,,ADJOURN,81,46,,,Internal Organization,,Miscellaneous Policy,0.416,0.797,-0.076,0.443,0.304,0.748,-63.162,0.608
+2017-02-02 23:33:55,RH0220369,22,House,369,1833-02-04,,,PET. FROM PA. TO ABOLISH SLAVERY IN D.C.,75,98,Slavery,,Domestic Social Policy,D. C.,Civil Liberties,0.072,0.449,0.303,-0.595,0.72,0.879,-42.659,0.781
+2017-02-02 23:33:55,RH0220370,22,House,370,1833-02-04,,,PET. FROM MASS. NOT TO INCREASE TARIFFS,88,38,Tariffs,,Regulation General Interest,,Government Management,-0.343,-0.903,-0.255,0.07,0.579,0.873,-37.951,0.74
+2017-02-02 23:33:55,RH0220371,22,House,371,1833-02-05,,,MEET DAILY AT 9AM,110,28,,,Internal Organization,,Miscellaneous Policy,0.759,-0.105,0.076,-0.199,0.0,0.797,-67.559,0.613
+2017-02-02 23:33:55,RH0220372,22,House,372,1833-02-06,,,PAY VA. CLAIMS,98,56,,,Budget Special Interest,,Government Management,0.211,-0.071,0.057,-0.201,0.018,0.643,-92.057,0.55
+2017-02-02 23:33:55,RH0220373,22,House,373,1833-02-06,,,PROCEDURAL,81,78,,,Internal Organization,,Miscellaneous Policy,-0.063,0.193,-0.223,0.163,0.744,0.874,-45.117,0.753
+2017-02-02 23:33:55,RH0220374,22,House,374,1833-02-08,,,PROCEDURAL,51,29,,,Internal Organization,,Miscellaneous Policy,-0.742,0.67,-0.05,-0.07,0.069,0.662,-51.303,0.527
+2017-02-02 23:33:55,RH0220375,22,House,375,1833-02-08,,,WHEN TO CONSIDER TARIFFS,51,144,Tariffs,,Regulation General Interest,,Government Management,-0.172,-0.985,-0.212,0.44,0.275,0.81,-65.293,0.715
+2017-02-02 23:33:55,RH0220376,22,House,376,1833-02-08,,,DUTY ON WOOL,100,88,Tariffs,,Regulation Special Interest,,Government Management,-0.066,0.144,-0.4,0.566,0.841,0.926,-34.916,0.831
+2017-02-02 23:33:55,RH0220377,22,House,377,1833-02-08,,,DUTY ON WOOL,85,100,Tariffs,,Regulation Special Interest,,Government Management,-0.046,-0.084,-0.733,0.959,0.894,0.951,-22.741,0.884
+2017-02-02 23:33:55,RH0220378,22,House,378,1833-02-08,,,DUTY ON WOOL,98,85,Tariffs,,Regulation Special Interest,,Government Management,-0.086,0.056,-0.263,0.478,0.741,0.88,-48.203,0.768
+2017-02-02 23:33:55,RH0220379,22,House,379,1833-02-09,,,ADJOURN,17,43,,,Internal Organization,,Miscellaneous Policy,0.334,0.027,-0.118,0.551,0.235,0.783,-28.444,0.622
+2017-02-02 23:33:55,RH0220380,22,House,380,1833-02-09,,,PROCEDURAL,40,45,,,Internal Organization,,Miscellaneous Policy,-0.793,-0.493,0.019,-0.159,0.2,0.624,-56.786,0.513
+2017-02-02 23:33:55,RH0220381,22,House,381,1833-02-09,,,NO. OF MIDSHIPMAN,89,102,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.466,0.022,0.014,-0.325,0.382,0.712,-112.12,0.556
+2017-02-02 23:33:55,RH0220382,22,House,382,1833-02-09,,,ADJOURN,99,85,,,Internal Organization,,Miscellaneous Policy,-0.04,0.113,-0.167,0.324,0.635,0.832,-71.729,0.677
+2017-02-02 23:33:55,RH0220383,22,House,383,1833-02-11,,,REFUND SEDITION LAW FINE OF MATTHEW LYON,77,64,Alien and Sedition Laws,,Budget Special Interest,,Government Management,-0.034,0.999,0.111,0.018,0.484,0.766,-74.126,0.591
+2017-02-02 23:33:55,RH0220384,22,House,384,1833-02-11,,,TARIFFS,84,115,Tariffs,,Regulation General Interest,,Government Management,-0.005,-0.044,-0.672,0.884,0.881,0.95,-30.678,0.857
+2017-02-02 23:33:55,RH0220385,22,House,385,1833-02-12,,,REFUND SEDITION LAW FINE OF MATTHEW LYON,77,56,Alien and Sedition Laws,,Budget Special Interest,,Government Management,0.088,0.996,0.133,-0.05,0.518,0.797,-65.103,0.613
+2017-02-02 23:33:55,RH0220386,22,House,386,1833-02-13,,,SELL U.S. HELD BANK STOCK,93,91,National Bank,,Budget General Interest,,Government Management,-0.076,0.037,-0.156,-0.12,0.714,0.859,-67.376,0.693
+2017-02-02 23:33:55,RH0220387,22,House,387,1833-02-13,,,SELL U.S. HELD BANK STOCK,102,91,National Bank,,Budget General Interest,,Government Management,-0.122,-0.02,-0.34,-0.199,0.857,0.933,-34.196,0.838
+2017-02-02 23:33:55,RH0220388,22,House,388,1833-02-15,,,ELEC. OF PUB. PRINTER FOR HOUSE,92,101,Election of House Officers,,Internal Organization,,Miscellaneous Policy,0.297,-0.732,0.267,0.666,0.772,0.891,-50.424,0.77
+2017-02-02 23:33:55,RH0220389,22,House,389,1833-02-15,,,ELEC. OF PUB. PRINTER (ADJOURN),14,173,,,Internal Organization,,Miscellaneous Policy,-0.266,-0.964,0.073,0.46,0.0,0.925,-37.35,0.819
+2017-02-02 23:33:55,RH0220390,22,House,390,1833-02-15,,,ADJOURN,23,113,,,Internal Organization,,Miscellaneous Policy,-0.998,0.059,0.104,0.194,0.0,0.831,-58.389,0.651
+2017-02-02 23:33:55,RH0220391,22,House,391,1833-02-15,,,ADJOURN,57,73,,,Internal Organization,,Miscellaneous Policy,0.055,0.109,-0.073,0.152,0.333,0.708,-76.825,0.554
+2017-02-02 23:33:55,RH0220392,22,House,392,1833-02-18,,,BUY DEBATES ON U.S. CONST. PUB. BY J. ELLIOTT,105,56,,,Internal Organization,Budget Special Interest,Government Management,-0.163,0.171,-0.165,0.289,0.518,0.832,-57.759,0.699
+2017-02-02 23:33:55,RH0220393,22,House,393,1833-02-18,,,TARIFFS,84,109,Tariffs,,Regulation General Interest,,Government Management,0.101,0.317,-0.357,0.606,0.821,0.922,-40.599,0.81
+2017-02-02 23:33:55,RH0220394,22,House,394,1833-02-18,,,DUTY ON BLANKETS,113,69,Tariffs,,Regulation Special Interest,,Government Management,-0.589,-0.465,-0.11,0.349,0.391,0.769,-90.477,0.608
+2017-02-02 23:33:55,RH0220395,22,House,395,1833-02-18,,,DUTY ON CLOTHING,100,75,Tariffs,,Regulation Special Interest,,Government Management,-0.14,-0.033,-0.702,1.081,0.867,0.943,-22.59,0.879
+2017-02-02 23:33:55,RH0220396,22,House,396,1833-02-18,,,DUTY ON CLOTHING,106,73,Tariffs,,Regulation Special Interest,,Government Management,-0.294,-0.366,-0.272,0.505,0.726,0.888,-44.29,0.781
+2017-02-02 23:33:55,RH0220397,22,House,397,1833-02-18,,,$.02/LB ON COTTON,93,77,Tariffs,,Regulation Special Interest,,Government Management,-0.21,-0.17,-0.131,0.197,0.558,0.8,-79.656,0.626
+2017-02-02 23:33:55,RH0220398,22,House,398,1833-02-18,,,DUTY ON FOSSIL SALT,88,87,Tariffs,,Regulation Special Interest,,Government Management,-0.069,0.208,-0.219,0.188,0.747,0.874,-52.859,0.739
+2017-02-02 23:33:55,RH0220399,22,House,399,1833-02-18,,,ADJOURN,93,82,,,Internal Organization,,Miscellaneous Policy,0.17,0.482,-0.141,0.385,0.524,0.777,-77.533,0.642
+2017-02-02 23:33:55,RH0220400,22,House,400,1833-02-19,,,LAND CLAIM REPORTS,54,65,,,Budget Special Interest,,Government Management,0.052,-0.993,-0.143,-0.071,0.648,0.84,-53.74,0.637
+2017-02-02 23:33:55,RH0220401,22,House,401,1833-02-19,,,SUNDAY TEMPERANCE MEETING IN HOUSE,46,110,Temperance and Liquor,,Domestic Social Policy,Regulation General Interest,Social Welfare,-0.102,0.415,0.112,-0.358,0.522,0.859,-63.059,0.667
+2017-02-02 23:33:55,RH0220402,22,House,402,1833-02-19,,,"RELIEF OF P. JUNIOR, S. NORTON & H. WOLVERTON",114,29,,,Budget Special Interest,,Government Management,-0.195,0.981,-0.134,0.221,0.379,0.874,-50.235,0.704
+2017-02-02 23:33:55,RH0220403,22,House,403,1833-02-19,,,DUTY ON FOSSIL SALT,82,93,Tariffs,,Regulation Special Interest,,Government Management,-0.111,0.002,0.252,-0.193,0.756,0.886,-46.941,0.765
+2017-02-02 23:33:55,RH0220404,22,House,404,1833-02-20,,,TARIFFS (ADJOURN),8,124,Tariffs,,Regulation General Interest,,Government Management,-0.864,-0.503,0.148,0.159,0.0,0.939,-28.76,0.804
+2017-02-02 23:33:55,RH0220405,22,House,405,1833-02-20,,,TARIFFS,41,109,Tariffs,,Regulation General Interest,,Government Management,0.223,0.963,-0.164,-0.014,0.366,0.827,-59.79,0.671
+2017-02-02 23:33:55,RH0220406,22,House,406,1833-02-20,,,$.02/LB ON COTTON,73,104,Tariffs,,Regulation Special Interest,,Government Management,-0.678,0.201,0.026,0.075,0.068,0.616,-118.913,0.511
+2017-02-02 23:33:55,RH0220407,22,House,407,1833-02-20,,,$.02/LB ON COTTON,92,77,Tariffs,,Regulation Special Interest,,Government Management,-0.389,-0.921,0.064,-0.14,0.182,0.627,-107.667,0.529
+2017-02-02 23:33:55,RH0220408,22,House,408,1833-02-20,,,DUTY ON COTTON,60,104,Tariffs,,Regulation Special Interest,,Government Management,0.274,0.962,0.058,-0.235,0.2,0.707,-94.965,0.56
+2017-02-02 23:33:55,RH0220409,22,House,409,1833-02-20,,,DUTY ON COTTON,71,87,Tariffs,,Regulation Special Interest,,Government Management,-0.092,0.245,0.113,-0.203,0.563,0.804,-74.391,0.624
+2017-02-02 23:33:55,RH0220410,22,House,410,1833-02-20,,,$.02/LB ON COTTON,80,81,Tariffs,,Regulation Special Interest,,Government Management,-0.537,-0.844,-0.077,0.211,0.312,0.658,-99.181,0.54
+2017-02-02 23:33:55,RH0220411,22,House,411,1833-02-21,,,PURCH. LAND NEAR HARPER'S FERRY ARMORY,105,56,Public Lands,,Defense Policy Budget,,Foreign and Defense Policy,-0.499,-0.866,0.068,-0.338,0.107,0.689,-90.724,0.569
+2017-02-02 23:33:55,RH0220412,22,House,412,1833-02-21,,,PURCH. LAND NEAR HARPER'S FERRY ARMORY,80,72,Public Lands,,Defense Policy Budget,,Foreign and Defense Policy,-0.547,-0.837,0.096,-0.304,0.375,0.704,-88.168,0.56
+2017-02-02 23:33:55,RH0220413,22,House,413,1833-02-21,,,COLLECTING TARIFFS,115,63,Tariffs,,Regulation General Interest,,Government Management,0.048,0.419,-0.134,0.554,0.524,0.831,-62.663,0.703
+2017-02-02 23:33:55,RH0220414,22,House,414,1833-02-21,,,TARIFFS (DELAY),86,99,Tariffs,,Regulation General Interest,,Government Management,-0.095,-0.189,-0.413,0.956,0.849,0.93,-40.736,0.802
+2017-02-02 23:33:55,RH0220415,22,House,415,1833-02-21,,,DUTY ON OLIVE OIL IN CASKS,80,85,Tariffs,,Regulation Special Interest,,Government Management,-0.069,0.004,-0.765,0.993,0.937,0.97,-14.996,0.913
+2017-02-02 23:33:55,RH0220416,22,House,416,1833-02-21,,,"DUTY ON OLIVE, LINSEED, HEMPSEED, RAPESEED OILS",86,75,Tariffs,,Regulation Special Interest,,Government Management,-0.093,0.049,-0.388,0.414,0.88,0.944,-29.273,0.834
+2017-02-02 23:33:55,RH0220417,22,House,417,1833-02-21,,,TARIFFS (ADJOURN),73,88,Tariffs,,Regulation General Interest,,Government Management,-0.119,-0.37,-0.291,0.475,0.753,0.888,-39.212,0.784
+2017-02-02 23:33:55,RH0220418,22,House,418,1833-02-21,,,DUTY ON COFFEE,117,57,Tariffs,,Regulation Special Interest,,Government Management,-0.095,0.608,-0.191,0.316,0.596,0.868,-52.684,0.739
+2017-02-02 23:33:55,RH0220419,22,House,419,1833-02-21,,,DUTY ON TEAS,108,62,Tariffs,,Regulation Special Interest,,Government Management,-0.165,0.235,-0.212,0.31,0.597,0.853,-48.141,0.753
+2017-02-02 23:33:55,RH0220420,22,House,420,1833-02-21,,,ADJOURN,90,72,,,Internal Organization,,Miscellaneous Policy,0.081,0.553,-0.239,0.466,0.736,0.883,-46.441,0.751
+2017-02-02 23:33:55,RH0220421,22,House,421,1833-02-22,,,BUY 2000 COPIES MANUAL ON SILK,62,74,,,Budget Special Interest,,Government Management,-0.203,-0.292,0.282,-0.266,0.79,0.904,-34.745,0.775
+2017-02-02 23:33:55,RH0220422,22,House,422,1833-02-23,,,ADJOURN,24,45,,,Internal Organization,,Miscellaneous Policy,0.236,-0.071,-0.055,0.154,0.125,0.696,-41.051,0.552
+2017-02-02 23:33:55,RH0220423,22,House,423,1833-02-25,,,BUY 2000 COPIES MANUAL ON SILK,81,75,,,Budget Special Interest,,Government Management,-0.195,-0.531,-0.22,0.206,0.76,0.885,-49.256,0.729
+2017-02-02 23:33:55,RH0220424,22,House,424,1833-02-25,,,DID S.C. PLAN TO SEIZE FORTS,109,57,Nullification/Secession/Reconstruction,,Government Organization,,Government Management,-0.109,0.358,0.014,0.399,0.246,0.741,-79.352,0.62
+2017-02-02 23:33:55,RH0220425,22,House,425,1833-02-25,,,$9000 FOR 45 ACRES AT WATERVLIET N.Y. ARSENAL,94,72,Public Lands,,Defense Policy Budget,,Foreign and Defense Policy,-0.519,-0.198,-0.061,0.368,0.403,0.741,-90.035,0.581
+2017-02-02 23:33:55,RH0220426,22,House,426,1833-02-25,,,TARIFFS (PROCEDURAL),80,106,Tariffs,,Regulation General Interest,,Government Management,0.237,0.511,0.156,-0.683,0.575,0.817,-69.464,0.688
+2017-02-02 23:33:55,RH0220427,22,House,427,1833-02-25,,,COLLECTING TARIFFS,57,127,Tariffs,,Regulation General Interest,,Government Management,0.014,0.372,0.118,-0.716,0.561,0.864,-55.693,0.739
+2017-02-02 23:33:55,RH0220428,22,House,428,1833-02-25,,,COLLECTING TARIFFS (DELAY),77,108,Tariffs,,Regulation General Interest,,Government Management,0.137,0.357,0.125,-0.674,0.584,0.827,-67.516,0.694
+2017-02-02 23:33:55,RH0220429,22,House,429,1833-02-25,,,COLLECTING TARIFFS (DELAY),82,102,Tariffs,,Regulation General Interest,,Government Management,0.187,0.364,0.127,-0.637,0.573,0.81,-72.042,0.676
+2017-02-02 23:33:55,RH0220430,22,House,430,1833-02-25,,,TARIFFS,118,55,Tariffs,,Regulation General Interest,,Government Management,-0.287,-0.958,0.272,-0.63,0.6,0.873,-51.619,0.742
+2017-02-02 23:33:55,RH0220431,22,House,431,1833-02-25,,,TARIFFS,95,54,Tariffs,,Regulation General Interest,,Government Management,0.07,0.002,0.422,-1.059,0.704,0.893,-31.961,0.807
+2017-02-02 23:33:55,RH0220432,22,House,432,1833-02-25,,,TARIFFS (PROCEDURAL),79,85,Tariffs,,Regulation General Interest,,Government Management,-0.155,-0.403,-0.128,0.167,0.608,0.811,-77.316,0.624
+2017-02-02 23:33:55,RH0220433,22,House,433,1833-02-25,,,TARIFFS (DELAY),74,100,Tariffs,,Regulation General Interest,,Government Management,-0.019,-0.084,-0.225,0.636,0.743,0.891,-51.413,0.744
+2017-02-02 23:33:55,RH0220434,22,House,434,1833-02-25,,,TARIFFS,24,137,Tariffs,,Regulation General Interest,,Government Management,-0.611,0.792,0.147,0.02,-0.083,0.839,-58.37,0.696
+2017-02-02 23:33:55,RH0220435,22,House,435,1833-02-25,,,TARIFFS,105,68,Tariffs,,Regulation General Interest,,Government Management,0.013,-0.111,0.493,-1.722,0.721,0.89,-39.291,0.797
+2017-02-02 23:33:55,RH0220436,22,House,436,1833-02-25,,,TARIFFS,106,71,Tariffs,,Regulation General Interest,,Government Management,-0.035,-0.185,0.452,-1.401,0.718,0.887,-41.519,0.791
+2017-02-02 23:33:55,RH0220437,22,House,437,1833-02-26,,,TARIFFS,109,85,Tariffs,,Regulation General Interest,,Government Management,-0.042,-0.102,0.17,-0.466,0.671,0.856,-71.39,0.692
+2017-02-02 23:33:55,RH0220438,22,House,438,1833-02-26,,,TARIFFS,120,85,Tariffs,,Regulation General Interest,,Government Management,-0.085,-0.245,0.559,-1.473,0.788,0.912,-43.499,0.809
+2017-02-02 23:33:55,RH0220439,22,House,439,1833-02-26,,,COLLECTING TARIFFS,81,104,Tariffs,,Regulation General Interest,,Government Management,-0.744,0.011,0.027,-0.731,0.42,0.746,-84.963,0.632
+2017-02-02 23:33:55,RH0220440,22,House,440,1833-02-26,,,COLLECTING TARIFFS,58,133,Tariffs,,Regulation General Interest,,Government Management,-0.501,0.062,0.079,-0.525,0.466,0.838,-75.754,0.673
+2017-02-02 23:33:55,RH0220441,22,House,441,1833-02-26,,,"$250,000 FOR CHESA. & OHIO CANAL CO.",68,27,Public Works,,Budget Special Interest,,Government Management,-0.191,0.446,-0.164,0.047,0.556,0.874,-34.101,0.698
+2017-02-02 23:33:55,RH0220442,22,House,442,1833-02-27,,,IMPROVE POTOMAC RIV.,105,69,Public Works,,Budget Special Interest,D. C.,Government Management,-0.197,-0.043,-0.177,0.175,0.551,0.822,-64.806,0.689
+2017-02-02 23:33:55,RH0220443,22,House,443,1833-02-27,,,LAND FOR GEORGETOWN COLL.,84,97,,,Budget Special Interest,D. C.,Government Management,-0.087,0.276,0.097,-0.063,0.405,0.724,-97.752,0.583
+2017-02-02 23:33:55,RH0220444,22,House,444,1833-02-27,,,WASH. CANAL CO.,93,91,Public Works,,Budget Special Interest,D. C.,Government Management,-0.061,0.121,-0.166,0.062,0.604,0.804,-71.728,0.677
+2017-02-02 23:33:55,RH0220445,22,House,445,1833-02-27,,,COLLECTING TARIFFS,70,127,Tariffs,,Regulation General Interest,,Government Management,-0.722,-0.382,0.109,-0.52,0.414,0.792,-93.881,0.621
+2017-02-02 23:33:55,RH0220446,22,House,446,1833-02-28,,,COLLECTING TARIFFS,110,45,Tariffs,,Regulation General Interest,,Government Management,-0.378,0.185,-0.065,0.792,0.511,0.858,-50.449,0.722
+2017-02-02 23:33:55,RH0220447,22,House,447,1833-02-28,,,COLLECTING TARIFFS,128,33,Tariffs,,Regulation General Interest,,Government Management,-0.337,0.278,-0.145,0.824,0.606,0.919,-31.18,0.824
+2017-02-02 23:33:55,RH0220448,22,House,448,1833-02-28,,,COLLECTING TARIFFS,111,41,Tariffs,,Regulation General Interest,,Government Management,-0.094,0.32,-0.055,0.626,0.488,0.862,-51.998,0.71
+2017-02-02 23:33:55,RH0220449,22,House,449,1833-03-01,,,PRINT MIN. REPORT COMM. ON MANF.,94,56,,,Internal Organization,Budget Special Interest,Miscellaneous Policy,-0.197,-0.05,-0.24,-0.018,0.643,0.867,-43.298,0.749
+2017-02-02 23:33:55,RH0220450,22,House,450,1833-03-01,,,COLLECTING TARIFFS,150,47,Tariffs,,Regulation General Interest,,Government Management,-0.536,-0.053,-0.176,0.693,0.638,0.914,-50.604,0.773
+2017-02-02 23:33:55,RH0220451,22,House,451,1833-03-01,,,COLLECTING TARIFFS,150,35,Tariffs,,Regulation General Interest,,Government Management,-0.465,0.368,-0.089,0.635,0.371,0.881,-51.301,0.758
+2017-02-02 23:33:55,RH0220452,22,House,452,1833-03-01,,,COLLECTING TARIFFS,106,63,Tariffs,,Regulation General Interest,,Government Management,-0.272,-0.613,-0.212,0.124,0.619,0.858,-57.699,0.711
+2017-02-02 23:33:55,RH0220453,22,House,453,1833-03-01,,,PUBLISH STEREOTYPE ED. OF LAWS,90,65,,,Budget Special Interest,,Government Management,0.281,-0.922,0.186,0.239,0.585,0.826,-58.422,0.686
+2017-02-02 23:33:55,RH0220454,22,House,454,1833-03-01,,,MIN. PRICE PUB. LANDS,91,45,Public Lands,,Budget General Interest,,Government Management,-0.15,-0.032,-0.304,0.174,0.756,0.919,-30.151,0.801
+2017-02-02 23:33:55,RH0220455,22,House,455,1833-03-01,,,PUB. LAND PROCEDES,96,40,Public Lands,,Budget General Interest,,Government Management,-0.182,-0.013,-0.422,0.32,0.75,0.926,-23.032,0.844
+2017-02-02 23:33:55,RH0220456,22,House,456,1833-03-02,,,PUT $$ IN NATL. BANK,80,95,National Bank,,Budget General Interest,,Government Management,-0.142,-0.047,0.386,0.22,0.862,0.937,-27.267,0.856
+2017-02-02 23:33:55,RH0220457,22,House,457,1833-03-02,,,PUT $$ IN NATL. BANK,109,46,National Bank,,Budget General Interest,,Government Management,-0.165,-0.408,-0.207,-0.302,0.609,0.884,-38.691,0.779
+2017-02-02 23:33:55,RH0220458,22,House,458,1833-03-02,,,REV. WAR PENSIONS,63,71,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,-0.204,-0.172,0.129,-0.365,0.54,0.784,-57.76,0.65
+2017-02-02 23:33:55,RH0220459,22,House,459,1833-03-02,,,TARIFFS,78,48,Tariffs,,Regulation General Interest,,Government Management,-0.159,0.031,-0.158,0.161,0.458,0.794,-51.513,0.664
+2017-02-02 23:33:55,RH0220460,22,House,460,1833-03-02,,,"$$ FOR LIGHTHOUSES, BEACONS, BUOYS",43,71,Public Works,,Budget Special Interest,,Government Management,-0.08,0.888,0.215,-0.157,0.535,0.825,-38.57,0.713
+2017-02-02 23:33:55,RH0220461,22,House,461,1833-03-02,,,PROCEDURAL,47,60,,,Internal Organization,,Miscellaneous Policy,0.076,0.202,-0.111,0.066,0.447,0.757,-53.38,0.607
+2017-02-02 23:33:55,RH0220462,22,House,462,1833-03-02,,,ADJOURN,70,19,,,Internal Organization,,Miscellaneous Policy,-0.092,0.996,-0.101,0.206,0.211,0.831,-38.265,0.651
