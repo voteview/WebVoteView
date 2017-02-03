@@ -237,8 +237,9 @@ function resetResults()
 			url: "/api/districtLookup?lat="+lat+"&long="+lng,
 			success: function(data, status, xhr)
 			{
+				console.log(data);
 				$("#loadProgress").fadeOut();
-				if(data["resCurr"].length)
+				if(data["resCurr"]!=undefined && data["resCurr"].length)
 				{
 					$("<h4>Current Congressperson and Senators</h4>").appendTo("#resultsMembers");
 					var memberList = $("<ul></ul>").attr("id","memberList").addClass("geography");
