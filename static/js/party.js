@@ -481,6 +481,10 @@ function playLoopInt()
 
 function playLoopIteration()
 {
+	// Set this to 1 to not loop.
+	var PREVENTLOOPBEHAVIOUR = 1;
+
+
 	if(forceStopLoop)
 	{
 		forceStopLoop=0;
@@ -491,7 +495,9 @@ function playLoopIteration()
 	if(currCong>maxCong) { currCong=minCong; }
 	if(currCong==maxCong) { delay=3000; } // Hang on the last, current congress before looping
 	switchCongress(currCong, 1);
-	playLoop = setTimeout(playLoopIteration, delay);
+
+	// Loop on.
+	if(!PREVENTLOOPBEHAVIOUR || currCong!=maxCong) playLoop = setTimeout(playLoopIteration, delay);
 }
 
 function stopLoop()
