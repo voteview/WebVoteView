@@ -134,6 +134,8 @@ def latLongToDistrictCodes(request, lat, lng):
 	res = []
 	for r in db.districts.find(gquery,{'properties':1}):
 		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
+		if stateNameToAbbrev(rec[0])["state_abbrev"]=="DC":
+			continue
 		for cng in range(int(rec[2]),int(rec[3])+1):
 			res.append( [stateNameToAbbrev(rec[0])["state_abbrev"],cng,int(rec[1])] )
 
@@ -143,9 +145,10 @@ def latLongToDistrictCodes(request, lat, lng):
 
 if __name__=="__main__":
 	start = time.time()
-	addStr = "233 S Wacker Dr, Chicago, IL 60606"
-	res = addressToLatLong(addStr)
-	resMem = latLongToDistrictCodes(res["lat"], res["lng"])
+	#addStr = "233 S Wacker Dr, Chicago, IL 60606"
+	#res = addressToLatLong(addStr)
+	res = {"lat": 38.9004367, "lng": -77.011207}
+	resMem = latLongToDistrictCodes(None, res["lat"], res["lng"])
 	orSet = []
 	atLargeSet = []
 	for r in resMem:
@@ -165,3 +168,4 @@ if __name__=="__main__":
 					orSet.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
 
 	print "Duration of lookup:", (time.time()-start)
+	print orSet
