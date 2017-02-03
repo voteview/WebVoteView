@@ -132,15 +132,17 @@ def latLongToDistrictCodes(request, lat, lng):
 	geoClient = client["district_geog"]
 	gquery = {"geometry":{"$geoIntersects":{"$geometry":{"type":"Point","coordinates":[lng, lat]}}}}
 	res = []
+	isDC = 0
 	for r in db.districts.find(gquery,{'properties':1}):
 		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
 		if stateNameToAbbrev(rec[0])["state_abbrev"]=="DC":
+			isDC = 1
 			continue
 		for cng in range(int(rec[2]),int(rec[3])+1):
 			res.append( [stateNameToAbbrev(rec[0])["state_abbrev"],cng,int(rec[1])] )
 
 	logQuota.addQuota(request, 2) # Costlier because it's more intense on our side.
-	return res
+	return {"isDC": isDC, "results": res}
 	pass
 
 if __name__=="__main__":
