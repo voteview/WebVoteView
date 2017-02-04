@@ -191,6 +191,8 @@ q
 	console.timeEnd("DCRender");
 
 	var i=0;
+	// Fatten up the congressional median line so as to have better mouseover capability.
+	d3.select(d3.select(".dc-chart svg").selectAll("g.sub")[0][11]).select("g.stack").select("path").classed("line",false).classed("median",true);
 
 	// Populating the tooltip.
 	console.time("tooltip");
