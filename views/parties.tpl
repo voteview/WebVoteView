@@ -28,7 +28,7 @@
 
 				% if "partyDesc" in partyData:
 				<div class="alert alert-{{indicator}}">
-					{{!partyData["partyDesc"]}}
+					{{!partyData["party_description"]}}
 				</div>
 				% end
 
