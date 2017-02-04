@@ -1,0 +1,444 @@
+date_generated,id,congress,chamber,rollnumber,date,keyvote,question,description,yea,nay,Issue1,Issue2,Peltzman1,Peltzman2,Clausen1,mid.dim1,mid.dim2,spread.dim1,spread.dim2,pre,classified,log_likelihood,geo_mean_probability
+2017-02-04 08:34:39,RH0910001,91,House,1,1969-01-03,,,ELEC. SPEAKER,241,187,Election of the Speaker of the House,,Internal Organization,,Miscellaneous Policy,0.013,0.073,0.726,-1.313,0.984,0.993,-12.374,0.971
+2017-02-04 08:34:39,RH0910002,91,House,2,1969-01-03,,,ADMIN. OATH ADAM CLAYTON POWELL,176,248,,,Internal Organization,,Miscellaneous Policy,-0.225,0.339,0.308,0.631,0.807,0.92,-86.132,0.816
+2017-02-04 08:34:39,RH0910003,91,House,3,1969-01-03,,,ADMIN. OATH ADAM CLAYTON POWELL,172,252,,,Internal Organization,,Miscellaneous Policy,-0.335,0.642,0.319,0.598,0.826,0.929,-88.912,0.81
+2017-02-04 08:34:39,RH0910004,91,House,4,1969-01-03,,,SP. COMM. LOOK IN TO POWELL SEATING,131,291,,,Internal Organization,,Miscellaneous Policy,-0.094,-0.996,-0.09,0.176,0.176,0.743,-209.265,0.608
+2017-02-04 08:34:39,RH0910005,91,House,5,1969-01-03,CQ,,FINE POWELL & STRIP SENIORITY,249,171,,,Internal Organization,,Miscellaneous Policy,0.239,-0.112,0.186,0.843,0.682,0.871,-136.069,0.723
+2017-02-04 08:34:39,RH0910006,91,House,6,1969-01-03,,,FINE POWELL & STRIP SENIORITY,254,158,,,Internal Organization,,Miscellaneous Policy,0.278,-0.13,0.194,0.815,0.675,0.876,-135.734,0.719
+2017-02-04 08:34:39,RH0910007,91,House,7,1969-02-05,,,OBJECT TO ELECTORAL VOTE IN N.C.,170,228,Electoral Votes,,Government Organization,,Government Management,-0.144,0.07,0.11,0.303,0.453,0.766,-188.505,0.622
+2017-02-04 08:34:39,RH0910008,91,House,8,1969-02-05,,,ADJOURN,240,125,,,Internal Organization,,Miscellaneous Policy,-0.155,0.967,0.114,0.243,0.161,0.714,-181.945,0.607
+2017-02-04 08:34:39,RH0910009,91,House,9,1969-02-18,,,CHANGE HUAAC TO HOUSE COMM. ON INT. SECURITY,272,133,Communists/Communism/Unamerican Activities,,Internal Organization,,Miscellaneous Policy,-0.277,0.114,-0.446,-1.253,0.774,0.926,-73.355,0.834
+2017-02-04 08:34:39,RH0910010,91,House,10,1969-02-18,,,CHANGE HUAAC TO HOUSE COMM. ON INT. SECURITY,308,81,Communists/Communism/Unamerican Activities,,Internal Organization,,Miscellaneous Policy,-0.406,0.081,-0.287,-0.727,0.704,0.938,-73.207,0.828
+2017-02-04 08:34:39,RH0910011,91,House,11,1969-03-12,,,INC. PART. INTL. DEVELOP. ASSN.,155,242,,,Foreign Policy Budget,,Foreign and Defense Policy,0.153,-0.042,-0.202,-0.584,0.632,0.856,-128.52,0.723
+2017-02-04 08:34:39,RH0910012,91,House,12,1969-03-12,,,INC. PART. INTL. DEVELOP. ASSN.,252,154,,,Foreign Policy Budget,,Foreign and Defense Policy,0.325,-0.324,0.246,0.752,0.662,0.872,-124.981,0.735
+2017-02-04 08:34:39,RH0910013,91,House,13,1969-03-18,,,EXTEND TIME FOR GOVT. REORG.,336,44,,,Government Organization,,Government Management,-0.767,-0.642,-0.231,0.326,-0.023,0.882,-121.438,0.726
+2017-02-04 08:34:39,RH0910014,91,House,14,1969-03-18,,,UNIFORM OBSERV. CERT. NATL. HOLIDAYS,164,213,,,Government Organization,,Government Management,-0.067,-0.063,0.125,0.346,0.579,0.817,-163.018,0.649
+2017-02-04 08:34:39,RH0910015,91,House,15,1969-03-19,,,ADD $25B TO DEBT CEILING,318,97,Debt Ceilings,,Budget General Interest,,Government Management,0.634,-0.472,0.137,0.321,0.186,0.809,-186.128,0.638
+2017-02-04 08:34:39,RH0910016,91,House,16,1969-03-27,,,PROCURE MIL. AIRCRAFT,342,21,,,Defense Policy Budget,,Foreign and Defense Policy,-0.622,0.018,-0.566,-1.283,0.714,0.983,-21.525,0.942
+2017-02-04 08:34:39,RH0910017,91,House,17,1969-04-01,,,APPS. HOU. COMM. INT. SEC.,83,293,Communists/Communism/Unamerican Activities,,Internal Organization,Budget Special Interest,Government Management,-0.262,-0.2,0.387,1.07,0.711,0.936,-65.408,0.84
+2017-02-04 08:34:39,RH0910018,91,House,18,1969-04-01,,,APPS. HOU. COMM. INT. SEC.,315,61,Communists/Communism/Unamerican Activities,,Internal Organization,Budget Special Interest,Government Management,-0.393,-0.096,-0.571,-1.265,0.623,0.939,-49.209,0.877
+2017-02-04 08:34:39,RH0910019,91,House,19,1969-04-16,,,AMEND WATER POLLUTION CONTROL ACT,393,1,Pollution and Environmental Protection,,Regulation General Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910020,91,House,20,1969-04-23,,,ELEM. & SEC. SCH. ASST.,239,187,Education,,Budget Special Interest,,Social Welfare,-0.119,0.006,-0.346,-0.225,0.914,0.962,-66.211,0.856
+2017-02-04 08:34:39,RH0910021,91,House,21,1969-04-23,,,ELEM. & SEC. SCH. ASST.,401,17,Education,,Budget Special Interest,,Social Welfare,0.186,0.983,0.149,0.555,0.0,0.959,-47.196,0.893
+2017-02-04 08:34:39,RH0910022,91,House,22,1969-04-29,,,COAST GUARD PROCUREMENT,385,2,,,Defense Policy Budget,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910023,91,House,23,1969-05-01,,,SELECT COMM. TO STUDY CRIME,348,18,,,Internal Organization,,Miscellaneous Policy,0.57,-0.039,0.194,0.057,0.0,0.953,-57.258,0.855
+2017-02-04 08:34:39,RH0910024,91,House,24,1969-05-06,,,SP. MILK PROGRAM FOR CHILDREN,385,3,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910025,91,House,25,1969-05-21,,,CEILING ON EXPENDITURES 1970,326,53,,,Budget General Interest,,Government Management,-0.566,0.261,-0.21,-0.324,0.321,0.905,-85.42,0.798
+2017-02-04 08:34:39,RH0910026,91,House,26,1969-05-21,,,ANTI-DISORDER PROV. AID TO COLLEGES,334,66,Vietnam War,,Domestic Social Policy,,Civil Liberties,-0.471,0.101,-0.334,-0.774,0.682,0.947,-63.214,0.853
+2017-02-04 08:34:39,RH0910027,91,House,27,1969-05-21,,,SUPPLEMENTAL APPS,349,40,,,Budget Special Interest,,Government Management,-0.803,0.596,-0.233,-0.412,0.35,0.933,-82.729,0.808
+2017-02-04 08:34:39,RH0910028,91,House,28,1969-05-27,,,"LIMIT SUBSIDY PAYMENTS TO $20,000",244,162,Agriculture,,Budget Special Interest,,Agriculture,-0.429,0.412,0.041,0.555,0.453,0.783,-186.189,0.631
+2017-02-04 08:34:39,RH0910029,91,House,29,1969-05-27,,,AGRIC. DEPT. APPS.,328,55,Agriculture,,Budget Special Interest,,Agriculture,-0.792,-0.129,-0.096,-0.407,0.073,0.866,-136.206,0.7
+2017-02-04 08:34:39,RH0910030,91,House,30,1969-05-27,,,"APPS. TREAS., POST OFF., EXEC. OFF. PRES.",346,12,,,Budget Special Interest,,Government Management,0.499,0.357,0.225,0.279,0.25,0.975,-35.405,0.906
+2017-02-04 08:34:39,RH0910031,91,House,31,1969-05-27,,,"LIMIT $20,000 SUBSIDY DISTR. OF 2ND CLASS MAIL",99,241,,,Budget Special Interest,,Government Management,0.114,0.529,-0.009,-0.333,0.327,0.805,-169.001,0.607
+2017-02-04 08:34:39,RH0910032,91,House,32,1969-05-27,,,"APPS. TREAS., POST OFF., EXEC. OFF. PRES.",327,6,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910033,91,House,33,1969-06-02,,,STUDY STATE LAWS ON YOUTH CAMPS,195,175,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,,Social Welfare,-0.203,0.376,0.171,0.51,0.709,0.862,-126.349,0.711
+2017-02-04 08:34:39,RH0910034,91,House,34,1969-06-02,,,VET'S ASST. OLDER VETS,304,3,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910035,91,House,35,1969-06-04,,,CONSTR. & MODERNIZATION OF HOSPITALS,352,1,Public Health,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910036,91,House,36,1969-06-10,,,NASA APPS.,331,53,Space Exploration/NASA,,Budget Special Interest,,Government Management,0.868,0.496,0.186,-0.483,0.057,0.869,-134.038,0.705
+2017-02-04 08:34:39,RH0910037,91,House,37,1969-06-11,,,LIMIT USE FED. PROPERTY IN DEMONSTRATIONS,334,58,,,D. C.,Regulation Special Interest,Government Management,-0.449,-0.032,-0.29,-0.741,0.483,0.923,-66.283,0.844
+2017-02-04 08:34:39,RH0910038,91,House,38,1969-06-18,,,REGULATE CIGARETTE SMOKING,145,258,Public Health,,Regulation Special Interest,,Government Management,-0.235,0.017,0.103,0.564,0.51,0.823,-164.167,0.665
+2017-02-04 08:34:39,RH0910039,91,House,39,1969-06-24,,,APPS. AEC,406,3,Nuclear Power,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910040,91,House,40,1969-06-24,,,APPS. SUNDRY BUREAUS,388,6,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910041,91,House,41,1969-06-25,,,ADD. CLERK ALL MEMBERS,204,195,,,Internal Organization,Budget Special Interest,Government Management,-0.126,0.515,0.149,0.186,0.577,0.794,-171.646,0.65
+2017-02-04 08:34:39,RH0910042,91,House,42,1969-06-25,,,PROVIDE SYSTEM FOR STATES TO TAX INTERS. COMMER.,311,87,Interstate Commerce/Anti-trust/Restraint of Commerce,,Regulation Special Interest,,Government Management,-0.687,0.068,-0.086,0.202,0.023,0.786,-196.231,0.61
+2017-02-04 08:34:39,RH0910043,91,House,43,1969-06-27,,,DUTY ON CRUDE CHICORY ROOTS,271,65,Tariffs,,Regulation Special Interest,,Government Management,-0.097,0.657,0.147,1.038,0.516,0.907,-73.55,0.803
+2017-02-04 08:34:39,RH0910044,91,House,44,1969-06-30,CQ,,CONT. INCOME TAX SURCHARGE & LOW INCOME ALLOWANCE,215,209,Tax rates,,Budget General Interest,,Government Management,-0.242,-0.97,-0.125,0.101,0.562,0.785,-208.82,0.61
+2017-02-04 08:34:39,RH0910045,91,House,45,1969-07-08,,,APPS. JOHN F. KENNEDY CENTER,173,227,,,D. C.,Budget Special Interest,Government Management,0.055,0.03,-0.201,-0.408,0.663,0.855,-131.214,0.72
+2017-02-04 08:34:39,RH0910046,91,House,46,1969-07-08,,,APPS. JOHN F. KENNEDY CENTER,221,173,,,D. C.,Budget Special Interest,Government Management,0.066,-0.001,0.215,0.466,0.686,0.863,-122.078,0.733
+2017-02-04 08:34:39,RH0910047,91,House,47,1969-07-09,,,1969 SUPPLEMENTAL APPS.,348,49,,,Budget Special Interest,,Government Management,-0.817,0.576,-0.182,-0.309,0.204,0.902,-111.296,0.755
+2017-02-04 08:34:39,RH0910048,91,House,48,1969-07-10,,,ASST. TO MEDICAL LIBRARIES,370,3,Education,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910049,91,House,49,1969-07-10,,,APPS. STND. REFERENCE DATA ACT,367,2,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910050,91,House,50,1969-07-15,,,APPALACHIAN REGIONAL DEVELOP. ACT,281,110,,,Budget Special Interest,,Government Management,0.217,0.045,0.16,0.158,0.211,0.779,-157.321,0.668
+2017-02-04 08:34:39,RH0910051,91,House,51,1969-07-17,,,NO INTERSTATE TAXATION NATL. BANKS,123,227,Tax rates,,Regulation Special Interest,,Government Management,-0.064,-0.998,-0.204,0.215,0.61,0.862,-113.201,0.723
+2017-02-04 08:34:39,RH0910052,91,House,52,1969-07-17,,,CLARIFY LIABILITY NATL. BANKS FOR CERT. TAXES,345,4,Tax rates,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910053,91,House,53,1969-07-21,,,CONSTR. ROAD GREAT SMOKY MTS. NATL. PARK,341,3,Parks and Conservation,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910054,91,House,54,1969-07-21,,,NATL. SCHOOL LUNCH ACT,353,5,"Children (aid, infant mortality, etc.)",,Domestic Social Policy,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910055,91,House,55,1969-07-22,,,INT. DEPT. APPS.,399,6,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910056,91,House,56,1969-07-23,,,OMIT CIVIL SERV. COVERAGE CERT. CONG. EMPLOYEES,129,281,Civil Service and Patronage,,Internal Organization,Budget Special Interest,Government Management,0.156,0.098,-0.177,-0.116,0.442,0.824,-152.699,0.688
+2017-02-04 08:34:39,RH0910057,91,House,57,1969-07-23,,,CIVIL SERV. RETIREMENT,359,48,Civil Service and Patronage,,Budget Special Interest,,Government Management,0.127,0.992,0.148,0.315,-0.021,0.879,-112.496,0.758
+2017-02-04 08:34:39,RH0910058,91,House,58,1969-07-24,,,"APPS. STATE, JUSTICE, COMMERCE DEPTS.",366,31,,,Budget Special Interest,,Government Management,-0.122,0.993,0.052,0.624,0.129,0.932,-72.536,0.833
+2017-02-04 08:34:39,RH0910059,91,House,59,1969-07-28,,,AMEND D.C. MIN. WAGE LAW,243,164,Minimum Wage,,D. C.,Regulation Special Interest,Social Welfare,-0.154,-0.002,-0.422,-0.564,0.854,0.941,-59.564,0.864
+2017-02-04 08:34:39,RH0910060,91,House,60,1969-07-28,,,AUTH. D.C. S&LS DEDUCT INT. IN ADV. SOME LOANS,356,19,Banking and Finance,,D. C.,Budget Special Interest,Government Management,-0.964,0.122,-0.195,0.536,0.0,0.952,-68.095,0.834
+2017-02-04 08:34:39,RH0910061,91,House,61,1969-07-28,,,AMEND FED. CREDIT UNION LAW,357,10,Banking and Finance,,Government Organization,,Government Management,0.596,0.354,0.2,0.213,0.1,0.975,-38.075,0.901
+2017-02-04 08:34:39,RH0910062,91,House,62,1969-07-30,,,EXTEND INCOME TAX LAW 15 DAYS,308,106,Tax rates,,Budget General Interest,,Government Management,-0.567,-0.789,-0.124,0.082,0.019,0.748,-208.427,0.604
+2017-02-04 08:34:39,RH0910063,91,House,63,1969-07-31,CQ,,ADD. $894M OFFICE OF EDUC. PROGRAMS,297,122,Education,,Budget Special Interest,,Social Welfare,0.134,0.231,0.228,0.461,0.488,0.852,-130.937,0.731
+2017-02-04 08:34:39,RH0910064,91,House,64,1969-07-31,,,NO STU. AID FOR THOSE INVOLVED IN CAMPUS DISRUPTIO,318,97,Vietnam War,,Domestic Social Policy,,Civil Liberties,-0.493,0.252,-0.269,-0.848,0.557,0.896,-99.894,0.786
+2017-02-04 08:34:39,RH0910065,91,House,65,1969-07-31,,,APPS. LABOR & HEW DEPTS,396,17,,,Budget Special Interest,,Social Welfare,0.465,-0.885,0.238,-0.148,0.176,0.966,-48.446,0.889
+2017-02-04 08:34:39,RH0910066,91,House,66,1969-08-04,,,EXTEND 10% SURTAX THRU. DEC. 31,243,176,Tax rates,,Budget General Interest,,Government Management,-0.449,-0.868,-0.11,0.138,0.33,0.718,-231.673,0.575
+2017-02-04 08:34:39,RH0910067,91,House,67,1969-08-04,,,AUTH. APPS. PRES'S COUNCIL ON YOUTH OPPOR.,399,7,"Children (aid, infant mortality, etc.)",,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910068,91,House,68,1969-08-04,,,NATL. CERTER. EDUC. MATERIALS FOR HANDICAPPED,366,22,Handicapped,,Budget Special Interest,Government Organization,Social Welfare,0.505,0.088,0.211,0.228,0.091,0.948,-60.773,0.855
+2017-02-04 08:34:39,RH0910069,91,House,69,1969-08-05,,,BAR PICKETING AT PENTAGON,93,330,Vietnam War,,Domestic Social Policy,,Foreign and Defense Policy,-0.303,-0.118,0.244,0.729,0.57,0.905,-89.75,0.808
+2017-02-04 08:34:39,RH0910070,91,House,70,1969-08-05,,,CONSTR. AT MIL. INSTAL.,377,30,,,Defense Policy Budget,,Foreign and Defense Policy,-0.488,-0.26,-0.466,-1.57,0.667,0.975,-31.634,0.925
+2017-02-04 08:34:39,RH0910071,91,House,71,1969-08-06,,,1969 TAX REFORM ACT,268,149,Tax rates,,Budget General Interest,,Government Management,-0.306,-0.952,-0.078,-0.026,0.06,0.663,-240.912,0.56
+2017-02-04 08:34:39,RH0910072,91,House,72,1969-08-07,,,1969 TAX REFORM ACT,78,345,Tax rates,,Budget General Interest,,Government Management,0.122,0.668,-0.098,-0.329,0.077,0.829,-160.205,0.684
+2017-02-04 08:34:39,RH0910073,91,House,73,1969-08-07,CQ,,1969 TAX REFORM ACT,395,30,Tax rates,,Budget General Interest,,Government Management,0.141,0.937,0.087,0.515,-0.033,0.927,-79.787,0.828
+2017-02-04 08:34:39,RH0910074,91,House,74,1969-08-12,,,AUTH. POST OFF. COMM. CONDUCT STUDIES,196,132,,,Internal Organization,,Miscellaneous Policy,0.005,0.979,0.101,0.058,0.258,0.701,-179.298,0.579
+2017-02-04 08:34:39,RH0910075,91,House,75,1969-09-03,,,APPS. MOTOR VEHICLE SAFETY ACT,324,0,Public Safety,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910076,91,House,76,1969-09-04,,,PROT. CHILDREN FROM HAZARDOUS TOYS,329,0,"Children (aid, infant mortality, etc.)",,Regulation Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910077,91,House,77,1969-09-04,,,DO RESEARCH ON FUEL & VEHICLES FOR CLEAN AIR,334,0,Pollution and Environmental Protection,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910078,91,House,78,1969-09-08,,,RED. PEACE CORPS $11.1M,157,201,,,Foreign Policy Budget,,Foreign and Defense Policy,0.032,0.102,-0.21,-0.857,0.712,0.874,-105.021,0.745
+2017-02-04 08:34:39,RH0910079,91,House,79,1969-09-08,,,AMEND PEACE CORPS ACT,290,57,,,Foreign Policy Budget,,Foreign and Defense Policy,-0.181,0.882,0.223,1.133,0.446,0.91,-69.589,0.818
+2017-02-04 08:34:39,RH0910080,91,House,80,1969-09-09,,,ADMIN. NATL. PARK SYSTEM,334,55,Parks and Conservation,,Government Organization,,Government Management,-0.522,0.157,-0.302,-0.671,0.564,0.938,-61.1,0.854
+2017-02-04 08:34:39,RH0910081,91,House,81,1969-09-15,,,AMEND HIGHER ED. ACT OF 1965,322,61,Education,,Budget Special Interest,,Social Welfare,0.467,0.156,0.154,0.707,0.267,0.885,-103.704,0.762
+2017-02-04 08:34:39,RH0910082,91,House,82,1969-09-18,,,CONST. AMEND. RELATING TO ELEC. OF PRES/V-PRES,168,250,Constitutional Amendments,,Government Organization,,Government Management,-0.056,0.32,-0.205,-0.617,0.671,0.868,-129.017,0.734
+2017-02-04 08:34:39,RH0910083,91,House,83,1969-09-18,CQ,,CONST. AMEND. RELATING TO ELEC. OF PRES/V-PRES,345,74,Constitutional Amendments,,Government Organization,,Government Management,0.226,0.433,0.108,0.512,0.342,0.885,-126.216,0.739
+2017-02-04 08:34:39,RH0910084,91,House,84,1969-09-19,,,LEG. BRANCH APPS.,199,115,,,Internal Organization,Budget Special Interest,Government Management,0.445,0.895,0.09,-0.129,0.13,0.682,-181.7,0.561
+2017-02-04 08:34:39,RH0910085,91,House,85,1969-09-23,,,CREATE COUNCIL ON ENVIRON. QUALITY,372,15,Pollution and Environmental Protection,,Government Organization,,Government Management,0.77,-0.369,0.492,1.102,0.2,0.969,-37.12,0.908
+2017-02-04 08:34:39,RH0910086,91,House,86,1969-09-24,,,INVEST. FEASIBILITY CERT. WATER DEVELOPMENTS,366,16,,,Budget Special Interest,,Government Management,0.511,-0.086,0.253,-0.07,0.187,0.966,-43.462,0.892
+2017-02-04 08:34:39,RH0910087,91,House,87,1969-09-29,,,VA HOME LOAN GUAR.,343,21,Military Pensions/Veterans Benefits,,Budget Special Interest,,Social Welfare,-0.615,0.069,-0.214,0.109,-0.048,0.939,-62.518,0.842
+2017-02-04 08:34:39,RH0910088,91,House,88,1969-09-29,,,LABOR-MANAGEMENT RELATIONS,356,1,,,Regulation Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910089,91,House,89,1969-09-30,,,AMEND RR RETIREMENT ACT,373,17,,,Budget Special Interest,,Social Welfare,-0.652,-0.096,-0.216,-0.212,-0.059,0.954,-51.145,0.877
+2017-02-04 08:34:39,RH0910090,91,House,90,1969-10-01,,,MIL. PROCUREMENT,329,66,,,Defense Policy Budget,,Foreign and Defense Policy,-0.389,-0.151,-0.187,-0.541,0.394,0.898,-92.524,0.791
+2017-02-04 08:34:39,RH0910091,91,House,91,1969-10-03,,,ELIM. APPS. DEVELOP ABM,225,142,Arms Control,,Defense Policy Budget,,Foreign and Defense Policy,-0.065,-0.147,-0.304,-1.17,0.718,0.891,-82.733,0.798
+2017-02-04 08:34:39,RH0910092,91,House,92,1969-10-03,,,ELIM. APPS. DEVELOP ABM,94,276,Arms Control,,Defense Policy Budget,,Foreign and Defense Policy,-0.275,-0.107,0.248,0.743,0.723,0.93,-80.686,0.804
+2017-02-04 08:34:39,RH0910093,91,House,93,1969-10-03,,,MIL. PROCUREMENT,322,47,,,Defense Policy Budget,,Foreign and Defense Policy,-0.68,0.37,-0.369,-0.914,0.532,0.94,-58.911,0.852
+2017-02-04 08:34:39,RH0910094,91,House,94,1969-10-06,,,CARRY OUT RECOMENDS. JOINT COMM. ON COINAGE,209,150,U.S. Currency,,Budget Special Interest,,Government Management,0.212,-0.17,0.094,0.264,0.333,0.721,-194.732,0.581
+2017-02-04 08:34:39,RH0910095,91,House,95,1969-10-06,,,EDUC. ASST. FOR GIFTED CHILDREN,355,0,Education,,Domestic Social Policy,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910096,91,House,96,1969-10-06,,,SP. PROGRAMS LEARNING DISABILITIES,355,0,Handicapped,,Domestic Social Policy,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910097,91,House,97,1969-10-06,,,VET'S BENEFITS,354,0,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910098,91,House,98,1969-10-07,,,NSF APPS.,384,5,Science and Technology,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910099,91,House,99,1969-10-08,,,PUBLIC WORKS & AEC APPS,216,188,Public Works,,Budget Special Interest,,Government Management,-0.26,0.354,-0.165,-0.533,0.681,0.851,-148.858,0.691
+2017-02-04 08:34:39,RH0910100,91,House,100,1969-10-08,,,PUBLIC WORKS & AEC APPS,397,3,Public Works,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910101,91,House,101,1969-10-09,,,"$20,000 SUBSIDY LIMIT",201,197,Agriculture,,Budget Special Interest,,Agriculture,-0.207,0.144,-0.052,-0.534,0.503,0.753,-183.783,0.629
+2017-02-04 08:34:39,RH0910102,91,House,102,1969-10-09,,,LIMIT HOURS RR WORKERS,371,0,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910103,91,House,103,1969-10-09,,,EXTEND CERT. REGS. TO PUB. RADIO,132,191,Radio/Television/Motion Pictures/Telecommunications,,Regulation Special Interest,,Government Management,0.062,0.088,-0.249,-0.362,0.649,0.857,-95.811,0.743
+2017-02-04 08:34:39,RH0910104,91,House,104,1969-10-09,,,EXTEND CERT. REGS. TO PUB. RADIO,282,22,Radio/Television/Motion Pictures/Telecommunications,,Regulation Special Interest,,Government Management,0.042,0.999,0.218,0.722,0.238,0.947,-40.914,0.874
+2017-02-04 08:34:39,RH0910105,91,House,105,1969-10-14,,,CONG. PAY,191,169,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,-0.127,0.344,-0.287,-0.318,0.876,0.942,-75.002,0.812
+2017-02-04 08:34:39,RH0910106,91,House,106,1969-10-14,,,CONG. PAY,86,285,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,0.252,0.072,-0.186,-0.114,0.209,0.817,-129.764,0.705
+2017-02-04 08:34:39,RH0910107,91,House,107,1969-10-14,,,CONG. PAY,312,55,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,0.365,0.043,0.174,0.119,0.0,0.85,-116.227,0.729
+2017-02-04 08:34:39,RH0910108,91,House,108,1969-10-14,,,ADJOURN,99,211,,,Internal Organization,,Miscellaneous Policy,-0.173,0.621,-0.159,-0.643,0.535,0.852,-103.893,0.715
+2017-02-04 08:34:39,RH0910109,91,House,109,1969-10-14,,,ADJOURN,113,109,,,Internal Organization,,Miscellaneous Policy,0.062,-0.198,-0.179,-0.5,0.642,0.824,-77.297,0.706
+2017-02-04 08:34:39,RH0910110,91,House,110,1969-10-15,,,CARRY OUT RECOMENDS. JOINT COMM. ON COINAGE,258,65,U.S. Currency,,Budget Special Interest,,Government Management,0.387,0.223,0.102,0.339,0.231,0.845,-134.187,0.66
+2017-02-04 08:34:39,RH0910111,91,House,111,1969-10-16,,,AMEND COLL. STU. LOAN ACT,328,10,Education,,Budget Special Interest,,Social Welfare,0.277,0.949,0.194,0.533,0.1,0.973,-27.559,0.922
+2017-02-04 08:34:39,RH0910112,91,House,112,1969-10-16,,,CONT. PRES. AUTH. REGULATE EXPORTS,277,7,,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910113,91,House,113,1969-10-20,,,REVISE CONG. ELEC. LAWS,311,13,,,Internal Organization,,Government Management,-0.799,0.336,-0.466,-0.926,0.615,0.985,-20.138,0.94
+2017-02-04 08:34:39,RH0910114,91,House,114,1969-10-23,,,LEGISLATIVE APPS.,199,165,,,Internal Organization,Budget Special Interest,Government Management,-0.991,0.134,-0.016,-0.375,0.133,0.606,-225.032,0.538
+2017-02-04 08:34:39,RH0910115,91,House,115,1969-10-23,,,HOUSING & URBAN DEVELOPMENT,340,10,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,0.338,0.755,0.233,0.646,0.2,0.977,-22.304,0.938
+2017-02-04 08:34:39,RH0910116,91,House,116,1969-10-29,,,COAL MINE SAFETY REGULATIONS,390,4,Coal Mining Regulation/Strip Mining/Black Lung,,Regulation Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910117,91,House,117,1969-10-30,,,MODIFY DRAFT,276,138,Selective Service (The Draft),,Defense Policy Resolutions,,Foreign and Defense Policy,-0.115,-0.214,-0.154,-0.461,0.533,0.845,-131.879,0.727
+2017-02-04 08:34:39,RH0910118,91,House,118,1969-10-30,CQ,,MODIFY DRAFT,388,17,Selective Service (The Draft),,Defense Policy Resolutions,,Foreign and Defense Policy,-0.651,-0.046,-0.273,-0.353,0.471,0.978,-35.108,0.917
+2017-02-04 08:34:39,RH0910119,91,House,119,1969-10-31,,,EDUC. PROGRAMS ON DRUGS,294,0,Narcotics,,Domestic Social Policy,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910120,91,House,120,1969-10-31,,,APPS. CEILING ADMIN. CONF. OF U.S.,190,194,,,Budget Special Interest,,Government Management,-0.087,0.241,-0.213,-0.17,0.804,0.903,-104.279,0.762
+2017-02-04 08:34:39,RH0910121,91,House,121,1969-10-31,,,APPS. CEILING ADMIN. CONF. OF U.S.,194,187,,,Budget Special Interest,,Government Management,-0.098,0.33,0.197,0.125,0.801,0.903,-111.972,0.745
+2017-02-04 08:34:39,RH0910122,91,House,122,1969-11-05,,,AMEND 1956 BANK HOLDING COMP. ACT,130,249,Banking and Finance,,Regulation Special Interest,,Government Management,-0.244,-0.97,-0.095,0.213,0.354,0.778,-186.007,0.612
+2017-02-04 08:34:39,RH0910123,91,House,123,1969-11-05,,,AMEND 1956 BANK HOLDING COMP. ACT,352,25,Banking and Finance,,Regulation Special Interest,,Government Management,-0.994,0.107,-0.164,-0.227,0.0,0.934,-85.924,0.796
+2017-02-04 08:34:39,RH0910124,91,House,124,1969-11-06,,,EXPAND & IMPROVE AIRPORTS,338,6,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910125,91,House,125,1969-11-12,,,POTATO RES. & PROMOTION,180,207,Agriculture,,Budget Special Interest,,Agriculture,-0.121,0.137,0.062,-0.113,0.322,0.685,-231.353,0.55
+2017-02-04 08:34:39,RH0910126,91,House,126,1969-11-12,,,SUPPORT INTL. BIOLOGICAL PROGRAM,229,101,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.071,0.384,0.109,0.337,0.277,0.779,-147.471,0.64
+2017-02-04 08:34:39,RH0910127,91,House,127,1969-11-13,,,APPS. MIL. CONSTR.,327,43,,,Defense Policy Budget,,Foreign and Defense Policy,-0.7,0.212,-0.25,-0.816,0.419,0.932,-69.424,0.829
+2017-02-04 08:34:39,RH0910128,91,House,128,1969-11-13,,,1970 DEF. DEPT. APPS.,347,37,,,Defense Policy Budget,,Foreign and Defense Policy,-0.617,0.068,-0.45,-1.373,0.676,0.969,-38.23,0.905
+2017-02-04 08:34:39,RH0910129,91,House,129,1969-11-13,,,FED.-STATE UNEMPLOYMENT PROGRAM,340,8,Unemployment/Jobs,,Budget General Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910130,91,House,130,1969-11-17,,,EXTEND INTEREST EQUALIZATION TAX,314,36,Tax rates,,Budget Special Interest,,Government Management,-0.481,-0.113,-0.248,-0.585,0.444,0.943,-52.732,0.86
+2017-02-04 08:34:39,RH0910131,91,House,131,1969-11-17,,,EXPENSES NATL. COUNCIL ON IND. OPPOR.,316,31,,,Indian Affairs,Budget Special Interest,Government Management,0.46,0.062,0.193,-0.032,0.161,0.925,-78.787,0.797
+2017-02-04 08:34:39,RH0910132,91,House,132,1969-11-18,,,APPS. DEPT. OF TRANS.,362,25,,,Budget Special Interest,,Government Management,0.709,0.106,0.168,-0.218,-0.04,0.933,-84.114,0.804
+2017-02-04 08:34:39,RH0910133,91,House,133,1969-11-19,,,APPS. DEPT. OF AGRIC.,232,190,Agriculture,,Budget Special Interest,,Agriculture,-0.483,0.205,-0.058,-0.613,0.495,0.772,-196.66,0.627
+2017-02-04 08:34:39,RH0910134,91,House,134,1969-11-19,,,EXTEND INTEREST EQUALIZATION TAX,336,47,Tax rates,,Budget Special Interest,,Government Management,-0.482,-0.099,-0.247,-0.753,0.426,0.93,-63.277,0.848
+2017-02-04 08:34:39,RH0910135,91,House,135,1969-11-20,,,$54.5M FOR TAIWAN,176,169,Taiwan (1979-80),,Defense Policy Budget,,Foreign and Defense Policy,-0.197,0.191,-0.103,-0.427,0.527,0.768,-160.883,0.627
+2017-02-04 08:34:39,RH0910136,91,House,136,1969-11-20,,,RED. DEVELOP. LOAN FUNDS BY $50M,216,189,,,Foreign Policy Budget,,Foreign and Defense Policy,-0.097,0.043,-0.179,-0.419,0.693,0.856,-136.077,0.714
+2017-02-04 08:34:39,RH0910137,91,House,137,1969-11-20,,,FOR. AID,208,193,,,Foreign Policy Budget,,Foreign and Defense Policy,0.652,-0.758,0.145,0.648,0.557,0.787,-203.815,0.601
+2017-02-04 08:34:39,RH0910138,91,House,138,1969-11-24,,,STUDY EXTENDING TRANSIT SYSTEM TO DULLES AIRPORT,52,257,,,D. C.,Budget Special Interest,Government Management,0.381,0.137,-0.14,-0.273,0.0,0.832,-109.698,0.701
+2017-02-04 08:34:39,RH0910139,91,House,139,1969-11-24,,,FED. AID D.C. MASS TRANSIT,287,23,,,D. C.,Budget Special Interest,Government Management,0.517,0.379,0.151,0.201,0.13,0.935,-67.735,0.804
+2017-02-04 08:34:39,RH0910140,91,House,140,1969-11-24,,,D.C. APPS.,306,9,,,D. C.,Budget Special Interest,Government Management,0.388,0.741,0.19,0.533,0.222,0.978,-23.864,0.927
+2017-02-04 08:34:39,RH0910141,91,House,141,1969-11-25,,,REVISE DATE WHEN COST EST. HIGHWAY SYSTEM DUE,342,1,,,Government Organization,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910142,91,House,142,1969-12-01,,,RESOLUTION ON VIETNAM,232,138,Vietnam War,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.319,0.229,-0.166,-0.57,0.696,0.886,-119.402,0.724
+2017-02-04 08:34:39,RH0910143,91,House,143,1969-12-01,,,RESOLUTION ON VIETNAM,259,107,Vietnam War,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.443,0.38,-0.219,-0.48,0.626,0.89,-99.11,0.762
+2017-02-04 08:34:39,RH0910144,91,House,144,1969-12-02,,,VIETNAM SHLD. ABIDE BY GENEVA CONVENTION OF 1949,392,0,Vietnam War,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910145,91,House,145,1969-12-02,CQ,,PEACE WITH JUSTICE IN VIETNAM,336,56,Vietnam War,,Foreign Policy Resolutions,,Foreign and Defense Policy,-0.412,-0.114,-0.423,-0.856,0.554,0.936,-52.134,0.875
+2017-02-04 08:34:39,RH0910146,91,House,146,1969-12-08,,,1970 DEF. DEPT. APPS.,333,35,,,Defense Policy Budget,,Foreign and Defense Policy,-0.362,-0.425,-0.441,-1.662,0.571,0.959,-36.218,0.906
+2017-02-04 08:34:39,RH0910147,91,House,147,1969-12-09,,,$54.4M AIRCRAFT FOR TAIWAN,250,142,Taiwan (1979-80),,Foreign Policy Budget,,Foreign and Defense Policy,-0.21,0.012,-0.123,-0.493,0.465,0.806,-153.296,0.676
+2017-02-04 08:34:39,RH0910148,91,House,148,1969-12-09,CQ,,FOR. AID,213,209,,,Foreign Policy Budget,,Foreign and Defense Policy,0.612,-0.791,0.105,0.431,0.452,0.729,-237.228,0.569
+2017-02-04 08:34:39,RH0910149,91,House,149,1969-12-10,,,CONT. PRES. AUTH. REGULATE EXPORTS,157,239,,,Regulation Special Interest,,Government Management,-0.146,-0.067,0.35,0.31,0.854,0.942,-64.008,0.85
+2017-02-04 08:34:39,RH0910150,91,House,150,1969-12-11,CQ,,EXTEND VOTING RIGHTS ACT,214,209,Civil Rights/Desegregation/Busing/Affirmative Action,,Domestic Social Policy,,Civil Liberties,-0.034,0.068,-0.302,-0.901,0.813,0.908,-94.258,0.8
+2017-02-04 08:34:39,RH0910151,91,House,151,1969-12-11,,,EXTEND VOTING RIGHTS ACT,235,179,Civil Rights/Desegregation/Busing/Affirmative Action,,Domestic Social Policy,,Civil Liberties,0.036,-0.466,-0.176,-0.282,0.637,0.843,-147.273,0.7
+2017-02-04 08:34:39,RH0910152,91,House,152,1969-12-11,,,1970 SUPPLEMENTAL APPS.,153,255,,,Budget General Interest,,Government Management,0.138,-0.036,-0.225,-0.353,0.546,0.83,-135.041,0.718
+2017-02-04 08:34:39,RH0910153,91,House,153,1969-12-12,CQ,,ANTIPOVERTY ACT A STATE PROGRAM,180,247,Welfare,,Domestic Social Policy,,Social Welfare,0.046,0.095,-0.357,-0.896,0.804,0.918,-94.028,0.802
+2017-02-04 08:34:39,RH0910154,91,House,154,1969-12-12,,,ECON. OPPOR. ACT,286,127,Unemployment/Jobs,,Domestic Social Policy,,Social Welfare,0.183,0.067,0.271,0.726,0.635,0.888,-111.192,0.763
+2017-02-04 08:34:39,RH0910155,91,House,155,1969-12-15,,,INC. SOCIAL SECURITY 15%,402,1,Social Security,,Budget General Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910156,91,House,156,1969-12-15,,,CONSENT TO CONN.-N.Y. RR PASSENGER TRANS. COMPACT,353,49,,,Government Organization,,Government Management,0.409,0.913,0.048,0.292,0.0,0.878,-147.403,0.692
+2017-02-04 08:34:39,RH0910157,91,House,157,1969-12-15,,,HUMANE TREATMENT OF AM. VIETNAM PRISONERS,406,0,Vietnam War,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910158,91,House,158,1969-12-16,,,EST. COMM. ON OPPORTUNIES FOR SPANISH SPEAKING,315,80,Minorities (non-black),,Government Organization,,Government Management,0.089,0.557,0.086,0.47,0.165,0.832,-140.494,0.7
+2017-02-04 08:34:39,RH0910159,91,House,159,1969-12-16,,,ADD. MEMBERS SMITHSONIAN BOARD OF REGENTS,273,119,,,Government Organization,,Government Management,0.177,0.085,0.169,0.102,0.361,0.806,-153.037,0.676
+2017-02-04 08:34:39,RH0910160,91,House,160,1969-12-16,,,HOUSING ASST.,236,176,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,-0.144,0.016,-0.247,-0.078,0.83,0.927,-94.025,0.796
+2017-02-04 08:34:39,RH0910161,91,House,161,1969-12-17,,,FED. RESERVE PURCH. $6B FED. GUAR. MORTGAGES,238,175,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,-0.147,0.02,-0.266,-0.103,0.846,0.934,-87.308,0.809
+2017-02-04 08:34:39,RH0910162,91,House,162,1969-12-17,,,HOUSING ASST.,199,212,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,-0.073,0.02,-0.731,0.423,0.939,0.971,-25.882,0.939
+2017-02-04 08:34:39,RH0910163,91,House,163,1969-12-17,,,HOUSING ASST.,266,142,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,0.133,0.016,0.296,-0.019,0.704,0.897,-94.17,0.793
+2017-02-04 08:34:39,RH0910164,91,House,164,1969-12-17,,,COAL MINE REGULATIONS,83,259,Coal Mining Regulation/Strip Mining/Black Lung,,Regulation Special Interest,,Government Management,0.245,-0.067,-0.237,0.138,0.41,0.857,-93.826,0.76
+2017-02-04 08:34:39,RH0910165,91,House,165,1969-12-17,CQ,,COAL MINE REGULATIONS,334,13,Coal Mining Regulation/Strip Mining/Black Lung,,Regulation Special Interest,,Government Management,0.535,-0.142,0.274,-0.183,0.308,0.974,-30.05,0.917
+2017-02-04 08:34:39,RH0910166,91,House,166,1969-12-18,,,ADEQUATE FORCE PROT. EXEC. MANSION,394,7,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910167,91,House,167,1969-12-18,,,APPS. LABOR & HEW DEPTS.,181,217,,,Budget Special Interest,,Social Welfare,0.019,0.068,-0.328,-1.807,0.711,0.869,-101.499,0.774
+2017-02-04 08:34:39,RH0910168,91,House,168,1969-12-18,,,AUTH. E&L COMM. CONDUCT CERT. STUDIES,224,153,,,Internal Organization,,Miscellaneous Policy,-0.086,0.744,0.136,0.16,0.408,0.761,-172.804,0.632
+2017-02-04 08:34:39,RH0910169,91,House,169,1969-12-19,,,FOR. AID,209,167,,,Foreign Policy Budget,,Foreign and Defense Policy,0.301,-0.264,0.222,0.919,0.705,0.869,-121.295,0.724
+2017-02-04 08:34:39,RH0910170,91,House,170,1969-12-19,,,PROVIDE ADD. MORTGAGE CREDIT,358,5,Banking and Finance,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910171,91,House,171,1969-12-20,,,$54.5 AIRCRAFT TAIWAN,137,220,Taiwan (1979-80),,Foreign Policy Budget,,Foreign and Defense Policy,-0.193,0.042,0.138,0.642,0.533,0.82,-129.814,0.694
+2017-02-04 08:34:39,RH0910172,91,House,172,1969-12-20,,,FOR. AID,209,202,,,Foreign Policy Budget,,Foreign and Defense Policy,0.724,-0.689,0.098,0.509,0.458,0.734,-231.991,0.568
+2017-02-04 08:34:39,RH0910173,91,House,173,1969-12-20,,,$2.2B ANTIPOVERTY PROGRAM,275,123,Welfare,,Budget Special Interest,,Social Welfare,0.184,0.085,0.312,0.859,0.631,0.887,-104.55,0.768
+2017-02-04 08:34:39,RH0910174,91,House,174,1969-12-22,,,APPS. LABOR & HEW DEPTS.,264,111,,,Budget Special Interest,,Social Welfare,0.154,0.154,0.225,0.346,0.482,0.848,-120.916,0.724
+2017-02-04 08:34:39,RH0910175,91,House,175,1969-12-23,,,REFORM INCOME TAX LAWS,384,2,Tax rates,,Budget General Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910176,91,House,176,1969-12-23,,,SUPPLEMENTAL APPS.,277,99,,,Budget Special Interest,,Government Management,0.362,0.167,0.077,0.183,0.092,0.763,-196.834,0.592
+2017-02-04 08:34:39,RH0910177,91,House,177,1969-12-23,CQ,,LIMIT APPLICATION PHILADELPHIA PLAN,160,217,,,Budget Special Interest,,Government Management,0.002,0.158,-0.009,-0.659,0.56,0.814,-157.526,0.658
+2017-02-04 08:34:39,RH0910178,91,House,178,1970-01-27,,,FOR. AID,225,184,,,Foreign Policy Budget,,Foreign and Defense Policy,0.468,-0.491,0.169,0.695,0.628,0.833,-172.523,0.655
+2017-02-04 08:34:39,RH0910179,91,House,179,1970-01-27,,,EMPLOYER CONTR. FUNDS FOR PROMOTION OF CONSTR.,206,202,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Social Welfare,0.015,-0.078,0.176,0.306,0.721,0.862,-146.908,0.697
+2017-02-04 08:34:39,RH0910180,91,House,180,1970-01-28,CQ,,APPS. LABOR & HEW DEPTS.,232,195,,,Budget Special Interest,,Social Welfare,0.012,0.036,0.275,0.152,0.794,0.906,-97.553,0.795
+2017-02-04 08:34:39,RH0910181,91,House,181,1970-01-29,,,PROT. DEF. PROD. & CLASSIFIED INFO.,289,80,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.378,0.057,-0.384,-0.861,0.7,0.935,-58.994,0.852
+2017-02-04 08:34:39,RH0910182,91,House,182,1970-02-16,,,ENHANCE ANADROMOUS FISHING RESOURCES,301,19,Fish and Wildlife,,Budget Special Interest,,Government Management,0.299,0.954,0.201,0.288,0.105,0.947,-51.379,0.851
+2017-02-04 08:34:39,RH0910183,91,House,183,1970-02-17,,,PRIVATE CLAIMS,59,288,,,Budget Special Interest,,Government Management,0.196,0.662,-0.146,-0.236,0.085,0.844,-116.467,0.715
+2017-02-04 08:34:39,RH0910184,91,House,184,1970-02-17,,,PRIVATE CLAIMS,56,289,,,Budget Special Interest,,Government Management,0.338,0.074,-0.181,-0.208,0.143,0.861,-105.67,0.736
+2017-02-04 08:34:39,RH0910185,91,House,185,1970-02-17,,,PRIVATE CLAIMS,67,288,,,Budget Special Interest,,Government Management,0.302,0.146,-0.186,-0.069,0.179,0.845,-111.347,0.73
+2017-02-04 08:34:39,RH0910186,91,House,186,1970-02-17,,,PRIVATE CLAIMS,52,306,,,Budget Special Interest,,Government Management,0.366,0.262,-0.155,-0.122,-0.038,0.849,-117.201,0.72
+2017-02-04 08:34:39,RH0910187,91,House,187,1970-02-17,,,PRIVATE CLAIMS,318,51,,,Budget Special Interest,,Government Management,0.339,0.097,0.231,0.175,0.118,0.878,-89.803,0.783
+2017-02-04 08:34:39,RH0910188,91,House,188,1970-02-18,,,EST. COMMISSION ON POPULATION GROWTH,372,13,,,Government Organization,,Government Management,0.225,0.957,0.139,0.667,0.077,0.969,-34.964,0.913
+2017-02-04 08:34:39,RH0910189,91,House,189,1970-02-19,,,APPS. LABOR & HEW DEPTS.,241,159,,,Budget Special Interest,,Social Welfare,-0.199,0.139,-0.359,-1.096,0.73,0.892,-83.977,0.81
+2017-02-04 08:34:39,RH0910190,91,House,190,1970-02-19,,,CUT APPS. 2.5% LABOR & HEW,192,208,,,Budget Special Interest,,Social Welfare,-0.007,0.013,-0.265,-0.162,0.806,0.907,-92.127,0.794
+2017-02-04 08:34:39,RH0910191,91,House,191,1970-02-19,,,APPS. LABOR & HEW DEPTS.,317,84,,,Budget Special Interest,,Social Welfare,0.344,0.237,0.163,-0.106,0.202,0.833,-133.498,0.716
+2017-02-04 08:34:39,RH0910192,91,House,192,1970-02-24,,,CONSTR. EISENHOWER NATL MEM. ARENA,136,230,Public Works,,D. C.,Budget Special Interest,Government Management,-0.314,0.949,0.052,-0.025,0.029,0.638,-234.761,0.526
+2017-02-04 08:34:39,RH0910193,91,House,193,1970-02-24,,,REVISE CERT. D.C. CRIMINAL LAW,246,117,,,D. C.,Domestic Social Policy,Civil Liberties,-0.449,0.691,-0.169,-0.264,0.521,0.845,-141.444,0.677
+2017-02-04 08:34:39,RH0910194,91,House,194,1970-02-24,,,AUTH. D.C. COMPEN. CERT. HOLDERS LIQUOR LICENSES,97,262,,,D. C.,Budget Special Interest,Government Management,-0.283,0.959,0.055,-0.123,-0.031,0.721,-204.137,0.565
+2017-02-04 08:34:39,RH0910195,91,House,195,1970-02-26,,,ASST. DOMESTIC MIGRANT AGRIC. WORKERS,369,0,Agriculture,,Domestic Social Policy,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910196,91,House,196,1970-02-26,,,EST. HIGH TIMBER YIELD FUND,158,235,,,Budget Special Interest,,Government Management,-0.427,0.843,-0.066,-0.284,0.146,0.656,-221.976,0.568
+2017-02-04 08:34:39,RH0910197,91,House,197,1970-03-03,,,APPS. LABOR & HEW DEPTS.,171,229,,,Budget Special Interest,,Social Welfare,-0.31,0.335,-0.103,-0.994,0.582,0.822,-141.455,0.702
+2017-02-04 08:34:39,RH0910198,91,House,198,1970-03-03,,,APPS. LABOR & HEW DEPTS.,236,157,,,Budget Special Interest,,Social Welfare,-0.271,0.338,0.099,1.025,0.583,0.834,-132.221,0.714
+2017-02-04 08:34:39,RH0910199,91,House,199,1970-03-03,,,APPS. LABOR & HEW DEPTS.,327,57,,,Budget Special Interest,,Social Welfare,-0.017,0.77,0.09,0.581,0.268,0.893,-102.459,0.765
+2017-02-04 08:34:39,RH0910200,91,House,200,1970-03-04,,,SETTLE RR DISPUTE,343,16,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Social Welfare,-0.659,0.25,-0.243,-0.137,0.25,0.966,-42.881,0.887
+2017-02-04 08:34:39,RH0910201,91,House,201,1970-03-05,,,CONSTR. LIBRARY OF CONG. BLDG.,289,62,Public Works,,Internal Organization,Budget Special Interest,Government Management,0.358,0.091,0.148,0.066,0.194,0.857,-125.066,0.7
+2017-02-04 08:34:39,RH0910202,91,House,202,1970-03-05,,,CONSTR. LIBRARY OF CONG. BLDG.,162,210,Public Works,,Internal Organization,Budget Special Interest,Government Management,0.014,-0.285,-0.129,0.037,0.512,0.787,-168.82,0.634
+2017-02-04 08:34:39,RH0910203,91,House,203,1970-03-05,,,CONSTR. LIBRARY OF CONG. BLDG.,209,133,Public Works,,Internal Organization,Budget Special Interest,Government Management,0.108,-0.013,0.099,-0.026,0.338,0.742,-178.582,0.592
+2017-02-04 08:34:39,RH0910204,91,House,204,1970-03-11,,,APPS. CERT. MARITIME PROGRAMS,372,12,Shipping/Maritime,,Budget Special Interest,,Government Management,0.793,-0.15,0.204,-0.418,0.0,0.969,-45.828,0.887
+2017-02-04 08:34:39,RH0910205,91,House,205,1970-03-16,,,LT. GEN. GRADE CHIEF NATL. GUARD BUREAU,288,53,,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.696,0.507,-0.303,-0.73,0.642,0.944,-60.798,0.836
+2017-02-04 08:34:39,RH0910206,91,House,206,1970-03-16,,,EST. PROGRAM PRESERVE HISTORIC PROPERTIES,318,9,Parks and Conservation,,Government Organization,,Government Management,0.605,-0.074,0.235,-0.05,0.111,0.975,-29.812,0.913
+2017-02-04 08:34:39,RH0910207,91,House,207,1970-03-18,,,APPT. ADD. JUDGES,367,18,Judiciary,,Domestic Social Policy,,Government Management,0.407,0.75,0.119,0.718,0.111,0.958,-46.053,0.887
+2017-02-04 08:34:39,RH0910208,91,House,208,1970-03-19,,,REORG. D.C. CTS.,309,61,Judiciary,,D. C.,Domestic Social Policy,Civil Liberties,-0.442,0.106,-0.405,-0.516,0.705,0.951,-54.222,0.863
+2017-02-04 08:34:39,RH0910209,91,House,209,1970-03-23,,,EXTEND CERT. NAVAL VESSEL LOANS,292,75,,,Budget Special Interest,,Government Management,-0.395,-0.006,-0.264,-0.937,0.64,0.926,-73.861,0.818
+2017-02-04 08:34:39,RH0910210,91,House,210,1970-03-24,,,FOR. MIL. SALES,352,27,,,Foreign Policy Budget,Defense Policy Budget,Foreign and Defense Policy,0.655,0.756,0.151,0.066,0.037,0.931,-85.568,0.797
+2017-02-04 08:34:39,RH0910211,91,House,211,1970-03-25,,,EXPENSES COMM. ON INT. SECURITY,307,52,Communists/Communism/Unamerican Activities,,Internal Organization,Budget Special Interest,Government Management,-0.376,-0.115,-0.483,-1.22,0.519,0.93,-50.559,0.868
+2017-02-04 08:34:39,RH0910212,91,House,212,1970-03-25,,,AMEND FED. WATER POLLUTION CONTROL ACT,358,0,Pollution and Environmental Protection,,Regulation General Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910213,91,House,213,1970-04-07,,,ASST. ELEM. & SEC. EDUC.,313,58,Education,,Budget Special Interest,,Social Welfare,-0.224,0.894,0.145,0.925,0.404,0.908,-82.621,0.8
+2017-02-04 08:34:39,RH0910214,91,House,214,1970-04-07,,,AMEND RR RETIREMENT ACT,379,1,,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910215,91,House,215,1970-04-09,,,INC. FED. PAY,261,125,,,Budget Special Interest,,Government Management,-0.296,0.425,-0.074,0.133,0.072,0.699,-212.746,0.576
+2017-02-04 08:34:39,RH0910216,91,House,216,1970-04-09,,,INC. FED. PAY,375,7,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910217,91,House,217,1970-04-13,,,APPS. TREAS. & POST OFF. DEPTS,333,3,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910218,91,House,218,1970-04-14,,,INC. FED. PAY,309,65,,,Budget Special Interest,,Government Management,0.373,0.584,0.132,0.04,0.047,0.836,-140.372,0.686
+2017-02-04 08:34:39,RH0910219,91,House,219,1970-04-15,,,FAMILY ASST. ACT,205,183,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,-0.014,0.101,0.108,0.483,0.571,0.798,-170.269,0.644
+2017-02-04 08:34:39,RH0910220,91,House,220,1970-04-15,,,ADJOURN,81,75,,,Internal Organization,,Miscellaneous Policy,-0.379,-0.925,-0.017,0.01,0.041,0.542,-106.439,0.503
+2017-02-04 08:34:39,RH0910221,91,House,221,1970-04-16,,,FAMILY ASST. ACT,248,149,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,-0.36,-0.933,-0.123,0.056,0.264,0.725,-198.06,0.606
+2017-02-04 08:34:39,RH0910222,91,House,222,1970-04-16,CQ,,FAMILY ASST. ACT,244,155,Welfare,,Domestic Social Policy,Budget Special Interest,Social Welfare,0.26,-0.07,0.197,1.077,0.669,0.872,-121.77,0.736
+2017-02-04 08:34:39,RH0910223,91,House,223,1970-04-20,,,EST. NATL. COMMISSION ON LIBRARIES,262,11,,,Government Organization,,Government Management,0.309,0.804,0.178,0.548,0.1,0.967,-27.169,0.905
+2017-02-04 08:34:39,RH0910224,91,House,224,1970-04-20,,,CONSTR. MERLIN DIV. ROGUE RIV. BASIN PROJ. IN ORE.,272,15,Public Works,,Budget Special Interest,,Government Management,0.52,-0.854,0.137,-0.214,0.0,0.948,-58.881,0.814
+2017-02-04 08:34:39,RH0910225,91,House,225,1970-04-23,,,NASA APPS.,230,105,Space Exploration/NASA,,Budget Special Interest,,Government Management,-0.622,0.079,-0.056,-0.233,0.143,0.731,-189.353,0.568
+2017-02-04 08:34:39,RH0910226,91,House,226,1970-04-27,,,SEC. OF INT. AUTH. ENCOUR. TRAVEL IN U.S.,111,223,,,Government Organization,,Government Management,0.096,0.959,-0.117,-0.076,0.273,0.76,-165.916,0.608
+2017-02-04 08:34:39,RH0910227,91,House,227,1970-04-27,,,SEC. OF INT. AUTH. ENCOUR. TRAVEL IN U.S.,239,94,,,Government Organization,,Government Management,0.122,0.945,0.108,0.109,0.151,0.762,-163.07,0.612
+2017-02-04 08:34:39,RH0910228,91,House,228,1970-04-27,,,SUBSIDIZED TRANSP. PUB. HEALTH SERV. EMPLOYEES,64,273,,,Budget Special Interest,,Government Management,-0.496,0.253,0.153,0.274,0.203,0.848,-121.039,0.698
+2017-02-04 08:34:39,RH0910229,91,House,229,1970-04-28,,,RED. ARMS CONTROL & DISARM. AGENCY BY $4.4M,87,281,Arms Control,,Foreign Policy Budget,,Foreign and Defense Policy,-0.033,0.57,-0.179,-0.706,0.419,0.864,-104.912,0.751
+2017-02-04 08:34:39,RH0910230,91,House,230,1970-04-28,,,EXCLUDE SMUT FROM U.S. MAILS,376,8,,,Domestic Social Policy,,Civil Liberties,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910231,91,House,231,1970-05-04,,,APPT. JAMES WEBB TO SMITHSONIAN BOARD OF REGENTS,310,16,,,Government Organization,,Government Management,0.556,-0.116,0.197,-0.05,0.125,0.957,-53.587,0.848
+2017-02-04 08:34:39,RH0910232,91,House,232,1970-05-06,,,CUT $550.3M FROM R&D,248,146,,,Defense Policy Budget,,Foreign and Defense Policy,-0.121,-0.07,-0.193,-0.564,0.651,0.87,-115.476,0.745
+2017-02-04 08:34:39,RH0910233,91,House,233,1970-05-06,,,MIL. PROCUREMENT,326,69,,,Defense Policy Budget,,Foreign and Defense Policy,-0.369,-0.141,-0.209,-0.773,0.536,0.919,-80.19,0.816
+2017-02-04 08:34:39,RH0910234,91,House,234,1970-05-07,,,1970 SUPPLEMENTAL APPS.,222,134,,,Budget Special Interest,,Government Management,-0.101,-0.088,-0.247,-0.919,0.687,0.882,-89.024,0.778
+2017-02-04 08:34:39,RH0910235,91,House,235,1970-05-07,,,1970 SUPPLEMENTAL APPS.,337,6,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910236,91,House,236,1970-05-11,,,INC. D.C. SALARIES,183,142,,,D. C.,Budget Special Interest,Government Management,-0.209,0.457,-0.211,-0.442,0.704,0.87,-100.847,0.733
+2017-02-04 08:34:39,RH0910237,91,House,237,1970-05-11,,,CUT NSF BY $27.6M,137,188,Science and Technology,,Budget Special Interest,,Government Management,0.123,-0.063,-0.233,-0.365,0.64,0.849,-105.068,0.723
+2017-02-04 08:34:39,RH0910238,91,House,238,1970-05-11,,,NSF APPS.,312,6,Science and Technology,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910239,91,House,239,1970-05-13,,,EXPAND NATIONS AIRPORTS,363,3,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910240,91,House,240,1970-05-13,,,GOVT. REORGANIZATION,164,194,,,Government Organization,,Government Management,-0.421,-0.907,0.257,-0.375,0.748,0.885,-100.645,0.754
+2017-02-04 08:34:39,RH0910241,91,House,241,1970-05-14,,,"APPS. STATE, JUSTICE, COMMERCE, JUDICIARY",321,14,,,Budget Special Interest,,Government Management,0.217,0.973,0.108,0.578,0.143,0.964,-41.57,0.883
+2017-02-04 08:34:39,RH0910242,91,House,242,1970-05-14,,,PROMOTE FOR. TRAVEL TO U.S.,174,88,,,Budget Special Interest,,Foreign and Defense Policy,0.148,0.406,0.091,0.12,0.227,0.74,-142.024,0.582
+2017-02-04 08:34:39,RH0910243,91,House,243,1970-05-18,,,IMPROVE ADMIN. CUSTOMS COURTS,303,0,,,Government Organization,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910244,91,House,244,1970-05-18,,,RETIREMENT OF JUDGES,110,199,Judiciary,,Domestic Social Policy,,Government Management,-0.378,0.917,0.112,0.088,0.282,0.744,-165.699,0.585
+2017-02-04 08:34:39,RH0910245,91,House,245,1970-05-18,,,CONSTR. WATER DISTR. SYSTEM SOBOBA IND. RESERV,288,11,Public Works,,Indian Affairs,Budget Special Interest,Government Management,0.365,0.931,0.157,0.355,0.091,0.967,-39.365,0.877
+2017-02-04 08:34:39,RH0910246,91,House,246,1970-05-19,,,APPT. ADD. DISTR. JUDGES,334,20,Judiciary,,Domestic Social Policy,,Government Management,0.202,0.979,0.088,0.515,0.1,0.949,-56.484,0.853
+2017-02-04 08:34:39,RH0910247,91,House,247,1970-05-20,,,CONSTR. MIL. BASES,266,148,,,Defense Policy Budget,,Foreign and Defense Policy,-0.12,-0.091,-0.232,-0.839,0.669,0.881,-104.365,0.777
+2017-02-04 08:34:39,RH0910248,91,House,248,1970-05-20,,,CONSTR. MIL. BASES,345,57,,,Defense Policy Budget,,Foreign and Defense Policy,-0.574,0.074,-0.324,-1.226,0.632,0.948,-59.366,0.862
+2017-02-04 08:34:39,RH0910249,91,House,249,1970-05-21,,,SOCIAL SECURITY AMENDMENTS,214,194,Social Security,,Budget General Interest,,Social Welfare,-0.308,-0.951,-0.042,0.033,0.124,0.585,-271.818,0.513
+2017-02-04 08:34:39,RH0910250,91,House,250,1970-05-21,,,SOCIAL SECURITY AMENDMENTS,297,83,Social Security,,Budget General Interest,,Social Welfare,0.647,0.152,0.076,0.311,0.037,0.792,-179.175,0.623
+2017-02-04 08:34:39,RH0910251,91,House,251,1970-05-21,CQ,,COST OF LIVING INC. FOR SOCIAL SECURITY,234,144,Social Security,,Budget General Interest,,Social Welfare,-0.217,0.212,-0.124,0.781,0.664,0.873,-107.997,0.751
+2017-02-04 08:34:39,RH0910252,91,House,252,1970-05-21,,,SOCIAL SECURITY,346,32,Social Security,,Budget General Interest,,Social Welfare,-0.142,0.887,-0.03,1.164,0.258,0.939,-49.956,0.876
+2017-02-04 08:34:39,RH0910253,91,House,253,1970-05-21,,,AMEND MERCH. MARINE ACT,311,1,Shipping/Maritime,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910254,91,House,254,1970-05-25,,,EXEMPT FHA & VA HOME LOANS CERT. D.C. LAWS,123,180,Housing/Housing Programs/Rent Control,,D. C.,Regulation Special Interest,Government Management,-0.144,0.99,-0.086,-0.136,0.213,0.682,-174.564,0.561
+2017-02-04 08:34:39,RH0910255,91,House,255,1970-05-25,,,REQ. BANKS HAVE CERT. RECORDS,302,0,Banking and Finance,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910256,91,House,256,1970-05-25,,,CREATE JOINT COMM. ON ENVIRONMENT,287,7,Pollution and Environmental Protection,,Internal Organization,,Miscellaneous Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910257,91,House,257,1970-05-26,,,FINANCIAL DISCLOSURE RULES,336,1,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Internal Organization,,Miscellaneous Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910258,91,House,258,1970-05-28,,,1971 DEPT. OF TRANS. APPS.,190,175,,,Budget Special Interest,,Government Management,-0.592,0.523,-0.07,-0.406,0.42,0.723,-199.074,0.579
+2017-02-04 08:34:39,RH0910259,91,House,259,1970-06-03,,,DEBT CEILING,286,98,Debt Ceilings,,Budget General Interest,,Government Management,-0.127,-0.419,-0.142,-0.379,0.49,0.87,-126.619,0.719
+2017-02-04 08:34:39,RH0910260,91,House,260,1970-06-03,,,DEBT CEILING,250,140,Debt Ceilings,,Budget General Interest,,Government Management,0.646,-0.764,0.091,0.202,0.221,0.721,-229.617,0.555
+2017-02-04 08:34:39,RH0910261,91,House,261,1970-06-04,,,FOR. AID,220,182,,,Foreign Policy Budget,,Foreign and Defense Policy,0.48,-0.487,0.189,0.824,0.657,0.845,-157.182,0.676
+2017-02-04 08:34:39,RH0910262,91,House,262,1970-06-08,,,COMM. STUDY RECENT EVENTS IN VIETNAM,227,96,Vietnam War,,Internal Organization,,Miscellaneous Policy,-0.289,0.14,-0.18,-0.172,0.542,0.863,-100.243,0.732
+2017-02-04 08:34:39,RH0910263,91,House,263,1970-06-08,,,COMM. STUDY RECENT EVENTS IN VIETNAM,246,81,Vietnam War,,Internal Organization,,Miscellaneous Policy,-0.08,-0.394,-0.171,-0.563,0.444,0.862,-94.664,0.748
+2017-02-04 08:34:39,RH0910264,91,House,264,1970-06-08,,,COMM. STUDY RECENT EVENTS IN VIETNAM,224,102,Vietnam War,,Internal Organization,,Miscellaneous Policy,-0.706,0.708,-0.072,-0.098,0.109,0.723,-191.584,0.555
+2017-02-04 08:34:39,RH0910265,91,House,265,1970-06-08,,,COMM. STUDY RECENT EVENTS IN VIETNAM,212,86,Vietnam War,,Internal Organization,,Miscellaneous Policy,-0.276,0.073,-0.18,-0.457,0.535,0.865,-91.895,0.734
+2017-02-04 08:34:39,RH0910266,91,House,266,1970-06-10,,,AMEND PUBL. HEALTH SERV. ACT,378,0,Public Health,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910267,91,House,267,1970-06-10,,,AMEND CLEAN AIR ACT,336,40,Pollution and Environmental Protection,,Regulation General Interest,,Government Management,-0.38,-0.403,-0.186,-0.479,0.3,0.925,-66.899,0.837
+2017-02-04 08:34:39,RH0910268,91,House,268,1970-06-10,,,AMEND CLEAN AIR ACT,375,1,Pollution and Environmental Protection,,Regulation General Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910269,91,House,269,1970-06-11,,,APPS. DEF. DEPT.,311,60,,,Defense Policy Budget,,Foreign and Defense Policy,-0.531,0.038,-0.247,-1.092,0.617,0.938,-69.284,0.829
+2017-02-04 08:34:39,RH0910270,91,House,270,1970-06-15,,,VET'S DISABILITY & WIDOW'S COMPENS.,313,0,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910271,91,House,271,1970-06-15,,,EST. YOUTH CONSERV. CORPS,256,54,,,Government Organization,,Social Welfare,0.324,0.032,0.213,0.292,0.321,0.883,-86.858,0.755
+2017-02-04 08:34:39,RH0910272,91,House,272,1970-06-16,,,REFORM POSTAL SERVICE,148,228,,,Budget Special Interest,,Government Management,-0.458,-0.76,-0.07,0.265,0.365,0.749,-208.511,0.573
+2017-02-04 08:34:39,RH0910273,91,House,273,1970-06-17,CQ,,EXTEND 1965 VOTING RIGHTS ACT,232,191,Civil Rights/Desegregation/Busing/Affirmative Action,,Domestic Social Policy,,Civil Liberties,0.08,-0.053,0.262,0.691,0.726,0.877,-113.82,0.764
+2017-02-04 08:34:39,RH0910274,91,House,274,1970-06-17,,,EXTEND 1965 VOTING RIGHTS ACT,276,137,Civil Rights/Desegregation/Busing/Affirmative Action,,Domestic Social Policy,,Civil Liberties,0.089,0.21,0.233,0.736,0.603,0.869,-118.652,0.75
+2017-02-04 08:34:39,RH0910275,91,House,275,1970-06-18,,,8% POSTAL PAY RAISE,77,307,,,Budget Special Interest,,Government Management,0.657,0.754,-0.036,-0.331,0.0,0.799,-170.397,0.641
+2017-02-04 08:34:39,RH0910276,91,House,276,1970-06-18,,,REFORM POSTAL SERVICE,360,24,,,Budget Special Interest,,Government Management,0.776,-0.06,0.23,0.639,0.083,0.943,-68.011,0.837
+2017-02-04 08:34:39,RH0910277,91,House,277,1970-06-22,,,GOLDEN EAGLE PROGRAM,316,1,Fish and Wildlife,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910278,91,House,278,1970-06-23,,,CONSTR. SOLID WASTE DISPOSAL FACILITIES,342,0,Public Works,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910279,91,House,279,1970-06-25,,,HOSPITAL CONSTR.,289,104,Public Health,,Budget Special Interest,,Social Welfare,0.046,-0.857,0.182,-0.229,0.317,0.819,-132.022,0.714
+2017-02-04 08:34:39,RH0910280,91,House,280,1970-06-25,,,URBAN RENEWAL,138,237,,,Budget Special Interest,,Social Welfare,-0.13,-0.107,0.304,0.611,0.775,0.917,-74.546,0.819
+2017-02-04 08:34:39,RH0910281,91,House,281,1970-06-25,,,INC. AVAILA. MORTGAGE CREDIT FOR HOUSING,236,131,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Government Management,-0.268,0.312,-0.272,-0.193,0.756,0.913,-78.285,0.807
+2017-02-04 08:34:39,RH0910282,91,House,282,1970-06-25,,,INC. AVAILA. MORTGAGE CREDIT FOR HOUSING,325,2,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910283,91,House,283,1970-06-30,CQ,,APPS. OFFICE OF EDUC.,191,157,Education,,Budget Special Interest,,Social Welfare,-0.109,0.034,-0.384,-1.34,0.79,0.905,-73.349,0.809
+2017-02-04 08:34:39,RH0910284,91,House,284,1970-06-30,,,CRIME CONTROL,347,2,,,Domestic Social Policy,,Civil Liberties,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910285,91,House,285,1970-06-30,,,CREATE COMMISSION STUDY BANKRUPTCY LAWS,333,12,,,Government Organization,,Government Management,0.346,0.938,0.182,0.357,0.0,0.965,-38.103,0.895
+2017-02-04 08:34:39,RH0910286,91,House,286,1970-06-30,,,AMEND NATL. FOUNDATION ARTS & HUMANITIES ACT,263,78,,,Budget Special Interest,,Government Management,0.279,0.089,0.183,0.534,0.442,0.874,-104.316,0.736
+2017-02-04 08:34:39,RH0910287,91,House,287,1970-07-06,,,REGULATE CUSTOM SLAUGHTERING OPS.,297,2,,,Regulation Special Interest,,Agriculture,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910288,91,House,288,1970-07-07,,,RED. PEACE CORPS APPS.,130,257,,,Foreign Policy Budget,,Foreign and Defense Policy,0.407,-0.324,-0.278,-0.925,0.643,0.881,-114.63,0.743
+2017-02-04 08:34:39,RH0910289,91,House,289,1970-07-07,,,APPS. PEACE CORPS,318,46,,,Foreign Policy Budget,,Foreign and Defense Policy,-0.004,0.779,0.262,1.028,0.489,0.937,-63.358,0.84
+2017-02-04 08:34:39,RH0910290,91,House,290,1970-07-07,,,PROT. CONSUMERS FROM MISREPS. OF GOLD & SILVER ITE,351,9,Consumer Protection Agency/Consumer Protection,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910291,91,House,291,1970-07-08,,,LOBBYING PRACTICES & POL. CAMP. CONTRIBUTIONS,382,0,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Internal Organization,,Miscellaneous Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910292,91,House,292,1970-07-08,,,EXEMPT CERT. NEWSPAPERS FROM ANTI-TRUST LAW,303,97,,,Budget Special Interest,,Government Management,-0.802,0.597,-0.109,-0.21,0.052,0.769,-197.112,0.61
+2017-02-04 08:34:39,RH0910293,91,House,293,1970-07-09,,,FOR. MIL. SALES,260,156,,,Defense Policy Budget,Foreign Policy Budget,Foreign and Defense Policy,0.136,-0.517,-0.218,-0.684,0.686,0.882,-120.101,0.749
+2017-02-04 08:34:39,RH0910294,91,House,294,1970-07-09,CQ,,BARS FUNDS FOR U.S. FORCES IN CAMBODIA,252,168,Vietnam War,,Defense Policy Budget,,Foreign and Defense Policy,0.054,-0.316,-0.226,-0.693,0.708,0.883,-112.188,0.765
+2017-02-04 08:34:39,RH0910295,91,House,295,1970-07-09,,,FREEDOM OF CHOICE MEMBERSHIP POSTAL UNIONS,165,243,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Social Welfare,-0.21,0.248,0.226,0.4,0.764,0.904,-105.207,0.772
+2017-02-04 08:34:39,RH0910296,91,House,296,1970-07-09,,,FREEDOM OF CHOICE MEMBERSHIP POSTAL UNIONS,240,170,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Social Welfare,-0.129,0.024,-0.238,-0.447,0.8,0.917,-97.598,0.788
+2017-02-04 08:34:39,RH0910297,91,House,297,1970-07-09,,,EMPLOYEE BENEFITS FED. WORKERS,146,200,,,Budget Special Interest,,Government Management,0.031,0.165,-0.152,-0.153,0.552,0.812,-141.438,0.664
+2017-02-04 08:34:39,RH0910298,91,House,298,1970-07-09,,,EMPLOYEE BENEFITS FED. WORKERS,286,57,,,Budget Special Interest,,Government Management,0.303,0.263,0.174,0.254,0.107,0.854,-105.561,0.734
+2017-02-04 08:34:39,RH0910299,91,House,299,1970-07-13,,,AMEND NATL. FOUND. ARTS & HUMANITIES ACT,250,83,,,Budget Special Interest,,Government Management,0.348,-0.058,0.185,0.496,0.39,0.849,-114.353,0.709
+2017-02-04 08:34:39,RH0910300,91,House,300,1970-07-15,,,REORG. D.C. COURTS,344,75,Judiciary,,D. C.,Government Organization,Government Management,-0.533,0.418,-0.287,-0.465,0.573,0.923,-85.485,0.815
+2017-02-04 08:34:39,RH0910301,91,House,301,1970-07-15,,,NSF APPS.,311,77,Science and Technology,,Budget Special Interest,,Government Management,0.357,-0.33,0.193,0.169,0.224,0.848,-129.18,0.716
+2017-02-04 08:34:39,RH0910302,91,House,302,1970-07-16,,,INTL. TRAVEL ACT,174,208,,,Foreign Policy Budget,,Foreign and Defense Policy,-0.17,0.61,0.124,0.061,0.483,0.764,-188.742,0.609
+2017-02-04 08:34:39,RH0910303,91,House,303,1970-07-16,,,APPS. OFFICE OF EDUC,359,30,Education,,Budget Special Interest,,Government Management,0.498,-0.01,0.199,0.113,0.207,0.941,-66.985,0.841
+2017-02-04 08:34:39,RH0910304,91,House,304,1970-07-20,,,INC. AVAIL. VA HOME LOANS,327,0,Military Pensions/Veterans Benefits,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910305,91,House,305,1970-07-20,,,IMP. ADMIN. NATL. PARK SYSTEM,327,0,Parks and Conservation,,Government Organization,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910306,91,House,306,1970-07-22,,,1971 DEPT. OF INT. APPS.,387,3,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910307,91,House,307,1970-07-23,,,UNEMPLOYMENT COMPENS. AGRIC. LABOR,182,231,Unemployment/Jobs,,Budget Special Interest,,Social Welfare,-0.135,0.113,0.207,0.503,0.747,0.888,-119.1,0.749
+2017-02-04 08:34:39,RH0910308,91,House,308,1970-07-23,,,UNEMPLOYMENT COMPENS. AGRIC. LABOR,390,4,Unemployment/Jobs,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910309,91,House,309,1970-07-23,,,APPS. LABOR & HEW DEPTS.,362,14,,,Budget Special Interest,,Social Welfare,0.218,0.935,0.149,0.644,0.077,0.968,-35.926,0.909
+2017-02-04 08:34:39,RH0910310,91,House,310,1970-07-29,,,APPS. IND. OFFICES & HUD,160,233,,,Budget Special Interest,,Government Management,0.057,-0.022,-0.243,0.043,0.806,0.921,-92.7,0.79
+2017-02-04 08:34:39,RH0910311,91,House,311,1970-07-30,,,AMEND RR RETIREMENT ACT,347,0,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910312,91,House,312,1970-07-30,,,AID FOR TRAINING PROGRAMS HEALTH PROFESSIONS,344,1,Education,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910313,91,House,313,1970-07-30,,,AID FOR MENTAL RETARDATION FACILITIES,340,0,Public Health,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910314,91,House,314,1970-07-31,,,WAGE & PRICE FREEZE DEFENSE PRODUCTION,11,270,Price Controls,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.814,0.046,0.176,-0.06,0.0,0.961,-48.214,0.842
+2017-02-04 08:34:39,RH0910315,91,House,315,1970-07-31,,,WAGE & PRICE FREEZE DEFENSE PRODUCTION,263,25,Price Controls,,Defense Policy Resolutions,,Foreign and Defense Policy,0.462,0.019,0.186,-0.021,0.16,0.927,-60.615,0.81
+2017-02-04 08:34:39,RH0910316,91,House,316,1970-08-03,,,AUTH. SEC. OF HEW EST. ENVIRON. EDUC. PROGRAMS,289,28,Pollution and Environmental Protection,,Government Organization,,Government Management,0.445,0.23,0.253,0.794,0.222,0.934,-48.3,0.858
+2017-02-04 08:34:39,RH0910317,91,House,317,1970-08-03,,,PROHIBIT SALACIOUS ADVERTISING U.S. MAILS,323,5,Interstate Commerce/Anti-trust/Restraint of Commerce,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910318,91,House,318,1970-08-03,,,FED. EMPLOYEES WITHHOLDING FOR CITIES,167,195,Tax rates,,Budget Special Interest,,Government Management,-0.256,0.419,0.111,0.225,0.509,0.773,-181.987,0.604
+2017-02-04 08:34:39,RH0910319,91,House,319,1970-08-05,,,COMPEN. FOR 2 POSITIONS IN CONG.,91,284,,,Internal Organization,Budget Special Interest,Government Management,-0.282,0.959,0.134,-0.106,0.198,0.805,-162.659,0.648
+2017-02-04 08:34:39,RH0910320,91,House,320,1970-08-05,,,PAYMENT LIMITS ON CERT. GRAINS,180,231,Agriculture,,Budget Special Interest,,Agriculture,-0.39,-0.046,-0.003,0.387,0.283,0.685,-228.934,0.572
+2017-02-04 08:34:39,RH0910321,91,House,321,1970-08-05,CQ,,AGRIC. ACT OF 1970,226,184,Agriculture,,Budget Special Interest,,Agriculture,-0.525,0.179,-0.034,-0.43,0.353,0.709,-225.316,0.576
+2017-02-04 08:34:39,RH0910322,91,House,322,1970-08-06,,,POSTAL REFORM,340,30,,,Budget Special Interest,,Government Management,0.571,0.274,0.161,0.615,0.067,0.924,-77.795,0.81
+2017-02-04 08:34:39,RH0910323,91,House,323,1970-08-06,,,REGULATE HAZARDOUS MATERIALS ON RRS,358,0,,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910324,91,House,324,1970-08-10,,,EQUAL RIGHTS AMENDMENT,333,22,Women's Equality,,Domestic Social Policy,,Civil Liberties,0.288,0.958,0.125,0.313,-0.045,0.935,-73.675,0.813
+2017-02-04 08:34:39,RH0910325,91,House,325,1970-08-10,,,EQUAL RIGHTS AMENDMENT,26,344,Women's Equality,,Domestic Social Policy,,Civil Liberties,-0.962,-0.272,0.175,-0.166,0.0,0.93,-86.415,0.792
+2017-02-04 08:34:39,RH0910326,91,House,326,1970-08-10,,,EQUAL RIGHTS AMENDMENT,352,15,Women's Equality,,Domestic Social Policy,,Civil Liberties,0.491,-0.871,0.142,-0.271,-0.067,0.956,-57.638,0.855
+2017-02-04 08:34:39,RH0910327,91,House,327,1970-08-10,,,EST. D.C. DELEGATE POS. IN CONG.,338,23,,,D. C.,Internal Organization,Government Management,0.566,-0.362,0.19,0.033,0.13,0.945,-68.183,0.828
+2017-02-04 08:34:39,RH0910328,91,House,328,1970-08-10,,,EST. D.C. DELEGATE POS. IN CONG.,314,68,,,D. C.,Internal Organization,Government Management,0.037,0.572,0.11,1.105,0.597,0.929,-67.427,0.838
+2017-02-04 08:34:39,RH0910329,91,House,329,1970-08-11,,,ASST. STATES IN PUBL. HEALTH PLANNING,375,1,Public Health,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910330,91,House,330,1970-08-11,,,REVISE COMMUNICATIONS ACT W/REGARD POL. BROADCASTI,273,98,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Domestic Social Policy,,Civil Liberties,0.122,0.443,0.112,0.266,0.143,0.774,-164.642,0.642
+2017-02-04 08:34:39,RH0910331,91,House,331,1970-08-12,,,AMEND INTERS. COMMERCE ACT,183,196,Interstate Commerce/Anti-trust/Restraint of Commerce,,Budget Special Interest,,Government Management,-0.031,-0.183,-0.1,-0.009,0.511,0.765,-199.179,0.59
+2017-02-04 08:34:39,RH0910332,91,House,332,1970-08-12,,,AMEND INTERS. COMMERCE ACT,143,232,Interstate Commerce/Anti-trust/Restraint of Commerce,,Budget Special Interest,,Government Management,0.144,-0.819,-0.12,-0.016,0.38,0.765,-190.066,0.602
+2017-02-04 08:34:39,RH0910333,91,House,333,1970-08-12,,,AMEND PUB. HEALTH SERV. ACT,365,0,Public Health,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910334,91,House,334,1970-08-13,,,APPS. OFFICE OF EDUC.,294,118,Education,,Budget Special Interest,,Social Welfare,0.191,-0.007,0.217,0.118,0.462,0.847,-127.538,0.733
+2017-02-04 08:34:39,RH0910335,91,House,335,1970-08-13,,,APPS. IND. OFFICES & HUD,210,200,,,Budget Special Interest,,Government Management,-0.017,-0.079,0.223,0.126,0.759,0.883,-112.775,0.759
+2017-02-04 08:34:39,RH0910336,91,House,336,1970-08-13,,,AMEND 1950 DEF. PROD. ACT,223,158,,,Defense Policy Budget,,Foreign and Defense Policy,0.041,-0.331,0.227,-0.088,0.796,0.916,-94.26,0.78
+2017-02-04 08:34:39,RH0910337,91,House,337,1970-08-13,,,"CONSTR. NARROWS UNIT, MO. RIV. BASIN PROJ. IN COLO",337,4,Public Works,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910338,91,House,338,1970-08-13,,,PAY OF GOVT. EMPLOYEES,236,86,,,Budget Special Interest,,Government Management,0.259,0.109,0.166,-0.125,0.302,0.813,-113.647,0.702
+2017-02-04 08:34:39,RH0910339,91,House,339,1970-09-09,,,PAY OF GOVT. EMPLOYEES,233,92,,,Budget Special Interest,,Government Management,0.195,-0.032,0.179,0.074,0.359,0.818,-115.831,0.7
+2017-02-04 08:34:39,RH0910340,91,House,340,1970-09-09,,,REGULATE MAILING OF UNSOLICITED CREDIT CARDS,302,0,,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910341,91,House,341,1970-09-10,,,AMEND HOUSING & URBAN DEVEL. ACT,281,32,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,0.397,0.046,0.232,0.183,0.281,0.927,-63.199,0.817
+2017-02-04 08:34:39,RH0910342,91,House,342,1970-09-10,,,COMMUNICABLE DISEASE CONTROL,313,1,Public Health,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910343,91,House,343,1970-09-10,,,EST. APOSTLE IS. NATL. LAKESHORE,29,198,Parks and Conservation,,Budget Special Interest,,Government Management,0.429,-0.377,-0.147,0.072,0.0,0.872,-73.35,0.724
+2017-02-04 08:34:39,RH0910344,91,House,344,1970-09-14,,,INC. APPS. INTL. FINANCIAL INSTS.,189,151,,,Foreign Policy Budget,,Foreign and Defense Policy,0.3,-0.119,0.097,0.628,0.567,0.808,-148.641,0.645
+2017-02-04 08:34:39,RH0910345,91,House,345,1970-09-16,,,APPS. TREAS. & POST OFFICE DEPT.,342,8,,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910346,91,House,346,1970-09-16,,,REVISE COMMUNICATIONS ACT W/REGARD POL. BROADCASTI,256,123,"Campaign Contributions, Lobbying/House Ethics Campaign Laws",,Domestic Social Policy,,Civil Liberties,0.208,-0.001,0.138,0.313,0.26,0.76,-165.447,0.646
+2017-02-04 08:34:39,RH0910347,91,House,347,1970-09-17,,,NO PROXY VOTING IN COMMITTEES,156,187,,,Internal Organization,,Miscellaneous Policy,-0.303,-0.88,-0.102,0.16,0.481,0.764,-181.382,0.589
+2017-02-04 08:34:39,RH0910348,91,House,348,1970-09-17,CQ,,NO PROXY VOTING IN COMMITTEES,326,19,,,Internal Organization,,Miscellaneous Policy,0.27,0.821,0.111,0.621,0.053,0.948,-48.05,0.87
+2017-02-04 08:34:39,RH0910349,91,House,349,1970-09-21,,,ALLOW PURCH. ADD. SYSTEMS FOR CARS OVER PRICE LIMI,266,42,Price Controls,,Budget Special Interest,,Government Management,0.378,0.331,0.158,0.145,0.167,0.886,-90.018,0.747
+2017-02-04 08:34:39,RH0910350,91,House,350,1970-09-21,,,INC. PENALTIES ILLEGAL FISHING AM. WATERS,317,0,Fish and Wildlife,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910351,91,House,351,1970-09-21,,,INCOME LIMITS VETS COMPENS.,318,0,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910352,91,House,352,1970-09-21,,,GUAR. LOANS FOR VET'S FOR TRAILER HOMES,300,0,Military Pensions/Veterans Benefits,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910353,91,House,353,1970-09-22,,,"$807,000 PLANNING FUNDS DICKEY-LINCOLN PROJ.",131,230,,,Budget Special Interest,,Government Management,-0.241,-0.129,0.17,-0.0,0.473,0.809,-134.294,0.689
+2017-02-04 08:34:39,RH0910354,91,House,354,1970-09-23,,,CITE ARNOLD S. JOHNSON FOR CONTEMPT OF CONG.,337,14,,,Internal Organization,,Miscellaneous Policy,-0.592,-0.019,-0.697,-0.701,0.429,0.977,-16.965,0.953
+2017-02-04 08:34:39,RH0910355,91,House,355,1970-09-24,,,DRUG ABUSE PREVENTION & CONTROL,344,7,Narcotics,,Domestic Social Policy,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910356,91,House,356,1970-09-28,,,GRANTS FOR COMMUNICABLE DISEASE CONTROL,293,2,Public Health,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910357,91,House,357,1970-09-28,,,REGULATE HAZARDOUS MATERIALS ON RRS,311,0,,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910358,91,House,358,1970-09-29,,,MIL. PROCUREMENT,341,11,,,Defense Policy Budget,,Foreign and Defense Policy,-0.659,-0.173,-0.252,-0.411,-0.182,0.963,-33.589,0.909
+2017-02-04 08:34:39,RH0910359,91,House,359,1970-09-29,,,URBAN MASS TRANSIT,199,146,,,Budget Special Interest,,Government Management,-0.193,0.212,-0.187,-0.371,0.678,0.863,-116.119,0.714
+2017-02-04 08:34:39,RH0910360,91,House,360,1970-09-29,,,URBAN MASS TRANSIT,329,16,,,Budget Special Interest,,Government Management,0.393,0.547,0.216,0.709,0.133,0.962,-32.64,0.909
+2017-02-04 08:34:39,RH0910361,91,House,361,1970-09-30,,,AMEND AEC ACT,345,0,,,Government Organization,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910362,91,House,362,1970-09-30,,,GUARDS TO ACCOMPANY AIRCRAFT OP. BY U.S. AIRCRAFT,324,17,Airlines/Airports/Airline Industry,,Budget Special Interest,,Government Management,0.99,-0.142,0.229,0.191,-0.059,0.947,-56.082,0.848
+2017-02-04 08:34:39,RH0910363,91,House,363,1970-10-05,,,CONTINUING APPS.,286,9,,,Budget General Interest,,Government Management,0.572,0.159,0.509,1.207,0.556,0.986,-11.225,0.963
+2017-02-04 08:34:39,RH0910364,91,House,364,1970-10-05,,,REPRESENTATION OF INDIGENT DEFENDENTS U.S. CTS.,279,21,,,Domestic Social Policy,,Civil Liberties,0.456,0.434,0.176,0.873,0.2,0.946,-41.01,0.872
+2017-02-04 08:34:39,RH0910365,91,House,365,1970-10-06,,,PROMOTE TRAVEL TO U.S.,255,93,,,Foreign Policy Resolutions,,Foreign and Defense Policy,0.194,0.395,0.126,0.107,0.204,0.787,-150.703,0.648
+2017-02-04 08:34:39,RH0910366,91,House,366,1970-10-06,,,AMEND MERCH. MARINE ACT,343,4,Shipping/Maritime,,Budget Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910367,91,House,367,1970-10-07,,,CONTROL OF ORGANIZED CRIME,343,26,,,Domestic Social Policy,,Civil Liberties,-0.542,0.018,-0.7,-0.51,0.5,0.965,-33.062,0.914
+2017-02-04 08:34:39,RH0910368,91,House,368,1970-10-08,,,1971 DEF. DEPT. APPS.,46,264,,,Defense Policy Budget,,Foreign and Defense Policy,-0.256,-0.387,0.413,1.685,0.609,0.942,-41.448,0.875
+2017-02-04 08:34:39,RH0910369,91,House,369,1970-10-08,,,1971 DEF. DEPT. APPS.,276,32,,,Defense Policy Budget,,Foreign and Defense Policy,-0.435,-0.289,-0.503,-1.805,0.625,0.961,-27.17,0.916
+2017-02-04 08:34:39,RH0910370,91,House,370,1970-10-13,,,MIL. CONSTR.,316,20,,,Defense Policy Budget,,Foreign and Defense Policy,-0.628,-0.155,-0.236,-0.69,0.25,0.955,-41.506,0.883
+2017-02-04 08:34:39,RH0910371,91,House,371,1970-10-13,,,AGRIC. APPS.,227,180,Agriculture,,Budget Special Interest,,Agriculture,-0.523,0.142,-0.032,-0.425,0.339,0.707,-223.354,0.577
+2017-02-04 08:34:39,RH0910372,91,House,372,1970-10-14,,,EST. AM. REVOLUTION BICENTENNIAL COMMISSION,304,1,,,Government Organization,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910373,91,House,373,1970-11-16,,,APPS. CIVIL RIGHTS COMMISSION,273,59,Civil Rights/Desegregation/Busing/Affirmative Action,,Budget Special Interest,,Civil Liberties,0.006,0.56,0.252,1.319,0.552,0.921,-62.199,0.829
+2017-02-04 08:34:39,RH0910374,91,House,374,1970-11-16,,,BENEFITS WIVES OF MISSING IN ACTION,332,0,Military Pensions/Veterans Benefits,,Defense Policy Budget,,Foreign and Defense Policy,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910375,91,House,375,1970-11-16,,,IMPROVE FAMILY PLANNING PROGRAMS,298,32,,,Budget Special Interest,,Social Welfare,0.555,0.155,0.145,0.355,0.062,0.909,-89.325,0.762
+2017-02-04 08:34:39,RH0910376,91,House,376,1970-11-16,,,WAR POWERS OF CONGRESS & THE PRESIDENT,288,39,,,Government Organization,,Foreign and Defense Policy,-0.274,-0.779,-0.169,-0.377,0.385,0.926,-66.98,0.814
+2017-02-04 08:34:39,RH0910377,91,House,377,1970-11-17,,,ASSURE EMPLOYMENT AND JOBS TRAINING,88,283,Unemployment/Jobs,,Budget Special Interest,,Social Welfare,0.146,0.307,-0.36,-1.645,0.701,0.93,-66.183,0.836
+2017-02-04 08:34:39,RH0910378,91,House,378,1970-11-18,,,TRADE ACT OF 1970,198,214,,,Budget Special Interest,Regulation Special Interest,Government Management,-0.452,0.305,-0.043,-0.477,0.437,0.73,-213.876,0.594
+2017-02-04 08:34:39,RH0910379,91,House,379,1970-11-18,CQ,,TRADE ACT OF 1970,200,209,,,Budget Special Interest,Regulation Special Interest,Government Management,-0.531,0.29,0.049,0.527,0.445,0.728,-210.432,0.597
+2017-02-04 08:34:39,RH0910380,91,House,380,1970-11-18,,,TRADE ACT OF 1970,214,198,,,Budget Special Interest,Regulation Special Interest,Government Management,-0.506,0.275,-0.046,-0.469,0.414,0.718,-219.396,0.586
+2017-02-04 08:34:39,RH0910381,91,House,381,1970-11-19,,,TRADE ACT OF 1970,184,219,,,Budget Special Interest,Regulation Special Interest,Government Management,-0.35,0.073,0.019,0.381,0.364,0.709,-223.779,0.573
+2017-02-04 08:34:39,RH0910382,91,House,382,1970-11-19,,,TRADE ACT OF 1970,228,178,,,Budget Special Interest,Regulation Special Interest,Government Management,-0.317,0.032,-0.022,-0.34,0.337,0.709,-230.859,0.566
+2017-02-04 08:34:39,RH0910383,91,House,383,1970-11-24,,,OSHA ACT,232,183,OSHA,,Regulation General Interest,,Social Welfare,-0.079,-0.043,-0.341,-0.489,0.858,0.937,-71.495,0.841
+2017-02-04 08:34:39,RH0910384,91,House,384,1970-11-24,,,OSHA ACT,385,5,OSHA,,Regulation General Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910385,91,House,385,1970-11-24,,,APPS. IND. OFFICES & HUD,375,10,,,Budget Special Interest,,Government Management,0.469,0.879,0.215,0.299,0.1,0.977,-25.114,0.937
+2017-02-04 08:34:39,RH0910386,91,House,386,1970-11-24,,,FED. AID TO HIGHWAYS,287,60,Public Works,,Budget Special Interest,,Government Management,-0.449,-0.057,-0.193,-0.733,0.467,0.908,-77.807,0.799
+2017-02-04 08:34:39,RH0910387,91,House,387,1970-11-30,,,PERMIT ADVER. UNDER MARKETING ORDERS,155,212,Agriculture,,Regulation Special Interest,,Agriculture,0.441,0.424,-0.083,0.408,0.394,0.743,-185.794,0.602
+2017-02-04 08:34:39,RH0910388,91,House,388,1970-12-01,,,PROT. CUSTOMERS OF REG. BROKERS,360,3,,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910389,91,House,389,1970-12-01,,,MEDICAL TRAINING ASST. FOR FAMILY PRACTICE,346,2,Education,,Budget Special Interest,,Social Welfare,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910390,91,House,390,1970-12-02,,,TELEPHONE ALLOWANCES FOR CONGMN.,187,164,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,-0.038,0.205,0.146,0.017,0.598,0.811,-143.603,0.663
+2017-02-04 08:34:39,RH0910391,91,House,391,1970-12-02,,,HOUSING & URBAN DEVELOP.,344,22,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,0.548,-0.402,0.325,0.346,0.227,0.953,-42.166,0.891
+2017-02-04 08:34:39,RH0910392,91,House,392,1970-12-03,,,HOUSING & URBAN DEVELOP.,330,31,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,0.364,0.333,0.216,0.349,0.129,0.925,-63.287,0.839
+2017-02-04 08:34:39,RH0910393,91,House,393,1970-12-03,,,MEDICAL ALLOWANCES FOR HOUSE MEMBERS,89,192,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,-0.328,0.23,0.134,0.038,0.404,0.811,-122.566,0.645
+2017-02-04 08:34:39,RH0910394,91,House,394,1970-12-07,,,PROCEDURAL,313,27,,,Internal Organization,,Miscellaneous Policy,-0.516,-0.098,-0.414,-0.75,0.519,0.962,-30.777,0.913
+2017-02-04 08:34:39,RH0910395,91,House,395,1970-12-07,,,SUPPORT RESCUE OF AM. PRISONERS IN VIETNAM,347,15,Vietnam War,,Defense Policy Resolutions,,Foreign and Defense Policy,-0.62,-0.074,-0.775,-1.238,0.467,0.978,-20.44,0.945
+2017-02-04 08:34:39,RH0910396,91,House,396,1970-12-08,CQ,,APPS. FOR SST,226,185,SST,,Budget Special Interest,,Government Management,-0.228,0.163,-0.076,-0.347,0.411,0.734,-214.745,0.592
+2017-02-04 08:34:39,RH0910397,91,House,397,1970-12-08,,,ENCOURAGE DEVELOPMENT OF NEW PLANTS,333,27,Agriculture,,Budget Special Interest,,Agriculture,0.773,0.635,0.183,-0.108,0.037,0.928,-80.241,0.8
+2017-02-04 08:34:39,RH0910398,91,House,398,1970-12-09,,,PROHIBIT RR STRIKE,215,174,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Social Welfare,0.012,0.054,0.198,0.167,0.688,0.861,-128.472,0.718
+2017-02-04 08:34:39,RH0910399,91,House,399,1970-12-09,,,PROHIBIT RR STRIKE,221,166,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Social Welfare,0.232,0.973,0.09,-0.084,0.355,0.723,-217.729,0.569
+2017-02-04 08:34:39,RH0910400,91,House,400,1970-12-09,,,FOR. AID,250,103,,,Foreign Policy Budget,,Foreign and Defense Policy,-0.468,-0.442,-0.068,-0.067,0.147,0.753,-190.297,0.582
+2017-02-04 08:34:39,RH0910401,91,House,401,1970-12-09,,,PROHIBIT RR STRIKE,199,131,Union Regulation/Davis-Bacon/Situs Picketing,,Regulation Special Interest,,Social Welfare,0.252,0.968,0.116,-0.093,0.408,0.766,-164.217,0.607
+2017-02-04 08:34:39,RH0910402,91,House,402,1970-12-10,,,SUPPLEMENTAL APPS.,332,28,,,Budget Special Interest,,Government Management,0.836,0.549,0.233,-0.397,0.107,0.93,-79.36,0.802
+2017-02-04 08:34:39,RH0910403,91,House,403,1970-12-10,,,SUPPLEMENTAL APPS.,345,21,,,Budget Special Interest,,Government Management,0.648,0.736,0.177,0.057,0.143,0.951,-64.622,0.838
+2017-02-04 08:34:39,RH0910404,91,House,404,1970-12-10,,,MANPOWER TRAINING ACT,203,186,Unemployment/Jobs,,Budget Special Interest,,Social Welfare,0.005,-0.038,0.402,0.633,0.881,0.943,-65.142,0.845
+2017-02-04 08:34:39,RH0910405,91,House,405,1970-12-11,,,AMEND 1954 INTERNAL REVENUE CODE,243,22,Tax rates,,Budget General Interest,,Government Management,0.736,0.677,0.173,-0.082,0.136,0.928,-62.733,0.788
+2017-02-04 08:34:39,RH0910406,91,House,406,1970-12-11,,,APPS. SMITHSONIAN INST.,216,53,,,Budget Special Interest,,Government Management,0.296,0.136,0.181,0.39,0.365,0.877,-84.675,0.729
+2017-02-04 08:34:39,RH0910407,91,House,407,1970-12-14,,,PRINT REPT. COMM. ON INTERNAL SECURITY,69,315,Communists/Communism/Unamerican Activities,,Internal Organization,Budget Special Interest,Government Management,-0.402,-0.033,0.497,1.703,0.71,0.948,-50.036,0.878
+2017-02-04 08:34:39,RH0910408,91,House,408,1970-12-14,,,PRINT REPT. COMM. ON INTERNAL SECURITY,315,67,Communists/Communism/Unamerican Activities,,Internal Organization,Budget Special Interest,Government Management,-0.435,-0.002,-0.525,-1.791,0.701,0.948,-49.352,0.879
+2017-02-04 08:34:39,RH0910409,91,House,409,1970-12-14,,,PROVIDE REVENUE D.C.,272,58,,,D. C.,Budget Special Interest,Government Management,-0.097,0.852,0.128,0.552,0.368,0.891,-92.986,0.754
+2017-02-04 08:34:39,RH0910410,91,House,410,1970-12-15,,,APPS. DEPT. OF TRANSP.,217,197,,,Budget Special Interest,,Government Management,-0.435,0.355,-0.063,-0.394,0.411,0.719,-224.82,0.58
+2017-02-04 08:34:39,RH0910411,91,House,411,1970-12-15,,,APPS. DEPT. OF TRANSP.,322,74,,,Budget Special Interest,,Government Management,-0.663,0.339,-0.138,-0.306,0.216,0.853,-145.098,0.693
+2017-02-04 08:34:39,RH0910412,91,House,412,1970-12-15,,,ALLOW RIV. BOAT DELTA QUEEN OPERATE ANOTHER 2 YRS,295,73,,,Budget Special Interest,,Government Management,-0.614,0.133,-0.091,0.011,-0.014,0.798,-180.819,0.611
+2017-02-04 08:34:39,RH0910413,91,House,413,1970-12-16,,,FOR. AID,229,182,,,Foreign Policy Budget,,Foreign and Defense Policy,0.664,-0.748,0.183,0.736,0.541,0.798,-194.522,0.622
+2017-02-04 08:34:39,RH0910414,91,House,414,1970-12-16,,,APPS. DEPT. OF DEF.,329,30,,,Defense Policy Budget,,Foreign and Defense Policy,-0.47,-0.203,-0.535,-1.534,0.633,0.969,-27.642,0.926
+2017-02-04 08:34:39,RH0910415,91,House,415,1970-12-16,,,AMEND BANK HOLDING CO. ACT OF 1956,367,4,Banking and Finance,,Regulation Special Interest,,Government Management,0.0,0.0,0.0,0.0,,,0.0,
+2017-02-04 08:34:39,RH0910416,91,House,416,1970-12-16,,,AMEND FOOD STAMP ACT,189,200,Food Stamps/Food Programs,,Domestic Social Policy,,Social Welfare,-0.009,0.028,-0.362,-0.76,0.83,0.918,-73.968,0.826
+2017-02-04 08:34:39,RH0910417,91,House,417,1970-12-16,,,FOOD STAMPS,295,73,Food Stamps/Food Programs,,Domestic Social Policy,,Social Welfare,0.076,0.562,0.168,0.532,0.417,0.886,-101.559,0.758
+2017-02-04 08:34:39,RH0910418,91,House,418,1970-12-17,,,POTATO & TOMATO PROMOTION PROGRAMS,239,170,Agriculture,,Budget Special Interest,,Agriculture,0.455,0.477,0.096,-0.387,0.394,0.748,-204.825,0.605
+2017-02-04 08:34:39,RH0910419,91,House,419,1970-12-17,,,OCCUPATIONAL SAFETY AND HEALTH--OSHA PROGRAMS,310,58,OSHA,,Regulation General Interest,,Social Welfare,0.122,0.518,0.206,0.897,0.491,0.921,-72.547,0.821
+2017-02-04 08:34:39,RH0910420,91,House,420,1970-12-17,,,PAY RATES GOVT. EMPLOYEES,273,89,,,Budget Special Interest,,Government Management,0.24,-0.111,0.211,0.025,0.483,0.873,-109.231,0.739
+2017-02-04 08:34:39,RH0910421,91,House,421,1970-12-18,,,PROCEDURAL,307,10,,,Internal Organization,,Miscellaneous Policy,0.641,0.163,0.214,0.199,0.2,0.975,-31.683,0.905
+2017-02-04 08:34:39,RH0910422,91,House,422,1970-12-18,,,CONSTR. CERT. HIGHWAYS,319,11,Public Works,,Budget Special Interest,,Government Management,-0.317,-0.751,-0.399,-1.784,0.455,0.982,-13.755,0.959
+2017-02-04 08:34:39,RH0910423,91,House,423,1970-12-19,,,HOUSING AND URBAN DEVELOPMENT,211,147,Housing/Housing Programs/Rent Control,,Budget Special Interest,,Social Welfare,0.083,0.061,0.392,0.709,0.774,0.908,-75.947,0.808
+2017-02-04 08:34:39,RH0910424,91,House,424,1970-12-19,,,INCLUDE FIREFIGHTERS WITHING RETIREMENT PROV. HAZA,158,104,,,Budget Special Interest,,Government Management,0.193,-0.812,0.191,0.13,0.615,0.847,-103.453,0.674
+2017-02-04 08:34:39,RH0910425,91,House,425,1970-12-21,,,GUN CONTROL,294,83,Firearms,,Regulation Special Interest,,Government Management,-0.332,-0.092,-0.298,-0.819,0.542,0.899,-74.443,0.82
+2017-02-04 08:34:39,RH0910426,91,House,426,1970-12-21,,,U.N. HQ EXPANSION,216,134,U. N.,,Foreign Policy Budget,,Foreign and Defense Policy,0.583,-0.567,0.125,0.461,0.496,0.808,-179.131,0.599
+2017-02-04 08:34:39,RH0910427,91,House,427,1970-12-21,,,DELINQUENT NATIONS MUST PAY U.N. DUES,152,196,U. N.,,Foreign Policy Budget,,Foreign and Defense Policy,0.187,-0.18,-0.156,-0.5,0.695,0.867,-132.185,0.683
+2017-02-04 08:34:39,RH0910428,91,House,428,1970-12-21,,,U.N. HQ EXPANSION,189,170,U. N.,,Foreign Policy Budget,,Foreign and Defense Policy,0.083,-0.098,0.104,0.322,0.586,0.804,-173.646,0.616
+2017-02-04 08:34:39,RH0910429,91,House,429,1970-12-21,,,ASST. SCHOOL DISTRICTS W/DESEGREGATION,148,84,Civil Rights/Desegregation/Busing/Affirmative Action,,Budget Special Interest,,Social Welfare,0.115,0.029,0.211,0.672,0.627,0.866,-71.018,0.735
+2017-02-04 08:34:39,RH0910430,91,House,430,1970-12-21,,,ASST. SCHOOL DISTRICTS W/DESEGREGATION,109,130,Civil Rights/Desegregation/Busing/Affirmative Action,,Budget Special Interest,,Social Welfare,0.102,-0.145,-0.39,-1.168,0.806,0.912,-51.693,0.805
+2017-02-04 08:34:39,RH0910431,91,House,431,1970-12-21,CQ,,ASST. SCHOOL DISTRICTS W/DESEGREGATION,194,114,Civil Rights/Desegregation/Busing/Affirmative Action,,Budget Special Interest,,Social Welfare,0.272,-0.164,0.262,0.951,0.805,0.928,-72.807,0.789
+2017-02-04 08:34:39,RH0910432,91,House,432,1970-12-22,,,PROCEDURAL,278,9,,,Internal Organization,,Miscellaneous Policy,0.349,0.937,0.216,0.387,0.0,0.969,-23.409,0.921
+2017-02-04 08:34:39,RH0910433,91,House,433,1970-12-22,,,RESOL. REGARDING SPEAKER OF THE HOUSE,218,69,,,Internal Organization,,Miscellaneous Policy,0.102,0.995,0.174,0.135,0.188,0.804,-105.025,0.693
+2017-02-04 08:34:39,RH0910434,91,House,434,1970-12-22,,,EMERG. RAIL SERVICES ACT,263,30,,,Budget Special Interest,,Government Management,-0.8,-0.526,-0.172,0.169,0.0,0.898,-92.191,0.73
+2017-02-04 08:34:39,RH0910435,91,House,435,1970-12-22,,,EMERG. RAIL SERVICES ACT,189,139,,,Budget Special Interest,,Government Management,0.459,-0.067,0.03,0.188,0.29,0.7,-210.066,0.526
+2017-02-04 08:34:39,RH0910436,91,House,436,1970-12-29,,,FUNDS PAY JUDGMENTS IN FAVOR MISS. SIOUX INDIANS,235,20,,,Indian Affairs,Budget Special Interest,Government Management,0.481,-0.004,0.219,0.047,0.35,0.949,-42.058,0.847
+2017-02-04 08:34:39,RH0910437,91,House,437,1970-12-29,,,POTATO & TOMATO PROMOTION PROGRAMS,230,165,Agriculture,,Budget Special Interest,,Agriculture,0.466,0.56,0.12,-0.436,0.455,0.772,-181.857,0.63
+2017-02-04 08:34:39,RH0910438,91,House,438,1970-12-29,,,APPS. DEF. DEPT.,234,18,,,Defense Policy Budget,,Foreign and Defense Policy,-0.493,-0.178,-0.556,-1.414,0.778,0.984,-17.804,0.932
+2017-02-04 08:34:39,RH0910439,91,House,439,1970-12-30,,,FOOD STAMPS,206,184,Food Stamps/Food Programs,,Domestic Social Policy,,Social Welfare,-0.068,-0.018,-0.307,-0.575,0.826,0.918,-79.251,0.816
+2017-02-04 08:34:39,RH0910440,91,House,440,1970-12-30,,,EXCLUDE EXPORT-IMPORT BANK COSTS FROM BUDGET,161,102,Banking and Finance,,Budget Special Interest,,Government Management,0.285,-0.281,0.105,0.298,0.455,0.79,-134.79,0.598
+2017-02-04 08:34:39,RH0910441,91,House,441,1970-12-31,,,EXT. ADVISORY COMMITTEE ON FED. PAY,184,54,,,Government Organization,,Government Management,0.141,0.38,0.134,0.399,0.415,0.869,-82.489,0.706
+2017-02-04 08:34:39,RH0910442,91,House,442,1970-12-31,,,CONTINUING APPS.,145,75,,,Budget General Interest,,Government Management,-0.271,0.013,-0.121,-0.356,0.4,0.795,-92.617,0.655
+2017-02-04 08:34:39,RH0910443,91,House,443,1970-12-31,,,CONTINUING APPS.,180,37,,,Budget General Interest,,Government Management,-0.407,-0.227,-0.128,-0.397,0.324,0.884,-69.243,0.726
