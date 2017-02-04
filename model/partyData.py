@@ -17,7 +17,7 @@ def getPartyData(code, api="Web_Name"):
 	else:
 		retDict = {"partyname": r["partyname"], "fullName": r["fullName"], "pluralNoun": r["pluralNoun"], "noun": r["noun"]}
 		if "partyDesc" in r:
-			retDict["partyDesc"] = r["partyDesc"]
+			retDict["party_description"] = r["party_description"]
 		if "briefName" in r:
 			retDict["briefName"] = r["briefName"]
 		return retDict
