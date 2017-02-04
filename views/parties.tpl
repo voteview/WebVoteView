@@ -26,7 +26,7 @@
 					<span class="fullName">Party {{ party }}</span>
 				</h3>
 
-				% if "partyDesc" in partyData:
+				% if "party_description" in partyData:
 				<div class="alert alert-{{indicator}}">
 					{{!partyData["party_description"]}}
 				</div>
