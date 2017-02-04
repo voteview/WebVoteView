@@ -1,6 +1,30 @@
 var isDoingSelect=0;
 var delayUpdateToolip;
 
+/* 
+    Add sponsor circle
+*/
+function addSponsorCircle(oc,dat) {
+    var scaleX = d3.scale.linear().domain([-1,1]).range([oc.margins()['left'],oc.width()-oc.margins()['right']]);
+    var scaleY = d3.scale.linear().domain([-1,1]).range([oc.height()-oc.margins()['bottom'],oc.margins()['top']]);
+    var vc = globalData.rollcalls[0];
+    for (var i = 0, len = vc.votes.length; i < len; i++) {
+        if (vc.votes[i].icpsr == vc.sponsor) break;
+    }
+    if (i<len) {
+	var ocSVG = d3.select(oc.g()[0][0]),
+	    sponsor = vc.votes[i];
+	ocSVG.append("circle")
+             .attr("stroke",blendColors([sponsor],false))
+             .attr("stroke-width","1px")
+             .attr("fill","none")
+	     .attr("r", 9)
+ 	     .attr("cx", scaleX(sponsor.x))
+             .attr("cy", scaleY(sponsor.y)+1.5); // JBL: Not sure why we need the extra 1.5 here...
+    }
+}
+
+
 /*
     Draws the background circles, labels and text for the scatter chart
 */
