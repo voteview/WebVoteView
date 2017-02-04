@@ -1,15 +1,5 @@
 [
     {
-        "congress": 69, 
-        "grandMean": 0.208, 
-        "grandMedian": 0.208, 
-        "grandSet": [
-            0.208
-        ], 
-        "nMembers": 1, 
-        "pctAgainst": 0.0
-    }, 
-    {
         "congress": 76, 
         "grandMean": -0.415, 
         "grandMedian": -0.415, 
