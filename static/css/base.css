@@ -296,3 +296,9 @@ ul#memberList.geography
 	background-color: white; 
 	border-top: 3px solid red; border-right: 3px solid red;
 }
+
+path.median
+{
+	fill:none !important;
+	stroke-width:3px !important;
+}
