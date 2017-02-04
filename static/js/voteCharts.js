@@ -352,7 +352,7 @@ function drawWidgets(error, data, geodata)
 		     try {
 			 //console.log(d);
 			 var v = d.value.members[0].vote; 
-			 if(globalData["rollcalls"][0]["sponsor"] != undefined && d.value.members[0].icpsr==globalData["rollcalls"][0]["sponsor"]) { return "cross"; }
+//			 if(globalData["rollcalls"][0]["sponsor"] != undefined && d.value.members[0].icpsr==globalData["rollcalls"][0]["sponsor"]) { return "cross"; }
 			 if(v == "Yea") {return "triangle-up";}
 			 if(v == "Nay") {return "triangle-down";}
 		     }catch(e){
@@ -440,7 +440,8 @@ function drawWidgets(error, data, geodata)
 
 	// We are done defining everything, now let's just run our ancillary functions.
 	dc.renderAll();
-	decorateNominate(nominateScatterChart,data);
+        decorateNominate(nominateScatterChart,data);
+        addSponsorCircle(nominateScatterChart);
 	if(!failedMapLoad) mapChart.on("filtered", pollFilters);
 	votePartyChart.on("filtered", pollFilters);
 	nominateScatterChart.on("filtered", pollFilters);
