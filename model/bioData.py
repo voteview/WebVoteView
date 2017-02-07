@@ -72,7 +72,7 @@ def checkForPartySwitch(person):
 		else:
 			result = lookup["results"][0]
 			newIcpsr = str(result["icpsr"]).zfill(6)
-			if levenshtein(baseIcpsr, newIcpsr)==1:
+			if levenshtein(baseIcpsr, newIcpsr)==1 and newIcpsr not in otherIcpsrs:
 				otherIcpsrs.append(newIcpsr)
 
 	if not len(otherIcpsrs):
