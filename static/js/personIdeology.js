@@ -2,7 +2,7 @@ $("#congSelector").change(reloadIdeology);
 
 (function loadData()
 {
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHist);	
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawLoyaltyHist);	
 })();
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
@@ -20,11 +20,11 @@ function viewAllCong()
 function reloadIdeology()
 {
 	congressNum = $("#congSelector").val();
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHistWrap);
+    queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(updateCongress);
 }
 
 // Wrapper to update default loadings for the person's ideal point.
-function drawHistWrap(error, data)
+function updateCongress(error, data)
 {
 	// Fail if we didn't get data.
 	if(data==undefined) { return(0); }
@@ -38,8 +38,9 @@ function drawHistWrap(error, data)
 			memberPartyCode = d.party_code;
 			memberNoun = d.party_noun;
 			partyColor = d.party_color;
-			chamber = d.chamber.toLowerCase();
-			$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
+		    chamber = d.chamber.toLowerCase();
+		       memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
+    		 			$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
 			if(d.district_code != undefined && d.district_code!=0 && d.district_code!=98 && d.district_code!=99)
 			{
 				$("#district_label").html(getGetOrdinal(d.district_code)+" congressional district");
@@ -56,8 +57,23 @@ function drawHistWrap(error, data)
 
 	$("#congSelector").blur();
 
+    drawLoyaltyHist(error, data);
+}
+
+function drawLoyaltyHist(error, data)
+{
+        buildLoyalty(error, data);
 	// Now call the actual plotting function.
-	drawHist(error, data);
+	drawHist(error, data);    
+}
+
+function buildLoyalty(error, data)
+{
+    if(data==undefined)
+    {
+	return(0);
+    }
+    $("#memberLoyalty").html(Math.round(memberLoyalty, 1)).append("%");
 }
 
 function drawHist(error, data)
@@ -66,7 +82,9 @@ function drawHist(error, data)
 	{
 		return(0);
 	}
-	var ctGreater=0;
+
+
+        var ctGreater=0;
 	var ctTotal=0;
 	var ctPartyGreater=0;
 	var ctPartyTotal=0;
@@ -81,6 +99,7 @@ function drawHist(error, data)
 			ctPartyTotal+=1;
 			if(d.nominate.dim1>memberIdeal) { ctPartyGreater+=1; }
 		}
+	    
 	});
 
 	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(DW-NOMINATE first dimension)</em><br/><br/>";
