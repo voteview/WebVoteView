@@ -338,7 +338,7 @@
 				<span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Empty Saved Votes" data-container="body"></span>
 			</div>	
 			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(1);">
-				<span class="glyphicon glyphicon-file" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
+				<span class="glyphicon glyphicon-save" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
 			</div>
 			<div id="createLinkIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(2);">
 				<span class="glyphicon glyphicon-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" data-container="body"></span>
@@ -381,7 +381,7 @@
 </div>
 <img id="stashCartClose" onClick="javacript:closeStashCart();" src="/static/img/close.png">
 <div id="stashCartIcon" onClick="javascript:openStashCart();">
-	<span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Saved Votes"></span>
+
 </div>
 
 <script>
