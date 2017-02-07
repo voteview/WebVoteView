@@ -136,7 +136,8 @@
 				<small style="padding-left:10px;"><a href="#" onclick="javascript:viewAllCong();return false;">View all members</a></small>
 			</h5>
 			Loyalty
-			<div>
+			<div id="loyaltyTable">
+			{{person["icpsr"]}}
 			</div>
 			Ideology	
 		</div>
