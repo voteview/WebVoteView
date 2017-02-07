@@ -298,7 +298,8 @@ def person(icpsr=0, garbage=""):
                     if not bioFound and os.path.isfile("static/img/bios/"+str(altPerson["icpsr"]).zfill(6)+".jpg"):
                         person["bioImg"] = str(altPerson["icpsr"]).zfill(6)+".jpg"
                         bioFound = 1
-                    person["altPeople"].append(altPerson)
+                    if not altPerson["icpsr"] in [x["icpsr"] for x in person["altPeople"]]:
+                        person["altPeople"].append(altPerson)
 
         timeIt("partySwitches")
 
@@ -394,7 +395,6 @@ def getmembersbycongress():
     api = defaultValue(bottle.request.params.api,"")
     out = getMembersByCongress(congress,chamber,api)
     if api=="Web_Congress" and "results" in out:
-        print out
         for i in range(0,len(out["results"])):
             memberRow = out["results"][i]
 
