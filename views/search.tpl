@@ -381,7 +381,7 @@
 </div>
 <img id="stashCartClose" onClick="javacript:closeStashCart();" src="/static/img/close.png">
 <div id="stashCartIcon" onClick="javascript:openStashCart();">
-
+         <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Saved Votes"></span>
 </div>
 
 <script>
