@@ -51,8 +51,12 @@ EOF
 	ssh rudkin@128.97.229.160 << EOF
 	rm -rf dump_db
 	touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
-	rm /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
-
+	rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+	rm -rf /usr/scripts/voteview_metadata/hourly_backup/patch.zip
+	rm -rf usr/scripts/voteview_metadata/hourly_backup/patch-true.zip
+	rm -rf /usr/scripts/voteview_metadata/hourly_backup/manifest.txt
+	touch /usr/scripts/voteview_metadata/hourly_backup/manifest.txt
+	touch /usr/scripts/voteview_metadata/hourly_backup/LAST_PATCH_WRITE
 EOF
 
 	downtimestart=$(date +%s)
