@@ -1,4 +1,4 @@
-% orgMapping = {"CQ": "Congressional Quarterly", "Gov": "Congress.gov", "VV": "Voteview Staff"}
+% orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff", "wikipedia": "Wikipedia"}
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 
 % def fixVoteProb(prob):
@@ -76,7 +76,7 @@
 				% if "key_flags" in vote and len(vote["key_flags"]):
 				<span class="btn btn-default btn-xs" 
 					aria-label="Key Vote" style="margin-left: 10px;" data-toggle="tooltip" 
-					data-placement="bottom" title="Vote classified as a 'Key Vote' by {{orgMapping[vote["key_flags"][0]]}}.">
+					data-placement="bottom" title="Vote classified as a 'Key Vote' by {{orgMapping[vote["key_flags"][0].lower()]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end
