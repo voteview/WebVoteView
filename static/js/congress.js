@@ -39,16 +39,16 @@ function nomPlot()
 	var all = ndx.groupAll();
 	var xDimension = ndx.dimension(
 		function(d) 
-		{
-			if(d.nominate!=undefined)
-			{
-				var x = d.nominate.dim1;
-				var y = d.nominate.dim2;
+	        {
+		        if( (!("nominate" in d & "dim1" in d.nominate)) | (d.nominate.dim1**2 + d.nominate.dim2**2 > 1.99) )
+	   	        {
+				var x = -999;
+				var y = -999;
 			}
 			else
-			{
-				var x = 999;
-				var y = 999;
+		        {
+				var x = d.nominate.dim1;
+				var y = d.nominate.dim2;
 			}
 			return [x,y];
 		}
