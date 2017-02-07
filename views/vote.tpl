@@ -58,7 +58,7 @@
 			</p>
 			% end
 			% if "name" in sponsor:
-			<p><strong>Sponsor:</strong> <a href="/person/{{sponsor["icpsr"]}}/{{sponsor["seo_name"]}}">{{sponsor["name"]}}</a></p>
+			<p><strong>Sponsor:</strong> <a href="/person/{{sponsor["icpsr"]}}/{{sponsor["seo_name"]}}">{{sponsor["name"]}} ({{sponsor["party"][0]}}-{{sponsor["state_abbrev"]}})</a></p>
 			% end
 			% if "question" in rollcall and rollcall["question"]:
 			<p style="clear:both;"><strong>Question: </strong>{{ rollcall["question"] }}</p>
