@@ -33,7 +33,7 @@ def waterfallQuestion(rollcall):
 
 def waterfallText(rollcall):
     waterfall = ["vote_description", "vote_desc", "vote_document_text", "vote_title",
-                 "vote_question_text", "amendment_author", "description", "short_description"]
+                 "vote_question_text", "amendment_author", "dtl_desc", "description", "short_description"]
     for w in waterfall:
         if w in rollcall and rollcall[w] is not None:
             return rollcall[w]
@@ -157,7 +157,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
     memberTime2 = time.time()
     # Now iterate through the rollcalls
     fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1,
-                    "description": 1, "shortdescription": 1, "short_description": 1, "vote_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1, 'vote_title': 1, 'vote_question_text': 1, 'amendment_author': 1, "sponsor": 1, "bill_number": 1}
+                    "description": 1, "shortdescription": 1, "short_description": 1, "vote_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1, 'vote_title': 1, 'vote_question_text': 1, 'amendment_author': 1, "sponsor": 1, "bill_number": 1, "dtl_desc": 1}
     rollcalls = db.voteview_rollcalls.find(
         {'id': {'$in': rollcall_ids}}, fieldSetNeed).sort('id').batch_size(10)
     for rollcall in rollcalls:
@@ -259,10 +259,12 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
             # Sort by ideology, and then identify the median and pivots
             if apitype == "Web":
                 median = []
-                pivotCopy = [x for x in result if "x" in x and x["x"] is not None]
+                pivotCopy = [
+                    x for x in result if "x" in x and x["x"] is not None]
                 pivotCopy = sorted(pivotCopy, key=lambda x: x["x"])
                 if len(pivotCopy) % 2:
-                    median = [pivotCopy[int(math.ceil(len(pivotCopy) / 2)) - 1]["icpsr"]]
+                    median = [
+                        pivotCopy[int(math.ceil(len(pivotCopy) / 2)) - 1]["icpsr"]]
                 else:
                     median = [pivotCopy[
                         (len(pivotCopy) / 2) - 1]["icpsr"], pivotCopy[(len(pivotCopy) / 2)]["icpsr"]]
@@ -273,9 +275,12 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                     fbPivot = [pivotCopy[59]["icpsr"],
                                pivotCopy[len(pivotCopy) - 60]["icpsr"]]
                 # Veto Override pivot
-                numVotes = len([x for x in result if "vote" in x and x["vote"]!="Abs"])
-                voPivotNum = int(math.ceil(float(numVotes)*float(2)/float(3)))
-                voPivot = [pivotCopy[voPivotNum]["icpsr"], pivotCopy[len(pivotCopy) - voPivotNum - 1]["icpsr"]]
+                numVotes = len(
+                    [x for x in result if "vote" in x and x["vote"] != "Abs"])
+                voPivotNum = int(
+                    math.ceil(float(numVotes) * float(2) / float(3)))
+                voPivot = [pivotCopy[voPivotNum]["icpsr"], pivotCopy[
+                    len(pivotCopy) - voPivotNum - 1]["icpsr"]]
 
                 for i in xrange(len(result)):
                     if result[i]["icpsr"] in median:
@@ -307,7 +312,8 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
             # Flatten nominate for the R API.
             if apitype in webexportapis:
                 nominate = rollcall['nominate']
-                checkNom = ['classified', 'pre', 'log_likelihood', 'geo_mean_probability']
+                checkNom = ['classified', 'pre',
+                            'log_likelihood', 'geo_mean_probability']
                 for f in checkNom:
                     if f not in nominate:
                         nominate[f] = ''
