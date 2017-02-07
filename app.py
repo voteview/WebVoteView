@@ -298,6 +298,7 @@ def person(icpsr=0, garbage=""):
                     if not bioFound and os.path.isfile("static/img/bios/"+str(altPerson["icpsr"]).zfill(6)+".jpg"):
                         person["bioImg"] = str(altPerson["icpsr"]).zfill(6)+".jpg"
                         bioFound = 1
+
                     if not altPerson["icpsr"] in [x["icpsr"] for x in person["altPeople"]]:
                         person["altPeople"].append(altPerson)
 
