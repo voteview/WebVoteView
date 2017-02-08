@@ -64,6 +64,10 @@
 			<p style="clear:both;"><strong>Question: </strong>{{ rollcall["question"] }}</p>
 			% end
 			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>
+                        % if rollcall.get('tie_breaker') and rollcall.get('tie_breaker').get('tie_breaker_vote'):
+                        % tie_breaking_voter = 'The ' + rollcall['tie_breaker']['by_whom'] if rollcall['tie_breaker']['by_whom'] == 'Vice President' else rollcall['tie_breaker']['by_whom']
+			<p style="clear:both;"><strong>Tie-breaker:</strong>{{tie_breaking_voter}} cast the tie-breaking vote of {{rollcall['tie_breaker']['tie_breaker_vote']}}.</p>
+                        % end
 		</div>
 	</div>
 
