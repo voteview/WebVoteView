@@ -16,17 +16,21 @@ except:
 db = client[dbConf["dbname"]]
 
 def partyLookup(qDict, api):
-	if api not in ["Web_FP_Search", "exportCSV"]:
+	if api not in ["Web_FP_Search", "exportCSV", "Web_Members"]:
 		return {}
 
 	if not "id" in qDict and not "name" in qDict:
 		return {}
 
 	if "id" in qDict:
-		party = db.voteview_parties.find_one({"id": qDict["id"]}, {"_id": 0, "id": 1, "count": 1, "fullName": 1, "colorScheme": 1, "minCongress": 1, "maxCongress": 1, "partyname": 1, "noun": 1})
+		party = db.voteview_parties.find_one({"id": qDict["id"]}, {"_id": 0, "id": 1, "count": 1, "fullName": 1, "colorScheme": 1, "minCongress": 1, "maxCongress": 1, "partyname": 1, "noun": 1, "loyalty_counts": 1})
+
+                if api == "Web_Members" and party:
+                        return party['loyalty_counts']
+                
 		if party and not "colorScheme" in party:
 			party["colorScheme"] = "grey"
-
+                        
 		if not party:
 			return {}
 		else:
@@ -92,6 +96,7 @@ def partyColor(id):
 		return "grey"
 
 if __name__ == "__main__":
-	print noun(5000)
-	print partyName(347)
-	print partyLookup({"name": "democrat"}, "Web_FP_Search")
+        print partyLookup({"id":200}, "Web_Members")
+        #print noun(5000)
+	#print partyName(347)
+	#print partyLookup({"name": "democrat"}, "Web_FP_Search")

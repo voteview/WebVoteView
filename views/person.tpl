@@ -136,9 +136,9 @@
 				<small style="padding-left:10px;"><a href="#" onclick="javascript:viewAllCong();return false;">View all members</a></small>
 			</h5>
 			<div id="loyaltyTable">
-			     Party Loyalty:
-			     <div id="memberLoyalty", style="display: inline-block">
-			     </div>
+			     Loyalty to {{person["party_name"]}}: <div id="memberLoyalty", style="display: inline-block"></div>
+			     Avg. {{person["party_name"]}} Loyalty: <div id="partyLoyalty", style="display: inline-block"></div>
+			     Avg. Loyalty all Parties: <div id="globalLoyalty", style="display: inline-block"></div>
 			</div>
 			Ideology
 							
@@ -232,6 +232,8 @@ var memberPartyName = "{{person["party_name"]}}";
 var memberPartyCode = "{{person["party_code"]}}";
 var memberNoun = "{{person["party_noun"]}}";
 var memberLoyalty = 100 * (1 - {{person["nvotes_against_party"]}} / {{person["nvotes_yea_nay"]}});
+var partyLoyalty = {{person["party_loyalty"]}}
+var globalLoyalty = {{person["global_loyalty"]}}
 var partyColor = "{{person["party_color"]}}";
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
