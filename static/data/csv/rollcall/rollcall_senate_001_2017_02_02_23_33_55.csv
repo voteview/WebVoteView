@@ -1,0 +1,101 @@
+date_generated,id,congress,chamber,rollnumber,date,keyvote,question,description,yea,nay,Issue1,Issue2,Peltzman1,Peltzman2,Clausen1,mid.dim1,mid.dim2,spread.dim1,spread.dim2,pre,classified,log_likelihood,geo_mean_probability
+2017-02-02 23:33:55,RS0010001,1,Senate,1,1789-07-17,,,EST. FED. JUDICIARY,14,6,Judiciary,,Government Organization,,Government Management,0.217,0.976,-0.301,0.58,0.6,0.895,-3.026,0.853
+2017-02-02 23:33:55,RS0010002,1,Senate,2,1789-07-18,,,EST. DEPT. OF FOR. AFFAIRS,9,9,,,Government Organization,Foreign Policy Resolutions,Foreign and Defense Policy,-0.257,0.966,0.134,0.2,0.5,0.765,-8.356,0.612
+2017-02-02 23:33:55,RS0010003,1,Senate,3,1789-07-18,,,EST. DEPT. OF FOR. AFFAIRS,10,9,,,Government Organization,Foreign Policy Resolutions,Foreign and Defense Policy,-0.259,0.966,-0.139,-0.209,0.5,0.778,-8.424,0.626
+2017-02-02 23:33:55,RS0010004,1,Senate,4,1789-08-04,,,EST. DEPT. OF WAR,9,10,,,Government Organization,Defense Policy Resolutions,Foreign and Defense Policy,-0.206,0.978,0.145,0.203,0.5,0.778,-8.148,0.636
+2017-02-02 23:33:55,RS0010005,1,Senate,5,1789-08-04,,,ORGAN. NW TERRS.,8,10,Public Lands,,Government Organization,,Government Management,-0.208,0.978,0.138,0.184,0.429,0.765,-8.06,0.622
+2017-02-02 23:33:55,RS0010006,1,Senate,6,1789-08-18,,,$20000 NOT $40000 IND. NEGO. APPS.,12,7,,,Indian Affairs,Budget Special Interest,Government Management,-0.697,0.658,-0.502,-1.713,0.571,0.842,-6.174,0.723
+2017-02-02 23:33:55,RS0010007,1,Senate,7,1789-08-25,,,EST. TREAS. DEPT.,10,10,Banking and Finance,,Government Organization,,Government Management,-0.101,-0.995,-0.103,0.178,0.5,0.75,-10.613,0.588
+2017-02-02 23:33:55,RS0010008,1,Senate,8,1789-08-28,,,SENATE WORTH MORE THAN HOUSE,13,6,Congressional Pay and Benefits,,Internal Organization,,Miscellaneous Policy,-0.901,-0.107,-0.08,0.684,0.333,0.789,-8.85,0.628
+2017-02-02 23:33:55,RS0010009,1,Senate,9,1789-08-28,,,RED. COMPENS. REPS. FROM $6 TO $5,6,13,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,0.948,-0.176,-0.106,-0.559,0.167,0.737,-10.246,0.583
+2017-02-02 23:33:55,RS0010010,1,Senate,10,1789-08-28,,,RED. COMPENS. SEN. FROM $6 TO $5,4,14,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,-0.642,-0.079,0.132,-0.845,0.5,0.889,-5.083,0.754
+2017-02-02 23:33:55,RS0010011,1,Senate,11,1789-09-02,,,RATIO OF REPS--1/30000 & 200 REPS.,6,12,Ratio of Representatives to Population,,Government Organization,,Miscellaneous Policy,0.923,0.385,-0.092,0.108,-0.2,0.647,-9.833,0.561
+2017-02-02 23:33:55,RS0010012,1,Senate,12,1789-09-03,,,CONST. AMEND.,2,14,Constitutional Amendments,,Government Organization,,Government Management,-0.216,-0.156,0.729,0.515,1.0,1.0,-0.006,1.0
+2017-02-02 23:33:55,RS0010013,1,Senate,13,1789-09-04,,,CONST. AMEND. ABT. RAISING ARMIES,6,9,Constitutional Amendments,,Government Organization,,Foreign and Defense Policy,0.198,-0.292,0.711,0.295,1.0,1.0,-1.413,0.904
+2017-02-02 23:33:55,RS0010014,1,Senate,14,1789-09-07,,,SENATORS RCV. NO MORE THAN $6/DAY,12,5,Congressional Pay and Benefits,,Internal Organization,Budget Special Interest,Government Management,0.971,-0.226,0.072,0.211,-0.4,0.588,-10.408,0.542
+2017-02-02 23:33:55,RS0010015,1,Senate,15,1789-09-09,,,CONST. AMEND.,8,8,Constitutional Amendments,,Government Organization,,Government Management,-0.544,0.839,0.073,0.245,0.286,0.667,-9.064,0.546
+2017-02-02 23:33:55,RS0010016,1,Senate,16,1789-09-21,,,SALARY CHIEF JUSTICE SUP. CT.,9,9,Supreme Court,,Budget Special Interest,,Government Management,0.231,-0.321,-0.113,0.818,0.5,0.765,-5.371,0.729
+2017-02-02 23:33:55,RS0010017,1,Senate,17,1789-09-24,,,GOVT. NOT IN PA.,8,10,,,Government Organization,,Government Management,0.638,-0.764,0.336,1.611,0.714,0.882,-3.322,0.823
+2017-02-02 23:33:55,RS0010018,1,Senate,18,1789-09-24,,,GOVT. ON SUSQUEHANNAH RIVER,11,7,,,Government Organization,,Government Management,0.989,0.15,0.072,-0.297,0.143,0.647,-9.746,0.564
+2017-02-02 23:33:55,RS0010019,1,Senate,19,1789-09-24,,,GOVT. IN PHILA. OR GERMANTOWN,9,9,,,Government Organization,,Government Management,-0.348,0.434,-0.257,-1.183,0.875,0.941,-5.13,0.74
+2017-02-02 23:33:55,RS0010020,1,Senate,20,1789-09-25,,,CONT. GOVT. IN N.Y.,7,11,,,Government Organization,,Government Management,0.148,-0.316,0.481,1.373,1.0,1.0,-0.975,0.944
+2017-02-02 23:33:55,RS0010021,1,Senate,21,1789-09-26,,,EST. SEAT OF GOVT.,10,7,,,Government Organization,,Government Management,0.278,-0.423,-0.29,-1.704,0.833,0.938,-1.555,0.907
+2017-02-02 23:33:55,RS0010022,1,Senate,22,1790-01-25,,,SENATE RULE,10,8,,,Internal Organization,,Miscellaneous Policy,-1.0,-0.015,-0.009,0.589,0.25,0.667,-9.879,0.578
+2017-02-02 23:33:55,RS0010023,1,Senate,23,1790-05-14,,,TRADE W/R.I. WHICH IS NOT IN U.S.,13,7,Tariffs,,Budget Special Interest,,Government Management,-0.05,-0.25,-1.944,-0.199,0.286,0.75,-8.682,0.648
+2017-02-02 23:33:55,RS0010024,1,Senate,24,1790-05-17,,,TRADE W/R.I. WHICH IS NOT IN U.S.,13,8,Tariffs,,Budget Special Interest,,Government Management,0.002,-1.0,-1.799,-0.252,0.375,0.762,-8.354,0.672
+2017-02-02 23:33:55,RS0010025,1,Senate,25,1790-05-21,,,PAY CERT. SOLDIERS,13,9,,,Defense Policy Budget,,Foreign and Defense Policy,0.474,-0.88,0.199,0.268,0.889,0.955,-5.508,0.779
+2017-02-02 23:33:55,RS0010026,1,Senate,26,1790-05-21,,,PAY CERT. SOLDIERS,11,11,,,Defense Policy Budget,,Foreign and Defense Policy,0.189,0.901,-1.809,0.221,0.636,0.818,-10.294,0.626
+2017-02-02 23:33:55,RS0010027,1,Senate,27,1790-05-26,,,COMPENSATE BARON DE STEUBEN,8,16,,,Budget Special Interest,,Government Management,0.773,0.634,0.109,-0.681,0.375,0.792,-9.886,0.662
+2017-02-02 23:33:55,RS0010028,1,Senate,28,1790-05-26,,,COMPENSATE BARON DE STEUBEN,12,12,,,Budget Special Interest,,Government Management,0.969,-0.137,-0.015,1.119,0.667,0.833,-8.985,0.688
+2017-02-02 23:33:55,RS0010029,1,Senate,29,1790-05-26,,,COMPENSATE BARON DE STEUBEN,12,12,,,Budget Special Interest,,Government Management,0.984,-0.143,0.008,-1.124,0.667,0.833,-8.778,0.694
+2017-02-02 23:33:55,RS0010030,1,Senate,30,1790-05-27,,,COMPENSATE BARON DE STEUBEN,12,12,,,Budget Special Interest,,Government Management,0.969,-0.137,-0.015,1.119,0.667,0.833,-8.985,0.688
+2017-02-02 23:33:55,RS0010031,1,Senate,31,1790-06-08,,,HOLD NEXT SESSION OF CONG. IN PHILA.,11,13,,,Government Organization,,Miscellaneous Policy,0.568,-0.823,0.047,0.07,0.273,0.667,-15.33,0.528
+2017-02-02 23:33:55,RS0010032,1,Senate,32,1790-06-08,,,DETERM. SEAT OF GOVT. (PROC),12,12,,,Government Organization,,Government Management,-0.927,-0.374,0.004,0.374,0.083,0.542,-15.063,0.534
+2017-02-02 23:33:55,RS0010033,1,Senate,33,1790-06-08,,,PUT GOVT. ON EAST BANK OF POTOMAC,9,15,,,Government Organization,,Government Management,-0.251,-0.585,-0.03,0.869,0.0,0.625,-11.959,0.608
+2017-02-02 23:33:55,RS0010034,1,Senate,34,1790-06-08,,,PUT GOVT. IN BALTIMORE,7,17,,,Government Organization,,Government Management,-0.05,0.999,-0.991,-8.037,-0.714,0.5,-16.637,0.5
+2017-02-02 23:33:55,RS0010035,1,Senate,35,1790-06-14,,,HOLD NEXT SESSION IN BALTIMORE,13,11,,,Government Organization,,Miscellaneous Policy,-0.848,-0.509,-0.014,0.056,0.182,0.625,-16.429,0.504
+2017-02-02 23:33:55,RS0010036,1,Senate,36,1790-06-21,,,PAY DEBT AT 4% INT.,13,10,Banking and Finance,,Budget General Interest,,Government Management,0.89,0.455,0.238,-0.904,0.6,0.826,-8.593,0.688
+2017-02-02 23:33:55,RS0010037,1,Senate,37,1790-06-25,,,PURCH. W. PT. FOR MIL. ACADEMY,14,7,,,Defense Policy Budget,,Foreign and Defense Policy,-0.531,-0.143,-0.059,1.078,0.571,0.857,-6.965,0.718
+2017-02-02 23:33:55,RS0010038,1,Senate,38,1790-06-28,,,PURCH. W. PT. FOR MIL. ACADEMY,15,10,,,Defense Policy Budget,,Foreign and Defense Policy,-0.69,-0.121,-0.037,0.85,0.5,0.8,-10.515,0.657
+2017-02-02 23:33:55,RS0010039,1,Senate,39,1790-06-28,,,PUT GOVT. IN BALTIMORE,10,15,,,Government Organization,,Government Management,0.592,-0.784,-0.034,0.049,0.0,0.6,-16.533,0.516
+2017-02-02 23:33:55,RS0010040,1,Senate,40,1790-06-28,,,PUT GOVT. ON POTOMAC,16,9,,,Government Organization,,Government Management,0.707,-0.591,1.145,2.417,0.556,0.84,-6.332,0.776
+2017-02-02 23:33:55,RS0010041,1,Senate,41,1790-06-28,,,GOVT. ACCOMMODATIONS BY 1794,9,16,Public Works,,Budget Special Interest,,Government Management,0.991,0.092,-0.052,0.151,0.0,0.64,-15.597,0.536
+2017-02-02 23:33:55,RS0010042,1,Senate,42,1790-06-28,,,APPS. ACCOMMODATIONS BY 1800,8,17,Public Works,,Budget Special Interest,,Government Management,0.992,0.123,-0.085,0.329,0.0,0.68,-13.532,0.582
+2017-02-02 23:33:55,RS0010043,1,Senate,43,1790-06-28,,,APPS. GOVT. SEAT BILL,15,10,Public Works,,Budget Special Interest,,Government Management,0.311,0.115,0.445,1.409,1.0,1.0,-1.912,0.926
+2017-02-02 23:33:55,RS0010044,1,Senate,44,1790-06-28,,,APPS. GOVT. SEAT BILL,13,12,Public Works,,Budget Special Interest,,Government Management,0.817,-0.576,0.248,1.453,0.917,0.96,-5.106,0.815
+2017-02-02 23:33:55,RS0010045,1,Senate,45,1790-06-28,,,APPS. GOVT SEAT BILL FROM DUTIES,13,12,Public Works,,Budget Special Interest,,Government Management,-0.219,0.976,-2.255,-1.93,0.167,0.6,-15.149,0.546
+2017-02-02 23:33:55,RS0010046,1,Senate,46,1790-06-29,,,HOLD GOVT. IN N.Y.,13,12,,,Government Organization,,Government Management,0.214,-0.976,-0.035,-0.023,0.083,0.56,-16.78,0.511
+2017-02-02 23:33:55,RS0010047,1,Senate,47,1790-06-29,,,HOLD GOVT. IN N.Y. UNTIL 1800,9,16,,,Government Organization,,Government Management,0.476,-0.878,-0.103,-0.0,-0.333,0.52,-13.665,0.579
+2017-02-02 23:33:55,RS0010048,1,Senate,48,1790-06-29,,,HOLD GOVT. IN N.Y. UNTIL 1794 PHILA. 1794-1800,13,13,,,Government Organization,,Government Management,-0.323,0.946,-2.523,-2.005,0.154,0.577,-16.611,0.528
+2017-02-02 23:33:55,RS0010049,1,Senate,49,1790-06-29,,,HOLD GOVT. IN BALTIMORE AFTER 1794,10,16,,,Government Organization,,Government Management,0.758,-0.633,-0.042,0.02,0.1,0.654,-16.924,0.522
+2017-02-02 23:33:55,RS0010050,1,Senate,50,1790-06-29,,,HOLD GOVT. IN PHILA. AFTER 1792,13,13,,,Government Organization,,Government Management,-0.323,0.946,-2.523,-2.005,0.154,0.577,-16.611,0.528
+2017-02-02 23:33:55,RS0010051,1,Senate,51,1790-06-29,,,HOLD GOVT. IN PHILA.,13,13,,,Government Organization,,Government Management,-0.323,0.946,2.523,2.005,0.154,0.577,-16.611,0.528
+2017-02-02 23:33:55,RS0010052,1,Senate,52,1790-06-30,,,HOLD GOVT. IN PHILA.,14,12,,,Government Organization,,Government Management,-0.022,0.997,1.813,2.284,0.5,0.769,-14.342,0.576
+2017-02-02 23:33:55,RS0010053,1,Senate,53,1790-06-30,,,APPS. GOVT. BLDGS.,19,7,Public Works,,Budget Special Interest,,Government Management,0.463,-0.886,-0.047,-0.408,0.286,0.808,-11.295,0.648
+2017-02-02 23:33:55,RS0010054,1,Senate,54,1790-06-30,,,APPS. GOVT. BLDGS.,16,10,Public Works,,Budget Special Interest,,Government Management,0.45,-0.195,1.118,2.324,0.6,0.846,-6.588,0.776
+2017-02-02 23:33:55,RS0010055,1,Senate,55,1790-07-01,,,HOLD GOVT. IN PHILA. AFTER 1790,13,13,,,Government Organization,,Government Management,-0.323,0.946,-2.523,-2.005,0.154,0.577,-16.611,0.528
+2017-02-02 23:33:55,RS0010056,1,Senate,56,1790-07-01,,,PASS GOVERNMENT SEAT BILL(PROC),14,12,Public Works,,Budget Special Interest,,Government Management,0.758,-0.559,0.596,2.932,0.75,0.885,-9.309,0.699
+2017-02-02 23:33:55,RS0010057,1,Senate,57,1790-07-14,,,REGS. OF GOVT. LOANS,14,11,Banking and Finance,,Budget General Interest,,Government Management,0.384,0.923,-0.176,0.227,0.727,0.88,-9.06,0.696
+2017-02-02 23:33:55,RS0010058,1,Senate,58,1790-07-14,,,FEDERAL AID FOR STATE DEBTS,15,11,Banking and Finance,,Budget General Interest,,Government Management,0.479,-0.115,0.062,0.15,0.455,0.769,-14.272,0.578
+2017-02-02 23:33:55,RS0010059,1,Senate,59,1790-07-14,,,SET UP COMMITEE REPORT ON LOANS TO US,16,10,Banking and Finance,,Internal Organization,,Miscellaneous Policy,-0.026,0.925,-1.935,0.171,0.2,0.692,-11.918,0.632
+2017-02-02 23:33:55,RS0010060,1,Senate,60,1790-07-14,,,SET UP COMMITTEE REPORT ON LOANS TO US,10,16,Banking and Finance,,Internal Organization,,Miscellaneous Policy,0.622,0.783,-0.423,0.679,0.7,0.885,-6.595,0.776
+2017-02-02 23:33:55,RS0010061,1,Senate,61,1790-07-16,,,SET UP COMMITTEE REPORT ON LOANS TO US,15,11,Banking and Finance,,Internal Organization,,Miscellaneous Policy,0.398,0.917,-0.127,0.172,0.545,0.808,-11.872,0.633
+2017-02-02 23:33:55,RS0010062,1,Senate,62,1790-07-19,,,FUND BILLS OF CREDIT ISSUED BY GOVT.,9,16,Banking and Finance,,Budget General Interest,,Government Management,0.606,-0.784,-0.165,-0.238,0.556,0.84,-9.319,0.689
+2017-02-02 23:33:55,RS0010063,1,Senate,63,1790-07-19,,,PROVIDE CERTIFICATES TO SUBSCRIBERS OF LOANS,6,19,Banking and Finance,,Budget General Interest,,Government Management,0.875,0.376,-0.412,1.126,0.5,0.88,-5.08,0.816
+2017-02-02 23:33:55,RS0010064,1,Senate,64,1790-07-19,,,INTEREST PAYMENT OF LOANS,8,17,Banking and Finance,,Budget General Interest,,Government Management,0.901,0.435,-0.157,0.439,0.375,0.8,-10.678,0.652
+2017-02-02 23:33:55,RS0010065,1,Senate,65,1790-07-19,,,INTEREST PAYMENT OF LOANS,9,15,Banking and Finance,,Budget General Interest,,Government Management,0.877,0.48,-0.131,0.445,0.222,0.708,-11.63,0.616
+2017-02-02 23:33:55,RS0010066,1,Senate,66,1790-07-19,,,INTEREST PAYMENT OF LOANS,8,17,Banking and Finance,,Budget General Interest,,Government Management,0.482,0.876,0.153,-0.5,0.25,0.76,-9.957,0.671
+2017-02-02 23:33:55,RS0010067,1,Senate,67,1790-07-19,,,INTEREST PAYMENT OF LOANS,5,20,Banking and Finance,,Budget General Interest,,Government Management,0.868,0.496,-0.41,0.802,0.6,0.92,-4.098,0.849
+2017-02-02 23:33:55,RS0010068,1,Senate,68,1790-07-19,,,INTEREST PAYMENT OF LOANS,8,17,Banking and Finance,,Budget General Interest,,Government Management,0.842,0.539,-0.978,2.543,0.25,0.76,-12.32,0.611
+2017-02-02 23:33:55,RS0010069,1,Senate,69,1790-07-20,,,CHANGE REGS FOR RAISING LOANS,12,14,Banking and Finance,,Budget General Interest,,Government Management,0.366,0.93,0.163,-0.149,0.75,0.885,-10.261,0.674
+2017-02-02 23:33:55,RS0010070,1,Senate,70,1790-07-21,,,PASS THE DEBT BILL (PROC),14,12,Banking and Finance,,Budget General Interest,,Government Management,0.358,0.934,-0.162,0.143,0.75,0.885,-10.274,0.674
+2017-02-02 23:33:55,RS0010071,1,Senate,71,1790-07-28,,,INTEREST PAYMENT OF LOANS,12,12,Banking and Finance,,Budget General Interest,,Government Management,0.731,0.682,-0.155,0.497,0.5,0.75,-10.669,0.641
+2017-02-02 23:33:55,RS0010072,1,Senate,72,1790-07-28,,,INTEREST PAYMENT OF LOANS,12,12,Banking and Finance,,Budget General Interest,,Government Management,0.731,0.682,0.155,-0.497,0.5,0.75,-10.669,0.641
+2017-02-02 23:33:55,RS0010073,1,Senate,73,1790-07-28,,,INTEREST PAYMENT OF LOANS,8,16,Banking and Finance,,Budget General Interest,,Government Management,0.762,0.647,-0.151,0.211,0.625,0.875,-10.041,0.658
+2017-02-02 23:33:55,RS0010074,1,Senate,74,1790-07-28,,,INTEREST PAYMENT OF LOANS,13,11,Banking and Finance,,Budget General Interest,,Government Management,0.593,0.805,-0.105,0.242,0.273,0.667,-12.865,0.585
+2017-02-02 23:33:55,RS0010075,1,Senate,75,1790-07-28,,,INTEREST PAYMENT OF LOANS,11,13,Banking and Finance,,Budget General Interest,,Government Management,0.546,0.838,-0.14,0.168,0.636,0.833,-11.33,0.624
+2017-02-02 23:33:55,RS0010076,1,Senate,76,1790-07-28,,,INTEREST PAYMENT OF LOANS,16,8,Banking and Finance,,Budget General Interest,,Government Management,-0.923,-0.156,-0.112,-0.994,0.0,0.667,-13.89,0.561
+2017-02-02 23:33:55,RS0010077,1,Senate,77,1790-07-28,,,INTEREST PAYMENT OF LOANS,8,16,Banking and Finance,,Budget General Interest,,Government Management,-0.923,-0.156,0.112,0.994,0.0,0.667,-13.89,0.561
+2017-02-02 23:33:55,RS0010078,1,Senate,78,1790-07-28,,,INTEREST PAYMENT OF LOANS,12,12,Banking and Finance,,Budget General Interest,,Government Management,0.585,0.811,-0.118,0.208,0.333,0.667,-12.253,0.6
+2017-02-02 23:33:55,RS0010079,1,Senate,79,1790-07-28,,,INTEREST PAYMENT OF LOANS,8,16,Banking and Finance,,Budget General Interest,,Government Management,0.762,0.647,-0.151,0.211,0.625,0.875,-10.041,0.658
+2017-02-02 23:33:55,RS0010080,1,Senate,80,1790-08-09,,,TREATY W/CREEK INDIANS,7,8,Treaties,,Indian Affairs,,Government Management,-0.332,-0.082,0.119,0.648,0.714,0.867,-5.646,0.686
+2017-02-02 23:33:55,RS0010081,1,Senate,81,1790-08-09,,,SENATE RULE,4,15,,,Internal Organization,,Miscellaneous Policy,-0.463,-0.87,0.08,0.187,0.0,0.789,-8.583,0.637
+2017-02-02 23:33:55,RS0010082,1,Senate,82,1790-08-12,,,TREATY W/CREEK INDIANS,15,4,Treaties,,Indian Affairs,,Government Management,-0.184,-0.685,-0.211,-1.642,0.25,0.842,-3.166,0.847
+2017-02-02 23:33:55,RS0010083,1,Senate,83,1790-12-23,,,ALTER SYSTEM OF FUNDING DEBT,20,1,Banking and Finance,,Budget General Interest,,Government Management,-0.458,-0.889,-0.097,-1.616,-1.0,0.905,-3.16,0.86
+2017-02-02 23:33:55,RS0010084,1,Senate,84,1791-01-13,,,EXTEND TERM OF SUBSCRIBER INCORPORATION IN NATL. BANK,11,10,National Bank,,Government Organization,,Government Management,0.448,-0.894,-0.129,-0.187,0.5,0.762,-8.55,0.666
+2017-02-02 23:33:55,RS0010085,1,Senate,85,1791-01-20,,,LIMIT TERM OF SUBSCRIBER INCORPORATION IN NATL. BANK,6,16,National Bank,,Government Organization,,Government Management,0.116,-0.456,0.159,1.699,0.833,0.955,-2.586,0.889
+2017-02-02 23:33:55,RS0010086,1,Senate,86,1791-01-20,,,ALLOW FORMATION OF PRIVATE BANKS,5,18,Banking and Finance,,Regulation Special Interest,,Government Management,-0.426,-0.263,0.245,1.526,0.6,0.913,-4.654,0.817
+2017-02-02 23:33:55,RS0010087,1,Senate,87,1791-02-08,,,ALTER LIQUOR DUTIES ALTER PRES. APPT. OF REVENUE OFFICERS,9,14,Tariffs,,Regulation General Interest,,Government Management,0.205,0.979,0.125,-0.097,0.444,0.783,-9.776,0.654
+2017-02-02 23:33:55,RS0010088,1,Senate,88,1791-02-12,,,REPEAL DUTIES LAID ON LIQUOR,20,5,Tax rates,,Regulation General Interest,,Government Management,0.992,0.127,0.087,0.331,0.2,0.84,-11.089,0.642
+2017-02-02 23:33:55,RS0010089,1,Senate,89,1791-02-17,,,AMEND SENATE GOVT. LOCATION BILL,17,7,,,Government Organization,,Government Management,0.786,-0.59,0.18,0.449,0.429,0.833,-8.334,0.707
+2017-02-02 23:33:55,RS0010090,1,Senate,90,1791-02-17,,,RAISE ADDITIONAL REGIMENT OF INFANTRY,15,7,,,Defense Policy Budget,,Foreign and Defense Policy,0.041,-0.999,-0.159,-0.189,0.571,0.864,-6.611,0.74
+2017-02-02 23:33:55,RS0010091,1,Senate,91,1791-02-18,,,AMEND SENATE GOVT. LOCATION BILL,15,10,,,Government Organization,,Government Management,0.135,-0.396,-0.177,-1.773,0.9,0.96,-3.328,0.875
+2017-02-02 23:33:55,RS0010092,1,Senate,92,1791-02-21,,,RAISE ADDITIONAL REGIMENT OF INFANTRY,8,18,,,Defense Policy Budget,,Foreign and Defense Policy,0.023,1.0,0.181,-0.123,0.75,0.923,-7.833,0.74
+2017-02-02 23:33:55,RS0010093,1,Senate,93,1791-02-23,,,ALTER LIQUOR DUTIES ALTER PAYMENT OF INSPECTORS,14,9,Tax rates,,Budget Special Interest,,Government Management,-0.109,0.987,-1.705,-1.002,0.444,0.783,-8.603,0.688
+2017-02-02 23:33:55,RS0010094,1,Senate,94,1791-02-24,,,INCORPORATE SUBSCRIBERS INTO US BANK (PROC),22,3,National Bank,,Government Organization,,Government Management,-1.0,-0.001,-1.079,0.032,0.0,0.88,-65.622,0.072
+2017-02-02 23:33:55,RS0010095,1,Senate,95,1791-02-25,,,KEEP DOORS OF SENATE OPEN,9,17,,,Internal Organization,,Miscellaneous Policy,-0.136,-0.689,0.039,0.192,0.222,0.731,-14.19,0.579
+2017-02-02 23:33:55,RS0010096,1,Senate,96,1791-02-25,,,POSTPONE SEAT BILL (PROC),12,14,,,Government Organization,,Government Management,0.064,-0.042,-0.099,-1.484,0.75,0.885,-6.801,0.77
+2017-02-02 23:33:55,RS0010097,1,Senate,97,1791-02-25,,,GIVE PRES. POWER TO INCREASE SIZE OF DISTRICT,14,12,,,Government Organization,,Government Management,0.058,-0.039,0.099,1.485,0.75,0.885,-6.784,0.77
+2017-02-02 23:33:55,RS0010098,1,Senate,98,1791-02-25,,,AMEND BILL GIVING GOVT. POWER TO ABOLISH NATL. BANK,9,17,National Bank,,Government Organization,,Government Management,0.068,-0.449,0.168,1.688,0.778,0.923,-4.447,0.843
+2017-02-02 23:33:55,RS0010099,1,Senate,99,1791-03-03,,,ESTABLISH EXECUTIVE OFFICER PAY,14,9,,,Budget Special Interest,,Government Management,0.405,-0.029,0.087,1.726,0.889,0.957,-2.318,0.904
+2017-02-02 23:33:55,RS0010100,1,Senate,100,1791-03-03,,,READ BILL ESTABLISHING PURPOSES OF FRENCH/US CONSULS,13,6,,,Government Organization,Foreign Policy Resolutions,Foreign and Defense Policy,0.361,-0.932,0.141,-0.143,0.333,0.789,-7.713,0.666

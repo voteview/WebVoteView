@@ -407,6 +407,8 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                 z["sponsor"] = rollcall["sponsor"]
             if "bill_number" in rollcall:
                 z["bill_number"] = rollcall["bill_number"]
+            if "tie_breaker" in rollcall:
+                z["tie_breaker"] = rollcall["tie_breaker"]
             if apitype == "exportCSV" or apitype == "exportXLS":
                 z.update({k: v for k, v in codeFields.iteritems()})
                 z.update({'keyvote': ''.join(rollcall['key_flags']),
