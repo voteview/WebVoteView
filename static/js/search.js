@@ -1,3 +1,4 @@
+var doRedirectForce=0;
 var cookieId = "";
 var mostRecentSearch = "";
 var resultCount = 0;
@@ -138,6 +139,7 @@ function addAllVotes()
 		{
 			if(data["old"]) { cachedVotes["old"] = data["old"]; }
 			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
+			if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 			updateStashCart();
 			selectIncludedVotes();						
 		}
@@ -154,7 +156,7 @@ function delAllVotes()
 		{
 			if(data["old"]) { cachedVotes["old"] = data["old"]; }
 			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
-			console.log(cachedVotes);
+			if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 			updateStashCart();
 			selectIncludedVotes();						
 		}
@@ -188,6 +190,7 @@ function toggleAdvancedSearch(instant)
 			{
 				$('#results-selects').animate({width: 'toggle', opacity: 'toggle'},125, 'linear');
 				$('#support').slider('refresh');
+				$("#support").slider("relayout");
 			});
 		}
 	}
@@ -199,7 +202,7 @@ function toggleAdvancedSearch(instant)
 		}
 		else { $('#resultsHolder').css('width', '100%'); }
 		$('#results-selects').toggle();
-		setTimeout(function(){$('#support').slider('refresh');}, 20);
+		setTimeout(function(){$('#support').slider('refresh'); $("#support").slider('relayout');}, 20);
 	}
 }
 
@@ -262,17 +265,15 @@ $(document).ready(function(){
 	// We do have a stash, so let's load the votes from it.
 	else
 	{
-		console.log("We're here");
 		$.ajax({
 			dataType: "JSON",
 			url: '/api/stash/get',
 			data: 'id='+cookieId,
 			success: function(data, status, xhr)
 			{
-				console.log('And here');
-				console.log(data);
 				cachedVotes["old"] = data["old"];
 				cachedVotes["votes"] = data["votes"];
+				if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 				updateStashCart();
 				console.log("Loaded votes: "+cachedVotes["old"].length+" old and "+cachedVotes["votes"].length+" new");
 				selectIncludedVotes();
@@ -335,12 +336,16 @@ $(document).ready(function(){
 	// On form change we reset the search and do the initial AJAX call
 	$("#faceted-search-form input:not(#searchTextInput), #sort").change(function() 
 	{
+		$('#sortScore').val(1);
+		$('#sortD').val(-1);
 		updateRequest();
 	});
 
 	// Prevent form submission, force an AJAX call everytime we update the search bar
 	$("#faceted-search-form").submit(function(event) 
 	{
+		$('#sortScore').val(1);
+		$('#sortD').val(-1);
 		event.preventDefault();
 		updateRequest();
 	});
@@ -356,8 +361,10 @@ $(document).ready(function(){
 				data: "id="+cookieId+"&votes="+this.value,
 				success: function(res, status, xhr)
 				{
+					console.log(res);
 					if(res["old"]) { cachedVotes["old"] = res["old"]; }
 					if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
+					if(res["id"]!=cookieId) { Cookies.set("stash_id", res["id"]); cookieId=res["id"]; }
 					console.log('added one');
 					console.log(cachedVotes);
 					updateStashCart();
@@ -374,6 +381,7 @@ $(document).ready(function(){
 				success: function(res, status, xhr)
 				{
 					console.log('Removed');
+					if(res["id"]!=cookieId) { Cookies.set("stash_id", res["id"]); cookieId=res["id"]; }
 					if(res["old"]) { cachedVotes["old"] = res["old"]; }
 					if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
 					console.log(cachedVotes);
@@ -386,6 +394,7 @@ $(document).ready(function(){
 	// Toggle panel icons
 	function toggleChevron(e)
 	{
+		if(e.target.id=="facet-support") { $("#support").slider("relayout"); }
 		$(e.target)
 		.prev('.panel-heading')
 		.find('i.indicator')
@@ -401,6 +410,9 @@ $(document).ready(function(){
 	}
 	if($('#facet-clausen input[type=checkbox]:checked').length) {
 		$("#facet-clausen").collapse('show');
+	}
+	if($('#facet-keyvote input[type=checkbox]:checked').length) {
+		$("facet-keyvote").collapse('show');
 	}
 	if($('#fromDate').val()  || $("#toDate").val()) {
 		$("#facet-date").collapse('show');
@@ -430,9 +442,22 @@ function updateRequest()
 	}
 }
 
+function stripJunkFromSearch(text)
+{
+	return encodeURIComponent(text.replace("/"," ").replace(/<(?:.|\n)*?>/gm, ''));
+}
+
+var globalSlowLoadTimer;
+
 	// Get the initial list of rollcalls and replace all elements in the container with them
 	function getRollcalls()
 	{
+		if($("#searchTextInput").val().length==9 && ($("#searchTextInput").val().substring(0,2)=="RH" || $("#searchTextInput").val().substring(0,2)=="RS"))
+		{
+			window.location='/rollcall/'+$("#searchTextInput").val();
+			return;
+		}
+		if($("#searchTextInput").val().length) { $("#searchTextInput").val($("#searchTextInput").val().replace("/"," ").replace(/<(?:.|\n)*?>/gm, '')); }
 		globalQueueRequests=0;
 		$.ajax({
 			type: "POST",
@@ -440,6 +465,11 @@ function updateRequest()
 			data: $('#faceted-search-form').serialize() + "&jsapi=1",
 			beforeSend:function(){
 				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
+				globalSlowLoadTimer = setTimeout(function()
+				{
+					$('#results-list').html('<div id="loading-container" style="text-align:left;"><img src="/static/img/loading.gif" alt="Loading..." /> <h4>Loading... We apologize that your search query is taking a long time to complete. Your search is still processing. <!--Please continue to wait and excuse us while we work on improving Voteview.com--></h4></div>');
+				}, 5000);
+
 				mostRecentSearch = $("#searchTextInput").val();
 				$.ajax({
 					dataType: "JSON",
@@ -457,26 +487,91 @@ function updateRequest()
 			},
 			success: function(res, status, xhr) 
 			{
-				metaPageloaded = 0; // Reset page load count. We use this for stopping auto-scroll after 10 pages.
+				clearTimeout(globalSlowLoadTimer);
+				if($("#searchTextInput").val().length)
+				{
+					var setOPS = 0;
+					if(window.history.state==undefined || window.history.state["search"] == undefined)
+					{
+						window.history.pushState({"search": $("#searchTextInput").val()}, "Searched for "+$("#searchTextInput").val(), "/search/"+stripJunkFromSearch($("#searchTextInput").val()));
+						setOPS=1;
+					}
+					else if(window.history.state["search"]==$("#searchTextInput").val())
+					{
+						console.log("history state still saved, don't need to redo.");
+					}
+					else
+					{
+						window.history.pushState({"search": $("#searchTextInput").val()}, "Searched for "+$("#searchTextInput").val(), "/search/"+stripJunkFromSearch($("#searchTextInput").val()));
+						setOPS=1;
+					}
+
+					if(setOPS)
+					{
+						window.onpopstate = function(event)
+						{
+							$("#searchTextInput").val(event.state["search"]);
+							getRollcalls();
+						};
+
+					}
+				}
 				var resultsNumber = parseInt(xhr.getResponseHeader("Rollcall-Number"));
 				var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
+				var partyNumber = parseInt(xhr.getResponseHeader("Party-Number"));
+			        var needScore = parseInt(xhr.getResponseHeader("Need-Score"));
+				if(xhr.getResponseHeader("Redirect-Url") != undefined && xhr.getResponseHeader("Redirect-Url").length && !doRedirectForce)
+				{
+					console.log(xhr.getResponseHeader("Redirect-Url"));
+					doRedirectForce=1;
+					window.location=xhr.getResponseHeader("Redirect-Url");
+					return;
+				}
 				resultCount = resultsNumber;
+				var resultText = "";
+				if(partyNumber)
+				{
+					var partyLabelText = partyNumber+" part"+(partyNumber!=1?"ies":"y");
+				}
+				else { var partyLabelText = ""; }
 				var memLabelText = "member"+(memberNumber!=1?"s":"");
 				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
-				if(memberNumber==1) { memLabelText = "member"; }
-				if(resultsNumber==1) { voteLabelText = "vote"; }
-				if(memberNumber>0 && resultsNumber>0)
+				if(partyNumber>0 && memberNumber>0 && resultsNumber>0) resultText = partyLabelText+", "+numberWithCommas(memberNumber)+ " "+memLabelText+", and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(partyNumber>0 && memberNumber>0) resultText = partyLabelText+" and "+numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
+				else if(partyNumber>0 && resultsNumber>0) resultText = partyLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(memberNumber>0 && resultsNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(memberNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
+				else if(resultsNumber>0) resultText = numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
+				else if(partyNumber>0) resultText = partyLabelText+" found.";
+				else if(resultsNumber==0) resultText = "0 results found.";
+				else { resultText = "Error completing search."; }
+				$("#results-number").html(resultText);
+			   
+			        // Control how sorting buttons appear
+			        if(needScore && $("#sortScore").val() == 1)
 				{
-					$("#results-number").html(numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
-				}
-				else if(memberNumber>0) { $("#results-number").html(numberWithCommas(memberNumber)+" "+memLabelText+" found"); } 
-				else if(resultsNumber>=0)
+				        $("#relevanceAppear")[0].style.display = "inline-block";
+				        $("#relevanceSort")[0].className = "selectedSort";
+				        $("#newestSort")[0].className = "";
+				        $("#oldestSort")[0].className = "";
+				} else if ($("#sortD").val() == -1)
+			        {
+				        $("#relevanceSort")[0].className = "";
+				        $("#newestSort")[0].className = "selectedSort";
+				        $("#oldestSort")[0].className = "";
+				} else if ($("#sortD").val() == 1)
 				{
-					$("#results-number").html(numberWithCommas(resultsNumber) + " "+voteLabelText+" found");
+				        $("#relevanceSort")[0].className = "";
+				        $("#newestSort")[0].className = "";
+				        $("#oldestSort")[0].className = "selectedSort";
 				}
-				else { $("#results-number").html("Error completing search."); }
 
-				console.log(resultsNumber);
+			        if(!needScore)
+				{
+				        $("#relevanceAppear")[0].style.display = "none";
+				}
+
+
 				if(resultsNumber<0) 
 				{
 					$("#addAll").hide(); 
@@ -584,7 +679,7 @@ function shareLink()
 				$('#shareTextInput').hide();
 				var a = $("<a></a>").attr("href",res["link"]).html(res["link"]).appendTo("#shareTextLink");
 				$("#shareTextLink").show();
-				if("http://voteview.polisci.ucla.edu/s/"+shortLink!=res["link"])
+				if("{{STATIC_URL}}" + "/s/"+shortLink!=res["link"])
 				{
 					$("#shareLinkStatus").hide().html("Link copied to clipboard.<br/>Note: The link has been modified.").fadeIn();
 				}
@@ -631,3 +726,15 @@ function cleanLink(text)
 		 .toLowerCase();
 	return text;
 }
+
+$('#toggleAlert').click(function()
+{
+        if($('#alertWelcome').is(':hidden')) { $('#alertWelcome').show(); }
+        else { $('#alertWelcome').hide(); }
+});
+$('#closeAlert').click(function(e)
+{
+        if($('#alertWelcome').is(':hidden')) { $('#alertWelcome').show(); }
+        else { $('#alertWelcome').hide(); }
+	Cookies.set(e.currentTarget.parentElement.id, '1', {expires: 14});
+});

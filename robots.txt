@@ -1,3 +1,5 @@
+User-agent: Twitterbot
+Disallow: 
+
 User-agent: *
-Disallow: /api/
-Disallow: /static/
+Disallow: /

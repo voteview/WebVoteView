@@ -1,0 +1,109 @@
+#!/bin/bash
+start=$(date +%s)
+userid=$(whoami) # Ensure we're running as root
+hostname=$(hostname) # Ensure we're on voteview.
+
+if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
+	echo "Beginning git download of latest master"
+	mkdir update-voteview
+	cd update-voteview
+	wget https://github.com/JeffreyBLewis/WebVoteView/archive/master.zip
+	unzip master.zip
+	rm master.zip
+	mv WebVoteView-master/ ../WebVoteView/
+	cd ..
+	rmdir update-voteview
+	rm -rf WebVoteView/git-synchronize
+
+	echo "Ensuring we have the right python module requirements"
+	pip install -r WebVoteView/setup/requirements.txt -U
+	rm -rf WebVoteView/setup
+
+	echo "Server setup: production"
+	echo "0" > WebVoteView/server.txt
+	rm WebVoteView/robots.txt
+	mv WebVoteView/robots-prod.txt WebVoteView/robots.txt
+
+	echo "Copying secure authentication files from existing deployment."
+	cp voteview/model/*.json WebVoteView/model/
+
+	echo "Connecting to development server for database dump"
+	ssh rudkin@128.97.229.160 << EOF
+	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+	echo "Creating a database backup"
+	mkdir dump_db
+	cd dump_db
+	echo "Dumping members..."
+	mongodump --collection voteview_members --db voteview
+	echo "Dumping votes..."
+	mongodump --collection voteview_rollcalls --db voteview
+	echo "Dumping parties..."
+	mongodump --collection voteview_parties --db voteview
+	echo "Dumping meta..."
+	mongodump --collection voteview_metadata --db voteview
+	echo "Done dump"
+EOF
+	echo "Connecting to server to download dump..."
+	scp -r rudkin@128.97.229.160:dump_db ./
+	scp -r rudkin@128.97.229.160:/var/www/voteview/static/img/twitterCard /var/www/WebVoteView/static/img/
+	scp -r rudkin@128.97.229.160:/var/www/voteview/static/data/ /var/www/WebVoteView/static/data/
+
+	echo "Connecting to remote server to remove remote dump."
+	ssh rudkin@128.97.229.160 << EOF
+	rm -rf dump_db
+	touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
+	rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+	rm -rf /usr/scripts/voteview_metadata/hourly_backup/patch.zip
+	rm -rf usr/scripts/voteview_metadata/hourly_backup/patch-true.zip
+	rm -rf /usr/scripts/voteview_metadata/hourly_backup/manifest.txt
+	touch /usr/scripts/voteview_metadata/hourly_backup/manifest.txt
+	touch /usr/scripts/voteview_metadata/hourly_backup/LAST_PATCH_WRITE
+EOF
+
+	downtimestart=$(date +%s)
+	# Stop NGINX, move files
+	echo "Stopping web server to substitute directory"
+	service nginx stop
+	rm -rf vv-backup
+	mv voteview vv-backup
+	mv WebVoteView voteview
+
+	# Put site in maintenance mode
+	touch /var/www/voteview/static/maintenance
+
+	# Recursively change permissions so we don't need root to edit files on prod.
+	chown -R rudkin voteview
+	chgrp -R voteview voteview
+
+	# Start NGINX
+	service nginx start
+	downtimeStop=$(date +%s)
+
+	echo "Restoring database dump"
+	cd dump_db
+	mongorestore --drop dump
+	cd ..
+	rm -rf dump_db
+	echo "Done restoring database dump"
+
+	echo "Starting server to substitute directory"
+	touch /etc/uwsgi/reboot
+	rm /var/www/voteview/static/maintenance
+	echo "Done deployment."
+	echo "Previous version of site in /var/www/vv-backup"
+	echo "Current version of site in /var/www/voteview"
+	echo "Checking API version to verify site has started..."
+	curl "https://voteview.polisci.ucla.edu/api/version"
+	echo ""
+	downtime=$((downtimeStop-downtimestart))
+	echo "Total downtime $downtime seconds"
+elif [ "$userid" = "root" ]; then
+	echo "You must be on production voteview to run deployment script"
+else
+        echo "You must be root to run deployment script"
+fi
+endT=$(date +%s)
+runtime=$((endT-start))
+maintenancetime=$((endT-downtimeStop))
+echo "Total maintenance time $maintenancetime seconds"
+echo "Total runtime $runtime seconds"

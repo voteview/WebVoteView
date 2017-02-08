@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# exit
+# Don't run the script right now.
+
+start=$(date +%s)
+userid=$(whoami) # Ensure we're running as root
+hostname=$(hostname) # Ensure we're on voteview.
+timestamp=$(date +%s)
+
+if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
+	echo "Connecting to development server for hourly dump"
+	ssh rudkin@128.97.229.160 << EOF
+	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+EOF
+	scp -r rudkin@128.97.229.160:/usr/scripts/voteview_metadata/hourly_backup/patch.zip ./patch.zip
+	if [[ -f ./patch.zip ]]; then
+		echo "Patch downloaded, beginning application"
+		# Unzip
+		mkdir hourly_patch
+		unzip patch.zip -d hourly_patch
+
+		echo "Patch unzipped, ready copying static files"
+		# Copy the static files
+		cp -r hourly_patch/store/ /var/www/voteview/
+
+		echo "Static files deployed, moving DB"
+		# Apply the DB patches
+                mongorestore --oplogReplay hourly_patch/oplogRestore/
+
+		echo "Cleanup"
+		# Remove temp folder
+		rm -rf hourly_patch
+		# Move the patch to a timestamped archive.
+		mv patch.zip /usr/scripts/patch_backups/patch_$timestamp.zip
+		# Remote delete patch
+		ssh rudkin@128.97.229.160 << EOF
+		unlink /usr/scripts/voteview_metadata/hourly_backup/patch.zip
+		rm -rf /usr/scripts/voteview_metadata/hourly_backup/patch-true.zip
+		rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+		touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
+EOF
+		echo "Fixing local permissions"
+		chown -R rudkin voteview
+		chgrp -R voteview voteview
+
+	else
+		echo "No patch found, ending now."
+		ssh rudkin@128.97.229.160 << EOF
+		rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
+EOF
+	fi
+elif [ "$userid" = "root" ]; then
+	echo "You must be on production voteview to run deployment script"
+else
+        echo "You must be root to run deployment script"
+fi
+endT=$(date +%s)
+runtime=$((endT-start))
+echo "Total runtime $runtime seconds"

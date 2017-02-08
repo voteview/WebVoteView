@@ -2,9 +2,14 @@
 % if len(partyNameFull):
 %	partyNameFull = " > "+partyNameFull
 % end
-% rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js"], extra_css=['map.css', 'bootstrap-slider.css'])
-% include('header.tpl')
+% if party==328:
+% 	indicator = "warning"
+% else:
+% 	indicator = "info"
+% end
 
+% rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/stateMeta.js"], extra_css=['map.css', 'bootstrap-slider.css'])
+% include('header.tpl')
 <div class="container">
 	
 	<div id="loading-container">
@@ -21,12 +26,9 @@
 					<span class="fullName">Party {{ party }}</span>
 				</h3>
 
-				% if party==328:
-				<div class="alert alert-warning">
-					<strong>Warning!</strong> "Independent" refers to representatives and senators who are not affiliated with a party, 
-					rather than a political party called the "Independent Party". Estimates of median ideology of independents over 
-					time are highly unstable and unreliable. Some independent representatives or senators may "caucus" (work with) 
-					organized political parties, but Voteview.com does not maintain or display this information.
+				% if "party_description" in partyData:
+				<div class="alert alert-{{indicator}}">
+					{{!partyData["party_description"]}}
 				</div>
 				% end
 
@@ -40,10 +42,12 @@
 			<div class="col-md-12">
 				<h4>
 					<span style="padding-right:20px;"><span class="fullName">Party {{ party }}</span> geographic control over time</span>
-					<span id="playButton" style="cursor:pointer;"
-						class="glyphicon glyphicon-play" onclick="javascript:playLoopInt();return false;"></span>
-					<span id="pauseButton" style="cursor:pointer;display:none;" class="glyphicon glyphicon-pause" onclick="javascript:stopLoop();return false;"></span>
-					<span id="playHint">Animate</span>
+					<span class="congressControl">
+						<span id="playButton" style="cursor:pointer;"
+							class="glyphicon glyphicon-play" onclick="javascript:playLoopInt();return false;"></span>
+						<span id="pauseButton" style="cursor:pointer;display:none;" class="glyphicon glyphicon-pause" onclick="javascript:stopLoop();return false;"></span>
+						<span id="playHint">Animate</span>
+					</span>
 				</h4>
 				<div class="full">
 					<input class="slider">
@@ -57,13 +61,15 @@
 						<option value="house">House Only</option>
 					</select><br/><br/>
 
-					<strong>Jump to Year:</strong><br/>
-					<input type="text" id="yearNum" style="width:50px;">
-					<input type="button" onClick="javascript:switchCongress($('#yearNum').val());" value="Switch"><br/><br/>
-
-					<strong>Jump to Congress:</strong><br/>
-					<input type="text" id="congNum" style="width:50px;">
-					<input type="button" onClick="javascript:switchCongress($('#congNum').val());" value="Switch"><br/><br/>
+					<span class="congressControl">
+						<strong>Jump to Year:</strong><br/>
+						<input type="text" id="yearNum" style="width:50px;">
+						<input type="button" onClick="javascript:switchCongress($('#yearNum').val());" value="Switch"><br/><br/>
+	
+						<strong>Jump to Congress:</strong><br/>
+						<input type="text" id="congNum" style="width:50px;">
+						<input type="button" onClick="javascript:switchCongress($('#congNum').val());" value="Switch"><br/><br/>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -73,24 +79,31 @@
 				<div id="time-chart"></div>
 			</div>
 		</div>
+
+		<div style="text-align:middle;padding-bottom:10px;">
+			<h4 style="display:inline;">Roster</h4> 
+			(Sort by
+			<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
+			<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
+			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
+			<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
+		</div>
+		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
+		</ul>
 	</div>
 </div>
 
 <script language="javascript">
 	var party_param = "{{ party }}";
 	var mapParties=1;
-	% if congStart:
 	var congressNum={{congStart}};
-	% else:
-	var congressNum=114;
-	% end
+	var chamber_param = "both";
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.v1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.v1.min.js"></script>
-<!--<script type="text/javascript" src="{{ STATIC_URL }}js/libs/simple-statistics.min.js"></script> -->
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/party.js"></script>
-
+<script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>

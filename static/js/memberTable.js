@@ -1,0 +1,130 @@
+var hasFilter=0;
+
+function resort(sortB)
+{
+	sortBy = sortB;
+	writeBioTable();	
+}
+
+function writeColumnHeader(text, glyph)
+{
+	var baseHTML = "<strong>"+text+"</strong> ";
+	if(glyph)
+	{
+		baseHTML += '<span class="glyphicon glyphicon-'+glyph+'" aria-hidden="true"></span>';
+	}
+	var memberBox = $("<li></li>").css("overflow","hidden")
+		.css("break-inside","avoid-column")
+		.css("margin-top","10px").css("margin-bottom","10px")
+		.css("text-align","center").html(baseHTML);
+	memberBox.appendTo($("#memberList"));
+}
+
+function writeBioTable()
+{
+	rC = resultCache["results"];
+	$("#memberList").fadeOut(200,function()
+	{
+		if(sortBy==undefined) { console.log("Default to sorting by name."); sortBy="name"; }
+		$("#memberList").html("");
+		if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioname > b.bioname ? 1 : -1; }); }
+		else if(sortBy=="party") { rC.sort(function(a,b) { return (a.party_noun==b.party_noun)?(a.bioname>b.bioname?1:-1):(a.party_noun>b.party_noun?1:-1); }); }
+		else if(sortBy=="state") { rC.sort(function(a,b) { return(a.state==b.state)?(a.bioname>b.bioname?1:-1):(a.state>b.state?1:-1); }); }
+		else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioname>b.bioname?1:-1):(a.minElected>b.minElected?1:-1); }); }
+		else if(sortBy=="elected_senate") { rC.sort(function(a,b) { return (a.elected_senate==b.elected_senate)?(a.bioname>b.bioname?1:-1):(a.elected_senate>b.elected_senate?1:-1); }); }
+		else if(sortBy=="elected_house") { rC.sort(function(a,b) { return (a.elected_house==b.elected_house)?(a.bioname>b.bioname?1:-1):(a.elected_house>b.elected_house?1:-1); }); }
+		else if(sortBy=="nominate") 
+		{ 
+			rC.sort(function(a,b) 
+			{
+				return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; 
+			}); 
+		}
+	
+		if(sortBy=="nominate") { writeColumnHeader("Most Liberal","arrow-down"); }
+		else if(sortBy=="elected" || sortBy=="elected_senate" || sortBy=="elected_house") { writeColumnHeader("Most Senior","arrow-down"); }
+	
+		var errorCount=0;
+		$.each(rC,function(k, v)
+		{
+			if(sortBy=="nominate" && v.nominate==undefined) { errorCount=errorCount+1; }
+			else { constructPlot(v); }
+		});
+	
+		if(sortBy=="nominate") { writeColumnHeader("Most Conservative","arrow-up"); }
+		else if(sortBy=="elected" || sortBy=="elected_senate" || sortBy=="elected_house") { writeColumnHeader("Most Junior","arrow-up"); }
+		if(errorCount>1) { writeColumnHeader(errorCount+" members have no ideology score."); }
+		else if(errorCount) { writeColumnHeader(errorCount+" member has no ideology score."); }
+
+		$('#memberList').fadeIn(200);
+		if(hasFilter)
+		{
+			hideMembersUnselected();
+		}
+	});
+}
+
+function constructPlot(member, margins)
+{
+	if(margins==undefined)
+	{
+		var mImg = "10px";
+		var mL = "5px";
+	}
+	else
+	{
+		var mImg = "5px";
+		var mL = "0px";
+	}
+	// bioname cleanup:
+	if(member["bioname"]==undefined)
+	{
+		console.log("Error. No bio name for this member:");
+		console.log(member);
+		return;
+	}
+	if(member["bioname"].length>20 && member["bioname"].indexOf("(")!=-1 && member["bioname"].indexOf(")")!=-1)
+	{
+		try
+		{
+			memberNameNew = member["bioname"].split(", ");
+			parenthetical = member["bioname"].split("(")[1].split(")")[0];
+			memberNameFinal = memberNameNew[0]+", "+parenthetical;
+		}
+		catch(err)
+		{
+			console.log(member["bioname"]);
+		}		
+	}
+	else
+	{
+		memberNameFinal = member["bioname"];
+	}
+
+	var memberBox = $("<li></li>")  .addClass("memberResultBox").addClass("columnResultBox")
+					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"]+"/"+member["seo_name"];})
+					.css("padding-right",mL);
+	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]+"/"+member["seo_name"]).attr("class","nohover").css("display", "block;");
+	var imgBox = $("<img />").addClass("pull-left").addClass("bio")
+				.css("margin-right",mImg)
+				.attr("src","/static/img/bios/"+member["bioImgURL"]);
+
+	var bioTextInner = "<strong>"+memberNameFinal+"</strong><br/>"+member["party_noun"]+"<br/>"+member["state"]+"<br/>";
+	if(member["minElected"]!=undefined)
+	{
+		if(chamber_param=="senate" && member["elected_senate"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_senate"])); }
+		else if(chamber_param=="house" && member["elected_house"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_house"])); }
+		else bioTextInner += "Elected "+member["minElected"];
+	}	
+	else if(member["congresses"]!=undefined)
+	{
+		bioTextInner += "Elected "+(1787+(member["congresses"][0][0]*2));
+	}
+
+	var bioText = $("<span></span>").html(bioTextInner);
+
+	imgBox.appendTo(linkBox);
+	bioText.appendTo(linkBox);
+	linkBox.appendTo(memberBox);
+	memberBox.appendTo($("#memberList"));
+}

@@ -50,7 +50,7 @@ var xhr = d3.json("/static/explorejson/"+chamber_param+".json")
             .group(yearlyGroup)
             .elasticX(true)
             .elasticY(true)
-            .x(d3.scale.linear().domain([0, 2016]))
+            .x(d3.scale.linear().domain([0, new Date().getFullYear()]))
             .xAxis().tickFormat(function(v) { return v; });
 
         clausenChart

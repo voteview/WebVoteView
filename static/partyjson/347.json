@@ -1,41 +1,32 @@
 [
     {
         "congress": 64, 
-        "grandHigh": 0.024, 
-        "grandLow": 0.024, 
-        "grandMean": 0.024, 
-        "grandMedian": 0.024, 
-        "houseHigh": 0.024, 
-        "houseLow": 0.024, 
-        "houseMean": 0.024, 
-        "houseMedian": 0.024, 
-        "houseMembers": 1, 
-        "nMembers": 1
+        "grandMean": 0.026, 
+        "grandMedian": 0.026, 
+        "grandSet": [
+            0.026
+        ], 
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 65, 
-        "grandHigh": 0.024, 
-        "grandLow": 0.024, 
-        "grandMean": 0.024, 
-        "grandMedian": 0.024, 
-        "houseHigh": 0.024, 
-        "houseLow": 0.024, 
-        "houseMean": 0.024, 
-        "houseMedian": 0.024, 
-        "houseMembers": 1, 
-        "nMembers": 1
+        "grandMean": 0.026, 
+        "grandMedian": 0.026, 
+        "grandSet": [
+            0.026
+        ], 
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }, 
     {
         "congress": 66, 
-        "grandHigh": 0.024, 
-        "grandLow": 0.024, 
-        "grandMean": 0.024, 
-        "grandMedian": 0.024, 
-        "houseHigh": 0.024, 
-        "houseLow": 0.024, 
-        "houseMean": 0.024, 
-        "houseMedian": 0.024, 
-        "houseMembers": 1, 
-        "nMembers": 1
+        "grandMean": 0.026, 
+        "grandMedian": 0.026, 
+        "grandSet": [
+            0.026
+        ], 
+        "nMembers": 1, 
+        "pctAgainst": 0.0
     }
 ]
