@@ -1,6 +1,6 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'])
+% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js"])
 % include('header.tpl')
 % memberLabel = (chamber.title()=="Senate" and "Senators" or "Representatives")
 <div class="container">
@@ -13,7 +13,7 @@
 		<div id="header" style="height:40px;">
 			<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">
 				<select id="congSelector">
-				% for i in range(114, 0, -1):
+				% for i in range(maxCongress, 0, -1):
 				      	% yearLow = 1787+2*i
 					% yearHigh = yearLow + 2
 					% if int(i)==int(congress):
@@ -33,7 +33,7 @@
 		<h4>DW-Nominate Plot
 				<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:22px;vertical-align:middle;cursor:pointer" 
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
-					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}.png', {backgroundColor: 'white'}); return false;"
+					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}_{{congress}}.png', {backgroundColor: 'white'}); return false;"
 					></span>
 		</h4>
 
@@ -52,10 +52,10 @@
 			<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
 			<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
 			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-			<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
+			<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a>)
 		</div>
-		<div id="memberList" style="margin-bottom:40px;" class="clearfix">
-		</div>
+		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
+		</ul>
 
 	</div>
 </div>
@@ -64,6 +64,8 @@
 var chamber_param = "{{ chamber }}";
 var congressNum = {{congress}};
 var mapParties = 1;
+var nomDWeight = {{dimweight}};
+var nomBeta = {{ nomBeta }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
@@ -73,4 +75,5 @@ var mapParties = 1;
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/congress.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>
 

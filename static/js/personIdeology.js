@@ -2,7 +2,7 @@ $("#congSelector").change(reloadIdeology);
 
 (function loadData()
 {
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHist);	
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawLoyaltyHist);	
 })();
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
@@ -20,13 +20,11 @@ function viewAllCong()
 function reloadIdeology()
 {
 	congressNum = $("#congSelector").val();
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawHistWrap);
+    queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(updateCongress);
 }
 
-$(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
-
 // Wrapper to update default loadings for the person's ideal point.
-function drawHistWrap(error, data)
+function updateCongress(error, data)
 {
 	// Fail if we didn't get data.
 	if(data==undefined) { return(0); }
@@ -36,11 +34,21 @@ function drawHistWrap(error, data)
 		if(!foundRep && d.icpsr==memberICPSR)
 		{
 			console.log(d);
-			memberIdeal = d.nominate.oneDimNominate;
-			memberPartyName = d.partyname;
-			chamber = d.chamber.toLowerCase();
-			$("#partyname").html("<a href=\"/parties/"+d.party+"\">"+memberPartyName+"</a>");
-			memberIdealBucket = Math.floor(memberIdeal*10);
+			memberIdeal = d.nominate.dim1;
+			memberPartyCode = d.party_code;
+			memberNoun = d.party_noun;
+			partyColor = d.party_color;
+		    chamber = d.chamber.toLowerCase();
+		       memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
+    		 			$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
+			if(d.district_code != undefined && d.district_code!=0 && d.district_code!=98 && d.district_code!=99)
+			{
+				$("#district_label").html(getGetOrdinal(d.district_code)+" congressional district");
+				$("#show_district").css("display","block");
+			}
+			else $("#show_district").css("display","none");
+			memberIdealBucket = Math.floor(memberIdeal*numBins);
+			console.log(memberIdealBucket);
 			foundRep=1;
 			return false;
 		}
@@ -49,8 +57,23 @@ function drawHistWrap(error, data)
 
 	$("#congSelector").blur();
 
+    drawLoyaltyHist(error, data);
+}
+
+function drawLoyaltyHist(error, data)
+{
+        buildLoyalty(error, data);
 	// Now call the actual plotting function.
-	drawHist(error, data);
+	drawHist(error, data);    
+}
+
+function buildLoyalty(error, data)
+{
+    if(data==undefined)
+    {
+	return(0);
+    }
+    $("#memberLoyalty").html(Math.round(memberLoyalty, 1)).append("%");
 }
 
 function drawHist(error, data)
@@ -60,20 +83,23 @@ function drawHist(error, data)
 		return(0);
 	}
 
-	var ctGreater=0;
+
+        var ctGreater=0;
 	var ctTotal=0;
 	var ctPartyGreater=0;
 	var ctPartyTotal=0;
 	var oneDims = [];
 	data["results"].forEach(function (d) {
-		oneDims.push(d.nominate.oneDimNominate);
+		if(d.nominate==undefined) { return true; }
+		oneDims.push(d.nominate.dim1);
 		ctTotal+=1;
-		if(d.nominate.oneDimNominate>memberIdeal) { ctGreater+=1; }
-		if(d.partyname==memberPartyName)
+		if(d.nominate.dim1>memberIdeal) { ctGreater+=1; }
+		if(d.party_code==memberPartyCode)
 		{
 			ctPartyTotal+=1;
-			if(d.nominate.oneDimNominate>memberIdeal) { ctPartyGreater+=1; }
+			if(d.nominate.dim1>memberIdeal) { ctPartyGreater+=1; }
 		}
+	    
 	});
 
 	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(DW-NOMINATE first dimension)</em><br/><br/>";
@@ -88,10 +114,10 @@ function drawHist(error, data)
 
 		if(ctPartyTotal>1)
 		{
-			if(libPartyPercentage==100) { label += "The most liberal "+memberPartyName+" of the "+getGetOrdinal(congressNum)+" Congress."; }
-			else if(libPartyPercentage==0) { label += "The most conservative "+memberPartyName+" of the "+getGetOrdinal(congressNum)+" Congress."; }
-			else if(libPartyPercentage>50) { label += "More liberal than "+libPartyPercentage+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
-			else { label += "More conservative than "+(100-libPartyPercentage)+"% of "+memberPartyName+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
+			if(libPartyPercentage==100) { label += "The most liberal "+memberNoun+" of the "+getGetOrdinal(congressNum)+" Congress."; }
+			else if(libPartyPercentage==0) { label += "The most conservative "+memberNoun+" of the "+getGetOrdinal(congressNum)+" Congress."; }
+			else if(libPartyPercentage>50) { label += "More liberal than "+libPartyPercentage+"% of "+memberNoun+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
+			else { label += "More conservative than "+(100-libPartyPercentage)+"% of "+memberNoun+"s in the "+getGetOrdinal(congressNum)+" Congress."; }
 		}
 	}
 
@@ -104,7 +130,7 @@ function drawHist(error, data)
 
 	var ndx = crossfilter(oneDims);
 	var oneDimDimension = ndx.dimension(function(d) { return d; });
-	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*10); });
+	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*numBins); });
 
 	var nominateHist = dc.barChart("#nominateHist");
 	nominateHist.width(420).height(130).margins({top: 10, right:10, bottom: 30, left:20})
@@ -114,17 +140,17 @@ function drawHist(error, data)
 				if(d.key==memberIdealBucket)
 				{
 					try{
-						return colorSchemes[partyColorMap[partyNameSimplify(memberPartyName)]][0];
+						return colorSchemes[partyColor][0];
 					} catch(e) { return "#000000"; }
 				}
 				else { return "#CCCCCC"; } 
 			 })
 	.renderTitle(false)
-	.x(d3.scale.linear().domain([-10, 10]))
-	.xAxis().ticks(20).tickFormat(function(v) 
+	.x(d3.scale.linear().domain([-numBins, numBins]))
+	.xAxis().ticks(numBins*2).tickFormat(function(v) 
 	{
-		if(v==-10) return "Liberal";
-		else if(v==9) return "Conservative";
+		if(v==-numBins) return "Liberal";
+		else if(v==numBins-(1*Math.ceil(numBins/10))) return "Conservative";
 	});
 
 	nominateHist.on("postRender", function(c){
@@ -156,3 +182,4 @@ function drawHist(error, data)
 		},200);		
 	}
 }
+

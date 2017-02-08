@@ -172,13 +172,133 @@ line.cutline {
 .tooltip > .tooltip-arrow { opacity: 0.9; }
 .left-tooltip + .tooltip > .tooltip-inner { text-align:left; min-width:400px;}
 
+#memberList
+{
+	min-width: 800px;
+}
+
+ul#memberList.geography
+{
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	columns: auto 3;
+	list-style-type: none;
+	overflow: auto;
+	margin-left: 0;
+	padding-left: 0;
+	margin-bottom: 15px;
+	display: block;
+}
+
 .memberResultBox
 {
 	cursor: pointer;
 	height: 85px;
 	margin-bottom: 5px;
+	overflow: hidden;
+}
+
+@media screen and (min-width: 1200px) 
+{
+	.memberResultBox img.bio
+	{
+		width: 64px;
+		height: 80px; 
+		vertical-align: middle;
+	}
+
+
+	.memberResultBox span, .memberResultBox div
+	{
+		padding-right: 0px;
+		font-size: 0.9em;
+	}
+}
+@media screen and (max-width: 1199px) 
+{
+	.memberResultBox img.bio
+	{
+		width: 56px;
+		height: 70px;
+		vertical-align: middle;
+	}
+
+	.memberResultBox span, .memberResultBox div
+	{
+		padding-right: 0px;
+		font-size: 0.8em;
+	}
+}
+
+.columnResultBox
+{
+	break-inside: avoid-column;
 }
 
 .searchHighlight2  { background-color: #fffbcc; padding: 2px; }
 .searchHighlight3  { background-color: #aff; padding: 2px; }
 .searchHighlight { background-color: #f99; padding: 2px; }
+
+.tablesorter-headerAsc div.tablesorter-header-inner:after {
+	font-family: "Glyphicons Halflings";
+	font-style: normal; font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: relative;
+	left: 2px;
+	content: "\e151";
+}
+.tablesorter-headerDesc div.tablesorter-header-inner:after {
+	font-family: "Glyphicons Halflings";
+	font-style: normal; font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: relative;
+	left: 2px;
+	content: "\e152";
+}
+.tablesorter-headerUnSorted div.tablesorter-header-inner:after {
+	font-family: "Glyphicons Halflings";
+	font-style: normal; font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: relative;
+	left: 2px;
+	content: "\e150";
+}
+
+
+@media print
+{
+	body { border-left: 0; }
+	body.devbody { border-left:0; }
+	.noprint
+	{
+		display:none;
+	}
+	#voteBucket
+	{
+		page-break-before: always;
+	}
+}
+@media screen
+{
+	body.devbody { border-left:20px solid red; }
+	.printOnly { display:none; }
+}
+
+#devHelpWidget
+{
+	position:fixed; 
+	left:0px; bottom:0px; 
+	width:200px; height:30px; 
+	background-color: white; 
+	border-top: 3px solid red; border-right: 3px solid red;
+}
+
+path.median
+{
+	fill:none !important;
+	stroke-width:3px !important;
+}

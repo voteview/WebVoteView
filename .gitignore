@@ -8,4 +8,12 @@ static/deprecated
 static/img/wiki/*
 **/*deprecated*
 **/deprecated/*
+static/img/twitterCard/*
 server.txt
+static/maintenance
+static/data/*
+static/LatoLatin/*
+/**/*.ord
+/**/*.csv
+static/data/csv/**/*.bak
+\#*\#

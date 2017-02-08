@@ -4,19 +4,24 @@ import re
 import uuid
 import time
 from searchVotes import query
+
 client = pymongo.MongoClient()
-db = client["voteview"]
 
 # Swear filter is a combination of:
 # https://gist.github.com/jamiew/1112488
 # https://gist.github.com/tjrobinson/2366772
 try:
 	swearData = json.load(open("swearFilter.json","r"))["swears"]
+	dbConf = json.load(open("db.json","r"))
+	db = client[dbConf["dbname"]]
 except:
 	try:
 		swearData = json.load(open("./model/swearFilter.json","r"))["swears"]
+		dbConf = json.load(open("./model/db.json","r"))
+		db = client[dbConf["dbname"]]
 	except:
-			swearData = []
+		print "nope"
+		swearData = []
 
 def initializeCart():
 	# What's going on here? UUID is a hash function. It generates a long unique identifier.
@@ -30,6 +35,7 @@ def initializeCart():
 	# Create a stash document.
 	db.stash.insert_one({'id': uniqueUUID, 'expiry': expires})
 
+	
 	# Expires
 	return({'id': uniqueUUID})
 
@@ -54,6 +60,7 @@ def delAll(id, search):
 		return {"errors": ["Can't remove votes; no results from search."]}
 
 def updateExpiry():
+	print "Updating expiry to new time tag"
 	# Current expiry: 7 days.
 	return int(time.time())+(7*24*60*60)
 
@@ -68,6 +75,7 @@ def checkExists(id):
 		return {"status": 0}
 
 def addVotes(id, votes):
+	print "Beginning new add"
 	errorMessages = []
 
 	# User supplied invalid ID, generate a new one
@@ -79,16 +87,20 @@ def addVotes(id, votes):
 		id = initializeCart()["id"]
 		errorMessages.append("Invalid stash ID sent from user.")
 
+	print "Past the initial hurdle"
 	expires = updateExpiry()
 
+	print "Did I get some votes?"
 	if type(votes) == type(0):
 		votes = [votes]
 	elif type(votes) != type([]):
 		errorMessages.append("Invalid votes received from user to add.")
 
+	print "Now checking"
 	# Pull it
 	res = db.stash.find_one({'id': id})
 	if res is None:
+		print "Did not find."
 		# We don't have one.
 		errorMessages.append("Unknown or expired stash ID sent from user.")
 		id = initializeCart()["id"]
@@ -119,7 +131,7 @@ def addVotes(id, votes):
 			search = r["search"]
 
 	# Do the update as necessary.
-	db.stash.update({'id': id}, {'$set': {'votes': nVotes, 'expiry': expires}}, upsert=False, multi=False)
+	db.stash.update_one({'id': id}, {'$set': {'votes': nVotes, 'expiry': expires}}, upsert=False)
 
 	# Return everything.
 	return {'id': id, 'votes': nVotes, 'old': old, 'search': search, 'errors': errorMessages}
@@ -162,7 +174,7 @@ def delVotes(id, votes):
 		else:
 			search = r["search"]
 
-	db.stash.update({'id': id}, {'$set': {'votes': nVotes, 'old': old, 'expiry': expires}}, upsert=False, multi=False)
+	db.stash.update_one({'id': id}, {'$set': {'votes': nVotes, 'old': old, 'expiry': expires}}, upsert=False)
 
 	return {'id': id, 'votes': nVotes, 'errors': errorMessages, 'search': search, 'old': old}
 
@@ -248,6 +260,9 @@ def setSearch(id, search):
 		# We don't have one.
 		errorMessages.append("Unknown or expired stash ID sent from user.")
 		id = initializeCart()["id"]
+		savedVoteIDs = []
+		votes = []
+		old = []
 	else:
 		if "old" in res:
 			old = res["old"]
@@ -265,10 +280,10 @@ def setSearch(id, search):
 		search = ""
 
 	expires = updateExpiry()
-	db.stash.update({'id': id}, {'$set': {'search': search, 'old': savedVoteIDs, 'votes': [], 'expiry': expires}}, upsert=False, multi=False)
+	db.stash.update_one({'id': id}, {'$set': {'search': search, 'old': savedVoteIDs, 'votes': [], 'expiry': expires}}, upsert=False)
 	return {"id": id, "search": search, "errors": errorMessages, "old": savedVoteIDs, "votes": []}
 
-def shareableLink(id, text):
+def shareableLink(id, text, base_url):
 	errorMessages = []
 
 	#text = re.sub('[^a-zA-Z0-9_\- ]','',text)
@@ -283,6 +298,9 @@ def shareableLink(id, text):
 		errorMessages.append("Error: Link must be at least 4 characters long.")
 	if any([x.lower() in internalText for x in swearData]):
 		errorMessages.append("Error: Link name contains inappropriate term. Links are public-facing and must not contain swears or abusive words.")
+
+        if db.stash.find_one({'id': internalText}):
+                errorMessages.append("Error: Link name already exists.")
 
 	link = ""
 	if not len(errorMessages):
@@ -302,23 +320,18 @@ def shareableLink(id, text):
 			else:
 				old = []
 
-			if "votes" in res:
-				votes = res["votes"]
-			else:
-				votes = []
-
 			combVotes = list(set(votes + old))
 			expires = indefExpiry()
 			db.stash.insert_one({'id': internalText, 'old': combVotes, 'expiry': expires})
-			link = "http://voteview.polisci.ucla.edu/s/"+internalText
+			link = base_url + "s/"+internalText
 	else:
 		pass
 
 	return {"link": link, "errors": errorMessages}
 
 if __name__ == "__main__":
-	id = "e5ed4eb1"
-	print addVotes(id, ["H1140981", "H1140953"])
+	id = "3d94a6d6"
+	print addVotes(id, ["RS1150001", "RS1150002"])
 	#print delVotes(id, [40])
 	#print getVotes(id)
 	#addVotes(id, 14)

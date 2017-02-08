@@ -1,15 +1,16 @@
 [
     {
         "congress": 36, 
-        "grandHigh": 0.234, 
-        "grandLow": -0.247, 
-        "grandMean": -0.001, 
-        "grandMedian": 0.010500000000000001, 
-        "houseHigh": 0.234, 
-        "houseLow": -0.247, 
-        "houseMean": -0.001, 
-        "houseMedian": 0.010500000000000001, 
-        "houseMembers": 8, 
-        "nMembers": 8
+        "grandMean": -0.01, 
+        "grandMedian": -0.002, 
+        "grandSet": [
+            -0.261, 
+            -0.097, 
+            -0.011, 
+            0.068, 
+            0.226
+        ], 
+        "nMembers": 8, 
+        "pctAgainst": 19.0
     }
 ]

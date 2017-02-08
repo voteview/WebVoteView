@@ -6,10 +6,12 @@ import cStringIO as StringIO
 class WriteXls:
     """Class to make roll call vote extract matrix in XLS format"""
 
-    def __init__(self,rollcalls=[[]],votes=[[]]):
+    def __init__(self,rollcalls=[[]],votes=[[]],members=[[]]):
         self.wb = xlwt.Workbook()
         self.votesheet = self.wb.add_sheet("Vote Matrix")
+        self.membersheet = self.wb.add_sheet("Member Descriptions")
         self.rollcallsheet = self.wb.add_sheet("Roll Call Descriptions")
+        self.members = members
         self.rollcalls = rollcalls
         self.votes = votes
 
@@ -52,6 +54,15 @@ class WriteXls:
             i += 1
         self._fillinSheet(self.rollcallsheet,self.rollcalls[1:])
         self._freeze(self.rollcallsheet)
+
+    def addMembers(self):
+        hd = self.members[0]
+        i = 0
+        for val in hd:
+            self.membersheet.write(0,i,val)
+            i += 1
+        self._fillinSheet(self.membersheet,self.members[1:])
+        self._freeze(self.membersheet)
         
     def testsave(self):
         self.wb.save("test.xls")

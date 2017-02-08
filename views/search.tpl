@@ -1,12 +1,29 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.min.js"], extra_css=["bootstrap-slider.css", "search.css"])
+% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css"])
 % include('header.tpl')
 % setdefault('args',{})
+% setdefault('search_string',"")
 <div class="container">
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h3>Search Voteview.com</h3>
+			<h3>
+				Search voteview.com 
+				<span class="glyphicon glyphicon-question-sign" style="font-size:14px;float:right;vertical-aklign:middle;cursor:pointer;" id="toggleAlert"></span>
+			</h3>
+
+			<div class="alert alert-info fade in" style="margin-bottom:2px;" id="alertWelcome">
+				<a href="#" id="closeAlert" style="float:right;text-decoration:none;">&times;</a>
+				<strong>Welcome!</strong>
+
+				You have reached the <strong>beta version</strong> of the new voteview.com. This is a website that allows users to view every congressional roll call vote
+				in American history on a map of the United States and on a liberal-conservative ideological map, including information about the ideological position of
+				voting Senators and Representatives. For more information about Voteview and NOMINATE, click <a href="/about">here</a>. <strong>Academics interested in NOMINATE data can download it on our <a href="/data">data page</a>.</strong><br/><br/>
+
+				Below, you can search every rollcall vote. By default, the most recent votes are shown below. Suggested searches will show up in the search bar and you can use the advanced search to change the conditions for your query. You can also check out the <a href="/district">history of your district</a> and see how <a href="/parties">political parties have evolved over time.</a>
+				We are still working to get this site ready for the public and would love to hear
+				your feedback which you can send on the <a href="/about">About</a> page.
+			</div>
 		</div>
 	</div>
 
@@ -16,7 +33,7 @@
 
 				<div id="search-bar-container" class="col-md-12">
 					<div class="input-group">
-						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a term to search for">
+						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a term to search for" value="{{search_string}}">
 						<div class="input-group-btn">
 							<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
@@ -106,8 +123,12 @@
 
 									<div style="padding:30px;padding-bottom:0px;">
 										<input id="support" name="support" type="text" class="span2" value="" 
-											data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-ticks="[0, 50, 100]" data-slider-value="[0,100]"
-											data-slider-ticks-labels="['0%', '50%', '100%']" data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
+											data-slider-min="0" data-slider-max="100" 
+											data-slider-step="1" 
+											data-slider-value="[0,100]"
+											data-slider-ticks="[0, 50, 100]" 
+											data-slider-ticks-labels="['0%', '50%', '100%']" 
+											data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
 											data-slider-id="support-bucket" >
 									</div>
 								</div>
@@ -141,21 +162,21 @@
                         <input type="checkbox" value="Foreign and Defense Policy" name="clausen">
                         Foreign and Defense Policy
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Social Welfare" name="clausen">
                         Social Welfare
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                      <label>
                         <input type="checkbox" value="Agriculture" name="clausen">
                         Agriculture
                       </label>
-                                      </div>
+                    </div>
 
                     <div class="checkbox">
                      <label>
@@ -246,22 +267,46 @@
 
                 </div>
               </div>
-            </div>
-
-				</div>
-				<input type="hidden" name="sortD" id="sortD" value="-1">
-			</form>
-
+	    </div>
+	    <div id="panel-keyvote" class="panel panel-primary">
+	      <div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-keyvote">
+		<h3 class="panel-title">Key Vote <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+	      </div>
+	      <div id="facet-keyvote" class="panel-collapse facet-content collapse">
+		<div class="panel-body">
+		  <div class="checkbox">
+		    <label>
+		      <input type="checkbox" name="keyvote" id="optionsKeyvotes1" value="1">
+			Any
+		      </label>
+		    </div>
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" name="keyvote" id="optionsKeyvotes2" value="CQ">
+			  Congressional Quarterly
+			</label>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	      </div>
+	      
+		  
+		<input type="hidden" name="sortD" id="sortD" value="-1">
+		  <input type="hidden" name="sortScore" id="sortScore" value="1">
+		  </form>
+		  
 			<div id="resultsHolder" class="col-md-12" style="float:right;">
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-6">
 							<h4 id="results-number"></h4>
 						</div>
-						<div class="col-md-3" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
+						<div class="col-md-6" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
 							<strong>Sort by </strong>
-							<a href="#" onclick="javascript:$('#sortD').val(-1);updateRequest();return false;">Newest</a> / 
-							<a href="#" onclick="javascript:$('#sortD').val(1);updateRequest();return false;">Oldest</a>
+							<div id="relevanceAppear" style="display:none;"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
+							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
+							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
 					</div>
 				</div>
@@ -293,7 +338,7 @@
 				<span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Empty Saved Votes" data-container="body"></span>
 			</div>	
 			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(1);">
-				<span class="glyphicon glyphicon-file" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
+				<span class="glyphicon glyphicon-save" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
 			</div>
 			<div id="createLinkIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(2);">
 				<span class="glyphicon glyphicon-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" data-container="body"></span>
@@ -309,9 +354,6 @@
 			<div class="footerIcon" id="exportJSON">
 				<a href="#" onClick="javascript:exportJSON();return false;">Download to JSON</a>
 			</div>
-			<div class="footerIcon" id="format3">
-				Download to Format3
-			</div>
 			<div class="footerIcon">
 				<span onClick="javascript:loadSavedVotes();" class="glyphicon glyphicon-upload" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Load Votes into Search" data-container="body"></span>
 			</div>
@@ -325,7 +367,7 @@
 			</div>
 			<div class="footerBig">
 				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
-				<span id="shareTextInput">http://voteview.polisci.ucla.edu/s/
+				<span id="shareTextInput">{{ base_url }}s/
 					<input id="shareLinkText" type="text" placeholder="type-short-name"> 
 					<input type="submit" value="Create" onClick="javascript:shareLink();javascript:clipboardCopyHack(document.getElementById('shareTextInput'))">
 				</span>
@@ -339,9 +381,8 @@
 </div>
 <img id="stashCartClose" onClick="javacript:closeStashCart();" src="/static/img/close.png">
 <div id="stashCartIcon" onClick="javascript:openStashCart();">
-	<span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Saved Votes"></span>
+         <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Saved Votes"></span>
 </div>
-
 
 <script>
 	// Pass query string arguments back into faceted search.
@@ -371,6 +412,10 @@
 		$("#support").slider({value: [0,{{args["supportMax"]}}]});
 		% else:
 		$("#support").slider({});
+		$("#support").slider('relayout');
+		% end
+		% if "keyvote" in args:
+		$("input[value={{args["keyvote"]}}]").attr("checked",true);
 		% end
 		% if "chamber" in args or "congress" in args or "fromDate" in args or "toDate" in args or "supportMin" in args or "supportMax" in args:
 		toggleAdvancedSearch(1);

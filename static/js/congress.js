@@ -21,6 +21,7 @@ $(document).ready(function()
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
 		success: function(data, status, xhr)
 		{
+			$('#content').fadeIn();
 			$('#loading-container').slideUp();
 			resultCache = data;
 			writeBioTable();
@@ -34,14 +35,21 @@ $(document).ready(function()
 
 function nomPlot()
 {
-	console.log('ok');
 	var ndx = crossfilter(resultCache["results"]);
 	var all = ndx.groupAll();
 	var xDimension = ndx.dimension(
 		function(d) 
-		{
-			var x = d.nominate.oneDimNominate;
-			var y = d.nominate.twoDimNominate;
+	        {
+		        if( (!("nominate" in d & "dim1" in d.nominate)) | (d.nominate.dim1**2 + d.nominate.dim2**2 > 1.99) )
+	   	        {
+				var x = -999;
+				var y = -999;
+			}
+			else
+		        {
+				var x = d.nominate.dim1;
+				var y = d.nominate.dim2;
+			}
 			return [x,y];
 		}
 	);
@@ -62,13 +70,16 @@ function nomPlot()
 		function() { return {members: []} ; }
 	);
 
-	nominateScatterChart
+    nominateScatterChart
+        .clipPadding(4)
+        .transitionDuration(250) // JBL:Speed up symbol size changes on brush per AB request                                             
 	.width(890)
-	.height(432)
+	.height(790*nomDWeight+100)
 	.margins({top:25,right:25,bottom:75,left:75})
 	.dimension(xDimension)
 	.mouseZoomable(false)
 	.group(xGroup)
+	.data(function(group) { return group.all().filter(function(d) { return d.key!=[999,999]; });})
 	.symbolSize(7)
 	.colorCalculator(function(d) {
 		var color = "#CCC";
@@ -83,7 +94,7 @@ function nomPlot()
 	})
 	.highlightedSize(10)
 	.x(d3.scale.linear().domain([-1.0,1.0]))
-	.y(d3.scale.linear().domain([-1.2,1.2]));
+	.y(d3.scale.linear().domain([-1.0,1.0]));
 
 	nominateScatterChart.on("filtered", function()
 	{
@@ -96,19 +107,37 @@ function nomPlot()
 			{
 				validSet.push(filterSelect[i].icpsr);
 			}
+			hasFilter=1;
 			hideMembersUnselected();
 		}, 300);
 	});
 
 	dc.filterAll();
 	dc.renderAll();
-	decorateNominate(nominateScatterChart, resultCache);
-}
+        decorateNominate(nominateScatterChart, resultCache);
 
-function resort(sortB)
-{
-	sortBy = sortB;
-	writeBioTable();	
+        // Make brush box appear on click
+        var scb = nominateScatterChart.select(".brush");
+        scb.on('click', function(){
+  	  var extent = nominateScatterChart.brush().extent();
+	  var x = nominateScatterChart.x().invert(d3.mouse(this)[0]),
+	      y = nominateScatterChart.y().invert(d3.mouse(this)[1]);
+	  // Only draw box if there isn't one already there...
+ 	  if (extent[0][0]==extent[1][0] & extent[0][1]==extent[1][1]) {
+	      if (x*x + y*y <= 1) {
+		  var insideBox = $.grep(nominateScatterChart.data(), function(n, i) {
+			return (n["value"]["members"][0]["nominate"]["dim1"] >= x-0.025 &&
+				n["value"]["members"][0]["nominate"]["dim1"] <= x+0.025 &&
+				n["value"]["members"][0]["nominate"]["dim2"] >= y-0.025/nomDWeight &&
+				n["value"]["members"][0]["nominate"]["dim2"] <= y+0.025/nomDWeight);
+		 });
+		if(insideBox.length) { nominateScatterChart.brush().extent([[x-0.025,y-0.025/nomDWeight],[x+0.025,y+0.025/nomDWeight]]).event(scb); }
+		else { nominateScatterChart.brush().extent([[x,y],[x,y]]).event(scb); }
+	      } else {
+		  nominateScatterChart.brush().extent([[x,y],[x,y]]).event(scb);
+	      }
+	  }
+        });
 }
 
 function rechamber()
@@ -121,15 +150,15 @@ function rechamber()
 function reloadBios()
 {
 	congressNum = $("#congSelector").val();
-	$("#memberList").fadeOut();
 	$.ajax({
 		dataType: "JSON",
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
 		success: function(data, status, xhr)
 		{
-			$("#memberList").fadeIn();
 			validSet = [];
 			resultCache = data;
+			$("#sortChamber").unbind('click')
+			$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
 			writeBioTable();
 			nomPlot();
 			compositionBar();
@@ -140,16 +169,17 @@ function reloadBios()
 function getVPP(congress)
 {
 	// This is a hack; we just list thresholds at which the VP/ President of the Senate switches
-	var VPParty = {	"111": "Democrat", "107": "Republican", "103": "Democrat", "97": "Republican",
-			"95": "Democrat", "91": "Republican", "87": "Democrat", "83": "Republican",
-			"81": "Democrat", "80": "Vacant", "73": "Democrat", "67": "Republican",
-			"63": "Democrat", "59": "Republican", "58": "Vacant", "55": "Republican",
-			"53": "Democrat", "51": "Republican", "50": "Vacant", "49": "Democrat",
-			"48": "Vacant", "41": "Republican", "40": "Vacant", "39": "Democrat",
-			"37": "Republican", "35": "Democrat", "34": "Vacant", "33": "Democrat",
-			"32": "Vacant", "31": "Whig", "29": "Democrat", "28": "Vacant", "27": "Whig",
-			"25": "Democrat", "20": "Jackson", "15": "Democrat-Republican", "14": "Vacant",
-			"5": "Democrat-Republican", "4": "Federalist", "1": "Pro-Administration"};
+	var VPParty = {	"115": "Republican", "111": "Democrat", "107": "Republican", "103": "Democrat", 
+			"97": "Republican", "95": "Democrat", "91": "Republican", "87": "Democrat", 
+			"83": "Republican", "81": "Democrat", "80": "Vacant", "73": "Democrat", 
+			"67": "Republican", "63": "Democrat", "59": "Republican", "58": "Vacant", 
+			"55": "Republican", "53": "Democrat", "51": "Republican", "50": "Vacant", 
+			"49": "Democrat", "48": "Vacant", "41": "Republican", "40": "Vacant", 
+			"39": "Democrat", "37": "Republican", "35": "Democrat", "34": "Vacant", 
+			"33": "Democrat", "32": "Vacant", "31": "Whig", "29": "Democrat", 
+			"28": "Vacant", "27": "Whig", "25": "Democrat", "20": "Jackson", 
+			"15": "Democrat-Republican", "14": "Vacant", "5": "Democrat-Republican", 
+			"4": "Federalist", "1": "Pro-Administration"};
 
 	// Sort the dict keys and reverse them so the short-circuit in the loop below works
 	var keys = Object.keys(VPParty);
@@ -167,12 +197,15 @@ function compositionBar()
 {
 	var partyCount={}
 	$.each(resultCache["results"], function(i, d) {
-		if(partyCount[d.partyname]==undefined) { partyCount[d.partyname]=1; }
-		else { partyCount[d.partyname]++; }
+		if(partyCount[d.party_short_name]==undefined) { partyCount[d.party_short_name]=1; }
+		else { partyCount[d.party_short_name]++; }
 	});
+
+	console.log($("#content").width());
+	var chartWidth = Math.min(300,Math.max(200,Math.round($("#content").width()*0.27)));
 	
 	$("#partyComposition").html("");
-	var svgBucket = d3.select("#partyComposition").append("svg").attr("width",300).attr("height",21);
+	var svgBucket = d3.select("#partyComposition").append("svg").attr("width",chartWidth).attr("height",21);
 	var x=0; 
 	var sorted_parties = Object.keys(partyCount).sort();
 	
@@ -182,11 +215,13 @@ function compositionBar()
 	{
 		pN = sorted_parties[pNi];
 		if(partyCount[pN]>maxN || (partyCount[pN]==maxN && pN==getVPP(congressNum) && chamber_param=="senate")) { maxN=partyCount[pN]; maxP = pN; }
-		var wid = Math.round(300*(partyCount[pN]/resultCache["results"].length));
+		var wid = Math.round(chartWidth*(partyCount[pN]/resultCache["results"].length));
 		try {var voteCol = colorSchemes[partyColorMap[partyNameSimplify(pN)]][0]; } catch(e) { var voteCol = '#000000'; }
 		var rect = svgBucket.append("rect")
 				.attr("x",x).attr("y",3).attr("width",wid).attr("height",15)
-				.attr("fill",voteCol).attr("stroke","#000000").attr("stroke-width",1);
+				.attr('class',partyColorMap[partyNameSimplify(pN)])
+				//.attr("fill",voteCol)
+				.attr("stroke","#000000").attr("stroke-width",1);
 		x=x+wid;
 		baseTipT += '<br/>'+pN+': '+partyCount[pN];
 		if(chamber_param=="senate" && pN==getVPP(congressNum)) { baseTipT += " (+ Vice President)"; }
@@ -194,7 +229,8 @@ function compositionBar()
 	baseTipT+= "<br/><br><em>Note:</em> Counts include members elected through special elections after resignations, deaths, or vacancies.";
 	svgBucket.on('mouseover',function(d) { 
 		baseTip.html(baseTipT);
-		baseTip.style("border-left","3px solid "+colorSchemes[partyColorMap[partyNameSimplify(maxP)]][0]);
+		$('#mapTooltip').removeClass().addClass('d3-tip')
+				.addClass(partyColorMap[partyNameSimplify(maxP)]);
 		eW = baseTip.style('width');
 		baseTip.style('visibility','visible');
 	}).on('mousemove',function(d) {
@@ -202,58 +238,28 @@ function compositionBar()
 	}).on('mouseout',function(d) { baseTip.style('visibility','hidden'); });
 }
 
-function writeBioTable()
-{
-	rC = resultCache["results"];
-	if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioName > b.bioName ? 1 : -1; }); }
-	else if(sortBy=="party") { rC.sort(function(a,b) { return (a.partyname==b.partyname)?(a.bioName>b.bioName?1:-1):(a.partyname>b.partyname?1:-1); }); }
-	else if(sortBy=="state") { rC.sort(function(a,b) { return(a.stateName==b.stateName)?(a.bioName>b.bioName?1:-1):(a.stateName>b.stateName?1:-1); }); }
-	else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioName>b.bioName?1:-1):(a.minElected>b.minElected?1:-1); }); }
-	else if(sortBy=="nominate") { rC.sort(function(a,b) { return a.nominate.oneDimNominate > b.nominate.oneDimNominate ? 1 : -1; }); }
-	$("#memberList").html("");
-	$.each(rC,function(k, v)
-	{
-		constructPlot(v);
-	});
-	$('#content').fadeIn();
-}
-
 function hideMembersUnselected()
 {
-	$("#memberList > div").each(function(i, d) {
+
+	$("#memberList > li.memberResultBox").each(function(i, d) {
 		if(validSet.indexOf(parseInt($(d).attr("id")))!=-1 || validSet.length==0) { $(d).show(); }
 		else { $(d).hide(); }
 	});
-}
 
-function constructPlot(member)
-{
-	// BioName cleanup:
-	if(member["bioName"].length>20 && member["bioName"].indexOf("(")!=-1 && member["bioName"].indexOf(")")!=-1)
+        // Set number of columns by number of selected members
+        if(validSet.length && validSet.length < 5){
+	        $("#memberList").css("columns","1").css("width","25%");
+	} else if (validSet.length && validSet.length < 9)
 	{
-		try
-		{
-			memberNameNew = member["bioName"].split(", ");
-			parenthetical = member["bioName"].split("(")[1].split(")")[0];
-			memberNameFinal = memberNameNew[0]+", "+parenthetical;
-		}
-		catch(err)
-		{
-			console.log(member["bioName"]);
-		}		
-	}
-	else
+	        $("#memberList").css("columns","2").css("width","50%")
+	} else if (validSet.length && validSet.length < 13)
 	{
-		memberNameFinal = member["bioName"];
+	        $("#memberList").css("columns","3").css("width","75%")
+	} else
+	{
+	        $("#memberList").css("columns","4").css("width","100%")
 	}
 
-	var memberBox = $("<div></div>").addClass("col-md-3").addClass("memberResultBox").attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"];})
-					.css("overflow","hidden").css("padding-right","5px");
-	var imgBox = $("<img />").css("width","80px").css("height","80px").css("padding-right","20px").attr("class","pull-left")
-					.attr("src","/static/img/bios/"+member["bioImgURL"]);
-	var bioText = $("<span></span>").css("font-size","0.9em").css("padding-right","0px")
-					.html("<strong>"+memberNameFinal+"</strong><br/>"+member["partyname"]+"<br/><!--<img src=\"/static/img/states/"+member["stateAbbr"]+".png\" style=\"width:20px;\"> -->"+member["stateName"]+"<br/>Elected "+member["minElected"]);
-	imgBox.appendTo(memberBox);
-	bioText.appendTo(memberBox);
-	memberBox.appendTo($("#memberList"));
+        
 }
+

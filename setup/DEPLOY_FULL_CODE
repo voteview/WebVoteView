@@ -1,0 +1,56 @@
+#!/bin/bash
+start=$(date +%s)
+userid=$(whoami) # Ensure we're running as root
+hostname=$(hostname) # Ensure we're on voteview.
+
+if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
+	echo "Beginning rsync of latest deployed code."
+	mkdir update-voteview
+	cd update-voteview
+	rsync -av --exclude=.git --exclude=static/db/ --exclude=static/img/wiki --exclude=static/dumpNom rudkin@128.97.229.160:/var/www/voteview ./
+	cd ..
+	mv update-voteview/voteview WebVoteView
+	rm -rf update-voteview
+
+	echo "Ensuring we have the right python module requirements"
+	pip install -r WebVoteView/setup/requirements.txt -U
+	rm -rf WebVoteView/setup
+
+	echo "Server setup: production"
+	echo "0" > WebVoteView/server.txt
+	rm WebVoteView/robots.txt
+	mv WebVoteView/robots-prod.txt WebVoteView/robots.txt
+	rm WebVoteView/README.md
+	rm WebVoteView/git-synchronize
+
+	downtimestart=$(date +%s)
+	echo "Stopping web server to substitute directory"
+	service nginx stop
+	rm -rf vv-backup
+	chown -R rudkin WebVoteView
+	chgrp -R voteview WebVoteView
+	mv voteview vv-backup
+	mv WebVoteView voteview
+	touch /var/www/voteview/static/maintenance
+	service nginx start
+	downtimeStop=$(date +%s)
+
+	echo "Starting server to substitute directory"
+	touch /etc/uwsgi/reboot
+	rm /var/www/voteview/static/maintenance
+	echo "Done CODE ONLY deployment."
+	echo "Previous version of site in /var/www/vv-backup"
+	echo "Current version of site in /var/www/voteview"
+	echo "Checking API version to verify site has started..."
+	curl "https://voteview.polisci.ucla.edu/api/version"
+	echo ""
+	downtime=$((downtimeStop-downtimestart))
+	echo "Total downtime $downtime seconds"
+elif [ "$userid" = "root" ]; then
+	echo "You must be on production voteview to run deployment script"
+else
+        echo "You must be root to run deployment script"
+fi
+endT=$(date +%s)
+runtime=$((endT-start))
+echo "Total runtime $runtime seconds"
