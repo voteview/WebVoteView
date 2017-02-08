@@ -15,4 +15,5 @@ static/data/*
 static/LatoLatin/*
 /**/*.ord
 /**/*.csv
+static/data/csv/**/*.bak
 \#*\#
