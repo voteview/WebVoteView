@@ -156,10 +156,27 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 
     memberTime2 = time.time()
     # Now iterate through the rollcalls
-    fieldSetNeed = {"votes": 1, "nominate": 1, "id": 1, "codes": 1, "key_flags": 1, "yea_count": 1, "nay_count": 1, "congress": 1, "chamber": 1, "rollnumber": 1, "date": 1, "vote_desc": 1, "vote_document_text": 1,
-                    "description": 1, "shortdescription": 1, "short_description": 1, "vote_description": 1, "vote_question": 1, "question": 1, "party_vote_counts": 1, 'vote_result': 1, 'vote_title': 1, 'vote_question_text': 1, 'amendment_author': 1, "sponsor": 1, "bill_number": 1, "dtl_desc": 1}
-    rollcalls = db.voteview_rollcalls.find(
-        {'id': {'$in': rollcall_ids}}, fieldSetNeed).sort('id').batch_size(10)
+
+    fieldsNeeded = [
+        'party_vote_counts', 'vote_title',
+        'vote_desc', 'key_flags', 'yea_count', 'sponsor',
+        'bill_number', 'id', 'description', 'tie_breaker', 'votes',
+        'codes', 'dtl_desc', 'question', 'vote_description',
+        'short_description', 'nay_count', 'congress',
+        'vote_question_text', 'rollnumber', 'date',
+        'vote_document_text', 'nominate', 'amendment_author',
+        'chamber', 'vote_result', 'shortdescription', 'vote_question',
+        'tie_breaker',
+    ]
+    rollcalls = (
+        db.voteview_rollcalls
+        .find(
+            {'id': {'$in': rollcall_ids}},
+            {field: 1 for field in fieldsNeeded}
+        )
+        .sort('id')
+        .batch_size(10)
+    )
     for rollcall in rollcalls:
         result = []  # Hold new votes output, start blank
         try:
