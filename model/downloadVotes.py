@@ -156,7 +156,6 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
 
     memberTime2 = time.time()
     # Now iterate through the rollcalls
-
     fieldsNeeded = [
         'party_vote_counts', 'vote_title',
         'vote_desc', 'key_flags', 'yea_count', 'sponsor',
