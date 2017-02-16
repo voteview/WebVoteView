@@ -13,7 +13,7 @@ server.txt
 static/maintenance
 static/data/*
 static/LatoLatin/*
-/**/*.ord
-/**/*.csv
+static/**/*.ord
+static/**/*.csv
 static/data/csv/**/*.bak
 \#*\#

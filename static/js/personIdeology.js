@@ -73,7 +73,13 @@ function buildLoyalty(error, data)
     {
 	return(0);
     }
-    $("#memberLoyalty").html(Math.round(memberLoyalty, 1)).append("%");
+    $.get("/api/getloyalty?party_code=" + String(memberPartyCode) + "&congress=" + String(congressNum), function( ldata ) {
+	var partyLoyalty = 100 * (1 - ldata.party.nvotes_against_party / ldata.party.nvotes_yea_nay);
+	var globalLoyalty = 100 * (1 - ldata.global.nvotes_against_party / ldata.global.nvotes_yea_nay);
+	$("#partyLoyalty").html(Math.round(partyLoyalty, 2)).append("%");
+	$("#globalLoyalty").html(Math.round(globalLoyalty, 2)).append("%");
+	$("#memberLoyalty").html(Math.round(memberLoyalty, 2)).append("%");
+    });
 }
 
 function drawHist(error, data)
