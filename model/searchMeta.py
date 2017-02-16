@@ -14,7 +14,12 @@ except:
 
 db = client[dbConf["dbname"]]
 
-def metaLookup():
-    for m in db.voteview_metadata.find().sort('time', -1).limit(1):
-        meta = m
-    return meta
+def metaLookup(api = ""):
+        if not api:
+                returnDict = {"loyalty_counts": 0}
+        elif api == "Web_Members":
+                returnDict = {"nominate": 0}
+        for m in db.voteview_metadata.find({}, returnDict).sort('time', -1).limit(1):
+                meta = m
+
+        return meta

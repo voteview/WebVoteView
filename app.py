@@ -8,6 +8,7 @@ import json
 import bottle
 import unidecode
 from fuzzywuzzy import fuzz
+from bson.json_util import dumps
 
 from model.searchVotes import query
 import model.downloadVotes # Namespace issue
@@ -215,6 +216,19 @@ def parties(party="all", congStart=-1):
 	output = bottle.template("views/parties", party=party, partyData=partyData, partyNameFull=partyNameFull, congStart=congStart)
 	return output
 
+@app.route("/api/getloyalty")
+def getloyalty(party_code = "", congress = ""):
+        party_code = defaultValue(bottle.request.params.party_code,party_code)
+        congress = defaultValue(bottle.request.params.congress,congress)
+
+        party_loyalty = partyLookup({"id": int(party_code)}, "Web_Members")
+        party_cong_loyalty = party_loyalty[str(congress)]
+        
+        global_loyalty = metaLookup("Web_Members")
+        global_cong_loyalty = global_loyalty["loyalty_counts"][str(congress)]
+
+        return {"global": global_cong_loyalty, "party": party_cong_loyalty}
+
 @app.route("/person")
 @app.route("/person/<icpsr>")
 @app.route("/person/<icpsr>/<garbage>")
@@ -303,7 +317,10 @@ def person(icpsr=0, garbage=""):
                         person["altPeople"].append(altPerson)
 
         timeIt("partySwitches")
-
+        loyalty = getloyalty(person["party_code"], person["congress"])
+        person["party_loyalty"] = 100 * (1 - loyalty["party"]["nvotes_against_party"] / (loyalty["party"]["nvotes_yea_nay"]*1.0))
+        person["global_loyalty"] = 100 * (1 - loyalty["global"]["nvotes_against_party"] / (loyalty["global"]["nvotes_yea_nay"]*1.0))
+        
         if "biography" in person:
             person["biography"] = person["biography"].replace("a Representative","Representative")
 
