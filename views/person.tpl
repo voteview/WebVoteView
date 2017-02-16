@@ -130,20 +130,25 @@
 				%		for congress in range(congressRun[1], congressRun[0]-1, -1):
 							<option value="{{congress}}">{{person["congressLabels"][congress]}}</option>
 				% 		end
-				% 	end
+								% 	end
 					</select>
 				% end
 				<small style="padding-left:10px;"><a href="#" onclick="javascript:viewAllCong();return false;">View all members</a></small>
 			</h5>
-			<div id="loyaltyTable">
-			     Loyalty to {{person["party_name"]}}: <div id="memberLoyalty", style="display: inline-block"></div>
-			     Avg. {{person["party_name"]}} Loyalty: <div id="partyLoyalty", style="display: inline-block"></div>
-			     Avg. Loyalty all Parties: <div id="globalLoyalty", style="display: inline-block"></div>
-			</div>
-			Ideology
-							
+			Ideology		
 		</div>
-
+		<div id="loyaltyTable">
+		     <div style="float: left; width: 33%; text-align: center;">Voting with {{person["party_name"]}}
+		     	  <div id="memberLoyalty", style="text-align: center;"></div>
+		     </div>
+		     <div style="float: left; width: 33%; text-align: center;">Avg. in {{person["party_name"]}}
+		     	  <div id="partyLoyalty", style="text-align: center;"></div>
+		     </div>
+		     <div style="float: left; width: 33%; text-align: center;">Avg. in all parties
+		     	  <div id="globalLoyalty", style="text-align: center;"></div>
+		     </div>
+		</div>
+			
 		% else:
 		<div class="alert alert-info" role="alert">
 			% if person["chamber"]!="President":
