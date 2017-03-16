@@ -3,7 +3,7 @@
 % from stemming.porter2 import stem
 % include('member_party_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
 
-% orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff"}
+% orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff", "wikipedia": "Wikipedia"}
 
 % def doHighlight(highlighter, text):
 %     	stopwords = [x.strip() for x in open("model/stop_words.txt","r").read().split("\n")]
