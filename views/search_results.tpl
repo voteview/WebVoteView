@@ -52,7 +52,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<strong>
-				% if ("key_flags" in rollcall and rollcall["key_flags"]):
+				% if ("key_flags" in rollcall and rollcall["key_flags"] and rollcall["key_flags"][0] in orgMapping):
 				<span class="btn btn-default btn-sm" style="margin-right:10px;" 
 					data-toggle="tooltip" data-placement="bottom" 
 					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}">
