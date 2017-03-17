@@ -99,20 +99,26 @@ function drawHist(error, data)
 		if(d.nominate==undefined) { return true; }
 		oneDims.push(d.nominate.dim1);
 		ctTotal+=1;
-		if(d.nominate.dim1>memberIdeal) { ctGreater+=1; }
+		if(d.nominate.dim1>memberIdeal) 
+		{ 
+			ctGreater+=1; 
+		}
 		if(d.party_code==memberPartyCode)
 		{
 			ctPartyTotal+=1;
-			if(d.nominate.dim1>memberIdeal) { ctPartyGreater+=1; }
+			if(d.nominate.dim1>memberIdeal) 
+			{
+				ctPartyGreater+=1; 
+			}
 		}
 	    
 	});
 
 	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(DW-NOMINATE first dimension)</em><br/><br/>";
 	var libPercentage = Math.floor(100*ctGreater/(ctTotal-1),1);
-	var libPartyPercentage = Math.floor(100*ctPartyGreater/(ctPartyTotal-1),1);
-	if(libPercentage==100) { label += "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress."; }
-	else if(libPercentage==0) { label += "The most conservative member of the "+getGetOrdinal(congressNum)+" Congress."; }
+	var libPartyPercentage = Math.round(100*ctPartyGreater/(ctPartyTotal-1),1);
+	if(libPercentage==100 && ctPartyGreater==ctPartyTotal-1) { label += "The most liberal member of the "+getGetOrdinal(congressNum)+" Congress."; }
+	else if(libPercentage==0 && ctPartyGreater==0) { label += "The most conservative member of the "+getGetOrdinal(congressNum)+" Congress."; }
 	else
 	{
 		if(libPercentage>50) { label += "More liberal than "+libPercentage+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>"; }
