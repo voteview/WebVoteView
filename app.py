@@ -691,6 +691,33 @@ def shareLink():
     return model.stashCart.shareableLink(id, text, base_url = BASE_URL)
 
 
+@app.route("/api/downloaddata", method = "POST")
+@app.route("/api/downloaddata")
+def getData():
+    try:
+        BASE_URL = getBase(bottle.request.urlparts)
+        datType = defaultValue(bottle.request.params.datType, "")
+        unit = defaultValue(bottle.request.params.type, None if datType == "ord" else "")
+        chamber = defaultValue(bottle.request.params.chamber, None if unit == "party" else "both")
+        congress = defaultValue(bottle.request.params.congress, "all")
+    except:
+        return {"errorMessage": "Invalid query"}
+
+    print(datType)
+    print(unit)
+    print(chamber)
+    print(congress)
+
+    if datType == "" or unit == "":
+        return {"errorMessage": "Either type or unit specified incorrectly."}
+    
+    STATIC_URL = BASE_URL + "static/data/" + datType + "/"
+
+    if datType == "csv":
+        STATIC_URL += unit + "/"
+
+    return STATIC_URL + "_".join([x for x in [unit, chamber, congress] if x]) + "." + datType
+
 @app.route("/api/addAll")
 @app.route("/api/addAll", method="POST")
 def addAll():
