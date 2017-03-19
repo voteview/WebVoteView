@@ -20,7 +20,7 @@
 % 	noteText = ""
 % end
 
-% orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff"}
+% orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff", "wikipedia": "Wikipedia"}
 
 <div class="container">
 	<div class="row">
