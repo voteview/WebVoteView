@@ -716,7 +716,7 @@ def getData():
     if datType == "csv":
         STATIC_URL += unit + "/"
 
-    return STATIC_URL + "_".join([x for x in [unit, chamber, congress] if x]) + "." + datType
+    return {"file_url": STATIC_URL + "_".join([x for x in [unit, chamber, congress] if x]) + "." + datType}
 
 @app.route("/api/addAll")
 @app.route("/api/addAll", method="POST")
