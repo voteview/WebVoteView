@@ -222,11 +222,13 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
                                 newM["state_icpsr"] = stateIcpsr(newM["state_abbrev"])
 		if "district_code" in newM and "state_abbrev" in newM:
                         newM["cqlabel"] = cqlabel(newM["state_abbrev"], newM["district_code"])
-		if "party_code" in newM and api not in ["exportORD", "exportCSV", "R"]:
-			newM["party_noun"] = noun(newM["party_code"])
-			newM["party_name"] = partyName(newM["party_code"])
-			newM["party_color"] = partyColor(newM["party_code"])
-			newM["party_short_name"] = shortName(newM["party_code"])
+
+		if "party_code" in newM:
+                        newM["party_name"] = partyName(newM["party_code"])
+                        if api not in ["exportORD", "exportCSV", "R"]:
+			        newM["party_noun"] = noun(newM["party_code"])
+			        newM["party_color"] = partyColor(newM["party_code"])
+			        newM["party_short_name"] = shortName(newM["party_code"])
 		
 		# Check if an image exists.
 		if os.path.isfile("/var/www/voteview/static/img/bios/"+str(newM["icpsr"]).zfill(6)+".jpg"):
