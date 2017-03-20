@@ -320,9 +320,9 @@ function resetResults()
 					if(v["nominate"]!=undefined && v["nominate"]["dim1"]!=undefined)
 					{
 						var nomDiv = $("<span></span>").css("border-right","3px solid "+colorSchemes[v["party_color"]][0])
-										.css("width",nomOffset+"%").css("height","100%").css("overflow","auto").css("display","block");
+										.css("width",nomOffset+"%").css("height","35px").css("overflow","auto").css("display","block");
 							
-						var holdingTD = $("<td></td>").css("padding","0").css("width","20px").css("border-left","1px solid grey").css("border-right","1px solid grey");
+						var holdingTD = $("<td></td>").css("padding","0").css("width","50px").css("border-left","1px solid grey").css("border-right","1px solid grey");
 						nomDiv.appendTo(holdingTD);
 						holdingTD.appendTo(tr);
 					}
