@@ -64,6 +64,17 @@ function tooltipText(d)
 	return(result);
 }
 
+// Check unincorporated land
+function checkUnincorporated(district, congress)
+{
+	var unincSet = {"AL-1": [18, 22], "GA-1": [1, 22], "IN-1": [17, 22], "NC-1": [1, 1], "OH-1": [7, 7], "SC-1": [13, 14], "TN-1": [8, 17], "TX-1": [28, 31]}
+	for(var key in unincSet)
+	{
+		if(district==key && congress>=unincSet[key][0] && congress<=unincSet[key][1]) { return 1; }
+	}
+	return 0;
+}
+
 // If there's an error loading the map, still load the vote data, and just fail as gracefully as possible.
 function drawWidgetsFailMap(error, data)
 {
@@ -420,7 +431,17 @@ function drawWidgets(error, data, geodata)
 						var result = $.grep(c.data(), function(e){
 							return e.key == d.id; 
 						});
-						if(result[0]==undefined) { baseToolTip.html("<p><strong>"+d.id+"</strong></p> This district was vacant at the time of the vote."); } // Don't tooltip null results.
+						if(result[0]==undefined)
+						{
+							if(checkUnincorporated(d.id, congressNum))
+							{
+								baseToolTip.html("<p><strong>Unincorporated Land</strong></p> This area was unincorporated at the time of the vote.");
+							}
+							else
+							{
+								baseToolTip.html("<p><strong>"+d.id+"</strong></p> This district was vacant at the time of the vote."); 
+							} 
+						}
 						else { baseToolTip.html(tooltipText(result[0])); }
 						eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
 						eW = baseToolTip.style("width");
