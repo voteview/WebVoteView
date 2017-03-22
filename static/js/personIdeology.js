@@ -5,6 +5,33 @@ $("#congSelector").change(reloadIdeology);
 	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawLoyaltyHist);	
 })();
 
+function getMedian(a, t) {
+
+    var middlePos = Math.floor((a.length - 1) / 2);
+    
+    if (t == 'votes') {
+	var sortedA = a.sort(function(a, b) {return a[0] - b[0];});
+    } else {
+	var sortedA = a.sort(function(a, b) {return a[1]/a[0] - b[1]/b[0];});
+    }
+   
+    if (sortedA.length % 2) {
+	if (t == 'votes') {
+	    return sortedA[middlePos][0];
+	} else {
+	    return Math.round(100 * (1 - sortedA[middlePos][1] / sortedA[middlePos][0]), 1);
+	}
+    } else {
+	if (t == 'votes') {
+	    return (sortedA[middlePos][0] + a[middlePos + 1][0]) / 2.0;
+	} else {
+	    middleA = [(sortedA[middlePos][0] + a[middlePos + 1][0]) / 2.0,
+		       (sortedA[middlePos][1] + a[middlePos + 1][1]) / 2.0];
+	    return Math.round(100 * (1 - middleA[1] / middleA[0]), 1);
+	}   
+    }
+}
+
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
 function getGetOrdinal(n) {
     var s=["th","st","nd","rd"],
@@ -39,8 +66,10 @@ function updateCongress(error, data)
 			memberNoun = d.party_noun;
 			partyColor = d.party_color;
 		    chamber = d.chamber.toLowerCase();
-		       memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
-    		 			$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
+		    memberVotes = d.nvotes_yea_nay;
+//		    memberAttendance = 100 * (1 - d.nvotes_yea_nay / 
+		        memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
+    		 	$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
 			if(d.district_code != undefined && d.district_code!=0 && d.district_code!=98 && d.district_code!=99)
 			{
 				$("#district_label").html(getGetOrdinal(d.district_code)+" congressional district");
@@ -62,58 +91,63 @@ function updateCongress(error, data)
 
 function drawLoyaltyHist(error, data)
 {
-        buildLoyalty(error, data);
 	// Now call the actual plotting function.
-	drawHist(error, data);    
+	fillLoyaltyDrawHist(error, data);    
 }
 
-function buildLoyalty(error, data)
-{
-    if(data==undefined)
-    {
-	return(0);
-    }
-    $.get("/api/getloyalty?party_code=" + String(memberPartyCode) + "&congress=" + String(congressNum), function( ldata ) {
-	var partyLoyalty = 100 * (1 - ldata.party.nvotes_against_party / ldata.party.nvotes_yea_nay);
-	var globalLoyalty = 100 * (1 - ldata.global.nvotes_against_party / ldata.global.nvotes_yea_nay);
-	$("#partyLoyalty").html(Math.round(partyLoyalty, 2)).append("%");
-	$("#globalLoyalty").html(Math.round(globalLoyalty, 2)).append("%");
-	$("#memberLoyalty").html(Math.round(memberLoyalty, 2)).append("%");
-    });
-}
-
-function drawHist(error, data)
+function fillLoyaltyDrawHist(error, data)
 {
 	if(data==undefined)
 	{
 		return(0);
 	}
 
-
         var ctGreater=0;
 	var ctTotal=0;
 	var ctPartyGreater=0;
-	var ctPartyTotal=0;
+        var ctPartyTotal=0;
+        var partyVotes=[];
+        var chamberVotes=[];
 	var oneDims = [];
 	data["results"].forEach(function (d) {
 		if(d.nominate==undefined) { return true; }
-		oneDims.push(d.nominate.dim1);
+	    oneDims.push(d.nominate.dim1);
+	    chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party]);
 		ctTotal+=1;
 		if(d.nominate.dim1>memberIdeal) 
 		{ 
 			ctGreater+=1; 
 		}
 		if(d.party_code==memberPartyCode)
-		{
+	       {
+                   partyVotes.push([d.nvotes_yea_nay, d.nvotes_against_party]);
 			ctPartyTotal+=1;
 			if(d.nominate.dim1>memberIdeal) 
 			{
 				ctPartyGreater+=1; 
 			}
-		}
+	       }
 	    
 	});
 
+    // Fill loyalty table
+    var medianPartyVotes = getMedian(partyVotes, 'votes');
+    var medianChamberVotes = getMedian(chamberVotes, 'votes');
+    var medianPartyLoyalty = getMedian(partyVotes, 'loyalty');
+    var medianChamberLoyalty = getMedian(chamberVotes, 'loyalty');
+
+    var headerRow = '<div class="row loyalty"><div class="col-sm-3 vert"></div><div class="col-sm-3 vert">' + memberLastName + '</div>' + 
+	'<div class="col-sm-3 vert">Median ' + memberNoun + '</div>' +
+	'<div class="col-sm-3 vert">Median in ' + chamber.substring(0, 1).toUpperCase() + chamber.substring(1) + '</div></div>';
+    var voteRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Votes Cast</div><div class="col-sm-3 vert">' + memberVotes + '</div>' + 
+	'<div class="col-sm-3 vert">' + medianPartyVotes + '</div>' +
+	'<div class="col-sm-3 vert">' + medianChamberVotes + '</div></div>';
+    var loyaltyRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Party Loyalty</div><div class="col-sm-3 vert">' + Math.round(memberLoyalty, 1) + '%</div>' + 
+	'<div class="col-sm-3 vert">' + medianPartyLoyalty + '%</div>' +
+	'<div class="col-sm-3 vert">' + medianChamberLoyalty + '%</div></div>';
+    $('#loyaltyTable').html(headerRow + voteRow + loyaltyRow);
+
+    // Draw ideology histogram
 	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(DW-NOMINATE first dimension)</em><br/><br/>";
 	var libPercentage = Math.floor(100*ctGreater/(ctTotal-1),1);
 	var libPartyPercentage = Math.round(100*ctPartyGreater/(ctPartyTotal-1),1);
