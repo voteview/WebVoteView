@@ -111,16 +111,20 @@ function fillLoyaltyDrawHist(error, data)
 	var oneDims = [];
 	data["results"].forEach(function (d) {
 		if(d.nominate==undefined) { return true; }
-	    oneDims.push(d.nominate.dim1);
-	    chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party]);
+	    oneDims.push(d.nominate.dim1)
+	    if(d.chamber.toLowerCase() == chamber) {
+		chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party]);
+	    }
 		ctTotal+=1;
 		if(d.nominate.dim1>memberIdeal) 
 		{ 
 			ctGreater+=1; 
 		}
 		if(d.party_code==memberPartyCode)
-	       {
-                   partyVotes.push([d.nvotes_yea_nay, d.nvotes_against_party]);
+	    {
+			    if(d.chamber.toLowerCase() == chamber) {
+				partyVotes.push([d.nvotes_yea_nay, d.nvotes_against_party]);
+			    }
 			ctPartyTotal+=1;
 			if(d.nominate.dim1>memberIdeal) 
 			{
@@ -129,16 +133,18 @@ function fillLoyaltyDrawHist(error, data)
 	       }
 	    
 	});
-
+    console.log(partyVotes);
     // Fill loyalty table
     var medianPartyVotes = getMedian(partyVotes, 'votes');
     var medianChamberVotes = getMedian(chamberVotes, 'votes');
     var medianPartyLoyalty = getMedian(partyVotes, 'loyalty');
     var medianChamberLoyalty = getMedian(chamberVotes, 'loyalty');
 
+    var chamberCap = chamber.substring(0, 1).toUpperCase() + chamber.substring(1);
+    
     var headerRow = '<div class="row loyalty"><div class="col-sm-3 vert"></div><div class="col-sm-3 vert">' + memberLastName + '</div>' + 
-	'<div class="col-sm-3 vert">Median ' + memberNoun + '</div>' +
-	'<div class="col-sm-3 vert">Median in ' + chamber.substring(0, 1).toUpperCase() + chamber.substring(1) + '</div></div>';
+	'<div class="col-sm-3 vert">Median ' + chamberCap + ' ' + memberNoun + '</div>' +
+	'<div class="col-sm-3 vert">Median in ' + chamberCap+ '</div></div>';
     var voteRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Votes Cast</div><div class="col-sm-3 vert">' + memberVotes + '</div>' + 
 	'<div class="col-sm-3 vert">' + medianPartyVotes + '</div>' +
 	'<div class="col-sm-3 vert">' + medianChamberVotes + '</div></div>';
