@@ -6,7 +6,7 @@
 % else:
 %	pageTitle = person["bioname"]
 % end
-% rebase("base.tpl",title=pageTitle, extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css"])
+% rebase("base.tpl",title=pageTitle, extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css", "person.css"])
 % include('header.tpl')
 % current_page_number = 1
 % import datetime
@@ -137,17 +137,6 @@
 			</h5>
 			Ideology		
 		</div>
-		<div id="loyaltyTable">
-		     <div style="float: left; width: 33%; text-align: center;">Voting with {{person["party_name"]}}
-		     	  <div id="memberLoyalty", style="text-align: center;"></div>
-		     </div>
-		     <div style="float: left; width: 33%; text-align: center;">Avg. in {{person["party_name"]}}
-		     	  <div id="partyLoyalty", style="text-align: center;"></div>
-		     </div>
-		     <div style="float: left; width: 33%; text-align: center;">Avg. in all parties
-		     	  <div id="globalLoyalty", style="text-align: center;"></div>
-		     </div>
-		</div>
 			
 		% else:
 		<div class="alert alert-info" role="alert">
@@ -158,6 +147,9 @@
 			% end
 		</div>
 		% end
+	<div id="loyaltyTable" class="container" style="font-size:12px;text-align:center;width:auto;">
+	</div>
+
 	</div>
     </div>
 	% if "biography" in person:
@@ -231,11 +223,13 @@ var mapParties=1;
 	var chamber = "senate";
 % end
 var numBins = 15; // This is actually multiplied by 2, so 15*2 = 30.
+var memberLastName = "{{person["last_name"]}}";
 var memberIdeal = {{person["nominate"]["dim1"]}};
 var memberIdealBucket = Math.floor({{person["nominate"]["dim1"]}}*numBins);
 var memberPartyName = "{{person["party_name"]}}";
 var memberPartyCode = "{{person["party_code"]}}";
 var memberNoun = "{{person["party_noun"]}}";
+var memberVotes = {{person["nvotes_yea_nay"]}};
 var memberLoyalty = 100 * (1 - {{person["nvotes_against_party"]}} / {{person["nvotes_yea_nay"]}});
 var partyLoyalty = {{person["party_loyalty"]}}
 var globalLoyalty = {{person["global_loyalty"]}}
@@ -249,4 +243,4 @@ var partyColor = "{{person["party_color"]}}";
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/personIdeology.js"></script>
 % end
-<script type-"text/javascript" src="{{ STATIC_URL }}js/personVotes.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/personVotes.js"></script>

@@ -300,7 +300,7 @@ q
 			else if(maxCong>=max) { textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) onwards"; }
 			else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) until the "+getGetOrdinal(maxCong)+" Congress (<small>"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)."; }
 		}
-		catch(e) { textLabel += "Error here"; }
+		catch(e) { textLabel = ""; }
 
 		try { var partyColorScheme = partyColorMap[partyNameSimplify(parties[i][1]["name"])];}
 		catch(e) { var partyColorScheme = "grey"; }
