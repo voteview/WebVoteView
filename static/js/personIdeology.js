@@ -8,27 +8,34 @@ $("#congSelector").change(reloadIdeology);
 function getMedian(a, t) {
 
     var middlePos = Math.floor((a.length - 1) / 2);
-    
+
     if (t == 'votes') {
 	var sortedA = a.sort(function(a, b) {return a[0] - b[0];});
-    } else {
+    } else if (t == 'loyalty') {
 	var sortedA = a.sort(function(a, b) {return a[1]/a[0] - b[1]/b[0];});
+    } else {
+	var sortedA = a.sort(function(a, b) {return a[0]/(a[0] + a[2]) - b[0]/(b[0] + b[2])});
     }
    
     if (sortedA.length % 2) {
 	if (t == 'votes') {
 	    return sortedA[middlePos][0];
-	} else {
+	} else if (t == 'loyalty') {
 	    return Math.round(100 * (1 - sortedA[middlePos][1] / sortedA[middlePos][0]), 1);
+	} else {
+	    return Math.round(100 * (sortedA[middlePos][0] / (sortedA[middlePos][0] + sortedA[middlePos][2])), 1);
 	}
     } else {
 	if (t == 'votes') {
 	    return (sortedA[middlePos][0] + a[middlePos + 1][0]) / 2.0;
+	} else if (t == 'loyalty') {
+	    return (Math.round((100 * (1 - sortedA[middlePos][1] / sortedA[middlePos][0]) +
+			        100 * (1 - sortedA[middlePos + 1][1] / sortedA[middlePos+ 1][0])) / 2.0, 1));
 	} else {
-	    middleA = [(sortedA[middlePos][0] + a[middlePos + 1][0]) / 2.0,
-		       (sortedA[middlePos][1] + a[middlePos + 1][1]) / 2.0];
-	    return Math.round(100 * (1 - middleA[1] / middleA[0]), 1);
-	}   
+	    return (Math.round((100 * (sortedA[middlePos][0] / (sortedA[middlePos][0] + sortedA[middlePos][2])) +
+			        100 * (sortedA[middlePos + 1][0] / (sortedA[middlePos + 1][0] + sortedA[middlePos + 1][2]))) / 2.0, 1));
+
+	}
     }
 }
 
@@ -67,8 +74,8 @@ function updateCongress(error, data)
 			partyColor = d.party_color;
 		    chamber = d.chamber.toLowerCase();
 		    memberVotes = d.nvotes_yea_nay;
-//		    memberAttendance = 100 * (1 - d.nvotes_yea_nay / 
-		        memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
+		    memberAttendance = 100 * (d.nvotes_yea_nay / (d.nvotes_yea_nay + d.nvotes_abs));
+		    memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
     		 	$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
 			if(d.district_code != undefined && d.district_code!=0 && d.district_code!=98 && d.district_code!=99)
 			{
@@ -108,12 +115,12 @@ function fillLoyaltyDrawHist(error, data)
         var ctPartyTotal=0;
         var partyVotes=[];
         var chamberVotes=[];
-	var oneDims = [];
+    var oneDims = [];
 	data["results"].forEach(function (d) {
 		if(d.nominate==undefined) { return true; }
 	    oneDims.push(d.nominate.dim1)
-	    if(d.chamber.toLowerCase() == chamber) {
-		chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party]);
+	    if(d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President') {
+		chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party, d.nvotes_abs]);
 	    }
 		ctTotal+=1;
 		if(d.nominate.dim1>memberIdeal) 
@@ -122,8 +129,8 @@ function fillLoyaltyDrawHist(error, data)
 		}
 		if(d.party_code==memberPartyCode)
 	    {
-			    if(d.chamber.toLowerCase() == chamber) {
-				partyVotes.push([d.nvotes_yea_nay, d.nvotes_against_party]);
+			    if(d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President') {
+				partyVotes.push([d.nvotes_yea_nay, d.nvotes_against_party, d.nvotes_abs]);
 			    }
 			ctPartyTotal+=1;
 			if(d.nominate.dim1>memberIdeal) 
@@ -133,13 +140,15 @@ function fillLoyaltyDrawHist(error, data)
 	       }
 	    
 	});
-    console.log(partyVotes);
+
     // Fill loyalty table
     var medianPartyVotes = getMedian(partyVotes, 'votes');
     var medianChamberVotes = getMedian(chamberVotes, 'votes');
     var medianPartyLoyalty = getMedian(partyVotes, 'loyalty');
     var medianChamberLoyalty = getMedian(chamberVotes, 'loyalty');
-
+    var medianPartyAttendance = getMedian(partyVotes, 'attendance');
+    var medianChamberAttendance = getMedian(chamberVotes, 'attendance');
+    
     var chamberCap = chamber.substring(0, 1).toUpperCase() + chamber.substring(1);
     
     var headerRow = '<div class="row loyalty"><div class="col-sm-3 vert"></div><div class="col-sm-3 vert">' + memberLastName + '</div>' + 
@@ -148,10 +157,13 @@ function fillLoyaltyDrawHist(error, data)
     var voteRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Votes Cast</div><div class="col-sm-3 vert">' + memberVotes + '</div>' + 
 	'<div class="col-sm-3 vert">' + medianPartyVotes + '</div>' +
 	'<div class="col-sm-3 vert">' + medianChamberVotes + '</div></div>';
+    var attendanceRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Attendance</div><div class="col-sm-3 vert">' + Math.round(memberAttendance, 1) + '%</div>' + 
+	'<div class="col-sm-3 vert">' + medianPartyAttendance + '%</div>' +
+	'<div class="col-sm-3 vert">' + medianChamberAttendance + '%</div></div>';
     var loyaltyRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Party Loyalty</div><div class="col-sm-3 vert">' + Math.round(memberLoyalty, 1) + '%</div>' + 
 	'<div class="col-sm-3 vert">' + medianPartyLoyalty + '%</div>' +
 	'<div class="col-sm-3 vert">' + medianChamberLoyalty + '%</div></div>';
-    $('#loyaltyTable').html(headerRow + voteRow + loyaltyRow);
+    $('#loyaltyTable').html(headerRow + voteRow + attendanceRow + loyaltyRow);
 
     // Draw ideology histogram
 	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(DW-NOMINATE first dimension)</em><br/><br/>";
