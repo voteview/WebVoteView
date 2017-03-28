@@ -222,6 +222,7 @@ var mapParties=1;
 % else:
 	var chamber = "senate";
 % end
+var chamberTrue = "{{person["chamber"]}}";
 var numBins = 15; // This is actually multiplied by 2, so 15*2 = 30.
 var memberLastName = "{{person["last_name"]}}";
 var memberIdeal = {{person["nominate"]["dim1"]}};
@@ -231,6 +232,7 @@ var memberPartyCode = "{{person["party_code"]}}";
 var memberNoun = "{{person["party_noun"]}}";
 var memberVotes = {{person["nvotes_yea_nay"]}};
 var memberLoyalty = 100 * (1 - {{person["nvotes_against_party"]}} / {{person["nvotes_yea_nay"]}});
+var memberAttendance = 100 * ({{person["nvotes_yea_nay"]}} / ({{person["nvotes_yea_nay"]}} + {{person["nvotes_abs"]}}));
 var partyLoyalty = {{person["party_loyalty"]}}
 var globalLoyalty = {{person["global_loyalty"]}}
 var partyColor = "{{person["party_color"]}}";
