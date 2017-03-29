@@ -241,7 +241,10 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
                                 newM['bioname'] = newM['bioname'].encode('utf-8')
                         if "nominate" in newM:
                                 for k,v in newM["nominate"].iteritems():
-                                        newM[k] = v
+                                        if k == 'log_likelihood':
+                                                newM[k] = round(v, 5)
+                                        else:
+                                                newM[k] = round(v, 3)
                                 del newM["nominate"]
 
 		try:
