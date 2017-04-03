@@ -77,6 +77,17 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       </p>
       <p>
 	<div class="dataContainer">
+	  <a href="#" class="dataHeader"><h5>Legacy Rollcall Vote Matrices (.CSV files)</h5></a>
+	  <div class="dataContent" style="display:none;">
+	    % include('data_dropdowns.tpl')
+	    <div class="dataLink">
+	      <a class="ord" id="csv">Download</a>
+	    </div>
+	  </div>
+	</div>
+      </p>
+      <p>
+	<div class="dataContainer">
 	  <a href="#" class="dataHeader"><h5>Legacy Rollcall Flatfiles (.DAT files)</h5></a>
 	  <div class="dataContent" style="display:none;">
 	    <div class="dataLinkFixed">
@@ -117,16 +128,13 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 </div>
 
 <script language="javascript">
-  function setCSVLink(aobj, chamber, congress) {
+  function setLink(aobj, chamber, congress, folder, ftype) {
     var dtype = aobj.attr("id");
-    var link = '/static/data/csv/'+dtype+'/'+dtype+'_'+chamber+'_'+congress+'.csv';
-    aobj.attr("href", link);
-    aobj.attr("target", "_blank");
-  }
-
-  function setORDLink(aobj, chamber, congress) {
-    var dtype = aobj.attr("id");
-    var link = '/static/data/ord/'+chamber+'_'+congress+'.ord';
+    var linkfolder = '/static/data/'+folder+'/';
+    if (folder == 'csv') {
+       linkfolder += dtype+'/'+dtype+'_'
+    }
+    var link = linkfolder + chamber+'_'+congress+'.'+ftype;
     aobj.attr("href", link);
     aobj.attr("target", "_blank");
   }
@@ -141,14 +149,16 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       var chamber = $(this).parent().find("select[name='chamber']").find("option:selected").val();
       var congress = $(this).parent().find("select[name='congress']").find("option:selected").val();
 
-      if($(this).find("a").attr("class") == "csv")
+      folder = $(this).find("a").attr("class");
+      if ($(this).find("a").attr("id") == "csv")
       {
-	setCSVLink($(this).find("a"), chamber, padCongress(congress));
-      }
-      else
+	ftype = "csv";
+      } else
       {
-	setORDLink($(this).find("a"), chamber, padCongress(congress));
+	ftype = folder;
       }
+      
+      setLink($(this).find("a"), chamber, padCongress(congress), folder, ftype);
     });
 
     $('.dataSelect').on('change', function(){
@@ -156,14 +166,16 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
       var chamber = dcontent.find("select[name='chamber']").find("option:selected").val();
       var congress = dcontent.find("select[name='congress']").find("option:selected").val();
 
-      if(dcontent.find("a").attr("class") == "csv")
+      folder = dcontent.find("a").attr("class");
+      if (dcontent.find("a").attr("id") == "csv")
       {
-        setCSVLink(dcontent.find("a"), chamber, padCongress(congress));
-      }
-      else
+	ftype = "csv";
+      } else
       {
-        setORDLink(dcontent.find("a"), chamber, padCongress(congress));
+	ftype = folder;
       }
+
+      setLink(dcontent.find("a"), chamber, padCongress(congress), folder, ftype);
     });
 
     $(".dataHeader").click(function() {
