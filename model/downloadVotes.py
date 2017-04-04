@@ -419,7 +419,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                           'classified': nominate['classified'], 'pre': nominate['pre'],
                           'question': None if not question else question.encode('utf-8'),
                           'description': description.encode('utf-8'),
-                          'geo_mean_probability': round(nominate['geo_mean_probability'], 3)})
+                          'geo_mean_probability': None if nominate['geo_mean_probability'] == '' else round(nominate['geo_mean_probability'], 3)})
 
             if apitype != "exportCSV":
                 z.update({'key_flags': rollcall["key_flags"], 'votes': result, 'codes': codes,
