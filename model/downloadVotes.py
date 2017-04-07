@@ -165,7 +165,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
         'vote_question_text', 'rollnumber', 'date',
         'vote_document_text', 'nominate', 'amendment_author',
         'chamber', 'vote_result', 'shortdescription', 'vote_question',
-        'tie_breaker',
+        'tie_breaker', 'cg_summary',
     ]
     rollcalls = (
         db.voteview_rollcalls
@@ -400,9 +400,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                 rollcall["key_flags"] = []
 
             # Output object:
-            z = {'id': rollcall['id'], 'chamber': rollcall['chamber'], 'congress': rollcall['congress'], 'date': rollcall['date'],
-                 'rollnumber': rollcall['rollnumber'], 'yea': rollcall["yea_count"],
-                 'nay': rollcall["nay_count"], 'vote_result': rollcall['vote_result']}
+            z = {key: rollcall.get(key) for key in fieldsNeeded if key in rollcall}
             if "sponsor" in rollcall:
                 z["sponsor"] = rollcall["sponsor"]
             if "bill_number" in rollcall:

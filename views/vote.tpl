@@ -65,10 +65,17 @@
 			% if "name" in sponsor:
 			<p><strong>Sponsor:</strong> <a href="/person/{{sponsor["icpsr"]}}/{{sponsor["seo_name"]}}">{{sponsor["name"]}} ({{sponsor["party"][0]}}-{{sponsor["state_abbrev"]}})</a></p>
 			% end
+                        % if rollcall.get("bill_number"):
+                        <p style="clear:both;"><strong>Bill number: </strong>{{ rollcall["bill_number"] }}</p>
+			% end
 			% if "question" in rollcall and rollcall["question"]:
 			<p style="clear:both;"><strong>Question: </strong>{{ rollcall["question"] }}</p>
 			% end
-			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>
+			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>  
+                      % if "cg_summary" in rollcall:
+			<p style="clear:both;"><strong>Bill summary: </strong>{{ rollcall["cg_summary"][:500].rsplit(' ', 1)[0] + "..." }}</p>
+                        % end
+
 
 		</div>
 	</div>
