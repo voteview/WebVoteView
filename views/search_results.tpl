@@ -73,33 +73,40 @@
 		</div>
 		<a href="/rollcall/{{rollcall["id"]}}" class="nohover">
 		<div class="panel-body" style="cursor:pointer;">
-			<!-- onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';"> -->
+		  <!-- onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';"> -->
+
+
+                        % if "bill_number" in rollcall:
+			<p><strong>Bill number</strong>: {{rollcall["bill_number"]}}</p>
+			% end
+
+                  
 			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p>
-				<small>
 					<strong>Vote:</strong> {{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
 				% if 'vote_result' in rollcall:
 				        ({{ rollcall['vote_result'] }})
 				% end
-				</small>
 			</p>
 			% end
 
 			% if "codes" in rollcall and ("Peltzman" in rollcall["codes"] or "Clausen" in rollcall["codes"]):
-			<p><small><strong>Vote Categories</strong>: 	
+			<p><strong>Vote Categories</strong>: 	
 			% if "Clausen" in rollcall["codes"]:
 			{{ rollcall["codes"]["Clausen"][0] }}
 			% if "Peltzman" in rollcall["codes"]:
 			, {{ rollcall["codes"]["Peltzman"][0] }}
 			% end
 			% end
-			</small></p>
+			</p>
 			% end
 
 			% if rollcall["question"]:
-			<p><small><strong>Question</strong>: {{ rollcall["question"] }}</small></p>
+			<p><strong>Question</strong>: {{ rollcall["question"] }}</p>
 			% end
 			<p><strong>Description</strong>: {{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
+
+
 
 			% debug = False
 			% if "score" in rollcall and debug:
