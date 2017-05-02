@@ -110,7 +110,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 
       <h4>Extra Legacy Information</h4>
       <p>
-	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
+	<a href="/static/data/other/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
       </p>
       <br>
       <h3>Complete Database</h3>
