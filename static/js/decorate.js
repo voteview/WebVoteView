@@ -246,7 +246,7 @@ function decorateNominate(oc,data) {
 	                var gggg = gg.append("g")
 	                          .attr("id","heat-map")
 	                          .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")");
-		        var pctYea = globalData.rollcalls[0].yea/(globalData.rollcalls[0].yea+globalData.rollcalls[0].nay);
+		        var pctYea = globalData.rollcalls[0].yea_count/(globalData.rollcalls[0].yea_count+globalData.rollcalls[0].nay_count);
 	   	        lopsidedHeatmap(gggg,nomDWeight,2*radiusX, 2*radiusY,["#FFFFFF","#ffffcc"],pctYea);
 		}
 	}
@@ -278,7 +278,8 @@ function decorateNominate(oc,data) {
                                                  vn.spread[1],nomDWeight,nomBeta);
 			} else {
 			    // Lopsided vote case...
-			    var yeaProb = data.rollcalls[0].yea/(data.rollcalls[0].yea+data.rollcalls[0].nay); 
+			    var yeaProb = data.rollcalls[0].yea_count/(data.rollcalls[0].yea_count+data.rollcalls[0].nay_count);
+			    console.log(yeaProb);
 			}
 	                    if ((x*x+y*y)<1.0) {
                                 if(yeaProb>0.99) {
