@@ -1,7 +1,8 @@
 % rebase('base.tpl',title='Data')
+% import os
 % STATIC_URL = '/static/'
 <!-- Data.tpl: This should be the template for the page that lists all the different data files we're making available.
-Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
+     Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
 
 % include('header.tpl')
 <div class="container">
@@ -110,7 +111,7 @@ Currently, all the templating stuff is wired up, but none of the data pages exis
 
       <h4>Extra Legacy Information</h4>
       <p>
-	<a href="/static/data/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
+	<a href="/static/data/other/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
       </p>
       <br>
       <h3>Complete Database</h3>
