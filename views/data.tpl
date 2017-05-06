@@ -1,7 +1,8 @@
 % rebase('base.tpl',title='Data')
+% import os
 % STATIC_URL = '/static/'
 <!-- Data.tpl: This should be the template for the page that lists all the different data files we're making available.
-Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
+     Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
 
 % include('header.tpl')
 <div class="container">
