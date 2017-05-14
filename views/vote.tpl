@@ -38,10 +38,10 @@
 				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr>
 			</h3>
 			<p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
-			% if "yea" in rollcall and "nay" in rollcall:
+			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p style="float:left;margin-right:20px;">
 				<strong>Result:</strong> 
-				{{ rollcall["yea"] }}-{{ rollcall["nay"] }}
+				{{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
 				% if rollcall['vote_result']:
 				 ({{ rollcall['vote_result']}})
 				% end
