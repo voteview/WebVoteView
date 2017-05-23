@@ -13,11 +13,11 @@ history on a map of the United States and on a liberal-conservative
 ideological map including information about the ideological positions of 
 voting Senators and Representatives.  The original <span title="The original Voteview derived from a simulation coded by Poole and Rosenthal in FORTRAN for the University of Pittsburgh Supercomputer Center. Voteview for DOS was coded in QuickBasic by Douglas Skiba." style="text-decoration:underline">Voteview of DOS</span> was 
 developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon 
-University between 1989 and 1992.  Poole and Rosenthal developed <span title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Window" style="text-decoration:underline">Voteview for Windows</span> in 1993 at Princeton University and that work was continued by Boris Shor. The legacy version of the website is available at <a href="https://legacy.voteview.com">legacy.voteview.com</a>.
+University between 1989 and 1992.  Poole and Rosenthal developed <span title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Windows." style="text-decoration:underline">Voteview for Windows</span> in 1993 at Princeton University and that work was continued by Boris Shor. The legacy version of the website is available at <a href="https://legacy.voteview.com">legacy.voteview.com</a>.
 <br/><br/>
 The new voteview.com combines the visualizations provided by the now
 obsolete Voteview desktop system, data and NOMINATE estimates provided
-by the old voteview.com web site, and uptodate voting data from the
+by the old voteview.com web site, and up-to-date voting data from the
 current Congress with new search, download and visualization
 functionality.<br/><br/>
 
@@ -37,15 +37,11 @@ The technical details of the DW-NOMINATE model can be found in Poole's <a href="
 UCLA's Department of Political Science and Social Science Computing host and maintain NOMINATE score data and voteview. We welcome feedback,
 questions, and media enquiries concerning this project.
 
-<!--
-Voteview was developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon University 1989-1992. The original software was written in BASIC 7.1 for DOS. Later (1997 – 2001), the software was converted to Visual Basic. The aim of the software was to allow researchers to view every roll call vote in American history on a map of the United States and/or an ideology map from D-NOMINATE (Dynamic-NOMINAl-Three-step-Estimation).
-
-D-NOMINATE was developed by Poole and Rosenthal 1986-88 and is a scaling procedure that represented legislators and roll call outcomes as points on an ideological map. These points form a spatial map that summarizes the roll calls. In this sense a spatial map is much like a road map. A spreadsheet that tabulates all the distances between every pair of sizable cities in the United States contains the same information as the corresponding map of the U.S. but the spreadsheet gives you no idea what the U.S. looks like. Much like a road map, a spatial map formed from roll calls gives us a way of visualizing the political world of a legislature. The closeness of two legislators on the map shows how similar their voting records are, and the distribution of legislators shows what the dimensions are. The primary dimension through most of American history has been left v. right or liberal v. conservative. A second dimension picks up differences within the two major political parties over slavery, currency, nativism, civil rights, and lifestyle issues. This implemention of voteview is based on the Visual Basic of voteview And uses CS DW-NOMINATE which is an improved versions of the original D-NOMINATE. All the functionality and more is included in this web-based version of voteview. For further information, see 
--->
 			</p>
-<h3>Support</h3>
 
-This project was made possibe by support from <a href="http://www.hewlett.org">The William and Flora Hewlett Foundation</a> (Grant #2016-3870), the  <a href="http://www.nsf.gov">National Science Foundation</a> (NSF-SBS-0611974), UCLA Social Science Computing and the University of Georgia.
+			<h3>Support</h3>
+
+			This project was made possibe by support from <a href="http://www.hewlett.org">The William and Flora Hewlett Foundation</a> (Grant #2016-3870), the  <a href="http://www.nsf.gov">National Science Foundation</a> (NSF-SBS-0611974), UCLA Social Science Computing and the University of Georgia.
 
 			<h3>Project Staff</h3>
 			<ul>
@@ -74,7 +70,8 @@ This project was made possibe by support from <a href="http://www.hewlett.org">T
 					<strong>Lead Database Developer, Voteview.com:</strong> <a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
 				</li>
 				<li>
-					<strong>Lead Developer, Voteview.com:</strong> Aaron Rudkin, University of California Los Angeles</li>
+					<strong>Lead Developer, Voteview.com:</strong> <a href="https://rudkin.ca/">Aaron Rudkin</a>, University of California Los Angeles
+				</li>
 				<li>
 					<strong>Lead Developer:</strong> <a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
 				</li>

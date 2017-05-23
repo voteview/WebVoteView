@@ -61,7 +61,7 @@
 	<meta name="twitter:creator" content="@voteview">
 	<meta name="twitter:title" content="{{twitter_card["title"]}}">
 	<meta name="twitter:description" content="{{twitter_card["body"]}}">
-	<meta name="twitter:image" content="https://voteview.polisci.ucla.edu/static/img/twitterCard/{{str(twitter_card["icpsr"]).zfill(6)}}.png">
+	<meta name="twitter:image" content="https://voteview.com/static/img/twitterCard/{{str(twitter_card["icpsr"]).zfill(6)}}.png">
 	% end
 
     </head>
@@ -70,11 +70,11 @@
 	% else:
     <body id="{{ body_id }}" class="{{ body_class }} devbody">
 	<div id="devHelpWidget" class="noprint">
-		<a href="https://voteview.polisci.ucla.edu/" id="prodLink">
+		<a href="https://voteview.com/" id="prodLink">
 		<strong><big><big>View on production</big></big></strong>
 		</a>
 		<script>
-			document.getElementById("prodLink").href = "https://voteview.polisci.ucla.edu"+window.location.href.split(".160")[1];
+			document.getElementById("prodLink").href = "https://voteview.com"+window.location.href.split(".160")[1];
 		</script>
 	</div>
 	% end
