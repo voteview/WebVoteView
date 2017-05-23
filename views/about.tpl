@@ -13,7 +13,7 @@ history on a map of the United States and on a liberal-conservative
 ideological map including information about the ideological positions of 
 voting Senators and Representatives.  The original <span title="The original Voteview derived from a simulation coded by Poole and Rosenthal in FORTRAN for the University of Pittsburgh Supercomputer Center. Voteview for DOS was coded in QuickBasic by Douglas Skiba." style="text-decoration:underline">Voteview of DOS</span> was 
 developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon 
-University between 1989 and 1992.  Poole and Rosenthal developed <span title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Window" style="text-decoration:underline">Voteview for Windows</span> in 1993 at Princeton University and that work was continued by Boris Shor. The legacy website is at <a href="http://k7moa.com">k7moa.com</a>.
+University between 1989 and 1992.  Poole and Rosenthal developed <span title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Window" style="text-decoration:underline">Voteview for Windows</span> in 1993 at Princeton University and that work was continued by Boris Shor. The legacy version of the website is available at <a href="https://legacy.voteview.com">legacy.voteview.com</a>.
 <br/><br/>
 The new voteview.com combines the visualizations provided by the now
 obsolete Voteview desktop system, data and NOMINATE estimates provided

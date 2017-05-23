@@ -81,7 +81,7 @@
         {{!base}}
 
 
-	<div style="width:100%;height:120px;background-color:#3284bf;overflow:hidden;margin-top:-120px;display:none;" id="footer">
+	<div style="width:100%;height:120px;background-color:#3284bf;overflow:hidden;margin-top:0px;display:none;" id="footer">
 		<div class="container" style="height:120px;">
 			<span style="display:inline-block;height:100%;vertical-align:middle;"></span> 
 			<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png" style="height: 96px; vertical-align:middle;"></a>
