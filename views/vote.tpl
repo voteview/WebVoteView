@@ -45,11 +45,10 @@
 				% if rollcall['vote_result']:
 				 ({{ rollcall['vote_result']}})
 				% end
-                                % if rollcall.get('tie_breaker'):
-                                % tie_breaking_voter = 'The ' + rollcall['tie_breaker']['by_whom'] if rollcall['tie_breaker']['by_whom'] == 'Vice President' else rollcall['tie_breaker']['by_whom']
-			        <p style="clear:both;"><strong>Tie-breaker:</strong> {{tie_breaking_voter}} cast the tie-breaking vote of <i>{{rollcall['tie_breaker']['tie_breaker_vote']}}</i>.</p>
-                                % end
-
+				% if "tie_breaker" in rollcall and "by_whom" in rollcall["tie_breaker"]:
+				% tie_breaking_voter = 'The ' + rollcall['tie_breaker']['by_whom'] if rollcall['tie_breaker']['by_whom'] == 'Vice President' else rollcall['tie_breaker']['by_whom']
+				<p style="clear:both;"><strong>Tie-breaker:</strong> {{tie_breaking_voter}} cast the tie-breaking vote of <i>{{rollcall['tie_breaker']['tie_breaker_vote']}}</i>.</p>
+				% end
 			</p>
 			% end
 			% if "codes" in rollcall and ("Peltzman" in rollcall["codes"] or "Clausen" in rollcall["codes"]):
@@ -72,9 +71,22 @@
 			<p style="clear:both;"><strong>Question: </strong>{{ rollcall["question"] }}</p>
 			% end
 			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>  
-                      % if "cg_summary" in rollcall:
-			<p style="clear:both;"><strong>Bill summary: </strong>{{ rollcall["cg_summary"][:500].rsplit(' ', 1)[0] + "..." }}</p>
-                        % end
+			% if "cg_summary" in rollcall:
+			% if len(rollcall["cg_summary"]) > 500:
+				% preview_chunk = rollcall["cg_summary"][:500].rsplit(" ", 1)[0]
+				% extended_chunk = rollcall["cg_summary"][len(preview_chunk):]
+				<p style="clear:both;">
+					<strong>Bill summary: </strong>{{preview_chunk}} 
+					<a href="#" id="descriptionExtender" onClick="javascript:$('#extendedDescription').show();$(this).hide();return false;">... (click to show more)</a>
+					<span id="extendedDescription" style="display:none;">
+						{{ extended_chunk }}<br/><br/>
+						<a href="#" onClick="javascript:$('#extendedDescription').hide();$('#descriptionExtender').show();return false;">Click to hide full description.</a>
+					</span>
+				</p>
+			% else:
+				<p style="clear:both;"><strong>Bill summary:</strong> {{ rollcall["cg_summary"] }}</p>
+			% end
+			% end
 
 
 		</div>
