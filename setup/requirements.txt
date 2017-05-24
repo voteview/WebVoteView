@@ -1,7 +1,8 @@
+Unidecode==0.4.20
 bottle==0.12.13
 email-validator==1.0.2
-fuzzywuzzy==0.14.0
+fuzzywuzzy==0.15.0
 pymongo==3.4.0
-requests==2.12.4
-titlecase==0.8.1
+requests==2.14.2
+titlecase==0.10.0
 xlwt==1.2.0
