@@ -26,7 +26,7 @@ function writeTextTable()
 	$("#memberTextList").fadeOut(200, function()
 	{
 		$("#memberTextList").html("");
-		rC.sort(function(a,b) { return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; });
+		rC.sort(function(a,b) { return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1==undefined ? 1 : b.nominate.dim1==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; });
 		var member_table = $("<table></table>").attr("id", "memberTextTable").css("width", "80%").css("min-width", "500px").attr("class", "tablesorter");
 		$('<thead><tr><th class="sorter-false" width="5%"></th><th width="45%"><strong>Name</strong></th><th width="15%"><strong>Party</strong></th><th width="15%"><strong>State</strong></th><th width="20%"><strong>NOMINATE</strong></th></tr></thead>').appendTo(member_table);
 		var i = 1;
@@ -37,7 +37,14 @@ function writeTextTable()
 			var bio_name = $("<td></td>");
 			bio_link.appendTo(bio_name);	
 			var party_label = $("<td></td>").html(v["party_noun"]);
-			var nominate = $("<td></td>").html(v["nominate"]["dim1"]);
+			if(v["nominate"] != undefined && v["nominate"]["dim1"] != undefined)
+			{
+				var nominate = $("<td></td>").html(v["nominate"]["dim1"]);
+			}
+			else
+			{
+				var nominate = $("<td></td>").html("--");
+			}
 			var state = $("<td></td>").html(v["state"]);
 			var row = $("<tr></tr>");
 			num_td.appendTo(row);
