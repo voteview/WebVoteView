@@ -40,7 +40,7 @@ function nomPlot()
 	var xDimension = ndx.dimension(
 		function(d) 
 	        {
-		        if( (!("nominate" in d & "dim1" in d.nominate)) | (d.nominate.dim1**2 + d.nominate.dim2**2 > 1.99) )
+			if(d["nominate"] == undefined || d["nominate"]["dim1"] == undefined || (d.nominate.dim1**2 + d.nominate.dim2**2 > 1.99))
 	   	        {
 				var x = -999;
 				var y = -999;
