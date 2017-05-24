@@ -24,8 +24,8 @@ $(document).ready(function()
 			$('#content').fadeIn();
 			$('#loading-container').slideUp();
 			resultCache = data;
-			writeBioTable();
-			nomPlot();
+			if(!tabular_view) { writeBioTable(); nomPlot(); }
+			else { writeTextTable(); }
 			compositionBar();
 		}
 	});
@@ -159,8 +159,8 @@ function reloadBios()
 			resultCache = data;
 			$("#sortChamber").unbind('click')
 			$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
-			writeBioTable();
-			nomPlot();
+			if(!tabular_view) { writeBioTable(); nomPlot(); }
+			else { writeTextTable(); }
 			compositionBar();
 		}
 	});
