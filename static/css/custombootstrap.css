@@ -44,6 +44,7 @@ a:hover {
   outline: 0;
 }
 abbr[title] {
+  text-decoration: none; /* override chrome user agent styling */
   border-bottom: 1px dotted;
 }
 b,

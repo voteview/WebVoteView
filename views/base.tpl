@@ -61,7 +61,7 @@
 	<meta name="twitter:creator" content="@voteview">
 	<meta name="twitter:title" content="{{twitter_card["title"]}}">
 	<meta name="twitter:description" content="{{twitter_card["body"]}}">
-	<meta name="twitter:image" content="https://voteview.polisci.ucla.edu/static/img/twitterCard/{{str(twitter_card["icpsr"]).zfill(6)}}.png">
+	<meta name="twitter:image" content="https://voteview.com/static/img/twitterCard/{{str(twitter_card["icpsr"]).zfill(6)}}.png">
 	% end
 
     </head>
@@ -70,18 +70,18 @@
 	% else:
     <body id="{{ body_id }}" class="{{ body_class }} devbody">
 	<div id="devHelpWidget" class="noprint">
-		<a href="https://voteview.polisci.ucla.edu/" id="prodLink">
+		<a href="https://voteview.com/" id="prodLink">
 		<strong><big><big>View on production</big></big></strong>
 		</a>
 		<script>
-			document.getElementById("prodLink").href = "https://voteview.polisci.ucla.edu"+window.location.href.split(".160")[1];
+			document.getElementById("prodLink").href = "https://voteview.com"+window.location.href.split(".160")[1];
 		</script>
 	</div>
 	% end
         {{!base}}
 
 
-	<div style="width:100%;height:120px;background-color:#3284bf;overflow:hidden;margin-top:-120px;display:none;" id="footer">
+	<div style="width:100%;height:120px;background-color:#3284bf;overflow:hidden;margin-top:0px;display:none;" id="footer">
 		<div class="container" style="height:120px;">
 			<span style="display:inline-block;height:100%;vertical-align:middle;"></span> 
 			<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png" style="height: 96px; vertical-align:middle;"></a>

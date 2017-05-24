@@ -42,7 +42,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Previous version of site in /var/www/vv-backup"
 	echo "Current version of site in /var/www/voteview"
 	echo "Checking API version to verify site has started..."
-	curl "https://voteview.polisci.ucla.edu/api/version"
+	curl "https://voteview.com/api/version"
 	echo ""
 	downtime=$((downtimeStop-downtimestart))
 	echo "Total downtime $downtime seconds"

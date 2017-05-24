@@ -17,7 +17,7 @@
       Both the rollcall data and the data on members are split into chambers and congresses, although you can select some combinations of the two to download. The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
       </p>
       <p>
-      You can see the <a href="about/">about</a> page for more information about NOMINATE and complete data documentation is forthcoming.
+      You can see the <a href="/about">about</a> page for more information about NOMINATE and complete data documentation is forthcoming.
       </p>
       <p>
         <div class="dataContainer">
