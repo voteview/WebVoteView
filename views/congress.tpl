@@ -1,6 +1,6 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js"])
+% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/jquery.tablesorter.min.js"])
 % include('header.tpl')
 % memberLabel = (chamber.title()=="Senate" and "Senators" or "Representatives")
 <div class="container">
@@ -30,6 +30,7 @@
 		</div>
 
 		<!-- Nominate graph -->
+		% if not tabular_view:
 		<h4>DW-Nominate Plot
 				<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:22px;vertical-align:middle;cursor:pointer" 
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
@@ -44,18 +45,28 @@
 			<div id="scatter-chart">
 			</div>
 		</div>
+		% end
 
 		<div style="text-align:middle;padding-bottom:10px;">
 			<h4 style="display:inline;">Roster</h4> 
+			% if not tabular_view:
 			(Sort by
 			<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
 			<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
 			<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
 			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-			<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a>)
+			<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a> -- <a href="/congress/{{chamber}}/text">Tabular View</a>)
+			% else:
+			(<a href="/congress/{{chamber}}">Graphical List View</a>)
+			% end
 		</div>
+		% if not tabular_view:
 		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
 		</ul>
+		% else:
+		<div id="memberTextList" style="margin-bottom:40px;">
+		</div>
+		% end
 
 	</div>
 </div>
@@ -66,6 +77,11 @@ var congressNum = {{congress}};
 var mapParties = 1;
 var nomDWeight = {{dimweight}};
 var nomBeta = {{ nomBeta }};
+% if tabular_view:
+var tabular_view = 1;
+% else:
+var tabular_view = 0;
+% end
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>

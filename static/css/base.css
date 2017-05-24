@@ -267,6 +267,7 @@ ul#memberList.geography
 	left: 2px;
 	content: "\e150";
 }
+.tablesorter th.sorter-false div:after { content: ""; }
 
 
 @media print
