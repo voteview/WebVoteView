@@ -26,7 +26,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
-				% if "key_flags" in rollcall and len(rollcall["key_flags"]):
+				% if "key_flags" in rollcall and len(rollcall["key_flags"]) and rollcall["key_flags"][0] in orgMapping:
 				<span class="btn btn-default btn-lg" 
 					style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" 
 					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}.">
