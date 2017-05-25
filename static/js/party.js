@@ -333,7 +333,7 @@ q
 		success: function(data, status, xhr)
 		{
 			resultCache = data;
-			writeBioTable();
+			writeBioTable(["name", "state", "chamber", "elected"]);
 		}
 	});
 
