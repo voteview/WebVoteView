@@ -1,9 +1,9 @@
 var hasFilter=0;
 
-function resort(sortB)
+function resort(sortB, format_text=["name", "party", "state", "elected"])
 {
 	sortBy = sortB;
-	writeBioTable();	
+	writeBioTable(format_text);
 }
 
 function writeColumnHeader(text, glyph)
@@ -68,7 +68,7 @@ function writeTextTable()
 	});
 }
 
-function writeBioTable()
+function writeBioTable(format_text=["name", "party", "state", "elected"])
 {
 	rC = resultCache["results"];
 	$("#memberList").fadeOut(200,function()
@@ -96,7 +96,7 @@ function writeBioTable()
 		$.each(rC,function(k, v)
 		{
 			if(sortBy=="nominate" && v.nominate==undefined) { errorCount=errorCount+1; }
-			else { constructPlot(v); }
+			else { constructPlot(v, 0, format_text); }
 		});
 	
 		if(sortBy=="nominate") { writeColumnHeader("Most Conservative","arrow-up"); }
@@ -112,7 +112,7 @@ function writeBioTable()
 	});
 }
 
-function constructPlot(member, margins)
+function constructPlot(member, margins, format_data=["name", "party", "state", "elected"])
 {
 	if(margins==undefined)
 	{
@@ -157,14 +157,18 @@ function constructPlot(member, margins)
 				.css("margin-right",mImg)
 				.attr("src","/static/img/bios/"+member["bioImgURL"]);
 
-	var bioTextInner = "<strong>"+memberNameFinal+"</strong><br/>"+member["party_noun"]+"<br/>"+member["state"]+"<br/>";
-	if(member["minElected"]!=undefined)
+	var bioTextInner = "";
+	if(format_data.includes("name")) { bioTextInner += "<strong>" + memberNameFinal + "</strong><br/>"; }
+	if(format_data.includes("party")) { bioTextInner += member["party_noun"] + "<br/>"; }
+	if(format_data.includes("state")) { bioTextInner += member["state"] + "<br/>"; }
+	if(format_data.includes("chamber")) { bioTextInner += ((member["chamber"].toLowerCase()=="senate") ? "Senator" : "Representative") + "<br/>"; }
+	if(format_data.includes("elected") && member["minElected"]!=undefined)
 	{
 		if(chamber_param=="senate" && member["elected_senate"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_senate"])); }
 		else if(chamber_param=="house" && member["elected_house"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_house"])); }
 		else bioTextInner += "Elected "+member["minElected"];
 	}	
-	else if(member["congresses"]!=undefined)
+	else if(format_data.includes("elected") && member["congresses"]!=undefined)
 	{
 		bioTextInner += "Elected "+(1787+(member["congresses"][0][0]*2));
 	}

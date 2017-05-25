@@ -173,7 +173,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		else:
 			fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1, "state_abbrev": 1, "elected_senate": 1, "elected_house": 1}
 	elif api=="Web_Party":
-		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "bioImgURL": 1, "minElected": 1, "nominate.dim1": 1, "nominate.dim2": 1, "congresses": 1, "chamber": 1}
 	elif api=="R":
 		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "id": 1, "_id": 0, "nominate.dim1": 1, "nominate.dim2": 1, "nominate.geo_mean_probability": 1, "cqlabel": 1, "district_code": 1, "chamber": 1, "congresses": 1}
         elif api=="exportCSV" or api == "exportORD":
