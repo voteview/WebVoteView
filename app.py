@@ -82,7 +82,13 @@ def callback(path):
 
 
 # Index
+
 @app.route("/")
+@app.route("/home")
+def home():
+    return bottle.template("views/home.tpl")
+
+
 @app.route("/search/")
 @app.route("/search/<search_string>")
 def index(search_string=""):
