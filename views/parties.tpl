@@ -49,7 +49,7 @@
 						<span id="playHint">Animate</span>
 					</span>
 				</h4>
-				<div class="full">
+				<div class="full" style="padding-left:40px; padding-right:40px;">
 					<input class="slider">
 				</div>
 				<div style="float:left;" id="party-map-chart"></div>
@@ -83,10 +83,10 @@
 		<div style="text-align:middle;padding-bottom:10px;">
 			<h4 style="display:inline;">Roster</h4> 
 			(Sort by
-			<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
-			<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
-			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-			<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
+			<a href="#" onclick="javascript:resort('name', ['name', 'state', 'chamber', 'elected']);return false;">Name</a>, 
+			<a href="#" onclick="javascript:resort('state', ['name', 'state', 'chamber', 'elected']);return false;">State</a>, 
+			<a href="#" onclick="javascript:resort('nominate', ['name', 'state', 'chamber', 'elected']);return false;">Ideology</a>,
+			<a href="#" onclick="javascript:resort('elected', ['name', 'state', 'chamber', 'elected']);return false;">Seniority</a>)
 		</div>
 		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
 		</ul>

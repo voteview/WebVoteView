@@ -27,6 +27,7 @@
 		</div>
 	</div>
 
+
 	<div id="results-page-container">
 		<div class="row">
 			<form id="faceted-search-form" action="." method="post" class="form-horizontal">

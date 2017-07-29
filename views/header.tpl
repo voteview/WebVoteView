@@ -5,6 +5,7 @@
     <div class="col-md-12">
       <ul class="nav nav-pills pull-right noprint">
 
+        <li><a href="/">home</a></li>
         <li><a href="/">search</a></li>
 
         <li>

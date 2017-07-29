@@ -246,7 +246,7 @@ function resetResults()
 					memberList.appendTo("#resultsMembers");
 					$.each(data["resCurr"], function(k,v)
 					{
-						constructPlot(v, 0);
+						constructPlot(v, 0, ["name", "party", "chamber", "elected"]);
 					});
 				}
 
