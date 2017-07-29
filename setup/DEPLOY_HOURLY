@@ -13,6 +13,9 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	ssh rudkin@128.97.229.160 << EOF
 	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
 EOF
+
+	# Goes and collects the hourly patch from dev server
+	# The dev server produces this every hour, and it includes json, csvs, other flat files, and a mongo opLog all from dev
 	scp -r rudkin@128.97.229.160:/usr/scripts/voteview_metadata/hourly_backup/patch.zip ./patch.zip
 	if [[ -f ./patch.zip ]]; then
 		echo "Patch downloaded, beginning application"
@@ -21,11 +24,11 @@ EOF
 		unzip patch.zip -d hourly_patch
 
 		echo "Patch unzipped, ready copying static files"
-		# Copy the static files
+		# Copy the static files from the dev hourly_patch, patching over any existing files in the production webvoteview folder
 		cp -r hourly_patch/store/ /var/www/voteview/
 
 		echo "Static files deployed, moving DB"
-		# Apply the DB patches
+		# Apply the DB patches in the mongoplog
                 mongorestore --oplogReplay hourly_patch/oplogRestore/
 
 		echo "Cleanup"
