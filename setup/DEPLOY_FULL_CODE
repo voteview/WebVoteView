@@ -4,9 +4,15 @@ userid=$(whoami) # Ensure we're running as root
 hostname=$(hostname) # Ensure we're on voteview.
 
 if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
+	
 	echo "Beginning rsync of latest deployed code."
+	
+	# Create folder to put new code and flat files
 	mkdir update-voteview
 	cd update-voteview
+	# Rsync, with some exceptions, the living webvoteview folder from dev
+	# Note! This copies any files that are .gitignored, like auth.json and anything not committed or merged to master
+	# This new folder will completely replace the one working on production below, not patch it
 	rsync -av --exclude=.git --exclude=static/db/ --exclude=static/img/wiki --exclude=static/dumpNom rudkin@128.97.229.160:/var/www/voteview ./
 	cd ..
 	mv update-voteview/voteview WebVoteView
@@ -29,6 +35,8 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	rm -rf vv-backup
 	chown -R rudkin WebVoteView
 	chgrp -R voteview WebVoteView
+	
+	# This swaps this new folder in for the old one, completely replace, not patching!
 	mv voteview vv-backup
 	mv WebVoteView voteview
 	touch /var/www/voteview/static/maintenance
