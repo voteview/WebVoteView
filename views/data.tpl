@@ -95,7 +95,7 @@ The data on parties is a dataset with some metadata about all of the different p
 <script language="javascript">
   function setLink(aobj, chamber, congress, ftype) {
     var dtype = aobj.attr("id");
-    var linkfolder = '/static/data/' + dtype + '/';
+    var linkfolder = '/static/data/out/' + dtype + '/';
     var link = linkfolder + chamber+congress+'_' + dtype+ '.'+ftype;
     aobj.attr("href", link);
     aobj.attr("target", "_blank");
