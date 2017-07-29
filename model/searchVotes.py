@@ -39,7 +39,7 @@ SCORE_THRESHOLD = scoreData["scoreThreshold"] if "scoreThreshold" in scoreData e
 SCORE_MULT_THRESHOLD = scoreData["scoreMultThreshold"] if "scoreMultThreshold" in scoreData else 0.5
 
 fieldTypes = {"codes": "codes", "codes.Clausen": "code", "codes.Peltzman": "code", "codes.Issue": "code",
-		"description": "flexstr", "congress": "int", "short_description": "flexstr", "vote_desc": "flexstr", 
+		"cg_official_titles": "flexstr", "cg_summary": "flexstr", "congress": "int", "short_description": "flexstr", "vote_desc": "flexstr", "dtl_desc": "flexstr",
 		"vote_document_text": "flexstr", "bill": "str", "vote_title": "flexstr", "vote_question_text": "flexstr", "alltext": "alltext", "yea": "int", "nay": "int", "question": "flexstr",
 		"yea_count": "int", "nay_count": "int", "percent_support": "int", "key_flags": "key_flags",
 	        "support": "int", "voter": "voter", "chamber": "chamber", "saved": "saved", "dates": "date", "id": "strexact",
@@ -673,12 +673,13 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 			print "alltext to regexp or"
 			# Do a fulltext query to isolate candidate superset
 			validIdStart = []
-			for r in db.voteview_rollcalls.find({"$text": {"$search": queryWords.lower()}}, {"_id": 0, "id": 1}):
+			for r in db.voteview_rollcalls.find({"$text": {"$search": queryWords.lower().decode('utf-8')}}, {"_id": 0, "id": 1}):
 				validIdStart.append(r["id"])
 			# Add candidate votes to query
 			queryDict = addToQueryDict(queryDict, "id", {"$in": validIdStart})
 			# Now regex from the candidates
-			queryDict = addToQueryDict(queryDict, "$or", [{x: {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"}} for x in fieldTypes if fieldTypes[x] in ["str", "fulltext","flexstr"]])
+			queryDict = addToQueryDict(queryDict, "$or", [{x: {"$regex": ".*"+queryWords.lower().decode('utf-8')+".*", "$options": "i"}} for x in fieldTypes if fieldTypes[x] in ["str", "fulltext","flexstr"]])
+                        
 		        return [queryDict, needScore, ""]
 		else:
 			print "alltext to fulltext"
@@ -690,7 +691,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
         elif fieldType=="code":
 		queryDict = addToQueryDict(queryDict, queryField, {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"})
 	elif fieldType=="fulltext":
-		queryDict = addToQueryDict(queryDict, "$text", {"$search": queryWords.lower()})
+		queryDict = addToQueryDict(queryDict, "$text", {"$search": queryWords.lower().decode('utf-8')})
 		needScore = 1
 	elif fieldType=="str":		
 		if queryWords[0]=="\"" and queryWords[-1]=="\"":
@@ -703,7 +704,7 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 		# Add candidate votes to query
 		queryDict = addToQueryDict(queryDict, "id", {"$in": validIdStart})
 		# Now regex from the candidates
-		queryDict = addToQueryDict(queryDict, queryField, {"$regex": ".*"+queryWords.lower()+".*", "$options": "i"})
+		queryDict = addToQueryDict(queryDict, queryField, {"$regex": ".*"+queryWords.lower().decode('utf-8')+".*", "$options": "i"})
 
 	# STREXACT fields: have to exactly match the full field, was used for 'bill' but no longer
 	elif fieldType=="strexact":
@@ -928,7 +929,6 @@ def addToQueryDict(queryDict, queryField, toAdd):
 			print "huh?"
 	else:
 		queryDict[queryField] = toAdd
-
 	return queryDict
 
 def query(qtext, startdate=None, enddate=None, chamber=None, 
@@ -1050,7 +1050,6 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		try:
 			#print qtext
 			newQueryDict, needScore, errorMessage = queryDispatcher(qtext)
-			print newQueryDict
 			#print errorMessage
 			if errorMessage:
 				print "Error parsing the query"
@@ -1101,7 +1100,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 		else:
 			queryDict["date_chamber_rollnumber"] = {"$gt": sortSkip}
 
-	#print queryDict
+	print queryDict
 	# Need to sort by text score
 	if needScore:
 		try:
