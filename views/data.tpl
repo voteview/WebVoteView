@@ -11,21 +11,38 @@
 
       <h3>Realtime NOMINATE Ideology and Related Data</h3>
       <p>
-      This section contains .csv files that provide descriptive data as well as ideological data for congressional rollcalls, members of congress, and parties. You can find information such the descriptions of rollcalls, what proportion of voting members were correctly classified by the ideological cutting line for that rollcall, the ideological position of members of congress, and more.
+      This section contains .csv files that provide descriptive data as well as ideological data for congressional rollcalls, individual member votes, members of congress, and parties. 
+	You can find information such the descriptions of rollcalls, what proportion of voting members were correctly classified by the ideological cutting line for that rollcall, the ideological position of members of congress, and more.
       </p>
       <p>
-      Both the rollcall data and the data on members are split into chambers and congresses, although you can select some combinations of the two to download. The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
+      Both the rollcall data and the data on members are split into chambers and congresses, although you can select some combinations of the two to download. 
+The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
       </p>
       <p>
-      You can see the <a href="/about">about</a> page for more information about NOMINATE and complete data documentation is forthcoming.
+      You can see the <a href="/about">about</a> page for more information about NOMINATE. Complete data documentation is forthcoming.
       </p>
+
+
       <p>
         <div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about congressional rollcalls (.csv)</h4></a>
+	  <a href="#" class="dataHeader"><h4>Information about congressional rollcalls</h4></a>
 	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl')
+	    % include('data_dropdowns.tpl', file_types=['csv','dat'])
 	    <div class="dataLink">
-	      <a class="csv" id="rollcall">Download</a>
+	      <a class="csv" id="rollcalls">Download</a>
+	    </div>
+	  </div>
+	</div>
+      </p>
+
+
+      <p>
+        <div class="dataContainer">
+	  <a href="#" class="dataHeader"><h4>Information about votes members cast</h4></a>
+	  <div class="dataContent" style="display:none;">
+	    % include('data_dropdowns.tpl', file_types=['csv','ord'])
+	    <div class="dataLink">
+	      <a class="csv" id="votes">Download</a>
 	    </div>
 	  </div>
 	</div>
@@ -33,76 +50,22 @@
 
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about members of congress (.csv)</h4></a>
+	  <a href="#" class="dataHeader"><h4>Information about members of congress</h4></a>
 	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl')
+	    % include('data_dropdowns.tpl', file_types=['csv','dat'])
 	    <div class="dataLink">
-	      <a class="csv" id="member">Download</a>
+	      <a class="csv" id="members">Download</a>
 	    </div>
 	  </div>
 	</div>
       </p>
       <p>
 	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about political parties (.csv)</h4></a>
+	  <a href="#" class="dataHeader"><h4>Information about political parties</h4></a>
 	  <div class="dataContent" style="display:none;">
-	    <div class="dataLinkFixed">
-	      <a id="party" href="/static/data/csv/party/party_all.csv">Download for all Congresses and Chambers</a>
-	    </div>
-	  </div>
-	</div>
-      </p>
-      <!--
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Party ideology and metadata</h4></a>
-	  % include('data_dropdowns.tpl')
-	  <div class="dataLink">
-	    <a id="party">Download</a>
-	  </div>
-	</div>
-      </p>
-      --->
-      <br>
-      <h4>Legacy Voteview File Formats</h3>
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h5>Legacy Rollcall Vote Matrices (.ORD files)</h5></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl')
+	    % include('data_dropdowns.tpl', file_types=['csv'])
 	    <div class="dataLink">
-	      <a class="ord" id="rcmat">Download</a>
-	    </div>
-	  </div>
-	</div>
-      </p>
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h5>Legacy Rollcall Vote Matrices (.CSV files)</h5></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl')
-	    <div class="dataLink">
-	      <a class="ord" id="csv">Download</a>
-	    </div>
-	  </div>
-	</div>
-      </p>
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h5>Legacy Rollcall Flatfiles (.DAT files)</h5></a>
-	  <div class="dataContent" style="display:none;">
-	    <div class="dataLinkFixed">
-	      <a id="rcdat" href="/static/data/dat/rollcall_both_all.dat">Download for all Congresses and Chambers</a>
-	    </div>
-	  </div>
-	</div>
-      </p>
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h5>Legacy Member Flatfiles (.DAT files)</h5></a>
-	  <div class="dataContent" style="display:none;">
-	    <div class="dataLinkFixed">
-	      <a id="memberdat" href="/static/data/dat/member_both_all.dat">Download for all Congresses and Chambers</a>
+	      <a class="csv" id="parties">Download</a>
 	    </div>
 	  </div>
 	</div>
@@ -113,6 +76,7 @@
       <p>
 	<a href="/static/data/other/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
       </p>
+
       <br>
       <h3>Complete Database</h3>
       <p>
@@ -129,13 +93,10 @@
 </div>
 
 <script language="javascript">
-  function setLink(aobj, chamber, congress, folder, ftype) {
+  function setLink(aobj, chamber, congress, ftype) {
     var dtype = aobj.attr("id");
-    var linkfolder = '/static/data/'+folder+'/';
-    if (folder == 'csv') {
-       linkfolder += dtype+'/'+dtype+'_'
-    }
-    var link = linkfolder + chamber+'_'+congress+'.'+ftype;
+    var linkfolder = '/static/data/out/' + dtype + '/';
+    var link = linkfolder + chamber+congress+'_' + dtype+ '.'+ftype;
     aobj.attr("href", link);
     aobj.attr("target", "_blank");
   }
@@ -149,38 +110,23 @@
     $(".dataLink").each(function() {
       var chamber = $(this).parent().find("select[name='chamber']").find("option:selected").val();
       var congress = $(this).parent().find("select[name='congress']").find("option:selected").val();
-
-      folder = $(this).find("a").attr("class");
-      if ($(this).find("a").attr("id") == "csv")
-      {
-	ftype = "csv";
-      } else
-      {
-	ftype = folder;
-      }
-      
-      setLink($(this).find("a"), chamber, padCongress(congress), folder, ftype);
+      var filetype = $(this).parent().find("select[name='filetype']").find("option:selected").val();      
+      setLink($(this).find("a"), chamber, padCongress(congress), filetype);
     });
 
     $('.dataSelect').on('change', function(){
       var dcontent = $(this).closest("div.dataContent");
+
       var chamber = dcontent.find("select[name='chamber']").find("option:selected").val();
       var congress = dcontent.find("select[name='congress']").find("option:selected").val();
+      var filetype = dcontent.find("select[name='filetype']").find("option:selected").val();
 
-      folder = dcontent.find("a").attr("class");
-      if (dcontent.find("a").attr("id") == "csv")
-      {
-	ftype = "csv";
-      } else
-      {
-	ftype = folder;
-      }
-
-      setLink(dcontent.find("a"), chamber, padCongress(congress), folder, ftype);
+      setLink(dcontent.find("a"), chamber, padCongress(congress), filetype);
     });
 
     $(".dataHeader").click(function() {
       $(this).next(".dataContent").slideToggle("fast");
+      return false;
     });
   
   });

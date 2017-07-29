@@ -1,9 +1,9 @@
 var hasFilter=0;
 
-function resort(sortB)
+function resort(sortB, format_text=["name", "party", "state", "elected"])
 {
 	sortBy = sortB;
-	writeBioTable();	
+	writeBioTable(format_text);
 }
 
 function writeColumnHeader(text, glyph)
@@ -26,7 +26,7 @@ function writeTextTable()
 	$("#memberTextList").fadeOut(200, function()
 	{
 		$("#memberTextList").html("");
-		rC.sort(function(a,b) { return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; });
+		rC.sort(function(a,b) { return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1==undefined ? 1 : b.nominate.dim1==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; });
 		var member_table = $("<table></table>").attr("id", "memberTextTable").css("width", "80%").css("min-width", "500px").attr("class", "tablesorter");
 		$('<thead><tr><th class="sorter-false" width="5%"></th><th width="45%"><strong>Name</strong></th><th width="15%"><strong>Party</strong></th><th width="15%"><strong>State</strong></th><th width="20%"><strong>NOMINATE</strong></th></tr></thead>').appendTo(member_table);
 		var i = 1;
@@ -37,7 +37,14 @@ function writeTextTable()
 			var bio_name = $("<td></td>");
 			bio_link.appendTo(bio_name);	
 			var party_label = $("<td></td>").html(v["party_noun"]);
-			var nominate = $("<td></td>").html(v["nominate"]["dim1"]);
+			if(v["nominate"] != undefined && v["nominate"]["dim1"] != undefined)
+			{
+				var nominate = $("<td></td>").html(v["nominate"]["dim1"]);
+			}
+			else
+			{
+				var nominate = $("<td></td>").html("--");
+			}
 			var state = $("<td></td>").html(v["state"]);
 			var row = $("<tr></tr>");
 			num_td.appendTo(row);
@@ -61,7 +68,7 @@ function writeTextTable()
 	});
 }
 
-function writeBioTable()
+function writeBioTable(format_text=["name", "party", "state", "elected"])
 {
 	rC = resultCache["results"];
 	$("#memberList").fadeOut(200,function()
@@ -89,7 +96,7 @@ function writeBioTable()
 		$.each(rC,function(k, v)
 		{
 			if(sortBy=="nominate" && v.nominate==undefined) { errorCount=errorCount+1; }
-			else { constructPlot(v); }
+			else { constructPlot(v, 0, format_text); }
 		});
 	
 		if(sortBy=="nominate") { writeColumnHeader("Most Conservative","arrow-up"); }
@@ -105,7 +112,7 @@ function writeBioTable()
 	});
 }
 
-function constructPlot(member, margins)
+function constructPlot(member, margins, format_data=["name", "party", "state", "elected"])
 {
 	if(margins==undefined)
 	{
@@ -150,14 +157,18 @@ function constructPlot(member, margins)
 				.css("margin-right",mImg)
 				.attr("src","/static/img/bios/"+member["bioImgURL"]);
 
-	var bioTextInner = "<strong>"+memberNameFinal+"</strong><br/>"+member["party_noun"]+"<br/>"+member["state"]+"<br/>";
-	if(member["minElected"]!=undefined)
+	var bioTextInner = "";
+	if(format_data.includes("name")) { bioTextInner += "<strong>" + memberNameFinal + "</strong><br/>"; }
+	if(format_data.includes("party")) { bioTextInner += member["party_noun"] + "<br/>"; }
+	if(format_data.includes("state")) { bioTextInner += member["state"] + "<br/>"; }
+	if(format_data.includes("chamber")) { bioTextInner += ((member["chamber"].toLowerCase()=="senate") ? "Senator" : "Representative") + "<br/>"; }
+	if(format_data.includes("elected") && member["minElected"]!=undefined)
 	{
 		if(chamber_param=="senate" && member["elected_senate"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_senate"])); }
 		else if(chamber_param=="house" && member["elected_house"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_house"])); }
 		else bioTextInner += "Elected "+member["minElected"];
 	}	
-	else if(member["congresses"]!=undefined)
+	else if(format_data.includes("elected") && member["congresses"]!=undefined)
 	{
 		bioTextInner += "Elected "+(1787+(member["congresses"][0][0]*2));
 	}
