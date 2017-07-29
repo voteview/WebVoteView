@@ -4,9 +4,13 @@ userid=$(whoami) # Ensure we're running as root
 hostname=$(hostname) # Ensure we're on voteview.
 
 if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
+
 	echo "Beginning git download of latest master"
+	# Create empty folder to create copy of master branch webvoteview on github (latest committed changes from dev)
 	mkdir update-voteview
 	cd update-voteview
+	# Download full master github webvoteview repo, which will eventually entirely replace the production webvoteview folder
+	# Note! This does not include .gitignored files, like auth.json
 	wget https://github.com/JeffreyBLewis/WebVoteView/archive/master.zip
 	unzip master.zip
 	rm master.zip
@@ -25,8 +29,10 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	mv WebVoteView/robots-prod.txt WebVoteView/robots.txt
 
 	echo "Copying secure authentication files from existing deployment."
+	# This copies authentication files because they are .gitignored and thus not in the repo downloaded above
 	cp voteview/model/*.json WebVoteView/model/
 
+	# This goes to dev server and dumps the entire mongo db
 	echo "Connecting to development server for database dump"
 	ssh rudkin@128.97.229.160 << EOF
 	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
@@ -65,6 +71,7 @@ EOF
 	echo "Stopping web server to substitute directory"
 	service nginx stop
 	rm -rf vv-backup
+	# This completely switches out the production webvoteview directory for the new one, which is the latest github master version with the auth files added
 	mv voteview vv-backup
 	mv WebVoteView voteview
 
@@ -80,6 +87,7 @@ EOF
 	downtimeStop=$(date +%s)
 
 	echo "Restoring database dump"
+	# This takes the dump of the mongo db from dev and restores it into the mongo on production
 	cd dump_db
 	mongorestore --drop dump
 	cd ..
