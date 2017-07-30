@@ -1115,7 +1115,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 					results = votes.find(queryDict,fieldReturns).sort("date_chamber_rollnumber", sortDir).skip(sortSkip).limit(rowLimit+5)
 		except pymongo.errors.OperationFailure, e:
 			try:
-				junk, mongoErr = e.message.split("failed: ")
+				mongoErr = e.message
 				if "many text expressions" in mongoErr:
 					logQuota.addQuota(request, 1)
 					logQuota.logSearch(request, {"query": "Invalid Query: Multiple full-text.", "query_extra": queryDict, "resultNum": -1})
