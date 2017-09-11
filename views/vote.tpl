@@ -96,6 +96,13 @@
     {{'; '.join(title.encode('utf-8') for title in titles)}}
   </p>
    % end
+
+ % import datetime 
+ % current_date = datetime.datetime.today().date()
+ % rollcall_date = datetime.datetime.strptime(rollcall['date'], '%Y-%m-%d').date()
+ % if (current_date - rollcall_date).days < 7:
+   <p><strong>Note: This is a recent vote, subject to change by official sources.</strong></p>
+ % end
                                 
 		</div>
 	</div>
