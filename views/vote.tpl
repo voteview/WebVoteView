@@ -77,7 +77,7 @@
 				% extended_chunk = rollcall["cg_summary"][len(preview_chunk):]
 				<p style="clear:both;">
 					<strong>Bill summary: </strong>{{preview_chunk}} 
-					<a href="#" id="descriptionExtender" onClick="javascript:$('#extendedDescription').show();$(this).hide();return false;">... (click to show more)</a>
+					<a href="#" id="descriptionExtender" onClick="javascript:$('#extendedDescription').show();$(this).hide();return false;">(...show more)</a>
 					<span id="extendedDescription" style="display:none;">
 						{{ extended_chunk }}<br/><br/>
 						<a href="#" onClick="javascript:$('#extendedDescription').hide();$('#descriptionExtender').show();return false;">Click to hide full description.</a>
@@ -88,7 +88,22 @@
 			% end
 			% end
 
+   % official_titles = rollcall.get('cg_official_titles', [])
+   % short_titles = rollcall.get('cg_short_titles_for_portions', [])
+   % titles = official_titles + short_titles
+   % if titles:
+  <p> <strong>Bill titles:</strong>
+    {{'; '.join(title.encode('utf-8') for title in titles)}}
+  </p>
+   % end
 
+ % import datetime 
+ % current_date = datetime.datetime.today().date()
+ % rollcall_date = datetime.datetime.strptime(rollcall['date'], '%Y-%m-%d').date()
+ % if (current_date - rollcall_date).days < 7:
+   <p><strong>Note: This is a recent vote, subject to change by official sources.</strong></p>
+ % end
+                                
 		</div>
 	</div>
 

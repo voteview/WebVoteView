@@ -165,7 +165,8 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
         'vote_question_text', 'rollnumber', 'date',
         'vote_document_text', 'nominate', 'amendment_author',
         'chamber', 'vote_result', 'shortdescription', 'vote_question',
-        'tie_breaker', 'cg_summary',
+        'tie_breaker', 'cg_summary', 'cg_official_titles',
+        'cg_short_titles_for_portions',
     ]
     rollcalls = (
         db.voteview_rollcalls
