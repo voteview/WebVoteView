@@ -1,0 +1,3 @@
+# Draft security.txt document for when IETF adopts standard.
+Contact: rudkin@ucla.edu
+Disclosure: Full-30
