@@ -17,3 +17,4 @@ static/**/*.ord
 static/**/*.csv
 static/data/csv/**/*.bak
 \#*\#
+static/aaron/*
