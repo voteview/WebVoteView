@@ -47,6 +47,8 @@ EOF
 	scp -r rudkin@128.97.229.160:dump_db ./
 	scp -r rudkin@128.97.229.160:/var/www/voteview/static/img/twitterCard /var/www/WebVoteView/static/img/
 	scp -r rudkin@128.97.229.160:/var/www/voteview/static/data/ /var/www/WebVoteView/static/data/
+      	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/docs/ /var/www/WebVoteView/static/docs/
+      	rsync -avzP --copy-links rudkin@128.97.229.160:/var/www/voteview/static/db/current.zip /var/www/WebVoteView/static/db/current.zip
 
 	echo "Connecting to remote server to remove remote dump."
 	ssh rudkin@128.97.229.160 << EOF
