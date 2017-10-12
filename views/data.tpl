@@ -80,7 +80,7 @@ The data on parties is a dataset with some metadata about all of the different p
       <br>
       <h3>Complete Database</h3>
       <p>
-	<a href="/static/db/current.zip">Complete database</a> (approx. 100MB zipped).<br/>
+	<a href="/static/db/current.zip">Complete database</a> (approx. 500MB zipped).<br/>
 	Our database is available in MongoDB bson/json format. This release is updated weekly.
       </p>
       <p>
