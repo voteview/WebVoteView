@@ -19,7 +19,7 @@
 The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
       </p>
       <p>
-      You can see the <a href="/about">about</a> page for more information about NOMINATE. For information about specific data fields in the database, see the <a href="/static/docs/members.csv">members data dictionary</a> and <a href="/static/docs/rollcalls.csv">rollcalls data dictionary</a>.
+      You can see the <a href="/about">about</a> page for more information about NOMINATE. For information about specific data fields in the database, see the <a href="/static/docs/members.csv">members data dictionary</a> and <a href="/static/docs/rollcalls.csv">rollcalls data dictionary</a>. <strong>Note: Each legislator is assigned a single estimate for their entire career (excluding certain party switches).</strong> Dynamic estimates may be made available in the future. 
       </p>
 
 
@@ -80,7 +80,7 @@ The data on parties is a dataset with some metadata about all of the different p
       <br>
       <h3>Complete Database</h3>
       <p>
-	<a href="/static/db/current.zip">Complete database</a> (approx. 100MB zipped).<br/>
+	<a href="/static/db/current.zip">Complete database</a> (approx. 500MB zipped).<br/>
 	Our database is available in MongoDB bson/json format. This release is updated weekly.
       </p>
       <p>
