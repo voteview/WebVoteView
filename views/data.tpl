@@ -19,9 +19,15 @@
 The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
       </p>
       <p>
-      You can see the <a href="/about">about</a> page for more information about NOMINATE. For information about specific data fields in the database, see the <a href="/static/docs/members.csv">members data dictionary</a> and <a href="/static/docs/rollcalls.csv">rollcalls data dictionary</a>. <strong>Note: Each legislator is assigned a single estimate for their entire career (excluding certain party switches).</strong> Dynamic estimates may be made available in the future. 
+        You can see the <a href="/about">about</a> page for more information about NOMINATE. For information about specific data fields in the database, see the <a href="/static/docs/members.csv">members data dictionary</a> and <a href="/static/docs/rollcalls.csv">rollcalls data dictionary</a>.
+      </p>
+      <p>
+        <strong>Note: Each legislator is assigned a single estimate for their entire career (excluding certain party switches).</strong> Dynamic estimates may be made available in the future. 
       </p>
 
+      <p>
+        <strong>Cite this dataset:</strong> Lewis, Jeffrey B. , Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet (2017). <em>Voteview: Congressional Roll-Call Votes Database</em>. http://voteview.com/
+        </p>
 
       <p>
         <div class="dataContainer">
