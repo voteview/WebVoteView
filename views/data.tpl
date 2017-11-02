@@ -19,16 +19,20 @@
 The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
       </p>
       <p>
-        You can see the <a href="/about">about</a> page for more information about NOMINATE. For information about specific data fields in the database, see the <a href="/static/docs/members.csv">members data dictionary</a> and <a href="/static/docs/rollcalls.csv">rollcalls data dictionary</a>.
+        You can see the <a href="/about">about</a> page for more information about NOMINATE. 
       </p>
       <p>
         <strong>Note: Each legislator is assigned a single estimate for their entire career (excluding certain party switches).</strong> Dynamic estimates may be made available in the future. 
       </p>
+      
 
-      <p>
-        <strong>Cite this dataset:</strong> Lewis, Jeffrey B. , Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet (2017). <em>Voteview: Congressional Roll-Call Votes Database</em>. http://voteview.com/
-        </p>
+<div class="panel panel-default">
+  <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
+    <div class="panel-body">Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet (2017). <em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/</div>
+    </div>
 
+
+    For information on the data files, please see the <a href="/static/docs/csv_docs.html">CSV data files documentation</a>.
       <p>
         <div class="dataContainer">
 	  <a href="#" class="dataHeader"><h4>Information about congressional rollcalls</h4></a>
@@ -87,7 +91,7 @@ The data on parties is a dataset with some metadata about all of the different p
       <h3>Complete Database</h3>
       <p>
 	<a href="/static/db/current.zip">Complete database</a> (approx. 500MB zipped).<br/>
-	Our database is available in MongoDB bson/json format. This release is updated weekly.
+	Our database is available in MongoDB bson/json format. This release is updated weekly. For information about specific data fields in the database, see the <a href="/static/docs/members.csv">members data dictionary</a> and <a href="/static/docs/rollcalls.csv">rollcalls data dictionary</a>.
       </p>
       <p>
 	<a href="/past_data">Browse prior database releases</a><br/>
