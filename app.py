@@ -9,6 +9,7 @@ import bottle
 import unidecode
 from fuzzywuzzy import fuzz
 from bson.json_util import dumps
+from pdb import set_trace as st
 
 from model.searchVotes import query
 import model.downloadVotes  # Namespace issue
@@ -34,6 +35,8 @@ else:
 
 # Setup
 app = application = bottle.Bottle()
+bottle.BaseTemplate.defaults['get_url'] = app.get_url
+
 
 # Debug timing to improve speed
 timeLabels = []
@@ -391,6 +394,21 @@ def person(icpsr=0, garbage=""):
         return(output)
 
 
+def make_sources_line(sources):
+
+    publications_currently_linkable = ['The Journal', ]
+    source_strings = []
+    link_str = u'<a href="sources/{publication}/{file_number}/{page_number}">{publication}</a>'
+    for source in sources:
+
+        if source['publication'] in publications_currently_linkable:
+            source_strings.append(link_str.format(**source))
+        else:
+            source_strings.append(source['publication'])
+
+    return '; '.join(source_strings)
+
+
 @app.route("/rollcall")
 @app.route("/rollcall/<rollcall_id>")
 def rollcall(rollcall_id=""):
@@ -420,8 +438,16 @@ def rollcall(rollcall_id=""):
         except:
             sponsor = {}
 
-    output = bottle.template("views/vote", rollcall=rollcall["rollcalls"][0], dimweight=meta['nominate'][
-                             'second_dimweight'], nomBeta=meta["nominate"]["beta"], mapParties=mapParties, sponsor=sponsor)
+    current_rollcall = rollcall['rollcalls'][0]
+    output = bottle.template(
+        "views/vote",
+        rollcall=current_rollcall,
+        dimweight=meta['nominate']['second_dimweight'],
+        nomBeta=meta["nominate"]["beta"],
+        mapParties=mapParties,
+        sponsor=sponsor,
+        sources_line=make_sources_line(current_rollcall['dtl_sources']),
+    )
     return(output)
 
 
@@ -840,4 +866,4 @@ def apiVersion():
     return({'apiversion': 'Q1 Jan 10, 2017', 'request_hash': model.logQuota.generateSessionID(bottle.request), 'quota_credits': model.logQuota.getCredits(bottle.request)})
 
 if __name__ == '__main__':
-    bottle.run(app, host='localhost', port=8080, debug=True)
+    bottle.run(app, host='localhost', port=8080, debug=True, reloader=True)
