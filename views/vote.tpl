@@ -27,8 +27,8 @@
 		<div class="col-md-12">
 			<h3>
 				% if "key_flags" in rollcall and len(rollcall["key_flags"]) and rollcall["key_flags"][0] in orgMapping:
-				<span class="btn btn-default btn-lg" 
-					style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom" 
+				<span class="btn btn-default btn-lg"
+					style="margin-right:10px;" data-toggle="tooltip" data-placement="bottom"
 					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
@@ -40,7 +40,7 @@
 			<p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
 			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p style="float:left;margin-right:20px;">
-				<strong>Result:</strong> 
+				<strong>Result:</strong>
 				{{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
 				% if rollcall['vote_result']:
 				 ({{ rollcall['vote_result']}})
@@ -70,13 +70,13 @@
 			% if "question" in rollcall and rollcall["question"]:
 			<p style="clear:both;"><strong>Question: </strong>{{ rollcall["question"] }}</p>
 			% end
-			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>  
+			<p style="clear:both;"><strong>Description: </strong>{{ rollcall["description"] }}</p>
 			% if "cg_summary" in rollcall:
 			% if len(rollcall["cg_summary"]) > 500:
 				% preview_chunk = rollcall["cg_summary"][:500].rsplit(" ", 1)[0]
 				% extended_chunk = rollcall["cg_summary"][len(preview_chunk):]
 				<p style="clear:both;">
-					<strong>Bill summary: </strong>{{preview_chunk}} 
+					<strong>Bill summary: </strong>{{preview_chunk}}
 					<a href="#" id="descriptionExtender" onClick="javascript:$('#extendedDescription').show();$(this).hide();return false;">(...show more)</a>
 					<span id="extendedDescription" style="display:none;">
 						{{ extended_chunk }}<br/><br/>
@@ -97,13 +97,20 @@
   </p>
    % end
 
- % import datetime 
+	 <p>
+
+	<strong>Original source documents: </strong>
+	{{sources_line}}
+
+	 </p>
+
+ % import datetime
  % current_date = datetime.datetime.today().date()
  % rollcall_date = datetime.datetime.strptime(rollcall['date'], '%Y-%m-%d').date()
  % if (current_date - rollcall_date).days < 7:
    <p><strong>Note: This is a recent vote, subject to change by official sources.</strong></p>
  % end
-                                
+
 		</div>
 	</div>
 
@@ -128,24 +135,24 @@
 			<div class="col-md-9" style="min-width: 800px; margin-right:35px;"> <!-- this is the left column containing the map and the NOMINATE graph -->
 				<div id="geoMap" style="padding-bottom:40px;"> <!-- This div contains the map header and map -->
 					<h4 style="float:left;clear:none;vertical-align:middle;">
-						Map 
-	
+						Map
+
 						<span class="glyphicon glyphicon-save noprint" style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;"
-						      onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;" 
+						      onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 						</span>
-	
+
 						%if len(noteText):
 							<img style="margin-left:5px;width:22px;vertical-align:middle;" src="/static/img/help.png" class="left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
 						%end
-	
+
 					</h4>
 					</span>
-	
+
 					<span id="map-chart" style="margin-top:10px; padding: 10px; vertical-align:bottom;"> <!-- This span tells DC where to put the map -->
 						<button id="zoomIn" class="glyphicon glyphicon-plus noprint" style="position:absolute;left:25px;top:40px;width:30px;height:30px;" onClick="javascript:doZoom(1);return false;"></button>
 						<button id="zoomOut" class="glyphicon glyphicon-minus noprint" style="position:absolute;left:25px;top:80px;width:30px;height:30px;" onClick="javascript:doZoom(-1);return false;"></button>
-	
+
 						<input id="ex1" data-slider-id="panY" type="text" data-slider-min="0" data-slider-max="500" data-slider-step="1"
 								data-slider-orientation="vertical" data-slider-tooltip="hide" data-slider-handle="custom">
 						<input id="ex2" data-slider-id="panX" type="text" data-slider-min="0" data-slider-max="890"
@@ -153,7 +160,7 @@
 						<span id="suppressMapControls" style="display:none;"><span class="filter"></span></span>
 					</span>
 					<div class="alert alert-info noprint" role="alert" id="warnParty" style="display:none;"> <!-- This div warns about party combining -->
-						<strong>Note:</strong> This map combines minor parties to increase visual clarity. 
+						<strong>Note:</strong> This map combines minor parties to increase visual clarity.
 						<a href="/rollcall/{{rollcall["id"]}}?mapParties=0">Click here to view all parties separately.</a>
 					</div>
 				</div> <!-- Outside the Geo map, still inside the first column of the first row -->
@@ -162,34 +169,34 @@
 				<h4>DW-Nominate Cutting Line
 					<span class="glyphicon glyphicon-save noprint"
 						onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
-						style="margin-left:5px;width:18px;vertical-align:middle;cursor:pointer;" 
+						style="margin-left:5px;width:18px;vertical-align:middle;cursor:pointer;"
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
 					</span>
 				</h4>
 
 				<div id="scatter-container" style="margin:0 auto 0 auto;">
 					<div id="scatter-bg">
-						<svg id="svg-bg"></svg> 
+						<svg id="svg-bg"></svg>
 					</div>
 					<div id="scatter-chart">
 						<span id="suppressNominateControls" style="display:none;"><span class="filter"></span></span>
 					</div>
 				</div>
 			</div> <!-- Outside the first column onto the second column (the vote table). -->
-			<div class="col-md-2 noprint" id="vote_chart_float" style="position:static"> 
+			<div class="col-md-2 noprint" id="vote_chart_float" style="position:static">
 				<h4>Votes
 					<a href="/api/download?rollcall_id={{rollcall["id"]}}">
 						<span class="glyphicon glyphicon-save"
-							style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;color:black;" 
+							style="margin-left:5px;font-size:18px;vertical-align:middle;cursor:pointer;color:black;"
 							data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as JSON.">
 						</span>
 					</a>
 					<a href="/api/downloadXLS?ids={{rollcall["id"]}}">
-						<img src="/static/img/xls.png" 
-							style="margin-left:5px;width:22px;vertical-align:middle;" 
+						<img src="/static/img/xls.png"
+							style="margin-left:5px;width:22px;vertical-align:middle;"
 							data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS.">
 					</a>
-				</h4> 
+				</h4>
 				<div id="party-chart">
 					<span id="suppressVoteChartControls" style="display:none;"><span class="filter"></span></span>
 				</div>
@@ -201,9 +208,9 @@
 				<div>
 					<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">Votes</div>
 					<div style="text-align:middle;padding-top:3px;" class="noprint">
-						(Sort by 
-						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>, 
-						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>, 
+						(Sort by
+						<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>,
+						<a href="#" onclick="javascript:outVotes('state');return false;">State</a>,
 						<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>,
 						<a href="#" onclick="javascript:outVotes('x');return false;">Ideology</a>,
 						<a href="#" onclick="javascript:outVotes('prob');return false;">Vote Probability</a>)
@@ -217,11 +224,11 @@
 
 <!-- The hidden filter bar code -->
 <div id="selectionFilterBar" style="display:none;">
-	<strong>Selected:</strong> 
+	<strong>Selected:</strong>
 	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span></span>
 	<span id="map-chart-controls" style="display:none;"> from <span class="filter"></span></span>
 	<span id="vote-chart-controls" style="display:none;"> including <span class="filter"></span></span>
-	<span id="nominate-chart-controls" style="display:none;"> with NOMINATE scores within <span class="filter"></span></em></span>. 
+	<span id="nominate-chart-controls" style="display:none;"> with NOMINATE scores within <span class="filter"></span></em></span>.
 	<span id="sparse-selection" style="display:none;"></span>
 	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
 </div>
