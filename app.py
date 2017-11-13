@@ -36,6 +36,7 @@ else:
 # Setup
 app = application = bottle.Bottle()
 bottle.BaseTemplate.defaults['get_url'] = app.get_url
+bottle.BaseTemplate.defaults['template'] = bottle.template
 
 
 # Debug timing to improve speed
@@ -394,19 +395,29 @@ def person(icpsr=0, garbage=""):
         return(output)
 
 
-def make_sources_line(sources):
+@app.route('/source_images/<publication>/<file_number>/<page_number>', name='source_images')
+def source_images(publication, file_number, page_number, **kwargs):
+    return bottle.template(
+        'views/source_images',
+        publication=publication,
+        file_number=file_number,
+        page_number=page_number,
+    )
 
-    publications_currently_linkable = ['The Journal', ]
+
+def mark_linkable_sources(sources):
+
+    publications_currently_linkable = ['House Journal', ]
     source_strings = []
-    link_str = u'<a href="sources/{publication}/{file_number}/{page_number}">{publication}</a>'
+    # link_str = u'<a
+    # href="source-images/{publication}/{file_number}/{page_number}">{publication}</a>'
+    new_sources = []
     for source in sources:
-
-        if source['publication'] in publications_currently_linkable:
-            source_strings.append(link_str.format(**source))
-        else:
-            source_strings.append(source['publication'])
-
-    return '; '.join(source_strings)
+        new = source.copy()
+        new['is_linkable'] = source[
+            'publication'] in publications_currently_linkable
+        new_sources.append(new)
+    return new_sources
 
 
 @app.route("/rollcall")
@@ -446,7 +457,7 @@ def rollcall(rollcall_id=""):
         nomBeta=meta["nominate"]["beta"],
         mapParties=mapParties,
         sponsor=sponsor,
-        sources_line=make_sources_line(current_rollcall['dtl_sources']),
+        sources=mark_linkable_sources(current_rollcall['dtl_sources']),
     )
     return(output)
 
