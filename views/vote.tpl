@@ -100,7 +100,18 @@
 	 <p>
 
 	<strong>Original source documents: </strong>
-	{{sources_line}}
+	% publication_strings = []
+	% for source in sources:
+	%     if source['is_linkable']:
+	%         pub =  source['publication'].upper()
+	%					pub_str = pub
+	%     else:
+  %	        pub_str = source['publication']
+  %     end
+ <a href="{{get_url('source_images', **source)}}">{{pub_str}}</a>;
+	% end
+
+
 
 	 </p>
 
