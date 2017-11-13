@@ -197,8 +197,9 @@ def congress(chamber="senate", tv=""):
     meta = metaLookup()
 
     output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress,
-                             dimweight=meta["nominate"]["second_dimweight"], nomBeta=meta["nominate"]["beta"],
-			     tabular_view=tv)
+                             dimweight=meta["nominate"][
+                                 "second_dimweight"], nomBeta=meta["nominate"]["beta"],
+                             tabular_view=tv)
     return output
 
 
@@ -839,4 +840,4 @@ def apiVersion():
     return({'apiversion': 'Q1 Jan 10, 2017', 'request_hash': model.logQuota.generateSessionID(bottle.request), 'quota_credits': model.logQuota.getCredits(bottle.request)})
 
 if __name__ == '__main__':
-    bottle.run(host='localhost', port=8080, debug=True)
+    bottle.run(app, host='localhost', port=8080, debug=True)
