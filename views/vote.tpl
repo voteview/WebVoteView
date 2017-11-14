@@ -103,12 +103,15 @@
 	% publication_strings = []
 	% for source in sources:
 	%     if source['is_linkable']:
-	%         pub =  source['publication'].upper()
+	%         pub =  source['publication']
 	%					pub_str = pub
+	 <a href="{{get_url('source_images', **source)}}">{{pub_str}}</a>;
 	%     else:
   %	        pub_str = source['publication']
+	{{pub_str}};
   %     end
- <a href="{{get_url('source_images', **source)}}">{{pub_str}}</a>;
+
+
 	% end
 
 
