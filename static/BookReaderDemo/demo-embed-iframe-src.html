@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>bookreader demo</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="stylesheet" type="text/css" href="../BookReader/mmenu/dist/css/jquery.mmenu.css" />
+    <link rel="stylesheet" type="text/css" href="../BookReader/mmenu/dist/addons/navbars/jquery.mmenu.navbars.css" />
+    <link rel="stylesheet" type="text/css" href="../BookReader/BookReader.css" id="BRCSS"/>
+
+    <!-- Include Embed css -->
+    <link rel="stylesheet" type="text/css" href="../BookReader/BookReaderEmbed.css"/>
+
+    <script type="text/javascript" src="./jquery-1.10.1.js"></script>
+    <script type="text/javascript" src="../BookReader/jquery-ui-1.12.0.min.js"></script>
+    <script type="text/javascript" src="../BookReader/jquery.browser.min.js"></script>
+    <script type="text/javascript" src="../BookReader/dragscrollable-br.js"></script>
+    <script type="text/javascript" src="../BookReader/jquery.colorbox-min.js"></script>
+    <script type="text/javascript" src="../BookReader/jquery.bt.min.js"></script>
+    <script type="text/javascript" src="../BookReader/soundmanager/script/soundmanager2-jsmin.js"></script>
+    <script>
+        soundManager.debugMode = false;
+        soundManager.url = '../BookReader/soundmanager/swf';
+        soundManager.useHTML5Audio = true;
+        soundManager.flashVersion = 9; //flash 8 version of swf is buggy when calling play() on a sound that is still loading
+    </script>
+    <script type="text/javascript" src="../BookReader/mmenu/dist/js/jquery.mmenu.min.js"></script>
+    <script type="text/javascript" src="../BookReader/mmenu/dist/addons/navbars/jquery.mmenu.navbars.min.js" ></script>
+    <script type="text/javascript" src="../BookReader/BookReader.js"></script>
+
+    <style>
+html, body, #BookReader { width: 100%; height:100%; margin:0; padding: 0; }
+    </style>
+</head>
+<body style="background-color: #939598;">
+
+<div id="BookReader">
+  Internet Archive BookReader Demo<br/>
+
+  <noscript>
+  <p>
+      The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings.  You can also try one of the <a href="http://www.archive.org/details/goodytwoshoes00newyiala"> other formats of the book</a>.
+  </p>
+  </noscript>
+  </div>
+
+
+<script type="text/javascript">
+br = new BookReader();
+
+// Return the width of a given page.  Here we assume all images are 800 pixels wide
+br.getPageWidth = function(index) {
+    return 800;
+}
+
+// Return the height of a given page.  Here we assume all images are 1200 pixels high
+br.getPageHeight = function(index) {
+    return 1200;
+}
+
+// We load the images from archive.org -- you can modify this function to retrieve images
+// using a different URL structure
+br.getPageURI = function(index, reduce, rotate) {
+    // reduce and rotate are ignored in this simple implementation, but we
+    // could e.g. look at reduce and load images from a different directory
+    // or pass the information to an image server
+    var leafStr = '000';
+    var imgStr = (index+1).toString();
+    var re = new RegExp("0{"+imgStr.length+"}$");
+    var url = 'http://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
+    return url;
+}
+
+// Return which side, left or right, that a given page should be displayed on
+br.getPageSide = function(index) {
+    if (0 == (index & 0x1)) {
+        return 'R';
+    } else {
+        return 'L';
+    }
+}
+
+// This function returns the left and right indices for the user-visible
+// spread that contains the given index.  The return values may be
+// null if there is no facing page or the index is invalid.
+br.getSpreadIndices = function(pindex) {
+    var spreadIndices = [null, null];
+    if ('rl' == this.pageProgression) {
+        // Right to Left
+        if (this.getPageSide(pindex) == 'R') {
+            spreadIndices[1] = pindex;
+            spreadIndices[0] = pindex + 1;
+        } else {
+            // Given index was LHS
+            spreadIndices[0] = pindex;
+            spreadIndices[1] = pindex - 1;
+        }
+    } else {
+        // Left to right
+        if (this.getPageSide(pindex) == 'L') {
+            spreadIndices[0] = pindex;
+            spreadIndices[1] = pindex + 1;
+        } else {
+            // Given index was RHS
+            spreadIndices[1] = pindex;
+            spreadIndices[0] = pindex - 1;
+        }
+    }
+
+    return spreadIndices;
+}
+
+// For a given "accessible page index" return the page number in the book.
+//
+// For example, index 5 might correspond to "Page 1" if there is front matter such
+// as a title page and table of contents.
+br.getPageNum = function(index) {
+  return index+1;
+}
+
+br.numLeafs = 15;
+
+// Book title and the URL used for the book title link
+br.bookTitle= 'Internet Archive BookReader Presentation';
+br.bookUrl = 'http://www.archive.org/details/BookReader';
+br.bookUrlText = 'Back to details on Archive.org';
+br.bookUrlTitle = 'Back to details on Archive.org';
+br.thumbnail = '//www.archive.org/download/BookReader/img/page014.jpg';
+br.metadata = [
+  {label: 'Title', value: 'Open Library BookReader Presentation'},
+  {label: 'Author', value: 'Internet Archive'},
+];
+br.mobileNavTitle = 'BookReader demo';
+
+// Override the path used to find UI images
+br.imagesBaseURL = '../BookReader/images/';
+
+br.getEmbedCode = function(frameWidth, frameHeight, viewParams) {
+    return "Embed code not supported in bookreader demo.";
+}
+br.ui = 'embed'; // embed, full (responsive)
+
+br.init();
+</script>
+
+</body>
+</html>
