@@ -6,3 +6,9 @@
 #BRtoolbar .embed, .print {
     display: none;
 }
+
+#BookReader {
+  position: absolute;
+  height: 100%;
+  width: 100%;1
+}
