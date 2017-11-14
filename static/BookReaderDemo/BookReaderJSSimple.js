@@ -16,9 +16,9 @@ br.getPageHeight = function(index) {
     return 1200;
 };
 
-// Pad number with 0 up to at least `digits`
-function zeroPad(number, digits) {
-  if (number<=9999) { number = ("000"+number).slice(-digits); }
+// Pad number with 0 up to 4
+function zeroPad(number) {
+  if (number<=9999) { number = ("000"+number).slice(-4); }
   return number;
 }
 
@@ -32,7 +32,7 @@ br.getPageURI = function(index, reduce, rotate) {
     var bookPath = 'house_journal/original/';
     var branchStr = '001';
     // Not the same as the printed page number because of titlepage etc.
-    var controlPageNumber = zeroPad(index, 4);
+    var controlPageNumber = zeroPad(index);
     var imgFilename = branchStr + '_' + controlPageNumber;
     // var imgStr = zeroPad((index+1), 4).toString();
     // var url = 'http://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
