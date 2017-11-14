@@ -18,3 +18,6 @@ static/**/*.csv
 static/data/csv/**/*.bak
 \#*\#
 static/aaron/*
+
+static/img/source_images/**/*.jpg
+static/img/source_images/**/*.sgm

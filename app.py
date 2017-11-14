@@ -37,7 +37,8 @@ else:
 app = application = bottle.Bottle()
 bottle.BaseTemplate.defaults['get_url'] = app.get_url
 bottle.BaseTemplate.defaults['template'] = bottle.template
-
+bottle.TEMPLATE_PATH.append('/static/bookreader')
+bottle.TEMPLATE_PATH.append('/static/bookreader/BookReader')
 
 # Debug timing to improve speed
 timeLabels = []
@@ -395,6 +396,7 @@ def person(icpsr=0, garbage=""):
         return(output)
 
 
+@app.route('/source_images/<publication>/BookReader')
 @app.route('/source_images/<publication>/<file_number>/<page_number>', name='source_images')
 def source_images(publication, file_number, page_number, **kwargs):
     return bottle.template(
