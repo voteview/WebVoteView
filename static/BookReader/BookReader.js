@@ -85,7 +85,7 @@ function BookReader() {
     // custom implementations.
     // $$$ This is the same directory as the images referenced by relative
     //     path in the CSS.  Would be better to automagically find that path.
-    this.imagesBaseURL = '/bookreader/images/';
+    this.imagesBaseURL = '';
 
 
     // Zoom levels

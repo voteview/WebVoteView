@@ -459,7 +459,9 @@ def rollcall(rollcall_id=""):
         nomBeta=meta["nominate"]["beta"],
         mapParties=mapParties,
         sponsor=sponsor,
-        sources=mark_linkable_sources(current_rollcall['dtl_sources']),
+        sources=mark_linkable_sources(
+            current_rollcall.get('dtl_sources', []),
+        )
     )
     return(output)
 
@@ -579,9 +581,9 @@ def districtLookup():
             currentCong = 0
             if not isDC:
                 currentCong = next((x["district_code"] for x in resultsM[
-                                   "results"] if x["congress"] == maxCongress), None)
+                    "results"] if x["congress"] == maxCongress), None)
                 currentLookup = getMembersByPrivate({"$or": [{"chamber": "Senate", "state_abbrev": state_abbrev, "congress": maxCongress}, {
-                                                    "chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": maxCongress}]})
+                    "chamber": "House", "district_code": currentCong, "state_abbrev": state_abbrev, "congress": maxCongress}]})
             if not isDC and "results" in currentLookup:
                 return {"status": 0, "results": resultsM["results"], "currentCong": currentCong, "resCurr": currentLookup["results"]}
             elif currentCong:
