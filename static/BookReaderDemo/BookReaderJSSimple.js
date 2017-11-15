@@ -30,14 +30,13 @@ br.getPageURI = function(index, reduce, rotate) {
     // or pass the information to an image server
     var baseUrl = '/static/img/scans/'
     var bookPath = 'house_journal/original/';
-    var branchStr = '001';
-    // Not the same as the printed page number because of titlepage etc.
-    var controlPageNumber = zeroPad(index);
-    var imgFilename = branchStr + '_' + controlPageNumber;
+
+    var pageInfo = document.getElementById('page-info')
+    var imgFilename = pageInfo.dataset.fileNumber+ '_' + (parseInt(pageInfo.dataset.pageNumber) + parseInt(index)) + '_' + index;
     // var imgStr = zeroPad((index+1), 4).toString();
     // var url = 'http://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
     //leafStr.replace(re, imgStr)
-    var url = baseUrl + bookPath + branchStr + '/' + imgFilename + '.jpg';
+    var url = baseUrl + bookPath + pageInfo.dataset.fileNumber + '/' + imgFilename + '.jpg';
     return url;
 };
 
@@ -85,7 +84,7 @@ br.getSpreadIndices = function(pindex) {
 // For example, index 5 might correspond to "Page 1" if there is front matter such
 // as a title page and table of contents.
 br.getPageNum = function(index) {
-    return index+1;
+    return index + 0;
 };
 
 // Total number of leafs
@@ -110,7 +109,7 @@ br.enableMobileNav = true;
 br.mobileNavTitle = 'BookReader demo';
 
 // Override the path used to find UI images
-br.imagesBaseURL = '../BookReader/images/';
+br.imagesBaseURL = '/static/BookReader/images/';
 
 br.getEmbedCode = function(frameWidth, frameHeight, viewParams) {
     return "Embed code not supported in bookreader demo.";
