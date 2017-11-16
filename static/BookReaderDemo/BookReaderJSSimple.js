@@ -32,7 +32,7 @@ br.getPageURI = function(index, reduce, rotate) {
     var bookPath = 'house_journal/original/';
 
     var pageInfo = document.getElementById('page-info')
-    var imgFilename = pageInfo.dataset.fileNumber+ '_' + (parseInt(pageInfo.dataset.pageNumber) + parseInt(index)) + '_' + index;
+    var imgFilename = pageInfo.dataset.fileNumber+ '_' + zeroPad(parseInt(pageInfo.dataset.pageNumber) + parseInt(index)) ;
     // var imgStr = zeroPad((index+1), 4).toString();
     // var url = 'http://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
     //leafStr.replace(re, imgStr)
