@@ -33,7 +33,7 @@ br.getPageURI = function(index, reduce, rotate) {
     var bookPath = 'house_journal/original/';
 
     var pageInfo = document.getElementById('page-info')
-    var imgFilename = pageInfo.dataset.fileNumber+ '_' + zeroPad(parseInt(pageInfo.dataset.pageNumber) + parseInt(index), 4) ;
+    var imgFilename = pageInfo.dataset.fileNumber+ '_' + zeroPad(parseInt(index), 4) ;
 
 
     var url = baseUrl + bookPath + pageInfo.dataset.fileNumber + '/' + imgFilename + '.jpg';
@@ -79,7 +79,7 @@ br.getSpreadIndices = function(pindex) {
     return spreadIndices;
 };
 
-// For a given "accessible page index" return the page number in the book.
+// For a given "accessible page" return the page number in the book.
 //
 // For example, index 5 might correspond to "Page 1" if there is front matter such
 // as a title page and table of contents.
@@ -88,7 +88,7 @@ br.getPageNum = function(index) {
 };
 
 // Total number of leafs
-br.numLeafs = 15;
+br.numLeafs = 101;
 
 // Book title and the URL used for the book title link
 br.bookTitle= 'Journal of the United States House of Representatives';

@@ -105,7 +105,10 @@
 	%     if source['is_linkable']:
 	%         pub =  source['publication']
 	%					pub_str = pub
-	 <a href="{{get_url('source_images', **source)}}">{{pub_str}}</a>;
+	%     link_dict = {k:v for k,v in source.items() if k in ['publication', 'file_number', 'page_number']}
+	 <!-- <a href="{{get_url('source_images', **link_dict)}}">{{pub_str}}</a>; -->
+	 % link = '/source_images/' + source['publication'] + '/' + str(source['file_number']) + '/0#page/' +  str(source['page_number'])
+	 <a href="{{ link }}">{{pub_str}}</a>;
 	%     else:
   %	        pub_str = source['publication']
 	{{pub_str}};
