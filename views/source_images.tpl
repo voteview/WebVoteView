@@ -7,6 +7,7 @@
 <!-- % from pdb import set_trace as st ; st() -->
 
 <div id='page-info'
+  data-publication="{{publication}}"
   data-file-number="{{str(file_number).zfill(3)}}"
   data-page-number="{{page_number}}"
  ></div>
