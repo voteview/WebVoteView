@@ -8,7 +8,7 @@
 
 <div id='page-info'
   data-file-number="{{str(file_number).zfill(3)}}"
-  data-page-number="{{str(page_number).zfill(4)}}"
+  data-page-number="{{page_number}}"
  ></div>
 
 
