@@ -30,9 +30,9 @@ br.getPageURI = function(index, reduce, rotate) {
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
     var baseUrl = '/static/img/scans/'
-    var bookPath = 'house_journal/original/';
 
     var pageInfo = document.getElementById('page-info')
+    var bookPath = pageInfo.dataset.publication + '/original/';
     var imgFilename = pageInfo.dataset.fileNumber+ '_' + zeroPad(parseInt(index), 4) ;
 
 
