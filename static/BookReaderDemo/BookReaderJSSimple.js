@@ -16,10 +16,11 @@ br.getPageHeight = function(index) {
     return 1200;
 };
 
-// Pad number with 0 up to 4
-function zeroPad(number) {
-  if (number<=9999) { number = ("000"+number).slice(-4); }
-  return number;
+
+
+function zeroPad (str, max) {
+  str = str.toString();
+  return str.length < max ? zeroPad("0" + str, max) : str;
 }
 
 // We load the images from archive.org -- you can modify this function to retrieve images
@@ -32,10 +33,9 @@ br.getPageURI = function(index, reduce, rotate) {
     var bookPath = 'house_journal/original/';
 
     var pageInfo = document.getElementById('page-info')
-    var imgFilename = pageInfo.dataset.fileNumber+ '_' + zeroPad(parseInt(pageInfo.dataset.pageNumber) + parseInt(index)) ;
-    // var imgStr = zeroPad((index+1), 4).toString();
-    // var url = 'http://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
-    //leafStr.replace(re, imgStr)
+    var imgFilename = pageInfo.dataset.fileNumber+ '_' + zeroPad(parseInt(pageInfo.dataset.pageNumber) + parseInt(index), 4) ;
+
+
     var url = baseUrl + bookPath + pageInfo.dataset.fileNumber + '/' + imgFilename + '.jpg';
     return url;
 };
