@@ -97,9 +97,10 @@
   </p>
    % end
 
+	 % if sources:
 	 <p>
-
 	<strong>Original source documents: </strong>
+
 	% publication_strings = []
 	% for source in sources:
 	%     if source['is_linkable']:
@@ -113,13 +114,10 @@
   %	        pub_str = source['publication']
 	{{pub_str}};
   %     end
-
-
 	% end
 
-
-
 	 </p>
+	 % end
 
  % import datetime
  % current_date = datetime.datetime.today().date()
