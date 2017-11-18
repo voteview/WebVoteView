@@ -4,7 +4,7 @@
 % import json
 % include('header.tpl')
 
-<!-- % from pdb import set_trace as st ; st() -->
+
 
 <div id='page-info'
   data-publication="{{publication}}"
