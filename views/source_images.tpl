@@ -27,7 +27,7 @@
 <!-- Custom CSS overrides -->
 <link rel="stylesheet" type="text/css" href="/static/BookReaderDemo/BookReaderDemo.css"/>
 
-<script type="text/javascript" src="./jquery-1.10.1.js"></script>
+<script type="text/javascript" src="/static/js/libs/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/static/BookReader/jquery-ui-1.12.0.min.js"></script>
 <script type="text/javascript" src="/static/BookReader/jquery.browser.min.js"></script>
 <script type="text/javascript" src="/static/BookReader/dragscrollable-br.js"></script>
