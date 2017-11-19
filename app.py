@@ -2,6 +2,7 @@ import urllib
 import re
 import traceback
 import os
+import glob
 import datetime
 import time
 import json
@@ -396,6 +397,14 @@ def person(icpsr=0, garbage=""):
         return(output)
 
 
+def count_images(publication, file_number):
+    """Return the number of scans in the directory."""
+    format_string = 'static/img/scans/{}/{:>03}/*'
+    glob_string = format_string.format(publication, file_number)
+    image_paths = glob.glob(glob_string)
+    return len(image_paths)
+
+
 @app.route('/source_images/<publication>/BookReader')
 @app.route('/source_images/<publication>/<file_number>/<page_number>', name='source_images')
 def source_images(publication, file_number, page_number, **kwargs):
@@ -404,6 +413,7 @@ def source_images(publication, file_number, page_number, **kwargs):
         publication=publication,
         file_number=file_number,
         page_number=page_number,
+        num_leafs=count_images(publication, file_number),
     )
 
 

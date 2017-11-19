@@ -32,7 +32,7 @@ br.getPageURI = function(index, reduce, rotate) {
     var baseUrl = '/static/img/scans/'
 
     var pageInfo = document.getElementById('page-info')
-    var bookPath = pageInfo.dataset.publication + '/original/';
+    var bookPath = pageInfo.dataset.publication + '/';
     var imgFilename = pageInfo.dataset.fileNumber+ '_' + zeroPad(parseInt(index), 4) ;
 
 
@@ -88,7 +88,7 @@ br.getPageNum = function(index) {
 };
 
 // Total number of leafs
-br.numLeafs = 101;
+br.numLeafs = document.getElementById('page-info').dataset.numLeafs;
 
 // Book title and the URL used for the book title link
 br.bookTitle= 'Journal of the United States House of Representatives';
