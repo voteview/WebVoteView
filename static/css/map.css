@@ -6,10 +6,10 @@ svg.map {
     background: #eee;
 }
 
-.state, 
+.state,
 .district {
-  stroke: #000; 
-  stroke-linejoin: round; 
+  stroke: #000;
+  stroke-linejoin: round;
   stroke-opacity: 0.5;
   opacity: 1;
 }
@@ -40,16 +40,16 @@ svg.map {
 #selectionFilterBar
 {
 	z-index: 99;
-	position:fixed; 
-	bottom:0px; 
-	height:60px; 
-	left:0px; 
-	width:100%; 
-	background-color:#DEDEDE; 
-	padding: 10px; 
-	border-top:2px solid black; 
+	position:fixed;
+	bottom:0px;
+	height:60px;
+	left:0px;
+	width:100%;
+	background-color:#DEDEDE;
+	padding: 10px;
+	border-top:2px solid black;
 	display:none;
-	vertical-align: middle; 
+	vertical-align: middle;
 	line-height:40px;
 }
 
@@ -63,16 +63,16 @@ svg.map {
 
 @media screen
 {
-	ul.voteTable li.dotted:before 
-	{ 
+	ul.voteTable li.dotted:before
+	{
 		float:left; width:0; white-space: nowrap;
-		content: "\00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \0087  \0087  \0087  \0087";
+		content: "\00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7  \00B7";
 	}
 }
 @media print
 {
-	ul.voteTable li.dotted:before 
-	{ 
+	ul.voteTable li.dotted:before
+	{
 		float:left; width:0; white-space: nowrap;
 		content: "";
 	}
