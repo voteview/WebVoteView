@@ -19,6 +19,7 @@ static/data/csv/**/*.bak
 \#*\#
 static/aaron/*
 
+static/img/scans
 static/img/source_images/**/*.jpg
 static/img/source_images/**/*.sgm
 static/img/scans/**/*.jpg
