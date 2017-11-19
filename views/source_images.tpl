@@ -10,6 +10,7 @@
   data-publication="{{publication}}"
   data-file-number="{{str(file_number).zfill(3)}}"
   data-page-number="{{page_number}}"
+  data-num-leafs="{{num_leafs}}"
  ></div>
 
 
