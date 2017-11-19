@@ -1,6 +1,6 @@
 % from __future__ import print_function
 
-% rebase('base.tpl',title='File: views/source_images.tpl')
+% rebase('base.tpl')
 % import json
 % include('header.tpl')
 

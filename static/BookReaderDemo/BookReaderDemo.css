@@ -2,6 +2,14 @@
  * Custom overrides for BookReader Demo.
  */
 
+ * {
+   -webkit-box-sizing: unset;
+   -moz-box-sizing: unset;
+   box-sizing: unset;
+ }
+
+
+
 /* Hide print and embed functionality */
 #BRtoolbar .embed, .print {
     display: none;
