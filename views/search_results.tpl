@@ -53,13 +53,13 @@
 		<div class="panel-heading">
 			<strong>
 				% if ("key_flags" in rollcall and rollcall["key_flags"] and rollcall["key_flags"][0] in orgMapping):
-				<span class="btn btn-default btn-sm" style="margin-right:10px;" 
-					data-toggle="tooltip" data-placement="bottom" 
+				<span class="btn btn-default btn-sm" style="margin-right:10px;"
+					data-toggle="tooltip" data-placement="bottom"
 					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
 				% end
-				<abbr title="Congress"><a href="/search/?congress={{ rollcall["congress"] }}">{{ rcSuffix(rollcall["congress"]) }} Congress</a></abbr> &gt; 
+				<abbr title="Congress"><a href="/search/?congress={{ rollcall["congress"] }}">{{ rcSuffix(rollcall["congress"]) }} Congress</a></abbr> &gt;
 				<abbr title="Chamber"><a href="/search/?congress={{ rollcall["congress"] }}&chamber={{ rollcall["chamber"] }}">{{ rollcall["chamber"] }}</a></abbr> &gt;
 				<abbr title="Rollnumber"><a href="/rollcall/{{ rollcall["id"] }}">Vote {{ rollcall["rollnumber"] }}</a></abbr>
 			</strong>
@@ -67,7 +67,7 @@
 			<span style="float:right;">
 				<a href="/rollcall/{{ rollcall["id"] }}"><img src="/static/img/graph.png" style="width:24px;margin-right:16px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 
-				<input type="checkbox" name="ids" value="{{ rollcall["id"] }}"> 
+				<input type="checkbox" name="ids" value="{{ rollcall["id"] }}">
 				<img src="/static/img/export.png" style="cursor:pointer;width:24px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
 			</span>
 		</div>
@@ -80,7 +80,7 @@
 			<p><strong>Bill number</strong>: {{rollcall["bill_number"]}}</p>
 			% end
 
-                  
+
 			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p>
 					<strong>Vote:</strong> {{ rollcall["yea_count"] }}-{{ rollcall["nay_count"] }}
@@ -91,7 +91,7 @@
 			% end
 
 			% if "codes" in rollcall and ("Peltzman" in rollcall["codes"] or "Clausen" in rollcall["codes"]):
-			<p><strong>Vote Categories</strong>: 	
+			<p><strong>Vote Categories</strong>:
 			% if "Clausen" in rollcall["codes"]:
 			{{ rollcall["codes"]["Clausen"][0] }}
 			% if "Peltzman" in rollcall["codes"]:
@@ -101,7 +101,7 @@
 			</p>
 			% end
 
-			% if rollcall["question"]:
+			% if rollcall.get('question'):
 			<p><strong>Question</strong>: {{ rollcall["question"] }}</p>
 			% end
 			<p><strong>Description</strong>: {{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
