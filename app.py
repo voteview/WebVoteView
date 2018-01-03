@@ -706,7 +706,8 @@ def search_2(query_string):
         resultMembers=search_members(client, user_query_dict),
         resultParties=[],
     )
-
+    # Sort members
+    # Filter by
     return filled_template
 
 

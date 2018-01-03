@@ -1,17 +1,96 @@
 import os
 
-import slugify
-from model.utils import get_congress_first_year
+import model.slugify
+from model.utils import get_congress_first_year, assoc
 
 from pdb import set_trace as st
 
+ROLLCALL_SEARCHABLE_FIELDS = [
+    'amendment_author',
+    'bill_number',
+    'cg_official_titles',
+    'cg_short_titles_for_portions',
+    'cg_summary',
+    'chamber',
+    # 'congress',
+    'description',
+    'dtl_desc',
+    'dtl_sources',
+    # 'id',
+    'question',
+    # 'rollnumber',
+    'short_description',
+    # 'sponsor',
+    'vote_desc',
+    'vote_description',
+    'vote_document_text',
+    'vote_question',
+    'vote_question_text',
+    'vote_title',
+]
 
-def build_simple_query(user_query):
+MEMBER_SEARCHABLE_FIELDS = [
+    'bioname',
+    'bioguide_id',
+    'biography',
+]
+
+
+def make_range_filter(user_query, name):
+    range_filter = {}
+    try:
+        range_filter['gte'] = user_query['from_' + name]
+    except KeyError:
+        pass
+    try:
+        range_filter['lte'] = user_query['to_' + name]
+    except KeyError:
+        pass
+    return {'range': {name: range_filter}}
+
+
+def make_range_filters(user_query):
+    range_filters = []
+    range_filters.append(make_range_filter(user_query, 'date'))
+    range_filters.append(make_range_filter(user_query, 'congress'))
+    return range_filters
+
+
+def make_filters(user_query):
+    filters = {}
+    filters['bool'] = {'must': make_range_filters(user_query)}
+    return filters
+
+
+def build_rollcall_query(user_query, filters):
     query = {
         'query': {
-            'simple_query_string': {
-                'query': user_query
-            },
+            'bool': {
+                'filter': filters,
+                'should': {
+                    'multi_match': {
+                        'query': user_query,
+                        'fields': ROLLCALL_SEARCHABLE_FIELDS,
+                    }
+                },
+            }
+        }
+    }
+    return query
+
+
+def build_member_query(user_query, filters):
+    query = {
+        'query': {
+            'bool': {
+                # 'filter': filters,
+                'should': {
+                    'multi_match': {
+                        'query': user_query,
+                        'fields': MEMBER_SEARCHABLE_FIELDS,
+                    }
+                },
+            }
         }
     }
     return query
@@ -23,22 +102,16 @@ def extract_documents(elastic_query_result):
 
 
 def get_rollcalls(client, user_query):
-
-    elastic_query = build_simple_query(user_query['q'])
+    query = user_query['q']
+    filters = make_filters(user_query)
+    elastic_query = build_rollcall_query(query, filters)
 
     elastic_result = client.search(index='rollcall', body=elastic_query)
     return extract_documents(elastic_result)
 
 
-def assoc(mapping, name, value):
-    """Add a key-value pair to a dict."""
-    new_mapping = mapping.copy()
-    new_mapping[name] = value
-    return new_mapping
-
-
 def build_seo_name(member):
-    return slugify.slugify(member['bioname'])
+    return model.slugify.slugify(member['bioname'])
 
 
 def build_bioimg_path(member):
@@ -64,7 +137,8 @@ def process_member(member):
 
 def get_members(client, user_query):
     query = user_query['q']
-    elastic_query = build_simple_query(query)
+    filters = make_filters(user_query)
+    elastic_query = build_member_query(query, filters)
     elastic_result = client.search(index='member', body=elastic_query)
     members = extract_documents(elastic_result)
     return [process_member(member) for member in members]
