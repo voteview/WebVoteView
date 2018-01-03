@@ -1,8 +1,8 @@
+import urlparse
 import urllib
 import re
 import traceback
 import os
-import glob
 import datetime
 import time
 import json
@@ -11,6 +11,9 @@ import unidecode
 from fuzzywuzzy import fuzz
 from bson.json_util import dumps
 from pdb import set_trace as st
+from elasticsearch import Elasticsearch
+import inflection
+
 
 from model.searchVotes import query
 import model.downloadVotes  # Namespace issue
@@ -26,6 +29,8 @@ import model.downloadXLS
 import model.stashCart
 import model.partyData
 import model.logQuota
+import model.elastic
+
 
 # Turn this off on production:
 devserver = int(open("server.txt", "r").read().strip())
@@ -397,14 +402,6 @@ def person(icpsr=0, garbage=""):
         return(output)
 
 
-def count_images(publication, file_number):
-    """Return the number of scans in the directory."""
-    format_string = 'static/img/scans/{}/{:>03}/*'
-    glob_string = format_string.format(publication, file_number)
-    image_paths = glob.glob(glob_string)
-    return len(image_paths)
-
-
 @app.route('/source_images/<publication>/BookReader')
 @app.route('/source_images/<publication>/<file_number>/<page_number>', name='source_images')
 def source_images(publication, file_number, page_number, **kwargs):
@@ -413,7 +410,6 @@ def source_images(publication, file_number, page_number, **kwargs):
         publication=publication,
         file_number=file_number,
         page_number=page_number,
-        num_leafs=count_images(publication, file_number),
     )
 
 
@@ -651,9 +647,67 @@ def getmembers():
 def searchAssemble():
     q = defaultValue(bottle.request.params.q)
     nextId = defaultValue(bottle.request.params.nextId, 0)
-
     out = assembleSearch(q, nextId, bottle)
     return(out)
+
+from model.utils import assoc, merge_dicts, rename_key
+
+
+def concat_values(mapping, new_key, keys, join_str='; '):
+    """Join dict values into a string with a new key."""
+    result = mapping.copy()
+    values = [mapping.get(key) for key in keys if mapping.get(key)]
+    result[new_key] = join_str.join(values)
+    return result
+
+
+def add_members_party_data(members):
+    member_party_codes = set(member['party_code'] for member in members)
+    party_code_to_party_dict = {code: model.partyData.getPartyData(
+        code) for code in member_party_codes}
+    members = [
+        merge_dicts(member, party_code_to_party_dict[member['party_code']])
+        for member in members
+    ]
+    members = [rename_key(member, 'partyname', 'party_name')
+               for member in members]
+    return members
+
+
+def search_rollcalls(elastic_client, user_query):
+    rollcalls = model.elastic.get_rollcalls(elastic_client, user_query)
+    text_fields = [
+        'description', 'short_description', 'dtl_desc',
+    ]
+    rollcalls = [concat_values(r, 'text', text_fields) for r in rollcalls]
+    return rollcalls
+
+
+def search_members(elastic_client, user_query):
+    members = model.elastic.get_members(elastic_client, user_query)
+    members = add_members_party_data(members)
+    members = model.utils.filter_first(members, 'icpsr')
+    return list(members)
+
+
+@app.route('/api/v2/search/<query_string>')
+def search_2(query_string):
+    client = Elasticsearch()
+    user_query_dict = {
+        inflection.underscore(k): v
+        for k, v in urlparse.parse_qsl(query_string)
+    }
+    print(user_query_dict)
+    filled_template = bottle.template(
+        'views/search_results',
+        rollcalls=search_rollcalls(client, user_query_dict),
+        highlighter=query_string,
+        errormessage='',
+        resultMembers=search_members(client, user_query_dict),
+        resultParties=[],
+    )
+
+    return filled_template
 
 
 @app.route("/api/getMemberVotesAssemble")

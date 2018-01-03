@@ -1,6 +1,6 @@
 % from __future__ import print_function
 
-% rebase('base.tpl')
+% rebase('base.tpl',title='File: views/source_images.tpl')
 % import json
 % include('header.tpl')
 
@@ -10,7 +10,6 @@
   data-publication="{{publication}}"
   data-file-number="{{str(file_number).zfill(3)}}"
   data-page-number="{{page_number}}"
-  data-num-leafs="{{num_leafs}}"
  ></div>
 
 
