@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import urlparse
 import urllib
 import re
@@ -12,7 +14,6 @@ from fuzzywuzzy import fuzz
 from bson.json_util import dumps
 from pdb import set_trace as st
 from elasticsearch import Elasticsearch
-import inflection
 
 
 from model.searchVotes import query
@@ -29,7 +30,8 @@ import model.downloadXLS
 import model.stashCart
 import model.partyData
 import model.logQuota
-import model.elastic
+
+from model.search import parse_query_string, search_members, search_rollcalls
 
 
 # Turn this off on production:
@@ -650,54 +652,13 @@ def searchAssemble():
     out = assembleSearch(q, nextId, bottle)
     return(out)
 
-from model.utils import assoc, merge_dicts, rename_key
-
-
-def concat_values(mapping, new_key, keys, join_str='; '):
-    """Join dict values into a string with a new key."""
-    result = mapping.copy()
-    values = [mapping.get(key) for key in keys if mapping.get(key)]
-    result[new_key] = join_str.join(values)
-    return result
-
-
-def add_members_party_data(members):
-    member_party_codes = set(member['party_code'] for member in members)
-    party_code_to_party_dict = {code: model.partyData.getPartyData(
-        code) for code in member_party_codes}
-    members = [
-        merge_dicts(member, party_code_to_party_dict[member['party_code']])
-        for member in members
-    ]
-    members = [rename_key(member, 'partyname', 'party_name')
-               for member in members]
-    return members
-
-
-def search_rollcalls(elastic_client, user_query):
-    rollcalls = model.elastic.get_rollcalls(elastic_client, user_query)
-    text_fields = [
-        'description', 'short_description', 'dtl_desc',
-    ]
-    rollcalls = [concat_values(r, 'text', text_fields) for r in rollcalls]
-    return rollcalls
-
-
-def search_members(elastic_client, user_query):
-    members = model.elastic.get_members(elastic_client, user_query)
-    members = add_members_party_data(members)
-    members = model.utils.filter_first(members, 'icpsr')
-    return list(members)
-
 
 @app.route('/api/v2/search/<query_string>')
 def search_2(query_string):
+
     client = Elasticsearch()
-    user_query_dict = {
-        inflection.underscore(k): v
-        for k, v in urlparse.parse_qsl(query_string)
-    }
-    print(user_query_dict)
+    user_query_dict = parse_query_string(query_string)
+
     filled_template = bottle.template(
         'views/search_results',
         rollcalls=search_rollcalls(client, user_query_dict),

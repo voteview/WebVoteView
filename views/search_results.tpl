@@ -1,6 +1,7 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % import re
 % from stemming.porter2 import stem
+% from titlecase import titlecase
 % include('member_party_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
 
 % orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff", "wikipedia": "Wikipedia"}
@@ -104,7 +105,7 @@
 			% if rollcall.get('question'):
 			<p><strong>Question</strong>: {{ rollcall["question"] }}</p>
 			% end
-			<p><strong>Description</strong>: {{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
+			<p><strong>Description</strong>: {{!doHighlight(highlighter, " ".join(titlecase(rollcall["text"].lower()).split()[0:50])) }}</p>
 
 
 

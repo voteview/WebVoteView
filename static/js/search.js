@@ -9,7 +9,7 @@ var nextId = 0; // What skip value we send to the next page loader.
 var metaPageloaded = 0; // How many pages we've auto-loaded on this search.
 var blockAutoscroll = 0; // If there's a load still in progress.
 
-function numberWithCommas(x) 
+function numberWithCommas(x)
 {
 	if(x == null) { return 0; }
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -36,7 +36,7 @@ function closeStashCart()
 				$("#stashCartIcon").fadeIn(100);
 			}
 		});
-	});	
+	});
 }
 
 function exportJSON() { window.location="/api/exportJSON?id="+cookieId; }
@@ -46,26 +46,26 @@ function updateStashCart()
 {
 	var totalVoteCount = 0;
 	// Calculate and set total vote count.
-	if(cachedVotes["old"]) 
-	{ 
+	if(cachedVotes["old"])
+	{
 		$("#oldCount").html(cachedVotes["old"].length);
 		if(cachedVotes["old"].length)
 		{
 			$("#oldResults").show();
 		} else { $("#oldResults").hide(); }
-		totalVoteCount += cachedVotes["old"].length; 
+		totalVoteCount += cachedVotes["old"].length;
 	}
-	else 
-	{ 
+	else
+	{
 		$("#oldCount").html("0");
 		$("#oldResults").hide();
 		totalVoteCount=0;
 	}
 
-	if(cachedVotes["votes"]) 
+	if(cachedVotes["votes"])
 	{
 		$("#newCount").html(cachedVotes["votes"].length);
-		totalVoteCount += cachedVotes["votes"].length; 
+		totalVoteCount += cachedVotes["votes"].length;
 	}
 	else
 	{
@@ -141,7 +141,7 @@ function addAllVotes()
 			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
 			if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 			updateStashCart();
-			selectIncludedVotes();						
+			selectIncludedVotes();
 		}
 	});
 }
@@ -158,7 +158,7 @@ function delAllVotes()
 			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
 			if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 			updateStashCart();
-			selectIncludedVotes();						
+			selectIncludedVotes();
 		}
 	});
 
@@ -196,9 +196,9 @@ function toggleAdvancedSearch(instant)
 	}
 	else
 	{
-		if(!$('#results-selects').is(':visible')) 
-		{ 
-			$('#resultsHolder').css('width', '75%'); 
+		if(!$('#results-selects').is(':visible'))
+		{
+			$('#resultsHolder').css('width', '75%');
 		}
 		else { $('#resultsHolder').css('width', '100%'); }
 		$('#results-selects').toggle();
@@ -229,7 +229,7 @@ function emptyCart()
 			}
 			unselectAll();
 			updateStashCart();
-		}			
+		}
 	});
 }
 
@@ -238,10 +238,10 @@ function startPulseSuggested()
 	if($("#searchTextInput").val()=="") { $("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); }
 }
 
-var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
+var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"];
 var suggestedPulse;
 $(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip(); 
+	$('[data-toggle="tooltip"]').tooltip();
 	$('.carousel').carousel({"interval": false, "keyboard": false, "wrap": false});
 
 	// Load stash
@@ -284,10 +284,10 @@ $(document).ready(function(){
 	// Setup suggested searches
 	suggestedPulse = setInterval(startPulseSuggested,8000);
 	$("#searchTextInput").focus();
-	$("#searchTextInput").on('input',function() 
-	{ 
-		clearInterval(suggestedPulse); 
-		$("#searchTextInput").attr("placeholder","Enter a term to search for"); 
+	$("#searchTextInput").on('input',function()
+	{
+		clearInterval(suggestedPulse);
+		$("#searchTextInput").attr("placeholder","Enter a term to search for");
 		suggestedPulse = setInterval(startPulseSuggested, 8000);
 	});
 	$("#searchTextInput").focus();
@@ -298,7 +298,7 @@ $(document).ready(function(){
 			$("#searchTextInput").val($("#searchTextInput").attr("placeholder")).select();
 		}
 	});
-	
+
 	$.ajax({
 		dataType: "JSON",
 		url: "/static/search/suggested.json",
@@ -334,7 +334,7 @@ $(document).ready(function(){
 	});
 
 	// On form change we reset the search and do the initial AJAX call
-	$("#faceted-search-form input:not(#searchTextInput), #sort").change(function() 
+	$("#faceted-search-form input:not(#searchTextInput), #sort").change(function()
 	{
 		$('#sortScore').val(1);
 		$('#sortD').val(-1);
@@ -342,7 +342,7 @@ $(document).ready(function(){
 	});
 
 	// Prevent form submission, force an AJAX call everytime we update the search bar
-	$("#faceted-search-form").submit(function(event) 
+	$("#faceted-search-form").submit(function(event)
 	{
 		$('#sortScore').val(1);
 		$('#sortD').val(-1);
@@ -457,12 +457,12 @@ var globalSlowLoadTimer;
 			window.location='/rollcall/'+$("#searchTextInput").val();
 			return;
 		}
-		if($("#searchTextInput").val().length) { $("#searchTextInput").val($("#searchTextInput").val().replace("/"," ").replace(/<(?:.|\n)*?>/gm, '')); }
-		globalQueueRequests=0;
+		// if($("#searchTextInput").val().length) { $("#searchTextInput").val(); }
+		// globalQueueRequests=0;
 		$.ajax({
-			type: "POST",
-			url: "/api/searchAssemble",
-			data: $('#faceted-search-form').serialize() + "&jsapi=1",
+			type: "GET",
+			url: "/api/v2/search/" + $('#faceted-search-form').serialize(),
+			// data:  + "&jsapi=1",
 			beforeSend:function(){
 				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
 				globalSlowLoadTimer = setTimeout(function()
@@ -485,7 +485,7 @@ var globalSlowLoadTimer;
 					}
 				});
 			},
-			success: function(res, status, xhr) 
+			success: function(res, status, xhr)
 			{
 				clearTimeout(globalSlowLoadTimer);
 				if($("#searchTextInput").val().length)
@@ -544,9 +544,9 @@ var globalSlowLoadTimer;
 				else if(resultsNumber>0) resultText = numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
 				else if(partyNumber>0) resultText = partyLabelText+" found.";
 				else if(resultsNumber==0) resultText = "0 results found.";
-				else { resultText = "Error completing search."; }
+				else { resultText = ""; }
 				$("#results-number").html(resultText);
-			   
+
 			        // Control how sorting buttons appear
 			        if(needScore && $("#sortScore").val() == 1)
 				{
@@ -572,9 +572,9 @@ var globalSlowLoadTimer;
 				}
 
 
-				if(resultsNumber<0) 
+				if(resultsNumber<0)
 				{
-					$("#addAll").hide(); 
+					$("#addAll").hide();
 				}
 				nextId = xhr.getResponseHeader("Nextid");
 				console.log('New next id: '+nextId);
@@ -592,7 +592,7 @@ var globalSlowLoadTimer;
 					selectIncludedVotes();
 					updateStashCart();
 					$("#results-list").fadeIn();
-					$('[data-toggle="tooltip"]').tooltip(); 
+					$('[data-toggle="tooltip"]').tooltip();
 				});
 			}
 		});
@@ -624,7 +624,7 @@ var globalSlowLoadTimer;
 					$("#next-page").html("Next page").removeAttr("disabled");
 					blockAutoscroll = 0; // Request resolved.
 				}
-				$('[data-toggle="tooltip"]').tooltip(); 
+				$('[data-toggle="tooltip"]').tooltip();
 			}
 		});
 	}

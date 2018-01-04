@@ -1,3 +1,5 @@
+from __future__ import print_function
+from collections import defaultdict
 import os
 
 import model.slugify
@@ -46,20 +48,37 @@ def make_range_filter(user_query, name):
         range_filter['lte'] = user_query['to_' + name]
     except KeyError:
         pass
-    return {'range': {name: range_filter}}
+    range_filter = {k: v for k, v in range_filter.items() if v}
+    return {'range': {name: range_filter}} if any(range_filter.values()) else None
 
 
 def make_range_filters(user_query):
     range_filters = []
-    range_filters.append(make_range_filter(user_query, 'date'))
-    range_filters.append(make_range_filter(user_query, 'congress'))
+    fields = ['date', 'congress']
+    for field in fields:
+        range_filter = make_range_filter(user_query, field)
+        if range_filter is not None:
+            range_filters.append(range_filter)
     return range_filters
 
 
+def make_chamber_filter(user_query):
+    try:
+        chambers = user_query['chamber']
+    except KeyError:
+        return []
+    return [{'match': {'chamber': chamber}} for chamber in chambers]
+
+
 def make_filters(user_query):
-    filters = {}
-    filters['bool'] = {'must': make_range_filters(user_query)}
-    return filters
+    filters = defaultdict(list)
+    chamber_filter = make_chamber_filter(user_query)
+    range_filters = make_range_filters(user_query)
+    if chamber_filter:
+        filters['should'] += (chamber_filter)
+    if range_filters:
+        filters['must'] += range_filters
+    return {'bool': dict(filters)}
 
 
 def build_rollcall_query(user_query, filters):
@@ -83,7 +102,7 @@ def build_member_query(user_query, filters):
     query = {
         'query': {
             'bool': {
-                # 'filter': filters,
+                'filter': filters,
                 'should': {
                     'multi_match': {
                         'query': user_query,
@@ -102,10 +121,10 @@ def extract_documents(elastic_query_result):
 
 
 def get_rollcalls(client, user_query):
-    query = user_query['q']
+    query_q_string = user_query['q']
     filters = make_filters(user_query)
-    elastic_query = build_rollcall_query(query, filters)
-
+    elastic_query = build_rollcall_query(query_q_string, filters)
+    print('Elastic search query: ', elastic_query)
     elastic_result = client.search(index='rollcall', body=elastic_query)
     return extract_documents(elastic_result)
 
