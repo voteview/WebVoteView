@@ -22,13 +22,13 @@ def rename_key(mapping, key, name):
     return new
 
 
-def filter_first(dicts, key):
-    """Filter dicts to get first item having each value for key."""
+def deduplicate(dicts, key=lambda x: x):
+    """Filter items to get first item having each value for key."""
     values_seen = set()
     for item in dicts:
-        if item[key] not in values_seen:
+        if key(item) not in values_seen:
             yield item
-            values_seen.add(item[key])
+            values_seen.add(key(item))
 
 
 def get_congress_first_year(congress):

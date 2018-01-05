@@ -42,9 +42,11 @@ def search_rollcalls(elastic_client, user_query):
 
 
 def search_members(elastic_client, user_query):
+    if user_query.get('page', 1) == 1:
+        return []
     members = model.elastic.get_members(elastic_client, user_query)
     members = add_members_party_data(members)
-    members = model.utils.filter_first(members, 'icpsr')
+    members = model.utils.deduplicate(members, key=lambda x: x['icpsr'])
     return list(members)
 
 

@@ -8,7 +8,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<h3>
-				Search voteview.com 
+				Search voteview.com
 				<span class="glyphicon glyphicon-question-sign" style="font-size:14px;float:right;vertical-aklign:middle;cursor:pointer;" id="toggleAlert"></span>
 			</h3>
 
@@ -122,12 +122,12 @@
 									<label for="support" class="col-sm-10 control-label">Percentage Support:</label>
 
 									<div style="padding:30px;padding-bottom:0px;">
-										<input id="support" name="support" type="text" class="span2" value="" 
-											data-slider-min="0" data-slider-max="100" 
-											data-slider-step="1" 
+										<input id="support" name="support" type="text" class="span2" value=""
+											data-slider-min="0" data-slider-max="100"
+											data-slider-step="1"
 											data-slider-value="[0,100]"
-											data-slider-ticks="[0, 50, 100]" 
-											data-slider-ticks-labels="['0%', '50%', '100%']" 
+											data-slider-ticks="[0, 50, 100]"
+											data-slider-ticks-labels="['0%', '50%', '100%']"
 											data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
 											data-slider-id="support-bucket" >
 									</div>
@@ -290,12 +290,12 @@
 		  </div>
 		</div>
 	      </div>
-	      
-		  
+
+
 		<input type="hidden" name="sortD" id="sortD" value="-1">
 		  <input type="hidden" name="sortScore" id="sortScore" value="1">
 		  </form>
-		  
+
 			<div id="resultsHolder" class="col-md-12" style="float:right;">
 				<div class="form-group">
 					<div class="row">
@@ -305,7 +305,7 @@
 						<div class="col-md-6" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
 							<strong>Sort by </strong>
 							<div id="relevanceAppear" style="display:none;"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
-							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
+							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> /
 							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
 					</div>
@@ -313,7 +313,7 @@
 				<form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
 					<div id="results-list">
 					</div>
-					<a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a> 
+					<a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a>
 				</form>
 			</div>
 		</div>
@@ -327,7 +327,7 @@
 		<div class="item active">
 			<div class="footerBig">
 				Saved: <span id="oldResults"><big><strong id="oldCount">0</strong></big> results from previous searches.<br/>
-				+</span> 
+				+</span>
 				<span id="newResults"><big><strong id="newCount">0</strong></big> new results from <span class="searchText"></span><br/>&nbsp;</span>
 			</div>
 			<div style="display:none;" id="addAll" class="footerBig">
@@ -336,7 +336,7 @@
 			</div>
 			<div id="emptyCartIcon" class="footerIcon" onClick="javascript:emptyCart();">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Empty Saved Votes" data-container="body"></span>
-			</div>	
+			</div>
 			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(1);">
 				<span class="glyphicon glyphicon-save" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
 			</div>
@@ -368,7 +368,7 @@
 			<div class="footerBig">
 				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
 				<span id="shareTextInput">{{ base_url }}s/
-					<input id="shareLinkText" type="text" placeholder="type-short-name"> 
+					<input id="shareLinkText" type="text" placeholder="type-short-name">
 					<input type="submit" value="Create" onClick="javascript:shareLink();javascript:clipboardCopyHack(document.getElementById('shareTextInput'))">
 				</span>
 				<span id="shareTextLink"></span>
@@ -421,6 +421,6 @@
 		toggleAdvancedSearch(1);
 		$("#support").slider('refresh');
 		% end
-	});		
+	});
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>

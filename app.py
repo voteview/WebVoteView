@@ -658,7 +658,6 @@ def search_2(query_string):
 
     client = Elasticsearch()
     user_query_dict = parse_query_string(query_string)
-
     filled_template = bottle.template(
         'views/search_results',
         rollcalls=search_rollcalls(client, user_query_dict),
@@ -669,6 +668,7 @@ def search_2(query_string):
     )
     # Sort members
     # Filter by
+    # Paging
     return filled_template
 
 

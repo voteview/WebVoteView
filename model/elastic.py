@@ -81,52 +81,71 @@ def make_filters(user_query):
     return {'bool': dict(filters)}
 
 
-def build_rollcall_query(user_query, filters):
-    query = {
-        'query': {
-            'bool': {
-                'filter': filters,
-                'should': {
-                    'multi_match': {
-                        'query': user_query,
-                        'fields': ROLLCALL_SEARCHABLE_FIELDS,
-                    }
-                },
-            }
-        }
-    }
-    return query
-
-
-def build_member_query(user_query, filters):
-    query = {
-        'query': {
-            'bool': {
-                'filter': filters,
-                'should': {
-                    'multi_match': {
-                        'query': user_query,
-                        'fields': MEMBER_SEARCHABLE_FIELDS,
-                    }
-                },
-            }
-        }
-    }
-    return query
-
-
 def extract_documents(elastic_query_result):
+
     hits = elastic_query_result['hits']['hits']
     return [hit['_source'] for hit in hits]
 
 
-def get_rollcalls(client, user_query):
-    query_q_string = user_query['q']
+def make_sort(user_query):
+    temporal_sort_order = {-1: 'desc', 1: 'asc'}[int(user_query['sort_d'])]
+    return {'date_chamber_rollnumber': temporal_sort_order}
+
+
+def build_rollcall_query(user_query):
+    text_query = user_query['q']
     filters = make_filters(user_query)
-    elastic_query = build_rollcall_query(query_q_string, filters)
-    print('Elastic search query: ', elastic_query)
+    sort = make_sort(user_query)
+    query = {
+        'query': {
+            'bool': {
+                'filter': filters,
+                'must': {
+                    'multi_match': {
+                        'query': text_query,
+                        'fields': ROLLCALL_SEARCHABLE_FIELDS,
+                    }
+                },
+            }
+        },
+        'sort': sort,
+        'from': user_query.get('from', 1),
+        'size': 20,
+        'explain': True,
+
+    }
+    return query
+
+
+def explain(result):
+    hits = result['hits']['hits']
+    return [hit['_explanation'] for hit in hits]
+
+
+def get_rollcalls(client, user_query):
+    elastic_query = build_rollcall_query(user_query)
+    print('Elasticsearch query: ', elastic_query)
     elastic_result = client.search(index='rollcall', body=elastic_query)
     return extract_documents(elastic_result)
+
+
+def build_member_query(user_query, filters):
+    text_query = user_query['q']
+    filters = make_filters(user_query)
+    query = {
+        'query': {
+            'bool': {
+                'filter': filters,
+                'should': {
+                    'multi_match': {
+                        'query': text_query,
+                        'fields': MEMBER_SEARCHABLE_FIELDS,
+                    }
+                },
+            },
+        },
+    }
+    return query
 
 
 def build_seo_name(member):
@@ -155,9 +174,7 @@ def process_member(member):
 
 
 def get_members(client, user_query):
-    query = user_query['q']
-    filters = make_filters(user_query)
-    elastic_query = build_member_query(query, filters)
+    elastic_query = build_member_query(user_query)
     elastic_result = client.search(index='member', body=elastic_query)
     members = extract_documents(elastic_result)
     return [process_member(member) for member in members]

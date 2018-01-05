@@ -470,20 +470,20 @@ var globalSlowLoadTimer;
 					$('#results-list').html('<div id="loading-container" style="text-align:left;"><img src="/static/img/loading.gif" alt="Loading..." /> <h4>Loading... We apologize that your search query is taking a long time to complete. Your search is still processing. <!--Please continue to wait and excuse us while we work on improving Voteview.com--></h4></div>');
 				}, 5000);
 
-				mostRecentSearch = $("#searchTextInput").val();
-				$.ajax({
-					dataType: "JSON",
-					url: "/api/setSearch",
-					data: "id="+cookieId+"&search="+$('#searchTextInput').val(),
-					success: function(res, status, xhr)
-					{
-						if(res["old"]) { cachedVotes["old"] = res["old"]; }
-						if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
-						updateStashCart();
-						console.log('Search set.');
-						console.log(res);
-					}
-				});
+				// mostRecentSearch = $("#searchTextInput").val();
+				// $.ajax({
+				// 	dataType: "JSON",
+				// 	url: "/api/setSearch",
+				// 	data: "id="+cookieId+"&search="+$('#searchTextInput').val(),
+				// 	success: function(res, status, xhr)
+				// 	{
+				// 		if(res["old"]) { cachedVotes["old"] = res["old"]; }
+				// 		if(res["votes"]) { cachedVotes["votes"] = res["votes"]; }
+				// 		updateStashCart();
+				// 		console.log('Search set.');
+				// 		console.log(res);
+				// 	}
+				// });
 			},
 			success: function(res, status, xhr)
 			{
@@ -602,10 +602,12 @@ var globalSlowLoadTimer;
 	// Get a rollcalls page and append them to the container
 	function getRollcallsPage()
 	{
+		numRollcalls = document.getElementsByClassName('rollcall').length;
+		skipRollcalls = numRollcalls + 1
 		$.ajax({
-			type: "POST",
-			url: "/api/searchAssemble",
-			data: $('#faceted-search-form').serialize() + '&sort=' + $("#sorting-select").val() + '&nextId=' + nextId + "&jsapi=1",
+			type: "GET",
+			url: "/api/v2/search/" + $('#faceted-search-form').serialize() +"&from=" + skipRollcalls,
+			data:  + '&sort=' + $("#sorting-select").val()  ,
 			beforeSend:function(){
 				$('#next-page').html('Loading...').attr('disabled', 'disabled');
 			},

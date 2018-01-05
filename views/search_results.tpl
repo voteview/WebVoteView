@@ -4,6 +4,8 @@
 % from titlecase import titlecase
 % include('member_party_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
 
+
+
 % orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff", "wikipedia": "Wikipedia"}
 
 % def doHighlight(highlighter, text):
@@ -49,8 +51,9 @@
 %	return newS
 % end
 
+
 % for rollcall in rollcalls:
-	<div class="panel panel-default">
+	<div class="panel panel-default rollcall">
 		<div class="panel-heading">
 			<strong>
 				% if ("key_flags" in rollcall and rollcall["key_flags"] and rollcall["key_flags"][0] in orgMapping):
