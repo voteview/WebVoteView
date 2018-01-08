@@ -83,6 +83,14 @@ def make_subject_codes_filters(user_query):
     return [{'match': {'codes.Clausen': clausen_codes[0]}}]
 
 
+def make_key_vote_filter(user_query):
+    try:
+        flags = user_query['keyvote']
+    except KeyError:
+        return []
+    return [{'match': {'key_flags': flags}}]
+
+
 def make_filters(user_query):
 
     filters = defaultdict(list)
@@ -90,6 +98,10 @@ def make_filters(user_query):
     range_filters = make_range_filters(user_query)
     if range_filters:
         filters['must'] += range_filters
+
+    key_vote_filters = make_key_vote_filter(user_query)
+    if key_vote_filters:
+        filters['should'] += key_vote_filters
 
     chamber_filter = make_chamber_filter(user_query)
     if chamber_filter:
