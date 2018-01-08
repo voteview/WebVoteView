@@ -31,16 +31,34 @@ def add_members_party_data(members):
     return members
 
 
+def extract_text_values(rollcall):
+    list_keys = [
+        'cg_official_titles', 'cg_short_titles_for_portions',
+    ]
+    text_keys = [
+        'vote_desc', 'vote_description', 'cg_summary',
+        'vote_document_text', 'description', 'short_description',
+        'dtl_desc', 'vote_title',
+    ]
+    values = []
+    for key in list_keys:
+        values += rollcall.get(key, [])
+    for key in text_keys:
+        value = rollcall.get(key)
+        if value:
+            values.append(value)
+    return values
+
+
 def search_rollcalls(elastic_client, user_query):
 
     rollcalls = model.elastic.get_rollcalls(elastic_client, user_query)
-    text_fields = [
-        'vote_desc', 'vote_document_text', 'description', 'short_description',
-        'dtl_desc',
-    ]
-    rollcalls = [concat_values(r, 'text', text_fields, ' | ')
-                 for r in rollcalls]
-    return rollcalls
+    new_rollcalls = []
+    for rollcall in rollcalls:
+        new_rollcall = rollcall.copy()
+        new_rollcall['text'] = ' | '.join(extract_text_values(new_rollcall))
+        new_rollcalls.append(new_rollcall)
+    return new_rollcalls
 
 
 def search_members(elastic_client, user_query):
