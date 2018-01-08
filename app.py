@@ -31,7 +31,7 @@ import model.stashCart
 import model.partyData
 import model.logQuota
 
-from model.search import parse_query_string, search_members, search_rollcalls
+import model.search
 
 
 # Turn this off on production:
@@ -198,7 +198,7 @@ def explore(chamber="house"):
 
 @app.route("/congress")
 @app.route("/congress/<chamber:re:house|senate>")
-@app.route("/congress/<chamber:re:house|senate>/<tv>")
+@app.route("/congress/<chamber:re:filtershouse|senate>/<tv>")
 def congress(chamber="senate", tv=""):
     if chamber != "senate":
         chamber = "house"
@@ -657,13 +657,13 @@ def searchAssemble():
 def search_2(query_string):
 
     client = Elasticsearch()
-    user_query_dict = parse_query_string(query_string)
+    user_query_dict = model.search.parse_query_string(query_string)
     filled_template = bottle.template(
         'views/search_results',
-        rollcalls=search_rollcalls(client, user_query_dict),
+        rollcalls=model.search.search_rollcalls(client, user_query_dict),
         highlighter=query_string,
         errormessage='',
-        resultMembers=search_members(client, user_query_dict),
+        resultMembers=model.search.search_members(client, user_query_dict),
         resultParties=[],
     )
     # Sort members

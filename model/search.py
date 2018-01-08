@@ -1,5 +1,6 @@
 from datetime import datetime
 import urlparse
+from pdb import set_trace as st
 
 import inflection
 
@@ -17,6 +18,7 @@ def concat_values(mapping, new_key, keys, join_str='; '):
 
 
 def add_members_party_data(members):
+
     member_party_codes = set(member['party_code'] for member in members)
     party_code_to_party_dict = {code: model.partyData.getPartyData(
         code) for code in member_party_codes}
@@ -42,11 +44,12 @@ def search_rollcalls(elastic_client, user_query):
 
 
 def search_members(elastic_client, user_query):
-    if user_query.get('page', 1) == 1:
+    if user_query.get('from', 1) > 1:
         return []
     members = model.elastic.get_members(elastic_client, user_query)
     members = add_members_party_data(members)
     members = model.utils.deduplicate(members, key=lambda x: x['icpsr'])
+
     return list(members)
 
 
@@ -55,7 +58,8 @@ def simplify_user_query(user_query):
     new = {k: v if k in list_keys else v[0] for k, v in user_query.items()}
     new = {k: [] if v == [''] else v for k, v in new.items()}
     try:
-        new['from_support'], new['to_support'] = new.pop('support').split(',')
+        new['from_percent_support'], new['to_percent_support'] = map(
+            int, new.pop('support').split(','))
     except KeyError:
         pass
     return new
