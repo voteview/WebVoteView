@@ -122,7 +122,7 @@
 % end
 
 % if not len(rollcalls) and not errormessage:
-	<h4>No votes found matching your search</h4>
+	<h4 id=no-more-rollcalls-message>No more votes found matching your search</h4>
 % elif errormessage:
 	<h2>Error completing search!</h2>
 	{{ errormessage }}

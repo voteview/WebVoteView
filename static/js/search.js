@@ -578,7 +578,7 @@ var globalSlowLoadTimer;
 				}
 				nextId = xhr.getResponseHeader("Nextid");
 				console.log('New next id: '+nextId);
-				if(nextId==0)
+				if($("#no-more-rollcalls-message"))
 				{
 					$("#next-page").html("End of Results").attr("disabled","disabled");
 				}
