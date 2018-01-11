@@ -17,11 +17,12 @@ function nextPageSearch()
 {
 		if(!globalNextId) $("#memberVotesTable").animate({opacity: 0});
 		else $("#loadIndicator").fadeIn();
+		if(globalNextId) { globalNextId++; }
 		$.ajax("/api/getMemberVotesAssemble?icpsr="+memberICPSR+"&qtext="+$("#memberSearchBox").val()+"&skip="+globalNextId, 	
 			{"type": "GET", "success": function(d, status, xhr)
 				{
-					if($('#memberSearch').val().length) { $("#voteLabel").html("Search Results"); console.log('fwd'); }
-					else { $("#voteLabel").html("Selected Votes"); console.log('back'); }
+					if($('#memberSearch').val().length) { $("#voteLabel").html("Search Results"); }
+					else { $("#voteLabel").html("Selected Votes"); }
 					if(!globalNextId) $("#memberVotesTable").animate({opacity: 1});
 
 					if(globalNextId==0) { $('#memberVotesTable').html(d); }
@@ -45,7 +46,6 @@ function nextPageSearch()
 function hideDates()
 {
 	var lastDate = "0000-00-00";
-	console.log("here");
 	$('#voteDataTable tbody tr').each(function(i, d) {
 		var rowSpan = $(d).children("td:first").children("span:first");
 		if($.trim(rowSpan.text())==lastDate)
@@ -89,8 +89,8 @@ $(document).ready(function(){
 	{
 		$.ajax("/api/stash/get?id="+cookieId, {"type": "GET", "success": function(d, status, xhr)
 			{
-				if(d["old"].length || d["votes"].length) { $("#loadStash").show(); console.log('Stash votes exist.'); }
-				else { $("#loadStash").hide(); console.log('No stash votes.'); }
+				if(d["old"].length || d["votes"].length) { $("#loadStash").show(); }
+				else { $("#loadStash").hide(); }
 			}});
 	}
 	startNewSearch();
