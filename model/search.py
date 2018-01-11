@@ -3,7 +3,7 @@ import urlparse
 from pdb import set_trace as st
 
 import inflection
-
+import attr
 
 import model.elastic
 from model.utils import merge_dicts, rename_key
@@ -50,15 +50,10 @@ def extract_text_values(rollcall):
     return values
 
 
-def search_rollcalls(elastic_client, user_query):
-
-    rollcalls = model.elastic.get_rollcalls(elastic_client, user_query)
-    new_rollcalls = []
-    for rollcall in rollcalls:
-        new_rollcall = rollcall.copy()
-        new_rollcall['text'] = ' | '.join(extract_text_values(new_rollcall))
-        new_rollcalls.append(new_rollcall)
-    return new_rollcalls
+def add_text_field(rollcall):
+    rollcall = rollcall.copy()
+    rollcall['text'] = ' | '.join(extract_text_values(rollcall))
+    return rollcall
 
 
 def search_members(elastic_client, user_query):

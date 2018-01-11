@@ -653,22 +653,31 @@ def searchAssemble():
     return(out)
 
 
+from elasticsearch_dsl import connections
+
+connections.create_connection(hosts=['localhost'])
+
+
 @app.route('/api/v2/search/<query_string>')
 def search_2(query_string):
 
     client = Elasticsearch()
     user_query_dict = model.search.parse_query_string(query_string)
+    rollcall_response = model.elastic.get_rollcalls(client, user_query_dict)
+    rollcalls = [model.search.add_text_field(r._d_) for r in rollcall_response]
+    rollcall_facets = model.elastic.make_facet_dicts(rollcall_response)
+
     filled_template = bottle.template(
         'views/search_results',
-        rollcalls=model.search.search_rollcalls(client, user_query_dict),
+        rollcalls=rollcalls,
         highlighter=query_string,
         errormessage='',
-        resultMembers=model.search.search_members(client, user_query_dict),
+        # model.search.search_members(client, user_query_dict),
+        resultMembers=[],
         resultParties=[],
+        facets=rollcall_facets,
     )
-    # Sort members
-    # Filter by
-    # Paging
+
     return filled_template
 
 

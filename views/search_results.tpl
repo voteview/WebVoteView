@@ -51,6 +51,19 @@
 %	return newS
 % end
 
+<div class="col-md-4" id="filters">
+	% for facet in facets:
+		<div class="panel panel-default facet-{{ facet['name'] }}">
+			<div class="panel-heading">{{ facet['name'] }}</div>
+			<div class="panel-body">
+			% for value in facet['values']:
+				<p class="facet-value"><a class="btn {% if value.selected %}btn-primary{% else %}btn-default{% endif %}" href="{{ value['href'] }}">{{ int(value['value']) if isinstance(value['value'],float) else value['value']  }} <span class="badge">{{ value['count'] }}</span></a></p>
+			% end
+			</div>
+		</div>
+	% end
+</div>
+
 
 % for rollcall in rollcalls:
 	<div class="panel panel-default rollcall">

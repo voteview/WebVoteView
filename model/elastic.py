@@ -1,16 +1,22 @@
 from __future__ import print_function
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 import os
 import itertools
 from pprint import pprint
 import json
+
+from elasticsearch_dsl import (
+    Search, FacetedSearch, TermsFacet, DateHistogramFacet, HistogramFacet,
+    RangeFacet, Keyword, Mapping, Nested, Integer, Text, Index, DocType, Date,
+)
+from elasticsearch_dsl.faceted_search import FacetedResponse
 
 import model.slugify
 from model.utils import get_congress_first_year, assoc
 
 from pdb import set_trace as st
 
-ROLLCALL_SEARCHABLE_FIELDS = [
+ROLLCALL_SEARCHABLE_FIELDS = (
     'amendment_author',
     'bill_number',
     'cg_official_titles',
@@ -32,13 +38,79 @@ ROLLCALL_SEARCHABLE_FIELDS = [
     'vote_question',
     'vote_question_text',
     'vote_title',
-]
+)
 
-MEMBER_SEARCHABLE_FIELDS = [
+MEMBER_SEARCHABLE_FIELDS = (
     'bioname',
     'bioguide_id',
     'biography',
-]
+)
+
+
+class Rollcall(DocType):
+
+    bill_number = Keyword()
+    cg_official_titles = Text()
+    cg_short_titles_for_portions = Text()
+    cg_summary = Text()
+    chamber = Keyword()
+    congress = Integer()
+    clausen = Keyword()
+    date = Date()
+    description = Text()
+    dtl_desc = Text()
+    id = Keyword()
+    key_flags = Text()
+    percent_support = Integer()
+    question = Text()
+    rollnumber = Integer()
+    short_description = Text()
+    sponsor = Keyword()
+    vote_desc = Text()
+    vote_document_text = Text()
+    vote_question = Text()
+    vote_question_text = Text()
+    vote_title = Text()
+
+    class Meta(object):
+        index = 'rollcall'
+
+
+class RollcallSearch(FacetedSearch):
+
+    index = 'rollcall'
+
+    fields = ROLLCALL_SEARCHABLE_FIELDS
+
+    facets = OrderedDict([
+        ('chamber', TermsFacet(field='chamber.keyword')),
+        ('date', DateHistogramFacet(field='date', interval=1)),
+        ('congress', HistogramFacet(field='congress', interval=1)),
+
+    ])
+
+
+def make_facet_dicts(elastic_response):
+    facet_dicts = []
+
+    for facet_name, values in elastic_response.facets._d_.items():
+        facet_values = []
+        for value, count, is_selected in values:
+            facet_values.append({
+                'value': value,
+                'count': count,
+                'is_selected': is_selected,
+                'href': '/'
+            })
+        facet_dict = {'name': facet_name, 'values': facet_values}
+        facet_dicts.append(facet_dict)
+    return facet_dicts
+
+
+def create_schema():
+    from elasticsearch_dsl import connections
+    connections.create_connection(hosts=['localhost'], timeout=20)
+    Rollcall.init()
 
 
 def make_range_filter(user_query, name):
@@ -152,18 +224,29 @@ def build_rollcall_query(user_query):
     return query
 
 
-def explain(result):
-    hits = result['hits']['hits']
-    return [hit['_explanation'] for hit in hits]
+def whitelist_filters(user_query):
+    filters = {}
+    if 'chamber' in user_query:
+        filters['chamber'] = user_query['chamber']
+    return filters
 
 
 def get_rollcalls(client, user_query):
-    elastic_query = build_rollcall_query(user_query)
-    print('Elasticsearch query: ')
-    print(json.dumps(elastic_query, indent=2))
-    elastic_result = client.search(index='rollcall', body=elastic_query)
-    documents = extract_documents(elastic_result)
-    return documents
+    # elastic_query = build_rollcall_query(user_query)
+    # print('Elasticsearch query: ')
+    # print(json.dumps(elastic_query, indent=2))
+    # elastic_result = client.search(index='rollcall', body=elastic_query)
+    # documents = extract_documents(elastic_result)
+    # return documents
+
+    # from elasticsearch_dsl import connections
+    # connections.create_connection(hosts=['localhost'], timeout=20)
+    filters = whitelist_filters(user_query)
+    start = user_query.get('from', 0)
+    finish = start + 20
+    rs = RollcallSearch(query=user_query['q'], filters=filters)[start:finish]
+    response = rs.build_search().execute()
+    return response
 
 
 def build_member_query(user_query):
