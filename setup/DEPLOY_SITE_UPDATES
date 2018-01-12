@@ -11,7 +11,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	cd update-voteview
 	# Download full master github webvoteview repo, which will eventually entirely replace the production webvoteview folder
 	# Note! This does not include .gitignored files, like auth.json
-	wget https://github.com/JeffreyBLewis/WebVoteView/archive/master.zip
+	wget https://github.com/voteview/WebVoteView/archive/master.zip
 	unzip master.zip
 	rm master.zip
 	mv WebVoteView-master/ ../WebVoteView/
