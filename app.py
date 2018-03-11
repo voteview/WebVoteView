@@ -775,9 +775,10 @@ def contact():
         title = bottle.request.params.title
         body = bottle.request.params.body
         email = bottle.request.params.email
+	person_name = bottle.request.params.yourname
         recaptcha = bottle.request.params["g-recaptcha-response"]
         ip = bottle.request.get("REMOTE_ADDR")
-        res = sendEmail(title, body, email, recaptcha, ip)
+        res = sendEmail(title, body, person_name, email, recaptcha, ip)
         return(res)
     except:
         return(traceback.format_exc())
