@@ -257,7 +257,6 @@ def parties(party="all", congStart=-1):
                              partyNameFull=partyNameFull, congStart=congStart)
     return output
 
-
 @app.route("/api/getloyalty")
 def getloyalty(party_code="", congress=""):
     party_code = defaultValue(bottle.request.params.party_code, party_code)
