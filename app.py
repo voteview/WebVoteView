@@ -269,6 +269,13 @@ def getloyalty(party_code="", congress=""):
 
     return {"global": global_cong_loyalty, "party": party_cong_loyalty}
 
+@app.route("/articles/<slug>")
+def article(slug = ""):
+    if not len(slug) or not os.path.isfile(os.path.join("static/articles", slug, slug + ".json")):
+        return {"exists": 0 }
+
+    output = bottle.template("views/articles", slug = slug)
+    return output
 
 @app.route("/person")
 @app.route("/person/<icpsr>")
@@ -473,21 +480,6 @@ def rollcall(rollcall_id=""):
     )
     return(output)
 
-
-# RA support stuff
-#@app.route("/ra/wiki",method="POST")
-#@app.route("/ra/wiki")
-# def wiki():
-#    prevId = defaultValue(bottle.request.params.icpsrId, 0)
-#    newStatus = defaultValue(bottle.request.params.status, 0)
-#    if prevId:
-#        writeStatus(prevId, newStatus)
-#
-#    nextTry = readStatus()
-#    if type(nextTry)==type(str("")):
-#        return(nextTry)
-#    else:
-#        return bottle.template("views/raWIKI", person=nextTry)
 
 # Stash saved links redirect
 @app.route("/s/<savedhash>")
