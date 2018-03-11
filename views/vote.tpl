@@ -111,8 +111,8 @@
 	 % link = '/source_images/' + source['publication'].replace(' ', '_').lower() + '/' + str(source['file_number']) + '/0#page/' +  str(source['page_number'])
 	 <a href="{{ link }}">{{pub_str}}</a>;
 	%     else:
-  %	        pub_str = source['publication']
-	{{pub_str}};
+	 %	        pub_str = source['publication']
+	{{pub_str}} vol. {{source['file_number']}}, p. {{source['page_number']}};
   %     end
 	% end
 
