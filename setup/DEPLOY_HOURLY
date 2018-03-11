@@ -48,6 +48,9 @@ EOF
 		chown -R rudkin voteview
 		chgrp -R voteview voteview
 
+		# healthcheck
+		wget https://hchk.io/e3feef4e-3efb-4fe0-b93c-e6a00efd621b -O /dev/null
+
 	else
 		echo "No patch found, ending now."
 		ssh rudkin@128.97.229.160 << EOF
