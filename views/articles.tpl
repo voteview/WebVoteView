@@ -1,4 +1,4 @@
-% rebase('base.tpl',title='About us', extra_css=["rmd_default.css"], extra_js=["/static/js/libs/sourcembed.js", "/static/js/libs/highlight.js"])
+% rebase('base.tpl',title=meta["title"], extra_css=["rmd_default.css"], extra_js=["/static/js/libs/sourcembed.js", "/static/js/libs/highlight.js"])
 % include('header.tpl')
 
 <!-- from RMarkdown -->
