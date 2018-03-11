@@ -118,6 +118,12 @@
 
 	 </p>
 	 % end
+  <p>
+    Links for more info on the vote:
+    	  % if 'congress_url' in rollcall:
+	     <a href={{rollcall['congress_url']}}> congress.gov</a>
+	   </p>
+	 % end
 
  % import datetime
  % current_date = datetime.datetime.today().date()

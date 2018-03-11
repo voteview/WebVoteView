@@ -166,7 +166,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
         'vote_document_text', 'nominate', 'amendment_author',
         'chamber', 'vote_result', 'shortdescription', 'vote_question',
         'tie_breaker', 'cg_summary', 'cg_official_titles',
-        'cg_short_titles_for_portions', 'dtl_sources',
+        'cg_short_titles_for_portions', 'dtl_sources', 'congress_url',
     ]
     rollcalls = (
         db.voteview_rollcalls
@@ -482,5 +482,6 @@ if __name__ == "__main__":
     # print downloadAPI("RS1140473", "Web_Person",
     # "09366")["rollcalls"][0]["nominate"]
     print "=====Start 5"
-    print downloadAPI(["RH0800005", "RH1140005", "RH0310005", "RS0990005"], "R")
+    print downloadAPI(["RH0930002"], "Web")
+    #print downloadAPI(["RH0800005", "RH1140005", "RH0310005", "RS0990005"], "R")
     pass
