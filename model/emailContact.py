@@ -5,7 +5,7 @@ import hashlib
 import traceback
 import email_validator
 
-def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
+def sendEmail(title, body, person_name, userEmail, recaptcha, clientIP, test=0):
 	if test:
 		authData = json.load(open("auth.json","r"))
 		emailList = [x.strip() for x in open("email/emails.txt","r").read().split("\n")]
@@ -27,6 +27,8 @@ def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 		body = body[0:5000]
 	if not userEmail:
 		userEmail = "jblewis@ucla.edu"
+	if not person_name:
+		person_name = userEmail
 
 	if not test:
 		try:
@@ -40,7 +42,7 @@ def sendEmail(title, body, userEmail, recaptcha, clientIP, test=0):
 			return {"error": "Error sending mail. Please try again later."}
 
 	headers = {"Authorization": "Bearer "+authData["sendgrid"], "Content-Type": "application/json"}
-	topost = {"personalizations": [{"to": [{"email": authData["contact"]}], "subject": title}], "from": {"email": userEmail}, "content": [{"type": "text/plain", "value": body}]}
+	topost = {"personalizations": [{"to": [{"email": authData["contact"]}], "subject": title}], "from": {"email": userEmail, "name": person_name}, "content": [{"type": "text/plain", "value": body}]}
 	req = requests.post("https://api.sendgrid.com/v3/mail/send", headers=headers, json=topost, verify=False)
 	results = req.text
 
