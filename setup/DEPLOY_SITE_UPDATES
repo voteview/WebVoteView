@@ -82,6 +82,11 @@ EOF
 	# Put site in maintenance mode
 	touch /var/www/voteview/static/maintenance
 
+	# Build site articles
+	cd /usr/scripts/article_builder/
+	./build.sh
+	cd /var/www/
+
 	# Recursively change permissions so we don't need root to edit files on prod.
 	chown -R rudkin voteview
 	chgrp -R voteview voteview
