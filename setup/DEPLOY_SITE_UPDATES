@@ -109,6 +109,8 @@ EOF
 	echo ""
 	downtime=$((downtimeStop-downtimestart))
 	echo "Total downtime $downtime seconds"
+	# healthcheck
+	wget https://hchk.io/fdc4725e-227c-4a35-a751-40f210d4ad45 -O /dev/null
 elif [ "$userid" = "root" ]; then
 	echo "You must be on production voteview to run deployment script"
 else
