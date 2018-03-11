@@ -35,9 +35,14 @@
 				% end
 				<abbr title="Congress"><a href="/search/?congress={{ rollcall["congress"] }}">{{ rcSuffix(rollcall["congress"]) }} Congress</a></abbr> &gt;
 				<abbr title="Chamber"><a href="/search/?congress={{ rollcall["congress"] }}&chamber={{ rollcall["chamber"] }}">{{ rollcall["chamber"] }}</a></abbr> &gt;
-				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr>
+				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}  </abbr>
+
 			</h3>
+
 			<p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
+			% if 'clerk_rollnumber' in rollcall:
+			<p> <strong>Clerk session vote number:</strong> {{rollcall['clerk_rollnumber']}} </p>
+			% end
 			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p style="float:left;margin-right:20px;">
 				<strong>Result:</strong>
@@ -119,8 +124,8 @@
 	 </p>
 	 % end
   <p>
-    Links for more info on the vote:
-    	  % if 'congress_url' in rollcall:
+    % if 'congress_url' in rollcall:
+        Links for more info on the vote:
 	     <a href={{rollcall['congress_url']}}> congress.gov</a>
 	   </p>
 	 % end
