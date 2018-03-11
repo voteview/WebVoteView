@@ -23,6 +23,7 @@
     <label for="filetype">Filetype:</label>
     <select class="dataSelect" name="filetype">
       <option value="csv">CSV (Default)</option>
+      <option value="json">JSON (Most data)</option>
       % if "ord" in file_types:
       <option value="ord">ORD (Deprecated, Legacy Format)</option>
       % end
