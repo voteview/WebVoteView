@@ -11,20 +11,20 @@
 
       <h3>Realtime NOMINATE Ideology and Related Data</h3>
       <p>
-      This section contains .csv files that provide descriptive data as well as ideological data for congressional rollcalls, individual member votes, members of congress, and parties. 
+      This section contains .csv files that provide descriptive data as well as ideological data for congressional rollcalls, individual member votes, members of congress, and parties.
 	You can find information such the descriptions of rollcalls, what proportion of voting members were correctly classified by the ideological cutting line for that rollcall, the ideological position of members of congress, and more.
       </p>
       <p>
-      Both the rollcall data and the data on members are split into chambers and congresses, although you can select some combinations of the two to download. 
+      Both the rollcall data and the data on members are split into chambers and congresses, although you can select some combinations of the two to download.
 The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
       </p>
       <p>
-        You can see the <a href="/about">about</a> page for more information about NOMINATE. 
+        You can see the <a href="/about">about</a> page for more information about NOMINATE.
       </p>
       <p>
-        <strong>Note: Each legislator is assigned a single estimate for their entire career (excluding certain party switches).</strong> Dynamic estimates may be made available in the future. 
+        <strong>Note: Each legislator is assigned a single estimate for their entire career (excluding certain party switches).</strong> Dynamic estimates may be made available in the future.
       </p>
-      
+
 
 <div class="panel panel-default">
   <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
@@ -37,7 +37,7 @@ The data on parties is a dataset with some metadata about all of the different p
         <div class="dataContainer">
 	  <a href="#" class="dataHeader"><h4>Information about congressional rollcalls</h4></a>
 	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv','dat'])
+	    % include('data_dropdowns.tpl', file_types=['csv','dat', 'json'])
 	    <div class="dataLink">
 	      <a class="csv" id="rollcalls">Download</a>
 	    </div>
@@ -87,7 +87,15 @@ The data on parties is a dataset with some metadata about all of the different p
 	<a href="/static/data/other/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
       </p>
 
-      <br>
+      <h3>Ancillary Data and Analyses</h3>
+      <p>
+	We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
+
+	% for article in articles:
+	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
+	% end
+      </p>
+
       <h3>Complete Database</h3>
       <p>
 	<a href="/static/db/current.zip">Complete database</a> (approx. 500MB zipped).<br/>
@@ -120,7 +128,7 @@ The data on parties is a dataset with some metadata about all of the different p
     $(".dataLink").each(function() {
       var chamber = $(this).parent().find("select[name='chamber']").find("option:selected").val();
       var congress = $(this).parent().find("select[name='congress']").find("option:selected").val();
-      var filetype = $(this).parent().find("select[name='filetype']").find("option:selected").val();      
+      var filetype = $(this).parent().find("select[name='filetype']").find("option:selected").val();
       setLink($(this).find("a"), chamber, padCongress(congress), filetype);
     });
 
@@ -138,7 +146,7 @@ The data on parties is a dataset with some metadata about all of the different p
       $(this).next(".dataContent").slideToggle("fast");
       return false;
     });
-  
+
   });
 </script>
 

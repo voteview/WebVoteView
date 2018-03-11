@@ -17,6 +17,7 @@ import model.downloadVotes  # Namespace issue
 from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, getMembersByPrivate
 from model.searchParties import partyLookup
+from model.articles import get_article_meta, list_articles
 from model.searchMeta import metaLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.prepVotes import prepVotes
@@ -162,7 +163,8 @@ def quota():
 @app.route("/data")
 def data():
     maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
-    output = bottle.template("views/data", maxCongress=maxCongress)
+    data_articles = list_articles("data")
+    output = bottle.template("views/data", maxCongress=maxCongress, articles = data_articles)
     return output
 
 
@@ -269,6 +271,14 @@ def getloyalty(party_code="", congress=""):
 
     return {"global": global_cong_loyalty, "party": party_cong_loyalty}
 
+@app.route("/articles/<slug>")
+def article(slug = ""):
+    if not len(slug) or not os.path.isfile(os.path.join("static/articles", slug, slug + ".json")):
+	return bottle.template("views/error", errorMessage = "The article you selected is not a valid article ID.")
+
+    meta_set = get_article_meta(slug)
+    output = bottle.template("views/articles", slug = slug, meta = meta_set)
+    return output
 
 @app.route("/person")
 @app.route("/person/<icpsr>")
@@ -473,21 +483,6 @@ def rollcall(rollcall_id=""):
     )
     return(output)
 
-
-# RA support stuff
-#@app.route("/ra/wiki",method="POST")
-#@app.route("/ra/wiki")
-# def wiki():
-#    prevId = defaultValue(bottle.request.params.icpsrId, 0)
-#    newStatus = defaultValue(bottle.request.params.status, 0)
-#    if prevId:
-#        writeStatus(prevId, newStatus)
-#
-#    nextTry = readStatus()
-#    if type(nextTry)==type(str("")):
-#        return(nextTry)
-#    else:
-#        return bottle.template("views/raWIKI", person=nextTry)
 
 # Stash saved links redirect
 @app.route("/s/<savedhash>")
