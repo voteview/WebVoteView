@@ -5,6 +5,7 @@ rm -rf dump
 mongodump --db voteview -c voteview_rollcalls
 mongodump --db voteview -c voteview_members
 mongodump --db voteview -c voteview_parties
+mongodump --db voteview -c voteview_articles
 zip $DATE-voteview.zip dump/voteview/*
 # rm -rf dump
 mv $DATE-voteview.zip /var/www/voteview/static/db/
