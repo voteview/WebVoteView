@@ -87,7 +87,15 @@ The data on parties is a dataset with some metadata about all of the different p
 	<a href="/static/data/other/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
       </p>
 
-      <br>
+      <h3>Ancillary Data and Analyses</h3>
+      <p>
+	We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
+
+	% for article in articles:
+	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
+	% end
+      </p>
+
       <h3>Complete Database</h3>
       <p>
 	<a href="/static/db/current.zip">Complete database</a> (approx. 500MB zipped).<br/>
