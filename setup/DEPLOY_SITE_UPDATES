@@ -56,7 +56,7 @@ EOF
 	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/docs/ /var/www/WebVoteView/static/docs/
 	rsync -avzP --copy-links rudkin@128.97.229.160:/var/www/voteview/static/db/current.zip /var/www/WebVoteView/static/db/current.zip
 	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/img/scans /var/www/WebVoteView/static/img/
-
+	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/data/out /var/www/WebVoteView/static/data/
 
 	echo "Connecting to remote server to remove remote dump."
 	ssh rudkin@128.97.229.160 << EOF
