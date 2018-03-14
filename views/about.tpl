@@ -86,6 +86,9 @@ questions, and media enquiries concerning this project.
 			<h3>Contact Us</h3>
 			<form id="contact-form">
 				<p>
+					Your Name: <input name="yourname" type="text" placeholder="Keith Poole" style="width:60%;">
+				</p>
+				<p>
 					Your Email Address: <input name="email" type="text" placeholder="example@email.com" style="width:53%;">
 				</p>
 				<p>
