@@ -22,8 +22,7 @@ The data on parties is a dataset with some metadata about all of the different p
         You can see the <a href="/about">about</a> page for more information about NOMINATE.
       </p>
       <p>
-        <strong>Note: Each legislator is assigned a single estimate for their entire career (excluding certain party switches).</strong> Dynamic estimates may be made available in the future.
-      </p>
+
 
 
 <div class="panel panel-default">
