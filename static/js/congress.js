@@ -238,11 +238,41 @@ function compositionBar()
 	}).on('mouseout',function(d) { baseTip.style('visibility','hidden'); });
 }
 
+var delay_filter_timeout = null;
+function delay_filter() 
+{
+	if(delay_filter_timeout) { clearTimeout(delay_filter_timeout); }
+	delay_filter_timeout = setTimeout(hideMembersUnselected, 100);
+}
+
+var icpsr_match = [];
+function do_search_name_filter() 
+{
+	if($("#filter_name")[0].value.length) {
+		var current_filter = $("#filter_name")[0].value.toLowerCase().replace(/[^0-9a-z ]/gi, '').split(" ");
+		var which_include = $.grep(resultCache["results"], function(d, i) {
+			for(var i=0; i!=current_filter.length; i++) {
+				if(d["bioname"].toLowerCase().replace(/[^0-9a-z ]/gi, '').indexOf(current_filter[i]) == -1) { return false; }
+			}
+			return true;
+		});
+
+		icpsr_match = [];
+		for(var i=0; i!=which_include.length; i++)
+		{
+			icpsr_match.push(which_include[i]["icpsr"]);
+		}
+	}
+
+	hideMembersUnselected();
+}
+
 function hideMembersUnselected()
 {
-
 	$("#memberList > li.memberResultBox").each(function(i, d) {
-		if(validSet.indexOf(parseInt($(d).attr("id")))!=-1 || validSet.length==0) { $(d).show(); }
+		var show_brush = validSet.length == 0 || validSet.indexOf(parseInt($(d).attr("id"))) != -1;
+		var show_text = $("#filter_name")[0].value.length == 0 || icpsr_match.indexOf(parseInt($(d).attr("id"))) != -1;
+		if(show_brush && show_text) { $(d).show(); }
 		else { $(d).hide(); }
 	});
 
