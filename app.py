@@ -832,12 +832,18 @@ def getData():
     if datType == "" or unit == "":
         return {"errorMessage": "Either type or unit specified incorrectly."}
 
-    STATIC_URL = BASE_URL + "static/data/" + datType + "/"
+    STATIC_URL = BASE_URL + "static/data/out/" + unit + "/"
+    
+    if chamber == "house":
+        chamberlet = "H"
+    elif chamber == "senate":
+        chamberlet = "S"
+    elif chamber == "both":
+        chamberlet = "HS"
+    else:
+        return {"errorMessage": chamber + " is an invalid `chamber`"}
 
-    if datType == "csv":
-        STATIC_URL += unit + "/"
-
-    return {"file_url": STATIC_URL + "_".join([x for x in [unit, chamber, congress] if x]) + "." + datType}
+    return {"file_url": STATIC_URL + chamberlet + str(congress) + "_" + unit + "." + datType}
 
 
 @app.route("/api/addAll")
