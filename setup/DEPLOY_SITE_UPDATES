@@ -11,7 +11,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	cd update-voteview
 	# Download full master github webvoteview repo, which will eventually entirely replace the production webvoteview folder
 	# Note! This does not include .gitignored files, like auth.json
-	wget https://github.com/JeffreyBLewis/WebVoteView/archive/master.zip
+	wget https://github.com/voteview/WebVoteView/archive/master.zip
 	unzip master.zip
 	rm master.zip
 	mv WebVoteView-master/ ../WebVoteView/
@@ -56,7 +56,7 @@ EOF
 	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/docs/ /var/www/WebVoteView/static/docs/
 	rsync -avzP --copy-links rudkin@128.97.229.160:/var/www/voteview/static/db/current.zip /var/www/WebVoteView/static/db/current.zip
 	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/img/scans /var/www/WebVoteView/static/img/
-
+	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/data/out /var/www/WebVoteView/static/data/
 
 	echo "Connecting to remote server to remove remote dump."
 	ssh rudkin@128.97.229.160 << EOF
@@ -81,6 +81,11 @@ EOF
 
 	# Put site in maintenance mode
 	touch /var/www/voteview/static/maintenance
+
+	# Build site articles
+	cd /usr/scripts/article_builder/
+	./build.sh
+	cd /var/www/
 
 	# Recursively change permissions so we don't need root to edit files on prod.
 	chown -R rudkin voteview
@@ -109,6 +114,8 @@ EOF
 	echo ""
 	downtime=$((downtimeStop-downtimestart))
 	echo "Total downtime $downtime seconds"
+	# healthcheck
+	wget https://hchk.io/fdc4725e-227c-4a35-a751-40f210d4ad45 -O /dev/null
 elif [ "$userid" = "root" ]; then
 	echo "You must be on production voteview to run deployment script"
 else

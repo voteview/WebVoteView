@@ -7,12 +7,12 @@
 	<div class="row">
 		<div class="col-md-9">
 			<h3>About the project</h3>
-		
-			<p> <strong>Voteview</strong> allows users to view every congressional roll call vote in American 
-history on a map of the United States and on a liberal-conservative 
-ideological map including information about the ideological positions of 
-voting Senators and Representatives.  The original <span title="The original Voteview derived from a simulation coded by Poole and Rosenthal in FORTRAN for the University of Pittsburgh Supercomputer Center. Voteview for DOS was coded in QuickBasic by Douglas Skiba." style="text-decoration:underline">Voteview of DOS</span> was 
-developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon 
+
+			<p> <strong>Voteview</strong> allows users to view every congressional roll call vote in American
+history on a map of the United States and on a liberal-conservative
+ideological map including information about the ideological positions of
+voting Senators and Representatives.  The original <span title="The original Voteview derived from a simulation coded by Poole and Rosenthal in FORTRAN for the University of Pittsburgh Supercomputer Center. Voteview for DOS was coded in QuickBasic by Douglas Skiba." style="text-decoration:underline">Voteview of DOS</span> was
+developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon
 University between 1989 and 1992.  Poole and Rosenthal developed <span title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Windows." style="text-decoration:underline">Voteview for Windows</span> in 1993 at Princeton University and that work was continued by Boris Shor. The legacy version of the website is available at <a href="https://legacy.voteview.com">legacy.voteview.com</a>.
 <br/><br/>
 The new voteview.com combines the visualizations provided by the now
@@ -65,7 +65,7 @@ questions, and media enquiries concerning this project.
 						Roger Williams Straus Professor of Social Sciences, Emeritus, Princeton University.
 					</p>
 				</li>
-				
+
 				<li>
 					<strong>Lead Database Developer, Voteview.com:</strong> <a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
 				</li>
@@ -76,9 +76,9 @@ questions, and media enquiries concerning this project.
 					<strong>Lead Developer:</strong> <a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
 				</li>
 				<li>
-					<strong>Past Contributors:</strong> 
-						Erik Hanson, 
-						<a href="https://gps.ucsd.edu/faculty-directory/felipe-nunes.html">Felipe Nunes</a>, 
+					<strong>Past Contributors:</strong>
+						Erik Hanson,
+						<a href="https://gps.ucsd.edu/faculty-directory/felipe-nunes.html">Felipe Nunes</a>,
 						<a href="http://fabiosouto.me/">Fabio Souto</a>
 				</li>
 			</ul>
@@ -86,12 +86,15 @@ questions, and media enquiries concerning this project.
 			<h3>Contact Us</h3>
 			<form id="contact-form">
 				<p>
+					Your Name: <input name="yourname" type="text" placeholder="Keith Poole" style="width:60%;">
+				</p>
+				<p>
 					Your Email Address: <input name="email" type="text" placeholder="example@email.com" style="width:53%;">
 				</p>
 				<p>
 					Subject: <input type="text" name="title" placeholder="Question about VoteView.com" style="width:63%;">
 				</p>
-				<textarea style="width:70%;height:250px;" name="body" placeholder="Type your message here. Please allow 48-72 hours for a response."></textarea>
+				<textarea style="width:70%;height:250px;" name="body" placeholder="Type your message here. Please allow 10 days for a response."></textarea>
 				<script>
 					function showSubmit() { $("#captcha_hide_submit").slideDown(); $("#captcha_click").slideUp(); }
 				</script>
@@ -107,7 +110,7 @@ questions, and media enquiries concerning this project.
 
 			<br/>
 			<h4>Licence and Code</h4>
-			<small>		
+			<small>
 			<p>VoteView code available on GitHub:</p>
 			<ul>
 				<li><a href="https://github.com/JeffreyBLewis/congressional-district-boundaries">Congressional District Boundaries JSON data</a></li>
@@ -144,6 +147,6 @@ questions, and media enquiries concerning this project.
 			</small>
 
 			<br/><br/><br/>
-		</div>		
+		</div>
 	</div>
 </div>

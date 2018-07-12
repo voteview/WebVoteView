@@ -35,9 +35,14 @@
 				% end
 				<abbr title="Congress"><a href="/search/?congress={{ rollcall["congress"] }}">{{ rcSuffix(rollcall["congress"]) }} Congress</a></abbr> &gt;
 				<abbr title="Chamber"><a href="/search/?congress={{ rollcall["congress"] }}&chamber={{ rollcall["chamber"] }}">{{ rollcall["chamber"] }}</a></abbr> &gt;
-				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}</abbr>
+				<abbr title="Rollnumber">Vote {{ rollcall["rollnumber"] }}  </abbr>
+
 			</h3>
+
 			<p style="float:left;margin-right:20px;"><strong>Date:</strong> {{ rollcall["date"] }}</p>
+			% if 'clerk_rollnumber' in rollcall:
+			<p> <strong>Clerk session vote number:</strong> {{rollcall['clerk_rollnumber']}} </p>
+			% end
 			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p style="float:left;margin-right:20px;">
 				<strong>Result:</strong>
@@ -109,14 +114,20 @@
 	%     link_dict = {k:v for k,v in source.items() if k in ['publication', 'file_number', 'page_number']}
 
 	 % link = '/source_images/' + source['publication'].replace(' ', '_').lower() + '/' + str(source['file_number']) + '/0#page/' +  str(source['page_number'])
-	 <a href="{{ link }}">{{pub_str}}</a>;
+	 <a href="{{ link }}">{{pub_str}} vol. {{source['file_number']}}, p. {{source['page_number']}}</a>;
 	%     else:
-  %	        pub_str = source['publication']
-	{{pub_str}};
+	 %	        pub_str = source['publication']
+	{{pub_str}} vol. {{source['file_number']}}, p. {{source['page_number']}};
   %     end
 	% end
 
 	 </p>
+	 % end
+  <p>
+    % if 'congress_url' in rollcall:
+        Links for more info on the vote:
+	     <a href={{rollcall['congress_url']}}> congress.gov</a>
+	   </p>
 	 % end
 
  % import datetime

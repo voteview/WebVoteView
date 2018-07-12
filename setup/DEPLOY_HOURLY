@@ -43,9 +43,13 @@ EOF
 		rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
 		touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
 EOF
+		rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/data/out/ /var/www/WebVoteView/static/data/out/
 		echo "Fixing local permissions"
 		chown -R rudkin voteview
 		chgrp -R voteview voteview
+
+		# healthcheck
+		wget https://hchk.io/e3feef4e-3efb-4fe0-b93c-e6a00efd621b -O /dev/null
 
 	else
 		echo "No patch found, ending now."
