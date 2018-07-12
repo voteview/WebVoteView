@@ -17,6 +17,7 @@ import model.downloadVotes  # Namespace issue
 from model.emailContact import sendEmail
 from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, getMembersByPrivate
 from model.searchParties import partyLookup
+from model.articles import get_article_meta, list_articles
 from model.searchMeta import metaLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.prepVotes import prepVotes
@@ -162,7 +163,8 @@ def quota():
 @app.route("/data")
 def data():
     maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
-    output = bottle.template("views/data", maxCongress=maxCongress)
+    data_articles = list_articles("data")
+    output = bottle.template("views/data", maxCongress=maxCongress, articles = data_articles)
     return output
 
 
@@ -255,7 +257,6 @@ def parties(party="all", congStart=-1):
                              partyNameFull=partyNameFull, congStart=congStart)
     return output
 
-
 @app.route("/api/getloyalty")
 def getloyalty(party_code="", congress=""):
     party_code = defaultValue(bottle.request.params.party_code, party_code)
@@ -269,6 +270,14 @@ def getloyalty(party_code="", congress=""):
 
     return {"global": global_cong_loyalty, "party": party_cong_loyalty}
 
+@app.route("/articles/<slug>")
+def article(slug = ""):
+    if not len(slug) or not os.path.isfile(os.path.join("static/articles", slug, slug + ".json")):
+	return bottle.template("views/error", errorMessage = "The article you selected is not a valid article ID.")
+
+    meta_set = get_article_meta(slug)
+    output = bottle.template("views/articles", slug = slug, meta = meta_set)
+    return output
 
 @app.route("/person")
 @app.route("/person/<icpsr>")
@@ -473,21 +482,6 @@ def rollcall(rollcall_id=""):
     )
     return(output)
 
-
-# RA support stuff
-#@app.route("/ra/wiki",method="POST")
-#@app.route("/ra/wiki")
-# def wiki():
-#    prevId = defaultValue(bottle.request.params.icpsrId, 0)
-#    newStatus = defaultValue(bottle.request.params.status, 0)
-#    if prevId:
-#        writeStatus(prevId, newStatus)
-#
-#    nextTry = readStatus()
-#    if type(nextTry)==type(str("")):
-#        return(nextTry)
-#    else:
-#        return bottle.template("views/raWIKI", person=nextTry)
 
 # Stash saved links redirect
 @app.route("/s/<savedhash>")
@@ -781,9 +775,10 @@ def contact():
         title = bottle.request.params.title
         body = bottle.request.params.body
         email = bottle.request.params.email
+	person_name = bottle.request.params.yourname
         recaptcha = bottle.request.params["g-recaptcha-response"]
         ip = bottle.request.get("REMOTE_ADDR")
-        res = sendEmail(title, body, email, recaptcha, ip)
+        res = sendEmail(title, body, person_name, email, recaptcha, ip)
         return(res)
     except:
         return(traceback.format_exc())
@@ -837,12 +832,18 @@ def getData():
     if datType == "" or unit == "":
         return {"errorMessage": "Either type or unit specified incorrectly."}
 
-    STATIC_URL = BASE_URL + "static/data/" + datType + "/"
+    STATIC_URL = BASE_URL + "static/data/out/" + unit + "/"
+    
+    if chamber == "house":
+        chamberlet = "H"
+    elif chamber == "senate":
+        chamberlet = "S"
+    elif chamber == "both":
+        chamberlet = "HS"
+    else:
+        return {"errorMessage": chamber + " is an invalid `chamber`"}
 
-    if datType == "csv":
-        STATIC_URL += unit + "/"
-
-    return {"file_url": STATIC_URL + "_".join([x for x in [unit, chamber, congress] if x]) + "." + datType}
+    return {"file_url": STATIC_URL + chamberlet + str(congress) + "_" + unit + "." + datType}
 
 
 @app.route("/api/addAll")
