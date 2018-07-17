@@ -1,9 +1,6 @@
 % rebase('base.tpl',title='Data')
 % import os
 % STATIC_URL = '/static/'
-<!-- Data.tpl: This should be the template for the page that lists all the different data files we're making available.
-     Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
-
 % include('header.tpl')
 <div class="container">
   <div class="row">
@@ -81,11 +78,6 @@ The data on parties is a dataset with some metadata about all of the different p
       </p>
 
 
-      <h4>Extra Legacy Information</h4>
-      <p>
-	<a href="/static/data/other/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
-      </p>
-
       <h3>Ancillary Data and Analyses</h3>
       <p>
 	We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
@@ -155,27 +147,5 @@ div.dataLinkFixed {
   margin-left: 10px;
 }
 </style>
-
-<!-- INATE and metadata <
-        <a href="dwnomin_CHOICES.htm">DW-NOMINATE Probabilities for Legislator Choices: 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
-        <a href="dw-nominate.htm">DW-NOMINATE Program With Examples</a><BR>
-
-        <a href="cutting_line_angles.htm">Cutting Line Angle Files for the House and Senate
-           1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
-        <a href="Nokken-Poole.htm">One-Congress-at-a-Time DW-NOMINATE (Nokken-Poole) data
-           for  the House and Senate
-           1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
-        <a href="Political_Polarization.asp">Political Polarization Measures:  1879 - 2012</a><BR>
-
-        <a href="Party_Unity.htm">Party Unity Scores by Democrat and Republican Members:  1857 - 2012</a><BR>
-
-        <a href="Party_Unity.htm">Party Unity Scores by Congress:  1879 - 2012</a><BR>
-
-        <a href="winning_side.htm">
-         Percent Voting on the Winning Side by Member -- Houses/Senates 1 - 112</a><BR>
--->
 
 <script type="text/javascript" src="{{ STATIC_URL }}js/footerFixed.js"></script>
