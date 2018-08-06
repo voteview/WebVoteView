@@ -9,17 +9,17 @@ function submitForm()
 		{
 			if(res["success"])
 			{
-				var span = $("<span></span>").html("Thank you for contacting us. We will get back to you as soon as possible.");
-				$("#result > span").remove();
-				span.appendTo($("#result"));
+				var div = $("<div></div>").attr({"class": "alert alert-success"}).html("Thank you for contacting us. We will get back to you as soon as possible.");
+				$("#result > div").remove();
+				div.appendTo($("#result"));
 				$("#result").fadeIn();
 				$("#contact-form").slideUp();
 			}
 			else
 			{
-				var span = $("<span></span>").html(res["error"]).css("color","red");
-				$("#result > span").remove();
-				span.appendTo($("#result"));
+				var div = $("<div></div>").attr({"class": "alert alert-danger"}).html(res["error"])
+				$("#result > div").remove();
+				div.appendTo($("#result"));
 				$("#result").fadeIn();
 			}
 		}});

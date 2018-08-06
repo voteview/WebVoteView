@@ -79,6 +79,21 @@
 
 	<p><a href="/static/db/current.zip" onClick="javascript:return confirm('Are you sure you wish to download our complete database?');">Complete database</a> (approx. 500MB zipped): We expect that most journalists, academics, and interested users should use the main data downloads listed above. However, for users interested in building a website based on Voteview.com data, we make available a complete dump of our MongoDB database. This release is updated weekly and is provided without warranty.</p>
 	<p><a href="/past_data">Browse prior database releases</a>: We retain archival copies of our complete database release. We recommend users only use the most current version of our data. These archival releases may be missing new rollcall or member data, and may also be missing corrections made to existing data.</p>
+
+
+
+	<h3>VoteView on Github</h3>
+	<p>
+		Most of the code associated with our website is available through our <a href="https://github.com/voteview">GitHub Organization.
+
+		<ul>
+			<li><a href="https://github.com/voteview/WebVoteView">voteview.com site source</a></li>
+			<li><a href="https://github.com/JeffreyBLewis/congressional-district-boundaries">Congressional District Boundaries JSON data</a></li>
+			<li><a href="https://github.com/voteview/member_photos">Congressional member photos</a></li>
+			<li><a href="https://github.com/voteview/Rvoteview">Rvoteview R Package</a></li>
+			<li><a href="https://github.com/voteview/articles">Articles and tutorials</a></li>
+		</ul>
+	</p>
     </div>
   </div>
 </div>
