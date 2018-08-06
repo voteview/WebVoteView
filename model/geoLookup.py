@@ -124,15 +124,28 @@ def addressToLatLong(request, addressString):
 		logQuota.logSearch(request, {"query": "Address Lookup: "+addressString, "resultNum": -1}) # Log the failed address lookup
 		return {"status": 1, "error_message": "Google Maps failed to complete a lookup for the address you entered."}
 
-def latLongToDistrictCodes(request, lat, lng):
+def lat_long_to_polygon(request, lat, lng):
 	quotaCheck = logQuota.checkQuota(request) # Are we over quota?
 	if quotaCheck["status"]: # Yes, so error out
 		return {"status": 1, "error_message": quotaCheck["errormessage"]}
 
 	geoClient = client["district_geog"]
 	gquery = {"geometry":{"$geoIntersects":{"$geometry":{"type":"Point","coordinates":[lng, lat]}}}}
+	for result in db.districts.find(gquery, {"geometry.coordinates": 1}).sort([("properties.endcong", -1)]).limit(1):
+		return result["geometry"]["coordinates"][0]
+
+	return []
+
+def latLongToDistrictCodes(request, lat, lng):
+	quotaCheck = logQuota.checkQuota(request) # Are we over quota?
+	if quotaCheck["status"]: # Yes, so error out
+		return {"status": 1, "error_message": quotaCheck["errormessage"]}
+
+	geoClient = client["district_geog"]
 	res = []
 	isDC = 0
+	gquery = {"geometry":{"$geoIntersects":{"$geometry":{"type":"Point","coordinates":[lng, lat]}}}}
+
 	for r in db.districts.find(gquery,{'properties':1}):
 		rec = [r['properties'][f] for f in ('statename','district','startcong','endcong')]
 		if stateNameToAbbrev(rec[0])["state_abbrev"]=="DC":
@@ -151,9 +164,10 @@ if __name__=="__main__":
 	#res = addressToLatLong(addStr)
 	res = {"lat": 38.9004367, "lng": -77.011207}
 	resMem = latLongToDistrictCodes(None, res["lat"], res["lng"])
+	print resMem
 	orSet = []
 	atLargeSet = []
-	for r in resMem:
+	for r in resMem["results"]:
 		state_abbrev = r[0]
 		if r[2]!=0:
 			orSet.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
@@ -171,3 +185,8 @@ if __name__=="__main__":
 
 	print "Duration of lookup:", (time.time()-start)
 	print orSet
+
+
+	result_new = lat_long_to_polygon(None, res["lat"], res["lng"])
+	print result_new
+
