@@ -6,79 +6,73 @@
   <div class="row">
     <div class="col-md-9">
 
-      <h3>Realtime NOMINATE Ideology and Related Data</h3>
-      <p>
-      This section contains .csv files that provide descriptive data as well as ideological data for congressional rollcalls, individual member votes, members of congress, and parties.
-	You can find information such the descriptions of rollcalls, what proportion of voting members were correctly classified by the ideological cutting line for that rollcall, the ideological position of members of congress, and more.
-      </p>
-      <p>
-      Both the rollcall data and the data on members are split into chambers and congresses, although you can select some combinations of the two to download.
-The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
-      </p>
-      <p>
-        You can see the <a href="/about">about</a> page for more information about NOMINATE.
-      </p>
-      <p>
+	<h3>Realtime NOMINATE Ideology and Related Data</h3>
+	<p>
+		This section contains download links for NOMINATE scores and other data that we make available to the public, in addition to tutorial articles explaining how to generate popular ancillary data from our data exports. Please continue by choosing the data you wish to download.<br/><br/>
 
-
+		For more information on how NOMINATE scores and other data are calculated, please see the <a href="/about">About</a> page.
 
 <div class="panel panel-default">
   <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
-    <div class="panel-body">Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet (2017). <em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/</div>
-    </div>
+    <div class="panel-body">Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet ({{year}}). <em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/</div>
+</div>
 
 
-    For information on the data files, please see the <a href="/static/docs/csv_docs.html">CSV data files documentation</a>.
-      <p>
-        <div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about congressional rollcalls</h4></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv','dat', 'json'])
-	    <div class="dataLink">
-	      <a class="csv" id="rollcalls">Download</a>
-	    </div>
-	  </div>
+<script>
+</script>
+
+<div class="container">
+<div class="row">
+<div class="col-md-4">
+	<div class="form-inline">
+	<label for="source">Data Type:</label> 
+	<select name="source" id="source" onChange="javascript:updateDownloadLink();">
+		<option value="members">Member Ideology</option>
+		<option value="rollcalls">Congressional Votes</option>
+		<option value="votes">Members' Votes</option>
+		<option value="parties">Congressional Parties</option>
+	</select>
 	</div>
-      </p>
-
-
-      <p>
-        <div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about votes members cast</h4></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv','ord'])
-	    <div class="dataLink">
-	      <a class="csv" id="votes">Download</a>
-	    </div>
-	  </div>
+	<div class="form-inline">
+	<label for="chamber">Chamber:</label>
+	<select name="chamber" id="chamber" onChange="javascript:updateDownloadLink();">
+		<option value="HS">Both (House and Senate)</option>
+		<option value="S">Senate Only</option>
+		<option value="H">House Only</option>
+	</select>
 	</div>
-      </p>
-
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about members of congress</h4></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv','dat'])
-	    <div class="dataLink">
-	      <a class="csv" id="members">Download</a>
-	    </div>
-	  </div>
+	<div class="form-inline">
+	<label for="congress">Congress:</label> 
+	<select name="congress" id="congress" onChange="javascript:updateDownloadLink();">
+		<option value="all">All</option>
+		% for i in xrange(maxCongress, 0, -1):
+		% min_year = 1787 + (2 * i)
+		% max_year = min_year + 2
+		% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+		<option value="{{str(i).zfill(3)}}">{{rcSuffix(i)}} Congress ({{min_year}} - {{max_year}})</option>
+		% end
+	</select>
 	</div>
-      </p>
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about political parties</h4></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv'])
-	    <div class="dataLink">
-	      <a class="csv" id="parties">Download</a>
-	    </div>
-	  </div>
+	<div class="form-inline">
+	<label for="format">File Format:</label> 
+	<select name="format" id="format" onChange="javascript:updateDownloadLink();">
+		<option id="format_csv" value="csv">CSV (Recommended)</option>
+		<option id="format_json" value="json">JSON (Web Developers)</option>
+		<option id="format_dat" value="dat">DAT (Legacy, Not Recommended)</option>
+		<option id="format_ord" style="display:none;" value="ord">ORD (Legacy, Not Recommended)</option>
+	</select>
 	</div>
-      </p>
+	<br/>	
+	<a id="download_link" href="/static/data/out/members/HSall_members.csv">Download Data</a>
+</div>
+<div class="col-md-5">
+	<span id="data_download_desc">
+	</span>
+</div>
+</div>
+</div>
 
-
-      <h3>Ancillary Data and Analyses</h3>
+<h3>Ancillary Data and Analyses</h3>
       <p>
 	We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
 
@@ -101,51 +95,5 @@ The data on parties is a dataset with some metadata about all of the different p
   </div>
 </div>
 
-<script language="javascript">
-  function setLink(aobj, chamber, congress, ftype) {
-    var dtype = aobj.attr("id");
-    var linkfolder = '/static/data/out/' + dtype + '/';
-    var link = linkfolder + chamber+congress+'_' + dtype+ '.'+ftype;
-    aobj.attr("href", link);
-    aobj.attr("target", "_blank");
-  }
-
-  function padCongress(congress) {
-    var congressPad = ('000'+congress).substring(congress.length);
-    return congressPad;
-  }
-
-  $(document).ready(function(){
-    $(".dataLink").each(function() {
-      var chamber = $(this).parent().find("select[name='chamber']").find("option:selected").val();
-      var congress = $(this).parent().find("select[name='congress']").find("option:selected").val();
-      var filetype = $(this).parent().find("select[name='filetype']").find("option:selected").val();
-      setLink($(this).find("a"), chamber, padCongress(congress), filetype);
-    });
-
-    $('.dataSelect').on('change', function(){
-      var dcontent = $(this).closest("div.dataContent");
-
-      var chamber = dcontent.find("select[name='chamber']").find("option:selected").val();
-      var congress = dcontent.find("select[name='congress']").find("option:selected").val();
-      var filetype = dcontent.find("select[name='filetype']").find("option:selected").val();
-
-      setLink(dcontent.find("a"), chamber, padCongress(congress), filetype);
-    });
-
-    $(".dataHeader").click(function() {
-      $(this).next(".dataContent").slideToggle("fast");
-      return false;
-    });
-
-  });
-</script>
-
-<style>
-div.dataLink,
-div.dataLinkFixed {
-  margin-left: 10px;
-}
-</style>
-
+<script type="text/javascript" src="{{ STATIC_URL }}js/data.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/footerFixed.js"></script>

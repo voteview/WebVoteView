@@ -164,13 +164,16 @@ def quota():
 def data():
     maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
     data_articles = list_articles("data")
-    output = bottle.template("views/data", maxCongress=maxCongress, articles = data_articles)
+    current_year = datetime.datetime.now().year
+    output = bottle.template("views/data", maxCongress=maxCongress, articles = data_articles, year = current_year)
     return output
 
 
 @app.route("/past_data")
 def past_data():
-    return bottle.template("views/past_data")
+    blacklist = [".gitkeep"]
+    folder_files = [x for x in reversed(sorted(os.listdir("static/db/"))) if x not in blacklist]
+    return bottle.template("views/past_data", folder_files = folder_files)
 
 
 @app.route("/research")
