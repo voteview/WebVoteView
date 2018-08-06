@@ -11,19 +11,16 @@
 		This section contains download links for NOMINATE scores and other data that we make available to the public, in addition to tutorial articles explaining how to generate popular ancillary data from our data exports. Please continue by choosing the data you wish to download.<br/><br/>
 
 		For more information on how NOMINATE scores and other data are calculated, please see the <a href="/about">About</a> page.
+	</p>
 
-<div class="panel panel-default">
-  <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
-    <div class="panel-body">Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet ({{year}}). <em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/</div>
-</div>
-
-
-<script>
-</script>
-
-<div class="container">
-<div class="row">
-<div class="col-md-4">
+	<div class="panel panel-default">
+	  <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
+	    <div class="panel-body">Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet ({{year}}). <em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/</div>
+	</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
 	<div class="form-inline">
 	<label for="source">Data Type:</label> 
 	<select name="source" id="source" onChange="javascript:updateDownloadLink();">
@@ -64,33 +61,24 @@
 	</div>
 	<br/>	
 	<a id="download_link" href="/static/data/out/members/HSall_members.csv">Download Data</a>
-</div>
-<div class="col-md-5">
-	<span id="data_download_desc">
-	</span>
-</div>
-</div>
-</div>
-
-<h3>Ancillary Data and Analyses</h3>
-      <p>
-	We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
+    </div>
+    <div class="col-md-5">
+      <span id="data_download_desc"></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+	<h3>Ancillary Data and Analyses</h3>
+	<p>
+		We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
+	</p>
 
 	% for article in articles:
 	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
 	% end
-      </p>
 
-      <h3>Complete Database</h3>
-      <p>
-	<a href="/static/db/current.zip">Complete database</a> (approx. 500MB zipped).<br/>
-	Our database is available in MongoDB bson/json format. This release is updated weekly. For information about specific data fields in the database, see the <a href="/static/docs/members.csv">members data dictionary</a> and <a href="/static/docs/rollcalls.csv">rollcalls data dictionary</a>.
-      </p>
-      <p>
-	<a href="/past_data">Browse prior database releases</a><br/>
-	We retain a year worth of archival data online. Archival releases may be missing new rollcall or member data,
-	and may also be missing corrections made to existing data.
-      </p>
+	<p><a href="/static/db/current.zip" onClick="javascript:return confirm('Are you sure you wish to download our complete database?');">Complete database</a> (approx. 500MB zipped): We expect that most journalists, academics, and interested users should use the main data downloads listed above. However, for users interested in building a website based on Voteview.com data, we make available a complete dump of our MongoDB database. This release is updated weekly and is provided without warranty.</p>
+	<p><a href="/past_data">Browse prior database releases</a>: We retain archival copies of our complete database release. We recommend users only use the most current version of our data. These archival releases may be missing new rollcall or member data, and may also be missing corrections made to existing data.</p>
     </div>
   </div>
 </div>
