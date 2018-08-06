@@ -123,16 +123,6 @@
 		<div id="google_map" style="width:100%;height:100%;"></div>
 		<br/><br/>
 		<div id="perm_link_holder"></div>
-
-		<!--
-		<div id="scatter-container" style="margin:20px auto 10px auto;">
-			<div id="scatter-bg">
-				<svg id="svg-bg"></svg> 
-			</div>
-			<div id="scatter-chart">
-			</div>
-		</div>
-		-->
 	</div>
 </div>
 <script>

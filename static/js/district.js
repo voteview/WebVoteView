@@ -5,6 +5,9 @@ var myLat, myLong;
 var slowTimer;
 var globalEnableLocation = 0;
 
+function memberCallback() {
+}
+
 function getGetOrdinal(n) {
     var s=["th","st","nd","rd"],
     v=n%100;
@@ -64,7 +67,6 @@ function resetResults()
 		function success(position)
 		{
 			clearTimeout(slowTimer);
-			console.log(position.coords);
 			myLat = position.coords.latitude;
 			myLong = position.coords.longitude;
 			$("#cachedLat").val(myLat);
@@ -191,9 +193,6 @@ function resetResults()
 	var initialLoad=0;
 	function doMembers(lat, lng)
 	{
-		console.log(lat);
-		console.log(lng);
-
 		// We started a load, so don't fire the map move event while we're loading
 		initialLoad = 1;
 		// Cache the lookup coordinates to make the map mover work
@@ -204,41 +203,33 @@ function resetResults()
 		// Put the marker in the lat/long
 		var marker = new google.maps.Marker({position: markerPos, map: map});
 		markerSet.push(marker);
-		// If the user moves the viewport, update the map?
-		google.maps.event.addListener(map, 'idle', function()
-		{
-			// Okay, next time you can fire the event
-			if(initialLoad) { initialLoad=0; return; }
-
-			// If the event fired but we didn't move, don't redo the search
-			if(precisionRound(map.getCenter().lat(),5)==precisionRound(cachedCoords[0],5) && precisionRound(map.getCenter().lng(),5)==precisionRound(cachedCoords[1],5)) { return; }
-
-			console.log("map viewport move detected.");
-
-			for(var i=0;i<markerSet.length;i++)
-			{
-				markerSet[i].setMap(null);
-			}
-			markerSet = [];
-
-			//var marker = new google.maps.Marker({position: {lat: map.getCenter().lat(), lng: map.getCenter().lng()}, map: globalMap});
-			//markerSet.push(marker);
-			
-			cachedCoords = [map.getCenter().lat(), map.getCenter().lng()];
-			console.log("New coords to search: ");
-			console.log(cachedCoords);
-			$("#addressInput").val("MAP CENTER");
-			resetResults();
-			latLongWrapper();
-		});
 
 		$.ajax({
 			dataType: "JSON",
 			url: "/api/districtLookup?lat="+lat+"&long="+lng,
 			success: function(data, status, xhr)
 			{
-				console.log(data);
 				$("#loadProgress").fadeOut();
+
+				// Draw congressional district polygon.
+				if(data["polygon"]!=undefined && data["polygon"].length)
+				{
+					var polygonData = [];
+					for(var i=0; i!=data["polygon"].length; i++) 
+					{
+						polygonData.push({"lat": data["polygon"][i][1], "lng": data["polygon"][i][0]});
+					}
+					var districtPolygon = new google.maps.Polygon({
+						paths: polygonData,
+						strokeColor: "#FF0000",
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: "#FF0000",
+						fillOpacity: 0.2
+					});
+					districtPolygon.setMap(globalMap); 
+				}
+
 				if(data["resCurr"]!=undefined && data["resCurr"].length)
 				{
 					$("<h4>Current Congressperson and Senators</h4>").appendTo("#resultsMembers");
@@ -357,6 +348,33 @@ function resetResults()
 				table.appendTo($("#resultsMembers"));
 				//permLink.appendTo($("#resultsMembers"));
 				$("#resultsMembers").fadeIn();
+			}
+		});
+
+		$.ajax({
+			dataType: "JSON",
+			url: "/api/districtPolygonLookup?lat="+lat+"&long="+lng,
+			success: function(data, status, xhr)
+			{
+				// Draw congressional district polygon.
+				if(data["polygon"]!=undefined && data["polygon"].length)
+				{
+					console.log("Drawing district polygon in map.");
+					var polygonData = [];
+					for(var i=0; i!=data["polygon"].length; i++) 
+					{
+						polygonData.push({"lat": data["polygon"][i][1], "lng": data["polygon"][i][0]});
+					}
+					var districtPolygon = new google.maps.Polygon({
+						paths: polygonData,
+						strokeColor: "#FF0000",
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: "#FF0000",
+						fillOpacity: 0.2
+					});
+					districtPolygon.setMap(globalMap); 
+				}
 			}
 		});
 	}
