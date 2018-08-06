@@ -132,7 +132,7 @@ def lat_long_to_polygon(request, lat, lng):
 	geoClient = client["district_geog"]
 	gquery = {"geometry":{"$geoIntersects":{"$geometry":{"type":"Point","coordinates":[lng, lat]}}}}
 	for result in db.districts.find(gquery, {"geometry.coordinates": 1}).sort([("properties.endcong", -1)]).limit(1):
-		return result["geometry"]["coordinates"][0]
+		return result["geometry"]["coordinates"]
 
 	return []
 

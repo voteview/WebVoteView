@@ -359,21 +359,34 @@ function resetResults()
 				// Draw congressional district polygon.
 				if(data["polygon"]!=undefined && data["polygon"].length)
 				{
+					var poly_color = ["#FF0000", "#FF0000"];
 					console.log("Drawing district polygon in map.");
-					var polygonData = [];
-					for(var i=0; i!=data["polygon"].length; i++) 
+					for(var j in data["polygon"])
 					{
-						polygonData.push({"lat": data["polygon"][i][1], "lng": data["polygon"][i][0]});
+						var new_poly;
+						if(data["polygon"][j].length == 1) {
+							new_poly = data["polygon"][j][0];
+						}
+						else
+						{
+							new_poly = data["polygon"][j];
+						}
+
+						var polygonData = [];
+						for(var i=0; i!=new_poly.length; i++) 
+						{
+							polygonData.push({"lat": new_poly[i][1], "lng": new_poly[i][0]});
+						}
+						var districtPolygon = new google.maps.Polygon({
+							paths: polygonData,
+							strokeColor: poly_color[0],
+							strokeOpacity: 0.8,
+							strokeWeight: 2,
+							fillColor: poly_color[1],
+							fillOpacity: 0.2
+						});
+						districtPolygon.setMap(globalMap); 
 					}
-					var districtPolygon = new google.maps.Polygon({
-						paths: polygonData,
-						strokeColor: "#FF0000",
-						strokeOpacity: 0.8,
-						strokeWeight: 2,
-						fillColor: "#FF0000",
-						fillOpacity: 0.2
-					});
-					districtPolygon.setMap(globalMap); 
 				}
 			}
 		});
