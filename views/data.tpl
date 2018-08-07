@@ -1,5 +1,4 @@
 % rebase('base.tpl',title='Data')
-% import os
 % STATIC_URL = '/static/'
 % include('header.tpl')
 <div class="container">
@@ -50,7 +49,7 @@
 		% end
 	</select>
 	</div>
-	<div class="form-inline">
+	<div class="form-inline" style="padding-bottom:3px;">
 	<label for="format">File Format:</label> 
 	<select name="format" id="format" onChange="javascript:updateDownloadLink();">
 		<option id="format_csv" value="csv">CSV (Recommended)</option>
@@ -59,11 +58,13 @@
 		<option id="format_ord" style="display:none;" value="ord">ORD (Legacy, Not Recommended)</option>
 	</select>
 	</div>
-	<br/>	
-	<a id="download_link" href="/static/data/out/members/HSall_members.csv">Download Data</a>
+	<a class="btn btn-primary" id="download_link" href="/static/data/out/members/HSall_members.csv">Download Data</a>
     </div>
     <div class="col-md-5">
-      <span id="data_download_desc"></span>
+	<div class="panel panel-default" id="data_download_container" style="display:none;">
+		<div class="panel-heading" id="data_download_heading">Heading</div>
+		<div class="panel-body" id="data_download_desc"></div>
+	</div>	
     </div>
   </div>
   <div class="row">
@@ -81,8 +82,7 @@
 	<p><a href="/past_data">Browse prior database releases</a>: We retain archival copies of our complete database release. We recommend users only use the most current version of our data. These archival releases may be missing new rollcall or member data, and may also be missing corrections made to existing data.</p>
 
 
-
-	<h3>VoteView on Github</h3>
+	<h3><a href="https://github.com/voteview"><img style="height:24px; vertical-align:top;" src="{{ STATIC_URL }}/img/github.png"></a> VoteView on Github</h3>
 	<p>
 		Most of the code associated with our website is available through our <a href="https://github.com/voteview">GitHub Organization.
 
@@ -97,6 +97,7 @@
     </div>
   </div>
 </div>
+<br/><br/>
 
 <script type="text/javascript" src="{{ STATIC_URL }}js/data.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/footerFixed.js"></script>
