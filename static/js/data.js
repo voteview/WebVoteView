@@ -1,5 +1,9 @@
+var oldSource = "";
+
 function updateDownloadLink()
 {
+	// Could actually store these in a JSON file and ajax it in, but it's static enough and there's little enough
+	// that I'm going to hard-code.
 	var file_formats = {
 		"members": ["csv", "json", "dat"],
 		"parties": ["csv", "json"],
@@ -14,6 +18,8 @@ function updateDownloadLink()
 		"rollcalls": "This data includes the result and ideological parameters of every vote taken in the selected congresses and chambers. This is information about the vote itself, not individual members positions. Please select \"Member Votes\" for information about individual member positions."
 	};
 
+	// Fade out
+	// Fix the dropdowns and the links
 	var reset_selected = 0;
 	$("#format option").each(function() {
 		if(file_formats[$("#source").val()].includes($(this).val())) {
@@ -31,9 +37,21 @@ function updateDownloadLink()
 	url = base_url + $("#source").val() + "/" + $("#chamber").val() + $("#congress").val() + "_" + $("#source").val() + "." + $("#format").val();
 	$("#download_link").attr({"href": url});
 
-	$("#data_download_desc").html(
-		"<strong>" + $("#source option:selected").html() + "</strong><br/>" + long_desc[$("#source").val()] + "<br/><br/><a href=\"/articles/data_help_" + $("#source").val() + "\">Click here for help using this data</a>"
-	);
+	// Fade in and update help
+	if($("#source").val() != oldSource) {
+		$("#data_download_container").fadeOut(200, function() {
+			$("#data_download_heading").html("<strong>" + $("#source option:selected").html() + "</strong>");
+			$("#data_download_desc").html(
+				long_desc[$("#source").val()] + "<br/><br/><a href=\"/articles/data_help_" + $("#source").val() + "\">Click here for help using this data</a>"
+			);
+			oldSource = $("#source").val();
+		}).fadeIn(200);
+	}
+}
+
+function modalCompleteDatabase()
+{
+	return confirm("Are you sure you want to download our complete database?\n\nWe recommend downloading CSV data exports above.");
 }
 
 $(document).ready(updateDownloadLink);
