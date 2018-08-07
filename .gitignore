@@ -25,3 +25,6 @@ static/img/source_images/**/*.sgm
 static/img/scans/**/*.jpg
 static/img/scans/**/*.sgm
 static/articles/
+static/json
+static/partyjson
+static/controljson
