@@ -86,13 +86,13 @@ questions, and media enquiries concerning this project.
 			<h3>Contact Us</h3>
 			<form id="contact-form">
 				<p>
-					Your Name: <input name="yourname" type="text" placeholder="Keith Poole" style="width:60%;">
+					Your Name: <input name="yourname" type="text" placeholder="e.g. Keith Poole" style="width:60%;">
 				</p>
 				<p>
-					Your Email Address: <input name="email" type="text" placeholder="example@email.com" style="width:53%;">
+					Your Email Address: <input name="email" type="text" placeholder="e.g. example@email.com" style="width:53%;">
 				</p>
 				<p>
-					Subject: <input type="text" name="title" placeholder="Question about VoteView.com" style="width:63%;">
+					Subject: <input type="text" name="title" placeholder="e.g. Question about VoteView.com" style="width:63%;">
 				</p>
 				<textarea style="width:70%;height:250px;" name="body" placeholder="Type your message here. Please allow 10 days for a response."></textarea>
 				<script>

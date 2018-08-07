@@ -12,7 +12,7 @@
 		For more information on how NOMINATE scores and other data are calculated, please see the <a href="/about">About</a> page.
 	</p>
 
-	<div class="panel panel-default">
+	<div class="panel panel-primary">
 	  <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
 	    <div class="panel-body">Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet ({{year}}). <em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/</div>
 	</div>
@@ -78,7 +78,7 @@
 	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
 	% end
 
-	<p><a href="/static/db/current.zip" onClick="javascript:return confirm('Are you sure you wish to download our complete database?');">Complete database</a> (approx. 500MB zipped): We expect that most journalists, academics, and interested users should use the main data downloads listed above. However, for users interested in building a website based on Voteview.com data, we make available a complete dump of our MongoDB database. This release is updated weekly and is provided without warranty.</p>
+	<p><a href="/static/db/current.zip" onClick="javascript:return modalCompleteDatabase();">Complete database</a> (approx. 500MB zipped): We expect that most journalists, academics, and interested users should use the main data downloads listed above. However, for users interested in building a website based on Voteview.com data, we make available a complete dump of our MongoDB database. This release is updated weekly and is provided without warranty.</p>
 	<p><a href="/past_data">Browse prior database releases</a>: We retain archival copies of our complete database release. We recommend users only use the most current version of our data. These archival releases may be missing new rollcall or member data, and may also be missing corrections made to existing data.</p>
 
 
