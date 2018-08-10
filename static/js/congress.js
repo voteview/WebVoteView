@@ -109,6 +109,7 @@ function nomPlot()
 			}
 			hasFilter=1;
 			hideMembersUnselected();
+			do_filter_bar();
 		}, 300);
 	});
 
@@ -142,9 +143,10 @@ function nomPlot()
 
 function rechamber()
 {
-	if(chamber_param=="house") { chamber_param="senate"; $("#memberLabel").html("Senators"); }
-	else { chamber_param="house"; $("#memberLabel").html("Representatives"); }
+	if(chamber_param=="house") { chamber = "senate"; chamber_param="senate"; $("#memberLabel").html("Senators"); }
+	else { chamber = "house"; chamber_param="house"; $("#memberLabel").html("Representatives"); }
 	reloadBios();
+	doFullFilterReset();	
 }
 
 function reloadBios()
@@ -242,12 +244,13 @@ var delay_filter_timeout = null;
 function delay_filter() 
 {
 	if(delay_filter_timeout) { clearTimeout(delay_filter_timeout); }
-	delay_filter_timeout = setTimeout(hideMembersUnselected, 100);
+	delay_filter_timeout = setTimeout(do_search_name_filter, 100);
 }
 
 var icpsr_match = [];
 function do_search_name_filter() 
 {
+	console.log("goes here");
 	if($("#filter_name")[0].value.length) {
 		var current_filter = $("#filter_name")[0].value.toLowerCase().replace(/[^0-9a-z ]/gi, '').split(" ");
 		var which_include = $.grep(resultCache["results"], function(d, i) {
@@ -256,6 +259,7 @@ function do_search_name_filter()
 			}
 			return true;
 		});
+		console.log(which_include);
 
 		icpsr_match = [];
 		for(var i=0; i!=which_include.length; i++)
@@ -264,6 +268,7 @@ function do_search_name_filter()
 		}
 	}
 
+	do_filter_bar();
 	hideMembersUnselected();
 }
 
@@ -291,5 +296,84 @@ function hideMembersUnselected()
 	}
 
         
+}
+
+function do_filter_bar() 
+{
+	// Proper diction for text
+	console.log(chamber);
+	if(chamber=="house")
+	{
+		var voterName = "Representatives";
+	}
+	else
+	{
+		var voterName = "Senators";
+	}
+	$("#votertype").text(voterName);
+
+	var baseFilter = 0;
+
+	// Show the NOMINATE filter selected
+	var nominateFilter = $("#suppressNominateControls > .filter").text();
+	if(nominateFilter.length)
+	{
+
+		// Round coordinates to 2 sig figs.
+		var coordSets = nominateFilter.split(" -> ");
+		var initXY = coordSets[0].split(",");
+		var endXY = coordSets[1].split(",");
+		initXY[0] = parseFloat(initXY[0].substr(1)).toPrecision(2);
+		initXY[1] = parseFloat(initXY[1]).toPrecision(2);
+		endXY[0] = parseFloat(endXY[0].substr(0,endXY[0].length-1)).toPrecision(2);
+		endXY[1] = parseFloat(endXY[1]).toPrecision(2);
+		var resultText = "(" + initXY[0] + ", " + initXY[1] + ") to (" + endXY[0] + ", " + endXY[1] + ")";
+
+		$("#nominate-chart-controls > .filter").text(resultText);
+		$("#nominate-chart-controls").show();
+		baseFilter = 1;
+	}
+	else
+	{
+		$("#nominate-chart-controls").hide();
+	}
+
+	// Filters for name selected
+	if($("#filter_name")[0].value.length) 
+	{
+		$("#name-controls > .filter").text($("#filter_name")[0].value);
+		$("#name-controls").show();	
+		baseFilter = 1;
+	}
+	else
+	{
+		$("#name-controls").hide();
+	}
+
+
+	// Show the filter bar
+	if(baseFilter)
+	{
+		$("#selectionFilterBar").slideDown(300, function()
+		{
+			$("#selectionFilterClose").fadeIn(200);
+		});
+	}
+	else
+	{
+		$("#selectionFilterClose").fadeOut(100, function()
+		{
+			$("#selectionFilterBar").slideUp(300);
+		});
+	}
+}
+
+function doFullFilterReset()
+{
+	$("#selectionFilterBar").slideUp();
+	dc.filterAll();
+	dc.redrawAll();
+	$("#filter_name")[0].value = "";
+	hideMembersUnselected();
 }
 
