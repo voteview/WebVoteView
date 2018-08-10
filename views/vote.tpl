@@ -254,7 +254,7 @@
 	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span></span>
 	<span id="map-chart-controls" style="display:none;"> from <span class="filter"></span></span>
 	<span id="vote-chart-controls" style="display:none;"> including <span class="filter"></span></span>
-	<span id="nominate-chart-controls" style="display:none;"> with NOMINATE scores within <span class="filter"></span></em></span>.
+	<span id="nominate-chart-controls" style="display:none;"> with NOMINATE scores within <span class="filter"></span></span>.
 	<span id="sparse-selection" style="display:none;"></span>
 	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
 </div>

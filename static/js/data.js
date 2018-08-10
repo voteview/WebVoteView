@@ -51,6 +51,7 @@ function updateDownloadLink()
 
 function modalCompleteDatabase()
 {
+	// Why put this in a function? In case we want to use a non-browser modal going forward.
 	return confirm("Are you sure you want to download our complete database?\n\nWe recommend downloading CSV data exports above.");
 }
 
