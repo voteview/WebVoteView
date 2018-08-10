@@ -12,7 +12,8 @@ var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
 var inLoop, playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
 var mapTopo;
-var globalPartyName;
+var opacityTimer;
+var globalPartyName, globalPartyColorName;
 
 function congYear(num) { return [1787+2*num, 1788+2*num]; }
 
@@ -35,6 +36,28 @@ function tooltipText(d)
 	result += " in this state.";
 	return(result);
 }
+
+function ideologyTooltip(party, d)
+{
+	var result = getGetOrdinal(d.x)+" Congress &gt; ";
+	if(party > 0)
+	{
+		result = result+"<strong>" + globalPartyName + "</strong>";
+	}
+	else
+	{
+		result = result+"<strong>Congressional Median (Midpoint)</strong>";
+	}
+	result = result+"<br/><br/><em>Median Ideology Score</em>: "+(Math.round(d.y*100)/100);
+	result = result+"<br/><br/><em>How to interpret Ideology scores:</em><br/>These scores show how liberal or conservative a party is on a scale from -1 (Very Liberal) to +1 (Very Conservative). The scores provided are the median--mid-point--member of each party across both the House of Representative and the Senate.";
+
+	if(party < 0)
+	{
+		result = result+"<br/><br/>The Congressional Median is unstable (swings back and forth) as control of the House and Senate change.";
+	}
+	return(result);
+}
+
 
 var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 
@@ -152,6 +175,7 @@ q
 	    .height(250)
 	    .dimension(congressDimension)
 	    .elasticX(true)
+	    .renderTitle(false)
 	    .brushOn(false)
             .x(d3.scale.linear().domain([0, max+1]))
 	    .y(d3.scale.linear().domain([minY, maxY]))
@@ -321,10 +345,75 @@ q
         dc.renderAll();
 	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
 	globalPartyName = partyname["pluralNoun"];
+	globalPartyColorName = partyname["partyname"];
 	$(".fullName").html(partyname["fullName"]);
 	$(".pluralNoun").html(partyname["pluralNoun"]);
 	$(".noun").html(partyname["noun"]);
 	$("#loading-container").slideUp();
+
+
+	// Populating the tooltip for ideology
+	console.time("tooltip");
+	var i = 0;
+	d3.select("#dim-chart svg").selectAll("g.sub").each(function()
+	{
+		var tempFuncOverride = function(d)
+		{
+			(function(j, obj)
+			{
+				j=j-1 // To compensate for the fact that the first group is the scatterplot, not the line charts.
+				d3.select(obj).attr('r',10);
+				d3.select(obj).on("mouseover",function(d)
+				{
+					// Thing that checks if this is a point mouseover or a line mouseover
+					if(d3.select(obj).attr("class")=="line") // Need to detect pixel position to figure out which congress
+					{
+						var d3MouseCoords = d3.mouse(this);
+						var d3CanvasWidth = d3.select("#dim-chart svg").select("g.sub").node().getBBox()["width"];
+						var currCong = Math.ceil(115 * d3MouseCoords[0]/(d3CanvasWidth));
+						var dUse = d["values"][currCong-1];
+					}
+					else // We only have one congress, we're good to go.
+					{
+						var dUse = d;
+					}
+
+					clearTimeout(opacityTimer);
+					baseToolTip.html(ideologyTooltip(j, dUse));
+					if(j == 1)
+					{
+						try
+						{	
+							$('#mapTooltip').removeClass().addClass('d3-tip')
+									.addClass(partyColorMap[globalPartyColorName]);
+						} catch(err) { console.log(err); }
+					}
+					else
+					{
+						$('#mapTooltip').removeClass().addClass('d3-tip').addClass("grey");
+					}
+					eH = baseToolTip.style("height");
+					eW = baseToolTip.style("width");
+					baseToolTip.style("visibility","visible");
+				})
+				.on("mouseout",function(){
+					opacityTimer = setTimeout(function(){baseToolTip.style("visibility","hidden");}, 100);
+				})
+				.on("mousemove",function()
+				{
+					clearTimeout(opacityTimer);
+					baseToolTip.style("top",(event.pageY+32)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+				})
+			})(i, this);
+		};
+
+		d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip circle").each(tempFuncOverride);
+		d3.select(this).selectAll(".stack-list g.stack path.line").each(tempFuncOverride);
+		//d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip path").each(tempFuncOverride);
+		i=i+1;
+	});
+	console.timeEnd("tooltip");
+
 
 	var initialCong = maxCong; //(maxCong==max)?max:0;
 	$.ajax({
