@@ -25,17 +25,25 @@
 					<abbr title="parties"><a href="/parties/all">Parties</a></abbr> &gt; 
 					<span class="fullName">Party {{ party }}</span>
 				</h3>
-
-				% if "party_description" in partyData:
-				<div class="alert alert-{{indicator}}">
-					{{!partyData["party_description"]}}
+			</div>
+		</div>
+		% if "party_description" in partyData:
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading"><strong>About the {{ partyNameFull[2:] }}</strong></div>
+					<div class="panel-body"> {{!partyData["party_description"]}}</div>
 				</div>
-				% end
+			</div>
+		</div>
+		% end
+		<div class="row">
 
 				<h4>
-					Median <span class="fullName">Party {{ party }}</span> ideology over time<small><a class="reset" href="javascript:dimChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small>
+					<span class="fullName">Party {{ party }}</span> ideology over time<small><a class="reset" href="javascript:dimChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small>
 				</h4>
 				<div id="dim-chart"></div>
+
 			</div>
 		</div>
 		<div class="row" style="padding-bottom:30px;">
