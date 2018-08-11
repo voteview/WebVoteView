@@ -43,6 +43,7 @@
 				<svg id="svg-bg"></svg> 
 			</div>
 			<div id="scatter-chart">
+				<span id="suppressNominateControls" style="display:none;"><span class="filter"></span></span>
 			</div>
 		</div>
 		% end
@@ -74,8 +75,18 @@
 	</div>
 </div>
 
+<div id="selectionFilterBar" style="display:none;">
+	<strong>Selected:</strong>
+	<span id="data-count"><span id="votertype"></span> with </span>
+	<span id="nominate-chart-controls" style="display:none;">NOMINATE scores within <span class="filter"></span>, </span>
+	<span id="name-controls" style="display:none;">names matching "<span class="filter"></span>"</span>
+	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
+</div>
+<img id="selectionFilterClose" style="display:none; width:32px; cursor:pointer;" onClick="javascript:doFullFilterReset();" src="/static/img/close.png">
+
 <script language="javascript">
 var chamber_param = "{{ chamber }}";
+var chamber = "{{ chamber }}";
 var congressNum = {{congress}};
 var mapParties = 1;
 var nomDWeight = {{dimweight}};

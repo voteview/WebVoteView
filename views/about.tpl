@@ -41,7 +41,7 @@ questions, and media enquiries concerning this project.
 
 			<h3>Support</h3>
 
-			This project was made possibe by support from <a href="http://www.hewlett.org">The William and Flora Hewlett Foundation</a> (Grant #2016-3870), the  <a href="http://www.nsf.gov">National Science Foundation</a> (NSF-SBS-0611974), UCLA Social Science Computing and the University of Georgia.
+			This project was made possibe by support from <a href="http://www.hewlett.org">The William and Flora Hewlett Foundation</a> (Grant #2016-3870), the  <a href="http://www.nsf.gov">National Science Foundation</a> (NSF-SBS-0611974), UCLA Social Science Computing and the University of Georgia. Some <a href="https://github.com/voteview/WebVoteView/wiki/Colophon">open source components</a> used under license.
 
 			<h3>Project Staff</h3>
 			<ul>
@@ -86,13 +86,13 @@ questions, and media enquiries concerning this project.
 			<h3>Contact Us</h3>
 			<form id="contact-form">
 				<p>
-					Your Name: <input name="yourname" type="text" placeholder="Keith Poole" style="width:60%;">
+					Your Name: <input name="yourname" type="text" placeholder="e.g. Keith Poole" style="width:60%;">
 				</p>
 				<p>
-					Your Email Address: <input name="email" type="text" placeholder="example@email.com" style="width:53%;">
+					Your Email Address: <input name="email" type="text" placeholder="e.g. example@email.com" style="width:53%;">
 				</p>
 				<p>
-					Subject: <input type="text" name="title" placeholder="Question about VoteView.com" style="width:63%;">
+					Subject: <input type="text" name="title" placeholder="e.g. Question about VoteView.com" style="width:63%;">
 				</p>
 				<textarea style="width:70%;height:250px;" name="body" placeholder="Type your message here. Please allow 10 days for a response."></textarea>
 				<script>
@@ -102,48 +102,11 @@ questions, and media enquiries concerning this project.
 					Before you contact us, please click the box below to verify you are human:
 					<div class="g-recaptcha" data-sitekey="{{authData["recaptchaPublic"]}}" data-callback="showSubmit"></div>
 				</div>
-				<div id="captcha_hide_submit" style="display:none;">
+				<div id="captcha_hide_submit" style="display:block;">
 					<input type="submit" onclick="javascript:submitForm(); return false;" />
 				</div>
 			</form>
 			<div id="result" style="display:none;"></div>
-
-			<br/>
-			<h4>Licence and Code</h4>
-			<small>
-			<p>VoteView code available on GitHub:</p>
-			<ul>
-				<li><a href="https://github.com/JeffreyBLewis/congressional-district-boundaries">Congressional District Boundaries JSON data</a></li>
-				<li><a href="https://github.com/JeffreyBLewis/Rvoteview">Rvoteview R Package</a></li>
-				<li><a href="https://github.com/JeffreyBLewis/WebVoteView">WebVoteView site source</a></li>
-			</ul>
-
-			<p>VoteView data:</p>
-			<ul>
-				<li><a href="/static/db/current.zip">Current (generated weekly) backup of complete VoteView database</a> (50-100MB, MongoDB bson and json format)</li>
-				<li><a href="/static/db/">Older backup archives</a></li>
-			</ul>
-
-			<p>Some graphics used under license:</p>
-			<ul>
-				<li><a href="http://www.flaticon.com/packs/arrows-pack/">Freepik Arrows Pack</a></li>
-				<li><a href="http://www.flaticon.com/packs/packs/data-analytics">Freepik Data Analytics Pack</a></li>
-				<li><a href="http://www.flaticon.com/packs/file-format-collection">Freepik File Format Pack</a></li>
-				<li><a href="http://www.flaticon.com/packs/thin-line-ui">Eleonor Wang Thin UI Pack</a></li>
-				<li><a href="http://www.flaticon.com/packs/flat-lines-circled">Eleonor Wang Flat Lines Circled Pack</a></li>
-				<li><a href="https://github.com/stevenrskelton/flag-icon">State Flags from flag-icon</a> by Steven Skelton</li>
-			</ul>
-
-			<p>External code libraries:</p>
-			<ul>
-				<li><a href="https://github.com/twbs/bootstrap">Bootstrap.js</a> by Twitter, Inc.</li>
-				<li><a href="https://github.com/dc-js/dc.js">DC.js</a> by Stephen Levine</li>
-				<li><a href="https://github.com/Caged/d3-tip">D3-tip</a> by Justin Palmer</li>
-				<li><a href="https://github.com/jquery/jquery">jQuery</a> by jQuery Foundation</li>
-				<li><a href="https://github.com/exupero/saveSvgAsPng">saveSvgAsPng</a> by Eric Shull</li>
-				<li><a href="https://github.com/seiyria/bootstrap-slider">bootstrap-slider</a> by Kyle Kemp and Rohit Kalkur</li>
-				<li><a href="https://github.com/js-cookie/js-cookie">js-cookie</a> by Klaus Hartl and Fagner Brack</li>
-			</ul>
 			</small>
 
 			<br/><br/><br/>

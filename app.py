@@ -21,7 +21,7 @@ from model.articles import get_article_meta, list_articles
 from model.searchMeta import metaLookup
 from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
 from model.prepVotes import prepVotes
-from model.geoLookup import addressToLatLong, latLongToDistrictCodes
+from model.geoLookup import addressToLatLong, latLongToDistrictCodes, lat_long_to_polygon
 from model.searchAssemble import assembleSearch
 import model.downloadXLS
 import model.stashCart
@@ -164,13 +164,16 @@ def quota():
 def data():
     maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
     data_articles = list_articles("data")
-    output = bottle.template("views/data", maxCongress=maxCongress, articles = data_articles)
+    current_year = datetime.datetime.now().year
+    output = bottle.template("views/data", maxCongress=maxCongress, articles = data_articles, year = current_year)
     return output
 
 
 @app.route("/past_data")
 def past_data():
-    return bottle.template("views/past_data")
+    blacklist = [".gitkeep"]
+    folder_files = [x for x in reversed(sorted(os.listdir("static/db/"))) if x not in blacklist]
+    return bottle.template("views/past_data", folder_files = folder_files)
 
 
 @app.route("/research")
@@ -532,6 +535,20 @@ def geocode():
     else:
         return addressToLatLong(bottle.request, q)
 
+@app.route("/api/districtPolygonLookup")
+def districtPolygonLookup():
+    try:
+        lat = float(defaultValue(bottle.request.params.lat, 0))
+        long = float(defaultValue(bottle.request.params.long, 0))
+    except:
+        return {"status": 1, "error_message": "Invalid lat/long coordinates."}
+
+    current_congress_polygon = lat_long_to_polygon(bottle.request, lat, long)
+
+    if current_congress_polygon:
+        return {"polygon": current_congress_polygon}
+    else:
+        return {"polygon": []}
 
 @app.route("/api/districtLookup")
 def districtLookup():

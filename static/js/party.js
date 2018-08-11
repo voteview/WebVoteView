@@ -11,8 +11,9 @@ var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 // Need to hold these things in globals to do dynamic on-the-fly changes to map.
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
 var inLoop, playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
-var mapTopo;
-var globalPartyName;
+var mapTopo, stateTopo;
+var opacityTimer;
+var globalPartyName, globalPartyColorName;
 
 function congYear(num) { return [1787+2*num, 1788+2*num]; }
 
@@ -36,6 +37,28 @@ function tooltipText(d)
 	return(result);
 }
 
+function ideologyTooltip(party, d)
+{
+	var result = getGetOrdinal(d.x)+" Congress &gt; ";
+	if(party > 0)
+	{
+		result = result+"<strong>" + globalPartyName + "</strong>";
+	}
+	else
+	{
+		result = result+"<strong>Congressional Median (Midpoint)</strong>";
+	}
+	result = result+"<br/><br/><em>Median Ideology Score</em>: "+(Math.round(d.y*100)/100);
+	result = result+"<br/><br/><em>How to interpret Ideology scores:</em><br/>These scores show how liberal or conservative a party is on a scale from -1 (Very Liberal) to +1 (Very Conservative). The scores provided are the median--mid-point--member of each party across both the House of Representative and the Senate.";
+
+	if(party < 0)
+	{
+		result = result+"<br/><br/>The Congressional Median is unstable (swings back and forth) as control of the House and Senate change.";
+	}
+	return(result);
+}
+
+
 var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 
 var q = queue()
@@ -44,10 +67,11 @@ var q = queue()
     .defer(d3.json, "/api/getPartyData?id="+party_param)
     .defer(d3.json, "/static/json/states_all.json")
     .defer(d3.json, "/static/controljson/"+party_param+".json")
-    .defer(d3.json, "/static/config.json");
+    .defer(d3.json, "/static/config.json")
+    .defer(d3.json, "/static/json/usa.topojson");
 
 q
-    .await(function(error, pdat, cdat,partyname, stateboundaries, pcontrol, configFile) {	
+    .await(function(error, pdat, cdat,partyname, stateboundaries, pcontrol, configFile, usaboundaries) {	
 	partycontroljson = pcontrol;
 	if(!partyname["error"])
 	{
@@ -62,8 +86,6 @@ q
 		var partyname = {"partyname": "Party "+party_param, "fullName": "Party "+party_param, "pluralNoun": "Party "+party_param+" Member", "noun": "Party "+party_param};
 		var partyCol = ["#CCCCCC", "#CCCCCC", "#CCCCCC"];
 	}
-
-	d3.select("#content").style("display", "block");
 
 	var min = 1;
 	var max = configFile["maxCongress"];	
@@ -152,6 +174,7 @@ q
 	    .height(250)
 	    .dimension(congressDimension)
 	    .elasticX(true)
+	    .renderTitle(false)
 	    .brushOn(false)
             .x(d3.scale.linear().domain([0, max+1]))
 	    .y(d3.scale.linear().domain([minY, maxY]))
@@ -270,6 +293,7 @@ q
 
 	// Now let's make our map!
 	mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
+	stateTopo = topojson.feature(usaboundaries, usaboundaries.objects.usa).features;
 	partyMapChart
 		.width(930)
 		.height(500)
@@ -284,6 +308,7 @@ q
 			}
 			return colourSet[colourSet.length-1];
 		})
+		.overlayGeoJson(stateTopo, 'country')
 		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
 		.renderTitle(false)
 		.on('preRedraw',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); })
@@ -321,10 +346,75 @@ q
         dc.renderAll();
 	timeChart.svg().selectAll("text").filter(".y-label").attr("font-size","13px");
 	globalPartyName = partyname["pluralNoun"];
+	globalPartyColorName = partyname["partyname"];
 	$(".fullName").html(partyname["fullName"]);
 	$(".pluralNoun").html(partyname["pluralNoun"]);
 	$(".noun").html(partyname["noun"]);
+
+	// Populating the tooltip for ideology
+	console.time("tooltip");
+	var i = 0;
+	d3.select("#dim-chart svg").selectAll("g.sub").each(function()
+	{
+		var tempFuncOverride = function(d)
+		{
+			(function(j, obj)
+			{
+				j=j-1 // To compensate for the fact that the first group is the scatterplot, not the line charts.
+				d3.select(obj).attr('r',10);
+				d3.select(obj).on("mouseover",function(d)
+				{
+					// Thing that checks if this is a point mouseover or a line mouseover
+					if(d3.select(obj).attr("class")=="line") // Need to detect pixel position to figure out which congress
+					{
+						var d3MouseCoords = d3.mouse(this);
+						var d3CanvasWidth = d3.select("#dim-chart svg").select("g.sub").node().getBBox()["width"];
+						var currCong = Math.ceil(115 * d3MouseCoords[0]/(d3CanvasWidth));
+						var dUse = d["values"][currCong-1];
+					}
+					else // We only have one congress, we're good to go.
+					{
+						var dUse = d;
+					}
+
+					clearTimeout(opacityTimer);
+					baseToolTip.html(ideologyTooltip(j, dUse));
+					if(j == 1)
+					{
+						try
+						{	
+							$('#mapTooltip').removeClass().addClass('d3-tip')
+									.addClass(partyColorMap[globalPartyColorName]);
+						} catch(err) { console.log(err); }
+					}
+					else
+					{
+						$('#mapTooltip').removeClass().addClass('d3-tip').addClass("grey");
+					}
+					eH = baseToolTip.style("height");
+					eW = baseToolTip.style("width");
+					baseToolTip.style("visibility","visible");
+				})
+				.on("mouseout",function(){
+					opacityTimer = setTimeout(function(){baseToolTip.style("visibility","hidden");}, 100);
+				})
+				.on("mousemove",function()
+				{
+					clearTimeout(opacityTimer);
+					baseToolTip.style("top",(event.pageY+32)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+				})
+			})(i, this);
+		};
+
+		d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip circle").each(tempFuncOverride);
+		d3.select(this).selectAll(".stack-list g.stack path.line").each(tempFuncOverride);
+		//d3.select(this).selectAll(".dc-tooltip-list .dc-tooltip path").each(tempFuncOverride);
+		i=i+1;
+	});
+	console.timeEnd("tooltip");
+
 	$("#loading-container").slideUp();
+	$("#content").fadeIn();
 
 	var initialCong = maxCong; //(maxCong==max)?max:0;
 	$.ajax({
@@ -343,18 +433,19 @@ function fadeStates(c)
 {
 	var currentYear = congYear(currCong);
 	var baseSVG = d3.select("div#party-map-chart svg"); //c.svg();
-	for(var i=0;i!=baseSVG.selectAll("g.state")[0].length;i++)
+	for(var i=0;i!=baseSVG.selectAll("g.layer1 g.state")[0].length;i++)
 	{
 		if(currentYear[0]>=mapTopo[i].properties["STARTYEAR"] && currentYear[1]<=mapTopo[i].properties["ENDYEAR"])
 		{
-			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1).style("pointer-events","auto");
+			baseSVG.select("g.layer1").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1).style("pointer-events","auto");
 		}
 		else
 		{
-			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0).style("pointer-events","none");
+			baseSVG.select("g.layer1").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0).style("pointer-events","none");
 
 		}
 	}
+	baseSVG.select("g.layer0").select("g").select("path").attr("opacity", 1).attr("stroke", "#666666").attr("opacity", 0.3);
 }
 
 function ensureLegend(c)
