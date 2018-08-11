@@ -1,3 +1,27 @@
+#footer {
+    width: 100%;
+    height: 90px;
+    background-color: #3284bf;
+    overflow: hidden;
+    margin-top: 0px;
+    display: none;
+}
+
+div#footer div {
+    height: 90px;
+}
+
+div#footer div span {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+div#footer img {
+    height: 76px;
+    vertical-align: middle;
+}
+
 #scatter-container {
     width: 890px;
     height: 425px;
