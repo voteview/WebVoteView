@@ -11,7 +11,7 @@ var partyMapChart = dc.geoChoroplethChart("#party-map-chart");
 // Need to hold these things in globals to do dynamic on-the-fly changes to map.
 var groupSel = "both", bothGroup, senateGroup, houseGroup, currSet, pmx, stateDimension, partycontroljson, clusterUpper, colourSet;
 var inLoop, playLoop, currCong, minCong, maxCong, forceStopLoop, slider;
-var mapTopo;
+var mapTopo, stateTopo;
 var opacityTimer;
 var globalPartyName, globalPartyColorName;
 
@@ -67,10 +67,11 @@ var q = queue()
     .defer(d3.json, "/api/getPartyData?id="+party_param)
     .defer(d3.json, "/static/json/states_all.json")
     .defer(d3.json, "/static/controljson/"+party_param+".json")
-    .defer(d3.json, "/static/config.json");
+    .defer(d3.json, "/static/config.json")
+    .defer(d3.json, "/static/json/usa.topojson");
 
 q
-    .await(function(error, pdat, cdat,partyname, stateboundaries, pcontrol, configFile) {	
+    .await(function(error, pdat, cdat,partyname, stateboundaries, pcontrol, configFile, usaboundaries) {	
 	partycontroljson = pcontrol;
 	if(!partyname["error"])
 	{
@@ -85,8 +86,6 @@ q
 		var partyname = {"partyname": "Party "+party_param, "fullName": "Party "+party_param, "pluralNoun": "Party "+party_param+" Member", "noun": "Party "+party_param};
 		var partyCol = ["#CCCCCC", "#CCCCCC", "#CCCCCC"];
 	}
-
-	d3.select("#content").style("display", "block");
 
 	var min = 1;
 	var max = configFile["maxCongress"];	
@@ -294,6 +293,7 @@ q
 
 	// Now let's make our map!
 	mapTopo = topojson.feature(stateboundaries, stateboundaries.objects.states).features;
+	stateTopo = topojson.feature(usaboundaries, usaboundaries.objects.usa).features;
 	partyMapChart
 		.width(930)
 		.height(500)
@@ -308,6 +308,7 @@ q
 			}
 			return colourSet[colourSet.length-1];
 		})
+		.overlayGeoJson(stateTopo, 'country')
 		.overlayGeoJson(mapTopo, 'state', function(d) { return d.id; })
 		.renderTitle(false)
 		.on('preRedraw',function(c) { fadeStates(c); ensureTextLabel(c); ensureLegend(c); })
@@ -349,8 +350,6 @@ q
 	$(".fullName").html(partyname["fullName"]);
 	$(".pluralNoun").html(partyname["pluralNoun"]);
 	$(".noun").html(partyname["noun"]);
-	$("#loading-container").slideUp();
-
 
 	// Populating the tooltip for ideology
 	console.time("tooltip");
@@ -414,6 +413,8 @@ q
 	});
 	console.timeEnd("tooltip");
 
+	$("#loading-container").slideUp();
+	$("#content").fadeIn();
 
 	var initialCong = maxCong; //(maxCong==max)?max:0;
 	$.ajax({
@@ -432,18 +433,19 @@ function fadeStates(c)
 {
 	var currentYear = congYear(currCong);
 	var baseSVG = d3.select("div#party-map-chart svg"); //c.svg();
-	for(var i=0;i!=baseSVG.selectAll("g.state")[0].length;i++)
+	for(var i=0;i!=baseSVG.selectAll("g.layer1 g.state")[0].length;i++)
 	{
 		if(currentYear[0]>=mapTopo[i].properties["STARTYEAR"] && currentYear[1]<=mapTopo[i].properties["ENDYEAR"])
 		{
-			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1).style("pointer-events","auto");
+			baseSVG.select("g.layer1").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",1).style("pointer-events","auto");
 		}
 		else
 		{
-			baseSVG.select("g.layer0").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0).style("pointer-events","none");
+			baseSVG.select("g.layer1").select("g:nth-child("+(i+1)+")").select("path").attr("opacity",0).style("pointer-events","none");
 
 		}
 	}
+	baseSVG.select("g.layer0").select("g").select("path").attr("opacity", 1).attr("stroke", "#666666").attr("opacity", 0.3);
 }
 
 function ensureLegend(c)

@@ -18,7 +18,7 @@
 		</h3>
 	</div>
 	
-	<div id="content">
+	<div id="content" style="display:none;">
 		<div class="row">
 			<div class="col-md-12">
 				<h3>
@@ -44,7 +44,6 @@
 				</h4>
 				<div id="dim-chart"></div>
 
-			</div>
 		</div>
 		<div class="row" style="padding-bottom:30px;">
 			<div class="col-md-12">

@@ -191,14 +191,15 @@ function resetResults()
 	var markerSet = [];
 	var cachedCoords = [];
 	var initialLoad=0;
+	var markerPos;
 	function doMembers(lat, lng)
 	{
 		// We started a load, so don't fire the map move event while we're loading
 		initialLoad = 1;
 		// Cache the lookup coordinates to make the map mover work
 		cachedCoords = [lat, lng];
- 		var markerPos = {lat: lat, lng: lng};
-		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: true, zoomControl: true});
+ 		markerPos = {lat: lat, lng: lng};
+		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, minZoom: 7, maxZoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: true, zoomControl: true});
 		globalMap = map;
 		// Put the marker in the lat/long
 		var marker = new google.maps.Marker({position: markerPos, map: map});
@@ -210,25 +211,6 @@ function resetResults()
 			success: function(data, status, xhr)
 			{
 				$("#loadProgress").fadeOut();
-
-				// Draw congressional district polygon.
-				if(data["polygon"]!=undefined && data["polygon"].length)
-				{
-					var polygonData = [];
-					for(var i=0; i!=data["polygon"].length; i++) 
-					{
-						polygonData.push({"lat": data["polygon"][i][1], "lng": data["polygon"][i][0]});
-					}
-					var districtPolygon = new google.maps.Polygon({
-						paths: polygonData,
-						strokeColor: "#FF0000",
-						strokeOpacity: 0.8,
-						strokeWeight: 2,
-						fillColor: "#FF0000",
-						fillOpacity: 0.2
-					});
-					districtPolygon.setMap(globalMap); 
-				}
 
 				if(data["resCurr"]!=undefined && data["resCurr"].length)
 				{
@@ -356,9 +338,27 @@ function resetResults()
 			url: "/api/districtPolygonLookup?lat="+lat+"&long="+lng,
 			success: function(data, status, xhr)
 			{
+
+google.maps.Polygon.prototype.getBounds = function(bounds) {
+	if(bounds == null) {
+	    var bounds = new google.maps.LatLngBounds();
+	}
+
+	var paths = this.getPaths();
+	for (var i = 0; i < paths.getLength(); i++) {
+		path = paths.getAt(i);
+		for (var ii = 0; ii < path.getLength(); ii++) {
+			bounds.extend(path.getAt(ii));
+        	}
+	}
+	return bounds;
+}
+
+
 				// Draw congressional district polygon.
 				if(data["polygon"]!=undefined && data["polygon"].length)
 				{
+					var tempBounds = new google.maps.LatLngBounds();
 					var poly_color = ["#FF0000", "#FF0000"];
 					console.log("Drawing district polygon in map.");
 					for(var j in data["polygon"])
@@ -386,7 +386,16 @@ function resetResults()
 							fillOpacity: 0.2
 						});
 						districtPolygon.setMap(globalMap); 
+						// Get polygon bounds for this polygon
+						tempBounds = districtPolygon.getBounds(tempBounds);
 					}
+
+					
+
+					// Zoom out to the appropriate zoom to fill the polygon.
+					globalMap.fitBounds(tempBounds);
+					globalMap.setCenter(markerPos);
+					globalMap.setZoom(globalMap.getZoom() + 1);
 				}
 			}
 		});
