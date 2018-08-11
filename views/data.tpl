@@ -1,181 +1,103 @@
 % rebase('base.tpl',title='Data')
-% import os
 % STATIC_URL = '/static/'
-<!-- Data.tpl: This should be the template for the page that lists all the different data files we're making available.
-     Currently, all the templating stuff is wired up, but none of the data pages exist because we haven't downloaded them from Keith yet. -->
-
 % include('header.tpl')
 <div class="container">
   <div class="row">
     <div class="col-md-9">
 
-      <h3>Realtime NOMINATE Ideology and Related Data</h3>
-      <p>
-      This section contains .csv files that provide descriptive data as well as ideological data for congressional rollcalls, individual member votes, members of congress, and parties.
-	You can find information such the descriptions of rollcalls, what proportion of voting members were correctly classified by the ideological cutting line for that rollcall, the ideological position of members of congress, and more.
-      </p>
-      <p>
-      Both the rollcall data and the data on members are split into chambers and congresses, although you can select some combinations of the two to download.
-The data on parties is a dataset with some metadata about all of the different parties as well as their average ideological position and membership size broken down by congress and chamber.
-      </p>
-      <p>
-        You can see the <a href="/about">about</a> page for more information about NOMINATE.
-      </p>
-      <p>
+	<h3>Realtime NOMINATE Ideology and Related Data</h3>
+	<p>
+		This section contains download links for NOMINATE scores and other data that we make available to the public, in addition to tutorial articles explaining how to generate popular ancillary data from our data exports. Please continue by choosing the data you wish to download.<br/><br/>
 
+		For more information on how NOMINATE scores and other data are calculated, please see the <a href="/about">About</a> page.
+	</p>
 
-
-<div class="panel panel-default">
-  <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
-    <div class="panel-body">Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet (2017). <em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/</div>
+	<div class="panel panel-primary">
+	  <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
+	    <div class="panel-body">Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet ({{year}}). <em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/</div>
+	</div>
     </div>
-
-
-    For information on the data files, please see the <a href="/static/docs/csv_docs.html">CSV data files documentation</a>.
-      <p>
-        <div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about congressional rollcalls</h4></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv','dat', 'json'])
-	    <div class="dataLink">
-	      <a class="csv" id="rollcalls">Download</a>
-	    </div>
-	  </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+	<div class="form-inline">
+	<label for="source">Data Type:</label> 
+	<select name="source" id="source" onChange="javascript:updateDownloadLink();">
+		<option value="members">Member Ideology</option>
+		<option value="rollcalls">Congressional Votes</option>
+		<option value="votes">Members' Votes</option>
+		<option value="parties">Congressional Parties</option>
+	</select>
 	</div>
-      </p>
-
-
-      <p>
-        <div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about votes members cast</h4></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv','ord'])
-	    <div class="dataLink">
-	      <a class="csv" id="votes">Download</a>
-	    </div>
-	  </div>
+	<div class="form-inline">
+	<label for="chamber">Chamber:</label>
+	<select name="chamber" id="chamber" onChange="javascript:updateDownloadLink();">
+		<option value="HS">Both (House and Senate)</option>
+		<option value="S">Senate Only</option>
+		<option value="H">House Only</option>
+	</select>
 	</div>
-      </p>
-
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about members of congress</h4></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv','dat'])
-	    <div class="dataLink">
-	      <a class="csv" id="members">Download</a>
-	    </div>
-	  </div>
+	<div class="form-inline">
+	<label for="congress">Congress:</label> 
+	<select name="congress" id="congress" onChange="javascript:updateDownloadLink();">
+		<option value="all">All</option>
+		% for i in xrange(maxCongress, 0, -1):
+		% min_year = 1787 + (2 * i)
+		% max_year = min_year + 2
+		% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+		<option value="{{str(i).zfill(3)}}">{{rcSuffix(i)}} Congress ({{min_year}} - {{max_year}})</option>
+		% end
+	</select>
 	</div>
-      </p>
-      <p>
-	<div class="dataContainer">
-	  <a href="#" class="dataHeader"><h4>Information about political parties</h4></a>
-	  <div class="dataContent" style="display:none;">
-	    % include('data_dropdowns.tpl', file_types=['csv'])
-	    <div class="dataLink">
-	      <a class="csv" id="parties">Download</a>
-	    </div>
-	  </div>
+	<div class="form-inline" style="padding-bottom:3px;">
+	<label for="format">File Format:</label> 
+	<select name="format" id="format" onChange="javascript:updateDownloadLink();">
+		<option id="format_csv" value="csv">CSV (Recommended)</option>
+		<option id="format_json" value="json">JSON (Web Developers)</option>
+		<option id="format_dat" value="dat">DAT (Legacy, Not Recommended)</option>
+		<option id="format_ord" style="display:none;" value="ord">ORD (Legacy, Not Recommended)</option>
+	</select>
 	</div>
-      </p>
-
-
-      <h4>Extra Legacy Information</h4>
-      <p>
-	<a href="/static/data/other/codes.txt">Clausen, Peltzman, and Issue codes for 1<sup>st</sup> to 113<sup>th</sup> Congresses</a>
-      </p>
-
-      <h3>Ancillary Data and Analyses</h3>
-      <p>
-	We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
+	<a class="btn btn-primary" id="download_link" href="/static/data/out/members/HSall_members.csv">Download Data</a>
+    </div>
+    <div class="col-md-5">
+	<div class="panel panel-default" id="data_download_container" style="display:none;">
+		<div class="panel-heading" id="data_download_heading">Heading</div>
+		<div class="panel-body" id="data_download_desc"></div>
+	</div>	
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+	<h3>Ancillary Data and Analyses</h3>
+	<p>
+		We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
+	</p>
 
 	% for article in articles:
 	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
 	% end
-      </p>
 
-      <h3>Complete Database</h3>
-      <p>
-	<a href="/static/db/current.zip">Complete database</a> (approx. 500MB zipped).<br/>
-	Our database is available in MongoDB bson/json format. This release is updated weekly. For information about specific data fields in the database, see the <a href="/static/docs/members.csv">members data dictionary</a> and <a href="/static/docs/rollcalls.csv">rollcalls data dictionary</a>.
-      </p>
-      <p>
-	<a href="/past_data">Browse prior database releases</a><br/>
-	We retain a year worth of archival data online. Archival releases may be missing new rollcall or member data,
-	and may also be missing corrections made to existing data.
-      </p>
+	<p><a href="/static/db/current.zip" onClick="javascript:return modalCompleteDatabase();">Complete database</a> (approx. 500MB zipped): We expect that most journalists, academics, and interested users should use the main data downloads listed above. However, for users interested in building a website based on Voteview.com data, we make available a complete dump of our MongoDB database. This release is updated weekly and is provided without warranty.</p>
+	<p><a href="/past_data">Browse prior database releases</a>: We retain archival copies of our complete database release. We recommend users only use the most current version of our data. These archival releases may be missing new rollcall or member data, and may also be missing corrections made to existing data.</p>
+
+
+	<h3><a href="https://github.com/voteview"><img style="height:24px; vertical-align:top;" src="{{ STATIC_URL }}/img/github.png"></a> VoteView on Github</h3>
+	<p>
+		Most of the code associated with our website is available through our <a href="https://github.com/voteview">GitHub Organization.
+
+		<ul>
+			<li><a href="https://github.com/voteview/WebVoteView">voteview.com site source</a></li>
+			<li><a href="https://github.com/JeffreyBLewis/congressional-district-boundaries">Congressional District Boundaries JSON data</a></li>
+			<li><a href="https://github.com/voteview/member_photos">Congressional member photos</a></li>
+			<li><a href="https://github.com/voteview/Rvoteview">Rvoteview R Package</a></li>
+			<li><a href="https://github.com/voteview/articles">Articles and tutorials</a></li>
+		</ul>
+	</p>
     </div>
   </div>
 </div>
+<br/><br/>
 
-<script language="javascript">
-  function setLink(aobj, chamber, congress, ftype) {
-    var dtype = aobj.attr("id");
-    var linkfolder = '/static/data/out/' + dtype + '/';
-    var link = linkfolder + chamber+congress+'_' + dtype+ '.'+ftype;
-    aobj.attr("href", link);
-    aobj.attr("target", "_blank");
-  }
-
-  function padCongress(congress) {
-    var congressPad = ('000'+congress).substring(congress.length);
-    return congressPad;
-  }
-
-  $(document).ready(function(){
-    $(".dataLink").each(function() {
-      var chamber = $(this).parent().find("select[name='chamber']").find("option:selected").val();
-      var congress = $(this).parent().find("select[name='congress']").find("option:selected").val();
-      var filetype = $(this).parent().find("select[name='filetype']").find("option:selected").val();
-      setLink($(this).find("a"), chamber, padCongress(congress), filetype);
-    });
-
-    $('.dataSelect').on('change', function(){
-      var dcontent = $(this).closest("div.dataContent");
-
-      var chamber = dcontent.find("select[name='chamber']").find("option:selected").val();
-      var congress = dcontent.find("select[name='congress']").find("option:selected").val();
-      var filetype = dcontent.find("select[name='filetype']").find("option:selected").val();
-
-      setLink(dcontent.find("a"), chamber, padCongress(congress), filetype);
-    });
-
-    $(".dataHeader").click(function() {
-      $(this).next(".dataContent").slideToggle("fast");
-      return false;
-    });
-
-  });
-</script>
-
-<style>
-div.dataLink,
-div.dataLinkFixed {
-  margin-left: 10px;
-}
-</style>
-
-<!-- INATE and metadata <
-        <a href="dwnomin_CHOICES.htm">DW-NOMINATE Probabilities for Legislator Choices: 1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
-        <a href="dw-nominate.htm">DW-NOMINATE Program With Examples</a><BR>
-
-        <a href="cutting_line_angles.htm">Cutting Line Angle Files for the House and Senate
-           1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
-        <a href="Nokken-Poole.htm">One-Congress-at-a-Time DW-NOMINATE (Nokken-Poole) data
-           for  the House and Senate
-           1<sup>st</sup> to 112<sup>th</sup> Congresses</a><BR>
-
-        <a href="Political_Polarization.asp">Political Polarization Measures:  1879 - 2012</a><BR>
-
-        <a href="Party_Unity.htm">Party Unity Scores by Democrat and Republican Members:  1857 - 2012</a><BR>
-
-        <a href="Party_Unity.htm">Party Unity Scores by Congress:  1879 - 2012</a><BR>
-
-        <a href="winning_side.htm">
-         Percent Voting on the Winning Side by Member -- Houses/Senates 1 - 112</a><BR>
--->
-
+<script type="text/javascript" src="{{ STATIC_URL }}js/data.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/footerFixed.js"></script>
