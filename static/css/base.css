@@ -327,3 +327,9 @@ path.median
 	fill:none !important;
 	stroke-width:3px !important;
 }
+
+/* Geography page */
+.ideology { width: 50px; border-left: 1px solid grey; border-right: 1px solid grey; overflow: none; padding: 0 !important;}
+.nom_ideology { height: 35px; overflow: auto; display: block; }
+
+

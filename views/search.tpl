@@ -8,8 +8,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<h3>
-				Search voteview.com 
-				<span class="glyphicon glyphicon-question-sign" style="font-size:14px;float:right;vertical-aklign:middle;cursor:pointer;" id="toggleAlert"></span>
+				Vote and Member Search
 			</h3>
 
 			<div class="alert alert-info fade in" style="margin-bottom:2px;" id="alertWelcome">
@@ -40,6 +39,9 @@
 						<span style="display:table-cell;width:125px;vertical-align:middle;padding-left:10px; font-size:0.9em;">
 							<a href="#" onclick="javascript:toggleAdvancedSearch(0);return false;">advanced search</a>
 						</span>
+					</div>
+					<div id="suggestContainer" style="font-size: 0.8em; display: none;">
+						Search tip: <span id="searchSuggest"></span>
 					</div>
 				</div>
 

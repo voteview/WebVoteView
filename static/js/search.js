@@ -1,3 +1,6 @@
+var searchPulseTime = 10000;
+var hasSuggested = 0;
+var shouldSuggest = 1;
 var doRedirectForce=0;
 var cookieId = "";
 var mostRecentSearch = "";
@@ -235,7 +238,16 @@ function emptyCart()
 
 function startPulseSuggested()
 {
-	if($("#searchTextInput").val()=="") { $("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); }
+	if(!shouldSuggest) { return; }
+
+	if(!hasSuggested)
+	{
+		$("#suggestContainer").fadeIn();
+		hasSuggested = 1;
+	}
+
+	$("#searchSuggest").html(suggestions[Math.floor(Math.random() * suggestions.length)]); 
+	$("#searchSuggest a").attr("href", "/search/" + stripJunkFromSearch($("#searchSuggest a").html()));
 }
 
 var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
@@ -282,13 +294,12 @@ $(document).ready(function(){
 	}
 
 	// Setup suggested searches
-	suggestedPulse = setInterval(startPulseSuggested,8000);
+	suggestedPulse = setTimeout(startPulseSuggested, searchPulseTime / 2);
+	suggestedPulse = setInterval(startPulseSuggested, searchPulseTime);
 	$("#searchTextInput").focus();
 	$("#searchTextInput").on('input',function() 
 	{ 
-		clearInterval(suggestedPulse); 
-		$("#searchTextInput").attr("placeholder","Enter a term to search for"); 
-		suggestedPulse = setInterval(startPulseSuggested, 8000);
+		shouldSuggest = 0;
 	});
 	$("#searchTextInput").focus();
 	$("#searchTextInput").on('focus',function()
@@ -471,6 +482,11 @@ var globalSlowLoadTimer;
 				}, 5000);
 
 				mostRecentSearch = $("#searchTextInput").val();
+
+				if(mostRecentSearch) {
+					shouldSuggest = 0;
+				}
+
 				$.ajax({
 					dataType: "JSON",
 					url: "/api/setSearch",

@@ -289,13 +289,13 @@ function resetResults()
 					if(v["nominate"]!=undefined && v["nominate"]["dim1"]!=undefined) { var nomOffset = Math.floor((v["nominate"]["dim1"]+1.01)*50); }
 
 					$("<td>"+getGetOrdinal(v["congress"])+" ("+dateSet[0]+"-"+dateSet[1].toString().substr(2,2)+")</td>").appendTo(tr);
-					$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").appendTo(tr);
+					$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").addClass("district").appendTo(tr);
 					if(v["nominate"]!=undefined && v["nominate"]["dim1"]!=undefined)
 					{
-						var nomDiv = $("<span></span>").css("border-right","3px solid "+colorSchemes[v["party_color"]][0])
-										.css("width",nomOffset+"%").css("height","35px").css("overflow","auto").css("display","block");
+						var nomDiv = $("<span></span>").addClass("nom_ideology").css("border-right","3px solid "+colorSchemes[v["party_color"]][0])
+										.css("width",nomOffset+"%");
 							
-						var holdingTD = $("<td></td>").css("padding","0").css("width","50px").css("border-left","1px solid grey").css("border-right","1px solid grey");
+						var holdingTD = $("<td></td>").addClass("ideology");
 						nomDiv.appendTo(holdingTD);
 						holdingTD.appendTo(tr);
 					}
@@ -303,19 +303,21 @@ function resetResults()
 					{
 						$("<td></td>").appendTo(tr);
 					}
-					$("<td>"+v["party_noun"]+"</td>").appendTo(tr);
+					$("<td>"+v["party_noun"]+"</td>").addClass("party").appendTo(tr);
 					$("<td><a href=\"/person/"+v["icpsr"]+"/"+v["seo_name"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
 
 					// Use a closure to pin tooltips onto each row. 
 					(function(v){
 						tr.on("mouseover", function()
 						{
+							console.log($(this).children(".ideology").offset().left);
 							$("#tooltipIdeology").html("");
-							if(v["nominate"]!=undefined) { $("#tooltipIdeology").html(v["nominate"]["dim1"]); }
+							var ideologyTooltip = "<strong>DW-NOMINATE</strong>: " + v["nominate"]["dim1"] + "<br/><small>Scores from -1 (Very Liberal) to 1 (Very Conservative)</small>";
+							if(v["nominate"]!=undefined) { $("#tooltipIdeology").html(ideologyTooltip); }
 							else { $("#tooltipIdeology").html("<strong>No Ideology Score</strong>"); }
 
 							$("#tooltipIdeology").removeClass().addClass("d3-tip");
-							$("#tooltipIdeology").css("left",($(this).offset().left+245)+"px");
+							$("#tooltipIdeology").css("left",($(this).children(".ideology").offset().left - $("#tooltipIdeology").width() - 25)+"px");
 							$("#tooltipIdeology").css("top",$(this).offset().top+"px");
 							$("#tooltipIdeology").css("visibility","visible");			
 						});

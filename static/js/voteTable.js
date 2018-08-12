@@ -97,7 +97,10 @@ function outVotes(groupBy)
 		var idProbLabel = $("<li></li>").css("padding-bottom","3px");
 		if(groupBy=="x") $("<strong>Most Liberal</strong> <span class='glyphicon glyphicon-arrow-down'></span>").appendTo(idProbLabel);
 	
-		if(groupBy=="prob") $("<strong>Most Unlikely</strong> <span class='glyphicon glyphicon-arrow-down'></span>").appendTo(idProbLabel);
+		if(groupBy=="prob")
+		{
+			$('<strong>Most Unlikely</strong> <span class="glyphicon glyphicon-arrow-down"></span> <br/> <span style="color:red;">Red: Probability < 25%</span>').appendTo(idProbLabel);
+		}
 		idProbLabel.appendTo(baseList);
 	}
 
@@ -126,9 +129,9 @@ function outVotes(groupBy)
 			var person = groupings[sortedKeys[key]][j];
 			var outLabel = "";
 			// Text label vary by facet
-			if(groupBy=="party") outLabel = person["name"]+" ("+person["state_abbrev"]+") ";
-			else if(groupBy=="state") outLabel = person["name"]+" ("+person["party"].substr(0,1)+") ";
-			else outLabel = person["name"]+" ("+person["party"].substr(0,1) + "-" +person["state_abbrev"] + ")";
+			if(groupBy=="party") outLabel = " ("+person["state_abbrev"]+") ";
+			else if(groupBy=="state") outLabel = " ("+person["party"].substr(0,1)+") ";
+			else outLabel = " ("+person["party"].substr(0,1) + "-" +person["state_abbrev"] + ")";
 
 			// Check if the current user is our sponsor.
 			var isSponsor = 0;
@@ -147,14 +150,16 @@ function outVotes(groupBy)
 			if(isSponsor) { li.css("background-color","yellow"); $("<span>* </span>").css("color","red").appendTo(span); }
 
 			$("<a></a>").attr("href","/person/"+person["icpsr"]+"/"+person["seo_name"])
-					.html(outLabel).appendTo(span);
+					.html(person["name"]).appendTo(span);
+			$("<span></span>").css({"color": "grey", "font-size": "0.9em"}).html(outLabel).appendTo(span);
 			span.appendTo(li);
 
 			// If we're not grouping on vote, right-float vote and class the LI to use the dot leaders.
 			if(groupBy!="vote") 
 			{ 
-				if(isSponsor) var addVote = $("<span>"+person["vote"]+"</span>").css("background-color","yellow").css("float","right").css("padding-right","40px")
-				else var addVote = $("<span>"+person["vote"]+"</span>").css("background-color","white").css("float","right").css("padding-right","40px")
+				var p_vote = person["vote"].substr(0, 1);
+				if(isSponsor) var addVote = $("<span>"+ p_vote + "</span>").css("background-color","yellow").css("float","right").css("padding-right","40px")
+				else var addVote = $("<span>" + p_vote +"</span>").css("background-color","white").css("float","right").css("padding-right","40px")
 				if(person["prob"]!=undefined && parseInt(person["prob"])<25 && sortedKeys[key] == "Voted") { addVote.css("color","red"); }
 				addVote.appendTo(li); 
 				li.addClass("dotted");

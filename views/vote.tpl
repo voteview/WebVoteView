@@ -248,6 +248,10 @@
 	</div>
 </div>
 
+<div class="row" style="height:30px;">
+	
+</div>
+
 <!-- The hidden filter bar code -->
 <div id="selectionFilterBar" style="display:none;">
 	<strong>Selected:</strong>
