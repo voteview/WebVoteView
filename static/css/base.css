@@ -332,4 +332,50 @@ path.median
 .ideology { width: 50px; border-left: 1px solid grey; border-right: 1px solid grey; overflow: none; padding: 0 !important;}
 .nom_ideology { height: 35px; overflow: auto; display: block; }
 
+/* Vote page */
+.voteTable { list-style-type: none; overflow: auto; }
+.columns1 { columns: 1; width: 25%; }
+.columns2 { columns: 2; width: 50%; }
+.columns3 { columns: 3; width: 75%; }
+.columns4 { columns: 4; width: 100%; }
+ul.voteTable li { padding-bottom: 3px; width:100%; }
+ul.voteTable li strong { text-decoration: underline; }
+ul.voteTable li span { background-color: white; padding-right: 5px; }
+ul.voteTable li span span.bullet { color: red; }
+ul.voteTable li span span.meta { color: grey; font-size: 0.9em; }
+ul.voteTable li span.sponsor { background-color: yellow; }
+ul.voteTable li.voter { display: inline-block; }
+ul.voteTable li.dotted { }
+ul.voteTable li.sponsor { background-color: yellow; }
+ul.voteTable li.sponsor span { background-color: yellow; }
+ul.voteTable li span.vote { padding-right: 40px; float: right; }
+ul.voteTable li span.bullet { color: red; }
+#voterTooltip { min-width: 320px; visibility: hidden; }
+#voterTooltip img { width: 80px; }
+#voterTooltip div.profile { padding-right: 10px; vertical-align: middle; height: 100%; min-height: 100px; }
+#voterTooltip div.text { font-size: 0.9em; vertical-align: middle; padding-top: 5px; }
 
+/* Data page */
+#format option#format_ord { display: none; }
+#data_download_container { display: none; }
+.padded_botom { padding-bottom: 3px; }
+.padded_left { padding-left: 50px; }
+.text_aligned_image { vertical-align: top; height: 24px; }
+
+/* Party Members */
+.party_members { columns: auto 4; list-style-type: none; overflow: auto; width: 100%; margin-bottom: 40px; }
+
+/* Party Page */
+.slide_party { height: 90px; margin-left: 100px; margin-right: 100px; }
+.map_row { padding-bottom: 60px; }
+span.congressControl input[type=text] { width: 50px; }
+.roster_header { padding-bottom: 10px; }
+.roster_header h4 { display: inline; }
+span.congressControl span#playButton { cursor: pointer; }
+span.congressControl span#pauseButton { cursor: pointer; display: none; }
+span.party_header { padding-right: 20px; }
+
+/* Parties at a Glance */
+#alertPartiesGlance { margin-bottom: 20px; }
+#closeAlert { float: right; text-decoration: none; }
+#parties_list { padding-bottom: 40px; }

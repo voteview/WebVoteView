@@ -160,7 +160,7 @@ function fillLoyaltyDrawHist(error, data)
     var attendanceRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Attendance</div><div class="col-sm-3 vert">' + Math.round(memberAttendance, 1) + '%</div>' + 
 	'<div class="col-sm-3 vert">' + medianPartyAttendance + '%</div>' +
 	'<div class="col-sm-3 vert">' + medianChamberAttendance + '%</div></div>';
-    var loyaltyRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Party Loyalty</div><div class="col-sm-3 vert">' + Math.round(memberLoyalty, 1) + '%</div>' + 
+    var loyaltyRow = memberPartyCode == "328" ? "" : '<div class="row loyalty"><div class="col-sm-3 vert">Party Loyalty</div><div class="col-sm-3 vert">' + Math.round(memberLoyalty, 1) + '%</div>' + 
 	'<div class="col-sm-3 vert">' + medianPartyLoyalty + '%</div>' +
 	'<div class="col-sm-3 vert">' + medianChamberLoyalty + '%</div></div>';
     $('#loyaltyTable').html(headerRow + voteRow + attendanceRow + loyaltyRow);
