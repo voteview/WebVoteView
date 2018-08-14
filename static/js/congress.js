@@ -2,6 +2,7 @@ var updateFilterTimer;
 var resultCache;
 var validSet;
 var sortBy;
+var nameDimension;
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var baseTip = d3.select("body").append("div").attr("class", "d3-tip").style("visibility","hidden").attr("id","mapTooltip");
 var eW;
@@ -53,6 +54,12 @@ function nomPlot()
 			return [x,y];
 		}
 	);
+	nameDimension = ndx.dimension(
+		function(d)
+		{
+			return d["bioname"];
+		}
+	);
 	var xGroup = xDimension.group().reduce(
 		function(p, d)
 		{
@@ -72,7 +79,7 @@ function nomPlot()
 
     nominateScatterChart
         .clipPadding(4)
-        .transitionDuration(250) // JBL:Speed up symbol size changes on brush per AB request                                             
+        .transitionDuration(250) // JBL:Speed up symbol size changes on brush per AB request
 	.width(890)
 	.height(790*nomDWeight+100)
 	.margins({top:25,right:25,bottom:75,left:75})
@@ -158,6 +165,7 @@ function reloadBios()
 		success: function(data, status, xhr)
 		{
 			validSet = [];
+			doFullFilterReset();
 			resultCache = data;
 			$("#sortChamber").unbind('click')
 			$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
@@ -203,8 +211,7 @@ function compositionBar()
 		else { partyCount[d.party_short_name]++; }
 	});
 
-	console.log($("#content").width());
-	var chartWidth = Math.min(300,Math.max(200,Math.round($("#content").width()*0.27)));
+	var chartWidth = Math.min(300, Math.max(200,Math.round($("#content").width()*0.27)));
 	
 	$("#partyComposition").html("");
 	var svgBucket = d3.select("#partyComposition").append("svg").attr("width",chartWidth).attr("height",21);
@@ -250,7 +257,6 @@ function delay_filter()
 var icpsr_match = [];
 function do_search_name_filter() 
 {
-	console.log("goes here");
 	if($("#filter_name")[0].value.length) {
 		var current_filter = $("#filter_name")[0].value.toLowerCase().replace(/[^0-9a-z ]/gi, '').split(" ");
 		var which_include = $.grep(resultCache["results"], function(d, i) {
@@ -259,21 +265,32 @@ function do_search_name_filter()
 			}
 			return true;
 		});
-		console.log(which_include);
 
 		icpsr_match = [];
 		for(var i=0; i!=which_include.length; i++)
 		{
 			icpsr_match.push(which_include[i]["icpsr"]);
 		}
+
+		var regex = new RegExp($("#filter_name")[0].value, "i")
+		nameDimension.filter(function(d) {
+			return d.search(regex) != -1;
+		});
+	}
+	else
+	{
+		console.log("filter all");
+		nameDimension.filterAll();
 	}
 
+	dc.redrawAll();
 	do_filter_bar();
 	hideMembersUnselected();
 }
 
 function hideMembersUnselected()
 {
+	console.log("hMU");
 	$("#memberList > li.memberResultBox").each(function(i, d) {
 		var show_brush = validSet.length == 0 || validSet.indexOf(parseInt($(d).attr("id"))) != -1;
 		var show_text = $("#filter_name")[0].value.length == 0 || icpsr_match.indexOf(parseInt($(d).attr("id"))) != -1;
@@ -301,7 +318,6 @@ function hideMembersUnselected()
 function do_filter_bar() 
 {
 	// Proper diction for text
-	console.log(chamber);
 	if(chamber=="house")
 	{
 		var voterName = "Representatives";
@@ -371,9 +387,10 @@ function do_filter_bar()
 function doFullFilterReset()
 {
 	$("#selectionFilterBar").slideUp();
+	$("#filter_name")[0].value = "";
+	do_search_name_filter();
 	dc.filterAll();
 	dc.redrawAll();
-	$("#filter_name")[0].value = "";
 	hideMembersUnselected();
 }
 

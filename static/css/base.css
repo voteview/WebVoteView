@@ -379,3 +379,9 @@ span.party_header { padding-right: 20px; }
 #alertPartiesGlance { margin-bottom: 20px; }
 #closeAlert { float: right; text-decoration: none; }
 #parties_list { padding-bottom: 40px; }
+
+/* Congress Page */
+.roster_header { padding-bottom: 20px; }
+.roster_header h4 { display:inline; }
+#memberList { columns: auto 4; list-style-type: none; overflow: auto; width: 100%; margin-bottom: 60px; }
+#memberTextList { margin-bottom: 40px; }
