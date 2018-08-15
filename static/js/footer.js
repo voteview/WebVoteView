@@ -3,7 +3,7 @@ $(document).ready(function()
 	var hasLoadedFooter=0;
 	setTimeout(function()
 	{
-		if($(document).height() < $(window).height() * 1.2 && attachSingleFooter == 1) 
+		if($(document).height() < $(window).height() * 1.2 && typeof attachSingleFooter !== 'undefined' && attachSingleFooter == 1) 
 		{
 			hasLoadedFooter=1;
 			$("#footer").css({"position": "fixed", "bottom": 0}).fadeIn();

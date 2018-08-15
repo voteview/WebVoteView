@@ -41,19 +41,13 @@ var dimChart = dc.compositeChart("#dim-chart");
 var q = queue()
     .defer(d3.json, "/static/partyjson/parties.json")
     .defer(d3.json, "/static/partyjson/glance.json")
-    .defer(d3.json, "/static/config.json");
-
-q
+    .defer(d3.json, "/static/config.json")
     .await(function(error, parties, glance, configFile) {
 	// Parties is the full party list, sorted by size bracket, then old to new, then A-Z.
 	globalParties = parties;	
 
 	console.timeEnd("beginPageLoad");
 	console.time("processData");
-
-	// Check if user has dismissed the alert.
-	var hasCookie = Cookies.get('alertPartiesGlance');
-	if(hasCookie != undefined) { $('#alertPartiesGlance').hide(); }
 
 	var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 	var min = 1;
@@ -177,9 +171,6 @@ q
 		dc.lineChart(dimChart).group(dimSet[7]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[7][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		dc.lineChart(dimChart).group(dimSet[8]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[8][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 		dc.lineChart(dimChart).group(dimSet[9]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[9][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
-		//dc.scatterPlot(dimChart).group(dimSet[10])
-		//			.colors([colorSchemes[partyColorMap[partyNameSimplify(parties[10][1]["name"])]][0]])
-		//			.colorAccessor(colHack).keyAccessor(keyHack).valueAccessor(valHack).symbolSize(5),
 		dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 	    ])
 	    .on('postRender', function() { d3.select(".dc-chart svg").select("g.sub").selectAll("path.symbol").attr('opacity','0.5'); })
@@ -326,14 +317,8 @@ q
     });
 
 
-$('#toggleAlert').click(function()
-{
-        if($('#alertPartiesGlance').is(':hidden')) { $('#alertPartiesGlance').show(); }
-        else { $('#alertPartiesGlance').hide(); }
-});
 $('#closeAlert').click(function(e)
 {
         if($('#alertPartiesGlance').is(':hidden')) { $('#alertPartiesGlance').show(); }
         else { $('#alertPartiesGlance').hide(); }
-	Cookies.set(e.currentTarget.parentElement.id, '1', {expires: 7});
 });

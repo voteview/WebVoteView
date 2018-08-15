@@ -12,8 +12,8 @@
 	<div id="content">
 		<div class="row">
 			<div class="col-md-12">
-				<div id="header" style="height:40px;">
-					<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">
+				<div id="header" class="congress_header">
+					<div id="congress_selector">
 						<select id="congSelector">
 						% for i in range(maxCongress, 0, -1):
 						      	% yearLow = 1787+2*i
@@ -27,8 +27,7 @@
 						</select>
 						 &gt; <abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">{{memberLabel}}</abbr>
 					</div>
-					<div style="float:right;padding-right:50px;" id="partyComposition">
-					</div>
+					<div id="partyComposition"></div>
 				</div>
 			</div>
 		</div>
@@ -38,13 +37,13 @@
 				<!-- Nominate graph -->
 				% if not tabular_view:
 				<h4>DW-Nominate Plot
-				<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:22px;vertical-align:middle;cursor:pointer" 
+				<span class="glyphicon glyphicon-save save_icon" 
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
 					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}_{{congress}}.png', {backgroundColor: 'white'}); return false;"
 					></span>
 				</h4>
 
-				<div id="scatter-container" style="margin:0 auto 10px auto;">
+				<div id="scatter-container">
 					<div id="scatter-bg">
 						<svg id="svg-bg"></svg> 
 					</div>
@@ -67,7 +66,7 @@
 				<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
 				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
 				<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a> -- <a href="/congress/{{chamber}}/text">Tabular View</a>)
-				<div style="float:right;">
+				<div id="filterName">
 					Filter Name: <input id="filter_name" type="text" placeholder="Don Young" oninput="javascript:delay_filter(); return false;">
 				</div>
 				% else:

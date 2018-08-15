@@ -331,6 +331,10 @@ path.median
 /* Geography page */
 .ideology { width: 50px; border-left: 1px solid grey; border-right: 1px solid grey; overflow: none; padding: 0 !important;}
 .nom_ideology { height: 35px; overflow: auto; display: block; }
+#google_map { width:100%; height: 100%; }
+#mapContainer { padding-top: 10px; height: 300px; }
+.address_marker { padding-top: 10px; padding-bottom: 10px; }
+.notableExamples { columns: 3; cursor: pointer; overflow: hidden; }
 
 /* Vote page */
 .voteTable { list-style-type: none; overflow: auto; }
@@ -381,7 +385,13 @@ span.party_header { padding-right: 20px; }
 #parties_list { padding-bottom: 40px; }
 
 /* Congress Page */
+.congress_header { height: 40px; }
+#congress_selector { font-size: 19px; float: left; padding-right: 30px; text-align: middle; }
+#partyComposition { float: right; padding-right: 50px; }
 .roster_header { padding-bottom: 20px; }
 .roster_header h4 { display:inline; }
 #memberList { columns: auto 4; list-style-type: none; overflow: auto; width: 100%; margin-bottom: 60px; }
 #memberTextList { margin-bottom: 40px; }
+.save_icon { margin-left: 5px; font-size: 22px; vertical-align: middle; cursor: pointer; } 
+#scatter-container { margin: 0 auto 10px auto; }
+#filterName { float: right; }

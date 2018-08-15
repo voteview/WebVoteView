@@ -12,7 +12,7 @@
 		% if devserver:
 		<a href="#" onclick="javascript:$('#testData').css('overflow','auto').css('height','400px'); return false;">+</a> 
 		Dev Server Test Addresses.
-		<ul style="columns:3; height:50px; overflow:hidden;" id="testData">
+		<ul class="notableExamples" style="height:50px;" id="testData">
 			<li>12040 Louise Ave, Los Angeles, CA</li>
 			<li>206 Washington St SW, Atlanta, GA, 30334</li>
 			<li>150 Rideau St, Ottawa, Ontario, CA</li>
@@ -80,7 +80,7 @@
 		</p>	
 
 
-		<ul style="columns:3; overflow:hidden; cursor: pointer;" id="notableExamples">
+		<ul class="notableExamples">
 			<li>520 Chestnut St, Philadelphia, PA 19106</li>
 			<li>19 N Square, Boston, MA 02113</li>
 			<li>3003 W Casino Rd, Everett, WA 98204</li>
@@ -98,7 +98,7 @@
 
 
 		<form id="submit-address-form" action="." method="post">
-			<div class="col-md-2" style="padding-top:5px;padding-bottom:5px;">
+			<div class="col-md-2" class="address_marker">
 				<strong>Address:</strong> 
 			</div>
 			<div class="col-md-6">
@@ -130,8 +130,8 @@
 			<div id="loadProgress" style="display:none;"></div>
 			<div id="resultsMembers"></div>
 		</div>
-		<div class="col-md-4" style="padding-top:10px; height:300px;" id="mapContainer">
-			<div id="google_map" style="width:100%;height:100%;"></div>
+		<div class="col-md-4" id="mapContainer">
+			<div id="google_map"</div>
 			<br/>
 			<div id="perm_link_holder"></div>
 		</div>

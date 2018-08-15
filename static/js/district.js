@@ -56,7 +56,7 @@ function resetResults()
 		if($("#cachedLong").val()) { myLong = $("#cachedLong").val(); }
 		if($("#addressInput").val()) { setTimeout(function(){latLongWrapper();},1000); }
   	        $("ul#testData li").on("click",function(){ loadText(this.innerHTML); });
-		$("ul#notableExamples li").on("click",function(){ loadText(this.innerHTML); });
+		$("ul.notableExamples li").on("click",function(){ loadText(this.innerHTML); });
 	});
 
 	if(navigator.geolocation)
@@ -341,20 +341,21 @@ function resetResults()
 			success: function(data, status, xhr)
 			{
 
-google.maps.Polygon.prototype.getBounds = function(bounds) {
-	if(bounds == null) {
-	    var bounds = new google.maps.LatLngBounds();
-	}
+				// From StackOverflow, single Google can't let you get a polygon's bounds
+				google.maps.Polygon.prototype.getBounds = function(bounds) {
+					if(bounds == null) {
+					    var bounds = new google.maps.LatLngBounds();
+					}
 
-	var paths = this.getPaths();
-	for (var i = 0; i < paths.getLength(); i++) {
-		path = paths.getAt(i);
-		for (var ii = 0; ii < path.getLength(); ii++) {
-			bounds.extend(path.getAt(ii));
-        	}
-	}
-	return bounds;
-}
+					var paths = this.getPaths();
+					for (var i = 0; i < paths.getLength(); i++) {
+						path = paths.getAt(i);
+						for (var ii = 0; ii < path.getLength(); ii++) {
+							bounds.extend(path.getAt(ii));
+        					}
+					}
+					return bounds;
+				}
 
 
 				// Draw congressional district polygon.
