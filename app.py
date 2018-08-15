@@ -236,7 +236,7 @@ def parties(party="all", congStart=-1):
     except:
         maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
         output = bottle.template(
-            "views/partiesGlance", maxCongress=maxCongress)
+            "views/parties_glance", maxCongress=maxCongress)
         return output
 
     if congStart == -1:
