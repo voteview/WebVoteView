@@ -109,37 +109,96 @@ function fillLoyaltyDrawHist(error, data)
 		return(0);
 	}
 
-        var ctGreater=0;
-	var ctTotal=0;
-	var ctPartyGreater=0;
-        var ctPartyTotal=0;
+	// For loyalty scores
         var partyVotes=[];
         var chamberVotes=[];
-    var oneDims = [];
+
+	// For ideology scores
+	var congressNom = [];
+	var partyNom = [];
+	var chamberNom = [];
+	var partyChamberNom = [];
+
+	
+	// Iterate through data.
 	data["results"].forEach(function (d) {
+		// Skip people with no NOMINATE score.
 		if(d.nominate==undefined) { return true; }
-	    oneDims.push(d.nominate.dim1)
-	    if(d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President') {
-		chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party, d.nvotes_abs]);
-	    }
-		ctTotal+=1;
-		if(d.nominate.dim1>memberIdeal) 
-		{ 
-			ctGreater+=1; 
+
+		// Log NOMINATE scores into arrays as appropriate.
+		congressNom.push(d.nominate.dim1);
+		if(d.party_code == memberPartyCode && d.chamber.toLowerCase() == chamber)
+		{
+			partyNom.push(d.nominate.dim1);
+			chamberNom.push(d.nominate.dim1);
+			partyChamberNom.push(d.nominate.dim1);
 		}
+		else if(d.party_code == memberPartyCode) partyNom.push(d.nominate.dim1);
+		else if(d.chamber.toLowerCase() == chamber) chamberNom.push(d.nominate.dim1);
+		
+
+
+
+		if(d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President') {
+			chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party, d.nvotes_abs]);
+		}
+
+		// If the current member is in the requested member's party:
 		if(d.party_code==memberPartyCode)
-	    {
-			    if(d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President') {
+		{
+			if(d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President') {
 				partyVotes.push([d.nvotes_yea_nay, d.nvotes_against_party, d.nvotes_abs]);
-			    }
-			ctPartyTotal+=1;
-			if(d.nominate.dim1>memberIdeal) 
-			{
-				ctPartyGreater+=1; 
 			}
-	       }
-	    
+	       }	    
 	});
+
+
+	// How many people are more conservative than this person?
+	function reduceSum(total, num) { return total + num; }	
+	function moreConservative(num) { return (memberIdeal > num); }
+	var mc = congressNom.map(moreConservative).reduce(reduceSum, 0);
+	var mcParty = partyNom.map(moreConservative).reduce(reduceSum, 0);
+	var mcChamber = chamberNom.map(moreConservative).reduce(reduceSum, 0);
+	var mcPartyChamber = partyChamberNom.map(moreConservative).reduce(reduceSum, 0);
+
+	// Okay, now convert to percentages.
+	var conPct = 100 * mc / (congressNom.length - 1);
+	var conPctChamber = 100 * mcChamber / (chamberNom.length - 1);
+	var conPctPC = 100 * mcPartyChamber / (partyChamberNom.length - 1);
+
+	// Prep label: first, capitalize chamber name.
+	var chamberCap = chamber.substring(0, 1).toUpperCase() + chamber.substring(1);
+	// and make the generic header.
+	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(DW-NOMINATE first dimension)</em><br/><br/>";
+	// Waterfall labels: Requested is most liberal
+	if(mc == 0) { label += "The most liberal member of the " + getGetOrdinal(congressNum) + " congress."; }
+	else if(mc == congressNom.length - 1) { label += "The most conservative member of the " + getGetOrdinal(congressNum) + " congress."; }
+	else if(mcChamber == 0) { label += "The most liberal member of the " + getGetOrdinal(congressNum) + " " + chamberCap; }
+	else if(mcChamber == chamberNom.length - 1) { label += "The most conservative member of the " + getGetOrdinal(congressNum) + " " + chamberCap; }
+	else
+	{
+		// They aren't superlative, let's compare them to their overall chamber and their party in that chamber.
+
+		// First, overall -- how do they compare to their chamber?
+		if(mcChamber > (chamberNom.length - 1) / 2) label += "More conservative than " + Math.floor(conPctChamber, 1) + "% of the " + getGetOrdinal(congressNum) + " " + chamberCap + "<br/>"; 
+		else label += "More liberal than " + Math.floor(100 - conPctChamber, 1) + "% of the " + getGetOrdinal(congressNum) + " " + chamberCap + "<br/>";
+
+		// Now, compared to their party?
+		if(mcPartyChamber == 0) { label += "The most liberal " + memberNoun + " of the " + getGetOrdinal(congressNum) + " " + chamberCap + "."; }
+		else if(mcPartyChamber == partyChamberNom.length - 1) { label += "The most conservative " + memberNoun + " of the " + getGetOrdinal(congressNum) + " " + chamberCap + "."; }
+		else if(mcPartyChamber > (partyChamberNom.length - 1) / 2) { label += "More conservative than " + Math.floor(conPctPC, 1) + "% of " + memberNoun + "s in the " + getGetOrdinal(congressNum) + " " + chamberCap; }
+		else { label += "More liberal than " + Math.floor(100 - conPctPC, 1) + "% of " + memberNoun + "s in the " + getGetOrdinal(congressNum) + " " + chamberCap; }
+	}
+
+	var labelTip = d3.tip().attr('class', 'd3-tip').html(
+		function(d)
+		{
+			if(d.x==memberIdealBucket) { return(label); }
+			else { return(""); }
+		});
+
+
+
 
     // Fill loyalty table
     var medianPartyVotes = getMedian(partyVotes, 'votes');
@@ -149,7 +208,6 @@ function fillLoyaltyDrawHist(error, data)
     var medianPartyAttendance = getMedian(partyVotes, 'attendance');
     var medianChamberAttendance = getMedian(chamberVotes, 'attendance');
     
-    var chamberCap = chamber.substring(0, 1).toUpperCase() + chamber.substring(1);
     
     var headerRow = '<div class="row loyalty"><div class="col-sm-3 vert"></div><div class="col-sm-3 vert">' + memberLastName + '</div>' + 
 	'<div class="col-sm-3 vert">Median ' + chamberCap + ' ' + memberNoun + '</div>' +
@@ -165,34 +223,8 @@ function fillLoyaltyDrawHist(error, data)
 	'<div class="col-sm-3 vert">' + medianChamberLoyalty + '%</div></div>';
     $('#loyaltyTable').html(headerRow + voteRow + attendanceRow + loyaltyRow);
 
-    // Draw ideology histogram
-	var label = "<strong>Ideology Score:</strong> "+memberIdeal+" <em>(DW-NOMINATE first dimension)</em><br/><br/>";
-	var libPercentage = Math.floor(100*ctGreater/(ctTotal-1),1);
-	var libPartyPercentage = Math.round(100*ctPartyGreater/(ctPartyTotal-1),1);
-	if(libPercentage==100 && ctPartyGreater==ctPartyTotal-1) { label += "The most liberal member of the "+getGetOrdinal(congressNum)+" " + chamberCap + "."; }
-	else if(libPercentage==0 && ctPartyGreater==0) { label += "The most conservative member of the "+getGetOrdinal(congressNum)+" " + chamberCap + "."; }
-	else
-	{
-		if(libPercentage>50) { label += "More liberal than "+libPercentage+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>"; }
-		else { 	label += "More conservative than "+(100-libPercentage)+"% of the "+getGetOrdinal(congressNum)+" Congress.<br/>"; }
 
-		if(ctPartyTotal>1)
-		{
-			if(libPartyPercentage==100) { label += "The most liberal "+memberNoun+" of the "+getGetOrdinal(congressNum)+" " + chamberCap + "."; }
-			else if(libPartyPercentage==0) { label += "The most conservative "+memberNoun+" of the "+getGetOrdinal(congressNum)+" " + chamberCap + "."; }
-			else if(libPartyPercentage>50) { label += "More liberal than "+libPartyPercentage+"% of "+memberNoun+"s in the "+getGetOrdinal(congressNum)+" " + chamberCap + "."; }
-			else { label += "More conservative than "+(100-libPartyPercentage)+"% of "+memberNoun+"s in the "+getGetOrdinal(congressNum)+" " + chamberCap + "."; }
-		}
-	}
-
-	var labelTip = d3.tip().attr('class', 'd3-tip').html(
-		function(d)
-		{
-			if(d.x==memberIdealBucket) { return(label); }
-			else { return(""); }
-		});
-
-	var ndx = crossfilter(oneDims);
+	var ndx = crossfilter(chamberNom);
 	var oneDimDimension = ndx.dimension(function(d) { return d; });
 	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*numBins); });
 
