@@ -447,6 +447,7 @@ def mark_linkable_sources(sources):
 @app.route("/rollcall")
 @app.route("/rollcall/<rollcall_id>")
 def rollcall(rollcall_id=""):
+    # Error handling: User did not specify valid query parameters.
     if not rollcall_id:
         output = bottle.template(
             "views/error", errorMessage="You did not provide a rollcall ID.")
@@ -456,15 +457,20 @@ def rollcall(rollcall_id=""):
             "views/error", errorMessage="You may only view one rollcall ID at a time.")
         return(output)
 
+    # Get the rollcall and also whether or not to collapse minor parties.
     rollcall = model.downloadVotes.downloadAPI(rollcall_id, "Web")
     mapParties = int(defaultValue(bottle.request.params.mapParties, 1))
 
+    # After we got the rollcall, we found it didn't exist.
     if not "rollcalls" in rollcall or "errormessage" in rollcall:
         output = bottle.template(
             "views/error", errorMessage=rollcall["errormessage"])
         return(output)
 
+    # Get NOMINATE params
     meta = metaLookup()
+
+    # Get sponsor info.
     sponsor = {}
     if "rollcalls" in rollcall and "sponsor" in rollcall["rollcalls"][0]:
         try:
@@ -473,15 +479,35 @@ def rollcall(rollcall_id=""):
         except:
             sponsor = {}
 
-    current_rollcall = rollcall['rollcalls'][0]
+    # Subset the rollcall to the stuff we care about.
+    current_rollcall = rollcall["rollcalls"][0]
+
+    # Make derived quantities we care about.
+    rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+    plotTitle = "Plot Vote: " + rcSuffix(current_rollcall["congress"]) + " Congress > " + \
+                current_rollcall["chamber"] + " > " + str(current_rollcall["rollnumber"])
+
+    notes = []
+    if int(current_rollcall["congress"]) < 86:
+        notes.append("State Boundaries depicted are as of the "
+                     + rcSuffix(current_rollcall["congress"]) + " Congress.")
+
+    if int(current_rollcall["congress"]) < 91 and current_rollcall["chamber"] == "House":
+        notes.append("Some states contain At-Large districts with more than one representative.")
+
+    noteText = ("<strong><u>NOTE</u></strong><br/><ul>" + " ".join(["<li>" + note + "</li>" for note in notes]) + "</ul>") if len(notes) else ""
+
+    # Display template.
     output = bottle.template(
         "views/vote",
         rollcall=current_rollcall,
-        dimweight=meta['nominate']['second_dimweight'],
+        dimweight=meta["nominate"]["second_dimweight"],
         nomBeta=meta["nominate"]["beta"],
         mapParties=mapParties,
         sponsor=sponsor,
-        sources=mark_linkable_sources(current_rollcall.get('dtl_sources', [])),
+        sources=mark_linkable_sources(current_rollcall.get("dtl_sources", [])),
+        noteText=noteText,
+        plotTitle=plotTitle
     )
     return(output)
 

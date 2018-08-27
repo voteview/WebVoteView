@@ -342,6 +342,7 @@ path.median
 .columns2 { columns: 2; width: 50%; }
 .columns3 { columns: 3; width: 75%; }
 .columns4 { columns: 4; width: 100%; }
+div#mapTooltip span.meta { color: grey; font-size: 0.9em; }
 ul.voteTable li { padding-bottom: 3px; width:100%; }
 ul.voteTable li strong { text-decoration: underline; }
 ul.voteTable li span { background-color: white; padding-right: 5px; }
@@ -395,3 +396,35 @@ span.party_header { padding-right: 20px; }
 .save_icon { margin-left: 5px; font-size: 22px; vertical-align: middle; cursor: pointer; } 
 #scatter-container { margin: 0 auto 10px auto; }
 #filterName { float: right; }
+
+/* Vote Display Page */
+.loading_throbber { margin-left: 10px; width: 24px; vertical-align: middle; }
+#errorContent { display: none; }
+#holdHatching { width: 0; height: 0; }
+.loadedContent { display: none; }
+#geoMap { padding-bottom: 40px; }
+#geoMap h4 { float: left; clear: none; vertical-align: middle; }
+#geoMap .glyphicon-save { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; }
+#geoMap .noteText { margin-left: 5px; width: 22px; vertical-align: middle; }
+#geoMap #map-chart { margin-top: 10px; padding: 10px; vertical-align: bottom; }
+#geoMap #map-chart #zoomIn { position: absolute; left: 25px; top: 40px; width: 30px; height: 30px; }
+#geoMap #map-chart #zoomOut { position: absolute; left: 25px; top: 80px; width: 30px; height: 30px; }
+#geoMap #map-chart #suppressMapControls { display: none; }
+#geoMap #warnParty { display: none; }
+#suppressNominateControls { display: none; }
+#selectionFilterClose { display: none; width:32px; cursor: pointer; }
+#selectionFilterBar { display: none; }
+#selectionFilterBar #map-chart-controls { display: none; }
+#selectionFilterBar #vote-chart-controls { display: none; }
+#selectionFilterBar #nominate-chart-controls { display: none; }
+#selectionFilterBar #sparse-selection { display: none; }
+.sortHeader { text-align:middle; padding-top: 3px; }
+.voteHeader { font-size: 19px; float: left; padding-right: 30px; text-align: middle; }
+#voteList { margin-top: 15px; width: 100%; min-width: 1100px; }
+#vote_chart_float { position: static; }
+#vote_chart_float .saveButton { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; color: black; }
+#vote_chart_float .xlsButton { margin-left: 5px; width: 22px; vertical-align: middle; }
+#vote_chart_float #suppressVoteChartControls { display: none; }
+.voteRow { margin-bottom: 50px; }
+.nominateSave { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; }
+#scatter-container { margin: 0 auto 0 auto; }

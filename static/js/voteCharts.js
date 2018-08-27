@@ -38,7 +38,11 @@ function tooltipText(d)
 	{
 		var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
 		// Tooltip data display:
-		if(i<5) { result += "<p>" + d.value.members[i].name + " ("+partyNameSimplify(d.value.members[i].party).substr(0,1)+") - <span>"+d.value.members[i].vote+"</span></p>"; }
+		if(i<5) 
+		{ 
+			result += "<p>" + d.value.members[i].name + 
+				  " (<span class=\"meta\">"+partyNameSimplify(d.value.members[i].party).substr(0,1) + "</span>) - <span>"+d.value.members[i].vote+"</span></p>"; 
+		}
 		else
 		{
 			if(d.value.members[i].vote=="Nay") { nays=nays+1; }	
@@ -46,7 +50,7 @@ function tooltipText(d)
 			else { abs=abs+1; }
 		}
 	}
-	if(i>=5)
+	if(i > 5)
 	{
 		result+= "<p>+";
 		if(yeas) { result += yeas+" other Yea"+(yeas!=1?"s":""); }
@@ -62,6 +66,75 @@ function tooltipText(d)
 		}
 	}
 	return(result);
+}
+
+function buildHatchDefs(members)
+{
+	// In order to specify cross-hatching patterns that are reusable, we need to make a bunch of pattern elements.
+	// We put them in a <defs> element of an <svg> element so that we can reference them later. This function
+	// constructs the defs for each possible district color combination for crosshatching.
+
+	// Figure out which party-vote combinations are in this vote.
+	var uniqueValues = [];
+	members.forEach(function(member) {
+		var voteParty = member.vote + partyNameSimplify(member.party_short_name);
+		if(!uniqueValues.includes(voteParty)) {
+			uniqueValues.push(voteParty);
+		}
+	});
+	uniqueValues.sort();
+
+	// Temp function for building an SVG element -- this is fairly standard boilerplate
+	// from e.g. StackOverflow here https://stackoverflow.com/questions/3642035/jquerys-append-not-working-with-svg-element
+	function makeSVGTag(tag, attributes)
+	{
+		var element = document.createElementNS("http://www.w3.org/2000/svg", tag);
+		for(var key in attributes)
+		{
+			element.setAttribute(key, attributes[key]);
+		}
+		return element;
+	}
+
+	// Make holder SVG
+	var svgHeader = makeSVGTag("svg", {"width": 0, "height": 0});
+	var defsHeader = makeSVGTag("defs", {});
+
+	// Make Senate vote combos for ID.
+	for(var index1 = 0; index1 != uniqueValues.length; index1++)
+	{
+		// Make each of the combations
+		for(var index2 = index1; index2 != uniqueValues.length; index2++)
+		{
+			var pattern = makeSVGTag("pattern", 
+						 {"id": uniqueValues[index1] + uniqueValues[index2], 
+						  "width": 20, "height": 20, 
+						  "patternTransform": "rotate(45)", 
+						  "patternUnits": "userSpaceOnUse"});
+
+			var hatch1 = makeSVGTag("rect",
+						{"x": 0, "y": 0, 
+						 "width": 10, "height": 20, 
+						 "fill": partyColors[uniqueValues[index1]]});
+
+			var hatch2 = makeSVGTag("rect",
+						{"x": 10, "y": 0,
+						 "width": 10, "height": 20,
+						 "fill": partyColors[uniqueValues[index2]]});
+
+			pattern.appendChild(hatch1);
+			pattern.appendChild(hatch2);
+			defsHeader.appendChild(pattern);
+		}
+	}
+
+	// Add defs to SVG
+	svgHeader.appendChild(defsHeader);
+
+	// Add SVG to the DOM.
+	document.getElementById("holdHatching").appendChild(svgHeader);
+
+	// Now we have the cross-hatches available for us elsewhere.
 }
 
 // Check unincorporated land
@@ -81,11 +154,12 @@ function drawWidgetsFailMap(error, data)
 	drawWidgets(error, data, undefined);
 }
 
+var globalData;
 var failedMapLoad=0, fallback=0;
 function drawWidgets(error, data, geodata)
 {
 	// If we have an error loading the map data, try a fallback map.
-	if(fallback==0 && geodata==undefined && error.status==404 && error.responseURL.indexOf(".json")!=-1)
+	if(fallback == 0 && geodata == undefined && error.status == 404 && error.responseURL.indexOf(".json") != -1)
 	{
 		var tryLoadingOneLower = "/static/"+error.responseURL.replace(congressNum,congressNum-1).split("/static/")[1];
 		fallback=1;
@@ -93,10 +167,10 @@ function drawWidgets(error, data, geodata)
 		return(0);
 	}
 	// If we still have an error, give up on the map but still load the vote.
-	else if(failedMapLoad==0 && (data==undefined || geodata==undefined))
+	else if(failedMapLoad == 0 && (data == undefined || geodata == undefined))
 	{
 		var errorMessage = "Unknown error loading vote data.";
-		if(error.status==404 && error.responseURL.indexOf(".json")!=-1)
+		if(error.status == 404 && error.responseURL.indexOf(".json") != -1)
 		{
 			errorMessage = "Unable to download geographic data for this session.";
 			queue().defer(d3.json, "/api/download/"+rcID).await(drawWidgetsFailMap);
@@ -114,10 +188,12 @@ function drawWidgets(error, data, geodata)
 
 	$("#loadBar").slideToggle();
 	globalData = data;
-	$("#loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
+	$(".loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
 
 	var ndx = crossfilter(data.rollcalls[0].votes);
 	var all = ndx.groupAll();
+
+	buildHatchDefs(data.rollcalls[0].votes);
 
 	// Dimension 1: What type of vote you cast
 	var voteDimension = ndx.dimension(function(d) { return d.vote; });
@@ -136,7 +212,6 @@ function drawWidgets(error, data, geodata)
 	var xDimension = ndx.dimension(
 		//Project outlying ideal points onto the outer circle 		    
 		function(d) {
-			//console.log(d);
 			var x = d.x;  var y = d.y;
 		        var dlen = Math.sqrt(x*x + y*y);
 		        if (dlen>1.0) {
@@ -221,7 +296,6 @@ function drawWidgets(error, data, geodata)
 	       },
 
 	       function (p, d) {
-		        //console.log('huh');
                         // Remove at large members
                         var atlargecode = d.state + "00";
                         var atlarge = $.grep(data.rollcalls[0].votes, function(e){return e.district == atlargecode; });
@@ -252,7 +326,6 @@ function drawWidgets(error, data, geodata)
 			p.noes += (d.vote=="Nay" ? 1 : 0);
 			p.yeas += (d.vote=="Yea" ? 1 : 0);
 			p.denom++;
-			console.log(p);
 		    }
 		    return p;
 		},
@@ -361,7 +434,6 @@ function drawWidgets(error, data, geodata)
                 .emptyColor("#999999")             
                 .symbol(function (d) {
 		     try {
-			 //console.log(d);
 			 var v = d.value.members[0].vote; 
 //			 if(globalData["rollcalls"][0]["sponsor"] != undefined && d.value.members[0].icpsr==globalData["rollcalls"][0]["sponsor"]) { return "cross"; }
 			 if(v == "Yea") {return "triangle-up";}
@@ -397,7 +469,8 @@ function drawWidgets(error, data, geodata)
 	{
 		// Add the tooltip to the body and hide it.
 		var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip")
-					.attr("id","mapTooltip").style("visibility","hidden").style("opacity",0);
+					.attr("id", "mapTooltip").style("visibility", "hidden").style("opacity", 0);
+
 		// Set up topographic data
 		var mapTopo = topojson.feature(geodata, (chamber=="House")?geodata.objects.districts:geodata.objects.states).features;
 		// Define the chart
@@ -405,17 +478,31 @@ function drawWidgets(error, data, geodata)
 			.width(890).height(500) // Basic dimensions
 			.dimension((chamber=="House")?districtDimension:stateDimension) // How the data are separated and grouped.
 			.group((chamber=="House")?districtGroup:stateGroup)
-			.colorAccessor(function (d) { // What color does each unit use
-				//if(d!=undefined && d.members.length>0) { for(var i=0;i!=d.members.length;i++) { d.members[i].party="Democrat"; } }
-				var color = "#eee";
-				try {
-					if(d.members.length > 0){ // If there are any members here, blend their colours.
-						color = blendColors(d.members);
-					}
-				}catch(e){
-					//console.log("MC: " + e);
+			.colorAccessor(function (d) { 
+				// No members, so no color
+				if(!d || !("members" in d) || !d.members.length) return "#eee";
+
+				// One member, so return the color
+				if(d.members.length == 1) return partyColors[d.members[0].vote + partyNameSimplify(d.members[0].party_short_name)];
+
+				// Many members (at-large districts early on, so blend
+				if(d.members.length > 2) return blendColors(d.members, true);
+
+				// Multiple members, so cross-hatch.
+				var voteType = [];
+				for(var i = 0; i != d.members.length; i++) 
+				{
+					voteType.push(d.members[i].vote + partyNameSimplify(d.members[i].party_short_name));
 				}
-				return color; 
+				voteType.sort();
+
+				var voteString = "";
+				for(var i = 0; i != voteType.length; i++) 
+				{
+					voteString += voteType[i];
+				}
+
+				return "url(#" + voteString + ")";
 			})
   	                .colors(function(d) {return d})
 			.overlayGeoJson(mapTopo, (chamber=="House")?"district":"state", function (d) { // Folds in the data.
@@ -431,7 +518,7 @@ function drawWidgets(error, data, geodata)
 						var result = $.grep(c.data(), function(e){
 							return e.key == d.id; 
 						});
-						if(result[0]==undefined)
+						if(result[0] == undefined)
 						{
 							if(checkUnincorporated(d.id, congressNum))
 							{
