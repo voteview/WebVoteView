@@ -1,6 +1,7 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css"])
+% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/moment.js", "/static/js/libs/bootstrap-datetimepicker.min.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css", "bootstrap-datetimepicker.css"])
 % include('header.tpl')
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % setdefault('args',{})
 % setdefault('search_string',"")
 <div class="container">
@@ -76,15 +77,21 @@
 						<div id="facet-date" class="panel-collapse facet-content collapse">
 							<div class="panel-body">
 								<div class="form-group">
-									<label for="fromDate" class="col-sm-5 control-label">From</label>
-									<div class="col-sm-6">
+									<label for="fromDate" class="col-sm-4 control-label">From</label>
+									<div class="col-sm-7 input-group date" id="fromDatePicker">
 										<input name="fromDate" type="text" class="form-control" id="fromDate" placeholder="From">
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="toDate" class="col-sm-5 control-label">To</label>
-									<div class="col-sm-6">
+									<label for="toDate" class="col-sm-4 control-label">To</label>
+									<div class="col-sm-7 input-group date" id="toDatePicker">
 										<input name="toDate" type="text" class="form-control" id="toDate" placeholder="To">
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
 									</div>
 								</div>
 								<div align="center"><small><em>Format: YYYY-MM-DD or YYYY</em></small></div>
@@ -101,13 +108,23 @@
 								<div class="form-group">
 									<label for="fromCongress" class="col-sm-5 control-label">From</label>
 									<div class="col-sm-6">
-										<input name="fromCongress" type="text" class="form-control" id="fromCongress" placeholder="From">
+										<select name="fromCongress" class="form-control" id="fromCongress">
+											<option value=""></option>
+											% for i in xrange(115, 0, -1): 
+											<option value="{{i}}">{{rcSuffix(i)}}</option>
+											% end
+										</select>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="toCongress" class="col-sm-5 control-label">To</label>
 									<div class="col-sm-6">
-										<input name="toCongress" type="text" class="form-control" id="toCongress" placeholder="To">
+										<select name="toCongress" class="form-control" id="toCongress">
+											<option value=""></option>
+											% for i in xrange(115, 0, -1): 
+											<option value="{{i}}">{{rcSuffix(i)}}</option>
+											% end
+										</select>
 									</div>
 								</div>
 							</div>

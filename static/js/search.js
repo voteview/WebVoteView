@@ -288,10 +288,18 @@ $(document).ready(function(){
 				if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 				updateStashCart();
 				console.log("Loaded votes: "+cachedVotes["old"].length+" old and "+cachedVotes["votes"].length+" new");
-				selectIncludedVotes();
+					selectIncludedVotes();
 			}
 		});
 	}
+
+	// Setup calendar dates
+	$("#fromDatePicker").datetimepicker({useCurrent: false, format: "YYYY-MM-DD"}).on("dp.change", function(e) { 
+		updateRequest();
+	}); 
+	$("#toDatePicker").datetimepicker({useCurrent: false, format: "YYYY-MM-DD"}).on("dp.change", function(e) { 
+		updateRequest();
+	});
 
 	// Setup suggested searches
 	suggestedPulse = setTimeout(startPulseSuggested, searchPulseTime / 2);
@@ -345,18 +353,14 @@ $(document).ready(function(){
 	});
 
 	// On form change we reset the search and do the initial AJAX call
-	$("#faceted-search-form input:not(#searchTextInput), #sort").change(function() 
+	$("#faceted-search-form input:not(#searchTextInput), #sort, #faceted-search-form select").change(function() 
 	{
-		$('#sortScore').val(1);
-		$('#sortD').val(-1);
 		updateRequest();
 	});
 
 	// Prevent form submission, force an AJAX call everytime we update the search bar
 	$("#faceted-search-form").submit(function(event) 
 	{
-		$('#sortScore').val(1);
-		$('#sortD').val(-1);
 		event.preventDefault();
 		updateRequest();
 	});
@@ -439,6 +443,8 @@ $(document).ready(function(){
 
 function updateRequest()
 {
+	$('#sortScore').val(1);
+	$('#sortD').val(-1);
 	if(!globalQueueRequests)
 	{
 		globalQueueRequests = 1;
