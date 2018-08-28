@@ -12,7 +12,7 @@
 		% if devserver:
 		<a href="#" onclick="javascript:$('#testData').css('overflow','auto').css('height','400px'); return false;">+</a> 
 		Dev Server Test Addresses.
-		<ul class="notableExamples" style="height:50px;" id="testData">
+		<ul class="notableExamples" id="testData">
 			<li>12040 Louise Ave, Los Angeles, CA</li>
 			<li>206 Washington St SW, Atlanta, GA, 30334</li>
 			<li>150 Rideau St, Ottawa, Ontario, CA</li>
@@ -33,7 +33,7 @@
 			<li>1007 E Grand, Des Moines, IA</li>
 			<li>700 Capital Ave, Frankfort, KY</li>
 			<li>bourbon st, new orleans</li>
-			<li style="font-weight:700;">augusta, me</li>
+			<li><strong>augusta, me</strong></li>
 			<li>1900 Kanawha Boulevard East, Charleston, West Virginia</li>
 			<li>100 State Cir, Annapolis, MD</li>
 			<li>24 Beacon St, Boston, MA</li>
@@ -75,7 +75,7 @@
 
 		<p>
 			To find all of the house members who have represented a particular place through history, 
-			enter the address <span id="geolocationTutorial" style="display:none;">or click the map pin to search your current location</span>.  
+			enter the address <span id="geolocationTutorial">or click the map pin to search your current location</span>.  
 			For fun, click on one of the notable example addresses below:
 		</p>	
 
@@ -98,12 +98,12 @@
 
 
 		<form id="submit-address-form" action="." method="post">
-			<div class="col-md-2" class="address_marker">
+			<div class="col-md-1" class="address_marker">
 				<strong>Address:</strong> 
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-7">
 			<div class="input-group">
-				<div class="input-group-btn" id="locationButton" style="display:none;">
+				<div class="input-group-btn" id="locationButton">
 					<button id="submit-geolocation" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-map-marker"></span></button>
 				</div>
 				<input type="text" id="addressInput" 
@@ -126,8 +126,8 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8">
-			<div id="warnings" style="display:none;"></div>
-			<div id="loadProgress" style="display:none;"></div>
+			<div id="warnings"></div>
+			<div id="loadProgress"></div>
 			<div id="resultsMembers"></div>
 		</div>
 		<div class="col-md-4" id="mapContainer">

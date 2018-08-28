@@ -137,7 +137,7 @@
 				</div>
 			</form>
 
-			<div id="result" style="display:none;"></div>
+			<div id="result_contact"></div>
 
 		</div>
 	</div>

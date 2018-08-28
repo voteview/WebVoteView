@@ -28,7 +28,7 @@
 	<h1 id="brand">
 		<span class="printOnly">UCLA Presents </span>
 		% if devserver:
-		<a href="/"><span style="background-color:red;color:yellow;">voteview.com beta DEV SERVER</span></a>
+		<a href="/"><span class="dev_header">voteview.com beta DEV SERVER</span></a>
 		% else:
 		<a href="/">voteview.com</a> <small>beta</small>
 		% end
