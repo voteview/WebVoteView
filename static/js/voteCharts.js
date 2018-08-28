@@ -184,8 +184,6 @@ function drawWidgets(error, data, geodata)
 		return(0);
 	}
 
-	//$("#vote_chart_float").stick_in_parent({offset_top: 20});
-
 	$("#loadBar").slideToggle();
 	globalData = data;
 	$(".loadedContent").animate({"height": "toggle", "opacity": "toggle"},"slow");
@@ -371,8 +369,11 @@ function drawWidgets(error, data, geodata)
 	// DIMENSIONS HAVE BEEN DEFINED =========
 
 	// NOW BEGIN CHART SPECIFICATIONS =======
+	var calculatedHeight = votePartyGroup.top(Infinity).length * 40;
+	var chartHeight = Math.max(320, Math.min(1000, calculatedHeight));
+
         votePartyChart
-  	        .width(280).height(320)  
+  	        .width(280).height(chartHeight)
 	        .dimension(votePartyDimension)
                 .group(votePartyGroup)
 		.elasticX(true)
@@ -475,7 +476,7 @@ function drawWidgets(error, data, geodata)
 		var mapTopo = topojson.feature(geodata, (chamber=="House")?geodata.objects.districts:geodata.objects.states).features;
 		// Define the chart
 		mapChart
-			.width(890).height(500) // Basic dimensions
+			.width(850).height(500) // Basic dimensions
 			.dimension((chamber=="House")?districtDimension:stateDimension) // How the data are separated and grouped.
 			.group((chamber=="House")?districtGroup:stateGroup)
 			.colorAccessor(function (d) { 
@@ -579,6 +580,9 @@ function drawWidgets(error, data, geodata)
 	      }
 	  }
         });
+
+	$("#vote_chart_float").delay(500).stick_in_parent({recalc_every: 1});
+
 
 }
 
