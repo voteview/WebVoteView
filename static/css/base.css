@@ -328,6 +328,40 @@ path.median
 	stroke-width:3px !important;
 }
 
+/* Color Classes */
+.red { border-left: 3px solid #ca0020 !important; }
+.orange { border-left: 3px solid #e66101 !important; }
+.yellow { border-left: 3px solid #fecc5c !important; }
+.green { border-left: 3px solid #008837 !important; }
+.teal { border-left: 3px solid #018571 !important; }
+.blue { border-left: 3px solid #0571b0 !important; }
+.purple { border-left: 3px solid #7b3294 !important; }
+.pinkpurple { border-left: 3px solid #d01c8b !important; }
+.grey { border-left: 3px solid #404040 !important; }
+.brown { border-left: 3px solid #a6611a !important; }
+.red_text { color: #CA0020; }
+.orange_text { color: #E66101; }
+.yellow_text { color: #008837; }
+.green_text { color: #008837; }
+.teal_text { color: #018571; }
+.blue_text { color: #0571B0; }
+.purple_text { color: #7B3294; }
+.pinkpurple_text { color: #D01C8B; }
+.grey_text { color: #404040; }
+.brown_text { color: #A6611A; }
+rect.red { fill: #ca0020; }
+rect.orange { fill:#e66101; }
+rect.yellow { fill: #fecc5c; }
+rect.green { fill: #008837; }
+rect.teal { fill: #018571; }
+rect.blue { fill: #0571b0; }
+rect.purple { fill: #7b3294; }
+rect.pinkpurple { fill: #d01c8b; }
+rect.grey { fill: #404040; }
+rect.brown { fill: #a6611a; }
+
+
+
 /* Geography page */
 .ideology { width: 50px; border-left: 1px solid grey; border-right: 1px solid grey; overflow: none; padding: 0 !important;}
 .nom_ideology { height: 35px; overflow: auto; display: block; }
@@ -428,3 +462,12 @@ span.party_header { padding-right: 20px; }
 .voteRow { margin-bottom: 50px; }
 .nominateSave { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; }
 #scatter-container { margin: 0 auto 0 auto; }
+.nominateExplainer { padding: 15px; margin: 10px; margin-bottom: 20px; font-size: 0.9em; }
+.meta_float { float: left; margin-right: 20px; }
+#key_vote_icon { padding-right: 10px; }
+#extendedDescription { display: none; }
+
+/* CUSTOM: Slider width for when front page is small */
+.slider {
+    width: 95% !important;
+}
