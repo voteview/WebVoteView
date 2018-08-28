@@ -36,7 +36,8 @@
 		else { zoomMult = 1; }
 
 		if(dir==1) { zoom=zoom+(incrementZoom*zoomMult); }
-		else { zoom=zoom-(incrementZoom*zoomMult); }
+		else if(dir==-1) { zoom=zoom-(incrementZoom*zoomMult); }
+
 		if(zoom<=minZoom) { zoom=minZoom; $("#zoomOut").fadeOut(); }
 		else { $("#zoomOut").fadeIn(); }
 		if(zoom>=maxZoom) 
