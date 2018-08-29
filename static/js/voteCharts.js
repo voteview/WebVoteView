@@ -19,11 +19,13 @@ $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
         queue()
           .defer(d3.json, "/api/download/"+rcID)
           .defer(d3.json, "/static/json/districts"+congressNum+".json")
+	  .defer(d3.json, "/static/json/usa.topojson")
           .await(drawWidgets);
     } else if (chamber == "Senate") {
         queue()
           .defer(d3.json, "/api/download/"+rcID)
           .defer(d3.json, "/static/json/states"+congressNum+".json")
+	  .defer(d3.json, "/static/json/usa.topojson")
           .await(drawWidgets);
     }
 })();
@@ -107,7 +109,9 @@ function buildHatchDefs(members)
 	// Make Senate vote combos for ID.
 	for(var index1 = 0; index1 != uniqueValues.length; index1++)
 	{
-		// Make each of the combations
+		// Make each of the combations -- this is actually a hack, since not all combinations are possiblr.
+		// i.e. if there are 3 parties, there may be some states with no party A/C combo. So we can make fewer
+		// patterns.
 		for(var index2 = index1; index2 != uniqueValues.length; index2++)
 		{
 			var pattern = makeSVGTag("pattern", 
@@ -141,7 +145,8 @@ function buildHatchDefs(members)
 	// Now we have the cross-hatches available for us elsewhere.
 }
 
-// Check unincorporated land
+// Check unincorporated land: this is land that is part of a state but hasn't yet been baked into
+// a congressional district.
 function checkUnincorporated(district, congress)
 {
 	var unincSet = {"AL-1": [18, 22], "GA-1": [1, 22], "IN-1": [17, 22], "NC-1": [1, 1], "OH-1": [7, 7], "SC-1": [13, 14], "TN-1": [8, 17], "TX-1": [28, 31]}
@@ -160,7 +165,7 @@ function drawWidgetsFailMap(error, data)
 
 var globalData;
 var failedMapLoad=0, fallback=0;
-function drawWidgets(error, data, geodata)
+function drawWidgets(error, data, geodata, usaboundaries)
 {
 	// If we have an error loading the map data, try a fallback map.
 	if(fallback == 0 && geodata == undefined && error.status == 404 && error.responseURL.indexOf(".json") != -1)
@@ -478,6 +483,8 @@ function drawWidgets(error, data, geodata)
 
 		// Set up topographic data
 		var mapTopo = topojson.feature(geodata, (chamber=="House")?geodata.objects.districts:geodata.objects.states).features;
+		var countryTopo = topojson.feature(usaboundaries, usaboundaries.objects.usa).features;
+
 		// Define the chart
 		mapChart
 			.width(850).height(500) // Basic dimensions
@@ -510,6 +517,7 @@ function drawWidgets(error, data, geodata)
 				return "url(#" + voteString + ")";
 			})
   	                .colors(function(d) {return d})
+			.overlayGeoJson(countryTopo, "country")
 			.overlayGeoJson(mapTopo, (chamber=="House")?"district":"state", function (d) { // Folds in the data.
 				return d.id;
 			})
@@ -531,6 +539,7 @@ function drawWidgets(error, data, geodata)
 							}
 							else
 							{
+								if(d.id == undefined) { return; }
 								baseToolTip.html("<p><strong>"+d.id+"</strong></p> This district was vacant at the time of the vote."); 
 							} 
 						}
@@ -553,7 +562,8 @@ function drawWidgets(error, data, geodata)
 
 	// We are done defining everything, now let's just run our ancillary functions.
 	dc.renderAll();
-        decorateNominate(nominateScatterChart,data);
+	d3.select("div#geoMap > span#map-chart > svg").select("g.layer0").select("g").select("path").attr("opacity", 0.3).attr("stroke", "#666666");
+        decorateNominate(nominateScatterChart, data);
         addSponsorCircle(nominateScatterChart);
 	if(!failedMapLoad) mapChart.on("filtered", pollFilters);
 	votePartyChart.on("filtered", pollFilters);
