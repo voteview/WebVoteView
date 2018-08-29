@@ -9,9 +9,9 @@
 % for party in resultParties:
 		<div class="col-md-3 memberResultBox {{party["colorScheme"]}}" onClick="javascript:window.location='/parties/{{party["id"]}}/{{party["seo_name"]}}';">
 			% if "logo" in party or (party["id"]==100 or party["id"]==200):
-			<img src="/static/img/parties/{{party["id"]}}.png" style="height:80px;padding-right:20px;vertical-align:middle;" class="pull-left">
+			<img src="/static/img/parties/{{party["id"]}}.png" class="pull-left party_logo">
 			% end
-			<div style="padding-top:15px;">
+			<div class="party_box">
 				<strong>{{party["fullName"]}}</strong><br/>
 				Active from {{congressToYear(party["minCongress"])}} to {{congressToYear(party["maxCongress"])+1}}<br/>
 			</div>
@@ -27,12 +27,12 @@
 %	end
 		<a href="/person/{{member["icpsr"]}}/{{member["seo_name"]}}" class="nohover">
 		<div class="col-md-3 memberResultBox">
-			<img class="bio pull-left" src="/static/img/bios/{{member["bioImg"]}}" style="margin-right:10px;" class="pull-left">
-			<div style="vertical-align:middle;padding-top:5px;">
+			<img class="bio member_image pull-left" src="/static/img/bios/{{member["bioImg"]}}">
+			<div class="member_bio">
 				% if "bioname" in member and member["bioname"] is not None:
 					<strong>{{member["bioname"]}}</strong> ({{member["party_name"][0:1]}})<br/>
 				% end
-				<img src="/static/img/states/{{member["state_abbrev"]}}.png" style="width:20px;" /> {{member["state"].replace("(","").replace(")","")}}<br/>
+				<img src="/static/img/states/{{member["state_abbrev"]}}.png" class="member_flag" /> {{member["state"].replace("(","").replace(")","")}}<br/>
 				Elected {{member["minElected"]}}
 			</div>
 		</div>

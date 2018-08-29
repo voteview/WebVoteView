@@ -479,3 +479,13 @@ span.party_header { padding-right: 20px; }
 }
 
 .dev_header { background-color: red; color: yellow; }
+
+/* member_party_list */
+.member_flag { width: 20px; }
+.member_image { margin-right: 10px; }
+.member_bio { vertical-align: middle; padding-top: 5px; }
+.party_logo { height: 80px; vertical-align: middle; padding-right: 20px; }
+.party_box { padding-bottom: 10px; clear: both; }
+
+/* party page */
+.reset_party { display: none; }

@@ -17,7 +17,7 @@
 		</h3>
 	</div>
 
-	<div id="content" style="display:none;">
+	<div id="content" class="loadedContent">
 		<div class="row">
 			<div class="col-md-12">
 				<h3>
@@ -40,7 +40,7 @@
 			<div class="col-md-12">
 				<h4>
 					<span class="fullName">Party {{ party }}</span> ideology over time<small>
-					<a class="reset" href="javascript:dimChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small>
+					<a class="reset reset_party" href="javascript:dimChart.filterAll();dc.redrawAll();">reset</a></small>
 				</h4>
 				<div id="dim-chart"></div>
 			</div>
@@ -86,7 +86,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<h4><span class="pluralNoun"> {{ party }}</span> serving over time <small><a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a></small></h4>
+				<h4><span class="pluralNoun"> {{ party }}</span> serving over time <small><a class="reset reset_party" href="javascript:timeChart.filterAll();dc.redrawAll();">reset</a></small></h4>
 				<div id="time-chart"></div>
 			</div>
 		</div>
