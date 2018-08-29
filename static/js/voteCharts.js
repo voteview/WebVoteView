@@ -65,6 +65,10 @@ function tooltipText(d)
 			result += abs+" other Abs";
 		}
 	}
+	if(d.value.members.length == 0)
+	{
+		result += "<p>Your selected filters exclude all members in this location.</p>";
+	}
 	return(result);
 }
 
