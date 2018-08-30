@@ -95,8 +95,9 @@
 		<p>
 			<small><em>Privacy Notice: Voteview.com uses this information solely to fulfill your request. Address information is not logged, saved, or stored.</em></small>
 		</p>
-
-
+		</div>
+	</div>
+	<div class="row">
 		<form id="submit-address-form" action="." method="post">
 			<div class="col-md-1" class="address_marker">
 				<strong>Address:</strong> 
@@ -122,7 +123,6 @@
 			<div class="col-md-4" id="addressCorrected">
 			</div>
 		</form>
-		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-8">

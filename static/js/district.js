@@ -63,7 +63,7 @@ function resetResults()
 	{
 		globalEnableLocation=1;
 		console.log('html5 location support detected.');
-		$("#locationButton").show();
+		$("#locationButton").css("display", "table-cell");
 		function success(position)
 		{
 			clearTimeout(slowTimer);
