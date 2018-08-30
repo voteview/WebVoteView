@@ -130,14 +130,16 @@ function outVotes(groupBy)
 		{
 			var person = groupings[sortedKeys[key]][j];
 			var outLabel = "";
+			var party_text = person["party"].substr(0, 1);
+			//var party_text = '<span class="' + partyColors[person["party_short_name"]] + '_text">' + person["party"].substr(0, 1) + "</span>";
 			// Text label vary by facet
-			if(groupBy=="party") outLabel = " ("+person["state_abbrev"]+") ";
-			else if(groupBy=="state") outLabel = " ("+person["party"].substr(0,1)+") ";
-			else outLabel = " ("+person["party"].substr(0,1) + "-" +person["state_abbrev"] + ")";
+			if(groupBy == "party") outLabel = " (" + person["state_abbrev"] + ") ";
+			else if(groupBy == "state_abbrev") outLabel = " (" + party_text + ")";
+			else outLabel = " (" + party_text + "-" + person["state_abbrev"] + ")";
 
 			// Check if the current user is our sponsor.
 			var isSponsor = 0;
-			if(globalData["rollcalls"][0]["sponsor"]!=undefined && person["icpsr"]==globalData["rollcalls"][0]["sponsor"])
+			if(globalData["rollcalls"][0]["sponsor"] != undefined && person["icpsr"] == globalData["rollcalls"][0]["sponsor"])
 			{
 				isSponsor=1;
 			}
