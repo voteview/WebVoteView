@@ -16,23 +16,69 @@ function getGetOrdinal(n) {
 
 $(document).ready(function()
 {
+	var done = 0;
+	$("#congSelector").change(reloadBios);
 	congressNum = $("#congSelector").val();	
+	if(storageAvailable("localStorage"))
+	{
+		var data = localStorage.getItem("congress_" + congressNum + "_chamber_" + chamber_param);
+		if(data != null)
+		{
+			var parseData = JSON.parse(data);
+			if(new Date().getDate() <= Date.parse(parseData["date"]))
+			{
+				console.log("Loaded from localStorage");
+				resultCache = parseData["data"];
+
+				$('#content').show();
+				$('#loading-container').hide();
+				doInit();
+				return;
+			}
+		}
+	}
+
 	$.ajax({
 		dataType: "JSON",
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
 		success: function(data, status, xhr)
 		{
+			resultCache = data;
+			if(storageAvailable("localStorage"))
+			{
+				try
+				{
+					var expireDate = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
+					localStorage.setItem("congress_" + congressNum + "_chamber_" + chamber_param, JSON.stringify({"date": expireDate, "data": data}));
+				}
+				catch(e) { console.log(e); }
+			}
+
 			$('#content').fadeIn();
 			$('#loading-container').slideUp();
-			resultCache = data;
-			if(!tabular_view) { writeBioTable(); nomPlot(); }
-			else { writeTextTable(); }
-			compositionBar();
+			doInit()
 		}
 	});
 
-	$("#congSelector").change(reloadBios);
 });
+
+function doReinit(data)
+{
+	validSet = [];
+	resultCache = data;
+	$("#sortChamber").unbind('click')
+	$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
+
+	doInit();
+}
+
+function doInit()
+{
+	if(!tabular_view) { writeBioTable(); nomPlot(); }
+	else { writeTextTable(); }
+	compositionBar();
+
+}
 
 function nomPlot()
 {
@@ -153,25 +199,45 @@ function rechamber()
 	if(chamber_param=="house") { chamber = "senate"; chamber_param="senate"; $("#memberLabel").html("Senators"); }
 	else { chamber = "house"; chamber_param="house"; $("#memberLabel").html("Representatives"); }
 	reloadBios();
-	doFullFilterReset();	
 }
 
 function reloadBios()
 {
 	congressNum = $("#congSelector").val();
+
+	if(storageAvailable("localStorage"))
+	{
+		var data = localStorage.getItem("congress_" + congressNum + "_chamber_" + chamber_param);
+		if(data != null)
+		{
+			var parseData = JSON.parse(data);
+			if(new Date().getDate() <= Date.parse(parseData["date"]))
+			{
+				console.log("Loaded from localStorage");
+				doFullFilterReset();
+				doReinit(parseData["data"]);
+				return;
+			}
+		}
+	}
+
 	$.ajax({
 		dataType: "JSON",
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
 		success: function(data, status, xhr)
 		{
-			validSet = [];
+			if(storageAvailable("localStorage"))
+			{
+				try
+				{
+					var expireDate = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
+					localStorage.setItem("congress_" + congressNum + "_chamber_" + chamber_param, JSON.stringify({"date": expireDate, "data": data}));
+				}
+				catch(e) { console.log(e); }
+			}
+
 			doFullFilterReset();
-			resultCache = data;
-			$("#sortChamber").unbind('click')
-			$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
-			if(!tabular_view) { writeBioTable(); nomPlot(); }
-			else { writeTextTable(); }
-			compositionBar();
+			doReinit(data);
 		}
 	});
 }
@@ -279,7 +345,6 @@ function do_search_name_filter()
 	}
 	else
 	{
-		console.log("filter all");
 		nameDimension.filterAll();
 	}
 
@@ -333,7 +398,6 @@ function do_filter_bar()
 	var nominateFilter = $("#suppressNominateControls > .filter").text();
 	if(nominateFilter.length)
 	{
-
 		// Round coordinates to 2 sig figs.
 		var coordSets = nominateFilter.split(" -> ");
 		var initXY = coordSets[0].split(",");
@@ -386,6 +450,7 @@ function do_filter_bar()
 function doFullFilterReset()
 {
 	$("#selectionFilterBar").slideUp();
+	$("#suppressNominateControls > .filter").text("");
 	$("#filter_name")[0].value = "";
 	do_search_name_filter();
 	dc.filterAll();

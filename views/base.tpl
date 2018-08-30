@@ -39,7 +39,7 @@
 }
 </style>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css?t={{numBusta}}" media="screen, projection, print"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection, print"/>
         <link href="{{ STATIC_URL }}css/dc.css?t={{numBusta}}" media="all" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css?t={{numBusta}}" media="screen, projection, print"/>
         
