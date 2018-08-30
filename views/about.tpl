@@ -74,7 +74,7 @@
 						Professor Emeritus, University of California San Diego
 					<p>
 					<p class="padded_left">
-						<a href="http://politics.as.nyu.edu/object/HowardRosenthal">Howard Rosenthal</a><br/>
+						<a href="http://as.nyu.edu/politics/directory.howard-l-rosenthal.html">Howard Rosenthal</a><br/>
 						Professor of Politics, New York University<br/>
 						Roger Williams Straus Professor of Social Sciences, Emeritus, Princeton University.
 					</p>
@@ -123,16 +123,17 @@
 				<script>
 					function showSubmit() { $("#captcha_hide_submit").slideDown(); $("#captcha_click").slideUp(); }
 				</script>
+
 				<div class="form-group row">
 					<div id="captcha_click" class="col-sm-8">
-						Before you contact us, please click the box below to verify you are human:
-						<div class="g-recaptcha" data-sitekey="{{authData["recaptchaPublic"]}}" data-callback="showSubmit"></div>
+						<div class="g-recaptcha" data-sitekey="{{authData["recaptchaPublic"]}}" data-callback="submitForm" data-size="invisible"></div>
 					</div>
 				</div>
 
 				<div class="form-group row" id="captcha_hide_submit">
 					<div class="col-sm-8">
-						<input class="btn btn-primary" type="submit" onclick="javascript:submitForm(); return false;" />
+						<input class="btn btn-primary" type="submit" onclick="javascript:showLoad(); grecaptcha.execute(); return false;" />
+						<img class="loading_logo_hide" src="/static/img/loading.gif">
 					</div>
 				</div>
 			</form>

@@ -1,3 +1,8 @@
+function showLoad()
+{
+	$(".loading_logo_hide").show();
+}
+
 function submitForm()
 {
 	$.ajax({

@@ -339,6 +339,18 @@ path.median
 .pinkpurple { border-left: 3px solid #d01c8b !important; }
 .grey { border-left: 3px solid #404040 !important; }
 .brown { border-left: 3px solid #a6611a !important; }
+
+.box_red { background-color: #ca0020 !important; }
+.box_orange { background-color: #e66101 !important; }
+.box_yellow { background-color: #fecc5c !important; }
+.box_green { background-color: #008837 !important; }
+.box_teal { background-color: #018571 !important; }
+.box_blue { background-color: #0571b0 !important; }
+.box_purple { background-color: #7b3294 !important; }
+.box_pinkpurple { background-color: #d01c8b !important; }
+.box_grey { background-color: #404040 !important; }
+.box_brown { background-color: #a6611a !important; }
+
 .red_text { color: #CA0020; }
 .orange_text { color: #E66101; }
 .yellow_text { color: #008837; }
@@ -362,6 +374,7 @@ rect.brown { fill: #a6611a; }
 
 /* Contact page */
 #result_contact { display: none; }
+.loading_logo_hide { display: none; padding-left: 20px; }
 
 /* Geography page */
 .ideology { width: 50px; border-left: 1px solid grey; border-right: 1px solid grey; overflow: none; padding: 0 !important;}
@@ -423,7 +436,7 @@ span.party_header { padding-right: 20px; }
 /* Parties at a Glance */
 #alertPartiesGlance { margin-bottom: 20px; }
 #closeAlert { float: right; text-decoration: none; }
-#parties_list { padding-bottom: 40px; }
+.party_row { padding-top: 2px; padding-bottom: 2px; }
 
 /* Congress Page */
 .congress_header { height: 40px; }
@@ -489,3 +502,8 @@ span.party_header { padding-right: 20px; }
 
 /* party page */
 .reset_party { display: none; }
+
+/* Mute reCAPTCHA */
+.g-recaptcha {
+  display: none !important
+}
