@@ -546,16 +546,18 @@ function drawWidgets(error, data, geodata, usaboundaries)
 						else { baseToolTip.html(tooltipText(result[0])); }
 						eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
 						eW = baseToolTip.style("width");
-						baseToolTip.style("transition","opacity 0.15s linear");
-						baseToolTip.style("visibility","visible").style("opacity","1"); 
+						baseToolTip.style("transition", "opacity 0.15s linear");
+						baseToolTip.style("visibility", "visible").style("opacity", "1"); 
 					})
 					.on('mouseout', function() 
 					{ 
-						baseToolTip.style("transition","visibility 0s linear 0.15s,opacity 0.15s linear");
-						baseToolTip.style("opacity","0").style("visibility","hidden"); 
+						baseToolTip.style("transition", "visibility 0s linear 0.15s,opacity 0.15s linear");
+						baseToolTip.style("opacity", "0").style("visibility", "hidden"); 
 					}) // If you mouse out of the districts, hide the tooltip
 					.on('mousemove', function(d, i){ // If you move your mouse within the district, update the position of the tooltip.
-						baseToolTip.style("top",(event.pageY+32)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+						baseToolTip
+						.style("top", (event.pageY + 32) + "px")
+						.style("left", (event.pageX - (parseInt(eW.substr(0, eW.length - 2)) / 2)) + "px");
 					});
 			});
 	}

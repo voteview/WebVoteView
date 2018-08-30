@@ -5,9 +5,6 @@ var myLat, myLong;
 var slowTimer;
 var globalEnableLocation = 0;
 
-function memberCallback() {
-}
-
 function getGetOrdinal(n) {
     var s=["th","st","nd","rd"],
     v=n%100;
@@ -38,27 +35,30 @@ function resetResults()
 	$("#perm_link_holder").html("");
 }
 
-	$(document).ready(function(){
-		$("#addressInput").on("focus",function() {
-			if($("#addressInput").val()=="MY LOCATION") { $("#addressInput").val(""); }
-		});
-		$("#submit-address-form").submit(function(event)
-		{
-			event.preventDefault();
-			latLongWrapper();
-		});
-		$("#submit-geolocation").click(function(event)
-		{
-			event.preventDefault();
-			getLocation();
-		});
-		if($("#cachedLat").val()) { myLat = $("#cachedLat").val(); }
-		if($("#cachedLong").val()) { myLong = $("#cachedLong").val(); }
-		if($("#addressInput").val()) { setTimeout(function(){latLongWrapper();},1000); }
-  	        $("ul#testData li").on("click",function(){ loadText(this.innerHTML); });
-		$("ul.notableExamples li").on("click",function(){ loadText(this.innerHTML); });
+$(document).ready(function(){
+	$("#addressInput").on("focus",function() {
+		if($("#addressInput").val()=="MY LOCATION") { $("#addressInput").val(""); }
 	});
+	$("#submit-address-form").submit(function(event)
+	{
+		event.preventDefault();
+		latLongWrapper();
+	});
+	$("#submit-geolocation").click(function(event)
+	{
+		event.preventDefault();
+		getLocation();
+	});
+	if($("#cachedLat").val()) { myLat = $("#cachedLat").val(); }
+	if($("#cachedLong").val()) { myLong = $("#cachedLong").val(); }
+	if($("#addressInput").val()) { setTimeout(function(){latLongWrapper();},1000); }
+	$("ul#testData li").on("click",function(){ loadText(this.innerHTML); });
+	$("ul.notableExamples li").on("click",function(){ loadText(this.innerHTML); });
+	deoGeolocation();
+});
 
+function doGeolocation()
+{
 	if(navigator.geolocation)
 	{
 		globalEnableLocation=1;
@@ -96,41 +96,42 @@ function resetResults()
 		}
 		$("#geolocationTutorial").show();
 	}
+}
 
-	function latLongWrapper()
+function latLongWrapper()
+{
+	console.log('wrapper translates box input to geocode.');
+	resetResults();
+	if($("#addressInput").val()=="")
 	{
-		console.log('wrapper translates box input to geocode.');
-		resetResults();
-		if($("#addressInput").val()=="")
-		{
-			$("#warnings").html("").show();
-			var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> No address specified.");
-			errorDiv.appendTo($("#warnings"));
-			return;
-		}
-		else if($("#addressInput").val()=="MAP CENTER" && cachedCoords.length==2)
-		{
-			setTimeout(function(){doMembers(cachedCoords[0], cachedCoords[1])}, 20);
-		}
-		else if($("#addressInput").val()=="MY LOCATION" && globalEnableLocation && $("#cachedLat").val() && $("#cachedLong").val()) { doMembers(parseFloat($("#cachedLat").val()), parseFloat($("#cachedLong").val())); }
-		else if($("#addressInput").val()=="MY LOCATION")
-		{
-			$("#warnings").html("").show();
-			var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> Error accessing your location, either due to internet connectivity or privacy settings. Please manually type an address to continue.");
-			errorDiv.appendTo($("#warnings"));
-		}
-		else
-		{
-			$("#loadProgress").show().html("<strong>Loading...</strong> Matching address to map coordinates... <img src=\"/static/img/loading.gif\" style=\"width:16px;\">");
-			window.history.pushState({"search": $("#addressInput").val()}, "Search for "+$("#addressInput").val(), "/district/"+$("#addressInput").val());
-			window.onpopstate = function(event)
-			{
-				$("#addressInput").val(event.state["search"]);
-				latLongWrapper();
-			}
-			setTimeout(doLatLong, 20);
-		}
+		$("#warnings").html("").show();
+		var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> No address specified.");
+		errorDiv.appendTo($("#warnings"));
+		return;
 	}
+	else if($("#addressInput").val()=="MAP CENTER" && cachedCoords.length==2)
+	{
+		setTimeout(function(){doMembers(cachedCoords[0], cachedCoords[1])}, 20);
+	}
+	else if($("#addressInput").val()=="MY LOCATION" && globalEnableLocation && $("#cachedLat").val() && $("#cachedLong").val()) { doMembers(parseFloat($("#cachedLat").val()), parseFloat($("#cachedLong").val())); }
+	else if($("#addressInput").val()=="MY LOCATION")
+	{
+		$("#warnings").html("").show();
+		var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> Error accessing your location, either due to internet connectivity or privacy settings. Please manually type an address to continue.");
+		errorDiv.appendTo($("#warnings"));
+	}
+	else
+	{
+		$("#loadProgress").show().html("<strong>Loading...</strong> Matching address to map coordinates... <img src=\"/static/img/loading.gif\" style=\"width:16px;\">");
+		window.history.pushState({"search": $("#addressInput").val()}, "Search for "+$("#addressInput").val(), "/district/"+$("#addressInput").val());
+		window.onpopstate = function(event)
+		{
+			$("#addressInput").val(event.state["search"]);
+			latLongWrapper();
+		}
+		setTimeout(doLatLong, 20);
+	}
+}
 
 	function doLatLong()
 	{
@@ -166,26 +167,26 @@ function resetResults()
 		});
 	}
 
-	function compareSort(a, b)
+function compareSort(a, b)
+{
+	if(a.congress > b.congress) { return -1; }
+	else if(a.congress < b.congress) { return 1; }
+	else
 	{
-		if(a.congress > b.congress) { return -1; }
-		else if(a.congress < b.congress) { return 1; }
+		if(a.party_noun < b.party_noun) { return -1; }
+		else if(a.party_noun > b.party_noun) { return 1; }
 		else
 		{
-			if(a.party_noun < b.party_noun) { return -1; }
-			else if(a.party_noun > b.party_noun) { return 1; }
-			else
-			{
-				if(a.bioname < b.bioname) { return -1; }
-				else { return 1; }
-			}
+			if(a.bioname < b.bioname) { return -1; }
+			else { return 1; }
 		}
 	}
+}
 
-	function precisionRound(num, p)
-	{
-		return +(Math.round(num+"e+"+p)+"e-"+p);
-	}
+function precisionRound(num, p)
+{
+	return +(Math.round(num+"e+"+p)+"e-"+p);
+}
 
 	var globalMap;
 	var markerSet = [];
@@ -199,7 +200,11 @@ function resetResults()
 		// Cache the lookup coordinates to make the map mover work
 		cachedCoords = [lat, lng];
  		markerPos = {lat: lat, lng: lng};
-		var map = new google.maps.Map(document.getElementById("google_map"), {zoom: 12, minZoom: 7, maxZoom: 12, center: markerPos, disableDefaultUI: true, scrollwheel: false, draggable: true, zoomControl: true});
+		var map = new google.maps.Map(document.getElementById("google_map"), 
+						{zoom: 12, minZoom: 7, maxZoom: 12, 
+						center: markerPos, disableDefaultUI: true, 
+						scrollwheel: false, draggable: true, 
+						zoomControl: true});
 		globalMap = map;
 		// Put the marker in the lat/long
 		var marker = new google.maps.Marker({position: markerPos, map: map});
@@ -234,6 +239,7 @@ function resetResults()
 				// For visual design, we do a pocket algorithm; save the last guy, compare to current guy, see what's changed.
 				var lastResult = {};
 				var myResults = data["results"].sort(compareSort);
+
 				$.each(myResults, function(k, v)
 				{
 					// Check to see if we have other members at the same time
@@ -245,18 +251,22 @@ function resetResults()
 					}
 
 					// Explainers for weird edge cases (partition/joining or the Civil War)
-					if(lastResult["congress"]>38 && lastResult["congress"]<=45 && v["congress"]<37 && v["congress"]>=30)
+					if(lastResult["congress"] > 38 && lastResult["congress"] <= 45 && v["congress"] < 37 && v["congress"] >= 30)
 					{
-						var civilWarDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: "+v["state"]+" does not seat a delegation in the US Congress.");
+						var civilWarDiv = $("<div></div>")
+								.addClass("alert alert-info")
+								.html("<strong>United States Civil War</strong>: " + v["state"] + " does not seat a delegation in the US Congress.");
 						var tr = $("<tr></tr>");
 						var td = $("<td colspan=\"5\"></td>");
 						civilWarDiv.appendTo(td);
 						td.appendTo(tr);
 						tr.appendTo(tbody);
 					}
-					if(lastResult["state"]=="Maryland" && Math.abs(v["congress"]-lastResult["congress"])>20)
+					if(lastResult["state"] == "Maryland" && Math.abs(v["congress"] - lastResult["congress"]) > 20)
 					{
-						var maryDiv = $("<div></div>").addClass("alert alert-info").html("<strong>D.C.</strong>: The changing shapes of congressional districts occasionally include the address you entered in Maryland. As above, Voteview.com does not track D.C. delegates.");
+						var maryDiv = $("<div></div>")
+								.addClass("alert alert-info")
+								.html("<strong>D.C.</strong>: The changing shapes of congressional districts occasionally include the address you entered in Maryland. As above, Voteview.com does not track D.C. delegates.");
 						var tr = $("<tr></tr>");
 						var td = $("<td colspan=\"5\"></td>");
 						maryDiv.appendTo(td);
@@ -265,7 +275,9 @@ function resetResults()
 					}
 					if(lastResult["state"]=="West Virginia" && v["state"]=="Virginia")
 					{
-						var virgDiv = $("<div></div>").addClass("alert alert-info").html("<strong>United States Civil War</strong>: West Virginia breaks away from Virginia to form a new state.");
+						var virgDiv = $("<div></div>")
+								.addClass("alert alert-info")
+								.html("<strong>United States Civil War</strong>: West Virginia breaks away from Virginia to form a new state.");
 						var tr = $("<tr></tr>");
 						var td = $("<td colspan=\"5\"></td>");
 						virgDiv.appendTo(td);
@@ -274,7 +286,9 @@ function resetResults()
 					}
 					if(lastResult["state"]=="Maine" && v["state"]=="Massachusetts")
 					{
-						var maineDiv = $("<div></div>").addClass("alert alert-info").html("<strong>1820</strong>: Maine votes to secede from Massachusetts and is admitted to the union as a state.");
+						var maineDiv = $("<div></div>")
+								.addClass("alert alert-info")
+								.html("<strong>1820</strong>: Maine votes to secede from Massachusetts and is admitted to the union as a state.");
 						var tr = $("<tr></tr>");
 						var td = $("<td colspan=\"5\"></td>");
 						maineDiv.appendTo(td);
@@ -288,13 +302,19 @@ function resetResults()
 					
 					if(v["nominate"]!=undefined && v["nominate"]["dim1"]!=undefined) { var nomOffset = Math.floor((v["nominate"]["dim1"]+1.01)*50); }
 
-					$("<td>"+getGetOrdinal(v["congress"])+" ("+dateSet[0]+"-"+dateSet[1].toString().substr(2,2)+")</td>").appendTo(tr);
-					$("<td>"+v["state_abbrev"]+"-"+lzPad(v["district_code"])+"</td>").addClass("district").appendTo(tr);
+					$("<td></td>")
+						.html(getGetOrdinal(v["congress"]) + " (" + dateSet[0] + "-" + dateSet[1].toString().substr(2,2) + ")")
+						.appendTo(tr);
+					$("<td></td>")
+						.html(v["state_abbrev"] + "-" + lzPad(v["district_code"]))
+						.addClass("district").appendTo(tr);
+
 					if(v["nominate"]!=undefined && v["nominate"]["dim1"]!=undefined)
 					{
-						var nomDiv = $("<span></span>").addClass("nom_ideology").css("border-right","3px solid "+colorSchemes[v["party_color"]][0])
-										.css("width",nomOffset+"%");
-							
+						var nomDiv = $("<span></span>")
+								.addClass("nom_ideology")
+								.addClass("geo_nom_" + v["party_color"])
+								.css("width",nomOffset+"%");
 						var holdingTD = $("<td></td>").addClass("ideology");
 						nomDiv.appendTo(holdingTD);
 						holdingTD.appendTo(tr);
@@ -303,8 +323,10 @@ function resetResults()
 					{
 						$("<td></td>").appendTo(tr);
 					}
-					$("<td>"+v["party_noun"]+"</td>").addClass("party").appendTo(tr);
-					$("<td><a href=\"/person/"+v["icpsr"]+"/"+v["seo_name"]+"\">"+v["bioname"]+"</a></td>").appendTo(tr);
+
+					$("<td></td>").html(v["party_noun"]).addClass("party").appendTo(tr);
+
+					$("<td></td>").html("<a href=\"/person/"+v["icpsr"]+"/"+v["seo_name"]+"\">"+v["bioname"]+"</a>").appendTo(tr);
 
 					// Use a closure to pin tooltips onto each row. 
 					(function(v){
@@ -338,69 +360,58 @@ function resetResults()
 		$.ajax({
 			dataType: "JSON",
 			url: "/api/districtPolygonLookup?lat="+lat+"&long="+lng,
-			success: function(data, status, xhr)
-			{
+			success: drawMapDistrictPolygon
+			});
 
-				// From StackOverflow, single Google can't let you get a polygon's bounds
-				google.maps.Polygon.prototype.getBounds = function(bounds) {
-					if(bounds == null) {
-					    var bounds = new google.maps.LatLngBounds();
-					}
-
-					var paths = this.getPaths();
-					for (var i = 0; i < paths.getLength(); i++) {
-						path = paths.getAt(i);
-						for (var ii = 0; ii < path.getLength(); ii++) {
-							bounds.extend(path.getAt(ii));
-        					}
-					}
-					return bounds;
-				}
-
-
-				// Draw congressional district polygon.
-				if(data["polygon"]!=undefined && data["polygon"].length)
-				{
-					var tempBounds = new google.maps.LatLngBounds();
-					var poly_color = ["#FF0000", "#FF0000"];
-					console.log("Drawing district polygon in map.");
-					for(var j in data["polygon"])
-					{
-						var new_poly;
-						if(data["polygon"][j].length == 1) {
-							new_poly = data["polygon"][j][0];
-						}
-						else
-						{
-							new_poly = data["polygon"][j];
-						}
-
-						var polygonData = [];
-						for(var i=0; i!=new_poly.length; i++) 
-						{
-							polygonData.push({"lat": new_poly[i][1], "lng": new_poly[i][0]});
-						}
-						var districtPolygon = new google.maps.Polygon({
-							paths: polygonData,
-							strokeColor: poly_color[0],
-							strokeOpacity: 0.8,
-							strokeWeight: 2,
-							fillColor: poly_color[1],
-							fillOpacity: 0.2
-						});
-						districtPolygon.setMap(globalMap); 
-						// Get polygon bounds for this polygon
-						tempBounds = districtPolygon.getBounds(tempBounds);
-					}
-
-					
-
-					// Zoom out to the appropriate zoom to fill the polygon.
-					globalMap.fitBounds(tempBounds);
-					globalMap.setCenter(markerPos);
-					globalMap.setZoom(globalMap.getZoom() + 1);
-				}
-			}
-		});
 	}
 
+
+function drawMapDistrictPolygon(data, status, xhr)
+{
+	// From StackOverflow, single Google can't let you get a polygon's bounds
+	google.maps.Polygon.prototype.getBounds = function(bounds) 
+	{
+		if(bounds == null) var bounds = new google.maps.LatLngBounds();
+		var paths = this.getPaths();
+		for (var i = 0; i < paths.getLength(); i++) 
+		{
+			path = paths.getAt(i);
+			for (var ii = 0; ii < path.getLength(); ii++) bounds.extend(path.getAt(ii));
+		}
+		return bounds;
+	}
+
+	// Draw congressional district polygon.
+	if(data["polygon"] == undefined || !data["polygon"].length) return;
+
+	var tempBounds = new google.maps.LatLngBounds();
+	var poly_color = ["#FF0000", "#FF0000"];
+	console.log("Drawing district polygon in map.");
+	for(var j in data["polygon"])
+	{
+		var new_poly;
+
+		// Data has different levels of nestedness.
+		if(data["polygon"][j].length == 1) new_poly = data["polygon"][j][0];
+		else new_poly = data["polygon"][j];
+
+		var polygonData = [];
+		for(var i=0; i!=new_poly.length; i++) polygonData.push({"lat": new_poly[i][1], "lng": new_poly[i][0]});
+		var districtPolygon = new google.maps.Polygon({
+			paths: polygonData,
+			strokeColor: poly_color[0],
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: poly_color[1],
+			fillOpacity: 0.2
+		});
+		districtPolygon.setMap(globalMap); 
+		// Get polygon bounds for this polygon
+		tempBounds = districtPolygon.getBounds(tempBounds);
+	}
+
+	// Zoom out to the appropriate zoom to fill the polygon.
+	globalMap.fitBounds(tempBounds);
+	globalMap.setCenter(markerPos);
+	globalMap.setZoom(globalMap.getZoom() + 1);
+}

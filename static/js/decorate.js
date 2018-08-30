@@ -142,7 +142,6 @@ function decorateNominate(oc,data) {
             if(data.rollcalls[0].congress==0) var vn = data.rollcalls[0].nominate.imputed;
             else var vn = data.rollcalls[0].nominate;
             var voteShare = Math.max(data.rollcalls[0].yea, data.rollcalls[0].nay)/(data.rollcalls[0].yea+data.rollcalls[0].nay);
-            //console.log(vn);
         }
 
 
@@ -266,13 +265,13 @@ function decorateNominate(oc,data) {
 		$("<div></div>")
 			.attr("id","hm_tooltip")
 			.addClass("d3-tip")
-			.css("z-index",10).css("visibility","hidden")
-			.css("opacity",0.8).appendTo(document.body); 
+			.addClass("heatmapTip")
+			.appendTo(document.body); 
 	    }
             var yunits = radiusY;
 	    var xunits = radiusX;
             var brush = ocSVG.select(".brush") 
-	    brush.on("mouseover",function() { if(!isDoingSelect) { $("#hm_tooltip").css("visibility","visible").css("opacity",0.8); }});
+	    brush.on("mouseover",function() { if(!isDoingSelect) { $("#hm_tooltip").css("visibility","visible"); }});
             brush.on("mousemove",function() {
 			var ypdiv = $("#hm_tooltip");
                         var cx = circleCenter.x-hmTranslate.x,
@@ -297,7 +296,6 @@ function decorateNominate(oc,data) {
                                 }
 				if(!isDoingSelect) ypdiv.css("visibility","visible");
 				ypdiv.html("<strong>Probability of Voting Yea: </strong>" + dispProb + "<br/> The calculated probability that a member at this position would vote 'Yea' on the rollcall.")
-				   .css("z-index",10)
 				   .css("left",d3.event.pageX + 20 + "px")
 				   .css("top",(d3.event.pageY - 48) + "px");
 			    }
@@ -306,8 +304,7 @@ function decorateNominate(oc,data) {
  				// Cursor is on nominate plot, but not in the Oval 
 				ypdiv.css("visibility","hidden");
 			    }
-		            //console.log("x=" + d3.mouse(this)[0] + ",y=" + d3.mouse(this)[1]);
-		            //console.log("x=" + x + ",y=" + y);
+
                       }); 
             // Don't show tooltip if user is making a range selection
             brush.on("mousedown",function() { $("#hm_tooltip").css("visibility","hidden"); isDoingSelect=1; });     

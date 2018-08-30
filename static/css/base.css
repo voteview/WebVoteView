@@ -7,6 +7,11 @@
     display: none;
 }
 
+.fixed_footer {
+	position: fixed;
+	bottom: 0;
+}
+
 div#footer div {
     height: 90px;
 }
@@ -389,6 +394,17 @@ rect.brown { fill: #a6611a; }
 .notableExamples { columns: 3; cursor: pointer; overflow: hidden;}
 #testData { height: 50px; }
 
+.geo_nom_red { border-right: 3px solid #CA0020; }
+.geo_nom_orange { border-right: 3px solid #E66101; }
+.geo_nom_yellow { border-right: 3px solid #008837; }
+.geo_nom_green { border-right: 3px solid #008837; }
+.geo_nom_teal { border-right: 3px solid #018571; }
+.geo_nom_blue { border-right: 3px solid #0571B0; }
+.geo_nom_purple { border-right: 3px solid #7B3294; }
+.geo_nom_pinkpurple { border-right: 3px solid #D01C8B; }
+.geo_nom_grey { border-right: 3px solid #404040; }
+.geo_nom_brown { border-right: 3px solid #A6611A; }
+
 /* Vote page */
 .voteTable { list-style-type: none; overflow: auto; }
 .columns1 { columns: 1; width: 25%; }
@@ -436,7 +452,7 @@ span.party_header { padding-right: 20px; }
 /* Parties at a Glance */
 #alertPartiesGlance { margin-bottom: 20px; }
 #closeAlert { float: right; text-decoration: none; }
-.party_row { padding-top: 2px; padding-bottom: 2px; }
+.party_row { padding-top: 2px; padding-bottom: 2px; cursor: pointer; }
 
 /* Congress Page */
 .congress_header { height: 40px; }
@@ -449,6 +465,10 @@ span.party_header { padding-right: 20px; }
 .save_icon { margin-left: 5px; font-size: 22px; vertical-align: middle; cursor: pointer; } 
 #scatter-container { margin: 0 auto 10px auto; }
 #filterName { float: right; }
+.column1 { columns: 1 !important; width: 25% !important; }
+.column2 { columns: 2 !important; width: 50% !important; }
+.column3 { columns: 3 !important; width: 75% !important; }
+.column4 { columns: 4 !important; width: 100$ !important; }
 
 /* Vote Display Page */
 .loading_throbber { margin-left: 10px; width: 24px; vertical-align: middle; }
@@ -485,6 +505,7 @@ span.party_header { padding-right: 20px; }
 .meta_float { float: left; margin-right: 20px; }
 #key_vote_icon { padding-right: 10px; }
 #extendedDescription { display: none; }
+.heatmapTip { z-index: 10; opacity: 0.8; visibility: hidden; }
 
 /* CUSTOM: Slider width for when front page is small */
 .slider {

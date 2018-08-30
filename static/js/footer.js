@@ -6,7 +6,7 @@ $(document).ready(function()
 		if($(document).height() < $(window).height() * 1.2 && typeof attachSingleFooter !== 'undefined' && attachSingleFooter == 1) 
 		{
 			hasLoadedFooter=1;
-			$("#footer").css({"position": "fixed", "bottom": 0}).fadeIn();
+			$("#footer").addClass("fixed_footer").fadeIn();
 			return;
 		}
 		$(window).scroll(function() { // Scroll listener
