@@ -595,9 +595,7 @@ function drawWidgets(error, data, geodata, usaboundaries)
 	  }
         });
 
-	$("#vote_chart_float").delay(500).stick_in_parent({recalc_every: 1});
-
-
+	$("#vote_chart_float").delay(500).stick_in_parent();
 }
 
 

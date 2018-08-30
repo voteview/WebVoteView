@@ -147,16 +147,19 @@ function decorateNominate(oc,data) {
 
 
 	// Fit box regardless if cutline exists
-	ggg.append('text').text(sprintf("Proportionate Reduction in Error (PRE): %4.2f", (vn.pre == null || isNaN(vn.pre) || vn.pre=="") ? 0 : vn.pre))
-	    .attr("class", "fitbox")
-	    .attr("x", xAxisMin + 0.98 * xAxisLen)
-            .attr("style","text-anchor: end;")
-	    .attr("y", yDimPos + 40);
-
-	ggg.append('text').text(sprintf("Proportion of votes correctly classified: %4.2f", (vn.classified == null || isNaN(vn.classified) || vn.classified=="") ? 0 : vn.classified ))
-	    .attr("class", "fitbox")
-	    .attr("x", xAxisMin + 0.02 * xAxisLen)
-	    .attr("y", yDimPos + 40);
+	if(vn != undefined)
+	{
+		ggg.append('text').text(sprintf("Proportionate Reduction in Error (PRE): %4.2f", (vn.pre == null || isNaN(vn.pre) || vn.pre=="") ? 0 : vn.pre))
+		    .attr("class", "fitbox")
+		    .attr("x", xAxisMin + 0.98 * xAxisLen)
+	            .attr("style","text-anchor: end;")
+		    .attr("y", yDimPos + 40);
+	
+		ggg.append('text').text(sprintf("Proportion of votes correctly classified: %4.2f", (vn.classified == null || isNaN(vn.classified) || vn.classified=="") ? 0 : vn.classified ))
+		    .attr("class", "fitbox")
+		    .attr("x", xAxisMin + 0.02 * xAxisLen)
+		    .attr("y", yDimPos + 40);
+	}
 
 	var legendType=1;
 
@@ -168,7 +171,7 @@ function decorateNominate(oc,data) {
                           .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")"); 
 
 	    nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1], 
-	    		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#ffffcc"]);
+	    		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#FFFFAA"]);
 
 	       // Calculate where the YN text axis goes.
 	       function closestpt(vn) {

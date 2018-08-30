@@ -290,7 +290,6 @@ function do_search_name_filter()
 
 function hideMembersUnselected()
 {
-	console.log("hMU");
 	$("#memberList > li.memberResultBox").each(function(i, d) {
 		var show_brush = validSet.length == 0 || validSet.indexOf(parseInt($(d).attr("id"))) != -1;
 		var show_text = $("#filter_name")[0].value.length == 0 || icpsr_match.indexOf(parseInt($(d).attr("id"))) != -1;
