@@ -357,6 +357,14 @@ $(document).ready(function(){
 	{
 		updateRequest();
 	});
+	$("#faceted-search-form input[name*='peltzman'], #faceted-search-form input[name*='clausen']").unbind("change").change(function(e)
+	{
+		updateCategoryCheck(e);
+	});
+	$('#faceted-search-form input[name*="all_categories"]').unbind("change").change(function(e)
+	{
+		updateCheckAll(e);
+	});
 
 	// Prevent form submission, force an AJAX call everytime we update the search bar
 	$("#faceted-search-form").submit(function(event) 
@@ -423,7 +431,7 @@ $(document).ready(function(){
 	if($('#facet-chamber input[type=checkbox]:checked').length) {
 		$("#facet-chamber").collapse('show');
 	}
-	if($('#facet-clausen input[type=checkbox]:checked').length) {
+	if($('#facet-clausen input[name*="clausen"]:checked, #facet-clausen input[name*="peltzman"]:checked').length) {
 		$("#facet-clausen").collapse('show');
 	}
 	if($('#facet-keyvote input[type=checkbox]:checked').length) {
@@ -747,6 +755,38 @@ function cleanLink(text)
 		 .replace(/\-$/g, '')
 		 .toLowerCase();
 	return text;
+}
+
+function updateCategoryCheck(e) 
+{
+	if(e.target.checked)
+	{
+		console.log("uncheck all");
+		$('#faceted-search-form input[name="all_categories"]').prop("checked", false);
+	}
+	else
+	{
+		var num_checked = 0;
+		$('#faceted-search-form input[name="peltzman"], #faceted-search-form input[name="clausen"]').each(function(index, element) {
+			if($(this).prop("checked")) { num_checked = 1; }
+		});
+
+		if(!num_checked) $('#faceted-search-form input[name="all_categories"]').prop("checked", true);
+	}
+	updateRequest();
+}
+
+function updateCheckAll(e)
+{
+	if(e.target.checked)
+	{
+		$('#faceted-search-form input[name="peltzman"], #faceted-search-form input[name="clausen"]').each(function() { $(this).prop("checked", false); });
+		updateRequest();
+	}
+	else
+	{
+		$(e.target).prop("checked", true);
+	}
 }
 
 $('#toggleAlert').click(function()

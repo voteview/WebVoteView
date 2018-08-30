@@ -162,83 +162,17 @@
               </div>
               <div id="facet-clausen" class="panel-collapse facet-content collapse">
                 <div class="panel-body">
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" value="Government Management" name="clausen">
-					Government Management
-				</label>
-			</div>
-
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" value="Miscellaneous Policy" name="clausen">
-					Miscellaneous Policy
-				</label>
-			</div>
-
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Foreign and Defense Policy" name="clausen">
-                        Foreign and Defense Policy
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Social Welfare" name="clausen">
-                        Social Welfare
-                      </label>
-                    </div>
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" value="" CHECKED name="all_categories">
+			All Categories
+		      </label>
+		    </div>
 
                     <div class="checkbox">
                      <label>
                         <input type="checkbox" value="Agriculture" name="clausen">
                         Agriculture
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                     <label>
-                        <input type="checkbox" value="Civil Liberties" name="clausen">
-                        Civil Liberties
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Internal Organization" name="peltzman">
-                        Internal Organization
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Foreign Policy Resolutions" name="peltzman">
-                        Foreign Policy Resolutions
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Government Organization" name="peltzman">
-                        Government Organization
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Regulation General Interest" name="peltzman">
-                        Regulation General Interest
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Regulation Special Interest" name="peltzman">
-                        Regulation Special Interest
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Budget Special Interest" name="peltzman">
-                        Budget Special Interest
                       </label>
                     </div>
                     <div class="checkbox">
@@ -249,38 +183,119 @@
                     </div>
                     <div class="checkbox">
                       <label>
+                        <input type="checkbox" value="Budget Special Interest" name="peltzman">
+                        Budget Special Interest
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                     <label>
+                        <input type="checkbox" value="Civil Liberties" name="clausen">
+                        Civil Liberties
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="D. C." name="peltzman">
+                        D. C.
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
                         <input type="checkbox" value="Defense Policy Budget" name="peltzman">
                         Defense Policy Budget
                       </label>
                     </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Domestic Social Policy" name="peltzman">
-                        Domestic Social Policy
-                      </label>
-                    </div>
+
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Defense Policy Resolutions" name="peltzman">
                         Defense Policy Resolutions
                       </label>
                     </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Domestic Social Policy" name="peltzman">
+                        Domestic Social Policy
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Foreign and Defense Policy" name="clausen">
+                        Foreign and Defense Policy
+                      </label>
+                    </div>
+
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Foreign Policy Budget" name="peltzman">
                         Foreign Policy Budget
                       </label>
                     </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Foreign Policy Resolutions" name="peltzman">
+                        Foreign Policy Resolutions
+                      </label>
+                    </div>
+
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" value="Government Management" name="clausen">
+			Government Management
+		      </label>
+		    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Government Organization" name="peltzman">
+                        Government Organization
+                      </label>
+                    </div>
+
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Indian Affairs" name="peltzman">
                         Indian Affairs
                       </label>
                     </div>
+
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" value="D. C." name="peltzman">
-                        D. C.
+                        <input type="checkbox" value="Internal Organization" name="peltzman">
+                        Internal Organization
+                      </label>
+                    </div>
+
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" value="Miscellaneous Policy" name="clausen">
+			Miscellaneous Policy
+		      </label>
+		    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Regulation General Interest" name="peltzman">
+                        Regulation General Interest
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Regulation Special Interest" name="peltzman">
+                        Regulation Special Interest
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Social Welfare" name="clausen">
+                        Social Welfare
                       </label>
                     </div>
 
