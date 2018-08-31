@@ -1,6 +1,6 @@
 	<div class="row">
 		<div class="col-md-12">
-			<div id="mainCarousel" class="carousel slide" data-ride="carousel" data-pause="hover" data-interval="3000">
+			<div id="mainCarousel" class="carousel slide" data-ride="carousel" data-pause="hover" data-interval="8000">
 				<!-- Indicator list -->
 				<ol class="carousel-indicators">
 					% for i in xrange(len(slides)):

@@ -184,10 +184,13 @@ function fillLoyaltyDrawHist(error, data)
 		else label += "More liberal than " + Math.floor(100 - conPctChamber, 1) + "% of the " + getGetOrdinal(congressNum) + " " + chamberCap + "<br/>";
 
 		// Now, compared to their party?
-		if(mcPartyChamber == 0) { label += "The most liberal " + memberNoun + " of the " + getGetOrdinal(congressNum) + " " + chamberCap + "."; }
-		else if(mcPartyChamber == partyChamberNom.length - 1) { label += "The most conservative " + memberNoun + " of the " + getGetOrdinal(congressNum) + " " + chamberCap + "."; }
-		else if(mcPartyChamber > (partyChamberNom.length - 1) / 2) { label += "More conservative than " + Math.floor(conPctPC, 1) + "% of " + memberNoun + "s in the " + getGetOrdinal(congressNum) + " " + chamberCap; }
-		else { label += "More liberal than " + Math.floor(100 - conPctPC, 1) + "% of " + memberNoun + "s in the " + getGetOrdinal(congressNum) + " " + chamberCap; }
+		if(partyChamberNom.length > 1)
+		{
+			if(mcPartyChamber == 0) { label += "The most liberal " + memberNoun + " of the " + getGetOrdinal(congressNum) + " " + chamberCap + "."; }
+			else if(mcPartyChamber == partyChamberNom.length - 1) { label += "The most conservative " + memberNoun + " of the " + getGetOrdinal(congressNum) + " " + chamberCap + "."; }
+			else if(mcPartyChamber > (partyChamberNom.length - 1) / 2) { label += "More conservative than " + Math.floor(conPctPC, 1) + "% of " + memberNoun + "s in the " + getGetOrdinal(congressNum) + " " + chamberCap; }
+			else { label += "More liberal than " + Math.floor(100 - conPctPC, 1) + "% of " + memberNoun + "s in the " + getGetOrdinal(congressNum) + " " + chamberCap; }
+		}
 	}
 
 	var labelTip = d3.tip().attr('class', 'd3-tip').html(
