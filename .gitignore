@@ -20,6 +20,7 @@ static/data/csv/**/*.bak
 static/aaron/*
 
 static/img/bios
+static/img/carousel
 static/img/scans
 static/img/source_images/**/*.jpg
 static/img/source_images/**/*.sgm
@@ -29,3 +30,5 @@ static/articles/
 static/json
 static/partyjson
 static/controljson
+static/carousel
+

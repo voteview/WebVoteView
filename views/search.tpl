@@ -1,10 +1,11 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/moment.js", "/static/js/libs/bootstrap-datetimepicker.min.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css", "bootstrap-datetimepicker.css"])
+% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/clipboard.min.js", "/static/js/libs/moment.js", "/static/js/libs/bootstrap-datetimepicker.min.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css", "bootstrap-datetimepicker.css"])
 % include('header.tpl')
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % setdefault('args',{})
 % setdefault('search_string',"")
 <div class="container">
+	% include('carousel.tpl')
 
 	<div class="row">
 		<div class="col-xs-12">
@@ -12,18 +13,6 @@
 				Vote and Member Search
 			</h3>
 
-			<div class="alert alert-info fade in" style="margin-bottom:2px;" id="alertWelcome">
-				<a href="#" id="closeAlert" style="float:right;text-decoration:none;">&times;</a>
-				<strong>Welcome!</strong>
-
-				You have reached the <strong>beta version</strong> of the new voteview.com. This is a website that allows users to view every congressional roll call vote
-				in American history on a map of the United States and on a liberal-conservative ideological map, including information about the ideological position of
-				voting Senators and Representatives. For more information about Voteview and NOMINATE, click <a href="/about">here</a>. <strong>Academics interested in NOMINATE data can download it on our <a href="/data">data page</a>.</strong><br/><br/>
-
-				Below, you can search every rollcall vote. By default, the most recent votes are shown below. Suggested searches will show up in the search bar and you can use the advanced search to change the conditions for your query. You can also check out the <a href="/district">history of your district</a> and see how <a href="/parties">political parties have evolved over time.</a>
-				We are still working to get this site ready for the public and would love to hear
-				your feedback which you can send on the <a href="/about">About</a> page.
-			</div>
 		</div>
 	</div>
 
@@ -402,7 +391,7 @@
 			<div class="footerBig">
 				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
 				<span id="shareTextInput">{{ base_url }}s/
-					<input id="shareLinkText" type="text" placeholder="type-short-name"> 
+					<input id="shareLinkText" type="text" placeholder="type-short-name" > 
 					<input type="submit" value="Create" onClick="javascript:shareLink();javascript:clipboardCopyHack(document.getElementById('shareTextInput'))">
 				</span>
 				<span id="shareTextLink"></span>

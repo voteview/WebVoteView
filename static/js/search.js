@@ -20,7 +20,7 @@ function numberWithCommas(x)
 
 function openStashCart()
 {
-	$('.carousel').carousel(0);
+	// $('.carousel').carousel(0);
 	$("#stashCartIcon").fadeOut(100);
 	$("#stashCartBar").slideDown(300,function()
 	{
@@ -254,7 +254,7 @@ var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to
 var suggestedPulse;
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
-	$('.carousel').carousel({"interval": false, "keyboard": false, "wrap": false});
+	$('#stashCartBar').carousel({"interval": false, "keyboard": false, "wrap": false});
 
 	// Load stash
 	cookieId = Cookies.get('stash_id');

@@ -11,6 +11,7 @@ import unidecode
 from fuzzywuzzy import fuzz
 from bson.json_util import dumps
 from pdb import set_trace as st
+from numpy.random import choice
 
 from model.searchVotes import query
 import model.downloadVotes  # Namespace issue
@@ -133,8 +134,17 @@ def index(search_string=""):
             except:
                 pass
         timeIt("doneAssembly")
+
+        # Randomly sample some slides to show.
+        slides = json.load(open("static/carousel/slides.json", "r"))
+        weights = [x["weight"] for x in slides]
+        sum_weights = sum(weights)
+        weights = [w / float(sum_weights) for w in weights]
+        num_slides = 5
+        slides = choice(slides, 5, replace=False, p=weights)
+
         output = bottle.template("views/search", args=argDict,
-                                 search_string=search_string, timeSet=zipTimes(), base_url=BASE_URL)
+                                 search_string=search_string, timeSet=zipTimes(), base_url=BASE_URL, slides = slides)
     except:
         output = bottle.template(
             "views/error", errorMessage=traceback.format_exc())
