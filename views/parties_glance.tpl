@@ -38,7 +38,6 @@
 		<div class="row">
 			<div class="col-md-12" id="parties_list">
 				<h4>Parties Throughout History</h4>
-				<div id="partySet"></div>
 			</div>
 		</div>
 	</div>

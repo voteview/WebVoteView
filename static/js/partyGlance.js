@@ -10,39 +10,31 @@ function getGetOrdinal(n) {
     return n+(s[(v-20)%10]||s[v]||s[0]);
  }
 
+var min, max;
 var eW=0; var eH=0;
 var globalParties = [];
 var partyList = [];
 var opacityTimer;
+
 function tooltipText(party, d)
 {
-	var result = getGetOrdinal(d.x)+" Congress &gt; ";
-	if(party<partyList.length) // One of the major parties
-	{
-		result = result+"<strong>"+globalParties[party][1]["fullName"]+"</strong>";
+	var prefix = getGetOrdinal(d.x)+" Congress &gt; ";
+	var partyNameLabel = (party < partyList.length) ? globalParties[party][1]["fullName"] : "Congressional Median (Midpoint)";
+
+	var result = "<p>" + prefix + "<strong>" + partyNameLabel + "</strong></p>";
+
+	result += "<p><em>Median Ideology Score</em>: " + (Math.round(d.y*100)/100) + "</p>";
+	result += "<p><em>How to interpret Ideology scores:</em><br/>These scores show how liberal or conservative a party is on a scale from -1 (Very Liberal) to +1 (Very Conservative). The scores provided are the median--mid-point--member of each party across both the House of Representative and the Senate.</p>";
+
+	if(party >= partyList.length) 
+	{ 
+		result += "<p>The congressional median is unstable (swings back and forth) as the balance of power of the House and Senate changes.</p>"; 
 	}
-	else
-	{
-		result = result+"<strong>Congressional Median (Midpoint)</strong>";
-	}
-	result = result+"<br/><br/><em>Median Ideology Score</em>: "+(Math.round(d.y*100)/100);
-	result = result+"<br/><br/><em>How to interpret Ideology scores:</em><br/>These scores show how liberal or conservative a party is on a scale from -1 (Very Liberal) to +1 (Very Conservative). The scores provided are the median--mid-point--member of each party across both the House of Representative and the Senate.";
-	if(party>=partyList.length)
-	{
-		result = result+"<br/><br/>The Congressional Median is unstable (swings back and forth) as control of the House and Senate change.";
-	}
+
 	return(result);
 }
 
-console.time("beginPageLoad");
-
-var dimChart = dc.compositeChart("#dim-chart");
-
-var q = queue()
-    .defer(d3.json, "/static/partyjson/parties.json")
-    .defer(d3.json, "/static/partyjson/glance.json")
-    .defer(d3.json, "/static/config.json")
-    .await(function(error, parties, glance, configFile) {
+function generateGlanceChart(error, parties, glance, configFile) {
 	// Parties is the full party list, sorted by size bracket, then old to new, then A-Z.
 	globalParties = parties;	
 
@@ -50,8 +42,8 @@ var q = queue()
 	console.time("processData");
 
 	var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
-	var min = 1;
-	var max = configFile["maxCongress"];	
+	min = 1;
+	max = configFile["maxCongress"];	
 
 	// Take the "glance" file and break it into the grand file and the party files.
 	var grand;
@@ -194,7 +186,7 @@ var q = queue()
 			(function(j, obj)
 			{
 				j=j-1 // To compensate for the fact that the first group is the scatterplot, not the line charts.
-				d3.select(obj).attr('r',10);
+				d3.select(obj).attr('r',10).style("cursor", "pointer");
 				d3.select(obj).on("mouseover",function(d)
 				{
 					// Thing that checks if this is a point mouseover or a line mouseover
@@ -256,65 +248,64 @@ var q = queue()
 	$("#loading-container").delay(200).slideUp(100);
 	$("#content").fadeIn();
 
+	generatePartyList(parties);
+}
+
+function generatePartyList(parties)
+{
 	console.time("partyList");
 	var j=0;
+
+	function activeLabel(pData)
+	{
+		var minDate = pData["mind"].split("-")[0], maxDate = pData["maxd"].split("-")[0];
+		if(pData["min"] == pData["max"]) return getGetOrdinal(pData["min"]) + " <small>(" + minDate + "-" + maxDate + ")</small>";
+		else if(pData["max"] >= max) return getGetOrdinal(pData["min"]) + " <small>(" + minDate + ")</small> onwards";
+		return getGetOrdinal(pData["min"]) + "-" + getGetOrdinal(pData["max"]) + "";
+	}
+
 	for(var i=0;i!=parties.length;i++)
 	{
-		// Breaks between Major, Historical Major, and Historical Minor Parties
-		if(i==0)
-		{
-			var majParty = $("<div></div>").css("clear","both").css("padding-bottom","10px").html("<big>Today's Parties</big>");
-			majParty.appendTo($("#partySet"));
-		}
-		if(parties[i][1]["count"]<5000 && j==0)
-		{
-			var majParty = $("<div></div>").css("clear","both").css("padding-top","10px").css("padding-bottom","10px").html("<big>Historical Major Parties</big>");
-			majParty.appendTo($("#partySet"));
-			j=1;
-		}
-		if(parties[i][1]["count"]<130 && j==1)
-		{
-			var minParty = $("<div></div>").css("clear","both").css("padding-top","10px").css("padding-bottom","10px").html("<big>Historical Minor Parties</big>");
-			minParty.appendTo($("#partySet"));
-			j=2;
-		}
+		var party = parties[i];
 
-		// Construct the Original Text Stuff
-		var partyID = parties[i][0];
-		if(partyID==328) { continue; } // Hack to exclude independents?
-		var minCong = parties[i][1]["minCongress"];
-		var maxCong = parties[i][1]["maxCongress"];
-		var textLabel = "Active ";
-		try
-		{
-			if(minCong==maxCong) { textLabel += "in the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"-"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)"; }
-			else if(maxCong>=max) { textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) onwards"; }
-			else { textLabel += "from the "+getGetOrdinal(minCong)+" Congress (<small>"+parties[i][1]["voting_dates"][0].split("-")[0]+"</small>) until the "+getGetOrdinal(maxCong)+" Congress (<small>"+parties[i][1]["voting_dates"][1].split("-")[0]+"</small>)."; }
-		}
-		catch(e) { textLabel = ""; }
+		// Re-arrange data a bit.
+		var pData = {"min": party[1]["minCongress"], "max": party[1]["maxCongress"], 
+				"mind": party[1]["voting_dates"][0], "maxd": party[1]["voting_dates"][1],
+				"id": party[0], "name": party[1]["fullName"], "slug": party[1]["seo_name"]};
 
-		try { var partyColorScheme = partyColorMap[partyNameSimplify(parties[i][1]["name"])];}
-		catch(e) { var partyColorScheme = "grey"; }
+		try { pData["col"] = partyColorMap[partyNameSimplify(parties[i][1]["name"])];}
+		catch(e) { pData["col"] = "grey"; console.log("color problem" + party[0]); }
+		if(pData["id"] == 328) { continue; }
 
-		var pName = $("<div></div>").addClass('col-md-3').addClass("memberResultBox").addClass(partyColorScheme)
-						.data('partyID',partyID);
-		var linkBox = $("<a></a>").attr("class","nohover").attr("href","/parties/"+partyID+"/"+parties[i][1]["seo_name"]);
+		// Build the row.
+		var partyRow = $("<div></div>").addClass("row").addClass("party_row").attr("data-party", pData["id"]).attr("data-name", pData["slug"]);
+		var nameColumn = $("<div></div>").addClass("col-md-3");
+		var partyLink = $("<a></a>").attr("href", "/parties/" + pData["id"] + "/" + pData["slug"]).html(pData["name"]).appendTo(nameColumn);
+		nameColumn.appendTo(partyRow);
+		var activeColumn = $("<div></div>").addClass("col-md-2").html(activeLabel(pData)).appendTo(partyRow);
 
-		if(j==0) // Major current party with logo
-		{
-			var imgBox = $("<img />").css("width","100px").css("height","80px").css("padding-right","20px").attr("class","pull-left")
-					.attr("src","/static/img/parties/"+partyID+".png");
-			imgBox.appendTo(pName);
-		}
+		// Visual tracking of timeline
+		var leftPadding = Math.round(100 * (pData["min"] - 1) / max) + "%";
+		var width = Math.max(1, Math.round(100 * (pData["max"] - pData["min"]) / max)) + "%"; 
 
-		var partyName = parties[i][1]["fullName"] 
-		var bioBox = $("<span></span>").html("<strong>"+partyName+"</strong><br/>"+textLabel+"<br/><br/>");
-		bioBox.appendTo(pName);
-		pName.appendTo(linkBox);
-		linkBox.appendTo($("#partySet"));
+		var timelineColumn = $("<div></div>")
+					.addClass("col-md-6");
+		var timelineMap = $("<div></div>")
+					.css("margin-left", leftPadding)
+					.addClass("box_" + pData["col"])
+					.css("width", width)
+					.css("height", "20px")
+					.appendTo(timelineColumn);
+		timelineColumn.appendTo(partyRow);
+
+		partyRow.click(function(d) { window.location='/parties/' + $(this).attr("data-party") + '/' + $(this).attr("data-name"); });
+		partyRow.appendTo($("#content"));
 	}
+
+	$("<div></div>").css("margin-bottom", "50px").appendTo($("#content"));
 	console.timeEnd("partyList");
-    });
+
+}
 
 
 $('#closeAlert').click(function(e)
@@ -322,3 +313,14 @@ $('#closeAlert').click(function(e)
         if($('#alertPartiesGlance').is(':hidden')) { $('#alertPartiesGlance').show(); }
         else { $('#alertPartiesGlance').hide(); }
 });
+
+
+console.time("beginPageLoad");
+
+var dimChart = dc.compositeChart("#dim-chart");
+
+var q = queue()
+    .defer(d3.json, "/static/partyjson/parties.json")
+    .defer(d3.json, "/static/partyjson/glance.json")
+    .defer(d3.json, "/static/config.json")
+    .await(generateGlanceChart);
