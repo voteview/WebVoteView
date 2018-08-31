@@ -122,8 +122,8 @@
 			%		for congress in range(congressRun[1], congressRun[0]-1, -1):
 				<option value="{{congress}}">{{person["congressLabels"][congress]}}</option>
 			% 		end
+			% 	end
 			</select>
-			% end
 			<small><a href="#" onclick="javascript:return viewAllCong();">View all members</a></small>
 		</h5>
 
