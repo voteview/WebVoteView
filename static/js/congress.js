@@ -68,6 +68,8 @@ function doReinit(data)
 	resultCache = data;
 	$("#sortChamber").unbind('click')
 	$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
+	$("#textLink").attr("href", "/congress/" + chamber_param + "/" + congressNum + "/text");
+	$("#graphicLink").attr("href", "/congress/" + chamber_param + "/" + congressNum);
 
 	doInit();
 }

@@ -206,18 +206,28 @@ def explore(chamber="house"):
 
 @app.route("/congress")
 @app.route("/congress/<chamber:re:house|senate>")
+@app.route("/congress/<chamber:re:house|senate>/<congress_num:int>")
+@app.route("/congress/<chamber:re:house|senate>/<congress_num:int>/<tv>")
 @app.route("/congress/<chamber:re:house|senate>/<tv>")
-def congress(chamber="senate", tv=""):
+def congress(chamber="senate", congress_num=-1, tv=""):
+    print type(tv), type(congress_num)
     if chamber != "senate":
         chamber = "house"
-    if tv != "text":
-        tv = ""
+    if tv != "text" and len(tv):
+        try:
+            congress_num = int(tv)
+            tv = ""
+        except:
+            tv = ""
+            congress_num = -1
 
     maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
-    congress = defaultValue(bottle.request.params.congress, maxCongress)
+    if congress_num == -1:
+        congress_num = maxCongress
+
     meta = metaLookup()
 
-    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress,
+    output = bottle.template("views/congress", chamber=chamber, congress=congress_num, maxCongress=maxCongress,
                              dimweight=meta["nominate"][
                                  "second_dimweight"], nomBeta=meta["nominate"]["beta"],
                              tabular_view=tv)

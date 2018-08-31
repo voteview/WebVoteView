@@ -65,12 +65,12 @@
 				<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
 				<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
 				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-				<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a> -- <a href="/congress/{{chamber}}/text">Tabular View</a>)
+				<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a> -- <a href="/congress/{{chamber}}/{{congress}}/text" id="textLink">Tabular View</a>)
 				<div id="filterName">
 					Filter Name: <input id="filter_name" type="text" placeholder="Don Young" oninput="javascript:delay_filter(); return false;">
 				</div>
 				% else:
-				(<a href="/congress/{{chamber}}">Graphical List View</a>)
+				(<a href="/congress/{{chamber}}/{{congress}}" id="graphicLink">Graphical List View</a>)
 				% end
 				</div>
 
