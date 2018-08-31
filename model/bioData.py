@@ -58,6 +58,20 @@ def checkForPartySwitch(person):
 
 	baseIcpsr = str(person["icpsr"]).zfill(6)
 	congresses = congressesOfService(person["icpsr"])
+
+	if "bioguide_id" in person:
+		q = {"bioguide_id": person["bioguide_id"]}
+
+		lookup = memberLookup(q, 10, 1, "Check_Party_Switch")
+
+		if "errormessage" in lookup:
+			return {}
+		else:
+			print "Result BGID"
+			other_icpsrs = [str(x["icpsr"]).zfill(6) for x in lookup["results"] if x["icpsr"] != person["icpsr"]]
+			print other_icpsrs
+			return {"results": other_icpsrs}
+
 	searchBoundaries = [congresses[0][0]-1, congresses[0][0], congresses[-1][1], congresses[-1][1]+1]
 
 	otherIcpsrs = []
@@ -85,7 +99,7 @@ def checkForOccupancy(person):
 		return []
 
 	return []
-	
+
 	if int(person["occupancy"])>1:
 		prevICPSR = memberLookup({'congress': person["congress"], 'stateName': person["stateName"], 'district': person["district"], 'occupancy': person["occupancy"]-1},1)
 	else:

@@ -159,7 +159,7 @@ def assembleSearch(q, nextId, bottle):
 					expandResults=1
 				else:
 					print "Something failed in state delegation lookup."
-					pass					
+
 			# ICPSR of user
 			elif len(q.split())==1 and type(q)==type(0) and int(q):
 				memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
@@ -179,7 +179,13 @@ def assembleSearch(q, nextId, bottle):
 		expandResults = 1
 
 	if "results" in memberSearch:
+		seen_bioguide_ids = []
 		for member in memberSearch["results"]:
+			if "bioguide_id" in member:
+				if member["bioguide_id"] in seen_bioguide_ids:
+					continue
+				seen_bioguide_ids.append(member["bioguide_id"])
+
 			memName = ""
 			if "bioname" in member and member["bioname"] is not None:
 				memName = member["bioname"]

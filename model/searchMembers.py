@@ -34,7 +34,6 @@ def cqlabel(state_abbrev, district_code):
         else:
                 cqlabel = ""
         return cqlabel
-        
 
 def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	# Setup so that the bottle call to this API doesn't need to know parameters we accept explicitly
@@ -44,6 +43,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	congress = qDict["congress"] if "congress" in qDict else ""
 	chamber = qDict["chamber"] if "chamber" in qDict else ""
 	party_code = qDict["party_code"] if "party_code" in qDict else ""
+	bioguide_id = qDict["bioguide_id"] if "bioguide_id" in qDict else ""
 	district_code = qDict["district_code"] if "district_code" in qDict else ""
 	id = qDict["id"] if "id" in qDict else ""
 	speaker = qDict["speaker"] if "speaker" in qDict else ""
@@ -51,11 +51,13 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	idIn = qDict["idIn"] if "idIn" in qDict else []
 	biography = qDict["biography"] if "biography" in qDict else ""
 
+	print "p", party_code, "b", bioguide_id
+
 	if api == "R":
 		maxResults = 5000
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker and not idIn and not freshman and not biography:
+	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not bioguide_id and not speaker and not idIn and not freshman and not biography:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
@@ -140,12 +142,18 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 				maxCongress = json.load(open("../static/config.json","r"))["maxCongress"]
 			except:
 				maxCongress = 115
-	
+
 		searchQuery["congresses.0.0"] = maxCongress
 
 	if party_code:
-		searchQuery["party_code"] = int(party_code)
-			
+		if isinstance(party_code, dict):
+			searchQuery["party_code"] = party_code
+		else:
+			searchQuery["party_code"] = int(party_code)
+
+	if bioguide_id:
+		searchQuery["bioguide_id"] = bioguide_id
+
 	if district_code and state_abbrev:
 		searchQuery["district_code"] = district_code
 
@@ -154,7 +162,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		if chamber=="Senate" or chamber=="House" or chamber=="President":
 			searchQuery["chamber"] = chamber
 		else:
-			return({"errormessage": "Invalid chamber provided. Please select House or Senate."})			
+			return({"errormessage": "Invalid chamber provided. Please select House or Senate."})
 
 	response = []
 	errormessage = ""
@@ -164,8 +172,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	if api=="Web_PI":
 		fieldSet = {"nominate.dim1": 1, "party_code": 1, "district_code": 1, "icpsr": 1, "chamber":1, "nvotes_yea_nay": 1, "nvotes_against_party": 1, "nvotes_abs": 1, "_id": 0}
 	elif api=="Web_FP_Search":
-		print searchQuery
-		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1, "chamber": 1}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1, "chamber": 1, "bioguide_id": 1}
+	elif api == "Check_Party_Switch":
+		fieldSet = {"icpsr": 1, "_id": 0}
 	elif api=="Web_Congress":
 		if chamber:
 			fieldName = "elected_"+chamber.lower()
