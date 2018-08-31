@@ -214,7 +214,7 @@ function reloadBios()
 			if(new Date().getDate() <= Date.parse(parseData["date"]))
 			{
 				console.log("Loaded from localStorage");
-				doFullFilterReset();
+				if(!tabular_view) doFullFilterReset();
 				doReinit(parseData["data"]);
 				return;
 			}
@@ -236,7 +236,7 @@ function reloadBios()
 				catch(e) { console.log(e); }
 			}
 
-			doFullFilterReset();
+			if(!tabular_view) doFullFilterReset();
 			doReinit(data);
 		}
 	});
@@ -323,7 +323,7 @@ function delay_filter()
 var icpsr_match = [];
 function do_search_name_filter() 
 {
-	if($("#filter_name")[0].value.length) {
+	if($("#filter_name").val() != undefined && $("#filter_name").val().length) {
 		var current_filter = $("#filter_name")[0].value.toLowerCase().replace(/[^0-9a-z ]/gi, '').split(" ");
 		var which_include = $.grep(resultCache["results"], function(d, i) {
 			for(var i=0; i!=current_filter.length; i++) {
@@ -364,7 +364,6 @@ function hideMembersUnselected()
 
         // Set number of columns by number of selected members
 	var colNumber = validSet.length ? Math.min(4, Math.floor(validSet.length / 5) + 1) : "";
-	console.log(colNumber);
 	if(colNumber) $("#memberList").removeClass().addClass("clearfix").addClass("column" + colNumber);
 }
 
@@ -407,7 +406,7 @@ function do_filter_bar()
 	}
 
 	// Filters for name selected
-	if($("#filter_name")[0].value.length) 
+	if($("#filter_name").val().length) 
 	{
 		$("#name-controls > .filter").text($("#filter_name")[0].value);
 		$("#name-controls").show();	
@@ -440,7 +439,7 @@ function doFullFilterReset()
 {
 	$("#selectionFilterBar").slideUp();
 	$("#suppressNominateControls > .filter").text("");
-	$("#filter_name")[0].value = "";
+	$("#filter_name").val("");
 	do_search_name_filter();
 	dc.filterAll();
 	dc.redrawAll();
