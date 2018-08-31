@@ -44,10 +44,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" style="max-width:160px;padding-right:5px;">
+            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" class="memberBioImage">
         </div>
         <div class="col-md-5">
-		<h2 style="word-wrap:break-word;">
+		<h2 class="bio">
 			{{ person["bioname"] }} {{lifeString}}
 		</h2>
 
@@ -115,6 +115,24 @@
 	    % end
         </div>
 	<div class="col-md-4">
+		<h5 class="congSelector">
+			<select id="congSelector">
+			% 	person["congressesOfService"].reverse()
+			%	for congressRun in person["congressesOfService"]:
+			%		for congress in range(congressRun[1], congressRun[0]-1, -1):
+				<option value="{{congress}}">{{person["congressLabels"][congress]}}</option>
+			% 		end
+			</select>
+			% end
+			<small><a href="#" onclick="javascript:return viewAllCong();">View all members</a></small>
+		</h5>
+
+		<ul class="nav nav-tabs">
+			<li role="presentation" class="active"><a href="#" data-toggle="ideologyHolder">Ideology</a></li>
+			<li role="presentation"><a href="#" data-toggle="loyaltyTable">Attendance and Loyalty</a></li>
+		</ul>
+
+		<div id="ideologyHolder">
 		% if plotIdeology:
 		<div id="nominateHist" class="dc-chart">
 			% if "total_number_of_votes" in person["nominate"] and person["nominate"]["total_number_of_votes"]<100:
@@ -122,20 +140,6 @@
 			<strong>Note:</strong> This member has cast relatively few votes and so their ideological score may be unstable or inaccurate. Members who have cast at least 100 votes have more reliable scores.
 			</div>
 			% end
-			<h5 style="padding-top:20px;padding-bottom:0px;">
-				% if len(person["congressLabels"])>1:
-					<select id="congSelector">
-				% 	person["congressesOfService"].reverse()
-				%	for congressRun in person["congressesOfService"]:
-				%		for congress in range(congressRun[1], congressRun[0]-1, -1):
-							<option value="{{congress}}">{{person["congressLabels"][congress]}}</option>
-				% 		end
-								% 	end
-					</select>
-				% end
-				<small style="padding-left:10px;"><a href="#" onclick="javascript:viewAllCong();return false;">View all members</a></small>
-			</h5>
-			Ideology		
 		</div>
 			
 		% else:
@@ -147,15 +151,16 @@
 			% end
 		</div>
 		% end
-	<div id="loyaltyTable" class="container" style="font-size:12px;text-align:center;width:auto;">
-	</div>
 
+		</div>
+		<div id="loyaltyTable" class="container">
+		</div>
 	</div>
     </div>
 	% if "biography" in person:
 	<div class="row">
 		<div class="col-md-12">
-			<h3>Biography</h3>
+			<h3 class="biography">Biography</h3>
 			{{ !person["biography"] }}
 			% if "bio_flag" in person:
 			<br><small><em>Biographical text written by {{person["bio_flag"]}}</em></small>
@@ -163,6 +168,9 @@
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">The Biographical Directory of the United States Congress</a></small>
 			% else:
 			<br/><small><em>Courtesy of</em> <a href="http://bioguide.congress.gov/scripts/biodisplay.pl?index={{person["bioguide_id"]}}">Biographical Directory of the United States Congress</a></small>
+			% end
+			% if "photo_source" in person and person["photo_source"] != "bio_guide":
+			<br><small><em>Photo source:</em> {{person["photo_source"]}}</small>
 			% end
 		</div>
 	</div>
@@ -208,6 +216,8 @@
         </div>
     </div>
 </div>
+<div class="row bottomPad"></div>
+</div>
 
 <script>
 var memberICPSR = {{person["icpsr"]}};
@@ -217,7 +227,7 @@ var globalNextId = 0;
 % if plotIdeology:
 <script>
 var mapParties=1;
-% if person["chamber"]=="House":
+% if person["chamber"] == "House":
 	var chamber = "house";
 % else:
 	var chamber = "senate";

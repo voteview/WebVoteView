@@ -1,9 +1,25 @@
 $("#congSelector").change(reloadIdeology);
+$(".nav-tabs > li > a").click(switchTab);
 
 (function loadData()
 {
 	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawLoyaltyHist);	
 })();
+
+function switchTab(e) {
+	// If we're aleady highlighted, no need to do anything.
+	if($(e.target).parent().attr("class") == "active") { return false; }
+
+	// Show the new element.
+	$("#" + $(e.target).parent().parent().children(".active").children("a").attr("data-toggle")).css("display", "none");
+	$("#" + $(e.target).attr("data-toggle")).css("display", "block");
+
+	// Toggle the tabs.
+	$(e.target).parent().parent().children(".active").removeClass("active");
+	$(e.target).parent().addClass("active");
+
+	return false;
+}
 
 function getMedian(a, t) {
 
@@ -49,6 +65,7 @@ function getGetOrdinal(n) {
 function viewAllCong()
 {
 	window.location='/congress/'+chamber+'?congress='+congressNum;
+	return false;
 }
 
 function reloadIdeology()
@@ -108,6 +125,7 @@ function fillLoyaltyDrawHist(error, data)
 	{
 		return(0);
 	}
+
 
 	// For loyalty scores
         var partyVotes=[];
@@ -232,7 +250,7 @@ function fillLoyaltyDrawHist(error, data)
 	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*numBins); });
 
 	var nominateHist = dc.barChart("#nominateHist");
-	nominateHist.width(420).height(130).margins({top: 10, right:10, bottom: 30, left:20})
+	nominateHist.width(420).height(110).margins({top: 10, right:10, bottom: 20, left:20})
 	.dimension(oneDimDimension).group(oneDimGroup).elasticY(true).brushOn(false)
 	.colorCalculator(function(d) 
 			 { 
