@@ -1,14 +1,5 @@
 % STATIC_URL = "/static/"
-% if len(partyNameFull):
-%	partyNameFull = " > "+partyNameFull
-% end
-% if party==328:
-% 	indicator = "warning"
-% else:
-% 	indicator = "info"
-% end
-
-% rebase('base.tpl', title='Parties'+partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/stateMeta.js"], extra_css=['map.css', 'bootstrap-slider.css'])
+% rebase('base.tpl', title='Parties > ' + partyNameFull, extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/stateMeta.js"], extra_css=['map.css', 'bootstrap-slider.css'])
 % include('header.tpl')
 <div class="container">	
 	<div id="loading-container">
@@ -30,7 +21,11 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-primary">
-					<div class="panel-heading"><strong>About the {{ partyNameFull[2:] }}</strong></div>
+					<div class="panel-heading">
+						<strong>
+							About {{"the " + partyNameFull if partyNameFull != "Independent" else "Independents"}}
+						</strong>
+					</div>
 					<div class="panel-body"> {{!partyData["party_description"]}}</div>
 				</div>
 			</div>

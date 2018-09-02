@@ -1,3 +1,6 @@
+% orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff", "wikipedia": "Wikipedia"}
+
+
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
@@ -24,8 +27,11 @@
 				 ({{ rollcall['vote_result']}})
 				% end
 				% if "tie_breaker" in rollcall and "by_whom" in rollcall["tie_breaker"]:
-				% tie_breaking_voter = 'The ' + rollcall['tie_breaker']['by_whom'] if rollcall['tie_breaker']['by_whom'] == 'Vice President' else rollcall['tie_breaker']['by_whom']
-				<p class="clearfix"><strong>Tie-breaker:</strong> {{tie_breaking_voter}} cast the tie-breaking vote of <i>{{rollcall['tie_breaker']['tie_breaker_vote']}}</i>.</p>
+				<p class="clearfix">
+					<strong>Tie-breaker:</strong> 
+					{{"The " if rollcall["tie_breaker"]["by_whom"] == "Vice President" else ""}}{{rollcall["tie_breaker"]["by_whom"]}} 
+					cast the tie-breaking vote of <i>{{rollcall['tie_breaker']['tie_breaker_vote']}}</i>.
+				</p>
 				% end
 			</p>
 			% end

@@ -2,7 +2,7 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/jquery.tablesorter.min.js", "/static/js/libs/localStorage.js"])
 % include('header.tpl')
-% memberLabel = (chamber.title()=="Senate" and "Senators" or "Representatives")
+
 <div class="container">
 	<div id="loading-container">
 		<h3>Loading members</h3>
@@ -16,16 +16,15 @@
 					<div id="congress_selector">
 						<select id="congSelector">
 						% for i in range(maxCongress, 0, -1):
-						      	% yearLow = 1787+2*i
-							% yearHigh = yearLow + 2
-							% if int(i)==int(congress):
-							<option value="{{i}}" SELECTED>{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
-							% else:
-							<option value="{{i}}">{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
-							% end
+							<option value="{{i}}"{{!" SELECTED" if int(i) == int(congress) else ""}}>
+								{{rcSuffix(i)}} Congress ({{1787 + (2 * i)}}-{{1789 + (2 * i)}})
+							</option>
 						% end
 						</select>
-						 &gt; <abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">{{memberLabel}}</abbr>
+						 &gt; 
+						<abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">
+							{{"Senators" if chamber.title() == "Senate" else "Representatives"}}
+						</abbr>
 					</div>
 					<div id="partyComposition"></div>
 				</div>

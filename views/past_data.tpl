@@ -1,7 +1,6 @@
 % rebase('base.tpl')
 % include('header.tpl')
 % STATIC_URL = 'static/'
-% DATA_DIR = 'db/'
 
 <div class="container">
 	<div class="row">

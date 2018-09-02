@@ -109,10 +109,7 @@
 				</div>
 				<input type="text" id="addressInput" 
 					class="form-control" placeholder="Enter an address or ZIP code."
-	% if len(search):
-					value="{{search}}"
-	% end
-				>
+					value="{{!search if len(search) else ""}}">
 
 				<div class="input-group-btn">
 					<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
