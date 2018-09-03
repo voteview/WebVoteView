@@ -26,16 +26,16 @@
 						<div class="input-group-btn">
 							<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
-						<span style="display:table-cell;width:125px;vertical-align:middle;padding-left:10px; font-size:0.9em;">
+						<span class="advancedSearch">
 							<a href="#" onclick="javascript:toggleAdvancedSearch(0);return false;">advanced search</a>
 						</span>
 					</div>
-					<div id="suggestContainer" style="font-size: 0.8em; display: none;">
+					<div id="suggestContainer">
 						Search tip: <span id="searchSuggest"></span>
 					</div>
 				</div>
 
-				<div id="results-selects" class="col-md-3" style="display:none;">
+				<div id="results-selects" class="col-md-3">
 					<div id="panel-chamber" class="panel panel-primary">
 						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-chamber">
 							<h3 class="panel-title">Chamber <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
@@ -129,7 +129,7 @@
 								<div class="form-group">
 									<label for="support" class="col-sm-10 control-label">Percentage Support:</label>
 
-									<div style="padding:30px;padding-bottom:0px;">
+									<div class="support_box">
 										<input id="support" name="support" type="text" class="span2" value="" 
 											data-slider-min="0" data-slider-max="100" 
 											data-slider-step="1" 
@@ -319,15 +319,15 @@
 		  <input type="hidden" name="sortScore" id="sortScore" value="1">
 		  </form>
 		  
-			<div id="resultsHolder" class="col-md-12" style="float:right;">
+			<div id="resultsHolder" class="col-md-12 pull-right">
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-6">
 							<h4 id="results-number"></h4>
 						</div>
-						<div class="col-md-6" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
+						<div class="col-md-6" id="sortBy">
 							<strong>Sort by </strong>
-							<div id="relevanceAppear" style="display:none;"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
+							<div id="relevanceAppear"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
 							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
 							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
@@ -348,27 +348,27 @@
 	<div class="carousel-inner">
 		<!-- Carousel Item 1 -->
 		<div class="item active">
-			<div class="footerBig">
+			<div class="footerBigText">
 				Saved: <span id="oldResults"><big><strong id="oldCount">0</strong></big> results from previous searches.<br/>
 				+</span> 
 				<span id="newResults"><big><strong id="newCount">0</strong></big> new results from <span class="searchText"></span><br/>&nbsp;</span>
 			</div>
-			<div style="display:none;" id="addAll" class="footerBig">
+			<div id="addAll" class="footerBigText">
 				<a href="#" onClick="javascript:addAllVotes();return false;">Add all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>
 				<a href="#" onClick="javascript:delAllVotes();return false;">Delete all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a>
 			</div>
 			<div id="emptyCartIcon" class="footerIcon" onClick="javascript:emptyCart();">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Empty Saved Votes" data-container="body"></span>
 			</div>	
-			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(1);">
+			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(1);">
 				<span class="glyphicon glyphicon-save" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
 			</div>
-			<div id="createLinkIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(2);">
+			<div id="createLinkIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(2);">
 				<span class="glyphicon glyphicon-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" data-container="body"></span>
 			</div>
 		</div>
 		<div class="item">
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('.carousel').carousel(0);">
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('#stashCartBar').carousel(0);">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			</div>
 			<div class="footerIcon" id="exportXLS">
@@ -380,12 +380,12 @@
 			<div class="footerIcon">
 				<span onClick="javascript:loadSavedVotes();" class="glyphicon glyphicon-upload" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Load Votes into Search" data-container="body"></span>
 			</div>
-			<div class="footerBig" id="errorTooManyVotes" style="display:none;">
+			<div class="footerBig" id="errorTooManyVotes">
 				You can only save stashes of 250 votes or less.<br/>If you would like to download our entire vote database, <a href="/data/">Click here</a>.
 			</div>
 		</div>
 		<div class="item">
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('.carousel').carousel(0);">
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('#stashCartBar').carousel(0);">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			</div>
 			<div class="footerBig">

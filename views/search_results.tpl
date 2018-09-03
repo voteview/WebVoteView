@@ -53,7 +53,7 @@
 		<div class="panel-heading">
 			<strong>
 				% if ("key_flags" in rollcall and rollcall["key_flags"] and rollcall["key_flags"][0] in orgMapping):
-				<span class="btn btn-default btn-sm" style="margin-right:10px;" 
+				<span class="btn btn-default btn-sm keyvote" 
 					data-toggle="tooltip" data-placement="bottom" 
 					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
@@ -64,15 +64,16 @@
 				<abbr title="Rollnumber"><a href="/rollcall/{{ rollcall["id"] }}">Vote {{ rollcall["rollnumber"] }}</a></abbr>
 			</strong>
 			on <abbr title="Date"><a href="/search/?fromDate={{rollcall["date"]}}&toDate={{rollcall["date"]}}">{{ rollcall["date"] }}</a></abbr>
-			<span style="float:right;">
-				<a href="/rollcall/{{ rollcall["id"] }}"><img src="/static/img/graph.png" style="width:24px;margin-right:16px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
+			<span class="pull-right">
+				<a href="/rollcall/{{ rollcall["id"] }}"><img src="/static/img/graph.png" class="viewVote"
+data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 
 				<input type="checkbox" name="ids" value="{{ rollcall["id"] }}"> 
-				<img src="/static/img/export.png" style="cursor:pointer;width:24px;vertical-align:middle;" data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
+				<img src="/static/img/export.png" class="exportVote" data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
 			</span>
 		</div>
 		<a href="/rollcall/{{rollcall["id"]}}" class="nohover">
-		<div class="panel-body" style="cursor:pointer;">
+		<div class="panel-body voteBody">
 		  <!-- onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';"> -->
 
 
@@ -110,7 +111,7 @@
 
 			% debug = False
 			% if "score" in rollcall and debug:
-				<p style="font-size:8px;"><em>Debug: {{round(rollcall["score"],2)}}</em></p>
+				<p class="debugText"><em>Debug: {{round(rollcall["score"],2)}}</em></p>
 			% end
 		</div>
 		</a>

@@ -1,7 +1,7 @@
 % import datetime
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% if type(twitter_card)==type({}) and "title" in twitter_card:
+% if isinstance(twitter_card, dict) and "title" in twitter_card:
 % 	pageTitle = twitter_card["title"].replace("Voteview.com: ","")+": "+twitter_card["body"]
 % else:
 %	pageTitle = person["bioname"]
@@ -32,15 +32,11 @@
 % person["last_name"] = person["bioname"].split(",")[0].upper()[0]+person["bioname"].split(",")[0].lower()[1:]
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 % if person["state"]!="President":
-% 	stateText = " of "+person["state"]+' <img src="/static/img/states/'+person["state_abbrev"]+'.png" style="width:20px;vertical-align:middle;">' 
+% 	stateText = " of "+person["state"]+' <img src="/static/img/states/'+person["state_abbrev"]+'.png" class="member_flag">'
 % else:
-%	stateText = ', President of the United States <img src="/static/img/states/US.png" style="width:20px;vertical-align:middle;">'
+%	stateText = ', President of the United States <img src="/static/img/states/US.png" class="member_flag">'
 % end
-% if not "district_code" in person or person["district_code"] in [0, 98, 99]:
-% 	districtDisplay = "none"
-% else:
-%	districtDisplay = "block"
-% end
+% district_class = "hide_district_c" if not "district_code" in person or person["district_code"] in [0, 98, 99] else "show_district_c"
 <div class="container">
     <div class="row">
         <div class="col-md-2">
@@ -55,7 +51,7 @@
 		<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!stateText}}
 	    </h4>
 
-	    <h4 id="show_district" style="display:{{districtDisplay}}">
+	    <h4 id="show_district" class="{{district_class}}">
 		<span id="district_label">{{rcSuffix(person["district_code"])}} congressional district</span>
 	    </h4>
 
@@ -183,13 +179,13 @@
     <div class="row">
         <div class="col-md-12">
 	    <form onsubmit="javascript:startNewSearch();return false;" class="form-horizontal">
-	    <div id="search-container" style="padding-top:10px; padding-bottom:10px; clear:both;">
-		<h3 id="voteLabel" style="float:left;">Selected Votes</h3>
+	    <div id="search-container" class="personSearch">
+		<h3 id="voteLabel" class="pull-left">Selected Votes</h3>
 
-		<div class="input-group" style="float:right; padding-top:12px; min-width:400px; width:400px;">
+		<div class="input-group loadVotes">
 			<div id="memberSearch" class="input-group-btn">
-				<button type="button" style="display:none;" 
-					class="btn btn-primary" id="loadStash" 
+				<button type="button" 
+					class="btn btn-primary hide_button_default" id="loadStash" 
 					onClick="javascript:loadSavedVotes();return false;"
 					data-toggle="tooltip" data-placement="top" title="Load Saved Votes into Search">
 					<span class="glyphicon glyphicon-upload"></span>
@@ -201,16 +197,16 @@
 			</div>
 		</div>
 
-		<span style="clear:both;display:block;"></span>
+		<span class="clearfix"></span>
 	    </div>
 	    </form>
 
 		<div id="memberVotesTable">
 		</div>
-		<div style="float:right;">
+		<div class="pull-right">
 			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a> 
 		</div>
-		<div id="loadIndicator" style="float:right;margin-right:25px;display:none;">
+		<div id="loadIndicator" class="member_vote_load">
 			<img src="/static/img/loading.gif"> 
 		</div>
         </div>

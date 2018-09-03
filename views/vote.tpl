@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="row loadedContent">
-		<div class="col-md-9" style="min-width: 800px; margin-right:25px;"> <!-- this is the left column containing the map and the NOMINATE graph -->
+		<div class="col-md-9 geo_map">
 			<div id="geoMap">
 				<h4>
 					Member Vote Map

@@ -258,26 +258,53 @@ function generatePartyList(parties)
 
 	function activeLabel(pData)
 	{
+		if(pData["broken"] != undefined) { return "Occasional"; }
+
 		var minDate = pData["mind"].split("-")[0], maxDate = pData["maxd"].split("-")[0];
+
+		if(pData["min"] == pData["max"]) return getGetOrdinal(pData["min"]);
+		else if(pData["max"] >= max) return getGetOrdinal(pData["min"]) + " onward";
+		return getGetOrdinal(pData["min"]) + "-" + getGetOrdinal(pData["max"]);
+
+		/*
 		if(pData["min"] == pData["max"]) return getGetOrdinal(pData["min"]) + " <small>(" + minDate + "-" + maxDate + ")</small>";
 		else if(pData["max"] >= max) return getGetOrdinal(pData["min"]) + " <small>(" + minDate + ")</small> onwards";
 		return getGetOrdinal(pData["min"]) + "-" + getGetOrdinal(pData["max"]) + "";
+		*/
 	}
 
-	for(var i=0;i!=parties.length;i++)
+	var listParties = parties.slice();
+	listParties.sort(function(a, b) {
+		// First, sort by bucket
+		var bucketA = (a[1]["count"] > 10000) ? 2 : (a[1]["count"] > 100 || $.inArray(a[0], [7777, 1346, 8000]) != -1) ? 1 : 0;
+		var bucketB = (b[1]["count"] > 10000) ? 2 : (b[1]["count"] > 100 || $.inArray(b[0], [7777, 1346, 8000]) != -1) ? 1 : 0;
+
+		// And if the bucket is the same, sort by last year, and if that is the same, sort by number.
+		return (bucketB - bucketA) ? bucketB - bucketA : (b[1]["maxCongress"] - a[1]["maxCongress"]) ? b[1]["maxCongress"] - a[1]["maxCongress"] : b[1]["minCongress"] - a[1]["minCongress"];
+	});
+	
+
+	var headerRow = $("<div></div>").addClass("row").addClass("party_row");
+	var headerName = $("<div></div>").html("<strong>Party Name</strong>").addClass("col-md-3").appendTo(headerRow);
+	var headerDates = $("<div></div>").html("<strong>Congresses</strong>").addClass("col-md-2").appendTo(headerRow);
+	var headerTimeline = $("<div></div>").html("<strong>Timeline</strong>").addClass("col-md-6").appendTo(headerRow);
+	headerRow.appendTo($("#content"));
+
+	for(var i=0;i!=listParties.length;i++)
 	{
-		var party = parties[i];
+		if(listParties[i][0] == 328) continue;
+		var party = listParties[i];
 
 		// Re-arrange data a bit.
 		var pData = {"min": party[1]["minCongress"], "max": party[1]["maxCongress"], 
 				"mind": party[1]["voting_dates"][0], "maxd": party[1]["voting_dates"][1],
-				"id": party[0], "name": party[1]["fullName"], "slug": party[1]["seo_name"]};
+				"id": party[0], "name": party[1]["fullName"], "slug": party[1]["seo_name"],
+				"broken": party[1]["broken"]};
 
-		try { pData["col"] = partyColorMap[partyNameSimplify(parties[i][1]["name"])];}
+		try { pData["col"] = partyColorMap[partyNameSimplify(party[1]["name"])];}
 		catch(e) { pData["col"] = "grey"; console.log("color problem" + party[0]); }
-		if(pData["id"] == 328) { continue; }
 
-		// Build the row.
+	 	// Build the row.
 		var partyRow = $("<div></div>").addClass("row").addClass("party_row").attr("data-party", pData["id"]).attr("data-name", pData["slug"]);
 		var nameColumn = $("<div></div>").addClass("col-md-3");
 		var partyLink = $("<a></a>").attr("href", "/parties/" + pData["id"] + "/" + pData["slug"]).html(pData["name"]).appendTo(nameColumn);
@@ -288,11 +315,14 @@ function generatePartyList(parties)
 		var leftPadding = Math.round(100 * (pData["min"] - 1) / max) + "%";
 		var width = Math.max(1, Math.round(100 * (pData["max"] - pData["min"]) / max)) + "%"; 
 
+		// For sporadic labels, just show a broken bar.
+		var rowClass = (pData["broken"] != null) ? "box_broken_" + pData["col"] : "box_" + pData["col"];
+
 		var timelineColumn = $("<div></div>")
 					.addClass("col-md-6");
 		var timelineMap = $("<div></div>")
 					.css("margin-left", leftPadding)
-					.addClass("box_" + pData["col"])
+					.addClass(rowClass)
 					.css("width", width)
 					.css("height", "20px")
 					.appendTo(timelineColumn);

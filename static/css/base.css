@@ -345,17 +345,6 @@ path.median
 .grey { border-left: 3px solid #404040 !important; }
 .brown { border-left: 3px solid #a6611a !important; }
 
-.box_red { background-color: #ca0020 !important; }
-.box_orange { background-color: #e66101 !important; }
-.box_yellow { background-color: #fecc5c !important; }
-.box_green { background-color: #008837 !important; }
-.box_teal { background-color: #018571 !important; }
-.box_blue { background-color: #0571b0 !important; }
-.box_purple { background-color: #7b3294 !important; }
-.box_pinkpurple { background-color: #d01c8b !important; }
-.box_grey { background-color: #404040 !important; }
-.box_brown { background-color: #a6611a !important; }
-
 .red_text { color: #CA0020; }
 .orange_text { color: #E66101; }
 .yellow_text { color: #008837; }
@@ -393,6 +382,7 @@ rect.brown { fill: #a6611a; }
 .address_marker { padding-top: 10px; padding-bottom: 10px; }
 .notableExamples { columns: 3; cursor: pointer; overflow: hidden;}
 #testData { height: 50px; }
+.loadDistrict { width: 16px; }
 
 .geo_nom_red { border-right: 3px solid #CA0020; }
 .geo_nom_orange { border-right: 3px solid #E66101; }
@@ -428,6 +418,8 @@ ul.voteTable li span.bullet { color: red; }
 #voterTooltip img { width: 80px; }
 #voterTooltip div.profile { padding-right: 10px; vertical-align: middle; height: 100%; min-height: 100px; }
 #voterTooltip div.text { font-size: 0.9em; vertical-align: middle; padding-top: 5px; }
+.memberBox { overflow: hidden; break-inside: avoid-column; margin-top: 10px; margin-bottom: 10px; text-align: center; }
+#memberTextTable { width: 80%; min-width: 500px; }
 
 /* Data page */
 #format option#format_ord { display: none; }
@@ -454,6 +446,28 @@ span.party_header { padding-right: 20px; }
 #closeAlert { float: right; text-decoration: none; }
 .party_row { padding-top: 2px; padding-bottom: 2px; cursor: pointer; }
 
+.box_red { background-color: #ca0020 !important; }
+.box_orange { background-color: #e66101 !important; }
+.box_yellow { background-color: #fecc5c !important; }
+.box_green { background-color: #008837 !important; }
+.box_teal { background-color: #018571 !important; }
+.box_blue { background-color: #0571b0 !important; }
+.box_purple { background-color: #7b3294 !important; }
+.box_pinkpurple { background-color: #d01c8b !important; }
+.box_grey { background-color: #404040 !important; }
+.box_brown { background-color: #a6611a !important; }
+
+.box_broken_red { border-left: 3px solid #ca0020 !important; border-right: 3px solid #ca0020 !important; }
+.box_broken_orange { border-left: 3px solid #e66101 !important; border-right: 3px solid #e66101 !important;}
+.box_broken_yellow { border-left: 3px solid #fecc5c !important; border-right: 3px solid #fecc5c !important;}
+.box_broken_green { border-left: 3px solid #008837 !important; border-right: 3px solid #008837 !important;}
+.box_broken_teal { border-left: 3px solid #018571 !important; border-right: 3px solid #018571 !important;}
+.box_broken_blue { border-left: 3px solid #0571b0 !important; border-right: 3px solid #0571b0 !important;}
+.box_broken_purple { border-left: 3px solid #7b3294 !important; border-right: 3px solid #7b3294 !important;}
+.box_broken_pinkpurple { border-left: 3px solid #d01c8b !important; border-right: 3px solid #d01c8b !important;}
+.box_broken_grey { border-left: 3px solid #404040 !important; border-right: 3px solid #404040 !important;}
+.box_broken_brown { border-left: 3px solid #a6611a !important; border-right: 3px solid #a6611a !important;}
+
 /* Congress Page */
 .congress_header { height: 40px; }
 #congress_selector { font-size: 19px; float: left; padding-right: 30px; text-align: middle; }
@@ -472,6 +486,7 @@ span.party_header { padding-right: 20px; }
 
 /* Vote Display Page */
 .loading_throbber { margin-left: 10px; width: 24px; vertical-align: middle; }
+.ensure_map { min-width: 800px; margin-right: 25px; }
 #errorContent { display: none; }
 #holdHatching { width: 0; height: 0; }
 .loadedContent { display: none; }
@@ -570,7 +585,7 @@ span.party_header { padding-right: 20px; }
 	background:rgba(0, 0, 0, 0.6);
 }
 
-.carousel div.item {
+#mainCarousal div.item {
 	background-color: #333333;
 }
 
@@ -583,3 +598,42 @@ h5.congSelector { padding-top:20px; padding-bottom:0px; }
 h5.congSelector small { padding-left: 10px; }
 #loyaltyTable { font-size: 0.8em; text-align: center; width: auto; display: none; }
 .bottomPad { padding-bottom: 20px; }
+.member_flag { width: 20px; vertical-align: middle; }
+.personSearch { padding-top: 10px; padding-bottom: 10px; clear: both; }
+.loadVotes { float: right; padding-top: 12px; min-width: 400px; width: 400px; }
+.member_vote_load { float: right; margin-right: 25px; display: none; }
+.hide_button_default { display: none; }
+.show_district_c { display: block; }
+.hide_district_c { display: none; }
+
+/* Search results */
+.keyvote { margin-right: 10px; }
+.viewVote { width: 24px; margin-right: 16px; vertical-align: middle; }
+.exportVote { width: 24px; vertical-align: middle; cursor: pointer; }
+.voteBody { cursor: pointer; }
+.debugText { font-size: 8px; }
+.advancedSearch { display: table-cell; width: 125px; vertical-align: middle; padding-left: 10px; font-size: 0.9em; }
+#suggestContainer { font-size: 0.8em; display: none; }
+#results-selects { display: none; }
+.support_box { padding: 30px; padding-bottom: 0px; }
+#sortBy { padding-top: 10px; text-align: right; vertical-align: top; }
+#relevanceAppear { display: none; }
+#errorTooManyVotes { display: none; }
+
+/* Member Vote Table */
+.text_right { text-align: right; }
+.text_center { text-align: center; }
+.cursor { cursor: pointer; }
+.prob_tutorial { margin-left: 0px; width: 2px; vertical-align: middle; cursor: pointer; }
+.prob_tooltip { text-align: left; font-weight: normal; }
+.vote_text_cell { border-right: 1px solid #dddddd; }
+.vote_button { margin-left: 10px; }
+.unlikely_vote { color: red; }
+.abstention { color: #B3B3B3; }
+.hide_date { display: none; }
+
+/* Member boxes */
+.memberPad10 { margin-right: 10px; }
+.memberPad5 { margin-right: 5px; }
+.namePad5 { margin-right: 5px; }
+.namePad0 { margin-right: 0px; }

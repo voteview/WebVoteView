@@ -89,7 +89,7 @@ function outVotes(groupBy)
 	
 		if(groupBy=="prob")
 		{
-			$('<strong>Most Unlikely</strong> <span class="glyphicon glyphicon-arrow-down"></span> <br/> <span style="color:red;">Red: Probability < 25%</span>').appendTo(idProbLabel);
+			$('<strong>Most Unlikely</strong> <span class="glyphicon glyphicon-arrow-down"></span> <br/> <span class="unlikely-vote">Red: Probability < 25%</span>').appendTo(idProbLabel);
 		}
 		idProbLabel.appendTo(baseList);
 	}
@@ -180,8 +180,8 @@ function outVotes(groupBy)
 
 					if(!isNaN(pp["x"])) 
 					{ 
-						if(pp["prob"]<25) { var probText = '<span style="color:red;">'+pp["prob"]+'%</span>'; }
-						else { var probText = pp["prob"]+"%"; }
+						if(pp["prob"]<25) { var probText = '<span class="unlikely-vote">' + pp["prob"] + '%</span>'; }
+						else { var probText = pp["prob"] + "%"; }
 
 						baseText += "<strong>Ideology Score:</strong> "+pp["x"]+"<br/>(<em>DW-NOMINATE First Dimension</em>)<br/><br/>"; 
 						if(pp["vote"]=="Abs") { 

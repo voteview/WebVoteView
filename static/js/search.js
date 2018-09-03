@@ -492,7 +492,7 @@ var globalSlowLoadTimer;
 				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
 				globalSlowLoadTimer = setTimeout(function()
 				{
-					$('#results-list').html('<div id="loading-container" style="text-align:left;"><img src="/static/img/loading.gif" alt="Loading..." /> <h4>Loading... We apologize that your search query is taking a long time to complete. Your search is still processing. <!--Please continue to wait and excuse us while we work on improving Voteview.com--></h4></div>');
+					$('#results-list').html('<div id="loading-container"><img src="/static/img/loading.gif" alt="Loading..." /> <h4>Loading... We apologize that your search query is taking a long time to complete. Your search is still processing. <!--Please continue to wait and excuse us while we work on improving Voteview.com--></h4></div>');
 				}, 5000);
 
 				mostRecentSearch = $("#searchTextInput").val();
