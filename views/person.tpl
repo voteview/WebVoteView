@@ -123,10 +123,12 @@
 			<small><a href="#" onclick="javascript:return viewAllCong();">View all members</a></small>
 		</h5>
 
+		% if plotIdeology:
 		<ul class="nav nav-tabs">
 			<li role="presentation" class="active"><a href="#" data-toggle="ideologyHolder">Ideology</a></li>
 			<li role="presentation"><a href="#" data-toggle="loyaltyTable">Attendance and Loyalty</a></li>
 		</ul>
+		% end
 
 		<div id="ideologyHolder">
 		% if plotIdeology:

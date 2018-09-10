@@ -561,12 +561,19 @@ span.party_header { padding-right: 20px; }
 	overflow-x: hidden;
 }
 
+.carousel .item video {
+	height: 300px;
+	width: 100%;
+	margin: 0 auto;
+	overflow-x: hidden;
+}
+
 .carousel .item_light:after {
 	content: "";
 	display: block;
 	position: absolute;
 	top:0; bottom: 0; left: 0; right: 0;
-	background:rgba(0, 0, 0, 0.3);
+	background:rgba(0, 0, 0, 0.2);
 }
 
 .carousel .item_medium:after {
@@ -574,7 +581,7 @@ span.party_header { padding-right: 20px; }
 	display: block;
 	position: absolute;
 	top:0; bottom: 0; left: 0; right: 0;
-	background:rgba(0, 0, 0, 0.45);
+	background:rgba(0, 0, 0, 0.3);
 }
 
 .carousel .item_strong:after {
@@ -582,7 +589,7 @@ span.party_header { padding-right: 20px; }
 	display: block;
 	position: absolute;
 	top:0; bottom: 0; left: 0; right: 0;
-	background:rgba(0, 0, 0, 0.6);
+	background:rgba(0, 0, 0, 0.5);
 }
 
 #mainCarousal div.item {
