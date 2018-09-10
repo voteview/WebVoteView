@@ -1,56 +1,42 @@
 from searchMembers import memberLookup
 
 def congressesOfService(icpsr, chamber=""):
-	if type(icpsr)!=type(str("")) or len(icpsr)<6:
-		icpsr = str(icpsr).zfill(6)
+	if not isinstance(icpsr, str) or len(icpsr) < 6:
+		icpsr = str(int(icpsr)).zfill(6)
 
-	terms = memberLookup({"icpsr": icpsr},30)
+
+	terms = memberLookup({"icpsr": icpsr}, 30)
+
+	# No match for user
 	if not "results" in terms:
-		return -1
+		return []
 
+	# No chamber information
 	if not chamber or not len(chamber):
 		if "congresses" in terms["results"][0]:
 			return terms["results"][0]["congresses"]
+	# House
 	elif chamber=="House":
 		if "congresses_house" in terms["results"][0]:
 			return terms["results"][0]["congresses_house"]
-		else:
-			return []
+	# Senate
 	elif chamber=="Senate":
 		if "congresses_senate" in terms["results"][0]:
 			return terms["results"][0]["congresses_senate"]
-		else:
-			return []
 
+	# Default case.
 	return []
-	congressNums = sorted([x["congress"] for x in terms["results"]])
-	congressChunks = []
-	start=0
-	last=0
-	for congress in congressNums:
-		if start==0:
-			start = congress
-			last = start
-		elif congress<=last+1:
-			last = congress
-		else:
-			congressChunks.append([start, last])
-			start = congress
-			last = start
-	congressChunks.append([start, last])
-
-	return congressChunks
 
 def yearsOfService(icpsr, chamber=""):
-	congressesSet = congressesOfService(icpsr,chamber)
+	congressesSet = congressesOfService(icpsr, chamber)
 	yearChunks = []
 	for s in congressesSet:
-		yearChunks.append([congressToYear(s[0],0),congressToYear(s[1],1)])
+		yearChunks.append([congressToYear(s[0], 0), congressToYear(s[1], 1)])
 
 	return yearChunks
 
 def congressToYear(congress, endDate):
-	return 1787 + 2*congress + 2*endDate
+	return 1787 + (2 * congress) + (2 * endDate)
 
 def checkForPartySwitch(person):
 	if not "icpsr" in person or not person["icpsr"]:
@@ -67,17 +53,15 @@ def checkForPartySwitch(person):
 		if "errormessage" in lookup:
 			return {}
 		else:
-			print "Result BGID"
 			other_icpsrs = [str(x["icpsr"]).zfill(6) for x in lookup["results"] if x["icpsr"] != person["icpsr"]]
-			print other_icpsrs
 			return {"results": other_icpsrs}
 
-	searchBoundaries = [congresses[0][0]-1, congresses[0][0], congresses[-1][1], congresses[-1][1]+1]
+	searchBoundaries = [congresses[0][0] - 1, congresses[0][0], congresses[-1][1], congresses[-1][1] + 1]
 
 	otherIcpsrs = []
 	for congress in searchBoundaries:
 		if "bioname" in person:
-			lookup = memberLookup({'congress': congress, 'name': person["bioname"]},1)
+			lookup = memberLookup({'congress': congress, 'name': person["bioname"]}, 1)
 		else:
 			return {}
 
@@ -86,7 +70,7 @@ def checkForPartySwitch(person):
 		else:
 			result = lookup["results"][0]
 			newIcpsr = str(result["icpsr"]).zfill(6)
-			if levenshtein(baseIcpsr, newIcpsr)==1 and newIcpsr not in otherIcpsrs:
+			if levenshtein(baseIcpsr, newIcpsr) == 1 and newIcpsr not in otherIcpsrs:
 				otherIcpsrs.append(newIcpsr)
 
 	if not len(otherIcpsrs):
@@ -95,13 +79,13 @@ def checkForPartySwitch(person):
 		return {"results": otherIcpsrs}
 
 def checkForOccupancy(person):
-	if "occupancy" not in person or int(person["occupancy"])==0:
+	if "occupancy" not in person or int(person["occupancy"]) == 0:
 		return []
 
 	return []
 
-	if int(person["occupancy"])>1:
-		prevICPSR = memberLookup({'congress': person["congress"], 'stateName': person["stateName"], 'district': person["district"], 'occupancy': person["occupancy"]-1},1)
+	if int(person["occupancy"]) > 1:
+		prevICPSR = memberLookup({'congress': person["congress"], 'stateName': person["stateName"], 'district': person["district"], 'occupancy': person["occupancy"] - 1}, 1)
 	else:
 		prevICPSR = 0
 
@@ -127,13 +111,5 @@ def levenshtein(s1, s2):
 		previous_row = current_row
 	return previous_row[-1]
 
-	
 if __name__=="__main__":
-	#print yearsOfService(49101)
-	#yearsOfService("006071")
-	#yearsOfService("049101")
-	#yearsOfService(29754)
-	#yearsOfService(99369)
-	#yearsOfService(14240)
-
 	print checkForPartySwitch(memberLookup({'icpsr': 14910},1)["results"][0])
