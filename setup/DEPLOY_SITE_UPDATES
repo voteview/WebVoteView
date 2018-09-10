@@ -59,6 +59,14 @@ EOF
 	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/img/scans /var/www/WebVoteView/static/img/
 	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/data/out /var/www/WebVoteView/static/data/
 
+	echo "Temp fix for JSON files."
+	rm -rf /var/www/WebVoteView/static/json/
+	rm -rf /var/www/WebVoteView/static/partyjson/
+	rm -rf /var/www/WebVoteView/static/controljson/
+	scp -r rudkin@128.97.229.160:/usr/scripts/support_json/controljson /var/www/WebVoteView/static/
+	scp -r rudkin@128.97.229.160:/usr/scripts/support_json/json /var/www/WebVoteView/static/
+	scp -r rudkin@128.97.229.160:/usr/scripts/support_json/partyjson /var/www/WebVoteView/static/
+
 	echo "Connecting to remote server to remove remote dump."
 	ssh rudkin@128.97.229.160 << EOF
 	rm -rf dump_db
