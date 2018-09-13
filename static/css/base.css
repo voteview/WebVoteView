@@ -549,6 +549,10 @@ span.party_header { padding-right: 20px; }
 	margin-bottom: 20px;
 }
 
+#mainCarousel .item {
+	background-color: #333333; 
+}
+
 .carousel .item {
 	min-height: 300px; 
 	max-height: 300px;

@@ -348,12 +348,12 @@
 	<div class="carousel-inner">
 		<!-- Carousel Item 1 -->
 		<div class="item active">
-			<div class="footerBigText">
+			<div class="footerBig">
 				Saved: <span id="oldResults"><big><strong id="oldCount">0</strong></big> results from previous searches.<br/>
 				+</span> 
 				<span id="newResults"><big><strong id="newCount">0</strong></big> new results from <span class="searchText"></span><br/>&nbsp;</span>
 			</div>
-			<div id="addAll" class="footerBigText">
+			<div id="addAll" class="footerBig">
 				<a href="#" onClick="javascript:addAllVotes();return false;">Add all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>
 				<a href="#" onClick="javascript:delAllVotes();return false;">Delete all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a>
 			</div>

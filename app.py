@@ -227,10 +227,12 @@ def congress(chamber="senate", congress_num=-1, tv=""):
 
     meta = metaLookup()
 
+    memberLabel = "Senators" if chamber.title() == "Senate" else "Representatives"
+
     output = bottle.template("views/congress", chamber=chamber, congress=congress_num, maxCongress=maxCongress,
                              dimweight=meta["nominate"][
                                  "second_dimweight"], nomBeta=meta["nominate"]["beta"],
-                             tabular_view=tv)
+                             tabular_view=tv, memberLabel=memberLabel)
     return output
 
 

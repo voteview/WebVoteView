@@ -2,7 +2,6 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/jquery.tablesorter.min.js", "/static/js/libs/localStorage.js"])
 % include('header.tpl')
-
 <div class="container">
 	<div id="loading-container">
 		<h3>Loading members</h3>
@@ -23,7 +22,7 @@
 						</select>
 						 &gt; 
 						<abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">
-							{{"Senators" if chamber.title() == "Senate" else "Representatives"}}
+							{{memberLabel}}
 						</abbr>
 					</div>
 					<div id="partyComposition"></div>
