@@ -11,7 +11,6 @@ import unidecode
 from fuzzywuzzy import fuzz
 from bson.json_util import dumps
 from pdb import set_trace as st
-from numpy.random import choice
 
 from model.searchVotes import query
 import model.downloadVotes  # Namespace issue
@@ -20,10 +19,12 @@ from model.searchMembers import memberLookup, getMembersByCongress, getMembersBy
 from model.searchParties import partyLookup
 from model.articles import get_article_meta, list_articles
 from model.searchMeta import metaLookup
-from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear, getBioImage, getYearsOfService
+from model.bioData import checkForPartySwitch, congressesOfService, congressToYear, getBioImage, getYearsOfService
 from model.prepVotes import prepVotes
 from model.geoLookup import addressToLatLong, latLongToDistrictCodes, lat_long_to_polygon
 from model.searchAssemble import assembleSearch
+from model.slide_carousel import generate_slides
+
 import model.downloadXLS
 import model.stashCart
 import model.partyData
@@ -73,8 +74,6 @@ def getBase(urlparts):
     return domain
 
 # Helper function for handling bottle arguments and setting defaults:
-
-
 def defaultValue(x, value=None):
     return x is not "" and x or value
 
@@ -87,7 +86,6 @@ def defaultValue(x, value=None):
 @app.route('/static/<path:path>')
 def callback(path):
     return bottle.static_file(path, "./static")
-
 
 # Index
 @app.route("/")
@@ -136,13 +134,7 @@ def index(search_string=""):
         timeIt("doneAssembly")
 
         # Randomly sample some slides to show.
-        slides = json.load(open("static/carousel/slides.json", "r"))
-        weights = [x["weight"] for x in slides]
-        sum_weights = sum(weights)
-        weights = [w / float(sum_weights) for w in weights]
-        num_slides = 5
-        slides = choice(slides, 5, replace=False, p=weights)
-
+	slides = generate_slides()
         output = bottle.template("views/search", args=argDict,
                                  search_string=search_string, timeSet=zipTimes(), base_url=BASE_URL, slides = slides)
     except:
@@ -156,19 +148,16 @@ def index(search_string=""):
 # Static Pages with no arguments, just passthrough the template.
 # Really we should just cache these, but anyway.
 
-
 @app.route("/about")
 def about():
     output = bottle.template('views/about')
     return output
-
 
 @app.route("/quota")
 @app.route("/abuse")
 def quota():
     output = bottle.template("views/quota")
     return output
-
 
 @app.route("/data")
 def data():
@@ -178,13 +167,11 @@ def data():
     output = bottle.template("views/data", maxCongress=maxCongress, articles = data_articles, year = current_year)
     return output
 
-
 @app.route("/past_data")
 def past_data():
     blacklist = [".gitkeep"]
     folder_files = [x for x in reversed(sorted(os.listdir("static/db/"))) if x not in blacklist]
     return bottle.template("views/past_data", folder_files = folder_files)
-
 
 @app.route("/research")
 def research():
@@ -193,37 +180,28 @@ def research():
 
 
 # Pages that have arguments
-@app.route("/explore")
-@app.route("/explore/<chamber:re:house|senate>")
-def explore(chamber="house"):
-    # Security to prevent the argument being passed through being malicious.
-    if chamber != "senate":
-        chamber = "house"
-
-    output = bottle.template("views/explore", chamber=chamber)
-    return output
-
-
 @app.route("/congress")
 @app.route("/congress/<chamber:re:house|senate>")
 @app.route("/congress/<chamber:re:house|senate>/<congress_num:int>")
 @app.route("/congress/<chamber:re:house|senate>/<congress_num:int>/<tv>")
 @app.route("/congress/<chamber:re:house|senate>/<tv>")
 def congress(chamber="senate", congress_num=-1, tv=""):
+    maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
+
+    # Constrain chamber to senate/house
     if chamber != "senate":
         chamber = "house"
+
+    # Argument order weirdness in bottle: try to combine chamber/text
     if tv != "text" and len(tv):
         try:
             congress_num = int(tv)
             tv = ""
         except:
             tv = ""
-            congress_num = -1
+            congress_num = maxCongress
 
-    maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
-    if congress_num == -1:
-        congress_num = maxCongress
-
+    # Get meta args for NOMINATE
     meta = metaLookup()
 
     memberLabel = "Senators" if chamber.title() == "Senate" else "Representatives"
@@ -248,37 +226,35 @@ def district(search=""):
 @app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
 def parties(party="all", congStart=-1):
-    if type(congStart) == type(""):  # Capture SEO-friendly links.
+    maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
+
+    if isinstance(congStart, str):
         congStart = -1
 
     # Just default for now
     try:
         party = int(party)
     except:
-        maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
         output = bottle.template(
             "views/parties_glance", maxCongress=maxCongress)
         return output
 
     if congStart == -1:
-        congStart = int(
-            json.load(open("static/config.json", "r"))["maxCongress"])
+        congStart = int(maxCongress)
     else:
         try:
             congStart = int(congStart)
         except:
             congStart = 0
 
-    if party not in xrange(0, 50001):
+    # Try to clamp invalid party IDs
+    if party > 8000:
         party = 200
+
     partyData = model.partyData.getPartyData(party)
-    if "fullName" in partyData:
-        partyNameFull = partyData["fullName"]
-    else:
-        partyNameFull = ""
 
     output = bottle.template("views/parties", party=party, partyData=partyData,
-                             partyNameFull=partyNameFull, congStart=congStart)
+                             partyNameFull=partyData["fullName"], congStart=congStart)
     return output
 
 @app.route("/api/getloyalty")
