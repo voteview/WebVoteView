@@ -20,7 +20,7 @@ from model.searchMembers import memberLookup, getMembersByCongress, getMembersBy
 from model.searchParties import partyLookup
 from model.articles import get_article_meta, list_articles
 from model.searchMeta import metaLookup
-from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
+from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear, getBioImage, getYearsOfService
 from model.prepVotes import prepVotes
 from model.geoLookup import addressToLatLong, latLongToDistrictCodes, lat_long_to_polygon
 from model.searchAssemble import assembleSearch
@@ -210,7 +210,6 @@ def explore(chamber="house"):
 @app.route("/congress/<chamber:re:house|senate>/<congress_num:int>/<tv>")
 @app.route("/congress/<chamber:re:house|senate>/<tv>")
 def congress(chamber="senate", congress_num=-1, tv=""):
-    print type(tv), type(congress_num)
     if chamber != "senate":
         chamber = "house"
     if tv != "text" and len(tv):
@@ -313,123 +312,80 @@ def person(icpsr=0, garbage=""):
     if not icpsr:
         icpsr = defaultValue(bottle.request.params.icpsr, 0)
 
-    skip = 0
-
     # Easter Egg
     keith = defaultValue(bottle.request.params.keith, 0)
 
-    # Pull by ICPSR
+    # Pull member by ICPSR
     person = memberLookup({"icpsr": icpsr}, 1)
     timeIt("memberLookup")
 
-    # If we have no error, follow through
-    if not "errormessage" in person:
-        person = person["results"][0]
-        if not "bioname" in person:
-            person["bioname"] = "ERROR NO NAME IN DATABASE PLEASE FIX."
-        votes = []
-        # Look up votes
-
-        timeIt("nameFunc")
-
-        # Check if bio image exists
-        bioFound = 0
-        if not os.path.isfile("static/img/bios/" + str(person["icpsr"]).zfill(6) + ".jpg"):
-            # If not, use the default silhouette
-            if not keith:
-                person["bioImg"] = "silhouette.png"
-            else:
-                person["bioImg"] = "keith.png"
-        else:
-            person["bioImg"] = str(person["icpsr"]).zfill(6) + ".jpg"
-            bioFound = 1
-
-        timeIt("bioImg")
-
-        # Get years of service
-        person["yearsOfService"] = yearsOfService(person["icpsr"], "")
-        person["yearsOfServiceSenate"] = yearsOfService(
-            person["icpsr"], "Senate")
-        person["yearsOfServiceHouse"] = yearsOfService(
-            person["icpsr"], "House")
-        # Fix final date of service to match final voting date.
-        try:
-            if len(person["yearsOfServiceSenate"]):
-                if person["yearsOfServiceSenate"][-1][1] > int(person["voting_dates"]["Senate"][1].split("-")[0]) and int(person["voting_dates"]["Senate"][1].split("-")[0]):
-                    person["yearsOfServiceSenate"][-1][1] = int(
-                        person["voting_dates"]["Senate"][1].split("-")[0])
-        except:
-            pass
-        try:
-            if len(person["yearsOfServiceHouse"]):
-                if person["yearsOfServiceHouse"][-1][1] > int(person["voting_dates"]["House"][1].split("-")[0]) and int(person["voting_dates"]["House"][1].split("-")[0]):
-                    person[
-                        "yearsOfServiceHouse"][-1][1] = int(person["voting_dates"]["House"][1].split("-")[0])
-        except:
-            pass
-
-        person["congressesOfService"] = congressesOfService(person[
-                                                            "icpsr"], "")
-        person["congressLabels"] = {}
-        for congressChunk in person["congressesOfService"]:
-            for cong in range(congressChunk[0], congressChunk[1] + 1):
-                person["congressLabels"][cong] = str(cong) + "th Congress (" + str(
-                    congressToYear(cong, 0)) + "-" + str(congressToYear(cong, 1)) + ")"
-
-        timeIt("congressLabels")
-
-        # Find out if we have any other ICPSRs that are this person for another
-        # party
-        altICPSRs = checkForPartySwitch(person)
-        if "results" in altICPSRs:
-            person["altPeople"] = []
-            # Iterate through them
-            for alt in altICPSRs["results"]:
-                # Look up this one
-                altPerson = memberLookup({"icpsr": alt}, 1)["results"][0]
-                if not "errormessage" in altPerson:
-                    # Get their years of service
-                    altPerson["yearsOfService"] = yearsOfService(altPerson[
-                                                                 "icpsr"])
-                    # If we don't have a bio image for main guy, borrow from
-                    # his previous/subsequent incarnations
-                    if not bioFound and os.path.isfile("static/img/bios/" + str(altPerson["icpsr"]).zfill(6) + ".jpg"):
-                        person["bioImg"] = str(
-                            altPerson["icpsr"]).zfill(6) + ".jpg"
-                        bioFound = 1
-
-                    if not altPerson["icpsr"] in [x["icpsr"] for x in person["altPeople"]]:
-                        person["altPeople"].append(altPerson)
-
-        timeIt("partySwitches")
-        loyalty = getloyalty(person["party_code"], person["congress"])
-        person["party_loyalty"] = 100 * (1 - loyalty["party"]["nvotes_against_party"] / (
-            loyalty["party"]["nvotes_yea_nay"] * 1.0))
-        person["global_loyalty"] = 100 * (1 - loyalty["global"][
-                                          "nvotes_against_party"] / (loyalty["global"]["nvotes_yea_nay"] * 1.0))
-
-        if "biography" in person:
-            person["biography"] = person["biography"].replace(
-                "a Representative", "Representative")
-
-        if not "twitter_card" in person:
-            twitter_card = 0
-        else:
-            twitter_card = person["twitter_card"]
-            twitter_card["icpsr"] = person["icpsr"]
-
-        timeIt("readyOut")
-        # Go to the template.
-        output = bottle.template("views/person", person=person,
-                                 timeSet=zipTimes(), skip=0, twitter_card=twitter_card)
+    if "errormessage" in person:
+        output = bottle.template("views/error", errorMessage=person["errormessage"])
         return(output)
 
-    # If we have an error, return an error page
+    # Extract the actual result.
+    person = person["results"][0]
+
+    # Default name
+    person["bioname"] = person.get("bioname", "ERROR NO NAME IN DATABASE PLEASE FIX.")
+
+    # Check if bio image exists
+    default = "silhouette.png" if not keith else "keith.png"
+    person["bioImg"], bioFound = getBioImage(person["icpsr"], default)
+    timeIt("bioImg")
+
+    # Get years of service
+    person["yearsOfService"] = getYearsOfService(person, "")
+    person["yearsOfServiceSenate"] = getYearsOfService(person, "Senate")
+    person["yearsOfServiceHouse"] = getYearsOfService(person, "House")
+
+    person["congressesOfService"] = person["congresses"]
+    person["congressLabels"] = {}
+    for congressChunk in person["congressesOfService"]:
+        for cong in range(congressChunk[0], congressChunk[1] + 1):
+            person["congressLabels"][cong] = str(cong) + "th Congress (" + str(
+                congressToYear(cong, 0)) + "-" + str(congressToYear(cong, 1)) + ")"
+
+    timeIt("congressLabels")
+
+    # Find out if we have any other ICPSRs that are this person for another
+    # party
+    altICPSRs = checkForPartySwitch(person)
+    if "results" in altICPSRs:
+        person["altPeople"] = []
+        # Iterate through them
+        for alt in altICPSRs["results"]:
+            # Look up this one
+            altPerson = memberLookup({"icpsr": alt}, 1)["results"][0]
+            if not "errormessage" in altPerson:
+                # Get their years of service
+                altPerson["yearsOfService"] = getYearsOfService(altPerson, "")
+
+                if not altPerson["icpsr"] in [x["icpsr"] for x in person["altPeople"]]:
+                    person["altPeople"].append(altPerson)
+
+    timeIt("partySwitches")
+    loyalty = getloyalty(person["party_code"], person["congress"])
+    person["party_loyalty"] = 100 * (1 - loyalty["party"]["nvotes_against_party"] / (
+        loyalty["party"]["nvotes_yea_nay"] * 1.0))
+    person["global_loyalty"] = 100 * (1 - loyalty["global"][
+                                      "nvotes_against_party"] / (loyalty["global"]["nvotes_yea_nay"] * 1.0))
+
+    # Quick hack to fix a minor annoying style choice in congressional bioguide.
+    if "biography" in person:
+        person["biography"] = person["biography"].replace("a Representative", "Representative")
+
+    if not "twitter_card" in person:
+        twitter_card = 0
     else:
-        output = bottle.template(
-            "views/error", errorMessage=person["errormessage"])
-        return(output)
+        twitter_card = person["twitter_card"]
+        twitter_card["icpsr"] = person["icpsr"]
 
+    timeIt("readyOut")
+    # Go to the template.
+    output = bottle.template("views/person", person=person,
+                             timeSet=zipTimes(), skip=0, twitter_card=twitter_card)
+    return(output)
 
 def count_images(publication, file_number):
     """Return the number of scans in the directory."""

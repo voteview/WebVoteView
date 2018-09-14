@@ -1,9 +1,42 @@
+import os
 from searchMembers import memberLookup
+
+def getBioImage(icpsr, default):
+	""" Check for file presence of bio image or fall back to default. """
+
+	bio_image = "%s.jpg" % str(icpsr).zfill(6)
+	bio_image = bio_image if os.path.isfile("static/img/bios/%s" % bio_image) else default
+
+	return bio_image, int(bio_image != default)
+
+def getYearsOfService(person, chamber=""):
+	""" Takes a person and returns year ranges of service, overall or in a chamber. """
+	congresses = []
+
+	if chamber and chamber not in ["House", "Senate"]:
+		return []
+
+	if chamber:
+		if "congresses_" + chamber.lower() in person:
+			congresses = person["congresses_" + chamber.lower()]
+	else:
+		if "congresses" in person:
+			congresses = person["congresses"]
+
+	if not congresses:
+		return []
+
+	yearSet = [[congressToYear(congress[0], 0), congressToYear(congress[1], 1)] for congress in congresses]
+
+	if chamber and len(yearSet) and "voting_dates" in person and chamber in person["voting_dates"] and int(person["voting_dates"][chamber][1].split("-")[0]):
+		if yearSet[-1][1] > int(person["voting_dates"][chamber][1].split("-")[0]):
+			yearSet[-1][1] = int(person["voting_dates"][chamber][1].split("-")[0])
+
+	return yearSet
 
 def congressesOfService(icpsr, chamber=""):
 	if not isinstance(icpsr, str) or len(icpsr) < 6:
 		icpsr = str(int(icpsr)).zfill(6)
-
 
 	terms = memberLookup({"icpsr": icpsr}, 30)
 
@@ -40,10 +73,7 @@ def congressToYear(congress, endDate):
 
 def checkForPartySwitch(person):
 	if not "icpsr" in person or not person["icpsr"]:
-		return -1
-
-	baseIcpsr = str(person["icpsr"]).zfill(6)
-	congresses = congressesOfService(person["icpsr"])
+		return {}
 
 	if "bioguide_id" in person:
 		q = {"bioguide_id": person["bioguide_id"]}
@@ -52,31 +82,9 @@ def checkForPartySwitch(person):
 
 		if "errormessage" in lookup:
 			return {}
-		else:
-			other_icpsrs = [str(x["icpsr"]).zfill(6) for x in lookup["results"] if x["icpsr"] != person["icpsr"]]
-			return {"results": other_icpsrs}
 
-	searchBoundaries = [congresses[0][0] - 1, congresses[0][0], congresses[-1][1], congresses[-1][1] + 1]
-
-	otherIcpsrs = []
-	for congress in searchBoundaries:
-		if "bioname" in person:
-			lookup = memberLookup({'congress': congress, 'name': person["bioname"]}, 1)
-		else:
-			return {}
-
-		if "errormessage" in lookup:
-			continue
-		else:
-			result = lookup["results"][0]
-			newIcpsr = str(result["icpsr"]).zfill(6)
-			if levenshtein(baseIcpsr, newIcpsr) == 1 and newIcpsr not in otherIcpsrs:
-				otherIcpsrs.append(newIcpsr)
-
-	if not len(otherIcpsrs):
-		return {}
-	else:
-		return {"results": otherIcpsrs}
+		other_icpsrs = [str(x["icpsr"]).zfill(6) for x in lookup["results"] if x["icpsr"] != person["icpsr"]]
+		return {"results": other_icpsrs}
 
 def checkForOccupancy(person):
 	if "occupancy" not in person or int(person["occupancy"]) == 0:
