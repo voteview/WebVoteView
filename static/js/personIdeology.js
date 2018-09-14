@@ -3,7 +3,7 @@ $(".nav-tabs > li > a").click(switchTab);
 
 (function loadData()
 {
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(drawLoyaltyHist);	
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(fillLoyaltyDrawHist);	
 })();
 
 function switchTab(e) {
@@ -71,7 +71,7 @@ function viewAllCong()
 function reloadIdeology()
 {
 	congressNum = $("#congSelector").val();
-    queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(updateCongress);
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(updateCongress);
 }
 
 // Wrapper to update default loadings for the person's ideal point.
@@ -81,51 +81,35 @@ function updateCongress(error, data)
 	if(data==undefined) { return(0); }
 	// Loop until you find the person.
 	var foundRep = 0;
-	data["results"].forEach(function(d) {
-		if(!foundRep && d.icpsr==memberICPSR)
-		{
-			console.log(d);
-			memberIdeal = d.nominate.dim1;
-			memberPartyCode = d.party_code;
-			memberNoun = d.party_noun;
-			partyColor = d.party_color;
-		    chamber = d.chamber.toLowerCase();
-		    memberVotes = d.nvotes_yea_nay;
-		    memberAttendance = 100 * (d.nvotes_yea_nay / (d.nvotes_yea_nay + d.nvotes_abs));
-		    memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
-    		 	$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
-			if(d.district_code != undefined && d.district_code!=0 && d.district_code!=98 && d.district_code!=99)
-			{
-				$("#district_label").html(getGetOrdinal(d.district_code)+" congressional district");
-				$("#show_district").css("display","block");
-			}
-			else $("#show_district").css("display","none");
-			memberIdealBucket = Math.floor(memberIdeal*numBins);
-			console.log(memberIdealBucket);
-			foundRep=1;
-			return false;
-		}
-		return false;
-	});
+
+	var d = data["results"].filter(function(p) { return p.icpsr == memberICPSR; })[0];
+	memberIdeal = d.nominate.dim1;
+	memberPartyCode = d.party_code;
+	memberNoun = d.party_noun;
+	partyColor = d.party_color;
+	chamber = d.chamber.toLowerCase();
+	memberVotes = d.nvotes_yea_nay;
+	memberAttendance = 100 * (d.nvotes_yea_nay / (d.nvotes_yea_nay + d.nvotes_abs));
+	memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
+
+	$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
+	if(d.district_code != undefined && d.district_code!=0 && d.district_code!=98 && d.district_code!=99)
+	{
+		$("#district_label").html(getGetOrdinal(d.district_code)+" congressional district");
+		$("#show_district").css("display","block");
+	}
+	else $("#show_district").css("display","none");
+	memberIdealBucket = Math.floor(memberIdeal*numBins);
+
+	foundRep=1;
 
 	$("#congSelector").blur();
-
-    drawLoyaltyHist(error, data);
-}
-
-function drawLoyaltyHist(error, data)
-{
-	// Now call the actual plotting function.
-	fillLoyaltyDrawHist(error, data);    
+	fillLoyaltyDrawHist(error, data);
 }
 
 function fillLoyaltyDrawHist(error, data)
 {
-	if(data==undefined)
-	{
-		return(0);
-	}
-
+	if(data==undefined) { return(0); }
 
 	// For loyalty scores
         var partyVotes=[];
@@ -136,7 +120,6 @@ function fillLoyaltyDrawHist(error, data)
 	var partyNom = [];
 	var chamberNom = [];
 	var partyChamberNom = [];
-
 	
 	// Iterate through data.
 	data["results"].forEach(function (d) {
@@ -153,9 +136,6 @@ function fillLoyaltyDrawHist(error, data)
 		}
 		else if(d.party_code == memberPartyCode) partyNom.push(d.nominate.dim1);
 		else if(d.chamber.toLowerCase() == chamber) chamberNom.push(d.nominate.dim1);
-		
-
-
 
 		if(d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President') {
 			chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party, d.nvotes_abs]);
@@ -169,7 +149,6 @@ function fillLoyaltyDrawHist(error, data)
 			}
 	       }	    
 	});
-
 
 	// How many people are more conservative than this person?
 	function reduceSum(total, num) { return total + num; }	
