@@ -754,16 +754,15 @@ def downloadXLS():
     else:
         statusCode, result = model.downloadXLS.downloadXLS(ids)
 
-    if statusCode == 0:
-        bottle.response.content_type = 'application/vnd.ms-excel'
-        currentDateString = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-        outputFilename = currentDateString + "_voteview_download.xls"
-        bottle.response.headers[
-            "Content-Disposition"] = "inline; filename=" + outputFilename
-        return(result)
-    else:  # Non-zero status code.
+    if statusCode != 0:
         return({"errormessage": result})
 
+    bottle.response.content_type = 'application/vnd.ms-excel'
+    currentDateString = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    outputFilename = currentDateString + "_voteview_download.xls"
+    bottle.response.headers[
+        "Content-Disposition"] = "inline; filename=" + outputFilename
+    return(result)
 
 @app.route("/api/contact", method="POST")
 @app.route("/api/contact")
@@ -790,7 +789,6 @@ def stash(verb):
     except:
         votes = []
 
-    # return {"test": "foo"}
     return model.stashCart.verb(verb, id, votes)
 
 
@@ -830,7 +828,7 @@ def getData():
         return {"errorMessage": "Either type or unit specified incorrectly."}
 
     STATIC_URL = BASE_URL + "static/data/out/" + unit + "/"
-    
+
     if chamber == "house":
         chamberlet = "H"
     elif chamber == "senate":
