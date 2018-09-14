@@ -19,7 +19,7 @@ class WriteXls:
         sheet.set_panes_frozen(True)
         sheet.set_vert_split_pos(x)
         sheet.set_horz_split_pos(y)
-        
+
     def render(self):
         output = StringIO.StringIO()
         self.wb.save(output)
@@ -45,7 +45,7 @@ class WriteXls:
             i += 1
         self._fillinSheet(self.votesheet,self.votes[1:])
         self._freeze(self.votesheet)
-        
+
     def addRollcalls(self):
         hd = self.rollcalls[0]
         i = 0
@@ -63,10 +63,9 @@ class WriteXls:
             i += 1
         self._fillinSheet(self.membersheet,self.members[1:])
         self._freeze(self.membersheet)
-        
+
     def testsave(self):
         self.wb.save("test.xls")
-
 
 if __name__ == "__main__":
     wxls = WriteXls(votes=[["Name"],['John'],['Bill'],['Fred']] )

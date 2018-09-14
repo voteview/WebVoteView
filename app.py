@@ -351,7 +351,7 @@ def person(icpsr=0, garbage=""):
     # Find out if we have any other ICPSRs that are this person for another
     # party
     altICPSRs = checkForPartySwitch(person)
-    if "results" in altICPSRs:
+    if altICPSRs and "results" in altICPSRs:
         person["altPeople"] = []
         # Iterate through them
         for alt in altICPSRs["results"]:
