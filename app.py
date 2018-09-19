@@ -14,7 +14,7 @@ from pdb import set_trace as st
 
 from model.searchVotes import query
 import model.downloadVotes  # Namespace issue
-from model.emailContact import sendEmail
+from model.emailContact import sendEmail, newsletterSub
 from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, getMembersByPrivate
 from model.searchParties import partyLookup
 from model.articles import get_article_meta, list_articles
@@ -716,10 +716,13 @@ def getPartyName():
 @app.route("/api/download")
 @app.route("/api/download/<rollcall_id>")
 def downloadAPI(rollcall_id=""):
+    print rollcall_id
     if not rollcall_id:
         rollcall_id = defaultValue(bottle.request.params.rollcall_id)
     apitype = defaultValue(bottle.request.params.apitype, "Web")
     res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
+    for k, v in res.iteritems():
+        print k, v
     return(res)
 
 
@@ -764,6 +767,17 @@ def downloadXLS():
         "Content-Disposition"] = "inline; filename=" + outputFilename
     return(result)
 
+@app.route("/api/newsletter", method="POST")
+@app.route("/api/newsletter")
+def newsletter():
+    try:
+        email = bottle.request.params.update_email
+        update_action = bottle.request.params.update_action
+        res = newsletterSub(email, update_action)
+        return(res)
+    except:
+        return({"error": "An unknown error occurred while processing your request."})
+
 @app.route("/api/contact", method="POST")
 @app.route("/api/contact")
 def contact():
@@ -777,7 +791,6 @@ def contact():
         res = sendEmail(title, body, person_name, email, recaptcha, ip)
         return(res)
     except:
-        return(traceback.format_exc())
         return({"error": "You must fill out the entire form before submitting."})
 
 

@@ -100,6 +100,42 @@
 				</li>
 			</ul>
 
+			<h3>Update Newsletter</h3>
+
+			<p>
+				We recognize that some institutional users may wish to be contacted in advance of major changes. 
+				If you would like to be informed of major updates (including deprecation of data sources, major 
+				new data sources, or major changes to score calculation), please leave your email here. We 
+				expect these updates will be no more than annual in frequency. Your email address is stored securely
+				with our email contact provider, <a href="https://sendgrid.com">SendGrid.com</a>, will never be shared with
+				any other third parties, and we will never contact you for any reason other than to announce major 
+				changes to voteview.com. 
+			</p>
+
+			<form id="update-form">
+				<div class="form-group row">
+					<label for="update_email" class="col-sm-2 col-form-label">Email Address</label>
+					<div class="col-sm-6"><input id="update_email" name="update_email" class="form-control" type="text" placeholder="e.g. example@email.com"></div>
+				</div>
+				<div class="form-group row">
+					<label for="update_action" class="col-sm-2 col-form-label">Subscribe</label>
+					<div class="col-sm-6">
+						<select name="update_action" id="update_action" class="form-control">
+							<option value="subscribe">Subscribe</option>
+							<option value="unsubscribe">Unsubscribe</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row" id="captcha_hide_submit">
+					<div class="col-sm-8">
+						<input class="btn btn-primary" type="submit" onclick="javascript: newsletterSignup(); return false;" />
+						<img class="loading_logo_hide" src="/static/img/loading.gif">
+					</div>
+				</div>
+			</form>
+
+			<div id="result_newsletter"></div>
+
 			<h3>Contact Us</h3>
 			<form id="contact-form">
 				<div class="form-group row">

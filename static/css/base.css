@@ -368,6 +368,7 @@ rect.brown { fill: #a6611a; }
 
 /* Contact page */
 #result_contact { display: none; }
+#result_newsletter { display: none; }
 .loading_logo_hide { display: none; padding-left: 20px; }
 
 /* Geography page */

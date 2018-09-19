@@ -8,7 +8,7 @@
 	<p>
 		This section contains download links for NOMINATE scores and other data that we make available to the public, in addition to tutorial articles explaining how to generate popular ancillary data from our data exports. Please continue by choosing the data you wish to download.<br/><br/>
 
-		For more information on how NOMINATE scores and other data are calculated, please see the <a href="/about">About</a> page.
+		Data is updated live, as new votes are taken. If you are an institutional user of our data and wish to be notified before major or breaking changes are made to the data, please see the <a href="/about">About page</a>.
 	</p>
 
 	<div class="panel panel-primary">

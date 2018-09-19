@@ -18,7 +18,6 @@ static/**/*.csv
 static/data/csv/**/*.bak
 \#*\#
 static/aaron/*
-
 static/img/bios
 static/img/carousel
 static/img/scans
@@ -31,4 +30,4 @@ static/json
 static/partyjson
 static/controljson
 static/carousel
-
+model/email/newsletter_list.json
