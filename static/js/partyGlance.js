@@ -35,6 +35,7 @@ function tooltipText(party, d)
 }
 
 function generateGlanceChart(error, parties, glance, configFile) {
+	console.log($("#wbv-header").width());
 	// Parties is the full party list, sorted by size bracket, then old to new, then A-Z.
 	globalParties = parties;	
 
@@ -138,8 +139,8 @@ function generateGlanceChart(error, parties, glance, configFile) {
 	if(max-xAxisTickValues[xAxisTickValues.length-1]>5) xAxisTickValues.push(xAxisTickValues[xAxisTickValues.length-1]+5);
 
 	// Try to scale the chart to make it a little more suitable for low resolution
-	var chartWidth = Math.min(1140,Math.max(700,Math.round($("#content").width()*0.92)));
-	var chartHeight = Math.max(280,Math.round(chartWidth/2.9));
+	var chartWidth = Math.min(1140, Math.max(900, Math.round($("#wbv-header").width() * 0.92)));
+	var chartHeight = Math.max(280, Math.round(chartWidth / 2.9));
 	dimChart
 	    .width(chartWidth)
 	    .height(chartHeight)
@@ -150,7 +151,7 @@ function generateGlanceChart(error, parties, glance, configFile) {
 	    .renderTitle(false)
 	    .x(d3.scale.linear().domain([1, max+1]))
 	    .y(d3.scale.linear().domain([-0.6,0.7]))
-	    .margins({top: 0, right: 0, bottom: 50, left: 50})
+	    .margins({top: 0, right: 0, bottom: 40, left: 60})
 	    .compose([
 		dc.scatterPlot(dimChart).group(scatterGroup).colors(function(d){return fullColSet[d];}).colorAccessor(scatterCol).symbolSize(4),
 		dc.lineChart(dimChart).group(dimSet[0]).colors([colorSchemes[partyColorMap[partyNameSimplify(parties[0][1]["name"])]][0]]).defined(function(d) { return d.y>-900; }).interpolate("basis").renderTitle(true).title(function(p) { return JSON.stringify(p); }),
@@ -166,7 +167,7 @@ function generateGlanceChart(error, parties, glance, configFile) {
 		dc.lineChart(dimChart).group(dimSet[dimSet.length-1]).colors(["#D3D3D3"]).defined(function(d) { return d.y>-900; }).interpolate("basis"),
 	    ])
 	    .on('postRender', function() { d3.select(".dc-chart svg").select("g.sub").selectAll("path.symbol").attr('opacity','0.5'); })
-	    .xAxisLabel("Year").yAxisLabel("Liberal - Conservative Ideology")
+	    .xAxisLabel("Year", 40).yAxisLabel("Ideology")
 	    .xAxis().tickValues(xAxisTickValues).tickFormat(function(v) { return (1787 + 2*v)+1; });
 	console.timeEnd("DCChart")
 	console.time("DCRender");
@@ -244,11 +245,61 @@ function generateGlanceChart(error, parties, glance, configFile) {
 		i=i+1;
 	});
 	console.timeEnd("tooltip");
+	console.time("legend");
+	drawLegend();
+	console.timeEnd("legend");
+	
 
-	$("#loading-container").delay(200).slideUp(100);
+	$("#loading-container").delay(200).slideUp(100)
 	$("#content").fadeIn();
 
 	generatePartyList(parties);
+}
+
+function drawLegend()
+{
+	// Extract the lower gutter margin left hand side.
+	var dim_chart = d3.select("#dim-chart svg");
+	var x = d3.transform(dim_chart.select("g.x").attr("transform")).translate[0];
+	var y = d3.transform(dim_chart.select("text.x-axis-label").attr("transform")).translate[1] + 10;
+	var lower_y = d3.transform(dim_chart.select("g.x").attr("transform")).translate[1] - 10;
+	
+	// Add a legend group
+	var legend = dim_chart.select("g").insert("g", ".legend");
+	legend.attr("transform", "translate(" + x + ", " + y + ")");
+
+	// Legend text
+	var legend_text = legend.insert("text", ".label_legend");
+	legend_text.attr("transform", "translate(5, 10)").text("Legend: ");
+
+	var help_text = legend.insert("text", ".label_help");
+	help_text.attr("transform", "translate(65, 28), scale(0.8, 0.8)").attr("fill", "#666666").text("Chart shows major parties only. Mouseover for party details.");
+
+	// Congress Median line.
+	var line = legend.insert("line", ".symbol");
+	line.attr("transform", "translate(65, 5)").attr("stroke", "#D3D3D3").attr("x1", 0).attr("x2", 20).attr("y1", 0).attr("y2", 0).attr("stroke-width", 4);
+	var cong_line_label = legend.insert("text", ".label_cong_med");
+	cong_line_label.attr("transform", "translate(95, 10) scale(0.8, 0.8)").attr("fill", "#666666").text("Congress Median Ideology");
+
+	// Party Median line.
+	var line = legend.insert("line", ".symbol");
+	line.attr("transform", "translate(245, 5)").attr("stroke", "#0571b0").attr("x1", 0).attr("x2", 20).attr("y1", 0).attr("y2", 0).attr("stroke-width", 2);
+	var line_label = legend.insert("text", ".label_median");
+	line_label.attr("transform", "translate(270, 10) scale(0.8, 0.8)").attr("fill", "#666666").text("Party Median Ideology");
+
+	// First, the legend for the ideology range	
+	var circle = legend.insert("circle", ".symbol");
+	circle.attr("transform", "translate(405, 5)").attr("fill", "#92c5de").attr("opacity", 0.5).attr("r", 3);	
+	var circle_label = legend.insert("text", ".label_range");
+	circle_label.attr("transform", "translate(418, 10) scale(0.8, 0.8)").attr("fill", "#666666").text("Range of Party Ideology");
+
+	// Y-axis sublabels
+	var y_conservative = dim_chart.select("g").insert("text", ".axis_text");
+	y_conservative.attr("transform", "translate(36, 80), rotate(-90), scale(0.8, 0.8)").attr("fill", "#666666").attr("text-anchor", "right").text("Conservative");
+
+	var y_liberal = dim_chart.select("g").insert("text", ".axis_text");
+	y_liberal.attr("transform", "translate(36, " + lower_y + "), rotate(-90), scale(0.8, 0.8)").attr("fill", "#666666").attr("text-anchor", "right").text("Liberal");
+
 }
 
 function generatePartyList(parties)

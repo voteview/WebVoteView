@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase('base.tpl', title='Parties at a Glance', extra_css=['map.css'])
+% rebase('base.tpl', title='Parties at a Glance', extra_css=['map.css'], extra_js=["/static/js/libs/saveSvgAsPng.js"])
 % include('header.tpl')
 <div class="container">
 	
@@ -17,24 +17,13 @@
 					Parties Overview
 				</h3>
 
-				<h4>Congress at a Glance:</h4>
+				<h4>Congress at a Glance: Major Party Ideology</h4>
 
 				<div id="dim-chart"></div>
 
+			</div>
+		</div>
 
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="alert alert-warning fade in" id="alertPartiesGlance">
-					<a href="#" class="alert-link" id="closeAlert">&times;</a>
-					<strong>How to Read Chart:</strong> 
-					This chart shows the ideologies of <em>major parties</em> in Congress throughout history according to <strong>DW-NOMINATE</strong>. 
-					Each line represents the median (mid-point) ideology of members of a single party. A lower line means a more liberal party, while a higher line means a more conservative party.
-					The grey line shows the median across all parties in Congress at a given point. As control of Congress changes hands after elections, large swings in the median ideology are visible. The pale dots in the background show the range of ideologies within a party. Move your mouse over party lines for more details, click a line to explore a single party.
-				</div>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col-md-12" id="parties_list">
 				<h4>Parties Throughout History</h4>

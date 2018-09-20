@@ -21,38 +21,41 @@ function switchTab(e) {
 	return false;
 }
 
-function getMedian(a, t) {
+function getMedian(data, type) {
+	// Sort data
+	function sortVotes(a, b) { return a[0] - b[0]; }
+	function sortLoyalty(a, b) { return (a[1] / a[0]) - (b[1] / b[0]); }
+	function sortAttendance(a, b) { return (a[0] / (a[0] + a[2])) - (b[0] / (b[0] + b[2])); }
+	var sortedData = data.sort(type == "votes" ? sortVotes : type == "loyalty" ? sortLoyalty : sortAttendance);
 
-    var middlePos = Math.floor((a.length - 1) / 2);
+	// Okay, which is the median position
+	var middlePos = Math.floor((data.length - 1) / 2);
 
-    if (t == 'votes') {
-	var sortedA = a.sort(function(a, b) {return a[0] - b[0];});
-    } else if (t == 'loyalty') {
-	var sortedA = a.sort(function(a, b) {return a[1]/a[0] - b[1]/b[0];});
-    } else {
-	var sortedA = a.sort(function(a, b) {return a[0]/(a[0] + a[2]) - b[0]/(b[0] + b[2])});
-    }
-   
-    if (sortedA.length % 2) {
-	if (t == 'votes') {
-	    return sortedA[middlePos][0];
-	} else if (t == 'loyalty') {
-	    return Math.round(100 * (1 - sortedA[middlePos][1] / sortedA[middlePos][0]), 1);
-	} else {
-	    return Math.round(100 * (sortedA[middlePos][0] / (sortedA[middlePos][0] + sortedA[middlePos][2])), 1);
+	// Extractor functions for quantities of interest
+	function extractVote(item) { return item[0]; }
+	function extractLoyalty(item) { return 100 * (1 - (item[1] / item[0])); }
+	function extractAttendance(item) { return 100 * (item[0] / (item[0] + item[2])); }
+
+	// Simple case: single median
+	if(sortedData.length % 2) 
+	{
+		var item = sortedData[middlePos];
+		var out = type == "votes" ? extractVote(item) : type == "loyalty" ? extractLoyalty(item) : extractAttendance(item);
 	}
-    } else {
-	if (t == 'votes') {
-	    return (sortedA[middlePos][0] + a[middlePos + 1][0]) / 2.0;
-	} else if (t == 'loyalty') {
-	    return (Math.round((100 * (1 - sortedA[middlePos][1] / sortedA[middlePos][0]) +
-			        100 * (1 - sortedA[middlePos + 1][1] / sortedA[middlePos+ 1][0])) / 2.0, 1));
-	} else {
-	    return (Math.round((100 * (sortedA[middlePos][0] / (sortedA[middlePos][0] + sortedA[middlePos][2])) +
-			        100 * (sortedA[middlePos + 1][0] / (sortedA[middlePos + 1][0] + sortedA[middlePos + 1][2]))) / 2.0, 1));
+	// More complex case, median is mean of middle 2.
+	else
+	{
+		var item1 = sortedData[middlePos];
+		var out1 = type == "votes" ? extractVote(item1) : type == "loyalty" ? extractLoyalty(item1) : extractAttendance(item1);
 
+		var item2 = sortedData[middlePos + 1];
+		var out2 = type == "votes" ? extractVote(item2) : type == "loyalty" ? extractLoyalty(item2) : extractAttendance(item2);
+
+		var out = (out1 + out2) / 2.0;
 	}
-    }
+	
+	// Round attendance / loyalty, but don't round votes.
+	return type == "votes" ? out : Math.round(out, 1);   
 }
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
@@ -197,32 +200,11 @@ function fillLoyaltyDrawHist(error, data)
 			else { return(""); }
 		});
 
-
-
-
-    // Fill loyalty table
-    var medianPartyVotes = getMedian(partyVotes, 'votes');
-    var medianChamberVotes = getMedian(chamberVotes, 'votes');
-    var medianPartyLoyalty = getMedian(partyVotes, 'loyalty');
-    var medianChamberLoyalty = getMedian(chamberVotes, 'loyalty');
-    var medianPartyAttendance = getMedian(partyVotes, 'attendance');
-    var medianChamberAttendance = getMedian(chamberVotes, 'attendance');
-    
-    
-    var headerRow = '<div class="row loyalty"><div class="col-sm-3 vert"></div><div class="col-sm-3 vert">' + memberLastName + '</div>' + 
-	'<div class="col-sm-3 vert">Median ' + chamberCap + ' ' + memberNoun + '</div>' +
-	'<div class="col-sm-3 vert">Median in ' + chamberCap+ '</div></div>';
-    var voteRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Votes Cast</div><div class="col-sm-3 vert">' + memberVotes + '</div>' + 
-	'<div class="col-sm-3 vert">' + medianPartyVotes + '</div>' +
-	'<div class="col-sm-3 vert">' + medianChamberVotes + '</div></div>';
-    var attendanceRow  ='<div class="row loyalty"><div class="col-sm-3 vert">Attendance</div><div class="col-sm-3 vert">' + Math.round(memberAttendance, 1) + '%</div>' + 
-	'<div class="col-sm-3 vert">' + medianPartyAttendance + '%</div>' +
-	'<div class="col-sm-3 vert">' + medianChamberAttendance + '%</div></div>';
-    var loyaltyRow = memberPartyCode == "328" ? "" : '<div class="row loyalty"><div class="col-sm-3 vert">Party Loyalty</div><div class="col-sm-3 vert">' + Math.round(memberLoyalty, 1) + '%</div>' + 
-	'<div class="col-sm-3 vert">' + medianPartyLoyalty + '%</div>' +
-	'<div class="col-sm-3 vert">' + medianChamberLoyalty + '%</div></div>';
-    $('#loyaltyTable').html(headerRow + voteRow + attendanceRow + loyaltyRow);
-
+	loyaltyTable(
+		{"party": partyVotes, "chamber": chamberVotes},
+		{"lastName": memberLastName, "noun": memberNoun, "votes": memberVotes, "attendance": memberAttendance, "loyalty": memberLoyalty, "party": memberPartyCode},
+		{"chamberCap": chamberCap}
+	);
 
 	var ndx = crossfilter(chamberNom);
 	var oneDimDimension = ndx.dimension(function(d) { return d; });
@@ -279,3 +261,51 @@ function fillLoyaltyDrawHist(error, data)
 	}
 }
 
+function loyaltyTable(votes, member, meta)
+{
+	function assembleRow(data) 
+	{
+		var row = $("<div></div>").addClass("row loyalty");
+		var each_width = 12 / data.length;
+		for(var i=0; i!= data.length; i++)
+		{
+			$("<div></div>").addClass("col-sm-" + each_width + " vert").html(data[i]).appendTo(row);
+		}
+		return row;
+	}
+
+	$("#loyaltyTable").html("");
+
+	// Fill loyalty table
+	var headerRow = ["", member["lastName"], 
+			"Median " + meta["chamberCap"] + " " + member["noun"],
+			meta["chamberCap"] + " Median"];
+
+	var voteRow = ["Votes Cast", member["votes"], 
+			getMedian(votes["party"], "votes"), 
+			getMedian(votes["chamber"], "votes")];
+
+	var attendanceRow = ["Attendance",
+				Math.round(member["attendance"], 1) + "%",
+				getMedian(votes["party"], "attendance") + "%",
+				getMedian(votes["chamber"], "attendance") + "%"];
+
+	assembleRow(headerRow).appendTo($("#loyaltyTable"));
+	assembleRow(voteRow).appendTo($("#loyaltyTable"));
+	assembleRow(attendanceRow).appendTo($("#loyaltyTable"));
+
+	if(member["party"] != 328)
+	{
+		var loyaltyRow = ["Party Loyalty",
+					Math.round(member["loyalty"], 1) + "%",
+					getMedian(votes["party"], "loyalty") + "%",
+					getMedian(votes["chamber"], "loyalty") + "%"];
+
+		var loyaltyAssembled = assembleRow(loyaltyRow);
+		loyaltyAssembled
+			.attr("data-toggle", "tooltip")
+			.attr("data-placement", "bottom")
+			.attr("title", "How frequently a member agrees with their party's majority position on a vote, abstentions excluded.")
+			.appendTo($("#loyaltyTable"));
+	}
+}

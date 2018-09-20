@@ -110,7 +110,7 @@
 		<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
 	    % end
         </div>
-	<div class="col-md-4">
+	<div class="col-md-5">
 		<h5 class="congSelector">
 			<select id="congSelector">
 			% 	person["congressesOfService"].reverse()
