@@ -3,6 +3,7 @@ $(".nav-tabs > li > a").click(switchTab);
 
 (function loadData()
 {
+	$("#view_all_members").attr("href", "/congress/" + chamber + "/" + congressNum);
 	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(fillLoyaltyDrawHist);	
 })();
 
@@ -65,12 +66,7 @@ function getGetOrdinal(n) {
     return n+(s[(v-20)%10]||s[v]||s[0]);
  }
 
-function viewAllCong()
-{
-	window.location='/congress/'+chamber+'?congress='+congressNum;
-	return false;
-}
-
+// Runs when we switch congresses.
 function reloadIdeology()
 {
 	congressNum = $("#congSelector").val();
@@ -82,10 +78,11 @@ function updateCongress(error, data)
 {
 	// Fail if we didn't get data.
 	if(data==undefined) { return(0); }
-	// Loop until you find the person.
-	var foundRep = 0;
 
+	// Select the member that matches
 	var d = data["results"].filter(function(p) { return p.icpsr == memberICPSR; })[0];
+
+	// Update our globals.
 	memberIdeal = d.nominate.dim1;
 	memberPartyCode = d.party_code;
 	memberNoun = d.party_noun;
@@ -95,24 +92,31 @@ function updateCongress(error, data)
 	memberAttendance = 100 * (d.nvotes_yea_nay / (d.nvotes_yea_nay + d.nvotes_abs));
 	memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
 
-	$("#partyname").html("<a href=\"/parties/"+d.party_code+"\">"+memberNoun+"</a>");
-	if(d.district_code != undefined && d.district_code!=0 && d.district_code!=98 && d.district_code!=99)
+	// Update link to all members of congress.
+	$("#view_all_members").attr("href", "/congress/" + chamber + "/" + congressNum);
+
+	// Update party name in case it switched
+	$("#partyname").html("<a href=\"/parties/" + d.party_code + "\">" + memberNoun + "</a>");
+
+	// Only show district info if they are in the house and in a real district.
+	if(d.district_code != undefined && [0, 98, 99].indexOf(d.district_code) == -1)
 	{
 		$("#district_label").html(getGetOrdinal(d.district_code)+" congressional district");
 		$("#show_district").css("display","block");
 	}
 	else $("#show_district").css("display","none");
-	memberIdealBucket = Math.floor(memberIdeal*numBins);
 
-	foundRep=1;
+	// Which bucket are they in?
+	memberIdealBucket = Math.floor(memberIdeal * numBins);
 
+	// Deselect and redraw.
 	$("#congSelector").blur();
 	fillLoyaltyDrawHist(error, data);
 }
 
 function fillLoyaltyDrawHist(error, data)
 {
-	if(data==undefined) { return(0); }
+	if(data == undefined) { return(0); }
 
 	// For loyalty scores
         var partyVotes=[];
@@ -124,7 +128,7 @@ function fillLoyaltyDrawHist(error, data)
 	var chamberNom = [];
 	var partyChamberNom = [];
 	
-	// Iterate through data.
+	// Iterate through data, building chamber and party results.
 	data["results"].forEach(function (d) {
 		// Skip people with no NOMINATE score.
 		if(d.nominate==undefined) { return true; }
@@ -156,10 +160,10 @@ function fillLoyaltyDrawHist(error, data)
 	// How many people are more conservative than this person?
 	function reduceSum(total, num) { return total + num; }	
 	function moreConservative(num) { return (memberIdeal > num); }
-	var mc = congressNom.map(moreConservative).reduce(reduceSum, 0);
-	var mcParty = partyNom.map(moreConservative).reduce(reduceSum, 0);
-	var mcChamber = chamberNom.map(moreConservative).reduce(reduceSum, 0);
-	var mcPartyChamber = partyChamberNom.map(moreConservative).reduce(reduceSum, 0);
+	var mc = congressNom.map(moreConservative).reduce(reduceSum, 0); // Overall
+	var mcParty = partyNom.map(moreConservative).reduce(reduceSum, 0); // In their party
+	var mcChamber = chamberNom.map(moreConservative).reduce(reduceSum, 0); // In their chamber
+	var mcPartyChamber = partyChamberNom.map(moreConservative).reduce(reduceSum, 0); // In their party in their chamber
 
 	// Okay, now convert to percentages.
 	var conPct = 100 * mc / (congressNom.length - 1);
@@ -193,23 +197,27 @@ function fillLoyaltyDrawHist(error, data)
 		}
 	}
 
+	// Tooltip for buckets: only have text in the member's bucket.
 	var labelTip = d3.tip().attr('class', 'd3-tip').html(
 		function(d)
 		{
-			if(d.x==memberIdealBucket) { return(label); }
+			if(d.x == memberIdealBucket) { return(label); }
 			else { return(""); }
 		});
 
+	// Build loyalty table
 	loyaltyTable(
 		{"party": partyVotes, "chamber": chamberVotes},
 		{"lastName": memberLastName, "noun": memberNoun, "votes": memberVotes, "attendance": memberAttendance, "loyalty": memberLoyalty, "party": memberPartyCode},
 		{"chamberCap": chamberCap}
 	);
 
+	// Build crossfilter, because dc needs one for a histogram
 	var ndx = crossfilter(chamberNom);
 	var oneDimDimension = ndx.dimension(function(d) { return d; });
 	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*numBins); });
 
+	// Build the histogram
 	var nominateHist = dc.barChart("#nominateHist");
 	nominateHist.width(420).height(110).margins({top: 10, right:10, bottom: 20, left:20})
 	.dimension(oneDimDimension).group(oneDimGroup).elasticY(true).brushOn(false)
@@ -231,6 +239,7 @@ function fillLoyaltyDrawHist(error, data)
 		else if(v==numBins-(1*Math.ceil(numBins/10))) return "Conservative";
 	});
 
+	// Attach the tooltips.
 	nominateHist.on("postRender", function(c){
 		c.svg()
 		.selectAll("rect")
@@ -239,10 +248,14 @@ function fillLoyaltyDrawHist(error, data)
 		.on('mouseout', function(d) { labelTip.attr('class','d3-tip').hide(); })
 	});
 
+	// Turn off y axis ticks, since they are not meaningful here.
 	nominateHist.yAxis().ticks(0);
 
+	// Render the plot
 	nominateHist.filter = function() { };
 	dc.renderAll();
+
+	// Injecting the legend -- this should probably not be using setTimeout.
 	if(memberIdeal<0.73 && memberIdeal>-0.85)
 	{
 		setTimeout(function(){
@@ -263,6 +276,7 @@ function fillLoyaltyDrawHist(error, data)
 
 function loyaltyTable(votes, member, meta)
 {
+	// Quickly bake an array into a row of data.
 	function assembleRow(data) 
 	{
 		var row = $("<div></div>").addClass("row loyalty");
@@ -274,6 +288,7 @@ function loyaltyTable(votes, member, meta)
 		return row;
 	}
 
+	// Clear existing data.
 	$("#loyaltyTable").html("");
 
 	// Fill loyalty table
@@ -290,10 +305,12 @@ function loyaltyTable(votes, member, meta)
 				getMedian(votes["party"], "attendance") + "%",
 				getMedian(votes["chamber"], "attendance") + "%"];
 
+	// Assemble
 	assembleRow(headerRow).appendTo($("#loyaltyTable"));
 	assembleRow(voteRow).appendTo($("#loyaltyTable"));
 	assembleRow(attendanceRow).appendTo($("#loyaltyTable"));
 
+	// Only non-independents get party loyalty.
 	if(member["party"] != 328)
 	{
 		var loyaltyRow = ["Party Loyalty",
@@ -301,11 +318,14 @@ function loyaltyTable(votes, member, meta)
 					getMedian(votes["party"], "loyalty") + "%",
 					getMedian(votes["chamber"], "loyalty") + "%"];
 
+		// Add the tooltip to each cell individually.
 		var loyaltyAssembled = assembleRow(loyaltyRow);
-		loyaltyAssembled
+		loyaltyAssembled.find("div")
 			.attr("data-toggle", "tooltip")
 			.attr("data-placement", "bottom")
 			.attr("title", "How frequently a member agrees with their party's majority position on a vote, abstentions excluded.")
+
+		loyaltyAssembled
 			.appendTo($("#loyaltyTable"));
 	}
 }

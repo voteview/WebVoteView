@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase('base.tpl', title='Parties at a Glance', extra_css=['map.css'], extra_js=["/static/js/libs/saveSvgAsPng.js"])
+% rebase('base.tpl', title='Parties at a Glance', extra_css=['map.css'], extra_js=["/static/js/libs/jquery.tablesorter.min.js"])
 % include('header.tpl')
 <div class="container">
 	
@@ -10,7 +10,7 @@
 	</div>
 	
 	<div id="content">
-		<div class="row">
+		<div class="row pad_bottom">
 			<div class="col-md-12">
 				<h3>
 					<abbr title="Parties"><a href="/parties/all">Parties</a></abbr> &gt; 
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row pad_bottom">
 			<div class="col-md-12" id="parties_list">
 				<h4>Parties Throughout History</h4>
 			</div>

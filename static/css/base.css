@@ -445,7 +445,7 @@ span.party_header { padding-right: 20px; }
 /* Parties at a Glance */
 #alertPartiesGlance { margin-bottom: 20px; }
 #closeAlert { float: right; text-decoration: none; }
-.party_row { padding-top: 2px; padding-bottom: 2px; cursor: pointer; }
+.party_row td { padding-top: 2px; padding-bottom: 2px; cursor: pointer; }
 
 .box_red { background-color: #ca0020 !important; }
 .box_orange { background-color: #e66101 !important; }
@@ -649,3 +649,5 @@ h5.congSelector small { padding-left: 10px; }
 .memberPad5 { margin-right: 5px; }
 .namePad5 { margin-right: 5px; }
 .namePad0 { margin-right: 0px; }
+
+.pad_bottom { margin-bottom: 50px; }

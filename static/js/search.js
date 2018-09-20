@@ -252,6 +252,7 @@ function startPulseSuggested()
 
 var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
 var suggestedPulse;
+
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
 	$('#stashCartBar').carousel({"interval": false, "keyboard": false, "wrap": false});
@@ -312,7 +313,7 @@ $(document).ready(function(){
 	$("#searchTextInput").focus();
 	$("#searchTextInput").on('focus',function()
 	{
-		if($("#searchTextInput").attr("placeholder")!="Enter a term to search for")
+		if($("#searchTextInput").attr("placeholder") != "Enter a search term (vote text, member names, parties, or advanced search.)")
 		{
 			$("#searchTextInput").val($("#searchTextInput").attr("placeholder")).select();
 		}
@@ -353,9 +354,12 @@ $(document).ready(function(){
 	});
 
 	// On form change we reset the search and do the initial AJAX call
-	$("#faceted-search-form input:not(#searchTextInput), #sort, #faceted-search-form select").change(function() 
+	$("#faceted-search-form input:not(#searchTextInput):not(input[name*='supportGroup']), #sort, #faceted-search-form select").change(function() 
 	{
 		updateRequest();
+	});
+	$('input[name*="supportGroup"]').click(function() {
+		updateSupportRange(this);
 	});
 	$("#faceted-search-form input[name*='peltzman'], #faceted-search-form input[name*='clausen']").unbind("change").change(function(e)
 	{
@@ -451,6 +455,7 @@ $(document).ready(function(){
 
 function updateRequest()
 {
+	fixSupportGroup();
 	$('#sortScore').val(1);
 	$('#sortD').val(-1);
 	if(!globalQueueRequests)
@@ -787,6 +792,37 @@ function updateCheckAll(e)
 	{
 		$(e.target).prop("checked", true);
 	}
+}
+
+function updateSupportRange(element) 
+{
+	var min = 0, max = 100;
+	switch($(element).attr("value"))
+	{
+		case "super": min = 66; break;
+		case "majority": min = 50; break;
+		case "minority": max = 49; break;
+	}
+
+	var slider = $("#support").slider();
+	slider.slider("setValue", [min, max]);
+	updateRequest();
+}
+
+function fixSupportGroup()
+{
+	// Makes sure the radio button state is coherent with the slider support state.
+
+	var result = $("#support").slider("getValue");
+	var group = "other";
+	if(result[0] == 0 && result[1] == 100) { group = "all"; }
+	else if(result[0] == 66 && result[1] == 100) { group = "super"; }
+	else if(result[0] == 50 && result[1] == 100) { group = "majority"; }
+	else if(result[0] == 0 && result[1] == 49) { group = "minority"; }
+
+	$("input[name*='supportGroup']").prop("checked", false);
+	var element = $("input[name*='supportGroup'][value='" + group + "']");
+	if(element && !element.prop("checked")) { element.prop("checked", true); }
 }
 
 $('#toggleAlert').click(function()

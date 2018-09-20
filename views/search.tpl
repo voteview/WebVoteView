@@ -22,7 +22,7 @@
 
 				<div id="search-bar-container" class="col-md-12">
 					<div class="input-group">
-						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a term to search for" value="{{search_string}}">
+						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a search term (vote text, member names, parties, or advanced search.)" value="{{search_string}}">
 						<div class="input-group-btn">
 							<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
@@ -137,8 +137,37 @@
 											data-slider-ticks="[0, 50, 100]" 
 											data-slider-ticks-labels="['0%', '50%', '100%']" 
 											data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
-											data-slider-id="support-bucket" >
+											data-slider-id="support-bucket">
 									</div>
+
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="supportGroup" value="all"> 
+											All
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="supportGroup" value="super"> 
+											Supermajority
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="supportGroup" value="majority"> 
+											Majority
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="supportGroup" value="minority"> 
+											Minority
+										</label>
+									</div>
+
 								</div>
 							</div>
 						</div>

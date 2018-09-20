@@ -120,7 +120,7 @@
 			% 		end
 			% 	end
 			</select>
-			<small><a href="#" onclick="javascript:return viewAllCong();">View all members</a></small>
+			<small><a href="/congress/house" id="view_all_members">View all members</a></small>
 		</h5>
 
 		% if plotIdeology:

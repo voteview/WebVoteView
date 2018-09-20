@@ -253,7 +253,7 @@ function generateGlanceChart(error, parties, glance, configFile) {
 	$("#loading-container").delay(200).slideUp(100)
 	$("#content").fadeIn();
 
-	generatePartyList(parties);
+	generatePartyList(globalParties);
 }
 
 function drawLegend()
@@ -307,6 +307,7 @@ function generatePartyList(parties)
 	console.time("partyList");
 	var j=0;
 
+	// Helper function to explain the active label:
 	function activeLabel(pData)
 	{
 		if(pData["broken"] != undefined) { return "Occasional"; }
@@ -316,31 +317,38 @@ function generatePartyList(parties)
 		if(pData["min"] == pData["max"]) return getGetOrdinal(pData["min"]);
 		else if(pData["max"] >= max) return getGetOrdinal(pData["min"]) + " onward";
 		return getGetOrdinal(pData["min"]) + "-" + getGetOrdinal(pData["max"]);
-
-		/*
-		if(pData["min"] == pData["max"]) return getGetOrdinal(pData["min"]) + " <small>(" + minDate + "-" + maxDate + ")</small>";
-		else if(pData["max"] >= max) return getGetOrdinal(pData["min"]) + " <small>(" + minDate + ")</small> onwards";
-		return getGetOrdinal(pData["min"]) + "-" + getGetOrdinal(pData["max"]) + "";
-		*/
 	}
 
-	var listParties = parties.slice();
-	listParties.sort(function(a, b) {
+	// Sort functions:
+	function sizeSort(a, b)
+	{
 		// First, sort by bucket
 		var bucketA = (a[1]["count"] > 10000) ? 2 : (a[1]["count"] > 100 || $.inArray(a[0], [7777, 1346, 8000]) != -1) ? 1 : 0;
 		var bucketB = (b[1]["count"] > 10000) ? 2 : (b[1]["count"] > 100 || $.inArray(b[0], [7777, 1346, 8000]) != -1) ? 1 : 0;
 
 		// And if the bucket is the same, sort by last year, and if that is the same, sort by number.
-		return (bucketB - bucketA) ? bucketB - bucketA : (b[1]["maxCongress"] - a[1]["maxCongress"]) ? b[1]["maxCongress"] - a[1]["maxCongress"] : b[1]["minCongress"] - a[1]["minCongress"];
-	});
+		return (bucketB - bucketA) ? bucketB - bucketA : 
+			(b[1]["maxCongress"] - a[1]["maxCongress"]) ? b[1]["maxCongress"] - a[1]["maxCongress"] : b[1]["minCongress"] - a[1]["minCongress"];
+	}
+
+	// Slice copies the array so we can munge it if necessary.
+	var listParties = parties.slice();
+	// Now sort in the intended direction.
+	listParties.sort(sizeSort);
 	
+	// Build party table.
+	var partyTable = $("<table></table>").attr("id", "partyTimelineTable");
 
-	var headerRow = $("<div></div>").addClass("row").addClass("party_row");
-	var headerName = $("<div></div>").html("<strong>Party Name</strong>").addClass("col-md-3").appendTo(headerRow);
-	var headerDates = $("<div></div>").html("<strong>Congresses</strong>").addClass("col-md-2").appendTo(headerRow);
-	var headerTimeline = $("<div></div>").html("<strong>Timeline</strong>").addClass("col-md-6").appendTo(headerRow);
-	headerRow.appendTo($("#content"));
+	// Header.
+	var headerBox = $("<thead></thead>");
+	var headerRow = $("<tr></tr>").addClass("row party_row");
+	$("<th></th>").html("Party Name").addClass("col-md-3").appendTo(headerRow);
+	$("<th></th>").html("Congresses").addClass("col-md-2").appendTo(headerRow);
+	$("<th></th>").html("Activity").addClass("col-md-6").appendTo(headerRow);
+	headerRow.appendTo(headerBox);
+	headerBox.appendTo(partyTable);
 
+	var bodyBox = $("<tbody></tbody>");
 	for(var i=0;i!=listParties.length;i++)
 	{
 		if(listParties[i][0] == 328) continue;
@@ -356,11 +364,17 @@ function generatePartyList(parties)
 		catch(e) { pData["col"] = "grey"; console.log("color problem" + party[0]); }
 
 	 	// Build the row.
-		var partyRow = $("<div></div>").addClass("row").addClass("party_row").attr("data-party", pData["id"]).attr("data-name", pData["slug"]);
-		var nameColumn = $("<div></div>").addClass("col-md-3");
+		var partyRow = $("<tr></tr>").addClass("row party_row").attr("data-party", pData["id"]).attr("data-name", pData["slug"]);
+
+		// Name
+		var nameColumn = $("<td></td>").addClass("col-md-3");
 		var partyLink = $("<a></a>").attr("href", "/parties/" + pData["id"] + "/" + pData["slug"]).html(pData["name"]).appendTo(nameColumn);
 		nameColumn.appendTo(partyRow);
-		var activeColumn = $("<div></div>").addClass("col-md-2").html(activeLabel(pData)).appendTo(partyRow);
+
+		// Dates active
+		$("<td></td>").html(activeLabel(pData))
+			.attr("data-sort-value", pData["min"])
+			.addClass("col-md-2").appendTo(partyRow);
 
 		// Visual tracking of timeline
 		var leftPadding = Math.round(100 * (pData["min"] - 1) / max) + "%";
@@ -369,21 +383,34 @@ function generatePartyList(parties)
 		// For sporadic labels, just show a broken bar.
 		var rowClass = (pData["broken"] != null) ? "box_broken_" + pData["col"] : "box_" + pData["col"];
 
-		var timelineColumn = $("<div></div>")
-					.addClass("col-md-6");
+		var timelineHolder = $("<td></td>").addClass("col-md-6").attr("data-sort-value", i);
+		var timelineColumn = $("<div></div>");
 		var timelineMap = $("<div></div>")
 					.css("margin-left", leftPadding)
 					.addClass(rowClass)
 					.css("width", width)
 					.css("height", "20px")
 					.appendTo(timelineColumn);
-		timelineColumn.appendTo(partyRow);
+		timelineColumn.appendTo(timelineHolder);
+		timelineHolder.appendTo(partyRow);
 
 		partyRow.click(function(d) { window.location='/parties/' + $(this).attr("data-party") + '/' + $(this).attr("data-name"); });
-		partyRow.appendTo($("#content"));
+		partyRow.appendTo(bodyBox);
 	}
 
-	$("<div></div>").css("margin-bottom", "50px").appendTo($("#content"));
+	bodyBox.appendTo(partyTable);
+	partyTable.appendTo($("#parties_list"));
+	$.tablesorter.addParser({
+		id: "data",
+		is: function(s) { return false; },
+		format: function(s, table, cell, cellIndex) {
+			return $(cell).attr("data-sort-value");
+		},
+		type: "numeric"
+	});
+
+	$("#partyTimelineTable").tablesorter({headers: { 1: { sorter: "data" }, 2: { sorter: "data" }}});
+
 	console.timeEnd("partyList");
 
 }
