@@ -1,5 +1,6 @@
 import os
 from searchMembers import memberLookup
+from loyalty import getLoyalty
 
 def getBioImage(icpsr, default):
 	""" Check for file presence of bio image or fall back to default. """
@@ -119,5 +120,86 @@ def levenshtein(s1, s2):
 		previous_row = current_row
 	return previous_row[-1]
 
+def assemblePersonMeta(person, keith=0):
+    # Default name
+    person["bioname"] = person.get("bioname", "ERROR NO NAME IN DATABASE PLEASE FIX.")
+
+    # Check if bio image exists
+    default = "silhouette.png" if not keith else "keith.png"
+    person["bioImg"], bioFound = getBioImage(person["icpsr"], default)
+
+    # Get years of service
+    person["yearsOfService"] = getYearsOfService(person, "")
+    person["yearsOfServiceSenate"] = getYearsOfService(person, "Senate")
+    person["yearsOfServiceHouse"] = getYearsOfService(person, "House")
+
+    person["congressesOfService"] = person["congresses"]
+    person["congressLabels"] = {}
+    for congressChunk in person["congressesOfService"]:
+        for cong in range(congressChunk[0], congressChunk[1] + 1):
+            person["congressLabels"][cong] = str(cong) + "th Congress (" + str(
+                congressToYear(cong, 0)) + "-" + str(congressToYear(cong, 1)) + ")"
+
+    # Find out if we have any other ICPSRs that are this person for another
+    # party
+    altICPSRs = checkForPartySwitch(person)
+    if altICPSRs and "results" in altICPSRs:
+        person["altPeople"] = []
+        # Iterate through them
+        for alt in altICPSRs["results"]:
+            # Look up this one
+            altPerson = memberLookup({"icpsr": alt}, 1)["results"][0]
+            if not "errormessage" in altPerson:
+                # Get their years of service
+                altPerson["yearsOfService"] = getYearsOfService(altPerson, "")
+
+                if not altPerson["icpsr"] in [x["icpsr"] for x in person["altPeople"]]:
+                    person["altPeople"].append(altPerson)
+
+    loyalty = getLoyalty(person["party_code"], person["congress"])
+
+    person["party_loyalty"] = 100 * (1 - loyalty["party"]["nvotes_against_party"] / (
+        loyalty["party"]["nvotes_yea_nay"] * 1.0))
+
+    person["global_loyalty"] = 100 * (1 - loyalty["global"][
+                                      "nvotes_against_party"] / (loyalty["global"]["nvotes_yea_nay"] * 1.0))
+
+    # Quick hack to fix a minor annoying style choice in congressional bioguide.
+    if "biography" in person:
+        person["biography"] = person["biography"].replace("a Representative", "Representative")
+
+    # Biographical lived years string
+    if "died" in person and person["yearsOfService"][-1][1]>person["died"] and person["died"] is not None:
+        person["yearsOfService"][-1][1] = person["died"]
+    if "born" in person and "died" in person and person["born"] is not None and person["died"] is not None:
+        person["lifeString"] = "(%s-%s)" % (str(person["born"]), str(person["died"]))
+    elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None) and person["born"] < 1900:
+        person["lifeString"] = "(%s-??)" % str(person["born"])
+    elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None):
+        person["lifeString"] = "(%s-)" % str(person["born"])
+    elif "died" in person and person["died"] is not None:
+        person["lifeString"] = "(??-%s)" % str(person["died"])
+
+    # Fix their last name.
+    person["last_name"] = person["bioname"].split(",")[0].upper()[0] + person["bioname"].split(",")[0].lower()[1:]
+
+    if person["state"] != "President":
+        person["stateText"] = " of %s <img src=\"/static/img/states/%s.png\" class=\"member_flag\">" % (person["state"], person["state_abbrev"])
+    else:
+        person["stateText"] = ', President of the United States <img src="/static/img/states/US.png" class="member_flag">'
+
+    person["plotIdeology"] = 1 if "nominate" in person and "dim1" in person["nominate"] and person["nominate"]["dim2"] is not None else 0
+
+    return person
+
+def twitterCard(person):
+	if not "twitter_card" in person:
+		return None
+
+	twitter_card = person["twitter_card"]
+	twitter_card["icpsr"] = person["icpsr"]
+	return twitter_card
+
 if __name__=="__main__":
 	print checkForPartySwitch(memberLookup({'icpsr': 14910},1)["results"][0])
+

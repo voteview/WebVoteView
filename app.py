@@ -19,11 +19,12 @@ from model.searchMembers import memberLookup, getMembersByCongress, getMembersBy
 from model.searchParties import partyLookup
 from model.articles import get_article_meta, list_articles
 from model.searchMeta import metaLookup
-from model.bioData import checkForPartySwitch, congressesOfService, congressToYear, getBioImage, getYearsOfService
+from model.bioData import congressToYear, assemblePersonMeta, twitterCard
 from model.prepVotes import prepVotes
 from model.geoLookup import addressToLatLong, latLongToDistrictCodes, lat_long_to_polygon
 from model.searchAssemble import assembleSearch
 from model.slide_carousel import generate_slides
+from model.loyalty import getLoyalty
 
 import model.downloadXLS
 import model.stashCart
@@ -261,14 +262,7 @@ def parties(party="all", congStart=-1):
 def getloyalty(party_code="", congress=""):
     party_code = defaultValue(bottle.request.params.party_code, party_code)
     congress = defaultValue(bottle.request.params.congress, congress)
-
-    party_loyalty = partyLookup({"id": int(party_code)}, "Web_Members")
-    party_cong_loyalty = party_loyalty[str(congress)]
-
-    global_loyalty = metaLookup("Web_Members")
-    global_cong_loyalty = global_loyalty["loyalty_counts"][str(congress)]
-
-    return {"global": global_cong_loyalty, "party": party_cong_loyalty}
+    return getLoyalty(party_code, congress)
 
 @app.route("/articles/<slug>")
 def article(slug = ""):
@@ -302,62 +296,10 @@ def person(icpsr=0, garbage=""):
     # Extract the actual result.
     person = person["results"][0]
 
-    # Default name
-    person["bioname"] = person.get("bioname", "ERROR NO NAME IN DATABASE PLEASE FIX.")
+    # Assemble data
+    person = assemblePersonMeta(person, keith)
+    twitter_card = twitterCard(person)
 
-    # Check if bio image exists
-    default = "silhouette.png" if not keith else "keith.png"
-    person["bioImg"], bioFound = getBioImage(person["icpsr"], default)
-    timeIt("bioImg")
-
-    # Get years of service
-    person["yearsOfService"] = getYearsOfService(person, "")
-    person["yearsOfServiceSenate"] = getYearsOfService(person, "Senate")
-    person["yearsOfServiceHouse"] = getYearsOfService(person, "House")
-
-    person["congressesOfService"] = person["congresses"]
-    person["congressLabels"] = {}
-    for congressChunk in person["congressesOfService"]:
-        for cong in range(congressChunk[0], congressChunk[1] + 1):
-            person["congressLabels"][cong] = str(cong) + "th Congress (" + str(
-                congressToYear(cong, 0)) + "-" + str(congressToYear(cong, 1)) + ")"
-
-    timeIt("congressLabels")
-
-    # Find out if we have any other ICPSRs that are this person for another
-    # party
-    altICPSRs = checkForPartySwitch(person)
-    if altICPSRs and "results" in altICPSRs:
-        person["altPeople"] = []
-        # Iterate through them
-        for alt in altICPSRs["results"]:
-            # Look up this one
-            altPerson = memberLookup({"icpsr": alt}, 1)["results"][0]
-            if not "errormessage" in altPerson:
-                # Get their years of service
-                altPerson["yearsOfService"] = getYearsOfService(altPerson, "")
-
-                if not altPerson["icpsr"] in [x["icpsr"] for x in person["altPeople"]]:
-                    person["altPeople"].append(altPerson)
-
-    timeIt("partySwitches")
-    loyalty = getloyalty(person["party_code"], person["congress"])
-    person["party_loyalty"] = 100 * (1 - loyalty["party"]["nvotes_against_party"] / (
-        loyalty["party"]["nvotes_yea_nay"] * 1.0))
-    person["global_loyalty"] = 100 * (1 - loyalty["global"][
-                                      "nvotes_against_party"] / (loyalty["global"]["nvotes_yea_nay"] * 1.0))
-
-    # Quick hack to fix a minor annoying style choice in congressional bioguide.
-    if "biography" in person:
-        person["biography"] = person["biography"].replace("a Representative", "Representative")
-
-    if not "twitter_card" in person:
-        twitter_card = 0
-    else:
-        twitter_card = person["twitter_card"]
-        twitter_card["icpsr"] = person["icpsr"]
-
-    timeIt("readyOut")
     # Go to the template.
     output = bottle.template("views/person", person=person,
                              timeSet=zipTimes(), skip=0, twitter_card=twitter_card)
@@ -651,7 +593,6 @@ def searchAssemble():
 def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
     icpsr = defaultValue(bottle.request.params.icpsr, 0)
     qtext = defaultValue(bottle.request.params.qtext, "")
-    skip = 0
     skip = defaultValue(bottle.request.params.skip, 0)
 
     if not icpsr:

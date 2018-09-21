@@ -8,34 +8,8 @@
 % end
 % rebase("base.tpl",title=pageTitle, extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css", "person.css"])
 % include('header.tpl')
-% current_page_number = 1
 % import datetime
-
-% if "died" in person and person["yearsOfService"][-1][1]>person["died"] and person["died"] is not None:
-%       person["yearsOfService"][-1][1] = person["died"]
-% end
-% if "born" in person and "died" in person and person["born"] is not None and person["died"] is not None:
-% 	lifeString = "("+str(person["born"])+"-"+str(person["died"])+")"
-% elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None) and person["born"]<1900:
-%	lifeString = "("+str(person["born"])+"-??)"
-% elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None):
-%	lifeString = "("+str(person["born"])+"-)"
-% elif "died" in person and person["died"] is not None:
-%	lifeString = "(??-"+str(person["died"])+")"
-% else:
-%	lifeString = ""
-% end
-% plotIdeology=0
-% if "nominate" in person and "dim1" in person["nominate"] and person["nominate"]["dim2"] is not None:
-%	plotIdeology = 1
-% end
-% person["last_name"] = person["bioname"].split(",")[0].upper()[0]+person["bioname"].split(",")[0].lower()[1:]
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
-% if person["state"]!="President":
-% 	stateText = " of "+person["state"]+' <img src="/static/img/states/'+person["state_abbrev"]+'.png" class="member_flag">'
-% else:
-%	stateText = ', President of the United States <img src="/static/img/states/US.png" class="member_flag">'
-% end
 % district_class = "hide_district_c" if not "district_code" in person or person["district_code"] in [0, 98, 99] else "show_district_c"
 <div class="container">
     <div class="row">
@@ -44,11 +18,11 @@
         </div>
         <div class="col-md-5">
 		<h2 class="bio">
-			{{ person["bioname"] }} {{lifeString}}
+			{{ person["bioname"] }} {{person["lifeString"]}}
 		</h2>
 
             <h4>
-		<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!stateText}}
+		<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!person["stateText"]}}
 	    </h4>
 
 	    <h4 id="show_district" class="{{district_class}}">
@@ -58,7 +32,7 @@
 	    % for serviceSet in ["Senate", "House"]:
 		% if "yearsOfService"+serviceSet in person and len(person["yearsOfService"+serviceSet]):
 	    <h4>
-		% if person["yearsOfService"+serviceSet][-1][1]>datetime.datetime.now().year:
+		% if person["yearsOfService"+serviceSet][-1][1] > datetime.datetime.now().year:
 			Serving in {{serviceSet}}
 		% else:
 			Served in {{serviceSet}}
@@ -82,9 +56,9 @@
 	    <h5>
 		% k = 0
 		% for alt in person["altPeople"]:
-			% if alt["yearsOfService"][0][0]>=person["yearsOfService"][-1][0]:
+			% if alt["yearsOfService"][0][0] >= person["yearsOfService"][-1][0]:
 			Subsequently served as 
-			% elif alt["yearsOfService"][-1][1]<=person["yearsOfService"][0][1]:
+			% elif alt["yearsOfService"][-1][1] <= person["yearsOfService"][0][1]:
 			Previously served as 
 			% end
 			% if k>0:
@@ -123,7 +97,7 @@
 			<small><a href="/congress/house" id="view_all_members">View all members</a></small>
 		</h5>
 
-		% if plotIdeology:
+		% if person["plotIdeology"]:
 		<ul class="nav nav-tabs">
 			<li role="presentation" class="active"><a href="#" data-toggle="ideologyHolder">Ideology</a></li>
 			<li role="presentation"><a href="#" data-toggle="loyaltyTable">Attendance and Loyalty</a></li>
@@ -131,9 +105,9 @@
 		% end
 
 		<div id="ideologyHolder">
-		% if plotIdeology:
+		% if person["plotIdeology"]:
 		<div id="nominateHist" class="dc-chart">
-			% if "total_number_of_votes" in person["nominate"] and person["nominate"]["total_number_of_votes"]<100:
+			% if "total_number_of_votes" in person["nominate"] and person["nominate"]["total_number_of_votes"] < 100:
 			<div class="alert alert-info" role="alert">
 			<strong>Note:</strong> This member has cast relatively few votes and so their ideological score may be unstable or inaccurate. Members who have cast at least 100 votes have more reliable scores.
 			</div>
@@ -142,7 +116,7 @@
 			
 		% else:
 		<div class="alert alert-info" role="alert">
-			% if person["chamber"]!="President":
+			% if person["chamber"] != "President":
 			<strong>Note:</strong> We can only calculate an ideological score for members who have completed a minimum number of rollcall votes.
 			% else:
 			<strong>Note:</strong> Data on presidential position-taking comes from CQ. CQ has not supplied us with a sufficient amount of data about {{person["bioname"]}} to calculate an ideological score.
@@ -173,7 +147,7 @@
 		</div>
 	</div>
 	% end
-	% if "biography" in person and "served_as_speaker" in person and person["served_as_speaker"] and person["chamber"]!="President":
+	% if "biography" in person and "served_as_speaker" in person and person["served_as_speaker"] and person["chamber"] != "President":
 	<div class="alert alert-warning">
 		<strong>Notice:</strong> By custom, the Speaker of the House rarely votes. Votes for {{person["bioname"]}} may appear to be missing as a result.
 	</div>
@@ -222,7 +196,7 @@ var memberICPSR = {{person["icpsr"]}};
 var congressNum = {{person["congress"]}};
 var globalNextId = 0;
 </script>
-% if plotIdeology:
+% if person["plotIdeology"]:
 <script>
 var mapParties=1;
 % if person["chamber"] == "House":
