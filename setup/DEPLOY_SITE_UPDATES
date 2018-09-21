@@ -53,19 +53,9 @@ EOF
 	scp -r rudkin@vanguard.voteview.com:dump_db ./
 	scp -r rudkin@vanguard.voteview.com:/var/www/voteview/static/img/twitterCard /var/www/WebVoteView/static/img/
 	scp -r rudkin@vanguard.voteview.com:/var/www/voteview/static/data/ /var/www/WebVoteView/static/data/
-	scp -r rudkin@vanguard.voteview.com:/var/www/voteview/static/img/bios /var/www/WebVoteView/static/img/
-	rsync -avzP rudkin@vanguard.voteview.com:/var/www/voteview/static/docs/ /var/www/WebVoteView/static/docs/
 	rsync -avzP --copy-links rudkin@vanguard.voteview.com:/var/www/voteview/static/db/current.zip /var/www/WebVoteView/static/db/current.zip
 	rsync -avzP rudkin@vanguard.voteview.com:/var/www/voteview/static/img/scans /var/www/WebVoteView/static/img/
 	rsync -avzP rudkin@vanguard.voteview.com:/var/www/voteview/static/data/out /var/www/WebVoteView/static/data/
-
-	echo "Temp fix for JSON files."
-	rm -rf /var/www/WebVoteView/static/json/
-	rm -rf /var/www/WebVoteView/static/partyjson/
-	rm -rf /var/www/WebVoteView/static/controljson/
-	scp -r rudkin@vanguard.voteview.com:/usr/scripts/support_json/controljson /var/www/WebVoteView/static/
-	scp -r rudkin@vanguard.voteview.com:/usr/scripts/support_json/json /var/www/WebVoteView/static/
-	scp -r rudkin@vanguard.voteview.com:/usr/scripts/support_json/partyjson /var/www/WebVoteView/static/
 
 	echo "Connecting to remote server to remove remote dump."
 	ssh rudkin@vanguard.voteview.com << EOF
@@ -94,9 +84,13 @@ EOF
 	# Build site articles
 	cd /usr/scripts/article_builder/
 	./build.sh
-	cd /var/www/
+
+	# Deploy other static stuff
+	cd /usr/scripts/deploy_photos
+	./deploy.sh
 
 	# Recursively change permissions so we don't need root to edit files on prod.
+	cd /var/www/
 	chown -R rudkin voteview
 	chgrp -R voteview voteview
 
