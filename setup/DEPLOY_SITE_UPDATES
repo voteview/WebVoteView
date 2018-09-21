@@ -31,8 +31,6 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Copying secure authentication files from existing deployment."
 	# This copies authentication files because they are .gitignored and thus not in the repo downloaded above
 	cp voteview/model/*.json WebVoteView/model/
-	cp voteview/model/email/newsletter_list.json WebVoteview/model/email/newsletter_list.json
-	chmod 0777 WebVoteview/model/email/newsletter_list.json
 
 	# This goes to dev server and dumps the entire mongo db
 	echo "Connecting to development server for database dump"
