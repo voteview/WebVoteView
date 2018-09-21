@@ -1,3 +1,32 @@
+#footer {
+    width: 100%;
+    height: 90px;
+    background-color: #3284bf;
+    overflow: hidden;
+    margin-top: 0px;
+    display: none;
+}
+
+.fixed_footer {
+	position: fixed;
+	bottom: 0;
+}
+
+div#footer div {
+    height: 90px;
+}
+
+div#footer div span {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+div#footer img {
+    height: 76px;
+    vertical-align: middle;
+}
+
 #scatter-container {
     width: 890px;
     height: 425px;
@@ -303,3 +332,322 @@ path.median
 	fill:none !important;
 	stroke-width:3px !important;
 }
+
+/* Color Classes */
+.red { border-left: 3px solid #ca0020 !important; }
+.orange { border-left: 3px solid #e66101 !important; }
+.yellow { border-left: 3px solid #fecc5c !important; }
+.green { border-left: 3px solid #008837 !important; }
+.teal { border-left: 3px solid #018571 !important; }
+.blue { border-left: 3px solid #0571b0 !important; }
+.purple { border-left: 3px solid #7b3294 !important; }
+.pinkpurple { border-left: 3px solid #d01c8b !important; }
+.grey { border-left: 3px solid #404040 !important; }
+.brown { border-left: 3px solid #a6611a !important; }
+
+.red_text { color: #CA0020; }
+.orange_text { color: #E66101; }
+.yellow_text { color: #008837; }
+.green_text { color: #008837; }
+.teal_text { color: #018571; }
+.blue_text { color: #0571B0; }
+.purple_text { color: #7B3294; }
+.pinkpurple_text { color: #D01C8B; }
+.grey_text { color: #404040; }
+.brown_text { color: #A6611A; }
+rect.red { fill: #ca0020; }
+rect.orange { fill:#e66101; }
+rect.yellow { fill: #fecc5c; }
+rect.green { fill: #008837; }
+rect.teal { fill: #018571; }
+rect.blue { fill: #0571b0; }
+rect.purple { fill: #7b3294; }
+rect.pinkpurple { fill: #d01c8b; }
+rect.grey { fill: #404040; }
+rect.brown { fill: #a6611a; }
+
+/* Contact page */
+#result_contact { display: none; }
+#result_newsletter { display: none; }
+.loading_logo_hide { display: none; padding-left: 20px; }
+
+/* Geography page */
+.ideology { width: 50px; border-left: 1px solid grey; border-right: 1px solid grey; overflow: none; padding: 0 !important;}
+.nom_ideology { height: 35px; overflow: auto; display: block; }
+#geolocationTutorial { display: none; }
+#locationButton { display: none; }
+#warnings { display: none; }
+#loadProgress { display: none; }
+#google_map { width:100%; height: 100%; }
+#mapContainer { padding-top: 10px; height: 300px; }
+.address_marker { padding-top: 10px; padding-bottom: 10px; }
+.notableExamples { columns: 3; cursor: pointer; overflow: hidden;}
+#testData { height: 50px; }
+.loadDistrict { width: 16px; }
+
+.geo_nom_red { border-right: 3px solid #CA0020; }
+.geo_nom_orange { border-right: 3px solid #E66101; }
+.geo_nom_yellow { border-right: 3px solid #008837; }
+.geo_nom_green { border-right: 3px solid #008837; }
+.geo_nom_teal { border-right: 3px solid #018571; }
+.geo_nom_blue { border-right: 3px solid #0571B0; }
+.geo_nom_purple { border-right: 3px solid #7B3294; }
+.geo_nom_pinkpurple { border-right: 3px solid #D01C8B; }
+.geo_nom_grey { border-right: 3px solid #404040; }
+.geo_nom_brown { border-right: 3px solid #A6611A; }
+
+/* Vote page */
+.voteTable { list-style-type: none; overflow: auto; }
+.columns1 { columns: 1; width: 25%; }
+.columns2 { columns: 2; width: 50%; }
+.columns3 { columns: 3; width: 75%; }
+.columns4 { columns: 4; width: 100%; }
+div#mapTooltip span.meta { color: grey; font-size: 0.9em; }
+ul.voteTable li { padding-bottom: 3px; width:100%; }
+ul.voteTable li strong { text-decoration: underline; }
+ul.voteTable li span { background-color: white; padding-right: 5px; }
+ul.voteTable li span span.bullet { color: red; }
+ul.voteTable li span span.meta { color: grey; font-size: 0.9em; }
+ul.voteTable li span.sponsor { background-color: yellow; }
+ul.voteTable li.voter { display: inline-block; }
+ul.voteTable li.dotted { }
+ul.voteTable li.sponsor { background-color: yellow; }
+ul.voteTable li.sponsor span { background-color: yellow; }
+ul.voteTable li span.vote { padding-right: 40px; float: right; }
+ul.voteTable li span.bullet { color: red; }
+#voterTooltip { min-width: 320px; visibility: hidden; }
+#voterTooltip img { width: 80px; }
+#voterTooltip div.profile { padding-right: 10px; vertical-align: middle; height: 100%; min-height: 100px; }
+#voterTooltip div.text { font-size: 0.9em; vertical-align: middle; padding-top: 5px; }
+.memberBox { overflow: hidden; break-inside: avoid-column; margin-top: 10px; margin-bottom: 10px; text-align: center; }
+#memberTextTable { width: 80%; min-width: 500px; }
+
+/* Data page */
+#format option#format_ord { display: none; }
+#data_download_container { display: none; }
+.padded_botom { padding-bottom: 3px; }
+.padded_left { padding-left: 50px; }
+.text_aligned_image { vertical-align: top; height: 24px; }
+
+/* Party Members */
+.party_members { columns: auto 4; list-style-type: none; overflow: auto; width: 100%; margin-bottom: 40px; }
+
+/* Party Page */
+.slide_party { height: 90px; margin-left: 100px; margin-right: 100px; }
+.map_row { padding-bottom: 60px; }
+span.congressControl input[type=text] { width: 50px; }
+.roster_header { padding-bottom: 10px; }
+.roster_header h4 { display: inline; }
+span.congressControl span#playButton { cursor: pointer; }
+span.congressControl span#pauseButton { cursor: pointer; display: none; }
+span.party_header { padding-right: 20px; }
+
+/* Parties at a Glance */
+#alertPartiesGlance { margin-bottom: 20px; }
+#closeAlert { float: right; text-decoration: none; }
+.party_row td { padding-top: 2px; padding-bottom: 2px; cursor: pointer; }
+
+.box_red { background-color: #ca0020 !important; }
+.box_orange { background-color: #e66101 !important; }
+.box_yellow { background-color: #fecc5c !important; }
+.box_green { background-color: #008837 !important; }
+.box_teal { background-color: #018571 !important; }
+.box_blue { background-color: #0571b0 !important; }
+.box_purple { background-color: #7b3294 !important; }
+.box_pinkpurple { background-color: #d01c8b !important; }
+.box_grey { background-color: #404040 !important; }
+.box_brown { background-color: #a6611a !important; }
+
+.box_broken_red { border-left: 3px solid #ca0020 !important; border-right: 3px solid #ca0020 !important; }
+.box_broken_orange { border-left: 3px solid #e66101 !important; border-right: 3px solid #e66101 !important;}
+.box_broken_yellow { border-left: 3px solid #fecc5c !important; border-right: 3px solid #fecc5c !important;}
+.box_broken_green { border-left: 3px solid #008837 !important; border-right: 3px solid #008837 !important;}
+.box_broken_teal { border-left: 3px solid #018571 !important; border-right: 3px solid #018571 !important;}
+.box_broken_blue { border-left: 3px solid #0571b0 !important; border-right: 3px solid #0571b0 !important;}
+.box_broken_purple { border-left: 3px solid #7b3294 !important; border-right: 3px solid #7b3294 !important;}
+.box_broken_pinkpurple { border-left: 3px solid #d01c8b !important; border-right: 3px solid #d01c8b !important;}
+.box_broken_grey { border-left: 3px solid #404040 !important; border-right: 3px solid #404040 !important;}
+.box_broken_brown { border-left: 3px solid #a6611a !important; border-right: 3px solid #a6611a !important;}
+
+/* Congress Page */
+.congress_header { height: 40px; }
+#congress_selector { font-size: 19px; float: left; padding-right: 30px; text-align: middle; }
+#partyComposition { float: right; padding-right: 50px; }
+.roster_header { padding-bottom: 20px; }
+.roster_header h4 { display:inline; }
+#memberList { columns: auto 4; list-style-type: none; overflow: auto; width: 100%; margin-bottom: 60px; }
+#memberTextList { margin-bottom: 40px; }
+.save_icon { margin-left: 5px; font-size: 22px; vertical-align: middle; cursor: pointer; } 
+#scatter-container { margin: 0 auto 10px auto; }
+#filterName { float: right; }
+.column1 { columns: 1 !important; width: 25% !important; }
+.column2 { columns: 2 !important; width: 50% !important; }
+.column3 { columns: 3 !important; width: 75% !important; }
+.column4 { columns: 4 !important; width: 100$ !important; }
+
+/* Vote Display Page */
+.loading_throbber { margin-left: 10px; width: 24px; vertical-align: middle; }
+.ensure_map { min-width: 800px; margin-right: 25px; }
+#errorContent { display: none; }
+#holdHatching { width: 0; height: 0; }
+.loadedContent { display: none; }
+#geoMap { padding-bottom: 40px; }
+#geoMap h4 { float: left; clear: none; vertical-align: middle; }
+#geoMap .glyphicon-save { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; }
+#geoMap .noteText { margin-left: 5px; width: 22px; vertical-align: middle; }
+#geoMap #map-chart { margin-top: 10px; padding: 10px; vertical-align: bottom; }
+#geoMap #map-chart #zoomIn { position: absolute; left: 25px; top: 40px; width: 30px; height: 30px; }
+#geoMap #map-chart #zoomOut { position: absolute; left: 25px; top: 80px; width: 30px; height: 30px; }
+#geoMap #map-chart #suppressMapControls { display: none; }
+#geoMap #warnParty { display: none; }
+#suppressNominateControls { display: none; }
+#selectionFilterClose { display: none; width:32px; cursor: pointer; }
+#selectionFilterBar { display: none; }
+#selectionFilterBar #map-chart-controls { display: none; }
+#selectionFilterBar #vote-chart-controls { display: none; }
+#selectionFilterBar #nominate-chart-controls { display: none; }
+#selectionFilterBar #sparse-selection { display: none; }
+.sortHeader { text-align:middle; padding-top: 3px; }
+.voteHeader { font-size: 19px; float: left; padding-right: 30px; text-align: middle; }
+#voteList { margin-top: 15px; width: 100%; min-width: 1100px; }
+#vote_chart_float { position: static; padding-bottom: 20px; }
+#vote_chart_float .saveButton { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; color: black; }
+#vote_chart_float .xlsButton { margin-left: 5px; width: 22px; vertical-align: middle; }
+#vote_chart_float #suppressVoteChartControls { display: none; }
+.voteRow { margin-bottom: 50px; }
+.nominateSave { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; }
+#scatter-container { margin: 0 auto 0 auto; }
+.nominateExplainer { padding: 15px; margin: 10px; margin-bottom: 20px; font-size: 0.9em; }
+.meta_float { float: left; margin-right: 20px; }
+#key_vote_icon { padding-right: 10px; }
+#extendedDescription { display: none; }
+.heatmapTip { z-index: 10; opacity: 0.8; visibility: hidden; }
+
+/* CUSTOM: Slider width for when front page is small */
+.slider {
+    width: 95% !important;
+}
+
+.dev_header { background-color: red; color: yellow; }
+
+/* member_party_list */
+.member_flag { width: 20px; }
+.member_image { margin-right: 10px; }
+.member_bio { vertical-align: middle; padding-top: 5px; }
+.party_logo { height: 80px; vertical-align: middle; padding-right: 20px; }
+.party_box { padding-bottom: 10px; clear: both; }
+
+/* party page */
+.reset_party { display: none; }
+
+/* Mute reCAPTCHA */
+.g-recaptcha {
+  display: none !important
+}
+
+/* Carousel */
+#mainCarousel {
+	margin-bottom: 20px;
+}
+
+#mainCarousel .item {
+	background-color: #333333; 
+}
+
+.carousel .item {
+	min-height: 300px; 
+	max-height: 300px;
+}
+
+.carousel .item img {
+	height: 300px;
+	width: 100%;
+	margin: 0 auto;
+	overflow-x: hidden;
+}
+
+.carousel .item video {
+	height: 300px;
+	width: 100%;
+	margin: 0 auto;
+	overflow-x: hidden;
+}
+
+.carousel .item_light:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top:0; bottom: 0; left: 0; right: 0;
+	background:rgba(0, 0, 0, 0.2);
+}
+
+.carousel .item_medium:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top:0; bottom: 0; left: 0; right: 0;
+	background:rgba(0, 0, 0, 0.3);
+}
+
+.carousel .item_strong:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top:0; bottom: 0; left: 0; right: 0;
+	background:rgba(0, 0, 0, 0.5);
+}
+
+#mainCarousal div.item {
+	background-color: #333333;
+}
+
+/* Member page */
+.nav-tabs li a { padding: 5px 5px; }
+h3.biography { margin-top: 5px; }
+.memberBioImage { max-width:165px; padding-right:5px; padding-bottom:10px; }
+h2.bio { word-wrap: break-word; }
+h5.congSelector { padding-top:20px; padding-bottom:0px; }
+h5.congSelector small { padding-left: 10px; }
+#loyaltyTable { font-size: 0.8em; text-align: center; width: auto; display: none; }
+.bottomPad { padding-bottom: 20px; }
+.member_flag { width: 20px; vertical-align: middle; }
+.personSearch { padding-top: 10px; padding-bottom: 10px; clear: both; }
+.loadVotes { float: right; padding-top: 12px; min-width: 400px; width: 400px; }
+.member_vote_load { float: right; margin-right: 25px; display: none; }
+.hide_button_default { display: none; }
+.show_district_c { display: block; }
+.hide_district_c { display: none; }
+
+/* Search results */
+.keyvote { margin-right: 10px; }
+.viewVote { width: 24px; margin-right: 16px; vertical-align: middle; }
+.exportVote { width: 24px; vertical-align: middle; cursor: pointer; }
+.voteBody { cursor: pointer; }
+.debugText { font-size: 8px; }
+.advancedSearch { display: table-cell; width: 125px; vertical-align: middle; padding-left: 10px; font-size: 0.9em; }
+#suggestContainer { font-size: 0.8em; display: none; }
+#results-selects { display: none; }
+.support_box { padding: 30px; padding-bottom: 0px; }
+#sortBy { padding-top: 10px; text-align: right; vertical-align: top; }
+#relevanceAppear { display: none; }
+#errorTooManyVotes { display: none; }
+
+/* Member Vote Table */
+.text_right { text-align: right; }
+.text_center { text-align: center; }
+.cursor { cursor: pointer; }
+.prob_tutorial { margin-left: 0px; width: 2px; vertical-align: middle; cursor: pointer; }
+.prob_tooltip { text-align: left; font-weight: normal; }
+.vote_text_cell { border-right: 1px solid #dddddd; }
+.vote_button { margin-left: 10px; }
+.unlikely_vote { color: red; }
+.abstention { color: #B3B3B3; }
+.hide_date { display: none; }
+
+/* Member boxes */
+.memberPad10 { margin-right: 10px; }
+.memberPad5 { margin-right: 5px; }
+.namePad5 { margin-right: 5px; }
+.namePad0 { margin-right: 0px; }
+
+.pad_bottom { margin-bottom: 50px; }

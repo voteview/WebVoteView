@@ -14,15 +14,18 @@ from pdb import set_trace as st
 
 from model.searchVotes import query
 import model.downloadVotes  # Namespace issue
-from model.emailContact import sendEmail
+from model.emailContact import sendEmail, newsletterSub
 from model.searchMembers import memberLookup, getMembersByCongress, getMembersByParty, getMembersByPrivate
 from model.searchParties import partyLookup
 from model.articles import get_article_meta, list_articles
 from model.searchMeta import metaLookup
-from model.bioData import yearsOfService, checkForPartySwitch, congressesOfService, congressToYear
+from model.bioData import congressToYear, assemblePersonMeta, twitterCard
 from model.prepVotes import prepVotes
 from model.geoLookup import addressToLatLong, latLongToDistrictCodes, lat_long_to_polygon
 from model.searchAssemble import assembleSearch
+from model.slide_carousel import generate_slides
+from model.loyalty import getLoyalty
+
 import model.downloadXLS
 import model.stashCart
 import model.partyData
@@ -72,8 +75,6 @@ def getBase(urlparts):
     return domain
 
 # Helper function for handling bottle arguments and setting defaults:
-
-
 def defaultValue(x, value=None):
     return x is not "" and x or value
 
@@ -86,7 +87,6 @@ def defaultValue(x, value=None):
 @app.route('/static/<path:path>')
 def callback(path):
     return bottle.static_file(path, "./static")
-
 
 # Index
 @app.route("/")
@@ -133,8 +133,11 @@ def index(search_string=""):
             except:
                 pass
         timeIt("doneAssembly")
+
+        # Randomly sample some slides to show.
+	slides = generate_slides()
         output = bottle.template("views/search", args=argDict,
-                                 search_string=search_string, timeSet=zipTimes(), base_url=BASE_URL)
+                                 search_string=search_string, timeSet=zipTimes(), base_url=BASE_URL, slides = slides)
     except:
         output = bottle.template(
             "views/error", errorMessage=traceback.format_exc())
@@ -146,19 +149,16 @@ def index(search_string=""):
 # Static Pages with no arguments, just passthrough the template.
 # Really we should just cache these, but anyway.
 
-
 @app.route("/about")
 def about():
     output = bottle.template('views/about')
     return output
-
 
 @app.route("/quota")
 @app.route("/abuse")
 def quota():
     output = bottle.template("views/quota")
     return output
-
 
 @app.route("/data")
 def data():
@@ -168,13 +168,11 @@ def data():
     output = bottle.template("views/data", maxCongress=maxCongress, articles = data_articles, year = current_year)
     return output
 
-
 @app.route("/past_data")
 def past_data():
     blacklist = [".gitkeep"]
     folder_files = [x for x in reversed(sorted(os.listdir("static/db/"))) if x not in blacklist]
     return bottle.template("views/past_data", folder_files = folder_files)
-
 
 @app.route("/research")
 def research():
@@ -183,34 +181,36 @@ def research():
 
 
 # Pages that have arguments
-@app.route("/explore")
-@app.route("/explore/<chamber:re:house|senate>")
-def explore(chamber="house"):
-    # Security to prevent the argument being passed through being malicious.
-    if chamber != "senate":
-        chamber = "house"
-
-    output = bottle.template("views/explore", chamber=chamber)
-    return output
-
-
 @app.route("/congress")
 @app.route("/congress/<chamber:re:house|senate>")
+@app.route("/congress/<chamber:re:house|senate>/<congress_num:int>")
+@app.route("/congress/<chamber:re:house|senate>/<congress_num:int>/<tv>")
 @app.route("/congress/<chamber:re:house|senate>/<tv>")
-def congress(chamber="senate", tv=""):
+def congress(chamber="senate", congress_num=-1, tv=""):
+    maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
+
+    # Constrain chamber to senate/house
     if chamber != "senate":
         chamber = "house"
-    if tv != "text":
-        tv = ""
 
-    maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
-    congress = defaultValue(bottle.request.params.congress, maxCongress)
+    # Argument order weirdness in bottle: try to combine chamber/text
+    if tv != "text" and len(tv):
+        try:
+            congress_num = int(tv)
+            tv = ""
+        except:
+            tv = ""
+            congress_num = maxCongress
+
+    # Get meta args for NOMINATE
     meta = metaLookup()
 
-    output = bottle.template("views/congress", chamber=chamber, congress=congress, maxCongress=maxCongress,
+    memberLabel = "Senators" if chamber.title() == "Senate" else "Representatives"
+
+    output = bottle.template("views/congress", chamber=chamber, congress=congress_num, maxCongress=maxCongress,
                              dimweight=meta["nominate"][
                                  "second_dimweight"], nomBeta=meta["nominate"]["beta"],
-                             tabular_view=tv)
+                             tabular_view=tv, memberLabel=memberLabel)
     return output
 
 
@@ -227,51 +227,42 @@ def district(search=""):
 @app.route("/parties/<party>/<congStart>")
 @app.route("/parties/<party>")
 def parties(party="all", congStart=-1):
-    if type(congStart) == type(""):  # Capture SEO-friendly links.
+    maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
+
+    if isinstance(congStart, str):
         congStart = -1
 
     # Just default for now
     try:
         party = int(party)
     except:
-        maxCongress = json.load(open("static/config.json", "r"))["maxCongress"]
         output = bottle.template(
-            "views/partiesGlance", maxCongress=maxCongress)
+            "views/parties_glance", maxCongress=maxCongress)
         return output
 
     if congStart == -1:
-        congStart = int(
-            json.load(open("static/config.json", "r"))["maxCongress"])
+        congStart = int(maxCongress)
     else:
         try:
             congStart = int(congStart)
         except:
             congStart = 0
 
-    if party not in xrange(0, 50001):
+    # Try to clamp invalid party IDs
+    if party > 8000:
         party = 200
+
     partyData = model.partyData.getPartyData(party)
-    if "fullName" in partyData:
-        partyNameFull = partyData["fullName"]
-    else:
-        partyNameFull = ""
 
     output = bottle.template("views/parties", party=party, partyData=partyData,
-                             partyNameFull=partyNameFull, congStart=congStart)
+                             partyNameFull=partyData["fullName"], congStart=congStart)
     return output
 
 @app.route("/api/getloyalty")
 def getloyalty(party_code="", congress=""):
     party_code = defaultValue(bottle.request.params.party_code, party_code)
     congress = defaultValue(bottle.request.params.congress, congress)
-
-    party_loyalty = partyLookup({"id": int(party_code)}, "Web_Members")
-    party_cong_loyalty = party_loyalty[str(congress)]
-
-    global_loyalty = metaLookup("Web_Members")
-    global_cong_loyalty = global_loyalty["loyalty_counts"][str(congress)]
-
-    return {"global": global_cong_loyalty, "party": party_cong_loyalty}
+    return getLoyalty(party_code, congress)
 
 @app.route("/articles/<slug>")
 def article(slug = ""):
@@ -291,123 +282,28 @@ def person(icpsr=0, garbage=""):
     if not icpsr:
         icpsr = defaultValue(bottle.request.params.icpsr, 0)
 
-    skip = 0
-
     # Easter Egg
     keith = defaultValue(bottle.request.params.keith, 0)
 
-    # Pull by ICPSR
+    # Pull member by ICPSR
     person = memberLookup({"icpsr": icpsr}, 1)
     timeIt("memberLookup")
 
-    # If we have no error, follow through
-    if not "errormessage" in person:
-        person = person["results"][0]
-        if not "bioname" in person:
-            person["bioname"] = "ERROR NO NAME IN DATABASE PLEASE FIX."
-        votes = []
-        # Look up votes
-
-        timeIt("nameFunc")
-
-        # Check if bio image exists
-        bioFound = 0
-        if not os.path.isfile("static/img/bios/" + str(person["icpsr"]).zfill(6) + ".jpg"):
-            # If not, use the default silhouette
-            if not keith:
-                person["bioImg"] = "silhouette.png"
-            else:
-                person["bioImg"] = "keith.png"
-        else:
-            person["bioImg"] = str(person["icpsr"]).zfill(6) + ".jpg"
-            bioFound = 1
-
-        timeIt("bioImg")
-
-        # Get years of service
-        person["yearsOfService"] = yearsOfService(person["icpsr"], "")
-        person["yearsOfServiceSenate"] = yearsOfService(
-            person["icpsr"], "Senate")
-        person["yearsOfServiceHouse"] = yearsOfService(
-            person["icpsr"], "House")
-        # Fix final date of service to match final voting date.
-        try:
-            if len(person["yearsOfServiceSenate"]):
-                if person["yearsOfServiceSenate"][-1][1] > int(person["voting_dates"]["Senate"][1].split("-")[0]) and int(person["voting_dates"]["Senate"][1].split("-")[0]):
-                    person["yearsOfServiceSenate"][-1][1] = int(
-                        person["voting_dates"]["Senate"][1].split("-")[0])
-        except:
-            pass
-        try:
-            if len(person["yearsOfServiceHouse"]):
-                if person["yearsOfServiceHouse"][-1][1] > int(person["voting_dates"]["House"][1].split("-")[0]) and int(person["voting_dates"]["House"][1].split("-")[0]):
-                    person[
-                        "yearsOfServiceHouse"][-1][1] = int(person["voting_dates"]["House"][1].split("-")[0])
-        except:
-            pass
-
-        person["congressesOfService"] = congressesOfService(person[
-                                                            "icpsr"], "")
-        person["congressLabels"] = {}
-        for congressChunk in person["congressesOfService"]:
-            for cong in range(congressChunk[0], congressChunk[1] + 1):
-                person["congressLabels"][cong] = str(cong) + "th Congress (" + str(
-                    congressToYear(cong, 0)) + "-" + str(congressToYear(cong, 1)) + ")"
-
-        timeIt("congressLabels")
-
-        # Find out if we have any other ICPSRs that are this person for another
-        # party
-        altICPSRs = checkForPartySwitch(person)
-        if "results" in altICPSRs:
-            person["altPeople"] = []
-            # Iterate through them
-            for alt in altICPSRs["results"]:
-                # Look up this one
-                altPerson = memberLookup({"icpsr": alt}, 1)["results"][0]
-                if not "errormessage" in altPerson:
-                    # Get their years of service
-                    altPerson["yearsOfService"] = yearsOfService(altPerson[
-                                                                 "icpsr"])
-                    # If we don't have a bio image for main guy, borrow from
-                    # his previous/subsequent incarnations
-                    if not bioFound and os.path.isfile("static/img/bios/" + str(altPerson["icpsr"]).zfill(6) + ".jpg"):
-                        person["bioImg"] = str(
-                            altPerson["icpsr"]).zfill(6) + ".jpg"
-                        bioFound = 1
-
-                    if not altPerson["icpsr"] in [x["icpsr"] for x in person["altPeople"]]:
-                        person["altPeople"].append(altPerson)
-
-        timeIt("partySwitches")
-        loyalty = getloyalty(person["party_code"], person["congress"])
-        person["party_loyalty"] = 100 * (1 - loyalty["party"]["nvotes_against_party"] / (
-            loyalty["party"]["nvotes_yea_nay"] * 1.0))
-        person["global_loyalty"] = 100 * (1 - loyalty["global"][
-                                          "nvotes_against_party"] / (loyalty["global"]["nvotes_yea_nay"] * 1.0))
-
-        if "biography" in person:
-            person["biography"] = person["biography"].replace(
-                "a Representative", "Representative")
-
-        if not "twitter_card" in person:
-            twitter_card = 0
-        else:
-            twitter_card = person["twitter_card"]
-            twitter_card["icpsr"] = person["icpsr"]
-
-        timeIt("readyOut")
-        # Go to the template.
-        output = bottle.template("views/person", person=person,
-                                 timeSet=zipTimes(), skip=0, twitter_card=twitter_card)
+    if "errormessage" in person:
+        output = bottle.template("views/error", errorMessage=person["errormessage"])
         return(output)
 
-    # If we have an error, return an error page
-    else:
-        output = bottle.template(
-            "views/error", errorMessage=person["errormessage"])
-        return(output)
+    # Extract the actual result.
+    person = person["results"][0]
 
+    # Assemble data
+    person = assemblePersonMeta(person, keith)
+    twitter_card = twitterCard(person)
+
+    # Go to the template.
+    output = bottle.template("views/person", person=person,
+                             timeSet=zipTimes(), skip=0, twitter_card=twitter_card)
+    return(output)
 
 def count_images(publication, file_number):
     """Return the number of scans in the directory."""
@@ -447,6 +343,7 @@ def mark_linkable_sources(sources):
 @app.route("/rollcall")
 @app.route("/rollcall/<rollcall_id>")
 def rollcall(rollcall_id=""):
+    # Error handling: User did not specify valid query parameters.
     if not rollcall_id:
         output = bottle.template(
             "views/error", errorMessage="You did not provide a rollcall ID.")
@@ -456,15 +353,20 @@ def rollcall(rollcall_id=""):
             "views/error", errorMessage="You may only view one rollcall ID at a time.")
         return(output)
 
+    # Get the rollcall and also whether or not to collapse minor parties.
     rollcall = model.downloadVotes.downloadAPI(rollcall_id, "Web")
     mapParties = int(defaultValue(bottle.request.params.mapParties, 1))
 
+    # After we got the rollcall, we found it didn't exist.
     if not "rollcalls" in rollcall or "errormessage" in rollcall:
         output = bottle.template(
             "views/error", errorMessage=rollcall["errormessage"])
         return(output)
 
+    # Get NOMINATE params
     meta = metaLookup()
+
+    # Get sponsor info.
     sponsor = {}
     if "rollcalls" in rollcall and "sponsor" in rollcall["rollcalls"][0]:
         try:
@@ -473,15 +375,35 @@ def rollcall(rollcall_id=""):
         except:
             sponsor = {}
 
-    current_rollcall = rollcall['rollcalls'][0]
+    # Subset the rollcall to the stuff we care about.
+    current_rollcall = rollcall["rollcalls"][0]
+
+    # Make derived quantities we care about.
+    rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+    plotTitle = "Plot Vote: " + rcSuffix(current_rollcall["congress"]) + " Congress > " + \
+                current_rollcall["chamber"] + " > " + str(current_rollcall["rollnumber"])
+
+    notes = []
+    if int(current_rollcall["congress"]) < 86:
+        notes.append("State Boundaries depicted are as of the "
+                     + rcSuffix(current_rollcall["congress"]) + " Congress.")
+
+    if int(current_rollcall["congress"]) < 91 and current_rollcall["chamber"] == "House":
+        notes.append("Some states contain At-Large districts with more than one representative.")
+
+    noteText = ("<strong><u>NOTE</u></strong><br/><ul>" + " ".join(["<li>" + note + "</li>" for note in notes]) + "</ul>") if len(notes) else ""
+
+    # Display template.
     output = bottle.template(
         "views/vote",
         rollcall=current_rollcall,
-        dimweight=meta['nominate']['second_dimweight'],
+        dimweight=meta["nominate"]["second_dimweight"],
         nomBeta=meta["nominate"]["beta"],
         mapParties=mapParties,
         sponsor=sponsor,
-        sources=mark_linkable_sources(current_rollcall.get('dtl_sources', [])),
+        sources=mark_linkable_sources(current_rollcall.get("dtl_sources", [])),
+        noteText=noteText,
+        plotTitle=plotTitle
     )
     return(output)
 
@@ -671,7 +593,6 @@ def searchAssemble():
 def getMemberVotesAssemble(icpsr=0, qtext="", skip=0):
     icpsr = defaultValue(bottle.request.params.icpsr, 0)
     qtext = defaultValue(bottle.request.params.qtext, "")
-    skip = 0
     skip = defaultValue(bottle.request.params.skip, 0)
 
     if not icpsr:
@@ -736,10 +657,13 @@ def getPartyName():
 @app.route("/api/download")
 @app.route("/api/download/<rollcall_id>")
 def downloadAPI(rollcall_id=""):
+    print rollcall_id
     if not rollcall_id:
         rollcall_id = defaultValue(bottle.request.params.rollcall_id)
     apitype = defaultValue(bottle.request.params.apitype, "Web")
     res = model.downloadVotes.downloadAPI(rollcall_id, apitype)
+    for k, v in res.iteritems():
+        print k, v
     return(res)
 
 
@@ -774,16 +698,26 @@ def downloadXLS():
     else:
         statusCode, result = model.downloadXLS.downloadXLS(ids)
 
-    if statusCode == 0:
-        bottle.response.content_type = 'application/vnd.ms-excel'
-        currentDateString = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-        outputFilename = currentDateString + "_voteview_download.xls"
-        bottle.response.headers[
-            "Content-Disposition"] = "inline; filename=" + outputFilename
-        return(result)
-    else:  # Non-zero status code.
+    if statusCode != 0:
         return({"errormessage": result})
 
+    bottle.response.content_type = 'application/vnd.ms-excel'
+    currentDateString = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    outputFilename = currentDateString + "_voteview_download.xls"
+    bottle.response.headers[
+        "Content-Disposition"] = "inline; filename=" + outputFilename
+    return(result)
+
+@app.route("/api/newsletter", method="POST")
+@app.route("/api/newsletter")
+def newsletter():
+    try:
+        email = bottle.request.params.update_email
+        update_action = bottle.request.params.update_action
+        res = newsletterSub(email, update_action)
+        return(res)
+    except:
+        return({"error": "An unknown error occurred while processing your request."})
 
 @app.route("/api/contact", method="POST")
 @app.route("/api/contact")
@@ -798,7 +732,6 @@ def contact():
         res = sendEmail(title, body, person_name, email, recaptcha, ip)
         return(res)
     except:
-        return(traceback.format_exc())
         return({"error": "You must fill out the entire form before submitting."})
 
 
@@ -810,7 +743,6 @@ def stash(verb):
     except:
         votes = []
 
-    # return {"test": "foo"}
     return model.stashCart.verb(verb, id, votes)
 
 
@@ -850,7 +782,7 @@ def getData():
         return {"errorMessage": "Either type or unit specified incorrectly."}
 
     STATIC_URL = BASE_URL + "static/data/out/" + unit + "/"
-    
+
     if chamber == "house":
         chamberlet = "H"
     elif chamber == "senate":

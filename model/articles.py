@@ -17,16 +17,15 @@ except:
 db = client[dbConf["dbname"]]
 
 def get_article_meta(slug):
+	""" Return article metadata by slug. """
+
 	r = db.voteview_articles.find_one({"slug": slug, "hidden": {"$ne": 1}}, {"_id": 0})
 	return r
 
 def list_articles(tag_category):
-	if tag_category in ["data", "help"]:
-		sort_clause = "title"
-		sort_dir = 1
-	else:
-		sort_clause = "date_modified"
-		sort_dir = -1
+	""" List all articles in a given category. """
+
+	sort_clause, sort_dir = ("title", 1) if tag_category in ["data", "help"] else ("date_modified", -1)
 
 	rows = db.voteview_articles.find({"hidden": {"$ne": 1}, "tags": tag_category}).sort(sort_clause, sort_dir)
 

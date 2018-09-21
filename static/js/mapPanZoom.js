@@ -10,10 +10,13 @@
 
 	function zoomCSS()
 	{
-		if(zoom>=10) { d3.selectAll(".district").style("stroke-width", "0.05px"); }
-		else if(zoom>=4) { d3.selectAll(".district").style("stroke-width", "0.2px"); }
-		else if(zoom>=2) { d3.selectAll(".district").style("stroke-width", "0.6px"); }
-		else { d3.selectAll(".district").style("stroke-width", "1px"); }
+		var zoomClass = "stroke1";
+		switch(true) {
+			case (zoom >= 10): zoomClass = "stroke4"; break;
+			case (zoom >= 4): zoomClass = "stroke3"; break;
+			case (zoom >= 2): zoomClass = "stroke2"; break;
+		}
+		d3.selectAll(".district").attr("class", "district " + zoomClass);
 	}
 
 	function resetZoom()
@@ -36,7 +39,8 @@
 		else { zoomMult = 1; }
 
 		if(dir==1) { zoom=zoom+(incrementZoom*zoomMult); }
-		else { zoom=zoom-(incrementZoom*zoomMult); }
+		else if(dir==-1) { zoom=zoom-(incrementZoom*zoomMult); }
+
 		if(zoom<=minZoom) { zoom=minZoom; $("#zoomOut").fadeOut(); }
 		else { $("#zoomOut").fadeIn(); }
 		if(zoom>=maxZoom) 

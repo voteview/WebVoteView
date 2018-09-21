@@ -22,7 +22,7 @@ var partyMapping = {
 	"Silver": "Democrat"
 }
 if(congressNum==24) { partyMapping["States Rights"] = "Nullifier"; }
-if(congressNum==34) { partyMapping["Republican"] = "Oppsition"; }
+if(congressNum==34) { partyMapping["Republican"] = "Opposition"; }
 
 function partyNameSimplify(partyName)
 {

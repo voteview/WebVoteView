@@ -333,8 +333,10 @@ q
 				{ // If you move your mouse within the district, update the position of the tooltip.
 					if(baseToolTip.html().length) baseToolTip.style("visibility","visible");
 					else baseToolTip.style("visibility","hidden");
-					baseToolTip.style("top",(event.pageY+32)+"px")
-						.style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+
+					baseToolTip
+						.style("top", (event.pageY + 32) + "px")
+						.style("left", (event.pageX - (parseInt(eW.substr(0, eW.length - 2)) / 2)) + "px");
 				});
 
 			// Toggle off states that are not valid, put the legend and the title label.
@@ -401,7 +403,9 @@ q
 				.on("mousemove",function()
 				{
 					clearTimeout(opacityTimer);
-					baseToolTip.style("top",(event.pageY+32)+"px").style("left",(event.pageX-(parseInt(eW.substr(0,eW.length-2))/2))+"px");
+					baseToolTip
+						.style("top", (event.pageY + 32) + "px")
+						.style("left", (event.pageX - (parseInt(eW.substr(0, eW.length - 2)) / 2)) + "px");
 				})
 			})(i, this);
 		};

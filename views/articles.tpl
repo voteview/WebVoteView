@@ -16,7 +16,7 @@ if (window.hljs) {
 <div class="container">
 	<div class="row">
 		<div class="col-md-9">
-% include("static/articles/" + slug + "/" + slug + ".html")
+			% include("static/articles/" + slug + "/" + slug + ".html")
 		</div>
 	</div>
 </div>

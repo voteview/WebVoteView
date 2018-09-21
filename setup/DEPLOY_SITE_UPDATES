@@ -34,7 +34,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 
 	# This goes to dev server and dumps the entire mongo db
 	echo "Connecting to development server for database dump"
-	ssh rudkin@128.97.229.160 << EOF
+	ssh rudkin@vanguard.voteview.com << EOF
 	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
 	echo "Creating a database backup"
 	mkdir dump_db
@@ -50,17 +50,25 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Done dump"
 EOF
 	echo "Connecting to server to download dump..."
-	scp -r rudkin@128.97.229.160:dump_db ./
-	scp -r rudkin@128.97.229.160:/var/www/voteview/static/img/twitterCard /var/www/WebVoteView/static/img/
-	scp -r rudkin@128.97.229.160:/var/www/voteview/static/data/ /var/www/WebVoteView/static/data/
-	scp -r rudkin@128.97.229.160:/var/www/voteview/static/img/bios /var/www/WebVoteView/static/img/
-	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/docs/ /var/www/WebVoteView/static/docs/
-	rsync -avzP --copy-links rudkin@128.97.229.160:/var/www/voteview/static/db/current.zip /var/www/WebVoteView/static/db/current.zip
-	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/img/scans /var/www/WebVoteView/static/img/
-	rsync -avzP rudkin@128.97.229.160:/var/www/voteview/static/data/out /var/www/WebVoteView/static/data/
+	scp -r rudkin@vanguard.voteview.com:dump_db ./
+	scp -r rudkin@vanguard.voteview.com:/var/www/voteview/static/img/twitterCard /var/www/WebVoteView/static/img/
+	scp -r rudkin@vanguard.voteview.com:/var/www/voteview/static/data/ /var/www/WebVoteView/static/data/
+	scp -r rudkin@vanguard.voteview.com:/var/www/voteview/static/img/bios /var/www/WebVoteView/static/img/
+	rsync -avzP rudkin@vanguard.voteview.com:/var/www/voteview/static/docs/ /var/www/WebVoteView/static/docs/
+	rsync -avzP --copy-links rudkin@vanguard.voteview.com:/var/www/voteview/static/db/current.zip /var/www/WebVoteView/static/db/current.zip
+	rsync -avzP rudkin@vanguard.voteview.com:/var/www/voteview/static/img/scans /var/www/WebVoteView/static/img/
+	rsync -avzP rudkin@vanguard.voteview.com:/var/www/voteview/static/data/out /var/www/WebVoteView/static/data/
+
+	echo "Temp fix for JSON files."
+	rm -rf /var/www/WebVoteView/static/json/
+	rm -rf /var/www/WebVoteView/static/partyjson/
+	rm -rf /var/www/WebVoteView/static/controljson/
+	scp -r rudkin@vanguard.voteview.com:/usr/scripts/support_json/controljson /var/www/WebVoteView/static/
+	scp -r rudkin@vanguard.voteview.com:/usr/scripts/support_json/json /var/www/WebVoteView/static/
+	scp -r rudkin@vanguard.voteview.com:/usr/scripts/support_json/partyjson /var/www/WebVoteView/static/
 
 	echo "Connecting to remote server to remove remote dump."
-	ssh rudkin@128.97.229.160 << EOF
+	ssh rudkin@vanguard.voteview.com << EOF
 	rm -rf dump_db
 	touch /usr/scripts/voteview_metadata/hourly_backup/LAST_DOWNLOADED_TIMESTAMP
 	rm -rf /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt

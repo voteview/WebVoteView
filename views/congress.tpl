@@ -1,8 +1,7 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/jquery.tablesorter.min.js"])
+% rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/jquery.tablesorter.min.js", "/static/js/libs/localStorage.js"])
 % include('header.tpl')
-% memberLabel = (chamber.title()=="Senate" and "Senators" or "Representatives")
 <div class="container">
 	<div id="loading-container">
 		<h3>Loading members</h3>
@@ -10,79 +9,90 @@
 	</div>
 
 	<div id="content">
-		<div id="header" style="height:40px;">
-			<div style="font-size:19px;float:left;padding-right:30px;text-align:middle;">
-				<select id="congSelector">
-				% for i in range(maxCongress, 0, -1):
-				      	% yearLow = 1787+2*i
-					% yearHigh = yearLow + 2
-					% if int(i)==int(congress):
-					<option value="{{i}}" SELECTED>{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
-					% else:
-					<option value="{{i}}">{{rcSuffix(i)}} Congress ({{yearLow}}-{{yearHigh}})</option>
-					% end
-				% end
-				</select>
-				 &gt; <abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">{{memberLabel}}</abbr>
-			</div>
-			<div style="float:right;padding-right:50px;" id="partyComposition">
+		<div class="row">
+			<div class="col-md-12">
+				<div id="header" class="congress_header">
+					<div id="congress_selector">
+						<select id="congSelector">
+						% for i in range(maxCongress, 0, -1):
+							<option value="{{i}}"{{!" SELECTED" if int(i) == int(congress) else ""}}>
+								{{rcSuffix(i)}} Congress ({{1787 + (2 * i)}}-{{1789 + (2 * i)}})
+							</option>
+						% end
+						</select>
+						 &gt; 
+						<abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">
+							{{memberLabel}}
+						</abbr>
+					</div>
+					<div id="partyComposition"></div>
+				</div>
 			</div>
 		</div>
 
-		<!-- Nominate graph -->
-		% if not tabular_view:
-		<h4>DW-Nominate Plot
-				<span class="glyphicon glyphicon-save" style="margin-left:5px;font-size:22px;vertical-align:middle;cursor:pointer" 
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Nominate graph -->
+				% if not tabular_view:
+				<h4>DW-Nominate Plot
+				<span class="glyphicon glyphicon-save save_icon" 
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
 					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}_{{congress}}.png', {backgroundColor: 'white'}); return false;"
 					></span>
-		</h4>
+				</h4>
 
-		<div id="scatter-container" style="margin:0 auto 10px auto;">
-			<div id="scatter-bg">
-				<svg id="svg-bg"></svg> 
-			</div>
-			<div id="scatter-chart">
-				<span id="suppressNominateControls" style="display:none;"><span class="filter"></span></span>
+				<div id="scatter-container">
+					<div id="scatter-bg">
+						<svg id="svg-bg"></svg> 
+					</div>
+					<div id="scatter-chart">
+						<span id="suppressNominateControls"><span class="filter"></span></span>
+					</div>
+				</div>
+				% end
 			</div>
 		</div>
-		% end
 
-		<div style="text-align:middle;padding-bottom:10px;">
-			<h4 style="display:inline;">Roster</h4> 
+		<div class="row">
+			<div class="col-md-12">
+				<div class="roster_header">
+				<h4>Roster</h4>
+				% if not tabular_view:
+				(Sort by
+				<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
+				<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
+				<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
+				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
+				<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a> -- <a href="/congress/{{chamber}}/{{congress}}/text" id="textLink">Tabular View</a>)
+				<div id="filterName">
+					Filter Name: <input id="filter_name" type="text" placeholder="Don Young" oninput="javascript:delay_filter(); return false;">
+				</div>
+				% else:
+				(<a href="/congress/{{chamber}}/{{congress}}" id="graphicLink">Graphical List View</a>)
+				% end
+				</div>
+
 			% if not tabular_view:
-			(Sort by
-			<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
-			<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
-			<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
-			<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-			<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a> -- <a href="/congress/{{chamber}}/text">Tabular View</a>)
-			<div style="float:right;">
-				Filter Name: <input id="filter_name" type="text" placeholder="Don Young" oninput="javascript:delay_filter(); return false;">
-			</div>
+			<ul id="memberList" class="clearfix">
+			</ul>
 			% else:
-			(<a href="/congress/{{chamber}}">Graphical List View</a>)
+			<div id="memberTextList">
+			</div>
 			% end
-		</div>
-		% if not tabular_view:
-		<ul id="memberList" style="columns:auto 4; list-style-type: none; overflow: auto; width:100%; margin-bottom:40px;" class="clearfix">
-		</ul>
-		% else:
-		<div id="memberTextList" style="margin-bottom:40px;">
-		</div>
-		% end
 
+			</div>
+		</div>
 	</div>
 </div>
 
-<div id="selectionFilterBar" style="display:none;">
+<div id="selectionFilterBar">
 	<strong>Selected:</strong>
 	<span id="data-count"><span id="votertype"></span> with </span>
-	<span id="nominate-chart-controls" style="display:none;">NOMINATE scores within <span class="filter"></span>, </span>
-	<span id="name-controls" style="display:none;">names matching "<span class="filter"></span>"</span>
+	<span id="nominate-chart-controls">NOMINATE scores within <span class="filter"></span>, </span>
+	<span id="name-controls">names matching "<span class="filter"></span>"</span>
 	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
 </div>
-<img id="selectionFilterClose" style="display:none; width:32px; cursor:pointer;" onClick="javascript:doFullFilterReset();" src="/static/img/close.png">
+<img id="selectionFilterClose" onClick="javascript:doFullFilterReset();" src="/static/img/close.png">
 
 <script language="javascript">
 var chamber_param = "{{ chamber }}";

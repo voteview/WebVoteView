@@ -68,17 +68,17 @@ function decorateNominate(oc,data) {
 
 	gg.append('text')
             .text("Liberal")
-	    .attr("x", xAxisMin + 0.2*xAxisLen)
+	    .attr("x", xAxisMin + 0.02 * xAxisLen)
             .attr("y", yDimPos + 20)
-	    .attr("style","text-anchor:middle");
+	    .attr("style","text-anchor: start; fill: #808080;");
 	gg.append('text')
             .text("Conservative")
-            .attr("x", xAxisMin + 0.8*xAxisLen)
+            .attr("x", xAxisMin + 0.98 * xAxisLen)
             .attr("y", yDimPos + 20)
-            .attr("style","text-anchor:middle");
+            .attr("style","text-anchor: end; fill: #808080;");
 	gg.append('text')
 	     .text("DW-Nominate Dimension 1: Economic/Redistributive")
-             .attr("x", xAxisMin + xAxisLen/2).attr("y", yDimPos + 40)
+             .attr("x", xAxisMin + xAxisLen/2).attr("y", yDimPos + 20)
 	     .attr("style","text-anchor:middle");
 	// End X axis.
 
@@ -96,22 +96,22 @@ function decorateNominate(oc,data) {
 				     margin, yAxisMax));
 	gg.append('text')
 	     .text("Conservative")
-	     .attr("x", 40)
-             .attr("y", yAxisMin + 0.2*yAxisLen)
-             .attr("style","text-anchor:middle")
-             .attr("transform", sprintf("rotate(-90 40 %d)", yAxisMin + 0.2*yAxisLen));
+	     .attr("x", 50)
+             .attr("y", yAxisMin + 0.05 * yAxisLen)
+             .attr("style","text-anchor: end; fill: #808080;")
+             .attr("transform", sprintf("rotate(-90 50 %d)", yAxisMin + 0.05 * yAxisLen));
 	gg.append('text')
              .text("Liberal")
-	     .attr("x", 40)
-             .attr("y", yAxisMin + 0.8*yAxisLen)
-             .attr("style","text-anchor:middle")
-             .attr("transform", sprintf("rotate(-90 40 %d)", yAxisMin + 0.8*yAxisLen));
+	     .attr("x", 50)
+             .attr("y", yAxisMin + 0.95 * yAxisLen)
+             .attr("style","text-anchor: start; fill: #808080;")
+             .attr("transform", sprintf("rotate(-90 50 %d)", yAxisMin + 0.95 * yAxisLen));
 	gg.append('text')
              .text("DW-Nominate Dimension 2: Social/Racial")
-             .attr("x",20)
+             .attr("x", 30)
              .attr("y", yAxisMin + yAxisLen/2)
              .attr("style","text-anchor:middle")
-             .attr("transform", sprintf("rotate(-90 20 %d)", yAxisMin + yAxisLen/2));
+             .attr("transform", sprintf("rotate(-90 30 %d)", yAxisMin + yAxisLen/2));
 	// End Y axis
 
 	// Add yea and nay locations to the plot on top of the dots
@@ -142,8 +142,25 @@ function decorateNominate(oc,data) {
             if(data.rollcalls[0].congress==0) var vn = data.rollcalls[0].nominate.imputed;
             else var vn = data.rollcalls[0].nominate;
             var voteShare = Math.max(data.rollcalls[0].yea, data.rollcalls[0].nay)/(data.rollcalls[0].yea+data.rollcalls[0].nay);
-            //console.log(vn);
         }
+
+
+	// Fit box regardless if cutline exists
+	if(vn != undefined)
+	{
+		ggg.append('text').text(sprintf("Proportionate Reduction in Error (PRE): %4.2f", (vn.pre == null || isNaN(vn.pre) || vn.pre=="") ? 0 : vn.pre))
+		    .attr("class", "fitbox")
+		    .attr("x", xAxisMin + 0.98 * xAxisLen)
+	            .attr("style","text-anchor: end;")
+		    .attr("y", yDimPos + 40);
+	
+		ggg.append('text').text(sprintf("Proportion of votes correctly classified: %4.2f", (vn.classified == null || isNaN(vn.classified) || vn.classified=="") ? 0 : vn.classified ))
+		    .attr("class", "fitbox")
+		    .attr("x", xAxisMin + 0.02 * xAxisLen)
+		    .attr("y", yDimPos + 40);
+	}
+
+	var legendType=1;
 
 
     if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre>0) ) { // Only drawn if there is a cutline!
@@ -153,7 +170,7 @@ function decorateNominate(oc,data) {
                           .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")"); 
 
 	    nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1], 
-	    		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#ffffcc"]);
+	    		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#FFFFAA"]);
 
 	       // Calculate where the YN text axis goes.
 	       function closestpt(vn) {
@@ -206,18 +223,6 @@ function decorateNominate(oc,data) {
 			.attr("y", ynpts[1])
 			.attr("transform",sprintf("rotate(%d %d %d)", 180+angle, ynpts[0], ynpts[1]));
 
-		// Fit box regardless if cutline exists
-		ggg.append('text').text(sprintf("PRE: %4.2f", (vn.pre == null || isNaN(vn.pre) || vn.pre=="") ? 0 : vn.pre))
-		    .attr("class", "fitbox")
-		    .attr("x", xAxisMax - 75)
-		    .attr("y", yAxisMax - 5);
-
-		ggg.append('text').text(sprintf("Classified: %4.2f", (vn.classified == null || isNaN(vn.classified) || vn.classified=="") ? 0 : vn.classified ))
-		    .attr("class", "fitbox")
-		    .attr("x", xAxisMax - 75)
-		    .attr("y", yAxisMax - 25);
-
-		var legendType=1;
 	}
 	else
         {
@@ -255,17 +260,18 @@ function decorateNominate(oc,data) {
         if (hasNominate==1) { //Show it as long as nominate has been fit
 
             // Collecting info to find vote prob for heat map
-	    if(!$(".hm_tooltip").length) // Make sure we don't already have a tooltip
+	    if(!$("#hm_tooltip").length) // Make sure we don't already have a tooltip
 	    {
 		$("<div></div>")
 			.attr("id","hm_tooltip")
-			.css("z-index",10).css("visibility","hidden")
-			.css("opacity",0.8).appendTo(document.body); 
+			.addClass("d3-tip")
+			.addClass("heatmapTip")
+			.appendTo(document.body); 
 	    }
             var yunits = radiusY;
 	    var xunits = radiusX;
             var brush = ocSVG.select(".brush") 
-	    brush.on("mouseover",function() { if(!isDoingSelect) { $("#hm_tooltip").css("visibility","visible").css("opacity",0.8); }});
+	    brush.on("mouseover",function() { if(!isDoingSelect) { $("#hm_tooltip").css("visibility","visible"); }});
             brush.on("mousemove",function() {
 			var ypdiv = $("#hm_tooltip");
                         var cx = circleCenter.x-hmTranslate.x,
@@ -279,36 +285,26 @@ function decorateNominate(oc,data) {
 			} else {
 			    // Lopsided vote case...
 			    var yeaProb = data.rollcalls[0].yea_count/(data.rollcalls[0].yea_count+data.rollcalls[0].nay_count);
-			    console.log(yeaProb);
 			}
 	                    if ((x*x+y*y)<1.0) {
                                 if(yeaProb>0.99) {
-        		           dispProb = ">0.99"
+        		           dispProb = " > 0.99"
                                 } else if(yeaProb<0.01) {
-                                   dispProb = "<0.01"
+                                   dispProb = " < 0.01"
                                 } else {
-                                   dispProb = "=" + Math.round(100*yeaProb)/100;         
+                                   dispProb = Math.round(100*yeaProb)/100;         
                                 }
 				if(!isDoingSelect) ypdiv.css("visibility","visible");
-				ypdiv.html("Pr(Yea)" + dispProb).css("z-index",10)
-				   .css("left",d3.event.pageX+"px")
-				   .css("top",(d3.event.pageY-28)+"px");
-			    }
-	                    else if(x>0.81&&y<=-0.77) 
-			    {
-				if(!isDoingSelect) ypdiv.css("visibility","visible");
-				ypdiv.html("<strong>PRE:</strong> How much our classification improves on a guess.<br/><strong>Classified:</strong> The percentage of votes that we classify correctly.");
-				ypdiv.css("z-index",10)
-				   .css("left",d3.event.pageX+"px")
-				   .css("top",(d3.event.pageY-28)+"px");
+				ypdiv.html("<strong>Probability of Voting Yea: </strong>" + dispProb + "<br/> The calculated probability that a member at this position would vote 'Yea' on the rollcall.")
+				   .css("left",d3.event.pageX + 20 + "px")
+				   .css("top",(d3.event.pageY - 48) + "px");
 			    }
 			    else
 			    {
  				// Cursor is on nominate plot, but not in the Oval 
 				ypdiv.css("visibility","hidden");
 			    }
-		            //console.log("x=" + d3.mouse(this)[0] + ",y=" + d3.mouse(this)[1]);
-		            //console.log("x=" + x + ",y=" + y);
+
                       }); 
             // Don't show tooltip if user is making a range selection
             brush.on("mousedown",function() { $("#hm_tooltip").css("visibility","hidden"); isDoingSelect=1; });     

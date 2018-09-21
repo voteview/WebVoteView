@@ -19,19 +19,7 @@
 
         <li><a href="/district">geography</a></li>   
 
-        <!-- JBL: Hide the summary page until it does more useful stuff...  <li>
-          <a data-toggle="dropdown" href="#">summary</a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-              <li><a href="/explore/senate">Senate votes</a></li>
-              <li><a href="/explore/house">House votes</a></li>
-            </ul>
-        </li> -->
-
         <li><a href="/data">data</a></li>
-
-        <li><a href="http://voteviewblog.com/" target="_blank">blog</a></li>
-
-        <!--<li><a href="/research">research</a></li>-->
 
         <li><a href="/about">about</a></li>
 	</li>
@@ -40,7 +28,7 @@
 	<h1 id="brand">
 		<span class="printOnly">UCLA Presents </span>
 		% if devserver:
-		<a href="/"><span style="background-color:red;color:yellow;">voteview.com beta DEV SERVER</span></a>
+		<a href="/"><span class="dev_header">voteview.com beta DEV SERVER</span></a>
 		% else:
 		<a href="/">voteview.com</a> <small>beta</small>
 		% end

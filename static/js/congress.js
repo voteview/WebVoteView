@@ -2,6 +2,7 @@ var updateFilterTimer;
 var resultCache;
 var validSet;
 var sortBy;
+var nameDimension;
 var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var baseTip = d3.select("body").append("div").attr("class", "d3-tip").style("visibility","hidden").attr("id","mapTooltip");
 var eW;
@@ -15,23 +16,71 @@ function getGetOrdinal(n) {
 
 $(document).ready(function()
 {
+	var done = 0;
+	$("#congSelector").change(reloadBios);
 	congressNum = $("#congSelector").val();	
+	if(storageAvailable("localStorage"))
+	{
+		var data = localStorage.getItem("congress_" + congressNum + "_chamber_" + chamber_param);
+		if(data != null)
+		{
+			var parseData = JSON.parse(data);
+			if(new Date().getDate() <= Date.parse(parseData["date"]))
+			{
+				console.log("Loaded from localStorage");
+				resultCache = parseData["data"];
+
+				$('#content').show();
+				$('#loading-container').hide();
+				doInit();
+				return;
+			}
+		}
+	}
+
 	$.ajax({
 		dataType: "JSON",
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
 		success: function(data, status, xhr)
 		{
+			resultCache = data;
+			if(storageAvailable("localStorage"))
+			{
+				try
+				{
+					var expireDate = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
+					localStorage.setItem("congress_" + congressNum + "_chamber_" + chamber_param, JSON.stringify({"date": expireDate, "data": data}));
+				}
+				catch(e) { console.log(e); }
+			}
+
 			$('#content').fadeIn();
 			$('#loading-container').slideUp();
-			resultCache = data;
-			if(!tabular_view) { writeBioTable(); nomPlot(); }
-			else { writeTextTable(); }
-			compositionBar();
+			doInit()
 		}
 	});
 
-	$("#congSelector").change(reloadBios);
 });
+
+function doReinit(data)
+{
+	validSet = [];
+	resultCache = data;
+	$("#sortChamber").unbind('click')
+	$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
+	$("#textLink").attr("href", "/congress/" + chamber_param + "/" + congressNum + "/text");
+	$("#graphicLink").attr("href", "/congress/" + chamber_param + "/" + congressNum);
+
+	doInit();
+}
+
+function doInit()
+{
+	if(!tabular_view) { writeBioTable(); nomPlot(); }
+	else { writeTextTable(); }
+	compositionBar();
+
+}
 
 function nomPlot()
 {
@@ -53,6 +102,12 @@ function nomPlot()
 			return [x,y];
 		}
 	);
+	nameDimension = ndx.dimension(
+		function(d)
+		{
+			return d["bioname"];
+		}
+	);
 	var xGroup = xDimension.group().reduce(
 		function(p, d)
 		{
@@ -72,7 +127,7 @@ function nomPlot()
 
     nominateScatterChart
         .clipPadding(4)
-        .transitionDuration(250) // JBL:Speed up symbol size changes on brush per AB request                                             
+        .transitionDuration(250) // JBL:Speed up symbol size changes on brush per AB request
 	.width(890)
 	.height(790*nomDWeight+100)
 	.margins({top:25,right:25,bottom:75,left:75})
@@ -146,24 +201,45 @@ function rechamber()
 	if(chamber_param=="house") { chamber = "senate"; chamber_param="senate"; $("#memberLabel").html("Senators"); }
 	else { chamber = "house"; chamber_param="house"; $("#memberLabel").html("Representatives"); }
 	reloadBios();
-	doFullFilterReset();	
 }
 
 function reloadBios()
 {
 	congressNum = $("#congSelector").val();
+
+	if(storageAvailable("localStorage"))
+	{
+		var data = localStorage.getItem("congress_" + congressNum + "_chamber_" + chamber_param);
+		if(data != null)
+		{
+			var parseData = JSON.parse(data);
+			if(new Date().getDate() <= Date.parse(parseData["date"]))
+			{
+				console.log("Loaded from localStorage");
+				if(!tabular_view) doFullFilterReset();
+				doReinit(parseData["data"]);
+				return;
+			}
+		}
+	}
+
 	$.ajax({
 		dataType: "JSON",
 		url: "/api/getmembersbycongress?congress="+congressNum+"&chamber="+chamber_param+"&api=Web_Congress",
 		success: function(data, status, xhr)
 		{
-			validSet = [];
-			resultCache = data;
-			$("#sortChamber").unbind('click')
-			$("#sortChamber").click(function() { resort('elected_'+chamber_param); return false; });
-			if(!tabular_view) { writeBioTable(); nomPlot(); }
-			else { writeTextTable(); }
-			compositionBar();
+			if(storageAvailable("localStorage"))
+			{
+				try
+				{
+					var expireDate = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
+					localStorage.setItem("congress_" + congressNum + "_chamber_" + chamber_param, JSON.stringify({"date": expireDate, "data": data}));
+				}
+				catch(e) { console.log(e); }
+			}
+
+			if(!tabular_view) doFullFilterReset();
+			doReinit(data);
 		}
 	});
 }
@@ -203,8 +279,7 @@ function compositionBar()
 		else { partyCount[d.party_short_name]++; }
 	});
 
-	console.log($("#content").width());
-	var chartWidth = Math.min(300,Math.max(200,Math.round($("#content").width()*0.27)));
+	var chartWidth = Math.min(300, Math.max(200,Math.round($("#content").width()*0.27)));
 	
 	$("#partyComposition").html("");
 	var svgBucket = d3.select("#partyComposition").append("svg").attr("width",chartWidth).attr("height",21);
@@ -250,8 +325,7 @@ function delay_filter()
 var icpsr_match = [];
 function do_search_name_filter() 
 {
-	console.log("goes here");
-	if($("#filter_name")[0].value.length) {
+	if($("#filter_name").val() != undefined && $("#filter_name").val().length) {
 		var current_filter = $("#filter_name")[0].value.toLowerCase().replace(/[^0-9a-z ]/gi, '').split(" ");
 		var which_include = $.grep(resultCache["results"], function(d, i) {
 			for(var i=0; i!=current_filter.length; i++) {
@@ -259,15 +333,24 @@ function do_search_name_filter()
 			}
 			return true;
 		});
-		console.log(which_include);
 
 		icpsr_match = [];
 		for(var i=0; i!=which_include.length; i++)
 		{
 			icpsr_match.push(which_include[i]["icpsr"]);
 		}
+
+		var regex = new RegExp($("#filter_name")[0].value, "i")
+		nameDimension.filter(function(d) {
+			return d.search(regex) != -1;
+		});
+	}
+	else
+	{
+		nameDimension.filterAll();
 	}
 
+	dc.redrawAll();
 	do_filter_bar();
 	hideMembersUnselected();
 }
@@ -282,26 +365,13 @@ function hideMembersUnselected()
 	});
 
         // Set number of columns by number of selected members
-        if(validSet.length && validSet.length < 5){
-	        $("#memberList").css("columns","1").css("width","25%");
-	} else if (validSet.length && validSet.length < 9)
-	{
-	        $("#memberList").css("columns","2").css("width","50%")
-	} else if (validSet.length && validSet.length < 13)
-	{
-	        $("#memberList").css("columns","3").css("width","75%")
-	} else
-	{
-	        $("#memberList").css("columns","4").css("width","100%")
-	}
-
-        
+	var colNumber = validSet.length ? Math.min(4, Math.floor(validSet.length / 5) + 1) : "";
+	if(colNumber) $("#memberList").removeClass().addClass("clearfix").addClass("column" + colNumber);
 }
 
 function do_filter_bar() 
 {
 	// Proper diction for text
-	console.log(chamber);
 	if(chamber=="house")
 	{
 		var voterName = "Representatives";
@@ -318,7 +388,6 @@ function do_filter_bar()
 	var nominateFilter = $("#suppressNominateControls > .filter").text();
 	if(nominateFilter.length)
 	{
-
 		// Round coordinates to 2 sig figs.
 		var coordSets = nominateFilter.split(" -> ");
 		var initXY = coordSets[0].split(",");
@@ -339,7 +408,7 @@ function do_filter_bar()
 	}
 
 	// Filters for name selected
-	if($("#filter_name")[0].value.length) 
+	if($("#filter_name").val().length) 
 	{
 		$("#name-controls > .filter").text($("#filter_name")[0].value);
 		$("#name-controls").show();	
@@ -371,9 +440,11 @@ function do_filter_bar()
 function doFullFilterReset()
 {
 	$("#selectionFilterBar").slideUp();
+	$("#suppressNominateControls > .filter").text("");
+	$("#filter_name").val("");
+	do_search_name_filter();
 	dc.filterAll();
 	dc.redrawAll();
-	$("#filter_name")[0].value = "";
 	hideMembersUnselected();
 }
 

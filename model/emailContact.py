@@ -4,6 +4,38 @@ import datetime
 import hashlib
 import traceback
 import email_validator
+import base64
+
+def newsletterSub(userEmail, action):
+	try:
+		authData = json.load(open("./model/auth.json","r"))
+		headers = {"Authorization": "Bearer " + authData["sendgrid"], "Content-Type": "application/json"}
+
+		# Subscribe
+		if action == "subscribe":
+			topost = [{"email": userEmail.lower()}]
+			req = requests.post("https://api.sendgrid.com/v3/contactdb/recipients", headers=headers, json=topost, verify=False)
+			results = req.text
+			if req.status_code == 201:
+				return {"success": 1, "verb": "added to"}
+
+			print results
+			print req.status_code
+			return {"error": "Our email list handler was not able to process your request at this time."}
+
+		# Unsubscribe
+		topost = [base64.b64encode(userEmail.lower())]
+		req = requests.delete("https://api.sendgrid.com/v3/contactdb/recipients", headers=headers, json=topost, verify=False)
+		results = req.text
+		if req.status_code == 204:
+			return {"success": 1, "verb": "removed from"}
+		else:
+			print results
+			print req.status_code
+			return {"error": "Our email list handler was unable to process your request at this time, but we have added your email to an internal blacklist to ensure you will not receive any future contacts from us."}
+	except:
+		print traceback.format_exc()
+		return {"error": "Unable to send request."}
 
 def sendEmail(title, body, person_name, userEmail, recaptcha, clientIP, test=0):
 	if test:
@@ -21,7 +53,7 @@ def sendEmail(title, body, person_name, userEmail, recaptcha, clientIP, test=0):
 	if any([x.lower() in userEmail.lower().split("@")[1] for x in emailList if len(x.strip())]):
 		return({"error": "We do not allow contact from disposable email address services."})
 
-	if len(title) > 200: 
+	if len(title) > 200:
 		title = title[0:200]
 	if len(body) > 5000:
 		body = body[0:5000]

@@ -32,6 +32,9 @@ def assembleSearch(q, nextId, bottle):
 				elif party["count"] > 100:
 					party["scoreMatch"] += 10
 				party["seo_name"] = slugify(party["fullName"])
+				party["min_year"] = congressToYear(party["minCongress"], 0)
+				party["max_year"] = congressToYear(party["maxCongress"], 1)
+
 				resultParties.append(party)
 			resultParties.sort(key=lambda x: (-x["scoreMatch"], -x["maxCongress"]))
 
@@ -159,7 +162,7 @@ def assembleSearch(q, nextId, bottle):
 					expandResults=1
 				else:
 					print "Something failed in state delegation lookup."
-					pass					
+
 			# ICPSR of user
 			elif len(q.split())==1 and type(q)==type(0) and int(q):
 				memberSearch = memberLookup({"icpsr": int(q)}, 5, distinct=1, api="Web_FP_Search")
@@ -179,7 +182,13 @@ def assembleSearch(q, nextId, bottle):
 		expandResults = 1
 
 	if "results" in memberSearch:
+		seen_bioguide_ids = []
 		for member in memberSearch["results"]:
+			if "bioguide_id" in member:
+				if member["bioguide_id"] in seen_bioguide_ids:
+					continue
+				seen_bioguide_ids.append(member["bioguide_id"])
+
 			memName = ""
 			if "bioname" in member and member["bioname"] is not None:
 				memName = member["bioname"]
@@ -230,6 +239,12 @@ def assembleSearch(q, nextId, bottle):
 				member["bioImg"] = str(member["icpsr"]).zfill(6)+".jpg"
 			member["minElected"] = congressToYear(member["congresses"][0][0], 0)
 			member["seo_name"] = slugify(member["bioname"])
+
+			if "bioname" in member and len(member["bioname"]) > 20 and "(" in member["bioname"]:
+				member["bioname"] = member["bioname"].split(",")[0] + ", " + member["bioname"].split("(")[1].split(")")[0]
+
+			member["state"] = member["state"].replace("(", "").replace(")", "")
+
 			resultMembers.append(member)
 
 		if needScore:
@@ -245,6 +260,10 @@ def assembleSearch(q, nextId, bottle):
 		bottle.response.headers["rollcall_number"] = 0
 		bottle.response.headers["member_number"] = len(resultMembers)
 		bottle.response.headers["party_number"] = 0
+
+		if len(resultMembers) > 50:
+			resultMembers = resultMembers[:50]
+
 		out = bottle.template("views/search_results", rollcalls = [], errormessage="", resultMembers=resultMembers, resultParties=[])
 		return out
 
@@ -357,6 +376,15 @@ def assembleSearch(q, nextId, bottle):
 		bottle.response.headers["rollcall_number"] = -999
 		bottle.response.headers["member_number"] = 0
 		bottle.response.headers["nextId"] = 0
+
+		remainder = 50
+		if len(resultParties) > 4:
+			resultParties = resultParties[:4]
+			remainder -= len(resultParties)
+
+		if len(resultMembers) > remainder:
+			resultMembers = resultMembers[:remainder]
+
 		out = bottle.template("views/search_results", rollcalls = [], errormessage=res["errormessage"], resultMembers=resultMembers, resultParties=resultParties)
 	else:
 		if "fulltextSearch" in res:

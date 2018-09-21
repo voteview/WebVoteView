@@ -39,7 +39,7 @@
 }
 </style>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css?t={{numBusta}}" media="screen, projection, print"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection, print"/>
         <link href="{{ STATIC_URL }}css/dc.css?t={{numBusta}}" media="all" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css?t={{numBusta}}" media="screen, projection, print"/>
         
@@ -81,10 +81,10 @@
         {{!base}}
 
 
-	<div style="width:100%;height:120px;background-color:#3284bf;overflow:hidden;margin-top:0px;display:none;" id="footer">
-		<div class="container" style="height:120px;">
-			<span style="display:inline-block;height:100%;vertical-align:middle;"></span> 
-			<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png" style="height: 96px; vertical-align:middle;"></a>
+	<div id="footer">
+		<div class="container">
+			<span></span>
+			<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png"></a>
 		</div>
 	</div>
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/bootstrap.min.js"></script>

@@ -13,10 +13,7 @@ function writeColumnHeader(text, glyph)
 	{
 		baseHTML += '<span class="glyphicon glyphicon-'+glyph+'" aria-hidden="true"></span>';
 	}
-	var memberBox = $("<li></li>").css("overflow","hidden")
-		.css("break-inside","avoid-column")
-		.css("margin-top","10px").css("margin-bottom","10px")
-		.css("text-align","center").html(baseHTML);
+	var memberBox = $("<li></li>").addClass("memberBox").html(baseHTML);
 	memberBox.appendTo($("#memberList"));
 }
 
@@ -27,7 +24,7 @@ function writeTextTable()
 	{
 		$("#memberTextList").html("");
 		rC.sort(function(a,b) { return a.nominate==undefined ? 1 : b.nominate==undefined ? -1 : a.nominate.dim1==undefined ? 1 : b.nominate.dim1==undefined ? -1 : a.nominate.dim1 > b.nominate.dim1 ? 1 : -1; });
-		var member_table = $("<table></table>").attr("id", "memberTextTable").css("width", "80%").css("min-width", "500px").attr("class", "tablesorter");
+		var member_table = $("<table></table>").attr("id", "memberTextTable").attr("class", "tablesorter");
 		$('<thead><tr><th class="sorter-false" width="5%"></th><th width="45%"><strong>Name</strong></th><th width="15%"><strong>Party</strong></th><th width="15%"><strong>State</strong></th><th width="20%"><strong>NOMINATE</strong></th></tr></thead>').appendTo(member_table);
 		var i = 1;
 		$.each(rC, function(k, v)
@@ -114,16 +111,9 @@ function writeBioTable(format_text=["name", "party", "state", "elected"])
 
 function constructPlot(member, margins, format_data=["name", "party", "state", "elected"])
 {
-	if(margins==undefined)
-	{
-		var mImg = "10px";
-		var mL = "5px";
-	}
-	else
-	{
-		var mImg = "5px";
-		var mL = "0px";
-	}
+	var imageClass = (margins == undefined) ? "memberPad10" : "memberPad5";
+	var nameClass = (margins == undefined) ? "namePad5" : "namePad0";
+
 	// bioname cleanup:
 	if(member["bioname"]==undefined)
 	{
@@ -149,12 +139,10 @@ function constructPlot(member, margins, format_data=["name", "party", "state", "
 		memberNameFinal = member["bioname"];
 	}
 
-	var memberBox = $("<li></li>")  .addClass("memberResultBox").addClass("columnResultBox")
-					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"]+"/"+member["seo_name"];})
-					.css("padding-right",mL);
-	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]+"/"+member["seo_name"]).attr("class","nohover").css("display", "block;");
-	var imgBox = $("<img />").addClass("pull-left").addClass("bio")
-				.css("margin-right",mImg)
+	var memberBox = $("<li></li>")  .addClass("memberResultBox").addClass("columnResultBox").addClass(nameClass)
+					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"]+"/"+member["seo_name"];});
+	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]+"/"+member["seo_name"]).attr("class","nohover");
+	var imgBox = $("<img />").addClass("pull-left").addClass("bio").addClass(imageClass)
 				.attr("src","/static/img/bios/"+member["bioImgURL"]);
 
 	var bioTextInner = "";

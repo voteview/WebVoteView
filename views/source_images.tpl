@@ -1,10 +1,5 @@
-% from __future__ import print_function
-
 % rebase('base.tpl')
-% import json
 % include('header.tpl')
-
-
 
 <div id='page-info'
   data-publication="{{publication}}"
@@ -12,11 +7,6 @@
   data-page-number="{{page_number}}"
   data-num-leafs="{{num_leafs}}"
  ></div>
-
-
-
-
-
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes">

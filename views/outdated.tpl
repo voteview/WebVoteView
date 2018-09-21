@@ -3,6 +3,7 @@
 
 <div class="container">
 	<div class="row">
+		<div class="col-md-12">
 		<h3>Error: Outdated Web Browser</h3>
 
 		Voteview.com features maps and other interactive features which require an up-to-date web browser.<br/><br/>
@@ -16,6 +17,7 @@
 			<li>Opera</li>
 		</ul>
 		We apologize for any inconvenience.
+		</div>
 	</div>
 </div>
 

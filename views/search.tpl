@@ -1,29 +1,18 @@
 % STATIC_URL = "/static/"
-% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css"])
+% rebase("base.tpl", title="Search", extra_js=["/static/js/libs/clipboard.min.js", "/static/js/libs/moment.js", "/static/js/libs/bootstrap-datetimepicker.min.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css", "bootstrap-datetimepicker.css"])
 % include('header.tpl')
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % setdefault('args',{})
 % setdefault('search_string',"")
 <div class="container">
+	% include('carousel.tpl')
 
 	<div class="row">
 		<div class="col-xs-12">
 			<h3>
-				Search voteview.com 
-				<span class="glyphicon glyphicon-question-sign" style="font-size:14px;float:right;vertical-aklign:middle;cursor:pointer;" id="toggleAlert"></span>
+				Vote and Member Search
 			</h3>
 
-			<div class="alert alert-info fade in" style="margin-bottom:2px;" id="alertWelcome">
-				<a href="#" id="closeAlert" style="float:right;text-decoration:none;">&times;</a>
-				<strong>Welcome!</strong>
-
-				You have reached the <strong>beta version</strong> of the new voteview.com. This is a website that allows users to view every congressional roll call vote
-				in American history on a map of the United States and on a liberal-conservative ideological map, including information about the ideological position of
-				voting Senators and Representatives. For more information about Voteview and NOMINATE, click <a href="/about">here</a>. <strong>Academics interested in NOMINATE data can download it on our <a href="/data">data page</a>.</strong><br/><br/>
-
-				Below, you can search every rollcall vote. By default, the most recent votes are shown below. Suggested searches will show up in the search bar and you can use the advanced search to change the conditions for your query. You can also check out the <a href="/district">history of your district</a> and see how <a href="/parties">political parties have evolved over time.</a>
-				We are still working to get this site ready for the public and would love to hear
-				your feedback which you can send on the <a href="/about">About</a> page.
-			</div>
 		</div>
 	</div>
 
@@ -33,17 +22,20 @@
 
 				<div id="search-bar-container" class="col-md-12">
 					<div class="input-group">
-						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a term to search for" value="{{search_string}}">
+						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a search term (vote text, member names, parties, or advanced search.)" value="{{search_string}}">
 						<div class="input-group-btn">
 							<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
-						<span style="display:table-cell;width:125px;vertical-align:middle;padding-left:10px; font-size:0.9em;">
+						<span class="advancedSearch">
 							<a href="#" onclick="javascript:toggleAdvancedSearch(0);return false;">advanced search</a>
 						</span>
 					</div>
+					<div id="suggestContainer">
+						Search tip: <span id="searchSuggest"></span>
+					</div>
 				</div>
 
-				<div id="results-selects" class="col-md-3" style="display:none;">
+				<div id="results-selects" class="col-md-3">
 					<div id="panel-chamber" class="panel panel-primary">
 						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-chamber">
 							<h3 class="panel-title">Chamber <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
@@ -74,15 +66,21 @@
 						<div id="facet-date" class="panel-collapse facet-content collapse">
 							<div class="panel-body">
 								<div class="form-group">
-									<label for="fromDate" class="col-sm-5 control-label">From</label>
-									<div class="col-sm-6">
+									<label for="fromDate" class="col-sm-4 control-label">From</label>
+									<div class="col-sm-7 input-group date" id="fromDatePicker">
 										<input name="fromDate" type="text" class="form-control" id="fromDate" placeholder="From">
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="toDate" class="col-sm-5 control-label">To</label>
-									<div class="col-sm-6">
+									<label for="toDate" class="col-sm-4 control-label">To</label>
+									<div class="col-sm-7 input-group date" id="toDatePicker">
 										<input name="toDate" type="text" class="form-control" id="toDate" placeholder="To">
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
 									</div>
 								</div>
 								<div align="center"><small><em>Format: YYYY-MM-DD or YYYY</em></small></div>
@@ -99,13 +97,23 @@
 								<div class="form-group">
 									<label for="fromCongress" class="col-sm-5 control-label">From</label>
 									<div class="col-sm-6">
-										<input name="fromCongress" type="text" class="form-control" id="fromCongress" placeholder="From">
+										<select name="fromCongress" class="form-control" id="fromCongress">
+											<option value=""></option>
+											% for i in xrange(115, 0, -1): 
+											<option value="{{i}}">{{rcSuffix(i)}}</option>
+											% end
+										</select>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="toCongress" class="col-sm-5 control-label">To</label>
 									<div class="col-sm-6">
-										<input name="toCongress" type="text" class="form-control" id="toCongress" placeholder="To">
+										<select name="toCongress" class="form-control" id="toCongress">
+											<option value=""></option>
+											% for i in xrange(115, 0, -1): 
+											<option value="{{i}}">{{rcSuffix(i)}}</option>
+											% end
+										</select>
 									</div>
 								</div>
 							</div>
@@ -121,7 +129,7 @@
 								<div class="form-group">
 									<label for="support" class="col-sm-10 control-label">Percentage Support:</label>
 
-									<div style="padding:30px;padding-bottom:0px;">
+									<div class="support_box">
 										<input id="support" name="support" type="text" class="span2" value="" 
 											data-slider-min="0" data-slider-max="100" 
 											data-slider-step="1" 
@@ -129,8 +137,37 @@
 											data-slider-ticks="[0, 50, 100]" 
 											data-slider-ticks-labels="['0%', '50%', '100%']" 
 											data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
-											data-slider-id="support-bucket" >
+											data-slider-id="support-bucket">
 									</div>
+
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="supportGroup" value="all"> 
+											All
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="supportGroup" value="super"> 
+											Supermajority
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="supportGroup" value="majority"> 
+											Majority
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="supportGroup" value="minority"> 
+											Minority
+										</label>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -143,83 +180,17 @@
               </div>
               <div id="facet-clausen" class="panel-collapse facet-content collapse">
                 <div class="panel-body">
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" value="Government Management" name="clausen">
-					Government Management
-				</label>
-			</div>
-
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" value="Miscellaneous Policy" name="clausen">
-					Miscellaneous Policy
-				</label>
-			</div>
-
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Foreign and Defense Policy" name="clausen">
-                        Foreign and Defense Policy
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Social Welfare" name="clausen">
-                        Social Welfare
-                      </label>
-                    </div>
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" value="" CHECKED name="all_categories">
+			All Categories
+		      </label>
+		    </div>
 
                     <div class="checkbox">
                      <label>
                         <input type="checkbox" value="Agriculture" name="clausen">
                         Agriculture
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                     <label>
-                        <input type="checkbox" value="Civil Liberties" name="clausen">
-                        Civil Liberties
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Internal Organization" name="peltzman">
-                        Internal Organization
-                      </label>
-                    </div>
-
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Foreign Policy Resolutions" name="peltzman">
-                        Foreign Policy Resolutions
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Government Organization" name="peltzman">
-                        Government Organization
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Regulation General Interest" name="peltzman">
-                        Regulation General Interest
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Regulation Special Interest" name="peltzman">
-                        Regulation Special Interest
-                      </label>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Budget Special Interest" name="peltzman">
-                        Budget Special Interest
                       </label>
                     </div>
                     <div class="checkbox">
@@ -230,38 +201,119 @@
                     </div>
                     <div class="checkbox">
                       <label>
+                        <input type="checkbox" value="Budget Special Interest" name="peltzman">
+                        Budget Special Interest
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                     <label>
+                        <input type="checkbox" value="Civil Liberties" name="clausen">
+                        Civil Liberties
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="D. C." name="peltzman">
+                        D. C.
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
                         <input type="checkbox" value="Defense Policy Budget" name="peltzman">
                         Defense Policy Budget
                       </label>
                     </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="Domestic Social Policy" name="peltzman">
-                        Domestic Social Policy
-                      </label>
-                    </div>
+
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Defense Policy Resolutions" name="peltzman">
                         Defense Policy Resolutions
                       </label>
                     </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Domestic Social Policy" name="peltzman">
+                        Domestic Social Policy
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Foreign and Defense Policy" name="clausen">
+                        Foreign and Defense Policy
+                      </label>
+                    </div>
+
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Foreign Policy Budget" name="peltzman">
                         Foreign Policy Budget
                       </label>
                     </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Foreign Policy Resolutions" name="peltzman">
+                        Foreign Policy Resolutions
+                      </label>
+                    </div>
+
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" value="Government Management" name="clausen">
+			Government Management
+		      </label>
+		    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Government Organization" name="peltzman">
+                        Government Organization
+                      </label>
+                    </div>
+
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" value="Indian Affairs" name="peltzman">
                         Indian Affairs
                       </label>
                     </div>
+
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" value="D. C." name="peltzman">
-                        D. C.
+                        <input type="checkbox" value="Internal Organization" name="peltzman">
+                        Internal Organization
+                      </label>
+                    </div>
+
+		    <div class="checkbox">
+		      <label>
+			<input type="checkbox" value="Miscellaneous Policy" name="clausen">
+			Miscellaneous Policy
+		      </label>
+		    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Regulation General Interest" name="peltzman">
+                        Regulation General Interest
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Regulation Special Interest" name="peltzman">
+                        Regulation Special Interest
+                      </label>
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="Social Welfare" name="clausen">
+                        Social Welfare
                       </label>
                     </div>
 
@@ -296,15 +348,15 @@
 		  <input type="hidden" name="sortScore" id="sortScore" value="1">
 		  </form>
 		  
-			<div id="resultsHolder" class="col-md-12" style="float:right;">
+			<div id="resultsHolder" class="col-md-12 pull-right">
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-6">
 							<h4 id="results-number"></h4>
 						</div>
-						<div class="col-md-6" style="padding-top:10px;text-align:right;vertical-align:top;" id="sortBy">
+						<div class="col-md-6" id="sortBy">
 							<strong>Sort by </strong>
-							<div id="relevanceAppear" style="display:none;"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
+							<div id="relevanceAppear"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
 							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
 							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
@@ -330,22 +382,22 @@
 				+</span> 
 				<span id="newResults"><big><strong id="newCount">0</strong></big> new results from <span class="searchText"></span><br/>&nbsp;</span>
 			</div>
-			<div style="display:none;" id="addAll" class="footerBig">
+			<div id="addAll" class="footerBig">
 				<a href="#" onClick="javascript:addAllVotes();return false;">Add all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>
 				<a href="#" onClick="javascript:delAllVotes();return false;">Delete all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a>
 			</div>
 			<div id="emptyCartIcon" class="footerIcon" onClick="javascript:emptyCart();">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Empty Saved Votes" data-container="body"></span>
 			</div>	
-			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(1);">
+			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(1);">
 				<span class="glyphicon glyphicon-save" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
 			</div>
-			<div id="createLinkIcon" class="footerIcon" onClick="javascript:$('.carousel').carousel(2);">
+			<div id="createLinkIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(2);">
 				<span class="glyphicon glyphicon-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" data-container="body"></span>
 			</div>
 		</div>
 		<div class="item">
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('.carousel').carousel(0);">
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('#stashCartBar').carousel(0);">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			</div>
 			<div class="footerIcon" id="exportXLS">
@@ -357,18 +409,18 @@
 			<div class="footerIcon">
 				<span onClick="javascript:loadSavedVotes();" class="glyphicon glyphicon-upload" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Load Votes into Search" data-container="body"></span>
 			</div>
-			<div class="footerBig" id="errorTooManyVotes" style="display:none;">
+			<div class="footerBig" id="errorTooManyVotes">
 				You can only save stashes of 250 votes or less.<br/>If you would like to download our entire vote database, <a href="/data/">Click here</a>.
 			</div>
 		</div>
 		<div class="item">
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('.carousel').carousel(0);">
+			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('#stashCartBar').carousel(0);">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			</div>
 			<div class="footerBig">
 				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
 				<span id="shareTextInput">{{ base_url }}s/
-					<input id="shareLinkText" type="text" placeholder="type-short-name"> 
+					<input id="shareLinkText" type="text" placeholder="type-short-name" > 
 					<input type="submit" value="Create" onClick="javascript:shareLink();javascript:clipboardCopyHack(document.getElementById('shareTextInput'))">
 				</span>
 				<span id="shareTextLink"></span>

@@ -34,7 +34,6 @@ def cqlabel(state_abbrev, district_code):
         else:
                 cqlabel = ""
         return cqlabel
-        
 
 def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	# Setup so that the bottle call to this API doesn't need to know parameters we accept explicitly
@@ -44,6 +43,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	congress = qDict["congress"] if "congress" in qDict else ""
 	chamber = qDict["chamber"] if "chamber" in qDict else ""
 	party_code = qDict["party_code"] if "party_code" in qDict else ""
+	bioguide_id = qDict["bioguide_id"] if "bioguide_id" in qDict else ""
 	district_code = qDict["district_code"] if "district_code" in qDict else ""
 	id = qDict["id"] if "id" in qDict else ""
 	speaker = qDict["speaker"] if "speaker" in qDict else ""
@@ -55,7 +55,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		maxResults = 5000
 
 	# Check to make sure there's a query
-	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not speaker and not idIn and not freshman and not biography:
+	if not name and not icpsr and not state_abbrev and not congress and not district_code and not chamber and not id and not party_code and not bioguide_id and not speaker and not idIn and not freshman and not biography:
 		return({'errormessage': 'No search terms provided'})
 
 	# Fold search query into dict
@@ -67,8 +67,6 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		try:
 			icpsr = int(icpsr)
 			searchQuery["icpsr"] = icpsr
-			print searchQuery
-			print "got this got this"
 		except:
 			try:
 				if icpsr[0]=="M":
@@ -87,7 +85,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		except:
 			return({"errormessage": "Invalid ID supplied2."})
 
-	if state_abbrev:		
+	if state_abbrev:
 		state = str(state_abbrev)
 		if len(state) == 2 or state.upper() == "USA":
 			searchQuery["state_abbrev"] = state.upper() # States are all stored upper-case
@@ -95,13 +93,11 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			searchQuery["state_abbrev"] = stateNameToAbbrev(state.upper())
 
 	if biography:
-		print "i'm in here"
 		searchQuery["biography"] = {"$regex": biography, "$options": i}
 
 	if congress:
 		try:
-			print type(congress), type(0), type(congress)==type(0)
-			if type(congress) == type(0): # congrss is already a number
+			if isinstance(congress, int): # already a number
 				searchQuery["congress"] = congress
 			elif not " " in congress: # congress is just a number
 				congress = int(congress)
@@ -140,12 +136,18 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 				maxCongress = json.load(open("../static/config.json","r"))["maxCongress"]
 			except:
 				maxCongress = 115
-	
+
 		searchQuery["congresses.0.0"] = maxCongress
 
 	if party_code:
-		searchQuery["party_code"] = int(party_code)
-			
+		if isinstance(party_code, dict):
+			searchQuery["party_code"] = party_code
+		else:
+			searchQuery["party_code"] = int(party_code)
+
+	if bioguide_id:
+		searchQuery["bioguide_id"] = bioguide_id
+
 	if district_code and state_abbrev:
 		searchQuery["district_code"] = district_code
 
@@ -154,7 +156,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		if chamber=="Senate" or chamber=="House" or chamber=="President":
 			searchQuery["chamber"] = chamber
 		else:
-			return({"errormessage": "Invalid chamber provided. Please select House or Senate."})			
+			return({"errormessage": "Invalid chamber provided. Please select House or Senate."})
 
 	response = []
 	errormessage = ""
@@ -164,8 +166,9 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	if api=="Web_PI":
 		fieldSet = {"nominate.dim1": 1, "party_code": 1, "district_code": 1, "icpsr": 1, "chamber":1, "nvotes_yea_nay": 1, "nvotes_against_party": 1, "nvotes_abs": 1, "_id": 0}
 	elif api=="Web_FP_Search":
-		print searchQuery
-		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1, "chamber": 1}
+		fieldSet = {"bioname": 1, "party_code": 1, "icpsr": 1, "state_abbrev": 1, "congress": 1, "_id": 0, "congresses": 1, "chamber": 1, "bioguide_id": 1}
+	elif api == "Check_Party_Switch":
+		fieldSet = {"icpsr": 1, "_id": 0}
 	elif api=="Web_Congress":
 		if chamber:
 			fieldName = "elected_"+chamber.lower()
@@ -185,8 +188,6 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 	if "$text" in searchQuery:
 		fieldSet["score"] = {"$meta": "textScore"}
 
-	print searchQuery
-	print fieldSet
 	res = db.voteview_members.find(searchQuery, fieldSet)
 	# Try to induce regex if a name search fails?
 	hypotheticalCount = res.count()
@@ -229,7 +230,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			        newM["party_noun"] = noun(newM["party_code"])
 			        newM["party_color"] = partyColor(newM["party_code"])
 			        newM["party_short_name"] = shortName(newM["party_code"])
-		
+
 		# Check if an image exists.
 		if os.path.isfile("/var/www/voteview/static/img/bios/"+str(newM["icpsr"]).zfill(6)+".jpg"):
 			newM["bioImgURL"] = str(newM["icpsr"]).zfill(6)+".jpg"
@@ -298,7 +299,6 @@ def nicknameHelper(text, ref=""):
 			name=name+singleNicknameSub(word)+" "
 
 	name = name.strip()
-	#print "Nickname tester: ", text, name
 	return name
 
 def singleNicknameSub(name):
@@ -313,11 +313,9 @@ def singleNicknameSub(name):
 			candidates = sorted(list(set(candidates)), key=lambda x: (len(x), x))
 			newName = candidates[0]
 			if newName!=name:
-				#print "Map from ", name, "to ", newName
 				name = newName
 				steps=steps+1
 			else:
-				#print "No map from here."
 				done=1
 		done=1
 	return name
@@ -330,12 +328,4 @@ def getMembersByPrivate(query):
 	return memberLookup({"idIn": idIn}, maxResults=200, distinct=0, api="districtLookup")
 
 if __name__ == "__main__":
-	results = memberLookup({"name": "harris"}, maxResults=150, distinct=1, api="Web_FP")
-	for r in results["results"]:
-		print r["bioname"]
-	#print memberLookup({"speaker": 1}, maxResults=50, distinct=1)
-	#print getMembersByParty(29, 28, "Web_Party")
-	#print getMembersByParty(200, 0, "Web_Party")
-	#print memberLookup({"icpsr": 29137}, maxResults=10, distinct=1)
-	#print [x["bioname"] for x in memberLookup({"state_abbrev": "CA", "district_code": 37},114,1,api="Web")["results"]]
-	pass
+	memberLookup({"icpsr": 99912}, maxResults = 30)

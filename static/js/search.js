@@ -1,3 +1,6 @@
+var searchPulseTime = 10000;
+var hasSuggested = 0;
+var shouldSuggest = 1;
 var doRedirectForce=0;
 var cookieId = "";
 var mostRecentSearch = "";
@@ -17,7 +20,7 @@ function numberWithCommas(x)
 
 function openStashCart()
 {
-	$('.carousel').carousel(0);
+	// $('.carousel').carousel(0);
 	$("#stashCartIcon").fadeOut(100);
 	$("#stashCartBar").slideDown(300,function()
 	{
@@ -235,14 +238,24 @@ function emptyCart()
 
 function startPulseSuggested()
 {
-	if($("#searchTextInput").val()=="") { $("#searchTextInput").attr("placeholder",suggestions[Math.floor(Math.random()*suggestions.length)]); }
+	if(!shouldSuggest) { return; }
+
+	if(!hasSuggested)
+	{
+		$("#suggestContainer").fadeIn();
+		hasSuggested = 1;
+	}
+
+	$("#searchSuggest").html(suggestions[Math.floor(Math.random() * suggestions.length)]); 
+	$("#searchSuggest a").attr("href", "/search/" + stripJunkFromSearch($("#searchSuggest a").html()));
 }
 
 var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
 var suggestedPulse;
+
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip(); 
-	$('.carousel').carousel({"interval": false, "keyboard": false, "wrap": false});
+	$('#stashCartBar').carousel({"interval": false, "keyboard": false, "wrap": false});
 
 	// Load stash
 	cookieId = Cookies.get('stash_id');
@@ -276,24 +289,31 @@ $(document).ready(function(){
 				if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 				updateStashCart();
 				console.log("Loaded votes: "+cachedVotes["old"].length+" old and "+cachedVotes["votes"].length+" new");
-				selectIncludedVotes();
+					selectIncludedVotes();
 			}
 		});
 	}
 
+	// Setup calendar dates
+	$("#fromDatePicker").datetimepicker({useCurrent: false, format: "YYYY-MM-DD"}).on("dp.change", function(e) { 
+		updateRequest();
+	}); 
+	$("#toDatePicker").datetimepicker({useCurrent: false, format: "YYYY-MM-DD"}).on("dp.change", function(e) { 
+		updateRequest();
+	});
+
 	// Setup suggested searches
-	suggestedPulse = setInterval(startPulseSuggested,8000);
+	suggestedPulse = setTimeout(startPulseSuggested, searchPulseTime / 2);
+	suggestedPulse = setInterval(startPulseSuggested, searchPulseTime);
 	$("#searchTextInput").focus();
 	$("#searchTextInput").on('input',function() 
 	{ 
-		clearInterval(suggestedPulse); 
-		$("#searchTextInput").attr("placeholder","Enter a term to search for"); 
-		suggestedPulse = setInterval(startPulseSuggested, 8000);
+		shouldSuggest = 0;
 	});
 	$("#searchTextInput").focus();
 	$("#searchTextInput").on('focus',function()
 	{
-		if($("#searchTextInput").attr("placeholder")!="Enter a term to search for")
+		if($("#searchTextInput").attr("placeholder") != "Enter a search term (vote text, member names, parties, or advanced search.)")
 		{
 			$("#searchTextInput").val($("#searchTextInput").attr("placeholder")).select();
 		}
@@ -334,18 +354,25 @@ $(document).ready(function(){
 	});
 
 	// On form change we reset the search and do the initial AJAX call
-	$("#faceted-search-form input:not(#searchTextInput), #sort").change(function() 
+	$("#faceted-search-form input:not(#searchTextInput):not(input[name*='supportGroup']), #sort, #faceted-search-form select").change(function() 
 	{
-		$('#sortScore').val(1);
-		$('#sortD').val(-1);
 		updateRequest();
+	});
+	$('input[name*="supportGroup"]').click(function() {
+		updateSupportRange(this);
+	});
+	$("#faceted-search-form input[name*='peltzman'], #faceted-search-form input[name*='clausen']").unbind("change").change(function(e)
+	{
+		updateCategoryCheck(e);
+	});
+	$('#faceted-search-form input[name*="all_categories"]').unbind("change").change(function(e)
+	{
+		updateCheckAll(e);
 	});
 
 	// Prevent form submission, force an AJAX call everytime we update the search bar
 	$("#faceted-search-form").submit(function(event) 
 	{
-		$('#sortScore').val(1);
-		$('#sortD').val(-1);
 		event.preventDefault();
 		updateRequest();
 	});
@@ -408,7 +435,7 @@ $(document).ready(function(){
 	if($('#facet-chamber input[type=checkbox]:checked').length) {
 		$("#facet-chamber").collapse('show');
 	}
-	if($('#facet-clausen input[type=checkbox]:checked').length) {
+	if($('#facet-clausen input[name*="clausen"]:checked, #facet-clausen input[name*="peltzman"]:checked').length) {
 		$("#facet-clausen").collapse('show');
 	}
 	if($('#facet-keyvote input[type=checkbox]:checked').length) {
@@ -428,6 +455,9 @@ $(document).ready(function(){
 
 function updateRequest()
 {
+	fixSupportGroup();
+	$('#sortScore').val(1);
+	$('#sortD').val(-1);
 	if(!globalQueueRequests)
 	{
 		globalQueueRequests = 1;
@@ -467,10 +497,15 @@ var globalSlowLoadTimer;
 				$('#results-list').html('<div id="loading-container"><h2 id="container">Loading...</h2><img src="/static/img/loading.gif" alt="Loading..." /></div>');
 				globalSlowLoadTimer = setTimeout(function()
 				{
-					$('#results-list').html('<div id="loading-container" style="text-align:left;"><img src="/static/img/loading.gif" alt="Loading..." /> <h4>Loading... We apologize that your search query is taking a long time to complete. Your search is still processing. <!--Please continue to wait and excuse us while we work on improving Voteview.com--></h4></div>');
+					$('#results-list').html('<div id="loading-container"><img src="/static/img/loading.gif" alt="Loading..." /> <h4>Loading... We apologize that your search query is taking a long time to complete. Your search is still processing. <!--Please continue to wait and excuse us while we work on improving Voteview.com--></h4></div>');
 				}, 5000);
 
 				mostRecentSearch = $("#searchTextInput").val();
+
+				if(mostRecentSearch) {
+					shouldSuggest = 0;
+				}
+
 				$.ajax({
 					dataType: "JSON",
 					url: "/api/setSearch",
@@ -725,6 +760,69 @@ function cleanLink(text)
 		 .replace(/\-$/g, '')
 		 .toLowerCase();
 	return text;
+}
+
+function updateCategoryCheck(e) 
+{
+	if(e.target.checked)
+	{
+		console.log("uncheck all");
+		$('#faceted-search-form input[name="all_categories"]').prop("checked", false);
+	}
+	else
+	{
+		var num_checked = 0;
+		$('#faceted-search-form input[name="peltzman"], #faceted-search-form input[name="clausen"]').each(function(index, element) {
+			if($(this).prop("checked")) { num_checked = 1; }
+		});
+
+		if(!num_checked) $('#faceted-search-form input[name="all_categories"]').prop("checked", true);
+	}
+	updateRequest();
+}
+
+function updateCheckAll(e)
+{
+	if(e.target.checked)
+	{
+		$('#faceted-search-form input[name="peltzman"], #faceted-search-form input[name="clausen"]').each(function() { $(this).prop("checked", false); });
+		updateRequest();
+	}
+	else
+	{
+		$(e.target).prop("checked", true);
+	}
+}
+
+function updateSupportRange(element) 
+{
+	var min = 0, max = 100;
+	switch($(element).attr("value"))
+	{
+		case "super": min = 66; break;
+		case "majority": min = 50; break;
+		case "minority": max = 49; break;
+	}
+
+	var slider = $("#support").slider();
+	slider.slider("setValue", [min, max]);
+	updateRequest();
+}
+
+function fixSupportGroup()
+{
+	// Makes sure the radio button state is coherent with the slider support state.
+
+	var result = $("#support").slider("getValue");
+	var group = "other";
+	if(result[0] == 0 && result[1] == 100) { group = "all"; }
+	else if(result[0] == 66 && result[1] == 100) { group = "super"; }
+	else if(result[0] == 50 && result[1] == 100) { group = "majority"; }
+	else if(result[0] == 0 && result[1] == 49) { group = "minority"; }
+
+	$("input[name*='supportGroup']").prop("checked", false);
+	var element = $("input[name*='supportGroup'][value='" + group + "']");
+	if(element && !element.prop("checked")) { element.prop("checked", true); }
 }
 
 $('#toggleAlert').click(function()
