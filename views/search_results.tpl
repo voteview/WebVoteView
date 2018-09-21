@@ -1,53 +1,7 @@
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% import re
-% from stemming.porter2 import stem
+% from model.search_results import do_highlight
 % include('member_party_list.tpl', resultMembers=resultMembers, resultParties=resultParties)
-
 % orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff", "wikipedia": "Wikipedia"}
-
-% def doHighlight(highlighter, text):
-%     	stopwords = [x.strip() for x in open("model/stop_words.txt","r").read().split("\n")]
-%	if not len(highlighter):
-%		return text
-%	end
-%	words = highlighter.split()
-%	stemSet = []
-%	reSet = r"("+highlighter+")"
-%	for word in words:
-% 		if len(word)>2:
-%			reSet += "|("+word+")"
-%			if stem(word)!=word:
-%				stemSet.append(stem(word))
-%			end
-%		end
-%	end
-%	for stemS in stemSet:
-%		if len(stemS)>2:
-%			reSet += "|("+stemS+")"
-%		end
-%	end
-%	spans = [m for m in re.finditer(reSet, text, re.I)]
-%	newS = ""
-%	last = 0
-%	for s in spans:
-%		if s.lastindex==1:
-%			ternary = ""
-%		elif s.lastindex<=1+len(stemSet):
-%			ternary = "2"
-%		else:
-%			ternary = "3"
-%		end
-%		if not text[s.start():s.end()].lower() in stopwords:
-%			newS += text[last:s.start()] + '<span class="searchHighlight'+(ternary)+'">'+text[s.start():s.end()]+'</span>'
-%		else:
-%			newS += text[last:s.start()] + ' '+text[s.start():s.end()]
-%		end
-%		last = s.end()
-%	end
-%	newS += text[last:]
-%	return newS
-% end
-
 % for rollcall in rollcalls:
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -65,11 +19,12 @@
 			</strong>
 			on <abbr title="Date"><a href="/search/?fromDate={{rollcall["date"]}}&toDate={{rollcall["date"]}}">{{ rollcall["date"] }}</a></abbr>
 			<span class="pull-right">
-				<a href="/rollcall/{{ rollcall["id"] }}"><img src="/static/img/graph.png" class="viewVote"
-data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
+				<a href="/rollcall/{{ rollcall["id"] }}"><img src="/static/img/graph.png" class="viewVote" 
+					data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 
 				<input type="checkbox" name="ids" value="{{ rollcall["id"] }}"> 
-				<img src="/static/img/export.png" class="exportVote" data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
+				<img src="/static/img/export.png" class="exportVote" 
+					data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
 			</span>
 		</div>
 		<a href="/rollcall/{{rollcall["id"]}}" class="nohover">
@@ -105,9 +60,7 @@ data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 			% if rollcall["question"]:
 			<p><strong>Question</strong>: {{ rollcall["question"] }}</p>
 			% end
-			<p><strong>Description</strong>: {{!doHighlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
-
-
+			<p><strong>Description</strong>: {{!do_highlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
 
 			% debug = False
 			% if "score" in rollcall and debug:
