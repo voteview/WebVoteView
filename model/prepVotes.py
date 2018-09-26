@@ -64,3 +64,17 @@ def prepVotes(voteQuery, person):
 		votes = []
 
 	return votes
+
+def fixVoteProb(prob):
+	if int(round(prob)) == 100:
+		return ">99"
+	elif int(round(prob)) < 1:
+		return "<1"
+	else:
+		return int(round(prob))
+
+def fixPunc(text):
+	if text.endswith(".") or text.endswith(". "):
+		return text
+	else:
+		return text + ". "
