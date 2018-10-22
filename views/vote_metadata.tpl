@@ -1,6 +1,5 @@
 % orgMapping = {"CQ": "Congressional Quarterly", "GOV": "Congress.gov", "VV": "Voteview Staff", "wikipedia": "Wikipedia"}
 
-
 	<div class="row">
 		<div class="col-md-12">
 			<h3>
@@ -85,13 +84,8 @@
 			% end
 			% end
 
-   % official_titles = rollcall.get('cg_official_titles', [])
-   % short_titles = rollcall.get('cg_short_titles_for_portions', [])
-   % titles = official_titles + short_titles
-   % if titles:
-  <p> <strong>Bill titles:</strong>
-    {{'; '.join(title.encode('utf-8') for title in titles)}}
-  </p>
+   % if title_text:
+  <p> <strong>Bill titles:</strong> {{title_text}}</p>
    % end
 
 	 % if sources:

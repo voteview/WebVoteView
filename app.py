@@ -393,6 +393,15 @@ def rollcall(rollcall_id=""):
 
     noteText = ("<strong><u>NOTE</u></strong><br/><ul>" + " ".join(["<li>" + note + "</li>" for note in notes]) + "</ul>") if len(notes) else ""
 
+    # Bill title text
+    official_titles = current_rollcall.get('cg_official_titles', [])
+    short_titles = current_rollcall.get('cg_short_titles_for_portions', [])
+    titles = official_titles + short_titles
+    if titles:
+        title_text = "; ".join(title.encode("utf-8") for title in titles)
+    else:
+        title_text = ""
+
     # Display template.
     output = bottle.template(
         "views/vote",
@@ -403,6 +412,7 @@ def rollcall(rollcall_id=""):
         sponsor=sponsor,
         sources=mark_linkable_sources(current_rollcall.get("dtl_sources", [])),
         noteText=noteText,
+        title_text=title_text,
         plotTitle=plotTitle
     )
     return(output)
