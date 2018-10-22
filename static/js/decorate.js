@@ -123,7 +123,7 @@ function decorateNominate(oc,data) {
 	var ggg = ocSVG.insert("g",".brush");
         
         var hasNominate = 1;
-        if (data.rollcalls==undefined || data.rollcalls[0].nominate==undefined)  
+        if (data.rollcalls==undefined || data.rollcalls[0].nominate == undefined || data.rollcalls[0].nominate.spread == undefined)  
         {
                 hasNominate=0;
                 gg
@@ -163,14 +163,14 @@ function decorateNominate(oc,data) {
 	var legendType=1;
 
 
-    if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre>0) ) { // Only drawn if there is a cutline!
-	    var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
-            var gggg = gg.append("g")
-                          .attr("id","heat-map")
-                          .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")"); 
+	if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre>0) ) { // Only drawn if there is a cutline!
+		var hmTranslate = {x: scmargins['left'], y: (oc.height()/2) - radiusY - scmargins['top']};
+		var gggg = gg.append("g")
+				.attr("id","heat-map")
+				.attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")"); 
 
-	    nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1], 
-	    		    nomBeta, nomDWeight, 2*radiusX, 2*radiusY, 30, ["#FFFFFF","#FFFFAA"]);
+		nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1], 
+			nomBeta, nomDWeight, 2 * radiusX, 2 * radiusY, 30, ["#FFFFFF","#FFFFAA"]);
 
 	       // Calculate where the YN text axis goes.
 	       function closestpt(vn) {
@@ -247,7 +247,7 @@ function decorateNominate(oc,data) {
 				var legendType=3;
 			}
 	
-	 	        var hmTranslate = {x:scmargins['left'],y:oc.height()/2-radiusY-scmargins['top']};
+	 	        var hmTranslate = {x: scmargins['left'], y: (oc.height() / 2) - radiusY - scmargins['top']};
 	                var gggg = gg.append("g")
 	                          .attr("id","heat-map")
 	                          .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")");

@@ -7,7 +7,7 @@
 % setdefault('body_class', '')
 % setdefault('twitter_card', '')
 % import random
-% numBusta = random.randint(1000000, 9999999)
+% cache_breaker = random.randint(10000, 99999)
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -40,8 +40,8 @@
 </style>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection, print"/>
-        <link href="{{ STATIC_URL }}css/dc.css?t={{numBusta}}" media="all" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css?t={{numBusta}}" media="screen, projection, print"/>
+        <link href="{{ STATIC_URL }}css/dc.css?t={{cache_breaker}}" media="all" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css?t={{cache_breaker}}" media="screen, projection, print"/>
         
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/libs/js.cookie.js"></script>
@@ -52,7 +52,7 @@
 		<script type="text/javascript" src="{{extra}}"></script>
 	% end
 	% for extra in extra_css:
-		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}?t={{numBusta}}" type="text/css" />
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/{{extra}}?t={{cache_breaker}}" type="text/css" />
 	% end
 
 	% if twitter_card:
