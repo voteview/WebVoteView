@@ -21,15 +21,16 @@ def getPartyData(code, api="Web_Name"):
 
 	if not r or r is None or not "partyname" in r:
 		return {"error": "Party code not found.", "partyname": None}
-	else:
-		retDict = {"partyname": r["partyname"], "fullName": r["fullName"], "pluralNoun": r["pluralNoun"], "noun": r["noun"]}
-		if "party_description" in r:
-			retDict["party_description"] = r["party_description"]
-		if "briefName" in r:
-			retDict["briefName"] = r["briefName"]
-                if api == "Web_Person":
-                        retDict["loyalty_counts"] = r["loyalty_counts"]
-		return retDict
+
+	retDict = {"partyname": r["partyname"], "fullName": r["fullName"], "pluralNoun": r["pluralNoun"], "noun": r["noun"]}
+	if "party_description" in r:
+		retDict["party_description"] = r["party_description"]
+	if "briefName" in r:
+		retDict["briefName"] = r["briefName"]
+	if api == "Web_Person":
+		retDict["loyalty_counts"] = r["loyalty_counts"]
+
+	return retDict
 
 if __name__=="__main__":
 	print getPartyData(22)

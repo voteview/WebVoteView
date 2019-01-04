@@ -171,6 +171,7 @@ def assemblePersonMeta(person, keith=0):
     # Biographical lived years string
     if "died" in person and person["yearsOfService"][-1][1]>person["died"] and person["died"] is not None:
         person["yearsOfService"][-1][1] = person["died"]
+
     if "born" in person and "died" in person and person["born"] is not None and person["died"] is not None:
         person["lifeString"] = "(%s-%s)" % (str(person["born"]), str(person["died"]))
     elif ("born" in person and person["born"] is not None) and (not "died" in person or person["died"] is None) and person["born"] < 1900:
@@ -179,6 +180,8 @@ def assemblePersonMeta(person, keith=0):
         person["lifeString"] = "(%s-)" % str(person["born"])
     elif "died" in person and person["died"] is not None:
         person["lifeString"] = "(??-%s)" % str(person["died"])
+    else:
+        person["lifeString"] = ""
 
     # Fix their last name.
     person["last_name"] = person["bioname"].split(",")[0].upper()[0] + person["bioname"].split(",")[0].lower()[1:]

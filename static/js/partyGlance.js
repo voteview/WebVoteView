@@ -195,7 +195,7 @@ function generateGlanceChart(error, parties, glance, configFile) {
 					{
 						var d3MouseCoords = d3.mouse(this);
 						var d3CanvasWidth = d3.select(".dc-chart svg").select("g.sub").node().getBBox()["width"];
-						var currCong = Math.ceil(115*d3MouseCoords[0]/(d3CanvasWidth));
+						var currCong = Math.ceil(115 * d3MouseCoords[0] / (d3CanvasWidth));
 						var dUse = d["values"][currCong-1];
 					}
 					else // We only have one congress, we're good to go.

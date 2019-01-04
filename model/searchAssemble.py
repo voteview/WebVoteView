@@ -74,7 +74,7 @@ def assembleSearch(q, nextId, bottle):
 	# Time period capture:
 	rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 	timePeriods = []
-	for i in xrange(115,0,-1):
+	for i in xrange(116, 0, -1):
 		timePeriods.append(str(i)+" congress")
 		timePeriods.append("congress "+str(i))
 		timePeriods.append(rcSuffix(i)+" congress")
@@ -133,7 +133,7 @@ def assembleSearch(q, nextId, bottle):
 				# Which congress do we think they're asking for?
 				congress = 0
 				if "current" in q.strip().lower():
-					congress = 115
+					congress = 116
 				else:
 					for timeP in timePeriods:
 						if timeP in q.strip().lower():
@@ -148,7 +148,7 @@ def assembleSearch(q, nextId, bottle):
 								congress = numeral
 								break
 				if not congress:
-					congress = 115
+					congress = 116
 
 				if chamberFind and stateName and congress:
 					memberSearch = memberLookup({"state_abbrev": stateName, "congress": congress, "chamber": chamberFind}, 100, distinct=1, api="Web_FP_Search") 

@@ -1,30 +1,13 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff", "wikipedia": "Wikipedia"}
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-
-% def fixVoteProb(prob):
-% 	if int(round(prob)) == 100:
-%		return ">99"
-%	elif int(round(prob)) < 1:
-%		return "<1"
-%	else:
-%		return int(round(prob))
-%	end
-% end
-% def fixPunc(text):
-% 	if text.endswith(".") or text.endswith(". "):
-%		return text
-%	else:
-%		return text+". "
-%	end
-% end
-
+% import model.prepVotes
 % if len(votes):
 		% if not int(skip):
                 <table class="table table-hover dc-data-table" id="voteDataTable">
 			<thead>
 				<tr class="header">
 					<th width="9%" class="text_right">Date</th>
-                        		<th width="62%">Description</th>
+                        		<th width="62%" data-sorter="false">Description</th>
 					<th width="6%">Party Vote</th>
 					<th width="6%">Member Vote</th>
 					<th width="6%" class="text_center">
@@ -42,7 +25,7 @@
                     % for vote in votes:
                         <tr class="cursor" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
 			    <td align="right">
-				% if lastDate!=vote["date"]:
+				% if lastDate != vote["date"]:
 				<span>{{vote["date"]}}</span>
 				% else:
 				<span class="hide_date">{{vote["date"]}}</span>
@@ -53,15 +36,15 @@
 					<strong>{{vote["bill_number"]}}</strong><br/>
 				%	end
 				%	voteFields = ["vote_description", "vote_desc", "vote_document_text", "vote_title", "vote_question_text", "amendment_author", "description", "short_description"]
-				%	done=0
+				%	done = 0
 				%	for v in voteFields:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
-							{{fixPunc(vote[v])}}
-				%			done=1
+							{{model.prepVotes.fixPunc(vote[v])}}
+				%			done = 1
 				%			break
 				%		end
 				%	end
-				%	if done==0:
+				%	if done == 0:
 						{{rcSuffix(vote["congress"])}} Congress &gt {{vote["chamber"]}} &gt; Vote {{str(vote["rollnumber"])}}
 				%	end
 				
@@ -97,19 +80,19 @@
 			    </td>
 			    % if not "myProb" in vote:
 			    %	imputed = "0000"
-			    % elif vote["myVote"]=="Abs":
-			    % 	imputed = "0"+str(vote["myProb"]).zfill(3)
+			    % elif vote["myVote"] == "Abs":
+			    % 	imputed = "0" + str(vote["myProb"]).zfill(3)
 			    % else:
-			    % 	imputed = "1"+str(vote["myProb"]).zfill(3)
+			    % 	imputed = "1" + str(vote["myProb"]).zfill(3)
 			    % end
 			    <td align="right" data-impute-sort="{{imputed}}">
 				% if "myProb" in vote:				 
-					% if vote["myVote"]=="Abs":	  
-					<span class="abstention">{{fixVoteProb(vote["myProb"])}}%</span>
-					% elif vote["myProb"]<25:
-					<span class="unlikely_vote">{{fixVoteProb(vote["myProb"])}}%</span>
+					% if vote["myVote"] == "Abs":	  
+					<span class="abstention">{{model.prepVotes.fixVoteProb(vote["myProb"])}}%</span>
+					% elif vote["myProb"] < 25:
+					<span class="unlikely_vote">{{model.prepVotes.fixVoteProb(vote["myProb"])}}%</span>
 					% else:
-					{{fixVoteProb(vote["myProb"])}}%
+					{{model.prepVotes.fixVoteProb(vote["myProb"])}}%
 					%end
 				% end
 			    </td>
