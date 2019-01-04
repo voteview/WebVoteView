@@ -1,7 +1,6 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff", "wikipedia": "Wikipedia"}
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % import model.prepVotes
-
 % if len(votes):
 		% if not int(skip):
                 <table class="table table-hover dc-data-table" id="voteDataTable">
@@ -40,7 +39,7 @@
 				%	done = 0
 				%	for v in voteFields:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
-							{{fixPunc(vote[v])}}
+							{{model.prepVotes.fixPunc(vote[v])}}
 				%			done = 1
 				%			break
 				%		end
@@ -89,11 +88,11 @@
 			    <td align="right" data-impute-sort="{{imputed}}">
 				% if "myProb" in vote:				 
 					% if vote["myVote"] == "Abs":	  
-					<span class="abstention">{{fixVoteProb(vote["myProb"])}}%</span>
+					<span class="abstention">{{model.prepVotes.fixVoteProb(vote["myProb"])}}%</span>
 					% elif vote["myProb"] < 25:
-					<span class="unlikely_vote">{{fixVoteProb(vote["myProb"])}}%</span>
+					<span class="unlikely_vote">{{model.prepVotes.fixVoteProb(vote["myProb"])}}%</span>
 					% else:
-					{{fixVoteProb(vote["myProb"])}}%
+					{{model.prepVotes.fixVoteProb(vote["myProb"])}}%
 					%end
 				% end
 			    </td>
