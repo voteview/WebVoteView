@@ -1,5 +1,5 @@
 % devserver=int(open("./server.txt","r").read().strip())
-
+% transition_alert = 0
 <div class="container">
   <div id="wbv-header" class="row">
     <div class="col-md-12">
@@ -35,4 +35,14 @@
 	</h1>
     </div>
   </div>
+  % if transition_alert:
+  <div class="row">
+	<div class="col-md-12">
+		<div class="alert alert-info" role="alert">
+			<strong>Attention:</strong> During the transition to the new Congress, some data may be missing, incomplete, or provisional. 
+			We expect scores to propagate over the next 1-2 weeks. If you would like to be alerted when data for the new Congress is fully propagated, please <a href="https://vanguard.voteview.com/about">sign up for our update newsletter.</a>
+		</div>
+	</div>
+  </div>
+  % end
 </div>
