@@ -38,7 +38,7 @@
 
 			<p>
 				The technical details of the DW-NOMINATE model can be found in Poole's <a href="https://www.cambridge.org/catalogue/catalogue.asp?isbn=9780521617475">Spatial Models of Parliamentary Voting</a>.  
-				Poole and Rosenthal's <a href="http://www.transactionpub.com/title/Ideology-and-Congress-978-1-4128-0608-4.html">Ideology and Congress</a> 
+				Poole and Rosenthal's <a href="https://www.routledge.com/Ideology-and-Congress-A-Political-Economic-History-of-Roll-Call-Voting/Poole/p/book/9781412806084">Ideology and Congress</a> 
 				explores the nature of voting in Congress and the political history of the United States through the lens of 
 				the ideological dimensions recovered by DW-NOMINATE and is a useful companion to this site.
 			</p>
