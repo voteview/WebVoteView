@@ -163,7 +163,7 @@ def assembleSearch(q, nextId, bottle):
 								congress = numeral
 								break
 				if not congress:
-					congress = 116
+					congress = max_congress
 
 				if chamberFind and stateName and congress:
 					memberSearch = memberLookup({"state_abbrev": stateName, "congress": congress, "chamber": chamberFind}, 100, distinct=1, api="Web_FP_Search") 
