@@ -10,6 +10,17 @@ function getGetOrdinal(n) {
     return n+(s[(v-20)%10]||s[v]||s[0]);
  }
 
+function getCurrentCongress() {
+	var currentYear = new Date().getFullYear()
+	var congress = Math.floor((currentYear - 1789) / 2) + 1;
+	// If it's before January third of a new congress year, it's the old congress.
+	if(currentYear % 2 == 0 && new Date().getMonth() == 1 && new Date().getDate() < 3) {
+		congress = congress - 1;
+	}
+
+	return congress;
+}
+
 var min, max;
 var eW=0; var eH=0;
 var globalParties = [];
@@ -195,7 +206,7 @@ function generateGlanceChart(error, parties, glance, configFile) {
 					{
 						var d3MouseCoords = d3.mouse(this);
 						var d3CanvasWidth = d3.select(".dc-chart svg").select("g.sub").node().getBBox()["width"];
-						var currCong = Math.ceil(115 * d3MouseCoords[0] / (d3CanvasWidth));
+						var currCong = Math.ceil(getCurrentCongress() * d3MouseCoords[0] / (d3CanvasWidth));
 						var dUse = d["values"][currCong-1];
 					}
 					else // We only have one congress, we're good to go.

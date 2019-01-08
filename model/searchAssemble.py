@@ -12,7 +12,22 @@ from fuzzywuzzy import fuzz
 def defaultValue(x,value = None):
     return x is not "" and x or value
 
+def current_congress():
+	try:
+		congress = json.load(open("static/config.json", "r"))["maxCongress"]
+	except:
+		try:
+			congress = json.load(open("../static/config.json", "r"))["maxCongress"]
+		except:
+			congress = 116
+
+	return congress
+
+
 def assembleSearch(q, nextId, bottle):
+	# First, get the current congress
+	max_congress = current_congress()
+
 	#Party search
 	resultParties = []
 	if q is not None and not nextId and not ":" in q and len(q.split())<4 and len(q):
@@ -74,11 +89,11 @@ def assembleSearch(q, nextId, bottle):
 	# Time period capture:
 	rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 	timePeriods = []
-	for i in xrange(116, 0, -1):
-		timePeriods.append(str(i)+" congress")
-		timePeriods.append("congress "+str(i))
-		timePeriods.append(rcSuffix(i)+" congress")
-		timePeriods.append("congress: "+str(i))
+	for i in xrange(max_congress, 0, -1):
+		timePeriods.append(str(i) + " congress")
+		timePeriods.append("congress " + str(i))
+		timePeriods.append(rcSuffix(i) + " congress")
+		timePeriods.append("congress: " + str(i))
 
 	stateQueries = list(set(stateQueries))
 	if q is not None and not nextId and not ":" in q and len(q):
@@ -133,7 +148,7 @@ def assembleSearch(q, nextId, bottle):
 				# Which congress do we think they're asking for?
 				congress = 0
 				if "current" in q.strip().lower():
-					congress = 116
+					congress = max_congress
 				else:
 					for timeP in timePeriods:
 						if timeP in q.strip().lower():
