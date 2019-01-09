@@ -70,14 +70,31 @@ function writeBioTable(format_text=["name", "party", "state", "elected"])
 	rC = resultCache["results"];
 	$("#memberList").fadeOut(200,function()
 	{
+		if(!rC.length) { return; }
+
 		if(sortBy==undefined) { console.log("Default to sorting by name."); sortBy="name"; }
 		$("#memberList").html("");
 		if(sortBy=="name" || sortBy==undefined) { rC.sort(function(a,b) { return a.bioname > b.bioname ? 1 : -1; }); }
 		else if(sortBy=="party") { rC.sort(function(a,b) { return (a.party_noun==b.party_noun)?(a.bioname>b.bioname?1:-1):(a.party_noun>b.party_noun?1:-1); }); }
 		else if(sortBy=="state") { rC.sort(function(a,b) { return(a.state==b.state)?(a.bioname>b.bioname?1:-1):(a.state>b.state?1:-1); }); }
-		else if(sortBy=="elected") { rC.sort(function(a,b) { return (a.minElected==b.minElected)?(a.bioname>b.bioname?1:-1):(a.minElected>b.minElected?1:-1); }); }
-		else if(sortBy=="elected_senate") { rC.sort(function(a,b) { return (a.elected_senate==b.elected_senate)?(a.bioname>b.bioname?1:-1):(a.elected_senate>b.elected_senate?1:-1); }); }
-		else if(sortBy=="elected_house") { rC.sort(function(a,b) { return (a.elected_house==b.elected_house)?(a.bioname>b.bioname?1:-1):(a.elected_house>b.elected_house?1:-1); }); }
+		else if(sortBy=="elected") { 
+			rC.sort(function(a,b) 
+			{ 
+				return a.minElected == undefined ? 1 : b.minElected == undefined ? -1 : (a.minElected == b.minElected) ? (a.bioname > b.bioname ? 1 : -1) : (a.minElected > b.minElected ? 1 : -1);
+			});
+		}
+		else if(sortBy=="elected_senate") { 
+			rC.sort(function(a,b) 
+			{ 
+				return a.elected_senate == undefined ? 1 : b.elected_senate == undefined ? -1 : (a.elected_senate == b.elected_senate) ? (a.bioname > b.bioname ? 1 : -1) : (a.elected_senate > b.elected_senate ? 1 : -1);
+			});
+		}
+		else if(sortBy=="elected_house") { 
+			rC.sort(function(a,b) 
+			{ 
+				return a.elected_house == undefined ? 1 : b.elected_house == undefined ? -1 : (a.elected_house == b.elected_house) ? (a.bioname > b.bioname ? 1 : -1) : (a.elected_house > b.elected_house ? 1 : -1); 
+			});
+		}
 		else if(sortBy=="nominate") 
 		{ 
 			rC.sort(function(a,b) 
