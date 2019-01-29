@@ -202,6 +202,10 @@ def congress(chamber="senate", congress_num=-1, tv=""):
             tv = ""
             congress_num = maxCongress
 
+    # Hack to ensure 115th shows because senate hasn't voted yet.
+    if congress_num == -1 and chamber == "senate":
+        congress_num = 115
+
     # Get meta args for NOMINATE
     meta = metaLookup()
 
@@ -449,6 +453,8 @@ def getmembersbycongress():
     if api == "Web_Congress" and "results" in out:
         for i in range(0, len(out["results"])):
             memberRow = out["results"][i]
+            if not "congresses" in memberRow:
+                continue
 
             memberRow["minElected"] = congressToYear(
                 memberRow["congresses"][0][0], 0)
@@ -560,6 +566,8 @@ def getmembersbyparty():
     if api == "Web_Party" and "results" in out:
         for i in range(0, len(out["results"])):
             memberRow = out["results"][i]
+            if not "congresses" in memberRow:
+                continue
 
             memberRow["minElected"] = congressToYear(
                 memberRow["congresses"][0][0], 0)

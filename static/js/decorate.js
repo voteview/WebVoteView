@@ -106,8 +106,23 @@ function decorateNominate(oc,data) {
              .attr("y", yAxisMin + 0.95 * yAxisLen)
              .attr("style","text-anchor: start; fill: #808080;")
              .attr("transform", sprintf("rotate(-90 50 %d)", yAxisMin + 0.95 * yAxisLen));
+
+	var seconddim_label = "NOMINATE Dimension 2: Other Votes";
+	if(congressNum != null)
+	{
+		switch(true) {
+			case (congressNum <= 24):
+				break;
+			case (congressNum <= 32):
+				seconddim_label = "NOMINATE Dimension 2: Slavery / Racial";
+				break;
+			default:
+				break;
+		}
+	}
+
 	gg.append('text')
-             .text("DW-Nominate Dimension 2: Social/Racial")
+             .text(seconddim_label)
              .attr("x", 30)
              .attr("y", yAxisMin + yAxisLen/2)
              .attr("style","text-anchor:middle")

@@ -25,7 +25,7 @@ $(document).ready(function()
 		if(data != null)
 		{
 			var parseData = JSON.parse(data);
-			if(new Date().getDate() <= Date.parse(parseData["date"]))
+			if(new Date().getTime() <= Date.parse(parseData["date"]))
 			{
 				console.log("Loaded from localStorage");
 				resultCache = parseData["data"];
@@ -213,7 +213,7 @@ function reloadBios()
 		if(data != null)
 		{
 			var parseData = JSON.parse(data);
-			if(new Date().getDate() <= Date.parse(parseData["date"]))
+			if(new Date().getTime() <= Date.parse(parseData["date"]))
 			{
 				console.log("Loaded from localStorage");
 				if(!tabular_view) doFullFilterReset();

@@ -184,22 +184,24 @@ function outVotes(groupBy)
 						else { var probText = pp["prob"] + "%"; }
 
 						baseText += "<strong>Ideology Score:</strong> "+pp["x"]+"<br/>(<em>DW-NOMINATE First Dimension</em>)<br/><br/>"; 
-						if(pp["vote"]=="Abs") { 
-							baseText += "<strong>Not Voting</strong>.";
-							if(pp["prob"]!=undefined) { baseText += "If "+pp["name"]+" had voted, we predict they would vote with their party with "+probText+" probability.<br/>"; }
-						}
-						else 
-						{ 
-							baseText += "<strong>Voted "+pp["vote"]+"</strong>. ";
-							if(pp["prob"]!=undefined) { baseText += "Predicted probability of this vote: "+probText+"."; }
-						}
-		
-						if(pp["flags"]=="median") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Median Voter."; }
-						else if(pp["flags"]=="fbPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> 60th Vote for Cloture"; }
-						else if(pp["flags"]=="voPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Veto override."; }
-						if(globalData["rollcalls"][0]["sponsor"] != undefined && pp["icpsr"]==globalData["rollcalls"][0]["sponsor"]) { baseText += "<br/><br/><strong>Sponsor:</strong> This member sponsored the bill or amendment."; }
 					}
-					else { baseText += "We do not have a score for this member yet.<br/>"; }
+					else { baseText += "We do not have a score for this member yet.<br/><br/>"; }
+
+
+					if(pp["vote"]=="Abs") { 
+						baseText += "<strong>Not Voting</strong>.";
+						if(pp["prob"]!=undefined) { baseText += "If "+pp["name"]+" had voted, we predict they would vote with their party with "+probText+" probability.<br/>"; }
+					}
+					else 
+					{ 
+						baseText += "<strong>Voted "+pp["vote"]+"</strong>. ";
+						if(pp["prob"]!=undefined) { baseText += "Predicted probability of this vote: "+probText+"."; }
+					}
+		
+					if(pp["flags"]=="median") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Median Voter."; }
+					else if(pp["flags"]=="fbPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> 60th Vote for Cloture"; }
+					else if(pp["flags"]=="voPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Veto override."; }
+					if(globalData["rollcalls"][0]["sponsor"] != undefined && pp["icpsr"]==globalData["rollcalls"][0]["sponsor"]) { baseText += "<br/><br/><strong>Sponsor:</strong> This member sponsored the bill or amendment."; }
 
 					var profileImg = $("<img>").attr("src","/static/img/bios/"+pp["img"]);
 					var profileImgDiv = $("<div></div>").addClass("profile").addClass("pull-left");
