@@ -243,8 +243,8 @@ function decorateNominate(oc,data) {
         {
 		if(data.rollcalls != undefined)
 		{
-			var nomData = data.rollcalls[0].nominate;
-			if(nomData != undefined && nomData.pre != undefined)
+		        var nomData = data.rollcalls[0].nominate;
+			if(nomData != undefined && nomData.spread != undefined)
 			{
 				ggg.append('text').text("Lopsided vote with")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
@@ -255,10 +255,13 @@ function decorateNominate(oc,data) {
 				var legendType=2;
 			}
 			else
-			{
-				ggg.append('text').text("NOMINATE not yet computed")
-					.attr("class","fitbox").attr("x", xAxisMax - 75)
-					.attr("y", yAxisMax - 25);
+		        {
+			        ggg.append('text').text("NOMINATE not")
+					.attr("class","fitbox").attr("x", xAxisMax - 110)
+					.attr("y", yAxisMax - 12);
+				ggg.append('text').text("yet estimated")
+					.attr("class","fitbox").attr("x", xAxisMax - 110)
+					.attr("y", yAxisMax - 0);
 				var legendType=3;
 			}
 	
