@@ -243,8 +243,8 @@ function decorateNominate(oc,data) {
         {
 		if(data.rollcalls != undefined)
 		{
-			var nomData = data.rollcalls[0].nominate;
-			if(nomData != undefined && nomData.pre != undefined)
+		        var nomData = data.rollcalls[0].nominate;
+			if(nomData != undefined && nomData.spread != undefined)
 			{
 				ggg.append('text').text("Lopsided vote with")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
