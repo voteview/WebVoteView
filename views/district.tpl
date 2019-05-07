@@ -151,4 +151,4 @@ var predefinedSearch = "{{ search }}";
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/district.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHpW18spAq_48_xICFApSrUttTzcWBDA8"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbIsl8_PX82FcE1Algu3ZzJ9t0TzR8hF8"></script>
