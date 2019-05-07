@@ -27,6 +27,7 @@ def addressToLatLong(request, addressString):
 	if not addressString:
 		return {"status": 1, "error_message": "You must enter an address to continue."}
 
+	print "https://maps.googleapis.com/maps/api/geocode/json?address=" + addressString + "&key=" + apiKey
 	result = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address="+addressString+"&key="+apiKey).text
 	resJSON = json.loads(result)
 	if "status" in resJSON and resJSON["status"]!="OK":
@@ -160,9 +161,10 @@ def latLongToDistrictCodes(request, lat, lng):
 
 if __name__=="__main__":
 	start = time.time()
-	#addStr = "233 S Wacker Dr, Chicago, IL 60606"
-	#res = addressToLatLong(addStr)
-	res = {"lat": 38.9004367, "lng": -77.011207}
+	addStr = "233 S Wacker Dr, Chicago, IL 60606"
+	res = addressToLatLong(None, addStr)
+	print res
+	# res = {"lat": 38.9004367, "lng": -77.011207}
 	resMem = latLongToDistrictCodes(None, res["lat"], res["lng"])
 	print resMem
 	orSet = []

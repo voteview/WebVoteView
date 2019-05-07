@@ -54,7 +54,7 @@ $(document).ready(function(){
 	if($("#addressInput").val()) { setTimeout(function(){latLongWrapper();},1000); }
 	$("ul#testData li").on("click",function(){ loadText(this.innerHTML); });
 	$("ul.notableExamples li").on("click",function(){ loadText(this.innerHTML); });
-	deoGeolocation();
+	doGeolocation();
 });
 
 function doGeolocation()
@@ -143,6 +143,7 @@ function latLongWrapper()
 			{
 				if(data["status"])
 				{	
+					console.log(data);
 					$("#loadProgress").fadeOut();
 					console.log("Error! Oh no!");
 					var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> "+data["error_message"])
