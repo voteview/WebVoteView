@@ -624,8 +624,12 @@ var globalSlowLoadTimer;
 				$("#results-list").fadeOut(50, function()
 				{
 					$("#results-list").html(res);
-					selectIncludedVotes();
-					updateStashCart();
+					try {
+						selectIncludedVotes();
+						updateStashCart();
+					} catch(error) {
+						console.log("Stash issue that may prevent vote loading.");
+					}
 					$("#results-list").fadeIn();
 					$('[data-toggle="tooltip"]').tooltip(); 
 				});
