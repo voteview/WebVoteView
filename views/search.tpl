@@ -99,7 +99,7 @@
 									<div class="col-sm-6">
 										<select name="fromCongress" class="form-control" id="fromCongress">
 											<option value=""></option>
-											% for i in xrange(115, 0, -1): 
+											% for i in xrange(116, 0, -1): 
 											<option value="{{i}}">{{rcSuffix(i)}}</option>
 											% end
 										</select>
@@ -110,7 +110,7 @@
 									<div class="col-sm-6">
 										<select name="toCongress" class="form-control" id="toCongress">
 											<option value=""></option>
-											% for i in xrange(115, 0, -1): 
+											% for i in xrange(116, 0, -1): 
 											<option value="{{i}}">{{rcSuffix(i)}}</option>
 											% end
 										</select>
