@@ -144,6 +144,7 @@
 			% if "photo_source" in person and person["photo_source"] != "bio_guide":
 			<br><small><em>Photo source:</em> {{person["photo_source"]}}</small>
 			% end
+
 		</div>
 	</div>
 	% end
@@ -152,6 +153,11 @@
 		<strong>Notice:</strong> By custom, the Speaker of the House rarely votes. Votes for {{person["bioname"]}} may appear to be missing as a result.
 	</div>
 	% end
+	% if person["chamber"] == "President" and person["plotIdeology"] and person["congress"] >= 114:
+	<div class="alert alert-warning">
+		<strong>Notice:</strong> Data about presidential positions comes from CQ Almanac. This data may not reflect recent votes, pending CQ's announcement of those votes.
+	</div>			
+	% end 
     <div class="row">
         <div class="col-md-12">
 	    <form onsubmit="javascript:startNewSearch();return false;" class="form-horizontal">
