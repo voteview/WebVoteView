@@ -24,14 +24,14 @@ function erf(x) {
     return sign * y; // erf(-x) = -erf(x);
 }
 
-function nomProbYea(x1,x2,m1,m2,s1,s2,w,b) {
+function nomProbYea(x1, x2, m1, m2, s1, s2, w, b) {
     var Uy = b*( Math.exp( -Math.pow(x1-m1+s1,2) - w*w*Math.pow(x2-m2+s2,2)));
     var Un = b*( Math.exp( -Math.pow(x1-m1-s1,2) - w*w*Math.pow(x2-m2-s2,2)));
     return( cdf( Uy-Un, 0.0, 1.0) );
 }
 
 // The heatmap is lopsided yes or no. 
-function lopsidedHeatmap(svg,w,width,height,colorRamp,pctYea) {
+function lopsidedHeatmap(svg, w, width, height, colorRamp, pctYea) {
     // If it's lopsided nay, we don't need to add any colour.
     if(pctYea < 0.05) return;
 

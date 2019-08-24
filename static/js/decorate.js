@@ -161,7 +161,7 @@ function decorateNominate(oc,data) {
 
 
 	// Fit box regardless if cutline exists
-	if(vn != undefined)
+	if(vn != undefined && vn.pre != undefined && vn.pre != "")
 	{
 		ggg.append('text').text(sprintf("Proportionate Reduction in Error (PRE): %4.2f", (vn.pre == null || isNaN(vn.pre) || vn.pre=="") ? 0 : vn.pre))
 		    .attr("class", "fitbox")
@@ -178,7 +178,9 @@ function decorateNominate(oc,data) {
 	var legendType=1;
 
 
-	if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre>0) ) { // Only drawn if there is a cutline!
+	var doHM = 1;
+
+	if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre > 0) ) { // Only drawn if there is a cutline!
 		var hmTranslate = {x: scmargins['left'], y: (oc.height()/2) - radiusY - scmargins['top']};
 		var gggg = gg.append("g")
 				.attr("id","heat-map")
@@ -244,7 +246,18 @@ function decorateNominate(oc,data) {
 		if(data.rollcalls != undefined)
 		{
 		        var nomData = data.rollcalls[0].nominate;
-			if(nomData != undefined && nomData.spread != undefined)
+			if(nomData != undefined && nomData.intercept != undefined && nomData.pre == "") 
+			{
+				// This is actually the case where NOMINATE is estimated but the PRE/probability stuff is not.
+			        ggg.append('text').text("NOMINATE not")
+					.attr("class","fitbox").attr("x", xAxisMax - 110)
+					.attr("y", yAxisMax - 12);
+				ggg.append('text').text("yet estimated")
+					.attr("class","fitbox").attr("x", xAxisMax - 110)
+					.attr("y", yAxisMax - 0);
+				doHM = 0;	
+			}
+			else if(nomData != undefined && nomData.spread != undefined)
 			{
 				ggg.append('text').text("Lopsided vote with")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
@@ -264,18 +277,23 @@ function decorateNominate(oc,data) {
 					.attr("y", yAxisMax - 0);
 				var legendType=3;
 			}
-	
-	 	        var hmTranslate = {x: scmargins['left'], y: (oc.height() / 2) - radiusY - scmargins['top']};
-	                var gggg = gg.append("g")
-	                          .attr("id","heat-map")
-	                          .attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")");
-		        var pctYea = globalData.rollcalls[0].yea_count/(globalData.rollcalls[0].yea_count+globalData.rollcalls[0].nay_count);
-	   	        lopsidedHeatmap(gggg,nomDWeight,2*radiusX, 2*radiusY,["#FFFFFF","#ffffcc"],pctYea);
+
+
+			if(doHM)
+			{
+		 	        var hmTranslate = {x: scmargins['left'], y: (oc.height() / 2) - radiusY - scmargins['top']};
+	                	var gggg = gg.append("g")
+	                          	.attr("id", "heat-map")
+	                          	.attr("transform", "translate(" + hmTranslate.x + "," + hmTranslate.y + ")");
+
+		        	var pctYea = globalData.rollcalls[0].yea_count / (globalData.rollcalls[0].yea_count + globalData.rollcalls[0].nay_count);
+	   	        	lopsidedHeatmap(gggg, nomDWeight, 2*radiusX, 2*radiusY, ["#FFFFFF","#ffffcc"], pctYea);
+			}
 		}
 	}
 
         // Tooltip for Prob(yea)
-        if (hasNominate==1) { //Show it as long as nominate has been fit
+        if (hasNominate==1 && doHM) { //Show it as long as nominate has been fit
 
             // Collecting info to find vote prob for heat map
 	    if(!$("#hm_tooltip").length) // Make sure we don't already have a tooltip
