@@ -35,6 +35,7 @@ function outVotes(groupBy)
 		var voteSubset = {
 			"party": filteredVotes[i]["party"], 
 			"vote": filteredVotes[i]["vote"],
+			"paired_flag": filteredVotes[i]["paired_flag"],
 			"state_abbrev": filteredVotes[i]["state_abbrev"],
 			"icpsr": filteredVotes[i]["icpsr"],
 			"x": parseFloat(filteredVotes[i]["x"]),
@@ -148,6 +149,7 @@ function outVotes(groupBy)
 			var li = $("<li></li>").addClass("voter");
 			if(j == 0) li.css("break-before", "avoid");
 			if(isSponsor) li.addClass("sponsor");
+			if(person["paired_flag"]) li.addClass("paired");
 			var span = $("<span></span>");
 			// if(isSponsor) span.addClass("sponsor");
 			if((person["flags"]!=undefined && groupBy=="x") || isSponsor) { 
@@ -166,7 +168,7 @@ function outVotes(groupBy)
 				var p_vote = person["vote"].substr(0, 1);
 				var addVote = $("<span>" + p_vote + "</span>").addClass("vote");
 				// if(isSponsor) addVote.addClass("sponsor");
-				if(person["prob"]!=undefined && parseInt(person["prob"])<25 && sortedKeys[key] == "Voted") addVote.addClass("bullet");
+				if(person["prob"] != undefined && parseInt(person["prob"]) < 25 && sortedKeys[key] == "Voted") addVote.addClass("bullet");
 				addVote.appendTo(li); 
 				li.addClass("dotted");
 			}
@@ -176,8 +178,7 @@ function outVotes(groupBy)
 			(function(pp) 
 			{
 				li.on("mouseover", function() {
-					var baseText = "<strong><u>"+pp["fullName"]+"</u></strong> ("+pp["party"].substr(0,1)+"-"+pp["state_abbrev"]+")<br/><br/>"; 
-
+					var baseText = "<strong><u>" + pp["fullName"] + "</u></strong> (" + pp["party"].substr(0, 1) + "-" + pp["state_abbrev"] + ")<br/><br/>"; 
 					if(!isNaN(pp["x"])) 
 					{ 
 						if(pp["prob"]<25) { var probText = '<span class="unlikely-vote">' + pp["prob"] + '%</span>'; }
@@ -188,14 +189,16 @@ function outVotes(groupBy)
 					else { baseText += "We do not have a score for this member yet.<br/><br/>"; }
 
 
-					if(pp["vote"]=="Abs") { 
+					if(pp["vote"] == "Abs") { 
 						baseText += "<strong>Not Voting</strong>.";
-						if(pp["prob"]!=undefined) { baseText += "If "+pp["name"]+" had voted, we predict they would vote with their party with "+probText+" probability.<br/>"; }
+						if(pp["prob"] != undefined) { baseText += "If " + pp["name"] + " had voted, we predict they would vote with their party with " + probText + " probability.<br/>"; }
 					}
 					else 
 					{ 
-						baseText += "<strong>Voted "+pp["vote"]+"</strong>. ";
-						if(pp["prob"]!=undefined) { baseText += "Predicted probability of this vote: "+probText+"."; }
+						baseText += "<strong>Voted " + pp["vote"] + "</strong>. ";
+						if(pp["prob"] != undefined) { baseText += "Predicted probability of this vote: " + probText + "."; }
+
+						if(pp["paired_flag"]) { baseText += "<br/><br/><strong>Paired Vote:</strong> Member abstained / voted present as part of paired voting arrangement. Vote was not counted in total."; }
 					}
 		
 					if(pp["flags"]=="median") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Median Voter."; }
