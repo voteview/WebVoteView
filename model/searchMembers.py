@@ -198,7 +198,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 		res = db.voteview_members.find(searchQuery, fieldSet)
 
         if "$text" in searchQuery:
-		sortedRes = res.sort([('score', {'$meta': 'textScore'})])
+		sortedRes = res.sort([('score', {'$meta': 'textScore'}), ('icpsr', -1), ('congress', -1)])
 	elif api=="exportORD":
                 db.voteview_members.ensure_index([('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)], name="ordIndex")
                 sortedRes = res.sort([('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)])
@@ -328,4 +328,4 @@ def getMembersByPrivate(query):
 	return memberLookup({"idIn": idIn}, maxResults=200, distinct=0, api="districtLookup")
 
 if __name__ == "__main__":
-	memberLookup({"icpsr": 99912}, maxResults = 30)
+	z = memberLookup({"name": "johnson"}, maxResults = 200, distinct = 1)
