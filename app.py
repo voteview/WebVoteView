@@ -919,4 +919,5 @@ def api_version():
 
 
 if __name__ == '__main__':
+    print("Running local server for test purposes...")
     bottle.run(app, host='localhost', port=8080, debug=True, reloader=True)

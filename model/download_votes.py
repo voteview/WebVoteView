@@ -6,7 +6,7 @@ import copy
 import time
 import os
 import math
-from pymongo import MongoClient
+import pymongo
 from model.config import config
 from model.search_members import cqlabel
 from model.search_parties import party_name, short_name
