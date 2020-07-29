@@ -19,7 +19,10 @@ SERVER_TYPE = (0
 
 # Authentication and API data
 AUTH_DATA = (json.load(open(os.path.join(BASE_DIR, "auth.json"), "r")) if
-             os.path.isfile(os.path.join(BASE_DIR, "auth.json")) else {})
+             os.path.isfile(os.path.join(BASE_DIR, "auth.json")) else
+             json.load(open(os.path.join(BASE_DIR, "auth_blank.json"), "r")) if
+             os.path.isfile(os.path.join(BASE_DIR, "auth_blank.json")) else
+             {})
 
 # English nicknames
 NICKNAMES = json.load(open(os.path.join(BASE_DIR, "nicknames.json"), "r"))
@@ -32,8 +35,8 @@ STATES = json.load(open(os.path.join(BASE_DIR, "states.json"), "r"))
 # https://gist.github.com/jamiew/1112488
 # https://gist.github.com/tjrobinson/2366772
 SWEAR_DATA = (
-    json.load(open(os.path.join(BASE_DIR, "swearFilter.json"), "r"))["swears"]
-    if os.path.isfile(os.path.join(BASE_DIR, "swearFilter.json")) else [])
+    json.load(open(os.path.join(BASE_DIR, "swear_filter.json"), "r"))["swears"]
+    if os.path.isfile(os.path.join(BASE_DIR, "swear_filter.json")) else [])
 
 # DB Connection name.
 DB_DATA = json.load(open(os.path.join(BASE_DIR, "db.json"), "r"))
