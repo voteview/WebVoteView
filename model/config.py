@@ -49,8 +49,10 @@ EMAIL_BLACKLIST = open(
     os.path.join(BASE_DIR, "email/emails.txt"), "r").readlines()
 
 # Slides
-SLIDES = json.load(open(
-    os.path.join(BASE_DIR, "../static/carousel/slides.json"), "r"))
+SLIDES = (
+    json.load(open(os.path.join(BASE_DIR, "../static/carousel/slides.json"), "r")) if
+    os.path.isfile(os.path.join(BASE_DIR, "../static/carousel/slides.json")) else
+    [])
 
 config = {  # pylint: disable=C0103
     "max_congress": MAX_CONGRESS,
