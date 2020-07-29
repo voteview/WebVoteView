@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rebase('base.tpl', title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
+% rebase('base.tpl', title=plot_title, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
 % include('header.tpl')
 
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
@@ -37,8 +37,8 @@
 					      data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 					</span>
 
-					%if len(noteText):
-						<img src="/static/img/help.png" class="noteText left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
+					%if note_text:
+						<img src="/static/img/help.png" class="noteText left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ note_text }}">
 					%end
 
 				</h4>
@@ -78,8 +78,8 @@
 			</div>
 
 			<div class="alert alert-warning nominateExplainer">
-				This chart describes how members voted on the rollcall. Members are placed according to their NOMINATE ideological scores. 
-				A cutting line divides the vote into those expected to vote "Yea" and those expected to vote "Nay". The shaded heatmap reflects 
+				This chart describes how members voted on the rollcall. Members are placed according to their NOMINATE ideological scores.
+				A cutting line divides the vote into those expected to vote "Yea" and those expected to vote "Nay". The shaded heatmap reflects
 				the expected probability of voting "Yea". You can select points or regions to subset the members listed above and below.
 			</div>
 		</div> <!-- Outside the first column onto the second column (the vote table). -->
@@ -138,9 +138,9 @@
 var chamber = "{{ rollcall["chamber"] }}";
 var congressNum = "{{ str(rollcall["congress"]).zfill(3) }}";
 var rcID = "{{ rollcall["id"] }}";
-var mapParties = {{ mapParties }};
+var mapParties = {{ map_parties }};
 var nomDWeight = {{ dimweight }};
-var nomBeta = {{ nomBeta }};
+var nomBeta = {{ nom_beta }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>

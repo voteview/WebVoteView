@@ -12,7 +12,7 @@ var nextId = 0; // What skip value we send to the next page loader.
 var metaPageloaded = 0; // How many pages we've auto-loaded on this search.
 var blockAutoscroll = 0; // If there's a load still in progress.
 
-function numberWithCommas(x) 
+function numberWithCommas(x)
 {
 	if(x == null) { return 0; }
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -39,7 +39,7 @@ function closeStashCart()
 				$("#stashCartIcon").fadeIn(100);
 			}
 		});
-	});	
+	});
 }
 
 function exportJSON() { window.location="/api/exportJSON?id="+cookieId; }
@@ -49,26 +49,26 @@ function updateStashCart()
 {
 	var totalVoteCount = 0;
 	// Calculate and set total vote count.
-	if(cachedVotes["old"]) 
-	{ 
+	if(cachedVotes["old"])
+	{
 		$("#oldCount").html(cachedVotes["old"].length);
 		if(cachedVotes["old"].length)
 		{
 			$("#oldResults").show();
 		} else { $("#oldResults").hide(); }
-		totalVoteCount += cachedVotes["old"].length; 
+		totalVoteCount += cachedVotes["old"].length;
 	}
-	else 
-	{ 
+	else
+	{
 		$("#oldCount").html("0");
 		$("#oldResults").hide();
 		totalVoteCount=0;
 	}
 
-	if(cachedVotes["votes"]) 
+	if(cachedVotes["votes"])
 	{
 		$("#newCount").html(cachedVotes["votes"].length);
-		totalVoteCount += cachedVotes["votes"].length; 
+		totalVoteCount += cachedVotes["votes"].length;
 	}
 	else
 	{
@@ -144,7 +144,7 @@ function addAllVotes()
 			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
 			if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 			updateStashCart();
-			selectIncludedVotes();						
+			selectIncludedVotes();
 		}
 	});
 }
@@ -161,7 +161,7 @@ function delAllVotes()
 			if(data["votes"]) { cachedVotes["votes"] = data["votes"]; }
 			if(data["id"]!=cookieId) { Cookies.set("stash_id", data["id"]); cookieId=data["id"]; }
 			updateStashCart();
-			selectIncludedVotes();						
+			selectIncludedVotes();
 		}
 	});
 
@@ -199,9 +199,9 @@ function toggleAdvancedSearch(instant)
 	}
 	else
 	{
-		if(!$('#results-selects').is(':visible')) 
-		{ 
-			$('#resultsHolder').css('width', '75%'); 
+		if(!$('#results-selects').is(':visible'))
+		{
+			$('#resultsHolder').css('width', '75%');
 		}
 		else { $('#resultsHolder').css('width', '100%'); }
 		$('#results-selects').toggle();
@@ -232,7 +232,7 @@ function emptyCart()
 			}
 			unselectAll();
 			updateStashCart();
-		}			
+		}
 	});
 }
 
@@ -246,15 +246,15 @@ function startPulseSuggested()
 		hasSuggested = 1;
 	}
 
-	$("#searchSuggest").html(suggestions[Math.floor(Math.random() * suggestions.length)]); 
+	$("#searchSuggest").html(suggestions[Math.floor(Math.random() * suggestions.length)]);
 	$("#searchSuggest a").attr("href", "/search/" + stripJunkFromSearch($("#searchSuggest a").html()));
 }
 
-var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"]; 
+var suggestions = ["john mccain", "tax congress: [100 to 112]", "support: [95 to 100]", "impeach chamber:Senate", "iraq war","cuba","france","codes: Civil Liberties", "terrorism"];
 var suggestedPulse;
 
 $(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip(); 
+	$('[data-toggle="tooltip"]').tooltip();
 	$('#stashCartBar').carousel({"interval": false, "keyboard": false, "wrap": false});
 
 	// Load stash
@@ -295,10 +295,10 @@ $(document).ready(function(){
 	}
 
 	// Setup calendar dates
-	$("#fromDatePicker").datetimepicker({useCurrent: false, format: "YYYY-MM-DD"}).on("dp.change", function(e) { 
+	$("#fromDatePicker").datetimepicker({useCurrent: false, format: "YYYY-MM-DD"}).on("dp.change", function(e) {
 		updateRequest();
-	}); 
-	$("#toDatePicker").datetimepicker({useCurrent: false, format: "YYYY-MM-DD"}).on("dp.change", function(e) { 
+	});
+	$("#toDatePicker").datetimepicker({useCurrent: false, format: "YYYY-MM-DD"}).on("dp.change", function(e) {
 		updateRequest();
 	});
 
@@ -306,8 +306,8 @@ $(document).ready(function(){
 	suggestedPulse = setTimeout(startPulseSuggested, searchPulseTime / 2);
 	suggestedPulse = setInterval(startPulseSuggested, searchPulseTime);
 	$("#searchTextInput").focus();
-	$("#searchTextInput").on('input',function() 
-	{ 
+	$("#searchTextInput").on('input',function()
+	{
 		shouldSuggest = 0;
 	});
 	$("#searchTextInput").focus();
@@ -318,7 +318,7 @@ $(document).ready(function(){
 			$("#searchTextInput").val($("#searchTextInput").attr("placeholder")).select();
 		}
 	});
-	
+
 	$.ajax({
 		dataType: "JSON",
 		url: "/static/search/suggested.json",
@@ -354,7 +354,7 @@ $(document).ready(function(){
 	});
 
 	// On form change we reset the search and do the initial AJAX call
-	$("#faceted-search-form input:not(#searchTextInput):not(input[name*='supportGroup']), #sort, #faceted-search-form select").change(function() 
+	$("#faceted-search-form input:not(#searchTextInput):not(input[name*='supportGroup']), #sort, #faceted-search-form select").change(function()
 	{
 		updateRequest();
 	});
@@ -371,7 +371,7 @@ $(document).ready(function(){
 	});
 
 	// Prevent form submission, force an AJAX call everytime we update the search bar
-	$("#faceted-search-form").submit(function(event) 
+	$("#faceted-search-form").submit(function(event)
 	{
 		event.preventDefault();
 		updateRequest();
@@ -520,7 +520,7 @@ var globalSlowLoadTimer;
 					}
 				});
 			},
-			success: function(res, status, xhr) 
+			success: function(res, status, xhr)
 			{
 				clearTimeout(globalSlowLoadTimer);
 				if($("#searchTextInput").val().length)
@@ -571,17 +571,20 @@ var globalSlowLoadTimer;
 				else { var partyLabelText = ""; }
 				var memLabelText = "member"+(memberNumber!=1?"s":"");
 				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
-				if(partyNumber>0 && memberNumber>0 && resultsNumber>0) resultText = partyLabelText+", "+numberWithCommas(memberNumber)+ " "+memLabelText+", and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
-				else if(partyNumber>0 && memberNumber>0) resultText = partyLabelText+" and "+numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
-				else if(partyNumber>0 && resultsNumber>0) resultText = partyLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
-				else if(memberNumber>0 && resultsNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
-				else if(memberNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
-				else if(resultsNumber>0) resultText = numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
-				else if(partyNumber>0) resultText = partyLabelText+" found.";
-				else if(resultsNumber==0) resultText = "0 results found.";
-				else { resultText = "Error completing search."; }
-				$("#results-number").html(resultText);
-			   
+
+				var baseString = "";
+				if(partyNumber) baseString += partyLabelText + ", ";
+				if(memberNumber) baseString += numberWithCommas(memberNumber) + " " + memLabelText;
+				if(memberNumber > 8) baseString += " (showing 8)";
+				if(memberNumber) baseString += ", ";
+				if(baseString && resultsNumber) baseString += "and ";
+				if(resultsNumber) baseString += numberWithCommas(resultsNumber) + " " + voteLabelText;
+				if(!partyNumber && !memberNumber && resultsNumber == 0) baseString = "0 results ";
+				if(baseString.endsWith(", ")) baseString = baseString.replace(/, $/gi, "");
+				baseString += " found.";
+				if(resultsNumber < 0) baseString = "";
+
+				$("#results-number").html(baseString);
 			        // Control how sorting buttons appear
 			        if(needScore && $("#sortScore").val() == 1)
 				{
@@ -607,9 +610,9 @@ var globalSlowLoadTimer;
 				}
 
 
-				if(resultsNumber<0) 
+				if(resultsNumber<0)
 				{
-					$("#addAll").hide(); 
+					$("#addAll").hide();
 				}
 				nextId = xhr.getResponseHeader("Nextid");
 				console.log('New next id: '+nextId);
@@ -631,7 +634,7 @@ var globalSlowLoadTimer;
 						console.log("Stash issue that may prevent vote loading.");
 					}
 					$("#results-list").fadeIn();
-					$('[data-toggle="tooltip"]').tooltip(); 
+					$('[data-toggle="tooltip"]').tooltip();
 				});
 			}
 		});
@@ -663,7 +666,7 @@ var globalSlowLoadTimer;
 					$("#next-page").html("Next page").removeAttr("disabled");
 					blockAutoscroll = 0; // Request resolved.
 				}
-				$('[data-toggle="tooltip"]').tooltip(); 
+				$('[data-toggle="tooltip"]').tooltip();
 			}
 		});
 	}
@@ -766,7 +769,7 @@ function cleanLink(text)
 	return text;
 }
 
-function updateCategoryCheck(e) 
+function updateCategoryCheck(e)
 {
 	if(e.target.checked)
 	{
@@ -798,7 +801,7 @@ function updateCheckAll(e)
 	}
 }
 
-function updateSupportRange(element) 
+function updateSupportRange(element)
 {
 	var min = 0, max = 100;
 	switch($(element).attr("value"))

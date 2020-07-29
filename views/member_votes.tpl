@@ -1,6 +1,6 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff", "wikipedia": "Wikipedia"}
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% import model.prepVotes
+% import model.prep_votes
 % if len(votes):
 		% if not int(skip):
                 <table class="table table-hover dc-data-table" id="voteDataTable">
@@ -39,7 +39,7 @@
 				%	done = 0
 				%	for v in voteFields:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
-							{{model.prepVotes.fixPunc(vote[v])}}
+							{{model.prep_votes.fix_punctuation(vote[v])}}
 				%			done = 1
 				%			break
 				%		end
@@ -47,7 +47,7 @@
 				%	if done == 0:
 						{{rcSuffix(vote["congress"])}} Congress &gt {{vote["chamber"]}} &gt; Vote {{str(vote["rollnumber"])}}
 				%	end
-				
+
 				%	voteFieldsQ = ["vote_question", "question"]
 				%	for v in voteFieldsQ:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
@@ -56,8 +56,8 @@
 				%		end
 				%	end
 				% if "key_flags" in vote and len(vote["key_flags"]):
-				<span class="btn btn-default btn-xs vote_button" 
-					aria-label="Key Vote" data-toggle="tooltip" 
+				<span class="btn btn-default btn-xs vote_button"
+					aria-label="Key Vote" data-toggle="tooltip"
 					data-placement="bottom" title="Vote classified as a 'Key Vote' by {{orgMapping[vote["key_flags"][0].lower()]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
@@ -86,13 +86,13 @@
 			    % 	imputed = "1" + str(vote["myProb"]).zfill(3)
 			    % end
 			    <td align="right" data-impute-sort="{{imputed}}">
-				% if "myProb" in vote:				 
-					% if vote["myVote"] == "Abs":	  
-					<span class="abstention">{{model.prepVotes.fixVoteProb(vote["myProb"])}}%</span>
+				% if "myProb" in vote:
+					% if vote["myVote"] == "Abs":
+					<span class="abstention">{{model.prep_votes.fix_vote_probability(vote["myProb"])}}%</span>
 					% elif vote["myProb"] < 25:
-					<span class="unlikely_vote">{{model.prepVotes.fixVoteProb(vote["myProb"])}}%</span>
+					<span class="unlikely_vote">{{model.prep_votes.fix_vote_probability(vote["myProb"])}}%</span>
 					% else:
-					{{model.prepVotes.fixVoteProb(vote["myProb"])}}%
+					{{model.prep_votes.fix_vote_probability(vote["myProb"])}}%
 					%end
 				% end
 			    </td>

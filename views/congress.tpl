@@ -14,15 +14,15 @@
 				<div id="header" class="congress_header">
 					<div id="congress_selector">
 						<select id="congSelector">
-						% for i in range(maxCongress, 0, -1):
+						% for i in range(max_congress, 0, -1):
 							<option value="{{i}}"{{!" SELECTED" if int(i) == int(congress) else ""}}>
 								{{rcSuffix(i)}} Congress ({{1787 + (2 * i)}}-{{1789 + (2 * i)}})
 							</option>
 						% end
 						</select>
-						 &gt; 
+						 &gt;
 						<abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">
-							{{memberLabel}}
+							{{member_label}}
 						</abbr>
 					</div>
 					<div id="partyComposition"></div>
@@ -35,15 +35,15 @@
 				<!-- Nominate graph -->
 				% if not tabular_view:
 				<h4>DW-Nominate Plot
-				<span class="glyphicon glyphicon-save save_icon" 
+				<span class="glyphicon glyphicon-save save_icon"
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
-					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{memberLabel}}_{{congress}}.png', {backgroundColor: 'white'}); return false;"
+					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{member_label}}_{{congress}}.png', {backgroundColor: 'white'}); return false;"
 					></span>
 				</h4>
 
 				<div id="scatter-container">
 					<div id="scatter-bg">
-						<svg id="svg-bg"></svg> 
+						<svg id="svg-bg"></svg>
 					</div>
 					<div id="scatter-chart">
 						<span id="suppressNominateControls"><span class="filter"></span></span>
@@ -59,9 +59,9 @@
 				<h4>Roster</h4>
 				% if not tabular_view:
 				(Sort by
-				<a href="#" onclick="javascript:resort('name');return false;">Name</a>, 
-				<a href="#" onclick="javascript:resort('party');return false;">Party</a>, 
-				<a href="#" onclick="javascript:resort('state');return false;">State</a>, 
+				<a href="#" onclick="javascript:resort('name');return false;">Name</a>,
+				<a href="#" onclick="javascript:resort('party');return false;">Party</a>,
+				<a href="#" onclick="javascript:resort('state');return false;">State</a>,
 				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
 				<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a> -- <a href="/congress/{{chamber}}/{{congress}}/text" id="textLink">Tabular View</a>)
 				<div id="filterName">
@@ -100,7 +100,7 @@ var chamber = "{{ chamber }}";
 var congressNum = {{congress}};
 var mapParties = 1;
 var nomDWeight = {{dimweight}};
-var nomBeta = {{ nomBeta }};
+var nomBeta = {{ nom_beta }};
 % if tabular_view:
 var tabular_view = 1;
 % else:
@@ -116,4 +116,3 @@ var tabular_view = 0;
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/congress.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>
-

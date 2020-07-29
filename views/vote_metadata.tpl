@@ -4,8 +4,8 @@
 		<div class="col-md-12">
 			<h3>
 				% if "key_flags" in rollcall and len(rollcall["key_flags"]) and rollcall["key_flags"][0] in orgMapping:
-				<span class="btn btn-default btn-lg" id="key_vote_icon" 
-					data-toggle="tooltip" data-placement="bottom" 
+				<span class="btn btn-default btn-lg" id="key_vote_icon"
+					data-toggle="tooltip" data-placement="bottom"
 					title="Vote classified as a 'Key Vote' by {{orgMapping[rollcall["key_flags"][0]]}}.">
 					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Key Vote
 				</span>
@@ -27,8 +27,8 @@
 				% end
 				% if "tie_breaker" in rollcall and "by_whom" in rollcall["tie_breaker"]:
 				<p class="clearfix">
-					<strong>Tie-breaker:</strong> 
-					{{"The " if rollcall["tie_breaker"]["by_whom"] == "Vice President" else ""}}{{rollcall["tie_breaker"]["by_whom"]}} 
+					<strong>Tie-breaker:</strong>
+					{{"The " if rollcall["tie_breaker"]["by_whom"] == "Vice President" else ""}}{{rollcall["tie_breaker"]["by_whom"]}}
 					cast the tie-breaking vote of <i>{{rollcall['tie_breaker']['tie_breaker_vote']}}</i>.
 				</p>
 				% end
@@ -55,8 +55,8 @@
 			<p><strong>Sponsor:</strong> <a href="/person/{{sponsor["icpsr"]}}/{{sponsor["seo_name"]}}">{{sponsor["name"]}} ({{sponsor["party"][0]}}-{{sponsor["state_abbrev"]}})</a></p>
 			% end
 
-                        % if rollcall.get("bill_number"):
-                        <p class="meta_float"><strong>Bill number: </strong>{{ rollcall["bill_number"] }}</p>
+      % if rollcall.get("bill_number"):
+      <p class="meta_float"><strong>Bill number: </strong>{{ rollcall["bill_number"] }}</p>
 			% end
 
 			% if "question" in rollcall and rollcall["question"]:
@@ -97,12 +97,12 @@
 	%     if source['is_linkable']:
 	%         pub =  source['publication']
 	%					pub_str = pub
-	%     link_dict = {k:v for k,v in source.items() if k in ['publication', 'file_number', 'page_number']}
+	%     		link_dict = {k: v for k, v in source.items() if k in ['publication', 'file_number', 'page_number']}
 
-	 % link = '/source_images/' + source['publication'].replace(' ', '_').lower() + '/' + str(source['file_number']) + '/0#page/' +  str(source['page_number'])
+	% 				link = '/source_images/' + source['publication'].replace(' ', '_').lower() + '/' + str(source['file_number']) + '/0#page/' +  str(source['page_number'])
 	 <a href="{{ link }}">{{pub_str}} vol. {{source['file_number']}}, p. {{source['page_number']}}</a>;
 	%     else:
-	 %	        pub_str = source['publication']
+	%	        pub_str = source['publication']
 	{{pub_str}} vol. {{source['file_number']}}, p. {{source['page_number']}};
   %     end
 	% end
@@ -125,4 +125,3 @@
 
 		</div>
 	</div>
-

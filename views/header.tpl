@@ -1,5 +1,4 @@
-% devserver=int(open("./server.txt","r").read().strip())
-% transition_alert = 0
+% from model.config import config
 <div class="container">
   <div id="wbv-header" class="row">
     <div class="col-md-12">
@@ -17,7 +16,7 @@
 
         <li><a href="/parties/all">party</a></li>
 
-        <li><a href="/district">geography</a></li>   
+        <li><a href="/district">geography</a></li>
 
         <li><a href="/data">data</a></li>
 
@@ -27,7 +26,7 @@
 
 	<h1 id="brand">
 		<span class="printOnly">UCLA Presents </span>
-		% if devserver:
+		% if config["server"]:
 		<a href="/"><span class="dev_header">voteview.com beta DEV SERVER</span></a>
 		% else:
 		<a href="/">voteview.com</a> <small>beta</small>
@@ -35,11 +34,11 @@
 	</h1>
     </div>
   </div>
-  % if transition_alert:
+  % if config["transition_alert"]:
   <div class="row">
 	<div class="col-md-12">
 		<div class="alert alert-info" role="alert">
-			<strong>Attention:</strong> During the transition to the new Congress, some data may be missing, incomplete, or provisional. 
+			<strong>Attention:</strong> During the transition to the new Congress, some data may be missing, incomplete, or provisional.
 			We expect scores to propagate over the next 1-2 weeks. If you would like to be alerted when data for the new Congress is fully propagated, please <a href="https://vanguard.voteview.com/about">sign up for our update newsletter.</a>
 		</div>
 	</div>

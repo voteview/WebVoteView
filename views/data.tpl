@@ -14,7 +14,7 @@
 	<div class="panel panel-primary">
 	  <div class="panel-heading"><strong>Please cite the dataset as:</strong></div>
 	  <div class="panel-body">
-		Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet ({{year}}). 
+		Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet ({{year}}).
 		<em>Voteview: Congressional Roll-Call Votes Database</em>. https://voteview.com/
 	  </div>
 	</div>
@@ -24,7 +24,7 @@
   <div class="row">
     <div class="col-md-4">
 	<div class="form-group row">
-	<label for="source" class="col-sm-4">Data Type:</label> 
+	<label for="source" class="col-sm-4">Data Type:</label>
 	<div class="col-sm-8">
 	<select name="source" id="source" onChange="javascript:updateDownloadLink();">
 		<option value="members">Member Ideology</option>
@@ -47,11 +47,11 @@
 	</div>
 
 	<div class="form-group row">
-	<label for="congress" class="col-sm-4">Congress:</label> 
+	<label for="congress" class="col-sm-4">Congress:</label>
 	<div class="col-sm-8">
 	<select name="congress" id="congress" onChange="javascript:updateDownloadLink();">
 		<option value="all">All</option>
-		% for i in xrange(maxCongress, 0, -1):
+		% for i in range(max_congress, 0, -1):
 		% min_year = 1787 + (2 * i)
 		% max_year = min_year + 2
 		% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
@@ -62,7 +62,7 @@
 	</div>
 
 	<div class="form-group row padded_bottom">
-	<label for="format" class="col-sm-4">File Format:</label> 
+	<label for="format" class="col-sm-4">File Format:</label>
 	<div class="col-sm-8">
 	<select name="format" id="format" onChange="javascript:updateDownloadLink();">
 		<option id="format_csv" value="csv">CSV (Recommended)</option>
@@ -78,7 +78,7 @@
 	<div class="panel panel-default" id="data_download_container">
 		<div class="panel-heading" id="data_download_heading">Heading</div>
 		<div class="panel-body" id="data_download_desc"></div>
-	</div>	
+	</div>
     </div>
   </div>
 

@@ -31,3 +31,4 @@ static/partyjson
 static/controljson
 static/carousel
 model/email/newsletter_list.json
+.DS_Store

@@ -1,6 +1,6 @@
-% devserver=int(open("./server.txt","r").read().strip())
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+% from model.config import config
 % rebase('base.tpl', title='District View', extra_css=['map.css', 'scatter.css'])
 % include('header.tpl')
 
@@ -8,9 +8,9 @@
 	<div class="row">
 		<div class="col-md-12">
 		<h3>Representing places through time</h3>
-	
-		% if devserver:
-		<a href="#" onclick="javascript:$('#testData').css('overflow','auto').css('height','400px'); return false;">+</a> 
+
+		% if config["server"]:
+		<a href="#" onclick="javascript:$('#testData').css('overflow','auto').css('height','400px'); return false;">+</a>
 		Dev Server Test Addresses.
 		<ul class="notableExamples" id="testData">
 			<li>12040 Louise Ave, Los Angeles, CA</li>
@@ -74,10 +74,10 @@
 		% end
 
 		<p>
-			To find all of the house members who have represented a particular place through history, 
-			enter the address <span id="geolocationTutorial">or click the map pin to search your current location</span>.  
+			To find all of the house members who have represented a particular place through history,
+			enter the address <span id="geolocationTutorial">or click the map pin to search your current location</span>.
 			For fun, click on one of the notable example addresses below:
-		</p>	
+		</p>
 
 
 		<ul class="notableExamples">
@@ -91,7 +91,7 @@
 			<li>300 Alamo Plaza, San Antonio, TX 78205</li>
 			<li>1060 W Addison St, Chicago, IL 60613</li>
 		</ul>
-	
+
 		<p>
 			<small><em>Privacy Notice: Voteview.com uses this information solely to fulfill your request. Address information is not logged, saved, or stored.</em></small>
 		</p>
@@ -100,14 +100,14 @@
 	<div class="row">
 		<form id="submit-address-form" action="." method="post">
 			<div class="col-md-1" class="address_marker">
-				<strong>Address:</strong> 
+				<strong>Address:</strong>
 			</div>
 			<div class="col-md-7">
 			<div class="input-group">
 				<div class="input-group-btn" id="locationButton">
 					<button id="submit-geolocation" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-map-marker"></span></button>
 				</div>
-				<input type="text" id="addressInput" 
+				<input type="text" id="addressInput"
 					class="form-control" placeholder="Enter an address or ZIP code."
 					value="{{!search if len(search) else ""}}">
 
@@ -137,10 +137,10 @@
 </div>
 
 <script>
-var congressNum=114;
+var congressNum = 116;
 var mapParties = 1;
 var nomDWeight = {{dimweight}};
-var nomBeta = {{ nomBeta }};
+var nomBeta = {{ nom_beta }};
 var predefinedSearch = "{{ search }}";
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>

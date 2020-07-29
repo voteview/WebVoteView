@@ -1,6 +1,5 @@
-% rebase('base.tpl',title='About us', extra_js=["https://www.google.com/recaptcha/api.js", "/static/js/contact.js"])
-% import json
-% authData = json.load(open("model/auth.json","r"))
+% rebase('base.tpl', title='About us', extra_js=["https://www.google.com/recaptcha/api.js", "/static/js/contact.js"])
+% from model.config import config
 % include('header.tpl')
 
 <div class="container">
@@ -8,17 +7,17 @@
 		<div class="col-md-9">
 			<h3>About the project</h3>
 
-			<p> 
-				<strong>Voteview</strong> allows users to view every congressional roll call vote in American history 
-				on a map of the United States and on a liberal-conservative ideological map including information 
+			<p>
+				<strong>Voteview</strong> allows users to view every congressional roll call vote in American history
+				on a map of the United States and on a liberal-conservative ideological map including information
 				about the ideological positions of voting Senators and Representatives. The original <u title="The original Voteview derived from a simulation coded by Poole and Rosenthal in FORTRAN for the University of Pittsburgh Supercomputer Center. Voteview for DOS was coded in QuickBasic by Douglas Skiba.">Voteview of DOS</u> was
-				developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon University between 1989 and 1992. Poole and Rosenthal developed <u title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Windows.">Voteview for Windows</u> in 1993 at Princeton University and that work was continued by Boris Shor. 
+				developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon University between 1989 and 1992. Poole and Rosenthal developed <u title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Windows.">Voteview for Windows</u> in 1993 at Princeton University and that work was continued by Boris Shor.
 				The legacy version of the website is available at <a href="https://legacy.voteview.com">legacy.voteview.com</a>.
 			</p>
 
 			<p>
-				The new voteview.com combines the visualizations provided by the now obsolete Voteview desktop system, 
-				data and NOMINATE estimates provided by the old voteview.com web site, and up-to-date voting data 
+				The new voteview.com combines the visualizations provided by the now obsolete Voteview desktop system,
+				data and NOMINATE estimates provided by the old voteview.com web site, and up-to-date voting data
 				from the current Congress with new search, download and visualization functionality.
 			</p>
 
@@ -31,28 +30,28 @@
 			</p>
 
 			<p>
-				The primary dimension through most of American history has been "liberal" vs. "conservative" 
-				(also referred to as "left" vs. "right"). A second dimension picks up differences within the major political 
+				The primary dimension through most of American history has been "liberal" vs. "conservative"
+				(also referred to as "left" vs. "right"). A second dimension picks up differences within the major political
 				parties over slavery, currency, nativism, civil rights, and lifestyle issues during periods of American history.
 			</p>
 
 			<p>
-				The technical details of the DW-NOMINATE model can be found in Poole's <a href="https://www.cambridge.org/catalogue/catalogue.asp?isbn=9780521617475">Spatial Models of Parliamentary Voting</a>.  
-				Poole and Rosenthal's <a href="https://www.routledge.com/Ideology-and-Congress-A-Political-Economic-History-of-Roll-Call-Voting/Poole/p/book/9781412806084">Ideology and Congress</a> 
-				explores the nature of voting in Congress and the political history of the United States through the lens of 
+				The technical details of the DW-NOMINATE model can be found in Poole's <a href="https://www.cambridge.org/catalogue/catalogue.asp?isbn=9780521617475">Spatial Models of Parliamentary Voting</a>.
+				Poole and Rosenthal's <a href="https://www.routledge.com/Ideology-and-Congress-A-Political-Economic-History-of-Roll-Call-Voting/Poole/p/book/9781412806084">Ideology and Congress</a>
+				explores the nature of voting in Congress and the political history of the United States through the lens of
 				the ideological dimensions recovered by DW-NOMINATE and is a useful companion to this site.
 			</p>
 
 			<p>
-				UCLA's Department of Political Science and Social Science Computing host and maintain NOMINATE score data and 
+				UCLA's Department of Political Science and Social Science Computing host and maintain NOMINATE score data and
 				voteview.com. We welcome feedback, questions, and media enquiries concerning this project.
 			</p>
 
 			<h3>Support</h3>
 
 			<p>
-				This project was made possible by support from <a href="http://www.hewlett.org">The William and Flora Hewlett Foundation</a> 
-				(Grant #2016-3870), the  <a href="http://www.nsf.gov">National Science Foundation</a> (NSF-SBS-0611974), 
+				This project was made possible by support from <a href="http://www.hewlett.org">The William and Flora Hewlett Foundation</a>
+				(Grant #2016-3870), the  <a href="http://www.nsf.gov">National Science Foundation</a> (NSF-SBS-0611974),
 				UCLA Social Science Computing and the University of Georgia. Some
 				<a href="https://github.com/voteview/WebVoteView/wiki/Colophon">open source components</a> used under license.
 			</p>
@@ -81,15 +80,15 @@
 				</li>
 
 				<li>
-					<strong>Lead Database Developer, Voteview.com:</strong> 
+					<strong>Lead Database Developer, Voteview.com:</strong>
 					<a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
 				</li>
 				<li>
-					<strong>Lead Developer, Voteview.com:</strong> 
+					<strong>Lead Developer, Voteview.com:</strong>
 					<a href="https://rudkin.ca/">Aaron Rudkin</a>, University of California Los Angeles
 				</li>
 				<li>
-					<strong>Lead Developer:</strong> 
+					<strong>Lead Developer:</strong>
 					<a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
 				</li>
 				<li>
@@ -103,13 +102,13 @@
 			<h3>Update Newsletter</h3>
 
 			<p>
-				We recognize that some institutional users may wish to be contacted in advance of major changes. 
-				If you would like to be informed of major updates (including deprecation of data sources, major 
-				new data sources, or major changes to score calculation), please leave your email here. We 
+				We recognize that some institutional users may wish to be contacted in advance of major changes.
+				If you would like to be informed of major updates (including deprecation of data sources, major
+				new data sources, or major changes to score calculation), please leave your email here. We
 				expect these updates will be no more than annual in frequency. Your email address is stored securely
 				with our email contact provider, <a href="https://sendgrid.com">SendGrid.com</a>, will never be shared with
-				any other third parties, and we will never contact you for any reason other than to announce major 
-				changes to voteview.com. 
+				any other third parties, and we will never contact you for any reason other than to announce major
+				changes to voteview.com.
 			</p>
 
 			<form id="update-form">
@@ -162,7 +161,7 @@
 
 				<div class="form-group row">
 					<div id="captcha_click" class="col-sm-8">
-						<div class="g-recaptcha" data-sitekey="{{authData["recaptchaPublic"]}}" data-callback="submitForm" data-size="invisible"></div>
+						<div class="g-recaptcha" data-sitekey="{{config["auth"]["recaptchaPublic"]}}" data-callback="submitForm" data-size="invisible"></div>
 					</div>
 				</div>
 

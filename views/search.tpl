@@ -2,8 +2,8 @@
 % rebase("base.tpl", title="Search", extra_js=["/static/js/libs/clipboard.min.js", "/static/js/libs/moment.js", "/static/js/libs/bootstrap-datetimepicker.min.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css", "bootstrap-datetimepicker.css"])
 % include('header.tpl')
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
-% setdefault('args',{})
-% setdefault('search_string',"")
+% setdefault('args', {})
+% setdefault('search_string', "")
 <div class="container">
 	% include('carousel.tpl')
 
@@ -99,7 +99,7 @@
 									<div class="col-sm-6">
 										<select name="fromCongress" class="form-control" id="fromCongress">
 											<option value=""></option>
-											% for i in xrange(116, 0, -1): 
+											% for i in xrange(116, 0, -1):
 											<option value="{{i}}">{{rcSuffix(i)}}</option>
 											% end
 										</select>
@@ -110,7 +110,7 @@
 									<div class="col-sm-6">
 										<select name="toCongress" class="form-control" id="toCongress">
 											<option value=""></option>
-											% for i in xrange(116, 0, -1): 
+											% for i in range(116, 0, -1):
 											<option value="{{i}}">{{rcSuffix(i)}}</option>
 											% end
 										</select>
@@ -130,40 +130,40 @@
 									<label for="support" class="col-sm-10 control-label">Percentage Support:</label>
 
 									<div class="support_box">
-										<input id="support" name="support" type="text" class="span2" value="" 
-											data-slider-min="0" data-slider-max="100" 
-											data-slider-step="1" 
+										<input id="support" name="support" type="text" class="span2" value=""
+											data-slider-min="0" data-slider-max="100"
+											data-slider-step="1"
 											data-slider-value="[0,100]"
-											data-slider-ticks="[0, 50, 100]" 
-											data-slider-ticks-labels="['0%', '50%', '100%']" 
+											data-slider-ticks="[0, 50, 100]"
+											data-slider-ticks-labels="['0%', '50%', '100%']"
 											data-slider-ticks-snap-bounds="4" data-slider-tooltip-split="true"
 											data-slider-id="support-bucket">
 									</div>
 
 									<div class="checkbox">
 										<label>
-											<input type="radio" name="supportGroup" value="all"> 
+											<input type="radio" name="supportGroup" value="all">
 											All
 										</label>
 									</div>
 
 									<div class="checkbox">
 										<label>
-											<input type="radio" name="supportGroup" value="super"> 
+											<input type="radio" name="supportGroup" value="super">
 											Supermajority
 										</label>
 									</div>
 
 									<div class="checkbox">
 										<label>
-											<input type="radio" name="supportGroup" value="majority"> 
+											<input type="radio" name="supportGroup" value="majority">
 											Majority
 										</label>
 									</div>
 
 									<div class="checkbox">
 										<label>
-											<input type="radio" name="supportGroup" value="minority"> 
+											<input type="radio" name="supportGroup" value="minority">
 											Minority
 										</label>
 									</div>
@@ -342,12 +342,12 @@
 		  </div>
 		</div>
 	      </div>
-	      
-		  
+
+
 		<input type="hidden" name="sortD" id="sortD" value="-1">
 		  <input type="hidden" name="sortScore" id="sortScore" value="1">
 		  </form>
-		  
+
 			<div id="resultsHolder" class="col-md-12 pull-right">
 				<div class="form-group">
 					<div class="row">
@@ -357,7 +357,7 @@
 						<div class="col-md-6" id="sortBy">
 							<strong>Sort by </strong>
 							<div id="relevanceAppear"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
-							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> / 
+							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> /
 							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
 						</div>
 					</div>
@@ -365,7 +365,7 @@
 				<form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
 					<div id="results-list">
 					</div>
-					<a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a> 
+					<a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a>
 				</form>
 			</div>
 		</div>
@@ -379,7 +379,7 @@
 		<div class="item active">
 			<div class="footerBig">
 				Saved: <span id="oldResults"><big><strong id="oldCount">0</strong></big> results from previous searches.<br/>
-				+</span> 
+				+</span>
 				<span id="newResults"><big><strong id="newCount">0</strong></big> new results from <span class="searchText"></span><br/>&nbsp;</span>
 			</div>
 			<div id="addAll" class="footerBig">
@@ -388,7 +388,7 @@
 			</div>
 			<div id="emptyCartIcon" class="footerIcon" onClick="javascript:emptyCart();">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Empty Saved Votes" data-container="body"></span>
-			</div>	
+			</div>
 			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(1);">
 				<span class="glyphicon glyphicon-save" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
 			</div>
@@ -420,7 +420,7 @@
 			<div class="footerBig">
 				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
 				<span id="shareTextInput">{{ base_url }}s/
-					<input id="shareLinkText" type="text" placeholder="type-short-name" > 
+					<input id="shareLinkText" type="text" placeholder="type-short-name" >
 					<input type="submit" value="Create" onClick="javascript:shareLink();javascript:clipboardCopyHack(document.getElementById('shareTextInput'))">
 				</span>
 				<span id="shareTextLink"></span>
@@ -457,11 +457,11 @@
 		$("input[name='toDate']").val('{{args["toDate"]}}');
 		% end
 		% if "supportMin" in args and "supportMax" in args:
-		$("#support").slider({value: [{{args["supportMin"]}},{{args["supportMax"]}}]});
+		$("#support").slider({value: [{{args["supportMin"]}}, {{args["supportMax"]}}]});
 		% elif "supportMin" in args and not "supportMax" in args:
-		$("#support").slider({value: [{{args["supportMin"]}},100]});
+		$("#support").slider({value: [{{args["supportMin"]}}, 100]});
 		% elif "supportMax" in args and not "supportMin" in args:
-		$("#support").slider({value: [0,{{args["supportMax"]}}]});
+		$("#support").slider({value: [0, {{args["supportMax"]}}]});
 		% else:
 		$("#support").slider({});
 		$("#support").slider('relayout');
@@ -469,10 +469,10 @@
 		% if "keyvote" in args:
 		$("input[value={{args["keyvote"]}}]").attr("checked",true);
 		% end
-		% if "chamber" in args or "congress" in args or "fromDate" in args or "toDate" in args or "supportMin" in args or "supportMax" in args:
+		% if any(x in args for x in ["chamber", "congress", "fromDate", "toDate", "supportMin", "supportMax"]):
 		toggleAdvancedSearch(1);
 		$("#support").slider('refresh');
 		% end
-	});		
+	});
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/search.js"></script>

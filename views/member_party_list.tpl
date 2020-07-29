@@ -1,7 +1,7 @@
-% if len(resultMembers) or len(resultParties):
+% if len(result_members) or len(result_parties):
 	<div class="row">
 
-% for party in resultParties:
+% for party in result_parties:
 		<div class="col-md-3 memberResultBox {{party["colorScheme"]}}" onClick="javascript:window.location='/parties/{{party["id"]}}/{{party["seo_name"]}}';">
 			<div class="party_box">
 				<strong>{{party["fullName"]}}</strong><br/>
@@ -10,7 +10,7 @@
 		</div>
 % end
 
-% for member in resultMembers:
+% for member in result_members:
 		<a href="/person/{{member["icpsr"]}}/{{member["seo_name"]}}" class="nohover">
 		<div class="col-md-3 memberResultBox">
 			<img class="bio member_image pull-left" src="/static/img/bios/{{member["bioImg"]}}">

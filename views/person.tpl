@@ -2,13 +2,12 @@
 % STATIC_URL = "/static/"
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % if isinstance(twitter_card, dict) and "title" in twitter_card:
-% 	pageTitle = twitter_card["title"].replace("Voteview.com: ","")+": "+twitter_card["body"]
+% 	page_title = twitter_card["title"].replace("Voteview.com: ","")+": "+twitter_card["body"]
 % else:
-%	pageTitle = person["bioname"]
+%	page_title = person["bioname"]
 % end
-% rebase("base.tpl",title=pageTitle, extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css", "person.css"])
+% rebase("base.tpl", title=page_title, extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css", "person.css"])
 % include('header.tpl')
-% import datetime
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 % district_class = "hide_district_c" if not "district_code" in person or person["district_code"] in [0, 98, 99] else "show_district_c"
 <div class="container">
@@ -29,22 +28,22 @@
 		<span id="district_label">{{rcSuffix(person["district_code"])}} congressional district</span>
 	    </h4>
 
-	    % for serviceSet in ["Senate", "House"]:
-		% if "yearsOfService"+serviceSet in person and len(person["yearsOfService"+serviceSet]):
+	    % for service_set in ["Senate", "House"]:
+		% if "yearsOfService" + service_set in person and len(person["yearsOfService" + service_set]):
 	    <h4>
-		% if person["yearsOfService"+serviceSet][-1][1] > datetime.datetime.now().year:
-			Serving in {{serviceSet}}
+		% if person["yearsOfService" + service_set][-1][1] > datetime.datetime.now().year:
+			Serving in {{service_set}}
 		% else:
-			Served in {{serviceSet}}
+			Served in {{service_set}}
 		% end
 
 		% z = 0
-		% for chunk in person["yearsOfService"+serviceSet]:
-			% if chunk[1]>=datetime.datetime.now().year:
+		% for chunk in person["yearsOfService" + service_set]:
+			% if chunk[1] >= datetime.datetime.now().year:
 			% chunk[1] = "Present"
 			% end
-			% if z>0:
-				, 
+			% if z > 0:
+				,
 			% end
 			{{chunk[0]}}-{{chunk[1]}}
 			% z = z + 1
@@ -57,18 +56,18 @@
 		% k = 0
 		% for alt in person["altPeople"]:
 			% if alt["yearsOfService"][0][0] >= person["yearsOfService"][-1][0]:
-			Subsequently served as 
+			Subsequently served as
 			% elif alt["yearsOfService"][-1][1] <= person["yearsOfService"][0][1]:
-			Previously served as 
+			Previously served as
 			% end
-			% if k>0:
-				, 
+			% if k > 0:
+				,
 			% end
 	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party_noun"] }}</a> (
 			% z = 0
 			% for chunk in alt["yearsOfService"]:
 				% if z > 0:
-					, 
+					,
 				% end
 				{{chunk[0]}}-{{chunk[1]}}
 			% end
@@ -113,7 +112,7 @@
 			</div>
 			% end
 		</div>
-			
+
 		% else:
 		<div class="alert alert-info" role="alert">
 			% if person["chamber"] != "President":
@@ -156,8 +155,8 @@
 	% if person["chamber"] == "President" and person["plotIdeology"] and person["congress"] >= 114:
 	<div class="alert alert-warning">
 		<strong>Notice:</strong> Data about presidential positions comes from CQ Almanac. This data may not reflect recent votes, pending CQ's announcement of those votes.
-	</div>			
-	% end 
+	</div>
+	% end
     <div class="row">
         <div class="col-md-12">
 	    <form onsubmit="javascript:startNewSearch();return false;" class="form-horizontal">
@@ -166,8 +165,8 @@
 
 		<div class="input-group loadVotes">
 			<div id="memberSearch" class="input-group-btn">
-				<button type="button" 
-					class="btn btn-primary hide_button_default" id="loadStash" 
+				<button type="button"
+					class="btn btn-primary hide_button_default" id="loadStash"
 					onClick="javascript:loadSavedVotes();return false;"
 					data-toggle="tooltip" data-placement="top" title="Load Saved Votes into Search">
 					<span class="glyphicon glyphicon-upload"></span>
@@ -186,10 +185,10 @@
 		<div id="memberVotesTable">
 		</div>
 		<div class="pull-right">
-			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a> 
+			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a>
 		</div>
 		<div id="loadIndicator" class="member_vote_load">
-			<img src="/static/img/loading.gif"> 
+			<img src="/static/img/loading.gif">
 		</div>
         </div>
     </div>
