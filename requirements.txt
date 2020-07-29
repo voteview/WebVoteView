@@ -1,5 +1,4 @@
 numpy==1.15.0
-Unidecode==0.04.20
 stemming==1.0.1
 bottle==0.12.17
 fuzzywuzzy==0.17.0
