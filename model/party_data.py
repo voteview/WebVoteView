@@ -1,11 +1,11 @@
 """ Helpers to pull party data by code. """
 
 from __future__ import print_function
-from pymongo import MongoClient
+import pymongo
 from model.config import config
 
-client = MongoClient()
-db = client[config["db"]]
+client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+db = client[config["db_name"]]
 
 
 def get_party_data(code, api="Web_Name"):

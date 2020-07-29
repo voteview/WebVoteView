@@ -11,8 +11,8 @@ import model.query_parser
 from model.download_votes import waterfall_text, waterfall_question
 from model.config import config
 
-client = pymongo.MongoClient()
-db = client[config["db"]]
+client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+db = client[config["db_name"]]
 
 SCORE_THRESHOLD = (config["auth"]["scoreThreshold"]
                    if "scoreThreshold" in config["auth"]

@@ -6,8 +6,8 @@ from model.config import config
 
 cache = {}
 
-client = pymongo.MongoClient()
-db = client[config["db"]]
+client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+db = client[config["db_name"]]
 
 
 def party_lookup_id(query_dict, api):

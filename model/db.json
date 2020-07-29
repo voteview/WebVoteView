@@ -1,1 +1,1 @@
-{"dbname": "voteview"}
+{"db_name": "voteview", "db_name_geog": "district_geog", "db_host": "localhost", "db_port": 27017}

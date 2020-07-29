@@ -13,8 +13,8 @@ from model.search_parties import party_name, short_name
 from model.search_meta import meta_lookup
 from model.slugify import slugify
 
-client = MongoClient()
-db = client[config["db"]]
+client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+db = client[config["db_name"]]
 dim_weight = meta_lookup()['nominate']['second_dim_weight']
 
 

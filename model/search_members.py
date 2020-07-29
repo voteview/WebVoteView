@@ -9,8 +9,8 @@ from model.search_parties import (party_name, party_noun,
 from model.slugify import slugify
 from model.config import config
 
-client = pymongo.MongoClient()
-db = client[config["db"]]
+client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+db = client[config["db_name"]]
 
 
 def cqlabel(state_abbrev, district_code):

@@ -12,8 +12,8 @@ from model.log_quota import check_quota, add_quota, log_search
 from model.state_helper import state_name_to_abbrev
 
 requests.packages.urllib3.disable_warnings()
-client = MongoClient()
-db = client["district_geog"]
+client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+db = client[config["db_name_geog"]]
 
 
 def lat_long_warnings(result, address_string, state_name):

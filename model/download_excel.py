@@ -10,8 +10,8 @@ from model.download_votes import download_votes_api
 from model.write_excel import WriteExcel
 
 # Connection
-connection = MongoClient(connect=False)
-db = connection[config["db"]]
+client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+db = client[config["db_name"]]
 
 
 def download_excel(ids):

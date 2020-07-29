@@ -36,7 +36,7 @@ SWEAR_DATA = (
     if os.path.isfile(os.path.join(BASE_DIR, "swearFilter.json")) else [])
 
 # DB Connection name.
-DB_NAME = json.load(open(os.path.join(BASE_DIR, "db.json"), "r"))["dbName"]
+DB_DATA = json.load(open(os.path.join(BASE_DIR, "db.json"), "r"))
 
 # Stop words for searches
 STOP_WORDS = open(os.path.join(BASE_DIR, "stop_words.txt"), "r").readlines()
@@ -56,7 +56,10 @@ config = {  # pylint: disable=C0103
     "nicknames": NICKNAMES,
     "states": STATES,
     "swear": SWEAR_DATA,
-    "db": DB_NAME,
+    "db_name": DB_DATA["db_name"],
+    "db_host": DB_DATA["db_host"],
+    "db_port": DB_DATA["db_port"],
+    "db_name_geog": DB_DATA["db_name_geog"],
     "stop_words": STOP_WORDS,
     "email_bl": EMAIL_BLACKLIST,
     "slides": SLIDES,
