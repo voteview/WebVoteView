@@ -55,7 +55,7 @@ function generateGlanceChart(error, parties, glance, configFile) {
 
 	var baseToolTip = d3.select("body").append("div").attr("class", "d3-tip").attr("id","mapTooltip").style("visibility","hidden");
 	min = 1;
-	max = configFile["maxCongress"];	
+	max = configFile["max_congress"];	
 
 	// Take the "glance" file and break it into the grand file and the party files.
 	var grand;

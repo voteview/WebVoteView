@@ -88,7 +88,7 @@ q
 	}
 
 	var min = 1;
-	var max = configFile["maxCongress"];	
+	var max = configFile["max_congress"];	
 	
 	var minY = -0.6;
 	var maxY = 0.6;

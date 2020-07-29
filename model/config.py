@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 # Maximum congress from JSON file.
 if os.path.join(BASE_DIR, "../static/config.json"):
     MAX_CONGRESS = json.load(open(
-        os.path.join(BASE_DIR, "../static/config.json"), "r"))["maxCongress"]
+        os.path.join(BASE_DIR, "../static/config.json"), "r"))["max_congress"]
 else:
     MAX_CONGRESS = 116
 
