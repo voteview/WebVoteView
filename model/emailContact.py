@@ -3,7 +3,7 @@ import requests
 import datetime
 import hashlib
 import traceback
-import email_validator
+# import email_validator
 import base64
 
 def newsletterSub(userEmail, action):
@@ -46,7 +46,8 @@ def sendEmail(title, body, person_name, userEmail, recaptcha, clientIP, test=0):
 		emailList = [x.strip() for x in open("./model/email/emails.txt","r").read().split("\n")]
 
 	try:
-		validated = email_validator.validate_email(userEmail)
+		pass
+		# validated = email_validator.validate_email(userEmail)
 	except:
 		return({"error": "The email you have entered cannot be verified."})
 
