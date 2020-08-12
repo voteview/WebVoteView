@@ -16,8 +16,10 @@ email_validator = "^1.1.1"
 requests = "^2.24.0"
 six = "^1.15.0"
 Unidecode = "^1.1.1"
+Python-Levenshtein = "^0.12.0"
 
 [tool.poetry.dev-dependencies]
+flake8 = "^3.8.3"
 
 [build-system]
 requires = ["poetry>=0.12"]

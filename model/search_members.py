@@ -183,7 +183,7 @@ def get_search_query(query_dict, api):
             search_query["chamber"] = chamber
         else:
             return {}, {"errormessage":
-                "Invalid chamber provided. Please select House or Senate."}
+                "Invalid chamber provided. Please select House or Senate."} # noqa
 
     return search_query, {}
 

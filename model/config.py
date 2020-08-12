@@ -65,6 +65,8 @@ config = {  # pylint: disable=C0103
     "db_host": DB_DATA["db_host"],
     "db_port": DB_DATA["db_port"],
     "db_name_geog": DB_DATA["db_name_geog"],
+    "db_username": DB_DATA["db_username"],
+    "db_pwd": DB_DATA["db_pwd"],
     "stop_words": STOP_WORDS,
     "email_bl": EMAIL_BLACKLIST,
     "slides": SLIDES,

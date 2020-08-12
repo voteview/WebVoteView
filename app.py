@@ -200,6 +200,7 @@ def past_data():
                     x not in blacklist]
     return bottle.template("views/past_data", folder_files=folder_files)
 
+
 # Pages that have arguments
 @app.route("/congress")
 @app.route("/congress/<chamber:re:house|senate>")
@@ -501,6 +502,7 @@ def saved_hash_redirect(savedhash):
 
     bottle.redirect("/search/?q=saved: %s" % savedhash)
     return {}
+
 
 #
 #

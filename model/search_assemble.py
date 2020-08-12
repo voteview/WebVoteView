@@ -87,7 +87,7 @@ def match_state_delegation(query_string, state_meta, time_periods):
 
     if not state_name:
         state = next((s for s in state_meta["abbrev_state_name"] if
-                      qs == s.lower() for qs in qstrip.split()), None)
+                      qs == s.lower() for qs in qstrip.split()), None) # noqa
         state_name = state if state else ""
         found_exact = 1 if state.lower() == qstrip else 0
 

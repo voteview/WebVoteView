@@ -1,7 +1,5 @@
 """ Helper methods for returning slides for the slide carousel. """
 
-import json
-import os
 import numpy.random
 from model.config import config
 
@@ -17,7 +15,11 @@ def generate_slides(num_slides=5):
 
     # Guard against having 0 slides.
     if weights and config["slides"]:
-        slides = np.random.default_rng().choice(config["slides"], num_slides, replace=False, p=weights)
+        slides = (numpy.random.default_rng()
+                  .choice(config["slides"],
+                          num_slides,
+                          replace=False,
+                          p=weights))
     else:
         slides = []
 

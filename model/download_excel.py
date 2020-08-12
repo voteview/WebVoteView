@@ -4,7 +4,7 @@ which is handled in write_excel instead.)
 """
 
 from __future__ import print_function
-from pymongo import MongoClient
+import pymongo
 from model.config import config
 from model.download_votes import download_votes_api
 from model.write_excel import WriteExcel

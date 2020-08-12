@@ -6,7 +6,7 @@ import math
 import requests
 # Shut up the stupid SSL warning crap
 import requests.packages.urllib3
-from pymongo import MongoClient
+import pymongo
 from model.config import config
 from model.log_quota import check_quota, add_quota, log_search
 from model.state_helper import state_name_to_abbrev
@@ -245,7 +245,8 @@ def lat_long_to_polygon(request, lat, lng):
                 "error_message": quota_check["errormessage"]}
 
     gquery = {"geometry": {"$geoIntersects": {"$geometry": {"type": "Point", "coordinates": [lng, lat]}}}}
-    for result in db.districts.find(gquery, {"geometry.coordinates": 1}).sort([("properties.endcong", -1)]).limit(1):
+    for result in (db.districts.find(gquery, {"geometry.coordinates": 1})
+                   .sort([("properties.endcong", -1)]).limit(1)):
         return result["geometry"]["coordinates"]
 
     return []
