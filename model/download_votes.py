@@ -123,7 +123,7 @@ def process_voter_web(new_v, member_map):
     new_v["party_code"] = member_map["party_code"]
 
     # Fix the member's bio image.
-    if os.path.isfile("/var/www/voteview/static/img/bios/%s.jpg" %
+    if os.path.isfile("static/img/bios/%s.jpg" %
                       str(member_map["icpsr"]).zfill(6)):
         new_v["img"] = str(member_map["icpsr"]).zfill(6) + ".jpg"
     else:

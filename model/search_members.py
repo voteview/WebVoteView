@@ -218,7 +218,7 @@ def augment_member_responses(sorted_res, api, max_results, distinct):
             augment_m["party_short_name"] = short_name(augment_m["party_code"])
 
         # Check if an image exists.
-        if os.path.isfile("/var/www/voteview/static/img/bios/%s.jpg" %
+        if os.path.isfile("static/img/bios/%s.jpg" %
                           str(augment_m["icpsr"]).zfill(6)):
             augment_m["bioImgURL"] = str(augment_m["icpsr"]).zfill(6) + ".jpg"
         else:
