@@ -205,9 +205,9 @@ def past_data():
 @app.route("/congress")
 @app.route("/congress/<chamber:re:house|senate>")
 @app.route("/congress/<chamber:re:house|senate>/<congress_num:int>")
-@app.route("/congress/<chamber:re:house|senate>/<congress_num:int>/<tv>")
-@app.route("/congress/<chamber:re:house|senate>/<tabular_view>")
-def display_congress(chamber="senate", congress_num=-1, tabular_view=""):
+@app.route("/congress/<chamber:re:house|senate>/<congress_num:int>/<tab_view>")
+@app.route("/congress/<chamber:re:house|senate>/<tab_view>")
+def display_congress(chamber="senate", congress_num=-1, tab_view=""):
     """ View a given congress """
     max_congress = config["max_congress"]
 
@@ -216,12 +216,12 @@ def display_congress(chamber="senate", congress_num=-1, tabular_view=""):
         chamber = "house"
 
     # Argument order weirdness in bottle: try to combine chamber/text
-    if tabular_view != "text" and tabular_view:
+    if tab_view and tab_view != "text":
         try:
-            congress_num = int(tabular_view)
-            tabular_view = ""
+            congress_num = int(tab_view)
+            tab_view = ""
         except Exception:
-            tabular_view = ""
+            tab_view = ""
             congress_num = max_congress
 
     # Hack to ensure 116th shows because senate hasn't voted yet.
@@ -240,7 +240,7 @@ def display_congress(chamber="senate", congress_num=-1, tabular_view=""):
                              max_congress=max_congress,
                              dimweight=meta["nominate"]["second_dimweight"],
                              nom_beta=meta["nominate"]["beta"],
-                             tabular_view=tabular_view,
+                             tabular_view=tab_view,
                              member_label=member_label)
     return output
 
@@ -257,7 +257,7 @@ def district(search_text=""):
 
 
 @app.route("/parties")
-@app.route("/parties/<party>/<congStart>")
+@app.route("/parties/<party>/<cong_start>")
 @app.route("/parties/<party>")
 def parties(party="all", cong_start=-1):
     """ Show the parties at a glance or party page. """
