@@ -11,7 +11,7 @@ def generate_slides(num_slides=5):
     weights = [w / float(sum_weights) for w in weights]
 
     # Guard against not having enough slides
-    num_slides = max(num_slides, len(weights))
+    num_slides = min(num_slides, len(weights))
 
     # Guard against having 0 slides.
     if weights and config["slides"]:
