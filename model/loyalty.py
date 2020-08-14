@@ -6,6 +6,11 @@ from model.search_meta import meta_lookup
 
 def get_loyalty(party_code, congress):
     """ Returns a party-congress loyalty pair. """
+
+    if party_code is None or congress is None:
+        return {"status": 1,
+                "error_message": "Invalid party code or congress."}
+
     party_loyalty = party_lookup({"id": int(party_code)}, "Web_Members")
     try:
         party_cong_loyalty = party_loyalty[str(congress)]
