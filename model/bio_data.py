@@ -273,6 +273,37 @@ def twitter_card(person):
     return twitter_card_out
 
 
+def process_alts(person):
+    """ Builds a string reflecting extra ICPSRs / party switching. """
+
+    def process_each_alt(alt, person):
+        """ Processes a single extra ICPSR """
+        temporal_text = (
+            "Subsequently served as "
+            if alt["yearsOfService"][0][0] >= person["yearsOfService"][-1][0]
+            else "Previously served as ")
+
+        party_link = "<a href=\"/person/%s\">%s</a>" % (
+            str(alt["icpsr"].zfill(6)), alt["party_noun"])
+
+        chamber_text = (
+            " in the %s" % alt["chamber"]
+            if person["chamber"] == "President"
+            else "")
+
+        years_ranges = ["%s-%s" % (z[0], z[1]) for z in alt["yearsOfService"]]
+        years_text = ", ".join(years_ranges)
+
+        return "%s%s%s (%s)" % (temporal_text, party_link, chamber_text,
+                                years_text)
+
+    if "altPeople" not in person or not person["altPeople"]:
+        return ""
+
+    return ", ".join(
+        [process_each_alt(x, person) for x in person["altPeople"]])
+
+
 if __name__ == "__main__":
     result = member_lookup({'icpsr': 14910}, 1)["results"][0]
     print(check_for_party_switch(result))

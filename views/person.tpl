@@ -51,38 +51,15 @@
 	    </h4>
 		% end
 	    % end
-	    % if "altPeople" in person and len(person["altPeople"]):
-	    <h5>
-		% k = 0
-		% for alt in person["altPeople"]:
-			% if alt["yearsOfService"][0][0] >= person["yearsOfService"][-1][0]:
-			Subsequently served as
-			% elif alt["yearsOfService"][-1][1] <= person["yearsOfService"][0][1]:
-			Previously served as
-			% end
-			% if k > 0:
-				,
-			% end
-	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party_noun"] }}</a> 
-			% if person["chamber"] == "President" and alt["chamber"] != "President":
-				in the {{ alt["chamber"] }}
-			% end  
-			(
-			% z = 0
-			% for chunk in alt["yearsOfService"]:
-				% if z > 0:
-					,
-				% end
-				{{chunk[0]}}-{{chunk[1]}}
-			% end
-		 )
-		% k = k + 1
+
+		% if "alt_text" in person:
+		<h5>{{person["alt_text]}}</h5>
 		% end
-	    </h5>
-	    % end
+
 	    % if "website" in person:
 		<h5><a href="{{person["website"]}}" target="_blank">Official Website</a></h5>
 	    % end
+		
 	    % if "twitter" in person and len(person["twitter"]):
 		<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
 	    % end
@@ -207,7 +184,7 @@ var globalNextId = 0;
 </script>
 % if person["plotIdeology"]:
 <script>
-var mapParties=1;
+var mapParties = 1;
 % if person["chamber"] == "House":
 	var chamber = "house";
 % else:

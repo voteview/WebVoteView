@@ -18,7 +18,10 @@ from model.search_members import (member_lookup, get_members_by_congress,
                                   district_member_lookups)
 from model.articles import get_article_meta, list_articles
 from model.search_meta import meta_lookup
-from model.bio_data import congress_to_year, assemble_person_meta, twitter_card
+from model.bio_data import (congress_to_year,
+                            assemble_person_meta,
+                            twitter_card,
+                            process_alts)
 from model.prep_votes import prep_votes
 from model.geo_lookup import (address_to_lat_long,
                               lat_long_to_districts,
@@ -357,6 +360,10 @@ def person(icpsr=0, slug_name=""):
 
     # Extract the actual result.
     person_extracted = person_response["results"][0]
+
+    # Served in another capacity?
+    if "altPeople" in person_extracted:
+        person_extracted["alt_text"] = process_alts(person_extracted)
 
     # Assemble data
     person_extracted = assemble_person_meta(person_extracted, keith)
