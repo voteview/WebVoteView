@@ -79,9 +79,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
                 "rollcalls": [],
                 "errormessage": quota_check["errormessage"]}
 
-    if qtext:
-        qtext = qtext.encode('utf-8')
-    else:
+    if not qtext:
         qtext = ""
     base_row_limit = row_limit
 
@@ -140,16 +138,18 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
         query_dict["chamber"] = chamber
 
     if qtext:
-        try:
+        if not isinstance(qtext, str):
             try:
-                from urllib import unquote_plus
+                try:
+                    from urllib import unquote_plus
+                except Exception:
+                    from urllib.parse import unquote_plus
+                qtext = unquote_plus(qtext)
             except Exception:
-                from urllib.parse import unquote_plus
-            qtext = unquote_plus(qtext)
-        except Exception:
-            model.log_quota.add_quota(request, 1)
-            model.log_quota.log_search(request, {"query": "Invalid query: Character encoding error?", "query_extra": qtext, "resultNum": -1})
-            return {'recordcount': 0, 'rollcalls': [], 'errormessage': 'Error resolving query string.'}
+                print(traceback.format_exc())
+                model.log_quota.add_quota(request, 1)
+                model.log_quota.log_search(request, {"query": "Invalid query: Character encoding error?", "query_extra": qtext, "resultNum": -1})
+                return {'recordcount': 0, 'rollcalls': [], 'errormessage': 'Error resolving query string.'}
 
         word_set = [x.lower() for x in qtext.split()]
         if all([w.lower() in config["stop_words"] for w in word_set]):
