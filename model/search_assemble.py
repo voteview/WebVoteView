@@ -365,6 +365,7 @@ def assemble_member_search(query_string, next_id):
         "expand_results": 0,
         "show_rollcalls": 1
     }
+    count_members = 0
     member_search = {}
 
     # Initialize the "manual query override" -- plain English search queries
