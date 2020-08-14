@@ -32,7 +32,7 @@
 		</div>
 		% end
 
-		% if party_param != 328:
+		% if party != 328:
 		<div class="row">
 			<div class="col-md-12">
 				<h4>
