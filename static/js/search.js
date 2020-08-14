@@ -42,8 +42,8 @@ function closeStashCart()
 	});
 }
 
-function exportJSON() { window.location="/api/exportJSON?id="+cookieId; }
-function exportXLS() { window.location="/api/downloadXLS?stash="+cookieId; }
+function exportJSON() { window.location="/api/exportJSON?id=" + cookieId; }
+function exportXLS() { window.location="/api/download_excel?stash=" + cookieId; }
 
 function updateStashCart()
 {
