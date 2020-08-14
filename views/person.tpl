@@ -6,109 +6,93 @@
 % else:
 %	page_title = person["bioname"]
 % end
-% rebase("base.tpl", title=page_title, extra_js=["/static/js/libs/jquery.tablesorter.min.js"],extra_css=["map.css", "person.css"])
+% rebase("base.tpl", title=page_title, extra_js=["/static/js/libs/jquery.tablesorter.min.js"], extra_css=["map.css", "person.css"])
 % include('header.tpl')
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff"}
 % district_class = "hide_district_c" if not "district_code" in person or person["district_code"] in [0, 98, 99] else "show_district_c"
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <img src="{{ STATIC_URL }}img/bios/{{person["bioImg"]}}" class="memberBioImage">
+            <img src="{{ STATIC_URL }}img/bios/{{person["bio_image"]}}" class="memberBioImage">
         </div>
+
         <div class="col-md-5">
-		<h2 class="bio">
-			{{ person["bioname"] }} {{person["lifeString"]}}
-		</h2>
+			<h2 class="bio">
+				{{ person["bioname"] }} {{person["life_string"]}}
+			</h2>
 
             <h4>
-		<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!person["stateText"]}}
-	    </h4>
+				<span id="partyname"><a href="/parties/{{person["party_code"]}}">{{ person["party_noun"] }}</a></span>{{!person["stateText"]}}
+	    	</h4>
 
-	    <h4 id="show_district" class="{{district_class}}">
-		<span id="district_label">{{rcSuffix(person["district_code"])}} congressional district</span>
-	    </h4>
+	    	<h4 id="show_district" class="{{district_class}}">
+				<span id="district_label">{{rcSuffix(person["district_code"])}} congressional district</span>
+	    	</h4>
 
-	    % for service_set in ["Senate", "House"]:
-		% if "yearsOfService" + service_set in person and len(person["yearsOfService" + service_set]):
-	    <h4>
-		% if person["yearsOfService" + service_set][-1][1] > datetime.datetime.now().year:
-			Serving in {{service_set}}
-		% else:
-			Served in {{service_set}}
-		% end
-
-		% z = 0
-		% for chunk in person["yearsOfService" + service_set]:
-			% if chunk[1] >= datetime.datetime.now().year:
-			% chunk[1] = "Present"
+			% if "service_text" in person:
+			{{ !person["service_text"] }}
 			% end
-			% if z > 0:
-				,
+
+			% if "alt_text" in person:
+			<h5>{{ !person["alt_text] }}</h5>
 			% end
-			{{chunk[0]}}-{{chunk[1]}}
-			% z = z + 1
-		% end
-	    </h4>
-		% end
-	    % end
 
-		% if "alt_text" in person:
-		<h5>{{person["alt_text]}}</h5>
-		% end
+	    	% if "website" in person:
+			<h5><a href="{{person["website"]}}" target="_blank">Official Website</a></h5>
+	    	% end
 
-	    % if "website" in person:
-		<h5><a href="{{person["website"]}}" target="_blank">Official Website</a></h5>
-	    % end
-		
-	    % if "twitter" in person and len(person["twitter"]):
-		<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
-	    % end
+	    	% if "twitter" in person and len(person["twitter"]):
+			<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
+	    	% end
         </div>
-	<div class="col-md-5">
-		<h5 class="congSelector">
-			<select id="congSelector">
-			% 	person["congressesOfService"].reverse()
-			%	for congressRun in person["congressesOfService"]:
-			%		for congress in range(congressRun[1], congressRun[0]-1, -1):
-				<option value="{{congress}}">{{person["congressLabels"][congress]}}</option>
-			% 		end
-			% 	end
-			</select>
-			<small><a href="/congress/house" id="view_all_members">View all members</a></small>
-		</h5>
 
-		% if person["plotIdeology"]:
-		<ul class="nav nav-tabs">
-			<li role="presentation" class="active"><a href="#" data-toggle="ideologyHolder">Ideology</a></li>
-			<li role="presentation"><a href="#" data-toggle="loyaltyTable">Attendance and Loyalty</a></li>
-		</ul>
-		% end
+		<div class="col-md-5">
+			<h5 class="congSelector">
+				<select id="congSelector">
+				% 	person["congresses_all"].reverse()
+				%	for congress_run in person["congresses_all"]:
+				%		for congress in range(congress_run[1], congress_run[0] - 1, -1):
+					<option value="{{congress}}">{{person["congress_labels"][congress]}}</option>
+				% 		end
+				% 	end
+				</select>
+				<small><a href="/congress/house" id="view_all_members">View all members</a></small>
+			</h5>
 
-		<div id="ideologyHolder">
-		% if person["plotIdeology"]:
-		<div id="nominateHist" class="dc-chart">
-			% if "total_number_of_votes" in person["nominate"] and person["nominate"]["total_number_of_votes"] < 100:
+			% if person["plotIdeology"]:
+			<ul class="nav nav-tabs">
+				<li role="presentation" class="active"><a href="#" data-toggle="ideologyHolder">Ideology</a></li>
+				<li role="presentation"><a href="#" data-toggle="loyaltyTable">Attendance and Loyalty</a></li>
+			</ul>
+			% end
+
+			<div id="ideologyHolder">
+			% if person["plotIdeology"]:
+			<div id="nominateHist" class="dc-chart">
+				% if "total_number_of_votes" in person["nominate"] and person["nominate"]["total_number_of_votes"] < 100:
+				<div class="alert alert-info" role="alert">
+				<strong>Note:</strong> This member has cast relatively few votes and so their ideological score may be unstable or inaccurate. Members who have cast at least 100 votes have more reliable scores.
+				</div>
+				% end
+			</div>
+
+			% else:
 			<div class="alert alert-info" role="alert">
-			<strong>Note:</strong> This member has cast relatively few votes and so their ideological score may be unstable or inaccurate. Members who have cast at least 100 votes have more reliable scores.
+				% if person["chamber"] != "President":
+				<strong>Note:</strong> We can only calculate an ideological score for members who have completed a minimum number of rollcall votes.
+				% else:
+				<strong>Note:</strong> Data on presidential position-taking comes from CQ. CQ has not supplied us with a sufficient amount of data about {{person["bioname"]}} to calculate an ideological score.
+				% end
 			</div>
 			% end
-		</div>
 
-		% else:
-		<div class="alert alert-info" role="alert">
-			% if person["chamber"] != "President":
-			<strong>Note:</strong> We can only calculate an ideological score for members who have completed a minimum number of rollcall votes.
-			% else:
-			<strong>Note:</strong> Data on presidential position-taking comes from CQ. CQ has not supplied us with a sufficient amount of data about {{person["bioname"]}} to calculate an ideological score.
-			% end
-		</div>
-		% end
+			</div>
 
+			<div id="loyaltyTable" class="container">
+			</div>
 		</div>
-		<div id="loyaltyTable" class="container">
-		</div>
-	</div>
     </div>
+	
 	% if "biography" in person:
 	<div class="row">
 		<div class="col-md-12">

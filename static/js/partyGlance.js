@@ -360,16 +360,21 @@ function generatePartyList(parties)
 	headerBox.appendTo(partyTable);
 
 	var bodyBox = $("<tbody></tbody>");
-	for(var i=0;i!=listParties.length;i++)
+	for(var i=0; i!=listParties.length; i++)
 	{
 		if(listParties[i][0] == 328) continue;
 		var party = listParties[i];
 
 		// Re-arrange data a bit.
-		var pData = {"min": party[1]["minCongress"], "max": party[1]["maxCongress"], 
-				"mind": party[1]["voting_dates"][0], "maxd": party[1]["voting_dates"][1],
-				"id": party[0], "name": party[1]["fullName"], "slug": party[1]["seo_name"],
-				"broken": party[1]["broken"]};
+		var pData = {
+			"min": party[1]["minCongress"], 
+			"max": party[1]["maxCongress"], 
+			"mind": party[1]["voting_dates"][0], 
+			"maxd": party[1]["voting_dates"][1],
+			"id": party[0], 
+			"name": party[1]["fullName"], 
+			"slug": party[1]["seo_name"],
+			"broken": party[1]["broken"]};
 
 		try { pData["col"] = partyColorMap[partyNameSimplify(party[1]["name"])];}
 		catch(e) { pData["col"] = "grey"; console.log("color problem" + party[0]); }

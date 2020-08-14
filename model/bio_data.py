@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 from builtins import range
+import datetime
 import os
 from model.search_members import member_lookup
 from model.loyalty import get_loyalty
@@ -181,26 +182,28 @@ def assemble_person_meta(person, keith=0):
 
     # Check if bio image exists
     default = "silhouette.png" if not keith else "keith.png"
-    person["bioImg"], _ = get_bio_image(person["icpsr"], default)
+    person["bio_image"], _ = get_bio_image(person["icpsr"], default)
 
     # Get years of service
-    person["yearsOfService"] = get_years_of_service(person, "")
-    person["yearsOfServiceSenate"] = get_years_of_service(person, "Senate")
-    person["yearsOfServiceHouse"] = get_years_of_service(person, "House")
+    person["years_all"] = get_years_of_service(person, "")
+    person["years_Senate"] = get_years_of_service(person, "Senate")
+    person["years_House"] = get_years_of_service(person, "House")
+    person["service_text"] = process_service_text(person)
 
-    person["congressesOfService"] = person["congresses"]
-    person["congressLabels"] = {}
-    for congress_chunk in person["congressesOfService"]:
+    person["congresses_all"] = person["congresses"]
+    person["congress_labels"] = {}
+    for congress_chunk in person["congresses_all"]:
         for cong in range(congress_chunk[0], congress_chunk[1] + 1):
-            person["congressLabels"][cong] = ("%sth Congress (%s-%s)" %
-                                              (cong, congress_to_year(cong, 0),
-                                               congress_to_year(cong, 1)))
+            person["congress_labels"][cong] = (
+                "%sth Congress (%s-%s)" %
+                (cong, congress_to_year(cong, 0),
+                 congress_to_year(cong, 1)))
 
     # Find out if we have any other ICPSRs that are this person for another
     # party
     alt_icpsrs = check_for_party_switch(person)
     if alt_icpsrs and "results" in alt_icpsrs:
-        person["altPeople"] = []
+        person["alt_people"] = []
         # Iterate through them
         for alt in alt_icpsrs["results"]:
             # Look up this one
@@ -209,11 +212,10 @@ def assemble_person_meta(person, keith=0):
                 continue
 
             # Get their years of service
-            alt_person["yearsOfService"] = get_years_of_service(alt_person,
-                                                                "")
+            alt_person["years_all"] = get_years_of_service(alt_person, "")
             if alt_person["icpsr"] not in [x["icpsr"] for x in
-                                           person["altPeople"]]:
-                person["altPeople"].append(alt_person)
+                                           person["alt_people"]]:
+                person["alt_people"].append(alt_person)
 
     loyalty = get_loyalty(person["party_code"], person["congress"])
 
@@ -232,14 +234,13 @@ def assemble_person_meta(person, keith=0):
                                                           "Representative")
 
     # Biographical lived years string
-
     if ("died" in person and
             person["died"] is not None and
-            person["yearsOfService"][-1][1] > person["died"]):
-        person["yearsOfService"][-1][1] = person["died"]
+            person["years_all"][-1][1] > person["died"]):
+        person["years_all"][-1][1] = person["died"]
 
     # Generate a years of life (e.g. (1956 - 1999))
-    person["lifeString"] = generate_life_string(person)
+    person["life_string"] = generate_life_string(person)
 
     # Fix their last name.
     person["last_name"] = (person["bioname"].split(",")[0].upper()[0] +
@@ -258,6 +259,10 @@ def assemble_person_meta(person, keith=0):
     person["plotIdeology"] = (1 if "nominate" in person and
                               "dim1" in person["nominate"] and
                               person["nominate"]["dim2"] is not None else 0)
+
+    # Served in another capacity?
+    if "altPeople" in person:
+        person["alt_text"] = process_alts(person)
 
     return person
 
@@ -280,7 +285,7 @@ def process_alts(person):
         """ Processes a single extra ICPSR """
         temporal_text = (
             "Subsequently served as "
-            if alt["yearsOfService"][0][0] >= person["yearsOfService"][-1][0]
+            if alt["years_all"][0][0] >= person["years_all"][-1][0]
             else "Previously served as ")
 
         party_link = "<a href=\"/person/%s\">%s</a>" % (
@@ -291,7 +296,7 @@ def process_alts(person):
             if person["chamber"] == "President"
             else "")
 
-        years_ranges = ["%s-%s" % (z[0], z[1]) for z in alt["yearsOfService"]]
+        years_ranges = ["%s-%s" % (z[0], z[1]) for z in alt["years_all"]]
         years_text = ", ".join(years_ranges)
 
         return "%s%s%s (%s)" % (temporal_text, party_link, chamber_text,
@@ -302,6 +307,39 @@ def process_alts(person):
 
     return ", ".join(
         [process_each_alt(x, person) for x in person["altPeople"]])
+
+
+def process_service_text(person):
+    """ Builds a string reflecting service text for bio page. """
+
+    current_year = datetime.datetime.now().year
+
+    def wrap_chunk(year_chunk):
+        begin_chunk = year_chunk[0]
+        end_chunk = (year_chunk[1] if year_chunk[1] < current_year
+                     else "Present")
+
+        return "%s-%s" % (begin_chunk, end_chunk)
+
+    def process_service_chamber(chamber, person):
+        key = "years_%s" % chamber
+
+        if key not in person or not person[key]:
+            return ""
+
+        service_text = ("Serving in %s" % chamber
+                        if person[key][-1][1] > current_year else
+                        "Served in %s" % chamber)
+
+        year_chunks = [wrap_chunk(x) for x in person[key]]
+        year_text = ", ".join(year_chunks)
+
+        output_text = "%s %s" % (service_text, year_text)
+
+        return "<h4>%s</h4>" % output_text
+
+    return "\n".join([process_service_chamber(x, person) for x in
+                     ["Senate", "House"]])
 
 
 if __name__ == "__main__":

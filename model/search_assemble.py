@@ -303,7 +303,7 @@ def process_found_members(member_search, query_string, flags):
 
         member_name = (member["bioname"]
                        if "bioname" in member and member["bioname"]
-                       else "Error Invalid Name.").reaplce("," "").lower()
+                       else "Error Invalid Name.").replace("," "").lower()
         query_lower = query_string.replace(",", "").lower()
 
         # How close does the name match to the name we search for?
@@ -315,13 +315,13 @@ def process_found_members(member_search, query_string, flags):
         member["bonusMatch"] = bonus_score_member(member, query_string)
 
         # Fill out the member's bio image:
-        member["bioImg"] = ("silhouette.png" if not
-                            os.path.isfile("static/img/bios/%s.jpg" %
-                                           str(member["icpsr"]).zfill(6))
-                            else "%s.jpg" % str(member["icpsr"]).zfill(6))
+        member["bio_image"] = ("silhouette.png" if not
+                               os.path.isfile("static/img/bios/%s.jpg" %
+                                              str(member["icpsr"]).zfill(6))
+                               else "%s.jpg" % str(member["icpsr"]).zfill(6))
 
         # Fill out their first elected time and their SEO-friendly link name.
-        member["minElected"] = congress_to_year(member["congresses"][0][0], 0)
+        member["min_elected"] = congress_to_year(member["congresses"][0][0], 0)
         member["seo_name"] = slugify(member["bioname"])
 
         # Fill out their name in the proper order, and fixing parenthetical

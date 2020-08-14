@@ -38,7 +38,7 @@ def get_field_set(api, search_query):
                           "congress", "congresses", "chamber", "bioguide_id"],
         "Check_Party_Switch": ["icpsr"],
         "Web_Party": ["bioname", "party_code", "icpsr", "state_abbrev",
-                      "congress", "bioImgURL", "minElected", "nominate.dim1",
+                      "congress", "image_url", "min_elected", "nominate.dim1",
                       "nominate.dim2", "congresses", "chamber"],
         "R": ["bioname", "party_code", "icpsr", "state_abbrev", "congress",
               "id", "nominate.dim1", "nominate.dim2",
@@ -56,7 +56,7 @@ def get_field_set(api, search_query):
                            "congress", "id", "nominate.dim1", "nominate.dim2",
                            "district_code", "chamber", "congresses"],
         "Web_Congress": ["bioname", "party_code", "icpsr", "state_abbrev",
-                         "congress", "bioImgURL", "minElected",
+                         "congress", "image_url", "min_elected",
                          "nominate.dim1", "nominate.dim2", "congresses",
                          "elected_senate", "elected_house"]
     }
@@ -221,9 +221,9 @@ def augment_member_responses(sorted_res, api, max_results, distinct):
         # Check if an image exists.
         if os.path.isfile("static/img/bios/%s.jpg" %
                           str(augment_m["icpsr"]).zfill(6)):
-            augment_m["bioImgURL"] = str(augment_m["icpsr"]).zfill(6) + ".jpg"
+            augment_m["image_url"] = str(augment_m["icpsr"]).zfill(6) + ".jpg"
         else:
-            augment_m["bioImgURL"] = "silhouette.png"
+            augment_m["image_url"] = "silhouette.png"
 
         # Ensure backwards compatibility of export files and safe encoding.
         if api in ["exportCSV", "exportORD"]:

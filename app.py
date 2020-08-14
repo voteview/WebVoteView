@@ -20,8 +20,7 @@ from model.articles import get_article_meta, list_articles
 from model.search_meta import meta_lookup
 from model.bio_data import (congress_to_year,
                             assemble_person_meta,
-                            twitter_card,
-                            process_alts)
+                            twitter_card)
 from model.prep_votes import prep_votes
 from model.geo_lookup import (address_to_lat_long,
                               lat_long_to_districts,
@@ -361,10 +360,6 @@ def person(icpsr=0, slug_name=""):
     # Extract the actual result.
     person_extracted = person_response["results"][0]
 
-    # Served in another capacity?
-    if "altPeople" in person_extracted:
-        person_extracted["alt_text"] = process_alts(person_extracted)
-
     # Assemble data
     person_extracted = assemble_person_meta(person_extracted, keith)
     twitter_card_result = twitter_card(person_extracted)
@@ -545,7 +540,7 @@ def getmembersbycongress():
             if "congresses" not in member_row:
                 continue
 
-            member_row["minElected"] = congress_to_year(
+            member_row["min_elected"] = congress_to_year(
                 member_row["congresses"][0][0], 0)
 
             out["results"][i] = member_row
@@ -621,7 +616,7 @@ def getmembersbyparty():
             if "congresses" not in member_row:
                 continue
 
-            member_row["minElected"] = congress_to_year(
+            member_row["min_elected"] = congress_to_year(
                 member_row["congresses"][0][0], 0)
             out["results"][i] = member_row
 

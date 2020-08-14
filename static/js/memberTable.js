@@ -80,7 +80,7 @@ function writeBioTable(format_text=["name", "party", "state", "elected"])
 		else if(sortBy=="elected") { 
 			rC.sort(function(a,b) 
 			{ 
-				return a.minElected == undefined ? 1 : b.minElected == undefined ? -1 : (a.minElected == b.minElected) ? (a.bioname > b.bioname ? 1 : -1) : (a.minElected > b.minElected ? 1 : -1);
+				return a.min_elected == undefined ? 1 : b.min_elected == undefined ? -1 : (a.min_elected == b.min_elected) ? (a.bioname > b.bioname ? 1 : -1) : (a.min_elected > b.min_elected ? 1 : -1);
 			});
 		}
 		else if(sortBy=="elected_senate") { 
@@ -160,22 +160,22 @@ function constructPlot(member, margins, format_data=["name", "party", "state", "
 					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"]+"/"+member["seo_name"];});
 	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]+"/"+member["seo_name"]).attr("class","nohover");
 	var imgBox = $("<img />").addClass("pull-left").addClass("bio").addClass(imageClass)
-				.attr("src","/static/img/bios/"+member["bioImgURL"]);
+				.attr("src", "/static/img/bios/" + member["image_url"]);
 
 	var bioTextInner = "";
 	if(format_data.includes("name")) { bioTextInner += "<strong>" + memberNameFinal + "</strong><br/>"; }
 	if(format_data.includes("party")) { bioTextInner += member["party_noun"] + "<br/>"; }
 	if(format_data.includes("state")) { bioTextInner += member["state"] + "<br/>"; }
 	if(format_data.includes("chamber")) { bioTextInner += ((member["chamber"].toLowerCase()=="senate") ? "Senator" : "Representative") + "<br/>"; }
-	if(format_data.includes("elected") && member["minElected"]!=undefined)
+	if(format_data.includes("elected") && member["min_elected"] != undefined)
 	{
-		if(chamber_param=="senate" && member["elected_senate"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_senate"])); }
-		else if(chamber_param=="house" && member["elected_house"]!=undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_house"])); }
-		else bioTextInner += "Elected "+member["minElected"];
+		if(chamber_param=="senate" && member["elected_senate"] != undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_senate"])); }
+		else if(chamber_param=="house" && member["elected_house"] != undefined) { bioTextInner += "Elected "+(1787+(2*member["elected_house"])); }
+		else bioTextInner += "Elected " + member["min_elected"];
 	}	
-	else if(format_data.includes("elected") && member["congresses"]!=undefined)
+	else if(format_data.includes("elected") && member["congresses"] != undefined)
 	{
-		bioTextInner += "Elected "+(1787+(member["congresses"][0][0]*2));
+		bioTextInner += "Elected " + (1787 + (member["congresses"][0][0] * 2));
 	}
 
 	var bioText = $("<span></span>").html(bioTextInner);
