@@ -33,9 +33,9 @@ def generate_session_id(request):
     static_salt = config["auth"]["quotaLogSalt"]
     dynamic_salt = str(datetime.datetime.now().timetuple().tm_yday)
     hash_builder = hashlib.sha256()
-    hash_builder.update("%s/%s/%s/%s" % (ip_address, user_agent,
-                                         static_salt,
-                                         dynamic_salt)).encode("utf-8")
+    hash_builder.update(("%s/%s/%s/%s" % (ip_address, user_agent,
+                                          static_salt,
+                                          dynamic_salt)).encode("utf-8"))
     final_hash = hash_builder.hexdigest()[0:16]
     return final_hash
 
