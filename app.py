@@ -481,7 +481,7 @@ def display_rollcall(rollcall_id=""):
               current_rollcall.get('cg_short_titles_for_portions', []))
 
     if titles:
-        title_text = "; ".join(title.encode("utf-8") for title in titles)
+        title_text = "; ".join(title for title in titles)
     else:
         title_text = ""
 
@@ -753,8 +753,8 @@ def stash_export_json():
     return model.download_votes.download_stash(stash_id)
 
 
-@app.route("/api/downloadXLS", method="POST")
-@app.route("/api/downloadXLS")
+@app.route("/api/download_excel", method="POST")
+@app.route("/api/download_excel")
 def download_excel():
     """ Download Excel file of votes. """
     try:
