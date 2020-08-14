@@ -540,7 +540,7 @@ def download_stash(stash_id):
     if not stash_id:
         return {"errormessage": "Invalid stash id.", "rollcalls": []}
 
-    res = db.stash.find_one({"id": id})
+    res = db.stash.find_one({"id": stash_id})
     if not res:
         return {"errormessage": "Invalid stash id.", "rollcalls": []}
 
