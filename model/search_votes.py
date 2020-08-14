@@ -8,6 +8,7 @@ import time
 import pymongo
 import model.log_quota
 import model.query_parser
+from model.date_helper import fix_date
 from model.download_votes import waterfall_text, waterfall_question
 from model.config import config
 
@@ -294,6 +295,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
         if not max_score and need_score and res["score"] >= max_score:
             max_score = res["score"]
+
+        if "date" in res:
+            res["date_user"] = fix_date(res["date"])
 
         if len(mr) < row_limit:
             if "date_chamber_rollnumber" in res:

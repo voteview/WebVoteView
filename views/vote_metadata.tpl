@@ -16,7 +16,7 @@
 
 			</h3>
 
-			<p class="meta_float"><strong>Date:</strong> {{ rollcall["date"] }}</p>
+			<p class="meta_float"><strong>Date:</strong> {{ rollcall["date_user"] }}</p>
 
 			% if "yea_count" in rollcall and "nay_count" in rollcall:
 			<p class="meta_float">

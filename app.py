@@ -28,6 +28,7 @@ from model.geo_lookup import (address_to_lat_long,
 from model.search_assemble import assemble_search
 from model.slide_carousel import generate_slides
 from model.loyalty import get_loyalty
+from model.date_helper import fix_date
 
 import model.download_excel
 import model.stash_cart
@@ -448,6 +449,7 @@ def display_rollcall(rollcall_id=""):
 
     # Subset the rollcall to the stuff we care about.
     current_rollcall = rollcall["rollcalls"][0]
+    current_rollcall["date_user"] = fix_date(current_rollcall["date"])
 
     # Make derived quantities we care about.
     def suffix_gen(n):

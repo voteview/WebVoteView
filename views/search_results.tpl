@@ -17,7 +17,7 @@
 				<abbr title="Chamber"><a href="/search/?congress={{ rollcall["congress"] }}&chamber={{ rollcall["chamber"] }}">{{ rollcall["chamber"] }}</a></abbr> &gt;
 				<abbr title="Rollnumber"><a href="/rollcall/{{ rollcall["id"] }}">Vote {{ rollcall["rollnumber"] }}</a></abbr>
 			</strong>
-			on <abbr title="Date"><a href="/search/?fromDate={{rollcall["date"]}}&toDate={{rollcall["date"]}}">{{ rollcall["date"] }}</a></abbr>
+			on <abbr title="Date"><a href="/search/?fromDate={{rollcall["date"]}}&toDate={{rollcall["date"]}}">{{ rollcall["date_user"] }}</a></abbr>
 			<span class="pull-right">
 				<a href="/rollcall/{{ rollcall["id"] }}"><img src="/static/img/graph.png" class="viewVote"
 					data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
