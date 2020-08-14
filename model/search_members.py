@@ -212,10 +212,11 @@ def augment_member_responses(sorted_res, api, max_results, distinct):
                                            augment_m["district_code"])
         if "party_code" in augment_m:
             augment_m["party_name"] = party_name(augment_m["party_code"])
-        if api not in ["exportORD", "exportCSV", "R"]:
-            augment_m["party_noun"] = party_noun(augment_m["party_code"])
-            augment_m["party_color"] = party_color(augment_m["party_code"])
-            augment_m["party_short_name"] = short_name(augment_m["party_code"])
+            if api not in ["exportORD", "exportCSV", "R"]:
+                augment_m["party_noun"] = party_noun(augment_m["party_code"])
+                augment_m["party_color"] = party_color(augment_m["party_code"])
+                augment_m["party_short_name"] = (
+                    short_name(augment_m["party_code"]))
 
         # Check if an image exists.
         if os.path.isfile("static/img/bios/%s.jpg" %
