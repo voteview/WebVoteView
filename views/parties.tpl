@@ -31,6 +31,8 @@
 			</div>
 		</div>
 		% end
+
+		% if party_param != 328:
 		<div class="row">
 			<div class="col-md-12">
 				<h4>
@@ -79,6 +81,7 @@
 				</span>
 			</div>
 		</div>
+		% end
 		<div class="row">
 			<div class="col-md-12">
 				<h4><span class="pluralNoun"> {{ party }}</span> serving over time <small><a class="reset reset_party" href="javascript:timeChart.filterAll();dc.redrawAll();">reset</a></small></h4>
