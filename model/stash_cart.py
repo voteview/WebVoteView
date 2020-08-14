@@ -201,7 +201,7 @@ def get_votes(stash_id):
     old = res["old"] if "old" in res else []
     search = res["search"] if "search" in res else ""
 
-    return({'id': id,
+    return({'id': stash_id,
             'votes': votes,
             'old': old,
             'search': search,
