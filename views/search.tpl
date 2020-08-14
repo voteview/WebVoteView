@@ -362,7 +362,7 @@
 						</div>
 					</div>
 				</div>
-				<form id="download-rollcalls-form" action="/api/downloadXLS" method="post">
+				<form id="download-rollcalls-form" action="/api/download_excel" method="post">
 					<div id="results-list">
 					</div>
 					<a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a>

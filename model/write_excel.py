@@ -1,7 +1,7 @@
 """ Mechanical output of data to an Excel sheet. Unknown author? """
 
 from __future__ import print_function
-from io import StringIO
+from io import BytesIO
 import xlwt
 
 
@@ -23,7 +23,7 @@ class WriteExcel(object):
         sheet.set_horz_split_pos(y)
 
     def render(self):
-        output = StringIO.StringIO()
+        output = BytesIO()
         self.wb.save(output)
         return output.getvalue()
 

@@ -57,15 +57,15 @@ def download_excel(ids):
                 if vote['id'] not in member_set:
                     member_set[vote['id']] = {key[1]: vote[key[0]] for
                                               key in infofields}
-                else:
-                    icpsr_set[vote['icpsr']] = {
-                        i: vote["cast_code"],
-                        'name': vote['name'],
-                        'state_abbrev': vote['state_abbrev'],
-                        'id': vote['id'],
-                        'icpsr': vote['icpsr']}
-                    member_set[vote['id']] = {key[1]: vote[key[0]] for
-                                              key in infofields}
+            else:
+                icpsr_set[vote['icpsr']] = {
+                    i: vote["cast_code"],
+                    'name': vote['name'],
+                    'state_abbrev': vote['state_abbrev'],
+                    'id': vote['id'],
+                    'icpsr': vote['icpsr']}
+                member_set[vote['id']] = {key[1]: vote[key[0]] for
+                                          key in infofields}
 
         # Write member info fields
         votes = [[f[1] for f in icpsrfields] +

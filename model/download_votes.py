@@ -259,7 +259,8 @@ def augment_nominate(rollcall):
         del rollcall["nominate"]["y"]
 
     # Generate other nominate fields
-    if (all(x in rollcall for x in ["nominate", "mid", "spread"]) and
+    if ("nominate" in rollcall and
+            all(x in rollcall["nominate"] for x in ["mid", "spread"]) and
             rollcall["nominate"]["spread"][0] is not None):
         slope, intercept, x, y = add_endpoints(rollcall["nominate"]["mid"],
                                                rollcall["nominate"]["spread"])
@@ -508,6 +509,9 @@ def download_votes_api(rollcall_ids, apitype="Web", voter_id=0):
         .sort('id')
         .batch_size(10)
     )
+    download_count = db.voteview_rollcalls.count_documents(
+        {'id': {'$in': rollcall_ids}}
+    )
 
     for rollcall in rollcalls:
         try:
@@ -519,7 +523,7 @@ def download_votes_api(rollcall_ids, apitype="Web", voter_id=0):
             errormessage = "Invalid Rollcall ID specified."
             errormeta.append(str(rollcall["id"]))
 
-    if rollcalls.count() != len(rollcall_ids):
+    if download_count != len(rollcall_ids):
         errormessage = "Invalid Rollcall ID specified."
         errormeta += [str(vote_id) for vote_id in found if not found[vote_id]]
 

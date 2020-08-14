@@ -92,7 +92,7 @@
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as JSON.">
 					</span>
 				</a>
-				<a href="/api/downloadXLS?ids={{rollcall["id"]}}">
+				<a href="/api/download_excel?ids={{rollcall["id"]}}">
 					<img src="/static/img/xls.png" class="xlsButton"
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS.">
 				</a>
