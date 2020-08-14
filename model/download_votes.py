@@ -212,7 +212,7 @@ def augment_pivots(rollcall, voter_list):
         pivot_index = int(math.ceil(len(pivot_set) / 2)) - 1
         median = [pivot_set[pivot_index]["icpsr"]]
     else:
-        pivot_index = (len(pivot_set) / 2) - 1
+        pivot_index = int(len(pivot_set) / 2) - 1
         median = [pivot_set[pivot_index]["icpsr"],
                   pivot_set[pivot_index + 1]["icpsr"]]
 
