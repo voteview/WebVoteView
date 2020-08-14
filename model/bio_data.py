@@ -232,9 +232,10 @@ def assemble_person_meta(person, keith=0):
                                                           "Representative")
 
     # Biographical lived years string
+
     if ("died" in person and
-            person["yearsOfService"][-1][1] > person["died"] and
-            person["died"] is not None):
+            person["died"] is not None and
+            person["yearsOfService"][-1][1] > person["died"]):
         person["yearsOfService"][-1][1] = person["died"]
 
     # Generate a years of life (e.g. (1956 - 1999))
