@@ -265,14 +265,15 @@ def member_lookup(query_dict, max_results=50, distinct=0, api="Web"):
 
     # We now send a query and see if it would get us any responses:
     res = db.voteview_members.find(search_query, field_set)
-    first_count = res.count()
+    response_count = db.voteview_members.count_documents(search_query)
 
     # One possibility: No results from a Mongo name search, let's try a regex.
-    if "$text" in search_query and not first_count:
+    if "$text" in search_query and not response_count:
         del search_query["$text"]
         search_query["bioname"] = {'$regex': query_dict["name"],
                                    '$options': 'i'}
         res = db.voteview_members.find(search_query, field_set)
+        response_count = db.voteview_members.count_documents(search_query)
 
     # If there's a text mongo search, sort by Mongo score.
     if "$text" in search_query:
@@ -290,9 +291,9 @@ def member_lookup(query_dict, max_results=50, distinct=0, api="Web"):
         sorted_res = res.sort('congress', -1)
 
     # Confirm we have a reasonable number of results to return.
-    if sorted_res.count() > 1000 and api not in ["R", "Web_Party"]:
+    if response_count > 1000 and api not in ["R", "Web_Party"]:
         return {"errormessage": "Too many results found."}
-    elif sorted_res.count() > 5000 and api != "Web_Party":
+    elif response_count > 5000 and api != "Web_Party":
         return {"errormessage": "Too many results found."}
 
     response = augment_member_responses(sorted_res, api, max_results, distinct)

@@ -220,7 +220,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     # Need to sort by text score
     if need_score:
         try:
-            result_count = votes.find(query_dict, field_returns).count()
+
+            result_count = votes.count_documents(query_dict)
             row_limit = base_row_limit
             if not jsapi:
                 results = votes.find(query_dict, field_returns).limit(row_limit + 5)
@@ -259,7 +260,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
             return return_dict
     else:
         try:
-            result_count = votes.find(query_dict, field_returns).count()
+            result_count = votes.count_documents(query_dict)
             row_limit = base_row_limit
             if not jsapi:
                 results = votes.find(query_dict, field_returns).limit(row_limit + 5)

@@ -277,7 +277,7 @@ def bonus_score_member(member, query_string):
         bonus_match += 5
 
     # Chamber bonus
-    bonus_match += 50 if member["chamber"] == "President" else 0
+    bonus_match += 75 if member["chamber"] == "President" else 0
     bonus_match += 15 if member["chamber"] == "Senate" else 0
 
     # Duration of service bonus
