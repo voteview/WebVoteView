@@ -17,12 +17,17 @@ def newsletter_subscribe(user_email, action):
         headers = {"Authorization": "Bearer " + auth_data["sendgrid"],
                    "Content-Type": "application/json"}
 
+        parse_email = (
+            base64.b64encode(
+                user_email.lower().encode("utf-8")
+            ).decode("utf-8"))
+
         # Subscribe
         if action == "subscribe":
-            topost = [{"email": user_email.lower()}]
+            topost = [{"email": parse_email}]
             req = requests.post(
                 "https://api.sendgrid.com/v3/contactdb/recipients",
-                headers=headers, json=topost, verify=False)
+                headers=headers, json=topost)
             if req.status_code == 201:
                 return {"success": 1, "verb": "added to"}
 
@@ -31,10 +36,10 @@ def newsletter_subscribe(user_email, action):
                 "request at this time.")}
 
         # Unsubscribe
-        topost = [base64.b64encode(user_email.lower())]
+        topost = [parse_email]
         req = requests.delete(
             "https://api.sendgrid.com/v3/contactdb/recipients",
-            headers=headers, json=topost, verify=False)
+            headers=headers, json=topost)
         if req.status_code == 204:
             return {"success": 1, "verb": "removed from"}
 
@@ -119,7 +124,7 @@ def send_email(test=0, **email):
               "content": [{"type": "text/plain", "value": body}]}
 
     req = requests.post("https://api.sendgrid.com/v3/mail/send",
-                        headers=headers, json=topost, verify=False)
+                        headers=headers, json=topost)
 
     # Successful email sent
     if req.status_code == 202:
