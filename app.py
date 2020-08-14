@@ -195,6 +195,12 @@ def data():
 @app.route("/past_data")
 def past_data():
     """ Index page listing past full database zips. """
+
+    # My suspicion is that the below listdir actually won't error but let's
+    # make explicit what happens if the diretory is missing.
+    if not os.path.isdir("static/db"):
+        return bottle.template("views/past_data", folder_files=[])
+
     blacklist = [".gitkeep"]
     folder_files = [x for x in reversed(sorted(os.listdir("static/db/"))) if
                     x not in blacklist]
@@ -246,7 +252,7 @@ def display_congress(chamber="senate", congress_num=-1, tab_view=""):
 
 
 @app.route("/district")
-@app.route("/district/<search>")
+@app.route("/district/<search_text>")
 def district(search_text=""):
     """ Show the district lookup page. """
     meta = meta_lookup()
@@ -322,12 +328,18 @@ def display_article(slug=""):
 
 @app.route("/person")
 @app.route("/person/<icpsr>")
-@app.route("/person/<icpsr>/<garbage>")
-def person(icpsr=0, garbage=""):
+@app.route("/person/<icpsr>/<slug_name>")
+def person(icpsr=0, slug_name=""):
     """ Display a congressperson's bio page. """
-    del garbage  # Truthfully this is a hack
+
+    # Truthfully this is a hack -- we want the route decorator above to match
+    # which means we need to include the argument as a function argument but
+    # we don't actually care about the variable.
+    del slug_name
+
     clear_time()
     time_it("begin")
+
     if not icpsr:
         icpsr = default_value(bottle.request.params.icpsr, 0)
 
@@ -677,8 +689,15 @@ def assemble_member_votes(icpsr=0, qtext="", skip=0):
         vote_query = query(qtext, row_limit=25, jsapi=1,
                            request=bottle.request)
 
+    if "errormessage" in vote_query:
+        return bottle.template(
+            "views/error",
+            error_message=vote_query["errormessage"]
+        )
+
     # Outsourced the vote assembly to a model for future API buildout.
     votes = prep_votes(vote_query, person_extracted)
+
     output = bottle.template(
         "views/member_votes", person=person_extracted, votes=votes,
         skip=skip, next_id=vote_query["next_id"])
