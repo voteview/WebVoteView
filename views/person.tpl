@@ -63,7 +63,11 @@
 			% if k > 0:
 				,
 			% end
-	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party_noun"] }}</a> (
+	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party_noun"] }}</a> 
+			% if person["chamber"] == "President" and alt["chamber"] != "President":
+				in the {{ alt["chamber"] }}
+			% end  
+			(
 			% z = 0
 			% for chunk in alt["yearsOfService"]:
 				% if z > 0:
