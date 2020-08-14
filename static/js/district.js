@@ -47,7 +47,14 @@ $(document).ready(function(){
 	$("#submit-geolocation").click(function(event)
 	{
 		event.preventDefault();
-		getLocation();
+		try {
+			getLocation();
+		} catch(err) {
+			resetResults();
+			$("#warnings").html("").show();
+			var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> Error looking up your location. Most commonly this occurs because you are having internet connection trouble or you have privacy settings designed to block web access to your location.");
+			errorDiv.appendTo($("#warnings"));
+		}
 	});
 	if($("#cachedLat").val()) { myLat = $("#cachedLat").val(); }
 	if($("#cachedLong").val()) { myLong = $("#cachedLong").val(); }
@@ -145,8 +152,11 @@ function latLongWrapper()
 				{	
 					console.log(data);
 					$("#loadProgress").fadeOut();
+					$("#warnings").html("");
 					console.log("Error! Oh no!");
-					var errorDiv = $("<div></div>").addClass("alert alert-danger").html("<strong>Error:</strong> "+data["error_message"])
+					var errorDiv = $("<div></div>")
+						.addClass("alert alert-danger")
+						.html("<strong>Error:</strong> " + data["error_message"])
 					errorDiv.appendTo($("#warnings"));
 					$("#warnings").fadeIn();
 					return;
@@ -197,7 +207,9 @@ function precisionRound(num, p)
 	function doMembers(lat, lng)
 	{
 		// We started a load, so don't fire the map move event while we're loading
+		if(initialLoad) { return; }
 		initialLoad = 1;
+		
 		// Cache the lookup coordinates to make the map mover work
 		cachedCoords = [lat, lng];
  		markerPos = {lat: lat, lng: lng};
@@ -220,6 +232,7 @@ function precisionRound(num, p)
 
 				if(data["resCurr"]!=undefined && data["resCurr"].length)
 				{
+					$("#resultsMembers").html("");
 					$("<h4>Current Congressperson and Senators</h4>").appendTo("#resultsMembers");
 					var memberList = $("<ul></ul>").attr("id","memberList").addClass("geography");
 					memberList.appendTo("#resultsMembers");
