@@ -81,6 +81,11 @@ def _get_yeanayabs(vote_id):
     elif vote_id < 10:
         return "Abs"
 
+def _get_pairedvote(vote_id):
+    """
+    Map vote its to a 0/1 flag for paired voting.
+    """
+    return 1 if vote_id in [2, 5] else 0
 
 def downloadAPI(rollcall_id, apitype="Web", voterId=0):
     starttime = time.time()
@@ -207,6 +212,7 @@ def downloadAPI(rollcall_id, apitype="Web", voterId=0):
                         # Now assemble the matching.
                         if apitype == "Web" or apitype == "Web_Person" or apitype == "exportJSON":
                             newV["vote"] = _get_yeanayabs(newV["cast_code"])
+                            newV["paired_flag"] = _get_pairedvote(newV["cast_code"])
                             # We are not returning cast code.
                             del newV["cast_code"]
                             try:
@@ -483,6 +489,7 @@ if __name__ == "__main__":
     # print downloadAPI("RS1140473", "Web_Person",
     # "09366")["rollcalls"][0]["nominate"]
     print "=====Start 5"
-    print downloadAPI(["RH0930002"], "Web")
+    #print downloadAPI(["RH0930002"], "Web")
     #print downloadAPI(["RH0800005", "RH1140005", "RH0310005", "RS0990005"], "R")
+    print downloadAPI(["RH1170002"], "Web")    
     pass

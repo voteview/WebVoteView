@@ -140,6 +140,7 @@ function decorateNominate(oc,data) {
         var hasNominate = 1;
         if (data.rollcalls==undefined || data.rollcalls[0].nominate == undefined || data.rollcalls[0].nominate.spread == undefined)  
         {
+		console.log("Vote type 1: Missing critical data / rollcalls, nominate, or spread.");
                 hasNominate=0;
                 gg
   		   .append("ellipse")
@@ -181,6 +182,7 @@ function decorateNominate(oc,data) {
 	var doHM = 1;
 
 	if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre > 0) ) { // Only drawn if there is a cutline!
+		console.log("Vote type 2: Has actual division.");
 		var hmTranslate = {x: scmargins['left'], y: (oc.height()/2) - radiusY - scmargins['top']};
 		var gggg = gg.append("g")
 				.attr("id","heat-map")
@@ -246,8 +248,9 @@ function decorateNominate(oc,data) {
 		if(data.rollcalls != undefined)
 		{
 		        var nomData = data.rollcalls[0].nominate;
-			if(nomData != undefined && nomData.intercept != undefined && nomData.pre == "") 
+			if(nomData != undefined && nomData.intercept != undefined && nomData.pre === "") 
 			{
+				console.log("Vote type 3: PRE is undefined but NOMINATE was estimated.");
 				// This is actually the case where NOMINATE is estimated but the PRE/probability stuff is not.
 			        ggg.append('text').text("NOMINATE not")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
@@ -259,6 +262,7 @@ function decorateNominate(oc,data) {
 			}
 			else if(nomData != undefined && nomData.spread != undefined)
 			{
+				console.log("Vote type 4: Lopsided vote.")
 				ggg.append('text').text("Lopsided vote with")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
 					.attr("y", yAxisMax - 12);
@@ -269,6 +273,7 @@ function decorateNominate(oc,data) {
 			}
 			else
 		        {
+				console.log("Vote type 5: NOMINATE actually not estimated.");
 			        ggg.append('text').text("NOMINATE not")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
 					.attr("y", yAxisMax - 12);

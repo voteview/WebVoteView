@@ -202,10 +202,6 @@ def congress(chamber="senate", congress_num=-1, tv=""):
             tv = ""
             congress_num = maxCongress
 
-    # Hack to ensure 115th shows because senate hasn't voted yet.
-    if congress_num == -1 and chamber == "senate":
-        congress_num = 115
-
     # Get meta args for NOMINATE
     meta = metaLookup()
 

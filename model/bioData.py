@@ -157,12 +157,17 @@ def assemblePersonMeta(person, keith=0):
                     person["altPeople"].append(altPerson)
 
     loyalty = getLoyalty(person["party_code"], person["congress"])
+    if not "global" in loyalty or not "nvotes_yea_nay" in loyalty["global"] or not loyalty["global"]["nvotes_yea_nay"]:
+        person["global_loyalty"] = 100
+    else:
+        person["global_loyalty"] = 100 * (1 - loyalty["global"][
+                                          "nvotes_against_party"] / (loyalty["global"]["nvotes_yea_nay"] * 1.0))
 
-    person["party_loyalty"] = 100 * (1 - loyalty["party"]["nvotes_against_party"] / (
-        loyalty["party"]["nvotes_yea_nay"] * 1.0))
-
-    person["global_loyalty"] = 100 * (1 - loyalty["global"][
-                                      "nvotes_against_party"] / (loyalty["global"]["nvotes_yea_nay"] * 1.0))
+    if not "party" in loyalty or not "nvotes_yea_nay" in loyalty["party"] or not loyalty["party"]["nvotes_yea_nay"]:
+        person["party_loyalty"] = 100
+    else:
+        person["party_loyalty"] = 100 * (1 - loyalty["party"]["nvotes_against_party"] / (
+            loyalty["party"]["nvotes_yea_nay"] * 1.0))
 
     # Quick hack to fix a minor annoying style choice in congressional bioguide.
     if "biography" in person:

@@ -409,8 +409,11 @@ ul.voteTable li span { background-color: white; padding-right: 5px; }
 ul.voteTable li span span.bullet { color: red; }
 ul.voteTable li span span.meta { color: grey; font-size: 0.9em; }
 ul.voteTable li span.sponsor { background-color: yellow; }
+ul.voteTable li span.paired { background-color: #EEEEEE; }
 ul.voteTable li.voter { display: inline-block; }
 ul.voteTable li.dotted { }
+ul.voteTable li.paired { background-color: #EEEEEE; }
+ul.voteTable li.paired span { background-color: #EEEEEE; }
 ul.voteTable li.sponsor { background-color: yellow; }
 ul.voteTable li.sponsor span { background-color: yellow; }
 ul.voteTable li span.vote { padding-right: 40px; float: right; }

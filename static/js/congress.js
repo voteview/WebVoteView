@@ -247,7 +247,8 @@ function reloadBios()
 function getVPP(congress)
 {
 	// This is a hack; we just list thresholds at which the VP/ President of the Senate switches
-	var VPParty = {	"115": "Republican", "111": "Democrat", "107": "Republican", "103": "Democrat", 
+	var VPParty = {	"117": "Democrat",
+			"115": "Republican", "111": "Democrat", "107": "Republican", "103": "Democrat", 
 			"97": "Republican", "95": "Democrat", "91": "Republican", "87": "Democrat", 
 			"83": "Republican", "81": "Democrat", "80": "Vacant", "73": "Democrat", 
 			"67": "Republican", "63": "Democrat", "59": "Republican", "58": "Vacant", 

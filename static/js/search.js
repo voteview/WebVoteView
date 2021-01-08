@@ -571,16 +571,20 @@ var globalSlowLoadTimer;
 				else { var partyLabelText = ""; }
 				var memLabelText = "member"+(memberNumber!=1?"s":"");
 				var voteLabelText = "vote"+(resultsNumber!=1?"s":"");
-				if(partyNumber>0 && memberNumber>0 && resultsNumber>0) resultText = partyLabelText+", "+numberWithCommas(memberNumber)+ " "+memLabelText+", and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
-				else if(partyNumber>0 && memberNumber>0) resultText = partyLabelText+" and "+numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
-				else if(partyNumber>0 && resultsNumber>0) resultText = partyLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
-				else if(memberNumber>0 && resultsNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" and "+numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
-				else if(memberNumber>0) resultText = numberWithCommas(memberNumber)+ " "+memLabelText+" found.";
-				else if(resultsNumber>0) resultText = numberWithCommas(resultsNumber)+" "+voteLabelText+" found.";
-				else if(partyNumber>0) resultText = partyLabelText+" found.";
-				else if(resultsNumber==0) resultText = "0 results found.";
-				else { resultText = "Error completing search."; }
-				$("#results-number").html(resultText);
+				
+				var baseString = "";
+				if(partyNumber) baseString += partyLabelText + ", ";
+				if(memberNumber) baseString += numberWithCommas(memberNumber) + " " + memLabelText
+				if(memberNumber > 8) baseString += " (showing 8)";
+				if(memberNumber) baseString += ", ";
+				if(baseString && resultsNumber) baseString += "and ";
+				if(resultsNumber) baseString += numberWithCommas(resultsNumber) + " " + voteLabelText;
+				if(!partyNumber && !memberNumber && resultsNumber == 0) baseString = "0 results ";
+				if(baseString.endsWith(", ")) baseString = baseString.replace(/, $/gi, "");
+				baseString += " found.";
+				if(resultsNumber < 0) baseString = "";
+
+				$("#results-number").html(baseString);
 			   
 			        // Control how sorting buttons appear
 			        if(needScore && $("#sortScore").val() == 1)

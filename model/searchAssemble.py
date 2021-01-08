@@ -19,7 +19,7 @@ def current_congress():
 		try:
 			congress = json.load(open("../static/config.json", "r"))["maxCongress"]
 		except:
-			congress = 116
+			congress = 117
 
 	return congress
 
@@ -55,6 +55,7 @@ def assembleSearch(q, nextId, bottle):
 
 	# Member search
 	resultMembers = []
+	count_members = 0
 	needScore=1
 	redirFlag=0
 	expandResults=0
@@ -233,20 +234,22 @@ def assembleSearch(q, nextId, bottle):
 				member["bonusMatch"] += 15
 			elif member["congress"]>=100:
 				member["bonusMatch"] += 10
+			elif member["congress"]>=50:
+				member["bonusMatch"] += 5
 
 			# Chamber bonus
 			if member["chamber"]=="President":
-				member["bonusMatch"] += 25
+				if member["scoreMatch"] >= 95:
+					member["bonusMatch"] += 100
+				member["bonusMatch"] += 50
 			if member["chamber"]=="Senate":
 				member["bonusMatch"] += 10
 
 			# Duration of service bonus
 			if "congresses" in member:
-				duration = 0
-				for cong in member["congresses"]:
-					duration = duration+(cong[1]-cong[0])
-				if duration>=5:
-					member["bonusMatch"] += 7
+				duration = sum((cong[1] - cong[0] for cong in member["congresses"]))
+				if duration >= 5:
+					member["bonusMatch"] += 12
 
 			if not os.path.isfile("static/img/bios/"+str(member["icpsr"]).zfill(6)+".jpg"):
 				member["bioImg"] = "silhouette.png"
@@ -268,12 +271,19 @@ def assembleSearch(q, nextId, bottle):
 			resultMembers.sort(key=lambda x: -(x["scoreMatch"] + x["bonusMatch"]))
 		else:
 			resultMembers.sort(key=lambda x: -x["congress"])
+
 		if len(resultMembers)>8 and not expandResults:
+			count_members = len(resultMembers)
+			if count_members == 200:
+				count_members = "200+"
+
 			resultMembers=resultMembers[0:8]
+		else:
+			count_members = len(resultMembers)
 
 	if suppressRollcalls:
 		bottle.response.headers["rollcall_number"] = 0
-		bottle.response.headers["member_number"] = len(resultMembers)
+		bottle.response.headers["member_number"] = count_members
 		bottle.response.headers["party_number"] = 0
 
 		if len(resultMembers) > 50:
@@ -410,7 +420,7 @@ def assembleSearch(q, nextId, bottle):
 		if redirFlag==1 and len(resultParties)==0 and len(resultMembers)==1 and (not "rollcalls" in res or len(res["rollcalls"])==0):
 			bottle.response.headers["redirect_url"] = "/person/"+str(resultMembers[0]["icpsr"])+"/"+resultMembers[0]["seo_name"]
 		bottle.response.headers["rollcall_number"] = res["recordcountTotal"]
-		bottle.response.headers["member_number"] = len(resultMembers)
+		bottle.response.headers["member_number"] = count_members
 		bottle.response.headers["party_number"] = len(resultParties)
 		bottle.response.headers["nextId"] = res["nextId"]
 		bottle.response.headers["need_score"] = res["needScore"]
