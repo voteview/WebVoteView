@@ -19,7 +19,7 @@ def current_congress():
 		try:
 			congress = json.load(open("../static/config.json", "r"))["maxCongress"]
 		except:
-			congress = 116
+			congress = 117
 
 	return congress
 

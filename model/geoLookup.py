@@ -165,28 +165,28 @@ if __name__=="__main__":
 	res = addressToLatLong(None, addStr)
 	print res
 	# res = {"lat": 38.9004367, "lng": -77.011207}
-	resMem = latLongToDistrictCodes(None, res["lat"], res["lng"])
-	print resMem
-	orSet = []
-	atLargeSet = []
-	for r in resMem["results"]:
-		state_abbrev = r[0]
-		if r[2]!=0:
-			orSet.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
-		else:
-			atLargeSet.append(r[1])
-	if len(atLargeSet):
-		print "At-large congresses"
-		for l in atLargeSet:
-			sameCongDistrict = len([x for x in orSet if x["congress"]==l])
-			if sameCongDistrict: # Have a district, just need the at large.
-				pass
-			else: # No same district
-				for dc in [1,99,98]:
-					orSet.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
-
-	print "Duration of lookup:", (time.time()-start)
-	print orSet
+	#resMem = latLongToDistrictCodes(None, res["lat"], res["lng"])
+	#print resMem
+	#orSet = []
+	#atLargeSet = []
+	#for r in resMem["results"]:
+	#	state_abbrev = r[0]
+	#	if r[2]!=0:
+	#		orSet.append({"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
+	#	else:
+	#		atLargeSet.append(r[1])
+	#if len(atLargeSet):
+	#	print "At-large congresses"
+	#	for l in atLargeSet:
+	#		sameCongDistrict = len([x for x in orSet if x["congress"]==l])
+	#		if sameCongDistrict: # Have a district, just need the at large.
+	#			pass
+	#		else: # No same district
+	#			for dc in [1,99,98]:
+	#				orSet.append({"state_abbrev": state_abbrev, "district_code": dc, "congress": l})
+	#
+	#print "Duration of lookup:", (time.time()-start)
+	#print orSet
 
 
 	result_new = lat_long_to_polygon(None, res["lat"], res["lng"])

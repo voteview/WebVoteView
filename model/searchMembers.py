@@ -135,7 +135,7 @@ def memberLookup(qDict, maxResults=50, distinct=0, api="Web"):
 			try:
 				maxCongress = json.load(open("../static/config.json","r"))["maxCongress"]
 			except:
-				maxCongress = 116
+				maxCongress = 117
 
 		searchQuery["congresses.0.0"] = maxCongress
 
