@@ -270,6 +270,8 @@ def article(slug = ""):
 	return bottle.template("views/error", errorMessage = "The article you selected is not a valid article ID.")
 
     meta_set = get_article_meta(slug)
+    if not meta_set:
+        meta_set = {"title": test}
     output = bottle.template("views/articles", slug = slug, meta = meta_set)
     return output
 
@@ -511,9 +513,11 @@ def districtLookup():
         orQ = []
         atLargeSet = []
         state_abbrev = ""
+        state_abbrev_cong = 0
         for r in resLoop:
-            if not len(state_abbrev):
+            if not len(state_abbrev) or (state_abbrev!=r[0] and r[1]>state_abbrev_cong):
                 state_abbrev = r[0]
+                state_abbrev_cong = r[1]
             if r[2]:
                 orQ.append(
                     {"state_abbrev": r[0], "district_code": r[2], "congress": r[1]})
