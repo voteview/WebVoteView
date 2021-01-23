@@ -397,7 +397,7 @@ function do_filter_bar()
 		var endXY = coordSets[1].split(",");
 		initXY[0] = parseFloat(initXY[0].substr(1)).toPrecision(2);
 		initXY[1] = parseFloat(initXY[1]).toPrecision(2);
-		endXY[0] = parseFloat(endXY[0].substr(0,endXY[0].length-1)).toPrecision(2);
+		endXY[0] = parseFloat(endXY[0].substr(0, endXY[0].length)).toPrecision(2);
 		endXY[1] = parseFloat(endXY[1]).toPrecision(2);
 		var resultText = "(" + initXY[0] + ", " + initXY[1] + ") to (" + endXY[0] + ", " + endXY[1] + ")";
 
@@ -411,10 +411,10 @@ function do_filter_bar()
 	}
 
 	// Filters for name selected
-	if($("#filter_name").val().length) 
+	if($("#filter_name").val().length)
 	{
 		$("#name-controls > .filter").text($("#filter_name")[0].value);
-		$("#name-controls").show();	
+		$("#name-controls").show();
 		baseFilter = 1;
 	}
 	else
