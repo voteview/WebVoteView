@@ -1,5 +1,6 @@
 % STATIC_URL = "/static/"
 % rebase("base.tpl", title="Search", extra_js=["/static/js/libs/clipboard.min.js", "/static/js/libs/moment.js", "/static/js/libs/bootstrap-datetimepicker.min.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css", "bootstrap-datetimepicker.css"])
+% MAX_CONGRESS = 117
 % include('header.tpl')
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % setdefault('args', {})
@@ -99,7 +100,7 @@
 									<div class="col-sm-6">
 										<select name="fromCongress" class="form-control" id="fromCongress">
 											<option value=""></option>
-											% for i in range(116, 0, -1):
+											% for i in range(MAX_CONGRESS, 0, -1):
 											<option value="{{i}}">{{rcSuffix(i)}}</option>
 											% end
 										</select>
@@ -110,7 +111,7 @@
 									<div class="col-sm-6">
 										<select name="toCongress" class="form-control" id="toCongress">
 											<option value=""></option>
-											% for i in range(116, 0, -1):
+											% for i in range(MAX_CONGRESS, 0, -1):
 											<option value="{{i}}">{{rcSuffix(i)}}</option>
 											% end
 										</select>

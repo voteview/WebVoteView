@@ -233,9 +233,8 @@ def display_congress(chamber="senate", congress_num=-1, tab_view=""):
             tab_view = ""
             congress_num = max_congress
 
-    # Hack to ensure 116th shows because senate hasn't voted yet.
-    if congress_num == -1 and chamber == "senate":
-        congress_num = 116
+    if congress_num == -1:
+        congress_num = max_congress
 
     # Get meta args for NOMINATE
     meta = meta_lookup()

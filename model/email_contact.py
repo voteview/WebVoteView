@@ -5,7 +5,7 @@ import base64
 import datetime
 import hashlib
 import json
-import email_validator
+# import email_validator
 import requests
 from model.config import config
 
@@ -55,7 +55,8 @@ def newsletter_subscribe(user_email, action):
 def validate_email(user_email):
     """ Validates an email address. """
     try:
-        email_validator.validate_email(user_email)
+        # email_validator.validate_email(user_email)
+        pass
     except Exception:
         return {"error": "The email you have entered cannot be verified."}
 
