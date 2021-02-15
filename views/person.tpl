@@ -57,14 +57,15 @@
 		% k = 0
 		% for alt in person["altPeople"]:
 			% if alt["yearsOfService"][0][0] >= person["yearsOfService"][-1][0]:
-			Subsequently served as 
+			Subsequently served 
 			% elif alt["yearsOfService"][-1][1] <= person["yearsOfService"][0][1]:
-			Previously served as 
+			Previously served
 			% end
 			% if k>0:
 				, 
 			% end
-	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ alt["party_noun"] }}</a> (
+			% out_label = "as a %s" % alt["party_noun"] if alt["party_code"] != person["party_code"] else "in the %s" % alt["chamber"] if alt["chamber"] in ["Senate", "House"] else "as President"
+	 	 	<a href="/person/{{ str(alt["icpsr"]).zfill(6) }}">{{ out_label }}</a> (
 			% z = 0
 			% for chunk in alt["yearsOfService"]:
 				% if z > 0:

@@ -203,7 +203,8 @@ def assembleSearch(q, nextId, bottle):
 			if "bioguide_id" in member:
 				if member["bioguide_id"] in seen_bioguide_ids:
 					continue
-				seen_bioguide_ids.append(member["bioguide_id"])
+				if member["chamber"] != "President":
+					seen_bioguide_ids.append(member["bioguide_id"])
 
 			memName = ""
 			if "bioname" in member and member["bioname"] is not None:
