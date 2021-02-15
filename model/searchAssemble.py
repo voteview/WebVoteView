@@ -355,14 +355,12 @@ def assembleSearch(q, nextId, bottle):
 		clausen = []
 
 	try:
-		keyvote = bottle.request.params.getall("keyvote")
-		if len(keyvote):
-			if q is None or q=="":
-				q = "keyvote: 1"
+		keyvote = bottle.request.params["keyvote"]
+		if keyvote:
+			if q is None or q == "":
+				q = "keyvote: %s" % keyvote
 			else:
-				q += " keyvote: 1"
-		else:
-			pass
+				q += " keyvote: %s" % keyvote
 	except:
 		pass
 
