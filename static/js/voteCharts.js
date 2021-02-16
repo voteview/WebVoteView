@@ -40,14 +40,14 @@ function tooltipText(d)
 	{
 		var colorVote = partyColors[d.value.members[i].vote + partyNameSimplify(d.value.members[i].party)];
 		// Tooltip data display:
-		if(i<5) 
-		{ 
-			result += "<p>" + d.value.members[i].name + 
-				  " (<span class=\"meta\">"+partyNameSimplify(d.value.members[i].party).substr(0,1) + "</span>) - <span>"+d.value.members[i].vote+"</span></p>"; 
+		if(i<5)
+		{
+			result += "<p>" + d.value.members[i].name +
+				  " (<span class=\"meta\">"+partyNameSimplify(d.value.members[i].party).substr(0,1) + "</span>) - <span>"+d.value.members[i].vote+"</span></p>";
 		}
 		else
 		{
-			if(d.value.members[i].vote=="Nay") { nays=nays+1; }	
+			if(d.value.members[i].vote=="Nay") { nays=nays+1; }
 			else if(d.value.members[i].vote=="Yea") { yeas=yeas+1; }
 			else { abs=abs+1; }
 		}
@@ -114,15 +114,15 @@ function buildHatchDefs(members)
 		// patterns.
 		for(var index2 = index1; index2 != uniqueValues.length; index2++)
 		{
-			var pattern = makeSVGTag("pattern", 
-						 {"id": uniqueValues[index1] + uniqueValues[index2], 
-						  "width": 20, "height": 20, 
-						  "patternTransform": "rotate(45)", 
+			var pattern = makeSVGTag("pattern",
+						 {"id": uniqueValues[index1] + uniqueValues[index2],
+						  "width": 20, "height": 20,
+						  "patternTransform": "rotate(45)",
 						  "patternUnits": "userSpaceOnUse"});
 
 			var hatch1 = makeSVGTag("rect",
-						{"x": 0, "y": 0, 
-						 "width": 10, "height": 20, 
+						{"x": 0, "y": 0,
+						 "width": 10, "height": 20,
 						 "fill": partyColors[uniqueValues[index1]]});
 
 			var hatch2 = makeSVGTag("rect",
@@ -217,7 +217,7 @@ function drawWidgets(error, data, geodata, usaboundaries)
 
 	// Dimension 4: Coordinates of vote
 	var xDimension = ndx.dimension(
-		//Project outlying ideal points onto the outer circle 		    
+		//Project outlying ideal points onto the outer circle
 		function(d) {
 			var x = d.x;  var y = d.y;
 		        var dlen = Math.sqrt(x*x + y*y);
@@ -235,16 +235,16 @@ function drawWidgets(error, data, geodata, usaboundaries)
 
 
 	var xGroup = xDimension.group().reduce(
-		function (p, d) 
+		function (p, d)
 		{
 			p.members.push(d);
 			return p;
 		},
 
-		function (p, d) 
+		function (p, d)
 		{
 			var index = p.members.indexOf(d);
-			if (index > -1) 
+			if (index > -1)
 			{
 				p.members.splice(index, 1);
 			}
@@ -256,7 +256,7 @@ function drawWidgets(error, data, geodata, usaboundaries)
 			return {members: []} ;
 		}); // This is not super clear to me.
 
-    
+
 	// Dimension 5: What state you're from.
 	var stateDimension = ndx.dimension(function(d) { return d.state_abbrev; });
 	var stateGroup = stateDimension.group().reduce(
@@ -266,7 +266,7 @@ function drawWidgets(error, data, geodata, usaboundaries)
 			return p;
 		},
 
-		function (p, d) 
+		function (p, d)
 		{
 			var index = p.members.indexOf(d);
 			if (index > -1) {
@@ -281,13 +281,13 @@ function drawWidgets(error, data, geodata, usaboundaries)
 		});
 
 	// Dimension 6: Which district you are from
-	var districtDimension = ndx.dimension(function(d) { 
-		return d.district; 
+	var districtDimension = ndx.dimension(function(d) {
+		return d.district;
 	});
 
 
 	var districtGroup = districtDimension.group().reduce(
-		function (p, d) 
+		function (p, d)
 		{
 			// Add at large members
 			var atlargecodes = [d.state + "00", d.state+"98", d.state+"99"];
@@ -320,8 +320,8 @@ function drawWidgets(error, data, geodata, usaboundaries)
               function () {
                         return {members: []} ;
               });
-    
-        /* JBL working on making Classification & PRE dynamic; 
+
+        /* JBL working on making Classification & PRE dynamic;
 
         // Dimension 7: Fit
         var fitDimension = ndx.dimension(function(d) { return d; });
@@ -336,7 +336,7 @@ function drawWidgets(error, data, geodata, usaboundaries)
 		    }
 		    return p;
 		},
-		function (p, d) 
+		function (p, d)
     	        {
 		    if (d.vote == "Yea" | d.vote == "Nay") {
 			p.correct -= (d.prob>=50 ? 1 : 0);
@@ -352,10 +352,10 @@ function drawWidgets(error, data, geodata, usaboundaries)
 		});
 
         //In practice, can't set up numberDisplay these before the decorate.js is called?!
-    
+
         d3.select("#scatter-chart").append("div").attr("id","chart-scatter-pre");
         d3.select("#scatter-chart").append("div").attr("id","chart-scatter-class");
-    
+
         var preValue = dc.numberDisplay('#chart-scatter-pre');
         var classValue = dc.numberDisplay('#chart-scatter-class');
         preValue
@@ -372,9 +372,9 @@ function drawWidgets(error, data, geodata, usaboundaries)
 	  .valueAccessor( function(d) { return d.value.correct/d.value.denom + 0.005 } )
 	  .group(fitGroup)
           .formatNumber(d3.format(".2f"));
-    
+
          JBL: End of dynamic PRE/Classified Dev */
-     
+
 	// DIMENSIONS HAVE BEEN DEFINED =========
 
 	// NOW BEGIN CHART SPECIFICATIONS =======
@@ -389,7 +389,7 @@ function drawWidgets(error, data, geodata, usaboundaries)
 	        .colorAccessor(function (d) {
 			return d.key;
 		})
-                .colors(function(d) { return partyColors[d] }) 
+                .colors(function(d) { return partyColors[d] })
 		.fixedBarHeight(24).gap(10)
 	        .labelOffsetX(40)
 		.label(function(d)
@@ -417,15 +417,15 @@ function drawWidgets(error, data, geodata, usaboundaries)
 		.transitionDuration(200)
         	.xAxis().ticks(4);
 
-	// Nominate scatter chart 
+	// Nominate scatter chart
 
-        // User sets width and can also change margins, but axis text size 
+        // User sets width and can also change margins, but axis text size
         // is not adapt to sizing so best to leave margins.  Should probably
         // have width set in template or css to better separation of style and logi.
 
         var scWidth = 890; // Set overall width of scatter plot
         var scMargins = {top:25,right:25,bottom:75,left:75};
-        var scHeight = (scWidth-scMargins['left']-scMargins['right'])*nomDWeight+scMargins['top']+scMargins['bottom']; 
+        var scHeight = (scWidth-scMargins['left']-scMargins['right'])*nomDWeight+scMargins['top']+scMargins['bottom'];
 
 	nominateScatterChart
                 .clipPadding(4) // JBL:fixes problem with symbols on ellipse boundary being clipped
@@ -438,35 +438,35 @@ function drawWidgets(error, data, geodata, usaboundaries)
 		.group(xGroup)
 	        .symbolSize(7)
       	        .excludedSize(4)
-   
+
                 .emptySize(3)           // JBL: Empty settings control rendering pnts that are crossfiltered out
                 .emptyOpacity(0.5)
-                .emptyColor("#999999")             
+                .emptyColor("#999999")
                 .symbol(function (d) {
 		     try {
-			 var v = d.value.members[0].vote; 
+			 var v = d.value.members[0].vote;
 //			 if(globalData["rollcalls"][0]["sponsor"] != undefined && d.value.members[0].icpsr==globalData["rollcalls"][0]["sponsor"]) { return "cross"; }
 			 if(v == "Yea") {return "triangle-up";}
 			 if(v == "Nay") {return "triangle-down";}
 		     }catch(e){
 		     }
 		     return "circle"
-                }) 
-		.colorAccessor(function (d) { 
+                })
+		.colorAccessor(function (d) {
 			var color = "#CCC";
 			try {
-			    if(d.value.members.length > 0){   
+			    if(d.value.members.length > 0){
 				color = blendColors(d.value.members,true); //JBL: true/false toggles Y/N coloring of plot symbols
 			    }
 			}catch(e){
 			}
-			return color; 
+			return color;
 		})
                 .colors(function(d) {return d})
 	        .existenceAccessor(function(d) {
 		    if(d.value.members.length==0){ return false };
 		    return parseFloat(String(d.key).split(",")[0])>-98; })
-	 	.x(d3.scale.linear().domain([-1, 1])) 
+	 	.x(d3.scale.linear().domain([-1, 1]))
 		.y(d3.scale.linear().domain([-1, 1]));
 
 	// Updates the total number of units selected on the selection bar.
@@ -490,7 +490,7 @@ function drawWidgets(error, data, geodata, usaboundaries)
 			.width(850).height(500) // Basic dimensions
 			.dimension((chamber=="House")?districtDimension:stateDimension) // How the data are separated and grouped.
 			.group((chamber=="House")?districtGroup:stateGroup)
-			.colorAccessor(function (d) { 
+			.colorAccessor(function (d) {
 				// No members, so no color
 				if(!d || !("members" in d) || !d.members.length) return "#eee";
 
@@ -502,14 +502,14 @@ function drawWidgets(error, data, geodata, usaboundaries)
 
 				// Multiple members, so cross-hatch.
 				var voteType = [];
-				for(var i = 0; i != d.members.length; i++) 
+				for(var i = 0; i != d.members.length; i++)
 				{
 					voteType.push(d.members[i].vote + partyNameSimplify(d.members[i].party_short_name));
 				}
 				voteType.sort();
 
 				var voteString = "";
-				for(var i = 0; i != voteType.length; i++) 
+				for(var i = 0; i != voteType.length; i++)
 				{
 					voteString += voteType[i];
 				}
@@ -526,10 +526,10 @@ function drawWidgets(error, data, geodata, usaboundaries)
 				c.svg() // Chart SVG
 					.selectAll("path") // Attach the listeners to every path (district) item in the SVG
 					.on('mouseover', function(d,i) // When you mouseover, it's a new district, set up the tooltip and make it visible
-					{ 
+					{
 						var districtSet = c.data();
 						var result = $.grep(c.data(), function(e){
-							return e.key == d.id; 
+							return e.key == d.id;
 						});
 						if(result[0] == undefined)
 						{
@@ -540,19 +540,19 @@ function drawWidgets(error, data, geodata, usaboundaries)
 							else
 							{
 								if(d.id == undefined) { return; }
-								baseToolTip.html("<p><strong>"+d.id+"</strong></p> This district was vacant at the time of the vote."); 
-							} 
+								baseToolTip.html("<p><strong>"+d.id+"</strong></p> This district was vacant at the time of the vote.");
+							}
 						}
 						else { baseToolTip.html(tooltipText(result[0])); }
 						eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
 						eW = baseToolTip.style("width");
 						baseToolTip.style("transition", "opacity 0.15s linear");
-						baseToolTip.style("visibility", "visible").style("opacity", "1"); 
+						baseToolTip.style("visibility", "visible").style("opacity", "1");
 					})
-					.on('mouseout', function() 
-					{ 
+					.on('mouseout', function()
+					{
 						baseToolTip.style("transition", "visibility 0s linear 0.15s,opacity 0.15s linear");
-						baseToolTip.style("opacity", "0").style("visibility", "hidden"); 
+						baseToolTip.style("opacity", "0").style("visibility", "hidden");
 					}) // If you mouse out of the districts, hide the tooltip
 					.on('mousemove', function(d, i){ // If you move your mouse within the district, update the position of the tooltip.
 						baseToolTip

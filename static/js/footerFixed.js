@@ -1,4 +1,3 @@
-$(document).ready(function()
-{
+$(document).ready(() => {
 	$("#footer").show().fadeIn();
 });
