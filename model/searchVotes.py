@@ -765,12 +765,12 @@ def assembleQueryChunk(queryDict, queryField, queryWords):
 			except:
 				errorMessage = "Error: invalid member ID in voter search."
 				return [queryDict, 0, errorMessage]
-	
+
 	# KEYVOTE type: Is this a key vote?
-	elif fieldType=="key_flags":
+	elif fieldType == "key_flags":
                 if queryWords == "1":
                         queryDict["key_flags"] = {"$exists": 1}
-                elif queryWords == "CQ":
+                elif queryWords in ["wikipedia", "wp", "vv", "voteview", "CQ"]:
                         queryDict["key_flags"] = {"$in": [queryWords]}
 
 	# CHAMBER type: Senate or House?
@@ -1232,7 +1232,7 @@ if __name__ == "__main__":
 	start = time.time()
 	if len(sys.argv)>1:
 		args = " ".join(sys.argv[1:])
-		print query(args)		
+		z = query(args)
 	else:
 		#results = query("(nay:[0 to 9] OR nay:[91 to 100] OR yea:[0 to 5]) AND congress:112", rowLimit=5000)
 		#print results

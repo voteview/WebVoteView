@@ -40,7 +40,7 @@
 	<div class="col-md-12">
 		<div class="alert alert-info" role="alert">
 			<strong>Attention:</strong> During the transition to the new Congress, some data may be missing, incomplete, or provisional. 
-			We expect scores to propagate over the next 1-2 weeks. If you would like to be alerted when data for the new Congress is fully propagated, please <a href="https://vanguard.voteview.com/about">sign up for our update newsletter.</a>
+			We expect scores to propagate over the next 1-2 weeks. If you would like to be alerted when data for the new Congress is fully propagated, please <a href="https://voteview.com/about">sign up for our update newsletter.</a>
 		</div>
 	</div>
   </div>

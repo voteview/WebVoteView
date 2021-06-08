@@ -846,6 +846,12 @@ def setSearch():
 
     return model.stashCart.setSearch(id, search)
 
+@app.route("/github")
+@app.route("/github/<extd_q>")
+def github(extd_q=""):
+    bottle.redirect("https://github.com/voteview/%s" % extd_q)
+    return {}
+
 
 @app.route("/outdated")
 def outdate():

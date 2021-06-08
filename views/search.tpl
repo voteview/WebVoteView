@@ -329,20 +329,26 @@
 		<div class="panel-body">
 		  <div class="checkbox">
 		    <label>
-		      <input type="checkbox" name="keyvote" id="optionsKeyvotes1" value="1">
+		      <input type="checkbox" name="keyvote" value="1">
 			Any
-		      </label>
-		    </div>
-		    <div class="checkbox">
-		      <label>
-			<input type="checkbox" name="keyvote" id="optionsKeyvotes2" value="CQ">
-			  Congressional Quarterly
-			</label>
-		      </div>
-		    </div>
+		    </label>
+		  </div>
+		  <div class="checkbox">
+		    <label>
+		      <input type="checkbox" name="keyvote" value="CQ">
+	                Congressional Quarterly
+	            </label>
+		  </div>
+		  <div class="checkbox">
+		    <label>
+		      <input type="checkbox" name="keyvote" value="wikipedia">
+	                Wikipedia
+	            </label>
 		  </div>
 		</div>
-	      </div>
+             </div>
+	   </div>
+	 </div>
 	      
 		  
 		<input type="hidden" name="sortD" id="sortD" value="-1">
