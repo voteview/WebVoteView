@@ -1,5 +1,5 @@
 % devserver=int(open("./server.txt","r").read().strip())
-% transition_alert = 1
+% transition_alert = 0
 <div class="container">
   <div id="wbv-header" class="row">
     <div class="col-md-12">
