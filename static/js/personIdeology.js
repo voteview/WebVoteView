@@ -4,7 +4,7 @@ $(".nav-tabs > li > a").click(switchTab);
 (function loadData()
 {
 	$("#view_all_members").attr("href", "/congress/" + chamber + "/" + congressNum);
-	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(fillLoyaltyDrawHist);	
+	queue().defer(d3.json, "/api/getmembersbycongress?congress="+congressNum+"&api=Web_PI").await(fillLoyaltyDrawHist);
 })();
 
 function switchTab(e) {
@@ -88,6 +88,7 @@ function updateCongress(error, data)
 	memberNoun = d.party_noun;
 	partyColor = d.party_color;
 	chamber = d.chamber.toLowerCase();
+	if(chamber == "president") { chamber = "senate"; }
 	memberVotes = d.nvotes_yea_nay;
 	memberAttendance = 100 * (d.nvotes_yea_nay / (d.nvotes_yea_nay + d.nvotes_abs));
 	memberLoyalty = 100 * (1 - d.nvotes_against_party / d.nvotes_yea_nay);
