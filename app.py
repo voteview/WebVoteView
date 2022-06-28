@@ -42,7 +42,7 @@ else:
     bottle.debug(False)
 
 # Setup
-app = bottle.Bottle()
+app = application = bottle.Bottle()
 bottle.BaseTemplate.defaults['get_url'] = app.get_url
 bottle.BaseTemplate.defaults['template'] = bottle.template
 bottle.TEMPLATE_PATH.append('/static/bookreader')

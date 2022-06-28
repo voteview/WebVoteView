@@ -290,13 +290,16 @@ def member_lookup(query_dict, max_results=50, distinct=0, api="Web"):
     else:
         sorted_res = res.sort('congress', -1)
 
-    # Confirm we have a reasonable number of results to return.
-    if response_count > 1000 and api not in ["R", "Web_Party"]:
-        return {"errormessage": "Too many results found."}
-    elif response_count > 5000 and api != "Web_Party":
-        return {"errormessage": "Too many results found."}
-
-    response = augment_member_responses(sorted_res, api, max_results, distinct)
+    # Only augment if there's something to augment -- why do we have to do
+    # this? Because if not, the sorted_res cursor breaks either on calling
+    # this method, or in iterating inside the method. I am sure this is a
+    # property of some python iterables, but I'm not sure why. At any rate,
+    # we can take care of it at this stage.
+    if response_count:
+        response = augment_member_responses(sorted_res, api,
+                                            max_results, distinct)
+    else:
+        response = []
 
     if not response:
         return {

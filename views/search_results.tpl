@@ -60,7 +60,7 @@
 			% if rollcall["question"]:
 			<p><strong>Question</strong>: {{ rollcall["question"] }}</p>
 			% end
-			<p><strong>Description</strong>: {{!do_highlight(highlighter, " ".join(rollcall["text"].split()[0:50])) }}</p>
+			<p><strong>Description</strong>: {{!do_highlight(highlighter, rollcall["text"]) }}</p>
 
 			% debug = False
 			% if "score" in rollcall and debug:

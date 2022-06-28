@@ -247,17 +247,20 @@ function reloadBios()
 function getVPP(congress)
 {
 	// This is a hack; we just list thresholds at which the VP/ President of the Senate switches
-	var VPParty = {	"115": "Republican", "111": "Democrat", "107": "Republican", "103": "Democrat", 
-			"97": "Republican", "95": "Democrat", "91": "Republican", "87": "Democrat", 
-			"83": "Republican", "81": "Democrat", "80": "Vacant", "73": "Democrat", 
-			"67": "Republican", "63": "Democrat", "59": "Republican", "58": "Vacant", 
-			"55": "Republican", "53": "Democrat", "51": "Republican", "50": "Vacant", 
-			"49": "Democrat", "48": "Vacant", "41": "Republican", "40": "Vacant", 
-			"39": "Democrat", "37": "Republican", "35": "Democrat", "34": "Vacant", 
-			"33": "Democrat", "32": "Vacant", "31": "Whig", "29": "Democrat", 
-			"28": "Vacant", "27": "Whig", "25": "Democrat", "20": "Jackson", 
-			"15": "Democrat-Republican", "14": "Vacant", "5": "Democrat-Republican", 
-			"4": "Federalist", "1": "Pro-Administration"};
+	var VPParty = {	"117": "Democrat", "115": "Republican", "111": "Democrat",
+			"107": "Republican", "103": "Democrat", "97": "Republican",
+			"95": "Democrat", "91": "Republican", "87": "Democrat",
+			"83": "Republican", "81": "Democrat", "80": "Vacant",
+			"73": "Democrat", "67": "Republican", "63": "Democrat",
+			"59": "Republican", "58": "Vacant", "55": "Republican",
+			"53": "Democrat", "51": "Republican", "50": "Vacant",
+			"49": "Democrat", "48": "Vacant", "41": "Republican",
+			"40": "Vacant", "39": "Democrat", "37": "Republican",
+			"35": "Democrat", "34": "Vacant", "33": "Democrat",
+			"32": "Vacant", "31": "Whig", "29": "Democrat",
+			"28": "Vacant", "27": "Whig", "25": "Democrat",
+			"20": "Jackson", "15": "Democrat-Republican", "14": "Vacant",
+			"5": "Democrat-Republican", "4": "Federalist", "1": "Pro-Administration"};
 
 	// Sort the dict keys and reverse them so the short-circuit in the loop below works
 	var keys = Object.keys(VPParty);
@@ -394,7 +397,7 @@ function do_filter_bar()
 		var endXY = coordSets[1].split(",");
 		initXY[0] = parseFloat(initXY[0].substr(1)).toPrecision(2);
 		initXY[1] = parseFloat(initXY[1]).toPrecision(2);
-		endXY[0] = parseFloat(endXY[0].substr(0,endXY[0].length-1)).toPrecision(2);
+		endXY[0] = parseFloat(endXY[0].substr(0, endXY[0].length)).toPrecision(2);
 		endXY[1] = parseFloat(endXY[1]).toPrecision(2);
 		var resultText = "(" + initXY[0] + ", " + initXY[1] + ") to (" + endXY[0] + ", " + endXY[1] + ")";
 
@@ -408,10 +411,10 @@ function do_filter_bar()
 	}
 
 	// Filters for name selected
-	if($("#filter_name").val().length) 
+	if($("#filter_name").val().length)
 	{
 		$("#name-controls > .filter").text($("#filter_name")[0].value);
-		$("#name-controls").show();	
+		$("#name-controls").show();
 		baseFilter = 1;
 	}
 	else

@@ -12,14 +12,13 @@ function addSponsorCircle(oc,dat) {
         if (vc.votes[i].icpsr == vc.sponsor) break;
     }
     if (i<len) {
-	var ocSVG = d3.select(oc.g()[0][0]),
-	    sponsor = vc.votes[i];
+	var ocSVG = d3.select(oc.g()[0][0]), sponsor = vc.votes[i];
 	ocSVG.append("circle")
              .attr("stroke",blendColors([sponsor],false))
              .attr("stroke-width","1px")
              .attr("fill","none")
-	     .attr("r", 9)
- 	     .attr("cx", scaleX(sponsor.x))
+             .attr("r", 9)
+             .attr("cx", scaleX(sponsor.x))
              .attr("cy", scaleY(sponsor.y)+1.5); // JBL: Not sure why we need the extra 1.5 here...
     }
 }
@@ -29,7 +28,6 @@ function addSponsorCircle(oc,dat) {
     Draws the background circles, labels and text for the scatter chart
 */
 function decorateNominate(oc,data) {
-    
         var scmargins = oc.margins()
 	var width = oc.width();
         var height = oc.height();
@@ -49,7 +47,7 @@ function decorateNominate(oc,data) {
 	ocSVG.selectAll(".axis").remove();
 
 	// Place bg stuff in SVG tree in front of .chart-body scatter points
-	var svgbg = ocSVG.insert("g",".chart-body");	
+	var svgbg = ocSVG.insert("g",".chart-body");
         var gg = svgbg.append("g").attr("id","scatter-background");
 
 	// X-axis
@@ -60,26 +58,26 @@ function decorateNominate(oc,data) {
 
 	gg.append('polyline')
 		.attr("class", "scatter-axis")
-		.attr("points", sprintf("%d,%d %d,%d %d,%d %d,%d", 
+		.attr("points", sprintf("%d,%d %d,%d %d,%d %d,%d",
 				xAxisMin, yDimPos + tickLength,
-				xAxisMin, yDimPos, 
-				xAxisMax, yDimPos, 
+				xAxisMin, yDimPos,
+				xAxisMax, yDimPos,
 				xAxisMax, yDimPos + tickLength));
 
 	gg.append('text')
             .text("Liberal")
-	    .attr("x", xAxisMin + 0.02 * xAxisLen)
+            .attr("x", xAxisMin + 0.02 * xAxisLen)
             .attr("y", yDimPos + 20)
-	    .attr("style","text-anchor: start; fill: #808080;");
+            .attr("style","text-anchor: start; fill: #808080;");
 	gg.append('text')
             .text("Conservative")
             .attr("x", xAxisMin + 0.98 * xAxisLen)
             .attr("y", yDimPos + 20)
             .attr("style","text-anchor: end; fill: #808080;");
 	gg.append('text')
-	     .text("DW-Nominate Dimension 1: Economic/Redistributive")
+             .text("DW-Nominate Dimension 1: Economic/Redistributive")
              .attr("x", xAxisMin + xAxisLen/2).attr("y", yDimPos + 20)
-	     .attr("style","text-anchor:middle");
+             .attr("style","text-anchor:middle");
 	// End X axis.
 
 	// Y-axis
@@ -89,10 +87,10 @@ function decorateNominate(oc,data) {
 
 	gg.append('polyline')
 	     .attr("class","scatter-axis")
-	     .attr("points", sprintf("%d,%d  %d,%d  %d,%d  %d,%d", 
-	   			     margin, yAxisMin, 
-				     margin + tickLength, yAxisMin, 
-				     margin + tickLength, yAxisMax, 
+	     .attr("points", sprintf("%d,%d  %d,%d  %d,%d  %d,%d",
+	   			     margin, yAxisMin,
+				     margin + tickLength, yAxisMin,
+				     margin + tickLength, yAxisMax,
 				     margin, yAxisMax));
 	gg.append('text')
 	     .text("Conservative")
@@ -130,26 +128,26 @@ function decorateNominate(oc,data) {
 	// End Y axis
 
 	// Add yea and nay locations to the plot on top of the dots
-	  
 	// Problem is that with Y/N on top we can't select point under/near the Y/N
 	// Need a way to insert after the dots but before the brush. Putting the Y/N group right
-	// before the brush group does it. --JBL	 
+	// before the brush group does it. --JBL
 
 	var ggg = ocSVG.insert("g",".brush");
-        
+
         var hasNominate = 1;
-        if (data.rollcalls==undefined || data.rollcalls[0].nominate == undefined || data.rollcalls[0].nominate.spread == undefined)  
+        if (data.rollcalls == undefined || data.rollcalls[0].nominate == undefined || data.rollcalls[0].nominate.spread == undefined)
         {
+                console.log("Vote type 1: Missing critical data / rollcalls, nominate, or spread.");
                 hasNominate=0;
                 gg
-  		   .append("ellipse")
+			.append("ellipse")
                         .attr("stroke","black")
                         .attr("stroke-width","1px")
                         .attr("fill","none")
 			.attr("rx", radiusX)
                         .attr("ry", radiusY)
 			.attr("cx", circleCenter.x)
-		        .attr("cy", circleCenter.y);
+			.attr("cy", circleCenter.y);
 		var voteShare=0;
         }
         else
@@ -168,7 +166,6 @@ function decorateNominate(oc,data) {
 		    .attr("x", xAxisMin + 0.98 * xAxisLen)
 	            .attr("style","text-anchor: end;")
 		    .attr("y", yDimPos + 40);
-	
 		ggg.append('text').text(sprintf("Proportion of votes correctly classified: %4.2f", (vn.classified == null || isNaN(vn.classified) || vn.classified=="") ? 0 : vn.classified ))
 		    .attr("class", "fitbox")
 		    .attr("x", xAxisMin + 0.02 * xAxisLen)
@@ -181,28 +178,29 @@ function decorateNominate(oc,data) {
 	var doHM = 1;
 
 	if (hasNominate && (vn.spread[0]!=0 | vn.spread[1]!=0) && (voteShare<=0.975 | data.rollcalls[0].nominate.pre > 0) ) { // Only drawn if there is a cutline!
+		console.log("Vote type 2: Has actual division");
 		var hmTranslate = {x: scmargins['left'], y: (oc.height()/2) - radiusY - scmargins['top']};
 		var gggg = gg.append("g")
 				.attr("id","heat-map")
-				.attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")"); 
+				.attr("transform","translate(" + hmTranslate.x + "," + hmTranslate.y+ ")");
 
-		nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1], 
+		nominateHeatmap(gggg, vn.mid[0], vn.mid[1], vn.spread[0], vn.spread[1],
 			nomBeta, nomDWeight, 2 * radiusX, 2 * radiusY, 30, ["#FFFFFF","#FFFFAA"]);
 
 	       // Calculate where the YN text axis goes.
 	       function closestpt(vn) {
 		    var b = vn.slope;
-                    var angle = Math.atan( (vn.spread[1]*nomDWeight)/(vn.spread[0]) );
-		    var a = vn.mid[1] - b*vn.mid[0];
-		    var xstar = -b*a/(1+b*b);
+                    var angle = Math.atan( (vn.spread[1] * nomDWeight) / (vn.spread[0]) );
+		    var a = vn.mid[1] - b * vn.mid[0];
+		    var xstar = -b * a / (1 + b * b);
 		    var obj = {
 			angle: angle,
 			b: b,
 			a: a,
 		        xstar: xstar,
-			ystar: b*xstar + a,
-			offsetX: 0.05*Math.cos(angle)*Math.sign(vn.spread[0]),
-			offsetY: (vn.slope>0?1:-1)*0.05*Math.sin(angle)*Math.sign(vn.spread[1])/nomDWeight 
+			ystar: b * xstar + a,
+			offsetX: 0.05 * Math.cos(angle) * Math.sign(vn.spread[0]),
+			offsetY: (vn.slope > 0 ? 1 : -1) * 0.05 * Math.sin(angle) * Math.sign(vn.spread[1]) / nomDWeight
 		    }
 		    return(obj);
 		}
@@ -218,7 +216,7 @@ function decorateNominate(oc,data) {
 
 		// This is a hack based on what quadrant the text angle is in.
 		var cs = (angle>0?1:0) + 2*(vn.spread[0]>0?1:0);
-		switch( cs ) 
+		switch(cs)
 		{
 			case 0: angle = 90-angle; break;
 			case 1: angle = 90-angle; break;
@@ -246,8 +244,9 @@ function decorateNominate(oc,data) {
 		if(data.rollcalls != undefined)
 		{
 		        var nomData = data.rollcalls[0].nominate;
-			if(nomData != undefined && nomData.intercept != undefined && nomData.pre == "") 
+			if(nomData != undefined && nomData.intercept != undefined && nomData.pre === "")
 			{
+				console.log("Vote type 3: PRE is undefined but NOMINATE was estimated.");
 				// This is actually the case where NOMINATE is estimated but the PRE/probability stuff is not.
 			        ggg.append('text').text("NOMINATE not")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
@@ -255,10 +254,11 @@ function decorateNominate(oc,data) {
 				ggg.append('text').text("yet estimated")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
 					.attr("y", yAxisMax - 0);
-				doHM = 0;	
+				doHM = 0;
 			}
 			else if(nomData != undefined && nomData.spread != undefined)
 			{
+				console.log("Vote type 4: Lopsided vote.");
 				ggg.append('text').text("Lopsided vote with")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
 					.attr("y", yAxisMax - 12);
@@ -269,6 +269,7 @@ function decorateNominate(oc,data) {
 			}
 			else
 		        {
+				console.log("Vote type 5: NOMINATE actually not estimated.");
 			        ggg.append('text').text("NOMINATE not")
 					.attr("class","fitbox").attr("x", xAxisMax - 110)
 					.attr("y", yAxisMax - 12);
@@ -302,11 +303,11 @@ function decorateNominate(oc,data) {
 			.attr("id","hm_tooltip")
 			.addClass("d3-tip")
 			.addClass("heatmapTip")
-			.appendTo(document.body); 
+			.appendTo(document.body);
 	    }
             var yunits = radiusY;
 	    var xunits = radiusX;
-            var brush = ocSVG.select(".brush") 
+            var brush = ocSVG.select(".brush");
 	    brush.on("mouseover",function() { if(!isDoingSelect) { $("#hm_tooltip").css("visibility","visible"); }});
             brush.on("mousemove",function() {
 			var ypdiv = $("#hm_tooltip");
@@ -328,7 +329,7 @@ function decorateNominate(oc,data) {
                                 } else if(yeaProb<0.01) {
                                    dispProb = " < 0.01"
                                 } else {
-                                   dispProb = Math.round(100*yeaProb)/100;         
+                                   dispProb = Math.round(100*yeaProb)/100;
                                 }
 				if(!isDoingSelect) ypdiv.css("visibility","visible");
 				ypdiv.html("<strong>Probability of Voting Yea: </strong>" + dispProb + "<br/> The calculated probability that a member at this position would vote 'Yea' on the rollcall.")
@@ -337,14 +338,14 @@ function decorateNominate(oc,data) {
 			    }
 			    else
 			    {
- 				// Cursor is on nominate plot, but not in the Oval 
+ 				// Cursor is on nominate plot, but not in the Oval
 				ypdiv.css("visibility","hidden");
 			    }
 
-                      }); 
+                      });
             // Don't show tooltip if user is making a range selection
-            brush.on("mousedown",function() { $("#hm_tooltip").css("visibility","hidden"); isDoingSelect=1; });     
-            brush.on("mouseup",function() { $("#hm_tooltip").css("visibility","visible"); isDoingSelect=0; });     
+            brush.on("mousedown",function() { $("#hm_tooltip").css("visibility","hidden"); isDoingSelect=1; });
+            brush.on("mouseup",function() { $("#hm_tooltip").css("visibility","visible"); isDoingSelect=0; });
 	    brush.on("mouseout", function() { $("#hm_tooltip").css("visibility","hidden"); });
 	};
 }

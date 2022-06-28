@@ -1,7 +1,6 @@
 """ Helper functions for geography lookups. """
 
 from __future__ import print_function
-import time
 import math
 import requests
 # Shut up the stupid SSL warning crap
@@ -98,10 +97,10 @@ def lat_long_warnings_city(state_name, city):
             "listed below served when the location you entered was "
             "located in Maryland. For more information, see Wikipedia:"
             "<br/><a href=\"https://en.wikipedia.org/wiki/Maryland%27s_3rd_congressional_district\">"
-            "https://en.wikipedia.org/wiki/Maryland%27s_3rd_congressional_district</a>.<br/><br/>"
+            "Maryland's 3rd congressional district.</a><br/><br/>"
             "For more information about voting rights in D.C., see "
             "Wikipedia:<br/>"
-            "<a href=\"https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights\">https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights</a>"
+            "<a href=\"https://en.wikipedia.org/wiki/District_of_Columbia_voting_rights\">District of Columbia voting rights</a>"
         )
 
     if (city == 0 and state_name not in
@@ -208,9 +207,9 @@ def address_to_lat_long(request, address_string):
                         "Voteview.com does not track non-voting delegates "
                         "sent by unincorporated territories of the United "
                         "States.<br/><br/> For more information about "
-                        "historical delegates from %s , check Wikipedia: "
-                        "<br/><a href=\"%s\">%s</a><br/><br/>" %
-                        (country_name, map_link, map_link)}
+                        "historical delegates from %s, please read "
+                        "<a href=\"%s\">this Wikipedia article</a><br/><br/>"
+                        (country_name, map_link)}
 
         if country_name != "United States":
             return {"status": 1,
@@ -282,45 +281,3 @@ def lat_long_to_districts(request, lat, lng):
     # Costlier because it's more intense on our side.
     add_quota(request, 2)
     return {"is_dc": is_dc, "results": results}
-
-
-if __name__ == "__main__":
-    start = time.time()
-    address = "233 S Wacker Dr, Chicago, IL 60606"
-    test_result = address_to_lat_long(None, address)
-    print(test_result)
-
-    result_members = lat_long_to_districts(
-        None, test_result["lat"], test_result["lng"])
-    print(result_members)
-
-    or_set = []
-    at_large_set = []
-    for mem_result in result_members["results"]:
-        state_abbrev = mem_result[0]
-        if mem_result[2] != 0:
-            or_set.append(
-                {"state_abbrev": mem_result[0],
-                 "district_code": mem_result[2],
-                 "congress": mem_result[1]})
-        else:
-            at_large_set.append(mem_result[1])
-
-    if at_large_set:
-        print("At-large congresses")
-        for at_large in at_large_set:
-            same_cong_district = len(
-                [x for x in or_set if x["congress"] == at_large]
-            )
-            if not same_cong_district:
-                for district_code in [1, 99, 98]:
-                    or_set.append({"state_abbrev": state_abbrev,
-                                   "district_code": district_code,
-                                   "congress": at_large})
-
-    print("Duration of lookup:", (time.time() - start))
-    print(or_set)
-
-    result_new = lat_long_to_polygon(
-        None, test_result["lat"], test_result["lng"])
-    print(result_new)

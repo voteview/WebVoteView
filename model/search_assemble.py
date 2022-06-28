@@ -239,7 +239,7 @@ def assemble_fancy_member_search(query_string, state_meta, time_periods):
             match_state_delegation(query_string, state_meta, time_periods))
 
     # ICPSR of user
-    elif (len(query_string.split()) == 1 and isinstance(query_string, str) and
+    elif (len(query_string.split()) == 1 and str.isdecimal() and
           int(query_string)):
         member_search = member_lookup({"icpsr": int(query_string)}, 5,
                                       distinct=1, api="Web_FP_Search")
@@ -249,6 +249,7 @@ def assemble_fancy_member_search(query_string, state_meta, time_periods):
     elif len(query_string.split()) <= 5:
         member_search = member_lookup({"name": query_string}, 200,
                                       distinct=1, api="Web_FP_Search")
+        flags["need_score"] = 1
 
     return member_search, flags
 
@@ -303,7 +304,7 @@ def process_found_members(member_search, query_string, flags):
 
         member_name = (member["bioname"]
                        if "bioname" in member and member["bioname"]
-                       else "Error Invalid Name.").replace("," "").lower()
+                       else "Error Invalid Name.").replace(",", "").lower()
         query_lower = query_string.replace(",", "").lower()
 
         # How close does the name match to the name we search for?
@@ -328,9 +329,10 @@ def process_found_members(member_search, query_string, flags):
         # middle / nicknames
         if ("bioname" in member and len(member["bioname"]) > 20 and
                 "(" in member["bioname"]):
-            member["bioname"] = ("%s, %s" %
+            member["bioname"] = ("%s, %s" % (
                                  member["bioname"].split(",")[0],
                                  member["bioname"].split("(")[1].split(")")[0])
+                                 )
 
         # Fix their state.
         member["state"] = member["state"].replace("(", "").replace(")", "")
@@ -348,8 +350,8 @@ def process_found_members(member_search, query_string, flags):
     count_members = len(result_members)
     if count_members > 200:
         count_members = "200+"
-    if (len(result_members) > 8 and not
-            ("expand_results" in flags or flags["expand_results"])):
+    if (len(result_members) > 8 and
+            ("expand_results" not in flags or not flags["expand_results"])):
         result_members = result_members[0:8]
 
     return result_members, count_members
@@ -567,7 +569,8 @@ def assemble_search(query_string, next_id, bottle):
                                                                   next_id)
 
     # If the member search told us we definitely do not need to do a rollcall
-    # search, then let's not do a rollcall search.
+    # search, then let's not do a rollcall search. We can also discard the
+    # party search results here.
     if "show_rollcalls" not in flags or not flags["show_rollcalls"]:
         bottle.response.headers["rollcall_number"] = 0
         bottle.response.headers["member_number"] = count_members
@@ -583,7 +586,7 @@ def assemble_search(query_string, next_id, bottle):
                               result_parties=[])
         return out
 
-    # Okay, so if we need to rollcalls earch, let's do it.
+    # Okay, so if we need to rollcall search, let's do it.
     result_rollcalls = assemble_rollcall_search(query_string, next_id, bottle)
 
     # Now combine and give the user what they want.

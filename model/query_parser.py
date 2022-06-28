@@ -710,13 +710,13 @@ def assemble_query_chunk(query_dict, query_field, query_words):
             print("alltext to regexp or")
             # Do a fulltext query to isolate candidate superset
             valid_id_start = []
-            for r in db.voteview_rollcalls.find({"$text": {"$search": query_words.lower().decode('utf-8')}}, {"_id": 0, "id": 1}):
+            for r in db.voteview_rollcalls.find({"$text": {"$search": query_words.lower()}}, {"_id": 0, "id": 1}):
                 valid_id_start.append(r["id"])
             # Add candidate votes to query
             query_dict = add_to_query_dict(query_dict,
                                            "id", {"$in": valid_id_start})
             # Now regex from the candidates
-            query_dict = add_to_query_dict(query_dict, "$or", [{x: {"$regex": ".*" + query_words.lower().decode('utf-8') + ".*", "$options": "i"}} for x in field_types if field_types[x] in ["str", "fulltext", "flexstr"]])
+            query_dict = add_to_query_dict(query_dict, "$or", [{x: {"$regex": ".*" + query_words.lower() + ".*", "$options": "i"}} for x in field_types if field_types[x] in ["str", "fulltext", "flexstr"]])
 
             return [query_dict, need_score, ""]
         else:
@@ -729,7 +729,7 @@ def assemble_query_chunk(query_dict, query_field, query_words):
     elif field_type == "code":
         query_dict = add_to_query_dict(query_dict, query_field, {"$regex": ".*" + query_words.lower() + ".*", "$options": "i"})
     elif field_type == "fulltext":
-        query_dict = add_to_query_dict(query_dict, "$text", {"$search": query_words.lower().decode('utf-8')})
+        query_dict = add_to_query_dict(query_dict, "$text", {"$search": query_words.lower()})
         need_score = 1
     elif field_type == "str":
         if query_words[0] == "\"" and query_words[-1] == "\"":
@@ -742,7 +742,7 @@ def assemble_query_chunk(query_dict, query_field, query_words):
         # Add candidate votes to query
         query_dict = add_to_query_dict(query_dict, "id", {"$in": valid_id_start})
         # Now regex from the candidates
-        query_dict = add_to_query_dict(query_dict, query_field, {"$regex": ".*" + query_words.lower().decode('utf-8') + ".*", "$options": "i"})
+        query_dict = add_to_query_dict(query_dict, query_field, {"$regex": ".*" + query_words.lower() + ".*", "$options": "i"})
 
     # STREXACT fields: have to exactly match the full field, was used for
     # 'bill' but no longer

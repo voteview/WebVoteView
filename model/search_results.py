@@ -8,6 +8,12 @@ from model.config import config
 def do_highlight(highlighter, text):
     """ Takes a string and words to highlight. """
 
+    if not text:
+        return ""
+
+    # Remove weird internal spacing stuff, and cut to first 50 words
+    text = " ".join(text.split()[:50])
+
     # Load stopwords to ignore.
     stopwords = [x.strip() for x in config["stop_words"]]
 

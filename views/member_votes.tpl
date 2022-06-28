@@ -1,6 +1,7 @@
 % orgMapping = {"cq": "Congressional Quarterly", "gov": "Congress.gov", "vv": "Voteview Staff", "wikipedia": "Wikipedia"}
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
 % import model.prep_votes
+% from model.date_helper import fix_date
 % if len(votes):
 		% if not int(skip):
                 <table class="table table-hover dc-data-table" id="voteDataTable">
@@ -26,9 +27,9 @@
                         <tr class="cursor" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
 			    <td align="right">
 				% if lastDate != vote["date"]:
-				<span>{{vote["date"]}}</span>
+				<span>{{fix_date(vote["date"], "%b %d, %Y")}}</span>
 				% else:
-				<span class="hide_date">{{vote["date"]}}</span>
+				<span class="hide_date">{{fix_date(vote["date"], "%b %d, %Y")}}</span>
 				% end
 			    </td>
                             <td class="vote_text_cell">

@@ -4601,7 +4601,7 @@ a.thumbnail.active {
 }
 .alert {
   padding: 15px;
-  margin-top: 30px;
+  margin-top: 15px; /* Reduced susbtantially, not sure why it was so big, originally 30px. */
   margin-bottom: 21px;
   border: 1px solid transparent;
   border-radius: 4px;

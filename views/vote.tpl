@@ -122,7 +122,7 @@
 </div>
 
 <!-- The hidden filter bar code -->
-<div id="selectionFilterBar">
+<div id="selectionFilterBar" class="alert-warning">
 	<strong>Selected:</strong>
 	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span></span>
 	<span id="map-chart-controls"> from <span class="filter"></span></span>

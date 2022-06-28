@@ -15,12 +15,18 @@ def get_loyalty(party_code, congress):
     try:
         party_cong_loyalty = party_loyalty[str(congress)]
     except Exception:
-        party_cong_loyalty = 100
+        party_cong_loyalty = {"nvotes_yea_nay": 1, "nvotes_abs": 0, "nvotes_against_party": 0, "nvotes_party_split": 0}
 
     global_loyalty = meta_lookup("Web_Members")
     try:
         global_cong_loyalty = global_loyalty["loyalty_counts"][str(congress)]
     except Exception:
-        global_cong_loyalty = 100
+        global_cong_loyalty = {"nvotes_yea_nay": 1, "nvotes_abs": 0, "nvotes_against_party": 0, "nvotes_party_split": 0}
+
+    # Force people with no votes to have one vote to avoid division by zero.
+    if "nvotes_yea_nay" not in global_cong_loyalty or not global_cong_loyalty["nvotes_yea_nay"]:
+        global_cong_loyalty["nvotes_yea_nay"] = 1
+    if "nvotes_yea_nay" not in party_cong_loyalty or not party_cong_loyalty["nvotes_yea_nay"]:
+        party_cong_loyalty["nvotes_yea_nay"] = 1
 
     return {"global": global_cong_loyalty, "party": party_cong_loyalty}

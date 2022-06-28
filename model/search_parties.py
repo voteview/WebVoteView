@@ -32,6 +32,7 @@ def party_lookup_id(query_dict, api):
 
 def party_lookup(query_dict, api):
     """ Lookup party using a query dictionary. """
+
     if api not in ["Web_FP_Search", "exportCSV", "Web_Members"]:
         return {}
 
