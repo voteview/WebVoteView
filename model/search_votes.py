@@ -331,7 +331,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     return_dict["apiversion"] = "Q3 2017-01-08"
     return_dict["next_id"] = next_id
     if "$text" in query_dict:
-        return_dict["fulltextSearch"] = [v for _, v in query_dict["$text"].items()][0]
+        return_dict["fullTextSearch"] = [v for _, v in query_dict["$text"].items()][0]
 
     if result_count > row_limit:
         return_dict["rollcalls"] = mr[0:row_limit]
