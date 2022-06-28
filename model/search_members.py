@@ -263,6 +263,8 @@ def member_lookup(query_dict, max_results=50, distinct=0, api="Web"):
     # Now, what fields do we need to get back?
     field_set = get_field_set(api, search_query)
 
+    print(field_set)
+
     # We now send a query and see if it would get us any responses:
     res = db.voteview_members.find(search_query, field_set)
     response_count = db.voteview_members.count_documents(search_query)
@@ -270,16 +272,19 @@ def member_lookup(query_dict, max_results=50, distinct=0, api="Web"):
     # One possibility: No results from a Mongo name search, let's try a regex.
     if "$text" in search_query and not response_count:
         del search_query["$text"]
+        del field_set["score"]
         search_query["bioname"] = {'$regex': query_dict["name"],
                                    '$options': 'i'}
         res = db.voteview_members.find(search_query, field_set)
         response_count = db.voteview_members.count_documents(search_query)
+        
 
     # If there's a text mongo search, sort by Mongo score.
     if "$text" in search_query:
         sorted_res = res.sort([('score', {'$meta': 'textScore'}),
                                ('icpsr', -1),
                                ('congress', -1)])
+        
     # If it's an ORD file, sort in this specific order and confirm an index.
     elif api == "exportORD":
         db.voteview_members.ensure_index(
