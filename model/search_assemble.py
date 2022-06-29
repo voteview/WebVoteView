@@ -84,9 +84,14 @@ def match_state_delegation(query_string, state_meta, time_periods):
     state_name = state_meta["state_map"][state] if state else ""
 
     if not state_name:
-        state = next((s for s in state_meta["abbrev_state_name"] if
-                      s.lower() == qstrip), None) # noqa
+        print("here we are!")
+        print(qstrip.split())
+        for qs in qstrip.split():
+            if not state:
+                state = next((s for s in state_meta["abbrev_state_name"] if
+                      s.lower() == qs), None) # noqa
         state_name = state if state else ""
+    
     # Which congress do we think they're asking for?
     congress = 0
     if "current" in qstrip:
@@ -229,7 +234,7 @@ def assemble_fancy_member_search(query_string, state_meta, time_periods):
     
     # List state delegation
     elif ([s for s in state_meta["state_queries"] if s in qstrip] or
-          [s for s in state_meta["abbrev_state_name"] if s.lower() == qstrip]):
+          [s for s in state_meta["abbrev_state_name"] if s.lower() in qstrip.split()]):
         member_search, flags = (
             match_state_delegation(query_string, state_meta, time_periods))
 
@@ -638,7 +643,11 @@ def combine_results(result_parties, result_members, result_rollcalls,
     bottle.response.headers["party_number"] = len(result_parties)
     bottle.response.headers["nextId"] = result_rollcalls["next_id"]
     bottle.response.headers["need_score"] = result_rollcalls["need_score"]
-    bottle.response.headers["expand_results"] = flags["expand_results"]
+    if("expand_results" in flags):
+        bottle.response.headers["expand_results"] = flags["expand_results"]
+    else:
+        bottle.response.headers["expand_results"] = 0
+
 
     # Either we return a no-rollcall search or
     if "rollcalls" not in result_rollcalls:
