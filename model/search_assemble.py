@@ -639,8 +639,6 @@ def combine_results(result_parties, result_members, result_rollcalls,
     bottle.response.headers["nextId"] = result_rollcalls["next_id"]
     bottle.response.headers["need_score"] = result_rollcalls["need_score"]
     bottle.response.headers["expand_results"] = flags["expand_results"]
-    print("look here!")
-    print(flags["expand_results"])
 
     # Either we return a no-rollcall search or
     if "rollcalls" not in result_rollcalls:
