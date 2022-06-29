@@ -566,7 +566,8 @@ function getRollcalls()
 			var memberNumber = parseInt(xhr.getResponseHeader("Member-Number"));
 			var partyNumber = parseInt(xhr.getResponseHeader("Party-Number"));
 			var needScore = parseInt(xhr.getResponseHeader("Need-Score"));
-			
+			var expandResults = parseInt(xhr.getResponseHeader("Expand-Results"));
+
 			if(xhr.getResponseHeader("Redirect-Url") != undefined && xhr.getResponseHeader("Redirect-Url").length && !doRedirectForce)
 			{
 				console.log(xhr.getResponseHeader("Redirect-Url"));
@@ -587,7 +588,7 @@ function getRollcalls()
 			var baseString = "";
 			if(partyNumber) baseString += partyLabelText + ", ";
 			if(memberNumber) baseString += numberWithCommas(memberNumber) + " " + memLabelText;
-			if(memberNumber > 8) baseString += " (showing 8)";
+			if(memberNumber > 8 && expandResults == 0) baseString += " (showing 8)";
 			if(memberNumber) baseString += ", ";
 			if(baseString && resultsNumber) baseString += "and ";
 			if(resultsNumber) baseString += numberWithCommas(resultsNumber) + " " + voteLabelText;

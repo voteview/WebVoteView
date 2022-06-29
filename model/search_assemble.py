@@ -129,9 +129,7 @@ def match_state_delegation(query_string, state_meta, time_periods):
             "show_rollcalls": 1,
             "need_score": 0,
             "expand_results": 1
-        }
-    print(member_search)
-    
+        }    
     return member_search, flags
 
 
@@ -347,9 +345,11 @@ def process_found_members(member_search, query_string, flags):
     count_members = len(result_members)
     if count_members > 200:
         count_members = "200+"
+    
     if (len(result_members) > 8 and
-            ("expand_results" not in flags or not flags["expand_results"])):
+            ("expand_results" not in flags or not flags["expand_results"])):     
         result_members = result_members[0:8]
+
 
     return result_members, count_members
 
@@ -588,11 +588,11 @@ def assemble_search(query_string, next_id, bottle):
 
     # Now combine and give the user what they want.
     return combine_results(result_parties, result_members, result_rollcalls,
-                           flags, bottle)
+                           flags, bottle, count_members)
 
 
 def combine_results(result_parties, result_members, result_rollcalls,
-                    flags, bottle):
+                    flags, bottle, count_members):
     """ Combines the results of all the searches. """
 
     if "errormessage" in result_rollcalls:
@@ -634,10 +634,13 @@ def combine_results(result_parties, result_members, result_rollcalls,
     bottle.response.headers["rollcall_number"] = (
         result_rollcalls["recordcountTotal"]
     )
-    bottle.response.headers["member_number"] = len(result_members)
+    bottle.response.headers["member_number"] = count_members
     bottle.response.headers["party_number"] = len(result_parties)
     bottle.response.headers["nextId"] = result_rollcalls["next_id"]
     bottle.response.headers["need_score"] = result_rollcalls["need_score"]
+    bottle.response.headers["expand_results"] = flags["expand_results"]
+    print("look here!")
+    print(flags["expand_results"])
 
     # Either we return a no-rollcall search or
     if "rollcalls" not in result_rollcalls:
