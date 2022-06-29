@@ -74,7 +74,6 @@ def match_state_delegation(query_string, state_meta, time_periods):
 
     # A priori assume that any query that hits here is a members-only
     # query unless it's the exact state name.
-    found_exact = 0
 
     # Which chamber do we think they're asking for?
     chamber_find = "Senate" if "senat" in qstrip else "House"
@@ -83,14 +82,16 @@ def match_state_delegation(query_string, state_meta, time_periods):
     state = next((s for s in state_meta["full_state_name"] if
                   s.lower() in qstrip), None)
     state_name = state_meta["state_map"][state] if state else ""
-    found_exact = 1 if state.lower() == qstrip else 0
+
+    print("yooo")
 
     if not state_name:
         state = next((s for s in state_meta["abbrev_state_name"] if
-                      qs == s.lower() for qs in qstrip.split()), None) # noqa
+                      s.lower() == qstrip), None) # noqa
         state_name = state if state else ""
-        found_exact = 1 if state.lower() == qstrip else 0
 
+    print("yooo2")
+    print(state_name)
     # Which congress do we think they're asking for?
     congress = 0
     if "current" in qstrip:
@@ -120,21 +121,23 @@ def match_state_delegation(query_string, state_meta, time_periods):
                                       distinct=1, api="Web_FP_Search")
         # Switch 1 to 0 or vice versa
         flags = {
-            "show_rollcalls": -1 * (found_exact - 1),
+            "show_rollcalls": 1,
             "need_score": 0,
             "expand_results": 1
         }
     elif state_name and congress:
+        print("what ab this")
         member_search = member_lookup({"state_abbrev": state_name,
                                        "congress": congress}, 100,
                                       distinct=1, api="Web_FP_Search")
         # Switch 1 to 0 or vice versa
         flags = {
-            "show_rollcalls": -1 * (found_exact - 1),
+            "show_rollcalls": 1,
             "need_score": 0,
             "expand_results": 1
         }
-
+    print(member_search)
+    
     return member_search, flags
 
 
@@ -231,7 +234,7 @@ def assemble_fancy_member_search(query_string, state_meta, time_periods):
                                       distinct=1, api="Web_FP_Search")
         flags["need_score"] = 0
         flags["expand_results"] = 1
-
+    
     # List state delegation
     elif ([s for s in state_meta["state_queries"] if s in qstrip] or
           [s for s in state_meta["abbrev_state_name"] if s.lower() == qstrip]):
