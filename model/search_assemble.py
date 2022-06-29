@@ -83,15 +83,10 @@ def match_state_delegation(query_string, state_meta, time_periods):
                   s.lower() in qstrip), None)
     state_name = state_meta["state_map"][state] if state else ""
 
-    print("yooo")
-
     if not state_name:
         state = next((s for s in state_meta["abbrev_state_name"] if
                       s.lower() == qstrip), None) # noqa
         state_name = state if state else ""
-
-    print("yooo2")
-    print(state_name)
     # Which congress do we think they're asking for?
     congress = 0
     if "current" in qstrip:
@@ -126,7 +121,6 @@ def match_state_delegation(query_string, state_meta, time_periods):
             "expand_results": 1
         }
     elif state_name and congress:
-        print("what ab this")
         member_search = member_lookup({"state_abbrev": state_name,
                                        "congress": congress}, 100,
                                       distinct=1, api="Web_FP_Search")
