@@ -26,7 +26,7 @@ function nextPageSearch()
 	// Build the API call
 	const assembleURL = `\
 		/api/getMemberVotesAssemble?icpsr=${memberICPSR}\
-		&qtext=\${$("#memberSearchBox").val()}\
+		&qtext=${$("#memberSearchBox").val()}\
 		&skip=${globalNextId}`;
 
 	// Make the call
@@ -105,8 +105,7 @@ $.tablesorter.addParser({
 $.tablesorter.addParser({
 	id: 'probFunc', is: (s) => false,
 	format: (s, table, cell) => {
-		const cell = $(cell);
-		return cell.attr("data-impute-sort");
+	    return $(cell).attr("data-impute-sort");
 	},
 	type: 'numeric'
 });

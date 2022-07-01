@@ -84,8 +84,6 @@ def match_state_delegation(query_string, state_meta, time_periods):
     state_name = state_meta["state_map"][state] if state else ""
 
     if not state_name:
-        print("here we are!")
-        print(qstrip.split())
         for qs in qstrip.split():
             if not state:
                 state = next((s for s in state_meta["abbrev_state_name"] if
@@ -663,3 +661,6 @@ def combine_results(result_parties, result_members, result_rollcalls,
                            errormessage="",
                            result_members=result_members,
                            result_parties=result_parties)
+
+#if(__name__ == __main__):
+#    assemble_rollcall_search("Desert", 0, bottle):

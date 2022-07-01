@@ -10,7 +10,7 @@ if os.path.join(BASE_DIR, "../static/config.json"):
     MAX_CONGRESS = json.load(open(
         os.path.join(BASE_DIR, "../static/config.json"), "r"))["max_congress"]
 else:
-    MAX_CONGRESS = 116
+    MAX_CONGRESS = 117
 
 # Are we a development server?
 SERVER_TYPE = (0

@@ -236,6 +236,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
                                .sort("date_chamber_rollnumber", sort_dir)
                                .skip(sort_skip)
                                .limit(row_limit + 5))
+            print(results)
         except pymongo.errors.OperationFailure as e:
             try:
                 mongo_error = e.message

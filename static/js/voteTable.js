@@ -15,19 +15,17 @@ function outVotes(groupBy)
 	var filteredVotes = globalPartyDimension.top(Infinity);
 	var groupings = {};
 
-	// Which people have same last name, so we know to de-dupe those.
-	const nameCounts = filteredVotes.reduce((acc, value) => {
-		if(typeof votes["name"] === undefined) { return acc; }
-		const lastName = votes["name"].split(",")[0];
+        // Which people have same last name, so we know to de-dupe those.
+    const nameCounts = filteredVotes.reduce((acc, value) => {
+        	if(typeof value["name"] === undefined) { return acc; }
+		const lastName = value["name"].split(",")[0];
 		acc[lastName] = acc[lastName] + 1 || 1;
 		return acc;
-	})
-	// This will give us a list of duplicate last name
-	const dedupeLast = Object(nameCounts)
-		.elements()
+    }, []);
+    // This will give us a list of duplicate last name
+    const dedupeLastNames = Object.entries(nameCounts)
 		.map(x => x[1] > 1 ? x[0] : null)
 		.filter(x => x != null);
-
 
 	var errorCount = 0;
 	for(var i=0; i != filteredVotes.length; i++)

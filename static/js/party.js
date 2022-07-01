@@ -281,12 +281,16 @@ q
 
 		// Get congress range to initialize map
 		minCong = partycontroljson.reduce(
-			function(running, x) { Math.min(running, x.congress); }
-		);
-		maxCong = partycontroljson.reduce(
-			function(running, x) { Math.max(running, x.congress); }
-		);
+		    function(running, x) { return Math.min(running, x.congress); },
+		    10000);
+	
+	        maxCong = partycontroljson.reduce(
+		    function(running, x) { return Math.max(running, x.congress); },
+		    0);
+		
 
+	console.log("MaxCong = " + maxCong);
+	
 		// If it's a one congress party, disable a bunch of the controls
 		if(minCong == maxCong) $(".congressControl").hide();
 
@@ -692,8 +696,7 @@ q
 		partyMapChart.redraw();
 	}
 
-	function setupCongress(num)
-	{
+	function setupCongress(num) {
 		currCong = num;
 		currSet = jQuery.grep(partycontroljson, function(n,i) {
 			return n.congress == num.toString(); })[0]["data"];
