@@ -4,7 +4,7 @@
 # Don't run the script right now.
 
 # Check to make sure that previous DEPLOY_HOURLY is not still running
-for pid in $(pidof -x DEPLOY_HOURLY); do
+for pid in $(pgrep -f "sh ./DEPLOY_HOURLY"); do
     if [ $pid != $$ ]; then
         echo "Hourly update halted! Previous DEPLOY_HOURLY is still running!"
         exit 1
