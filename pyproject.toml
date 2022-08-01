@@ -16,6 +16,8 @@ requests = "^2.24.0"
 six = "^1.15.0"
 Unidecode = "^1.1.1"
 numpy = "^1.23.1"
+python-Levenshtein = "^0.12.2"
+uWSGI = "^2.0.20"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.8.3"
