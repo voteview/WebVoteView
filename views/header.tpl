@@ -49,7 +49,7 @@
   <div class="row">
 	<div class="col-md-12">
 		<div class="alert alert-info" role="alert">
-			<strong>Attention:</strong> We recently changed the way that we present the vote totals for each roll call.  We no longer include paired votes or the pseudo-votes of presidents in our reported totals.  The new totals should now match those officially reported.  Paired votes and the pseudo-votes continue to be included in the plots, maps, and enumerations of the voting on each roll call.   
+			<strong>Attention:</strong> Data from the 118th Congress is coming soon! 
 		</div>
 	</div>
   </div>
