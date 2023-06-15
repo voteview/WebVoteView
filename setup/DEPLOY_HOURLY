@@ -16,7 +16,7 @@ userid=$(whoami) # Ensure we're running as root
 hostname=$(hostname) # Ensure we're on voteview.
 timestamp=$(date +%s)
 
-if [[ ("$userid" = "root") && ("$hostname" = "voteviewnew" ) ]]; then
+if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
 	echo "Connecting to development server for hourly dump"
 	ssh rudkin@128.97.229.160 << EOF
 	touch /usr/scripts/voteview_metadata/hourly_backup/prod_downloading.txt
