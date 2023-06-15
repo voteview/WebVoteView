@@ -3,7 +3,7 @@ start=$(date +%s)
 userid=$(whoami) # Ensure we're running as root
 hostname=$(hostname) # Ensure we're on voteview.
 
-if [[ ("$userid" = "root") && ("$hostname" = "voteview" ) ]]; then
+if [[ ("$userid" = "root") && ("$hostname" = "voteviewnew" ) ]]; then
 
 	echo "Beginning git download of latest master"
 	# Create empty folder to create copy of master branch webvoteview on github (latest committed changes from dev)
