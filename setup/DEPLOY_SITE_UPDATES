@@ -14,7 +14,7 @@ if [[ ("$userid" = "root") && ("$hostname" = "voteviewnew" ) ]]; then
 	wget https://github.com/voteview/WebVoteView/archive/isaac1.zip
 	unzip isaac1.zip
 	rm isaac1.zip
-	mv WebVoteView-master/ ../WebVoteView/
+	mv WebVoteView-isaac1/ ../WebVoteView/
 	cd ..
 	rmdir update-voteview
 	rm -rf WebVoteView/git-synchronize
