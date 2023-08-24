@@ -78,11 +78,12 @@ $(document).ready(() => {
 	if ($("#addressInput").val()) { setTimeout(() => {
 		latLongWrapper(); }, 1000);
 	}
-	$("ul#testData li").on("click", () => {
-		loadText(this.innerHTML);
-	});
-	$("ul.notableExamples li").on("click", () => {
-		loadText(this.innerHTML);
+	$("ul#testData li").on("click", function() {
+		loadText($(this).text());
+  	});
+	$("ul.notableExamples li").on("click", function() {
+		loadText($(this).text());
+	        console.log("zzzz " + $(this).text());
 	});
 	doGeolocation();
 });
@@ -306,7 +307,7 @@ function specialNote(lastResult, v) {
 	return tr;
 }
 
-function buildResult(v, lastResult, tbody) {
+function buildResult(v, lastResult, tbody, myResults) {
 	// Check to see if we have other members at the same time
 	let multiMember = 0;
 	if (v["congress"] < 90) {
@@ -416,7 +417,7 @@ function doMembers(lat, lng)
 			zoomControl: true}
 	);
 	globalMap = map;
-	// Put the marker in the lat/long
+// Put the marker in the lat/long
 	const marker = new google.maps.Marker({position: markerPos, map: map});
 	markerSet.push(marker);
 
@@ -467,7 +468,7 @@ function doMembers(lat, lng)
 
 			// Loop through each congress
 			$.each(myResults, (k, v) => {
-				buildTableRow(v, lastResult, tbody);
+				buildResult(v, lastResult, tbody, myResults);
 				lastResult = v;
 			});
 
