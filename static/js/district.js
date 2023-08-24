@@ -83,7 +83,7 @@ $(document).ready(() => {
   	});
 	$("ul.notableExamples li").on("click", function() {
 		loadText($(this).text());
-	        console.log("zzzz " + $(this).text());
+	        console.log("location: " + $(this).text());
 	});
 	doGeolocation();
 });
@@ -241,6 +241,7 @@ function doLatLong()
 					looking up historical representatives... \
 					<img src=\"/static/img/loading.gif\" \
 					class=\"loadDistrict\">");
+				console.log("Looking for members...");
 				doMembers(data["lat"], data["lng"]);
 			}
 		}
@@ -416,6 +417,7 @@ function doMembers(lat, lng)
 			disableDefaultUI: true, scrollwheel: false, draggable: true,
 			zoomControl: true}
 	);
+	console.log("Constructed new map...");
 	globalMap = map;
 // Put the marker in the lat/long
 	const marker = new google.maps.Marker({position: markerPos, map: map});
@@ -484,6 +486,7 @@ function doMembers(lat, lng)
 		url: `/api/districtPolygonLookup?lat=${lat}&long=${lng}`,
 		success: drawMapDistrictPolygon
 	});
+	initialLoad = 0;
 }
 
 function drawMapDistrictPolygon(data, status, xhr)
