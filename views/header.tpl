@@ -27,9 +27,9 @@
 	<h1 id="brand">
 		<span class="printOnly">UCLA Presents </span>
 		% if config["server"]:
-		<a href="/"><span class="dev_header">voteview.com beta DEV SERVER</span></a>
+		<a href="/"><span class="dev_header">voteview.com beta 3 (isaac 1) PLAYGROUND SERVER</span></a>
 		% else:
-		<a href="/">voteview.com</a> <small>beta</small>
+		<a href="/">voteview.com</a> <small>beta 3</small>
 		% end
 	</h1>
     </div>
