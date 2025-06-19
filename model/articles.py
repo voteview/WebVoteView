@@ -1,30 +1,25 @@
 """ Functions involved in the display of blog articles. """
+import json
+from operator import itemgetter
 
-import pymongo
-from model.config import config
-
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name"]]
-
+with open('static/articles/article_metadata.json', 'r') as file:
+    article_metadata = json.load(file)
 
 def get_article_meta(slug):
     """ Return article metadata by slug. """
-
-    result = db.voteview_articles.find_one(
-        {"slug": slug, "hidden": {"$ne": 1}}, {"_id": 0})
-    return result
-
+    result = [res for res in article_metadata if res['slug'] == slug]
+    return len(result)==1 and result[0] or None
 
 def list_articles(tag_cat):
     """ List all articles in a given category. """
-
+    
     sort_clause = "title" if tag_cat in ["data", "help"] else "date_modified"
-    sort_dir = 1 if tag_cat in ["data", "help"] else -1
-    list_query = {"hidden": {"$ne": 1}, "tags": tag_cat}
-    rows = db.voteview_articles.find(list_query).sort(sort_clause, sort_dir)
-
+    reverse_dir = tag_cat in ["data", "help"] 
     store_results = []
-    for row in rows:
+    selected_articles = [art for art in article_metadata if 
+                         (tag_cat in art['tags'] or True) and  # Hack out tag selector for now!
+                         (not "hidden" in art or art['hidden'] != 1)] 
+    for row in sorted(selected_articles, key=itemgetter(sort_clause), reverse=reverse_dir):  
         store_results.append(row)
-
     return store_results
+
