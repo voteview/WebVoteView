@@ -89,12 +89,25 @@
 		We are pleased to present a collection of articles discussing data and analyses that make use of NOMINATE / voteview.com, along with the source code used to produce the analyses. We hope these will be of use to scholars, journalists, and students interested in producing analysis using our data:
 	</p>
 
-	% for article in articles:
+	<h4>Data</h4>
+	% for article in [a for a in articles if "data" in a['tags']]:
 	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
 	% end
 
 	<p><a href="/static/db/current.zip" onClick="javascript:return modalCompleteDatabase();">Complete database</a> (approx. 500MB zipped): We expect that most journalists, academics, and interested users should use the main data downloads listed above. However, for users interested in building a website based on Voteview.com data, we make available a complete dump of our MongoDB database. This release is updated weekly and is provided without warranty.</p>
 	<p><a href="/past_data">Browse prior database releases</a>: We retain archival copies of our complete database release. We recommend users only use the most current version of our data. These archival releases may be missing new rollcall or member data, and may also be missing corrections made to existing data.</p>
+
+	<h4>Analysis</h4>
+	% for article in [a for a in articles if "blog" in a['tags']]:
+	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
+	% end
+
+	<h4>Help</h4>
+	% for article in [a for a in articles if "help" in a['tags']]:
+	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
+	% end
+
+	
     </div>
   </div>
 
