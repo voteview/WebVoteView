@@ -12,7 +12,7 @@ from model.date_helper import fix_date
 from model.download_votes import waterfall_text, waterfall_question
 from model.config import config
 
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+client = pymongo.MongoClient(config["db_uri"])
 db = client[config["db_name"]]
 
 SCORE_THRESHOLD = (config["auth"]["scoreThreshold"]

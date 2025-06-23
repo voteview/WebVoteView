@@ -9,7 +9,7 @@ from model.search_parties import (party_name, party_noun,
 from model.slugify import slugify
 from model.config import config
 
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+client = pymongo.MongoClient(host=config["db_uri"])
 db = client[config["db_name"]]
 
 

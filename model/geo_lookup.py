@@ -11,7 +11,7 @@ from model.log_quota import check_quota, add_quota, log_search
 from model.state_helper import state_name_to_abbrev
 
 requests.packages.urllib3.disable_warnings()
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+client = pymongo.MongoClient(host=config["db_host_geog"], port=config["db_port_geog"])
 db = client[config["db_name_geog"]]
 
 

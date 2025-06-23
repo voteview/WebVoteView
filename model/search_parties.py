@@ -6,7 +6,7 @@ from model.config import config
 
 cache = {}
 
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
+client = pymongo.MongoClient(config["db_uri"])
 db = client[config["db_name"]]
 
 

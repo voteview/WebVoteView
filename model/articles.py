@@ -22,4 +22,3 @@ def list_articles(tag_cat):
     for row in sorted(selected_articles, key=itemgetter(sort_clause), reverse=reverse_dir):  
         store_results.append(row)
     return store_results
-
