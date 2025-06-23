@@ -1,5 +1,6 @@
 """ Shareable configuration cache """
 
+from git import Repo
 import json
 import os
 
@@ -10,7 +11,7 @@ if os.path.join(BASE_DIR, "../static/config.json"):
     MAX_CONGRESS = json.load(open(
         os.path.join(BASE_DIR, "../static/config.json"), "r"))["max_congress"]
 else:
-    MAX_CONGRESS = 117
+    MAX_CONGRESS = 119
 
 # Are we a development server?
 SERVER_TYPE = (0
@@ -54,6 +55,12 @@ SLIDES = (
     os.path.isfile(os.path.join(BASE_DIR, "../static/carousel/slides.json")) else
     [])
 
+# Github branch
+try:
+    GIT_BRANCH = Repo(".").active_branch.name
+except Exception as e:
+    GIT_BRANCH = ""
+
 config = {  # pylint: disable=C0103
     "max_congress": MAX_CONGRESS,
     "server": SERVER_TYPE,
@@ -64,11 +71,16 @@ config = {  # pylint: disable=C0103
     "db_name": DB_DATA["db_name"],
     "db_host": DB_DATA["db_host"],
     "db_port": DB_DATA["db_port"],
-    "db_name_geog": DB_DATA["db_name_geog"],
     "db_username": DB_DATA["db_username"],
     "db_pwd": DB_DATA["db_pwd"],
+    "db_name_geog": DB_DATA["db_name_geog"],
+    "db_host_geog": DB_DATA["db_host_geog"],
+    "db_port_geog": DB_DATA["db_port_geog"],   
+    "db_username_geog": DB_DATA["db_username_geog"],
+    "db_pwd_geog": DB_DATA["db_pwd_geog"],
     "stop_words": STOP_WORDS,
     "email_bl": EMAIL_BLACKLIST,
     "slides": SLIDES,
-    "transition_alert": 0
+    "transition_alert": 0,
+    "git_branch": GIT_BRANCH
 }
