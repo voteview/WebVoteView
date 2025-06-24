@@ -1,1 +1,7 @@
-{"db_name": "voteview", "db_name_geog": "district_geog", "db_host": "localhost", "db_port": 27017, "db_username": "", "db_pwd": ""}
+{"db_name": "voteview", 
+ "db_uri": "mongodb+srv://Rudkin:SibHWuN84OofnHjH@voteview.hcto67w.mongodb.net/?retryWrites=true&w=majority&appName=Voteview",
+ "db_name_geog": "district_geog", 
+ "db_host_geog": "localhost",
+ "db_port_geog": 27017,
+ "db_username_geog": "",
+ "db_pwd_geog": ""}
