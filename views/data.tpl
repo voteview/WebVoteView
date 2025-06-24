@@ -99,7 +99,7 @@
 
 	<h4>Analysis</h4>
 	% for article in [a for a in articles if "blog" in a['tags']]:
-	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a>: {{article["description"]}}</p>
+	<p><a href="/articles/{{article["slug"]}}">{{article["title"]}}</a> ({{article["original_date"]}}): {{article["description"]}}</p>
 	% end
 
 	<h4>Help</h4>

@@ -188,6 +188,7 @@ def data():
     max_congress = config["max_congress"]
     data_articles = list_articles("data")
     current_year = datetime.datetime.now().year
+    print(data_articles)
     output = bottle.template("views/data",
                              max_congress=max_congress,
                              articles=data_articles,
@@ -219,7 +220,6 @@ def past_data():
 def display_congress(chamber="senate", congress_num=-1, tab_view=""):
     """ View a given congress """
     max_congress = config["max_congress"]
-
     # Constrain chamber to senate/house
     if chamber != "senate":
         chamber = "house"
@@ -235,7 +235,7 @@ def display_congress(chamber="senate", congress_num=-1, tab_view=""):
 
     # Hack to ensure 116th shows because senate hasn't voted yet.
     if congress_num == -1 and chamber == "senate":
-        congress_num = 116
+        congress_num = 118
 
     # Get meta args for NOMINATE
     meta = meta_lookup()
@@ -325,6 +325,7 @@ def display_article(slug=""):
     meta_set = get_article_meta(slug)
     if not meta_set:
         meta_set = {"title": "test"}
+    print(meta_set)
     output = bottle.template("views/articles", slug=slug, meta=meta_set)
     return output
 
