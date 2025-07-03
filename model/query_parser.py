@@ -583,9 +583,7 @@ def meta_process_freeform(query_out, depth=0, debug=0):
                         return [-1, 0, error_message]
                     need_score = need_score or need_return_score
                     query_dict["$and"].append(res)
-
     return [query_dict, need_score, error_message]
-
 
 def parse_freeform_query(qtext):
     """

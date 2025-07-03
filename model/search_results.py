@@ -1,9 +1,12 @@
 """ Helpers that augment search results (highlighting) """
 
 import re
-from stemming.porter2 import stem
 from model.config import config
 
+import Stemmer
+stemmer = Stemmer.Stemmer('english')
+def stem(word):
+	return stemmer.stemWord(word)
 
 def do_highlight(highlighter, text):
     """ Takes a string and words to highlight. """
