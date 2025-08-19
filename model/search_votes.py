@@ -11,6 +11,7 @@ from model.date_helper import fix_date
 from model.download_votes import waterfall_text, waterfall_question
 from model.config import config
 from model.embedding_manager import get_embedding
+from model.query_parser import query_dispatcher
 
 client = pymongo.MongoClient(config["db_uri"])
 db = client[config["db_name"]]
@@ -89,6 +90,31 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     begin_time = time.time()
     global db
     
+    # Parse structured query if it contains field syntax
+    structured_filters = {}
+    atlas_search_text = qtext  # Default to original query
+    
+    if qtext and ":" in qtext:
+        try:
+            # Use the query parser to parse structured queries
+            parsed_query, parser_need_score, error_message = query_dispatcher(qtext)
+            
+            if isinstance(parsed_query, int) and parsed_query == -1:
+                print(f"Query parser error: {error_message}, using original query")
+            else:
+                # Extract text search from $text field
+                if "$text" in parsed_query and "$search" in parsed_query["$text"]:
+                    atlas_search_text = parsed_query["$text"]["$search"]
+                    
+                # Extract structured filters (everything except $text)
+                for key, value in parsed_query.items():
+                    if key != "$text":
+                        structured_filters[key] = value
+                        
+                print(f"Parsed - Text: '{atlas_search_text}', Filters: {structured_filters}")
+        except Exception as e:
+            print(f"Query parser exception: {e}, using original query")
+    
     # Build the aggregation pipeline for either text search or hybrid search
     pipeline = []
     need_score = 0
@@ -117,21 +143,21 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
     # Handle search query - validate first, then choose search method
     query_embedding = None
-    if qtext is not None and qtext.strip():
+    if atlas_search_text and atlas_search_text.strip():
         # Check for common stop words that are too generic
-        if qtext.lower().strip() in ["the", "a", "an", "of", "to", "for", "and", "or", "in", "on", "at", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", "does", "did", "will", "would", "should", "could", "can", "may", "might", "must", "shall"]:
+        if atlas_search_text.lower().strip() in ["the", "a", "an", "of", "to", "for", "and", "or", "in", "on", "at", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", "does", "did", "will", "would", "should", "could", "can", "may", "might", "must", "shall"]:
             model.log_quota.add_quota(request, 1)
-            model.log_quota.log_search(request, {"query": "Invalid Query: Stop word.", "query_extra": qtext, "resultNum": -1})
+            model.log_quota.log_search(request, {"query": "Invalid Query: Stop word.", "query_extra": atlas_search_text, "resultNum": -1})
             return {'recordcount': 0, 'rollcalls': [], 'errormessage': "All the words you searched for are too common. Please be more specific with your search query."}
 
-        if len(qtext) > 2500:
+        if len(atlas_search_text) > 2500:
             model.log_quota.add_quota(request, 1)
-            model.log_quota.log_search(request, {"query": "Invalid Query: Too long.", "query_extra": qtext, "resultNum": -1})
+            model.log_quota.log_search(request, {"query": "Invalid Query: Too long.", "query_extra": atlas_search_text, "resultNum": -1})
             return {'recordcount': 0, 'rollcalls': [], 'errormessage': "Query is too long. Please shorten query length."}
 
         # Generate embedding for the query only if semantic search is enabled
         if semantic_search:
-            query_embedding = get_embedding(qtext)
+            query_embedding = get_embedding(atlas_search_text)
         
         if query_embedding is not None and semantic_search:
             # Use hybrid search with $rankFusion
@@ -155,7 +181,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
                                     "$search": {
                                         "index": "atlas_search",
                                         "text": {
-                                            "query": qtext,
+                                            "query": atlas_search_text,
                                             "path": ["vote_desc", "description", "short_description", 
                                                     "vote_document_text", "vote_title", "vote_question_text"]
                                         }
@@ -181,7 +207,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
                 "$search": {
                     "index": "atlas_search",
                     "text": {
-                        "query": qtext,
+                        "query": atlas_search_text,
                         "path": ["vote_desc", "description", "short_description", 
                                 "vote_document_text", "vote_title", "vote_question_text"]
                     }
@@ -196,6 +222,10 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     # Add additional filters from facets (categorical filters)
     if additional_filters:
         match_filters.update(additional_filters)
+        
+    # Add structured filters from parsed query
+    if structured_filters:
+        match_filters.update(structured_filters)
 
     # Add match stage for filters (dates, chamber, icpsr, and categorical filters)
     if match_filters:
@@ -285,14 +315,14 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
             results = list(votes.find(match_filters, field_returns).limit(row_limit + 5))
         
         # Get total count for recordcountTotal
-        if qtext and need_score:
+        if atlas_search_text and need_score:
             # For Atlas Search, count with search stage
             count_pipeline = [
                 {
                     "$search": {
                         "index": "atlas_search",
                         "text": {
-                            "query": qtext,
+                            "query": atlas_search_text,
                             "path": ["vote_desc", "description", "short_description", 
                                     "vote_document_text", "vote_title", "vote_question_text"]
                         }
@@ -308,7 +338,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
         else:
             # For non-text searches, use regular count
             result_count = votes.count_documents(match_filters) if match_filters else 0
-            
+             
     except Exception as e:
         print(traceback.format_exc())
         model.log_quota.add_quota(request, 1)
@@ -361,8 +391,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     return_dict["recordcountTotal"] = result_count
     return_dict["apiversion"] = "Q3 2017-01-08"
     return_dict["next_id"] = next_id
-    if qtext and need_score:
-        return_dict["fullTextSearch"] = qtext
+    if atlas_search_text and need_score:
+        return_dict["fullTextSearch"] = atlas_search_text
 
     if result_count > row_limit:
         return_dict["rollcalls"] = mr[0:row_limit]
@@ -375,13 +405,13 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     # Quota cost depends on execution time.
     if elapsed_time > 10:
         model.log_quota.add_quota(request, 10)
-        model.log_quota.log_search(request, {"query": {"atlas_search": qtext, "filters": match_filters}, "query_extra": "Very slow query", "resultNum": result_count})
+        model.log_quota.log_search(request, {"query": {"atlas_search": atlas_search_text, "filters": match_filters}, "query_extra": "Very slow query", "resultNum": result_count})
     elif elapsed_time > 2:
         model.log_quota.add_quota(request, 2)
-        model.log_quota.log_search(request, {"query": {"atlas_search": qtext, "filters": match_filters}, "query_extra": "Slow query", "resultNum": result_count})
+        model.log_quota.log_search(request, {"query": {"atlas_search": atlas_search_text, "filters": match_filters}, "query_extra": "Slow query", "resultNum": result_count})
     else:
         model.log_quota.add_quota(request, 1)
-        model.log_quota.log_search(request, {"query": {"atlas_search": qtext, "filters": match_filters}, "resultNum": result_count})
+        model.log_quota.log_search(request, {"query": {"atlas_search": atlas_search_text, "filters": match_filters}, "resultNum": result_count})
 
     print(len(return_dict["rollcalls"]), result_count)
     return return_dict
