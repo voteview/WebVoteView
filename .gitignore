@@ -34,3 +34,7 @@ static/carousel
 model/email/newsletter_list.json
 .DS_Store
 .vscode
+.venv/
+venv/
+*.pyc
+__pycache__/

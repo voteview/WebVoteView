@@ -1,4 +1,4 @@
-""" Handles the human query -> MongoDB query steps. """
+""" Handles the human query -> MongoDB Atlas Search steps. """
 
 from __future__ import print_function
 from datetime import date
@@ -7,10 +7,10 @@ import traceback
 import time
 import pymongo
 import model.log_quota
-import model.query_parser
 from model.date_helper import fix_date
 from model.download_votes import waterfall_text, waterfall_question
 from model.config import config
+from model.embedding_manager import get_embedding
 
 client = pymongo.MongoClient(config["db_uri"])
 db = client[config["db_name"]]
@@ -29,11 +29,10 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
                 "descriptionShortLiteral"],
           icpsr=None, row_limit=5000, jsapi=0, rapi=0, sort_dir=-1,
           sort_skip=0, sort_score=1, sort_rollcalls=0, ids_only=0,
-          request=None):
+          request=None, additional_filters=None, semantic_search=False):
     """
     Takes the query, deals with any of the custom parameters coming in from
-    the R package, and then dispatches freeform text queries to the query
-    dispatcher.
+    the R package, and then dispatches freeform text queries to Atlas Search.
 
     Parameters
     ----------
@@ -65,6 +64,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     request: Bottle.request Object
         Passes user request details to the log/quota module; if none, assume
         command line.
+    additional_filters: dict
+        Additional MongoDB filters to apply (for categorical filtering)
 
     Returns
     -------
@@ -87,75 +88,40 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     print(qtext)
     begin_time = time.time()
     global db
-    query_dict = {}
+    
+    # Build the aggregation pipeline for either text search or hybrid search
+    pipeline = []
     need_score = 0
-    # Process the date
-    if (startdate is None and enddate is None and chamber is None and
-            qtext is None and not jsapi):
-        # Add to quota.
-        model.log_quota.add_quota(request, 1)
-        # Log the failed search: No search
-        model.log_quota.log_search(request, {"query": "", "resultNum": -1})
-        # Return the regular error.
-        return {'recordcount': 0,
-                'rollcalls': [],
-                'errormessage': "No query specified."}
 
-    if startdate is not None or enddate is not None:
-        nextyear = str(date.today().year + 1)
-        if startdate or enddate:
-            query_dict["date"] = {}
-        if startdate:
-            if startdate < "1787-01-01":
-                query_dict["date"]["$gte"] = "1787-01-01"
-            else:
-                query_dict["date"]["$gte"] = startdate
-        if enddate:
-            if enddate > nextyear + "-01-01":
-                query_dict["date"]["$lte"] = nextyear+"-01-01"
-            else:
-                query_dict["date"]["$lte"] = enddate
-        if startdate and enddate and startdate > enddate:
-            # Add to quota
-            model.log_quota.add_quota(request, 1)
-            # Log the failed search: No search
-            model.log_quota.log_search(request, {"query": "Invalid query: Start date after end date.", "resultNum": -1})
-            return {'recordcount': 0, 'rollcalls': [], 'errormessage': "Start Date should be on or before End Date"}
+    # Build search filters for dates, chamber, etc
+    match_filters = {}
+    if startdate is not None:
+        try:
+            match_filters["date"] = {"$gte": fix_date(startdate)}
+        except Exception:
+            pass
 
-    # Process the chamber
+    if enddate is not None:
+        try:
+            if "date" not in match_filters:
+                match_filters["date"] = {}
+            match_filters["date"]["$lte"] = fix_date(enddate)
+        except Exception:
+            pass
+
     if chamber is not None:
-        chamber = chamber.title()
-        if chamber == "S":
-            chamber = "Senate"
-        elif chamber == "H":
-            chamber = "House"
-        if chamber not in ["House", "Senate"]:
-            # Add to quota
+        if chamber.strip().lower().startswith("s"):
+            match_filters["chamber"] = "Senate"
+        elif chamber.strip().lower().startswith("h"):
+            match_filters["chamber"] = "House"
+
+    # Handle search query - validate first, then choose search method
+    query_embedding = None
+    if qtext is not None and qtext.strip():
+        # Check for common stop words that are too generic
+        if qtext.lower().strip() in ["the", "a", "an", "of", "to", "for", "and", "or", "in", "on", "at", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", "does", "did", "will", "would", "should", "could", "can", "may", "might", "must", "shall"]:
             model.log_quota.add_quota(request, 1)
-            # Log the failed search: no search
-            model.log_quota.log_search(request, {"query": "Invalid query: Invalid chamber", "resultNum": -1})
-            return {'recordcount': 0, 'rollcalls': [], 'errormessage': "Invalid chamber entered. Chamber can be \"House\" or \"Senate\"."}
-
-        query_dict["chamber"] = chamber
-
-    if qtext:
-        if not isinstance(qtext, str):
-            try:
-                try:
-                    from urllib import unquote_plus
-                except Exception:
-                    from urllib.parse import unquote_plus
-                qtext = unquote_plus(qtext)
-            except Exception:
-                print(traceback.format_exc())
-                model.log_quota.add_quota(request, 1)
-                model.log_quota.log_search(request, {"query": "Invalid query: Character encoding error?", "query_extra": qtext, "resultNum": -1})
-                return {'recordcount': 0, 'rollcalls': [], 'errormessage': 'Error resolving query string.'}
-
-        word_set = [x.lower() for x in qtext.split()]
-        if all([w.lower() in config["stop_words"] for w in word_set]):
-            model.log_quota.add_quota(request, 1)
-            model.log_quota.log_search(request, {"query": "Invalid Query: All words on stoplist.", "query_extra": qtext, "resultNum": -1})
+            model.log_quota.log_search(request, {"query": "Invalid Query: Stop word.", "query_extra": qtext, "resultNum": -1})
             return {'recordcount': 0, 'rollcalls': [], 'errormessage': "All the words you searched for are too common. Please be more specific with your search query."}
 
         if len(qtext) > 2500:
@@ -163,30 +129,110 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
             model.log_quota.log_search(request, {"query": "Invalid Query: Too long.", "query_extra": qtext, "resultNum": -1})
             return {'recordcount': 0, 'rollcalls': [], 'errormessage': "Query is too long. Please shorten query length."}
 
-        try:
-            newquery_dict, need_score, error_message = model.query_parser.query_dispatcher(qtext)
-            if error_message:
-                print("Error parsing the query\n%s" % error_message)
-                model.log_quota.add_quota(request, 1)
-                model.log_quota.log_search(request, {"query": "Invalid Query; parsing issue.", "query_extra": qtext, "resultNum": -1})
-                return {'recordcount': 0, 'rollcalls': [], 'errormessage': error_message}
-        except Exception as e:
-            print(traceback.format_exc())
-            model.log_quota.add_quota(request, 1)
-            model.log_quota.log_search(request, {"query": "Invalid Query; parsing issue.", "query_extra": qtext, "resultNum": -1})
-            return {'recordcount': 0, 'rollcalls': [], 'errormessage': "Error parsing freeform query. We are working on building out query debug messages to provide better feedback.", 'detailederror': traceback.format_exc(), 'q': qtext}
-
-        try:
-            z = query_dict.copy()
-            z.update(newquery_dict)
-            query_dict = z
-        except Exception:
-            pass
+        # Generate embedding for the query only if semantic search is enabled
+        if semantic_search:
+            query_embedding = get_embedding(qtext)
+        
+        if query_embedding is not None and semantic_search:
+            # Use hybrid search with $rankFusion
+            rank_fusion_stage = {
+                "$rankFusion": {
+                    "input": {
+                        "pipelines": {
+                            "vectorPipeline": [
+                                {
+                                    "$vectorSearch": {
+                                        "index": "vector_index",
+                                        "path": "vote_desc_embedding",
+                                        "queryVector": query_embedding,
+                                        "numCandidates": 150,
+                                        "limit": 50
+                                    }
+                                }
+                            ],
+                            "fullTextPipeline": [
+                                {
+                                    "$search": {
+                                        "index": "atlas_search",
+                                        "text": {
+                                            "query": qtext,
+                                            "path": ["vote_desc", "description", "short_description", 
+                                                    "vote_document_text", "vote_title", "vote_question_text"]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "combination": {
+                        "weights": {
+                            "vectorPipeline": 0.4,
+                            "fullTextPipeline": 0.6
+                        }
+                    },
+                    "scoreDetails": True
+                }
+            }
+            pipeline.append(rank_fusion_stage)
+            need_score = 1
+        else:
+            # Default: Use regular Atlas text search only
+            search_stage = {
+                "$search": {
+                    "index": "atlas_search",
+                    "text": {
+                        "query": qtext,
+                        "path": ["vote_desc", "description", "short_description", 
+                                "vote_document_text", "vote_title", "vote_question_text"]
+                    }
+                }
+            }
+            pipeline.append(search_stage)
+            need_score = 1
 
     if icpsr is not None:
-        query_dict["votes.id"] = icpsr
+        match_filters["votes.id"] = icpsr
 
-    # Get results
+    # Add additional filters from facets (categorical filters)
+    if additional_filters:
+        match_filters.update(additional_filters)
+
+    # Add match stage for filters (dates, chamber, icpsr, and categorical filters)
+    if match_filters:
+        pipeline.append({"$match": match_filters})
+
+    # Add search score field - handle both hybrid and regular search
+    if need_score:
+        if query_embedding is not None and semantic_search:
+            # For hybrid search, use scoreDetails metadata
+            pipeline.append({
+                "$addFields": {
+                    "score": {"$meta": "scoreDetails"}
+                }
+            })
+        else:
+            # For regular text search, use searchScore
+            pipeline.append({
+                "$addFields": {
+                    "score": {"$meta": "searchScore"}
+                }
+            })
+
+    # Handle pagination with sort_skip
+    try:
+        sort_skip = int(sort_skip)
+    except Exception:
+        sort_skip = 0
+
+    if sort_skip and not need_score:
+        skip_filter = {}
+        if sort_dir == -1:
+            skip_filter["date_chamber_rollnumber"] = {"$lt": sort_skip}
+        else:
+            skip_filter["date_chamber_rollnumber"] = {"$gt": sort_skip}
+        pipeline.append({"$match": skip_filter})
+
+    # Define field projection
     if not ids_only:
         field_returns = {
             "codes.Clausen": 1, "codes.Peltzman": 1, "codes.Issue": 1,
@@ -197,95 +243,79 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
             "vote_document_text": 1, "short_description": 1,
             "vote_question": 1, "question": 1, "vote_result": 1,
             'vote_title': 1, 'vote_question_text': 1, 'amendment_author': 1,
-            "vote_description": 1, "bill_number": 1, "sponsor": 1}
+            "vote_description": 1, "bill_number": 1, "sponsor": 1
+        }
     else:
         field_returns = {"id": 1, "_id": 0, "date_chamber_rollnumber": 1}
 
     if need_score:
-        field_returns["score"] = {"$meta": "textScore"}
+        field_returns["score"] = 1
 
-    votes = db.voteview_rollcalls
-    try:
-        sort_skip = int(sort_skip)
-    except Exception:
-        sort_skip = 0
+    # Add projection stage
+    pipeline.append({"$project": field_returns})
 
-    if sort_skip and not need_score:
-        if sort_dir == -1:
-            query_dict["date_chamber_rollnumber"] = {"$lt": sort_skip}
+    # Add sorting
+    if need_score and sort_score:
+        if query_embedding is not None and semantic_search:
+            # For hybrid search, sort by the score.value field from scoreDetails
+            pipeline.append({"$sort": {"score.value": -1}})
         else:
-            query_dict["date_chamber_rollnumber"] = {"$gt": sort_skip}
+            # For regular text search, sort by score directly
+            pipeline.append({"$sort": {"score": -1}})
+    elif not need_score:
+        sort_by = "date_chamber_rollnumber" if not sort_rollcalls else "rollnumber"
+        pipeline.append({"$sort": {sort_by: sort_dir}})
 
-    print(query_dict)
-    # Need to sort by text score
-    if need_score:
-        try:
+    # Add pagination
+    if jsapi and sort_skip:
+        pipeline.append({"$skip": sort_skip})
+    
+    pipeline.append({"$limit": row_limit + 5})
 
-            result_count = votes.count_documents(query_dict)
-            row_limit = base_row_limit
-            if not jsapi:
-                results = votes.find(query_dict, field_returns).limit(row_limit + 5)
-            else:
-                if sort_score:
-                    results = (votes.find(query_dict, field_returns)
-                               .sort([("score", {"$meta": "textScore"})])
-                               .skip(sort_skip)
-                               .limit(row_limit + 5))
-                else:
-                    results = (votes.find(query_dict, field_returns)
-                               .sort("date_chamber_rollnumber", sort_dir)
-                               .skip(sort_skip)
-                               .limit(row_limit + 5))
-            print(results)
-        except pymongo.errors.OperationFailure as e:
-            try:
-                mongo_error = e.message
-                if "many text expressions" in mongo_error:
-                    model.log_quota.add_quota(request, 1)
-                    model.log_quota.log_search(request, {"query": "Invalid Query: Multiple full-text.", "query_extra": query_dict, "resultNum": -1})
-                    return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Search queries are limited to one full-text search. Please use quotation marks to search for exact matches or simplify search query.'}
+    print("Atlas Search Pipeline:", pipeline)
+    
+    votes = db.voteview_rollcalls
+    
+    try:
+        # Execute Atlas Search aggregation pipeline
+        if pipeline:
+            results = list(votes.aggregate(pipeline))
+        else:
+            # Fallback for non-text queries
+            results = list(votes.find(match_filters, field_returns).limit(row_limit + 5))
+        
+        # Get total count for recordcountTotal
+        if qtext and need_score:
+            # For Atlas Search, count with search stage
+            count_pipeline = [
+                {
+                    "$search": {
+                        "index": "atlas_search",
+                        "text": {
+                            "query": qtext,
+                            "path": ["vote_desc", "description", "short_description", 
+                                    "vote_document_text", "vote_title", "vote_question_text"]
+                        }
+                    }
+                }
+            ]
+            if match_filters:
+                count_pipeline.append({"$match": match_filters})
+            count_pipeline.append({"$count": "total"})
+            
+            count_result = list(votes.aggregate(count_pipeline))
+            result_count = count_result[0]["total"] if count_result else 0
+        else:
+            # For non-text searches, use regular count
+            result_count = votes.count_documents(match_filters) if match_filters else 0
+            
+    except Exception as e:
+        print(traceback.format_exc())
+        model.log_quota.add_quota(request, 1)
+        model.log_quota.log_search(request, {"query": "Invalid Query: Atlas Search error.", "query_extra": str(e), "resultNum": -1})
+        return {'rollcalls': [], 'recordcount': 0, 'errormessage': f'Error during Atlas Search query: {str(e)}'}
 
-                model.log_quota.add_quota(request, 1)
-                model.log_quota.log_search(request, {"query": "Invalid Query: Unknown error", "query_extra": query_dict, "resultNum": -1})
-                return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Error during database query. Detailed error: '+mongo_error}
-            except Exception:
-                print(traceback.format_exc())
-                model.log_quota.add_quota(request, 1)
-                model.log_quota.log_search(request, {"query": "Invalid Query: Unknown error.", "query_extra": query_dict, "resultNum": -1})
-                return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Unknown error during database query. Please check query syntax and try again.'}
-        except Exception:
-            print(traceback.format_exc())
-            model.log_quota.add_quota(request, 1)
-            model.log_quota.log_search(request, {"query": "Invalid Query: Unknown error.", "query_extra": query_dict, "resultNum": -1})
-            return_dict = {"rollcalls": [], "recordcount": 0, "errormessage": "Invalid query."}
-            return return_dict
-    else:
-        try:
-            result_count = votes.count_documents(query_dict)
-            row_limit = base_row_limit
-            if not jsapi:
-                results = votes.find(query_dict, field_returns).limit(row_limit + 5)
-            else:
-                sort_by = "date_chamber_rollnumber" if not sort_rollcalls else "rollnumber"
-                results = votes.find(query_dict, field_returns).sort(sort_by, sort_dir).limit(row_limit + 5)
-        except pymongo.errors.OperationFailure as e:
-            try:
-                _, mongo_error = e.message.split("failed: ")
-                model.log_quota.add_quota(request, 1)
-                model.log_quota.log_search(request, {"query": "Invalid Query: Unknown error: " + mongo_error, "query_extra": query_dict, "resultNum": -1})
-                return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Error during database query. Detailed error: '+mongo_error}
-            except Exception:
-                model.log_quota.add_quota(request, 1)
-                model.log_quota.log_search(request, {"query": "Invalid Query: Unknown error.", "query_extra": query_dict, "resultNum": -1})
-                return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Unknown error during database query. Please check query syntax and try again.'}
-        except Exception:
-            print(traceback.format_exc())
-            model.log_quota.add_quota(request, 1)
-            model.log_quota.log_search(request, {"query": "Invalid Query: Unknown error", "query_extra": query_dict, "resultNum": -1})
-            return_dict = {"rollcalls": [], "recordcount": 0, "errormessage": "Invalid query."}
-            return return_dict
-
-    # Mongo lazy-allocates results, so we need to loop to pull them in
+    # Process results (same as original)
     mr = []
     next_id = 0
     max_score = 0
@@ -295,7 +325,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
             res["text"] = waterfall_text(res)
             res["question"] = waterfall_question(res)
 
-        if not max_score and need_score and res["score"] >= max_score:
+        if not max_score and need_score and "score" in res and res["score"] >= max_score:
             max_score = res["score"]
 
         if "date" in res:
@@ -306,8 +336,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
                 del res["date_chamber_rollnumber"]
             if not need_score:
                 mr.append(res)
-            elif (res["score"] >= SCORE_THRESHOLD and
-                  res["score"] >= SCORE_MULT_THRESHOLD * max_score):
+            elif (res.get("score", 0) >= SCORE_THRESHOLD and
+                  res.get("score", 0) >= SCORE_MULT_THRESHOLD * max_score):
                 mr.append(res)
             else:
                 next_id = 0
@@ -321,9 +351,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
 
     if need_score:
         key_vote_boost = 2
-        mr.sort(key=lambda x: -x["score"] - key_vote_boost * int(bool(x.get("key_flags", []))))
+        mr.sort(key=lambda x: -x.get("score", 0) - key_vote_boost * int(bool(x.get("key_flags", []))))
 
-    # Get ready to output
+    # Prepare output (same as original)
     return_dict = {}
     return_dict["need_score"] = need_score
     return_dict["rollcalls"] = mr
@@ -331,8 +361,8 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     return_dict["recordcountTotal"] = result_count
     return_dict["apiversion"] = "Q3 2017-01-08"
     return_dict["next_id"] = next_id
-    if "$text" in query_dict:
-        return_dict["fullTextSearch"] = [v for _, v in query_dict["$text"].items()][0]
+    if qtext and need_score:
+        return_dict["fullTextSearch"] = qtext
 
     if result_count > row_limit:
         return_dict["rollcalls"] = mr[0:row_limit]
@@ -345,13 +375,13 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
     # Quota cost depends on execution time.
     if elapsed_time > 10:
         model.log_quota.add_quota(request, 10)
-        model.log_quota.log_search(request, {"query": query_dict, "query_extra": "Very slow query", "resultNum": result_count})
+        model.log_quota.log_search(request, {"query": {"atlas_search": qtext, "filters": match_filters}, "query_extra": "Very slow query", "resultNum": result_count})
     elif elapsed_time > 2:
         model.log_quota.add_quota(request, 2)
-        model.log_quota.log_search(request, {"query": query_dict, "query_extra": "Slow query", "resultNum": result_count})
+        model.log_quota.log_search(request, {"query": {"atlas_search": qtext, "filters": match_filters}, "query_extra": "Slow query", "resultNum": result_count})
     else:
         model.log_quota.add_quota(request, 1)
-        model.log_quota.log_search(request, {"query": query_dict, "resultNum": result_count})
+        model.log_quota.log_search(request, {"query": {"atlas_search": qtext, "filters": match_filters}, "resultNum": result_count})
 
     print(len(return_dict["rollcalls"]), result_count)
     return return_dict
@@ -363,45 +393,6 @@ if __name__ == "__main__":
         args = " ".join(sys.argv[1:])
         print(query(args))
     else:
-        # results = query("(nay:[0 to 9] OR nay:[91 to 100] OR yea:[0 to 5]) AND congress:112", row_limit=5000)
-        # print results
-        # results = query("saved: 3a5c69e7")
-        # print results
-
-        # results1 = query("tax", startdate = "2010")
-        # results2 = query("tax startdate:2010")
-        # results3 = query("tax", startdate = "2008-04-07", enddate = "2013-03-03") results4 = query("tax startdate:2008-04-07 enddate:2013-03-03 dates:[2013 to 2015]")
-        # results = query("voter: MS29940114")
-        # print results
-        # results = query('"defense commissary"')
-        # print results
-        # print query("congress:113 chamber:House", ids_only = 1)
         print(query("the and"))
-        # query("(((description:tax))") # Error in stage 1: Imbalanced parentheses
-        # query("((((((((((description:tax) OR congress:113) OR yea:55) OR support:[50 to 100]) OR congress:111))))))") # Error in stage 1: Excessive depth
-        # query("(description:tax OR congress:1))(") # Error in stage 1: Mish-mash parenthesis
-        # query("OR description:tax OR") # Error in stage 2: OR at wrong part of message.
-        # query("iraq war test")
-        # query("\"iraq war test\"")
-        # query("description:tax",startdate="1972-01-01",enddate="1973-01-01",chamber="senate")
-        # query("shortdescription:Iraq congress:113", chamber = "house")
-        # query("shortdescription:Iraq congress:[112 to 113]", startdate="1800-01-01", enddate="2200-01-01", chamber="house")
-        # query("shortdescription:Iraq congress:112 113", chamber = "house")
-        # query("estate tax congress:113")
-        # query("alltext:tax")
-        # query("rhodesia bonker amendment")
-        # query("\"estate tax\" congress:110")
-        # query("codes:energy")
-        # query("congress: ")
-        # query("((description: \"tax\" congress: 113) OR congress:114 OR (voter:MH085001 AND congress:112) OR congress:[55 to 58]) AND support:[58 to 100]")
-        # query("((description: \"tax\" congress: 113) OR congress:114 OR (voter:MH085001 AND congress:112) OR congress:[55 to 58]) AND description:\"iraq\"")
-        # query("voter: MS05269036 MS02793036 MS02393036 OR congress:[113 to ]")
-        # query("iraq war")
-        # query("iraq war AND congress:113")
-        # query("\"estate tax\" congress:110")
-        # print "ok2"
-        # query("\"war on terrorism\"")
-        # query('"war on terrorism" iraq')
-        # query("alltext:afghanistan iraq OR codes:defense")
     end = time.time()
     print(end - start)

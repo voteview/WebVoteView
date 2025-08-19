@@ -7,3 +7,11 @@ Our site backend is NGINX, uWSGI, Python (Bottle), and MongoDB, and our frontend
 We welcome external contributions; please open an issue if you find a bug or would like to contribute code, and direct all pull requests towards dev rather than master.
 
 For more information or to contact us directly check the [About](https://voteview.com/about) page of our site.
+
+## New features
+1. Add the pipeline to calculate the embedding of each bill's description and store it.
+2. Add the Search Mode function that enables semantic search (requires cluster version 8.1+).
+
+## Bugs in existing voteview.com
+1. The `Sort by` function for search results is broken.
+2. Cannot select all matches. 

@@ -37,6 +37,24 @@
 				</div>
 
 				<div id="results-selects" class="col-md-3">
+					<div class="panel panel-primary">
+						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-semantic">
+							<h3 class="panel-title">Search Mode <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+						</div>
+
+						<div id="facet-semantic" class="panel-collapse facet-content collapse">
+							<div class="panel-body">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="semanticSearch" id="semanticSearchCheckbox" value="1">
+										Enable semantic search
+									</label>
+								</div>
+								<small class="text-muted">Finds votes by meaning, not just exact keywords</small>
+							</div>
+						</div>
+					</div>
+
 					<div id="panel-chamber" class="panel panel-primary">
 						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-chamber">
 							<h3 class="panel-title">Chamber <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
@@ -62,7 +80,7 @@
 
 					<div class="panel panel-primary">
 						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-date">
-							<h3 class="panel-title">Date range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+							<h3 class="panel-title">Date Range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
 						</div>
 						<div id="facet-date" class="panel-collapse facet-content collapse">
 							<div class="panel-body">
@@ -91,7 +109,7 @@
 
 					<div class="panel panel-primary">
 						<div class="collapsed collapse-toggle panel-heading" data-toggle="collapse" data-target="#facet-congress">
-							<h3 class="panel-title">Congress range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
+							<h3 class="panel-title">Congress Range <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i></h3>
 						</div>
 						<div id="facet-congress" class="panel-collapse facet-content collapse">
 							<div class="panel-body">

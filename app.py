@@ -35,6 +35,23 @@ import model.stash_cart
 import model.party_data
 import model.log_quota
 
+# Import embedding manager for vote search embeddings
+from model.embedding_manager import generate_embeddings_for_votes, create_vector_search_index, check_embedding_status
+
+# Initialize embeddings on startup (only generates for votes without embeddings)
+print("Checking embedding status...")
+try:
+    total_with_desc, total_with_embeddings = check_embedding_status()
+    if total_with_embeddings < total_with_desc:
+        print("Generating missing embeddings...")
+        generate_embeddings_for_votes()
+        print("Creating vector search index...")
+        create_vector_search_index()
+    else:
+        print("All votes already have embeddings")
+except Exception as e:
+    print(f"Warning: Could not initialize embeddings: {e}")
+
 # Turn this off on production:
 if config["server"]:
     bottle.debug(True)

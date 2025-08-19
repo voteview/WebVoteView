@@ -419,24 +419,28 @@ def assemble_member_search(query_string, next_id):
 
 def facet_congress(query_string, bottle):
     """ Builds the congress facet for the query dispatcher. """
+    
     try:
-        from_cong = int(
-            default_value(bottle.request.params["fromCongress"], 0)
-        )
-        to_cong = int(default_value(bottle.request.params["toCongress"], 0))
-        if not query_string and (from_cong or to_cong):
+        from_cong = bottle.request.params.get("fromCongress")
+        to_cong = bottle.request.params.get("toCongress")
+        
+        if from_cong:
+            from_cong = int(from_cong)
+        if to_cong:
+            to_cong = int(to_cong)
+            
+        if (query_string is None or query_string == "") and (from_cong or to_cong):
             query_string = ""
-
+            
         if from_cong or to_cong:
             if from_cong == to_cong:
-                query_string += " congress:%s" % str(from_cong)
+                query_string = query_string + " congress:" + str(from_cong)
             elif from_cong and not to_cong:
-                query_string += " congress:[%s to ]" % str(from_cong)
+                query_string = query_string + " congress:[" + str(from_cong) + " to ]"
             elif to_cong and not from_cong:
-                query_string += " congress:[ to %s]" % str(to_cong)
+                query_string = query_string + " congress:[ to " + str(to_cong) + "]"
             else:
-                query_string += " congress:[%s to %s]" % (
-                    str(from_cong), str(to_cong))
+                query_string = query_string + " congress:[" + str(from_cong) + " to " + str(to_cong) + "]"
     except Exception:
         pass
 
@@ -447,25 +451,22 @@ def facet_support(query_string, bottle):
     """ Builds the support facet for the query dispatcher. """
     try:
         support = bottle.request.params["support"]
-        if not query_string and support:
+        
+        if (query_string is None or query_string == "") and support:
             query_string = ""
-
+        
         # If there's a range, lets try to implement the range.
         if "," in support:
             try:
                 val_min, val_max = [int(x) for x in support.split(",")]
                 if val_min != 0 or val_max != 100:
-                    query_string += " support:[%s to %s]" % (
-                        str(val_min), str(val_max)
-                    )
+                    query_string = query_string + " support:[" + str(val_min) + " to " + str(val_max) + "]"
             except Exception:
                 pass
         else:
             try:
                 support = int(support)
-                query_string += " support:[%s to %s]" % (
-                    str(support - 1), str(support + 1)
-                )
+                query_string = query_string + " support:[" + str(support - 1) + " to " + str(support + 1) + "]"
             except Exception:
                 pass
     except Exception:
@@ -476,14 +477,14 @@ def facet_support(query_string, bottle):
 
 def facet_keyvote(query_string, bottle):
     """ Builds the keyvote facet for the query dispatcher. """
-
+    
     try:
-        keyvote = bottle.request.params.getall("keyvote")
+        keyvote = bottle.request.params["keyvote"]
         if keyvote:
-            if not query_string:
-                query_string = ""
-
-            return query_string + " keyvote: 1"
+            if query_string is None or query_string == "":
+                query_string = "keyvote: %s" % keyvote
+            else:
+                query_string += " keyvote: %s" % keyvote
     except Exception:
         pass
 
@@ -492,7 +493,7 @@ def facet_keyvote(query_string, bottle):
 
 def facet_codes(query_string, bottle):
     """ Builds the Clausen/Peltzman code facets for the query dispatcher. """
-
+    
     # Read the codes
     try:
         clausen = bottle.request.params.getall("clausen")
@@ -504,14 +505,22 @@ def facet_codes(query_string, bottle):
     except Exception:
         peltzman = []
 
-    # Build the query string.
+    # Build the code string
     code_string = ""
-    if clausen:
-        code_string = " codes.Clausen: %s" % " OR ".join(clausen)
-    if peltzman:
-        code_string += " codes.Peltzman: %s" % " OR ".join(peltzman)
+    if len(clausen):
+        for c_code in clausen:
+            code_string += "codes.Clausen: " + c_code + " OR "
+    if len(peltzman):
+        for p_code in peltzman:
+            code_string += "codes.Peltzman: " + p_code + " OR "
+    if len(code_string):
+        code_string = code_string[0:-4]  # Remove trailing " OR "
+        if query_string is None or query_string == "":
+            query_string = code_string
+        else:
+            query_string += " (" + code_string + ")"
 
-    return query_string if not code_string else query_string + code_string
+    return query_string
 
 
 def assemble_rollcall_search(query_string, next_id, bottle):
@@ -521,7 +530,7 @@ def assemble_rollcall_search(query_string, next_id, bottle):
     startdate = default_value(bottle.request.params.fromDate)
     enddate = default_value(bottle.request.params.toDate)
 
-    # Build the facets directly in the search
+    # Build the facets - they now modify query_string directly
     query_string = facet_congress(query_string, bottle)
     query_string = facet_support(query_string, bottle)
     query_string = facet_keyvote(query_string, bottle)
@@ -544,13 +553,15 @@ def assemble_rollcall_search(query_string, next_id, bottle):
 
     sort_score = int(default_value(bottle.request.params.sortScore, 1))
     icpsr = default_value(bottle.request.params.icpsr)
+    semantic_search = bool(int(default_value(bottle.request.params.semanticSearch, 0)))
     jsapi = 1
     row_limit = 50
     res = query(query_string, startdate, enddate, chamber,
                 icpsr=icpsr, row_limit=row_limit,
                 jsapi=jsapi, sort_dir=sort_dir,
                 sort_skip=next_id, sort_score=sort_score,
-                request=bottle.request)
+                request=bottle.request,
+                semantic_search=semantic_search)
     return res
 
 
@@ -583,7 +594,7 @@ def assemble_search(query_string, next_id, bottle):
                               rollcalls=[],
                               errormessage="",
                               result_members=result_members,
-                              result_parties=[])
+                              result_parties=result_parties)
         return out
 
     # Okay, so if we need to rollcall search, let's do it.
