@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 % if isinstance(twitter_card, dict) and "title" in twitter_card:
 % 	page_title = twitter_card["title"].replace("Voteview.com: ","")+": "+twitter_card["body"]
 % else:
@@ -32,9 +32,9 @@
 			{{ !person["service_text"] }}
 			% end
 
-			% if "alt_text" in person:
-			<h5>{{ !person["alt_text] }}</h5>
-			% end
+		% if "alt_text" in person:
+		<h5>{{ !person["alt_text"] }}</h5>
+		% end
 
 	    	% if "website" in person:
 			<h5><a href="{{person["website"]}}" target="_blank">Official Website</a></h5>

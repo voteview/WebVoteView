@@ -396,8 +396,8 @@ def process_vote(rollcall, member_set, apitype, people_ids, fields_needed):
              'log_likelihood': round(nominate['log_likelihood'], 5),
              'classified': nominate['classified'],
              'pre': nominate['pre'],
-             'question': None if not question else question.encode('utf-8'),
-             'description': description.encode('utf-8'),
+             'question': question,
+             'description': description,
              'geo_mean_probability': (
                  None if nominate['geo_mean_probability'] == '' else
                  round(nominate['geo_mean_probability'], 3))})

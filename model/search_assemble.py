@@ -378,7 +378,7 @@ def assemble_member_search(query_string, next_id):
     def ordinal_suffix(n):
         """ Quick ordinal suffix helper. """
         suffix_text = "tsnrhtdd"
-        suffix = suffix_text[(n / 10 % 10 != 1) * (n % 10 < 4) * n % 10::4]
+        suffix = suffix_text[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10::4]
         return "%d%s" % (n, suffix)
 
     time_periods = []

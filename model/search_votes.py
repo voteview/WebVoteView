@@ -239,7 +239,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
             print(results)
         except pymongo.errors.OperationFailure as e:
             try:
-                mongo_error = e.message
+                mongo_error = str(e)
                 if "many text expressions" in mongo_error:
                     model.log_quota.add_quota(request, 1)
                     model.log_quota.log_search(request, {"query": "Invalid Query: Multiple full-text.", "query_extra": query_dict, "resultNum": -1})
@@ -270,7 +270,9 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
                 results = votes.find(query_dict, field_returns).sort(sort_by, sort_dir).limit(row_limit + 5)
         except pymongo.errors.OperationFailure as e:
             try:
-                _, mongo_error = e.message.split("failed: ")
+                mongo_error = str(e)
+                if "failed: " in mongo_error:
+                    _, mongo_error = mongo_error.split("failed: ")
                 model.log_quota.add_quota(request, 1)
                 model.log_quota.log_search(request, {"query": "Invalid Query: Unknown error: " + mongo_error, "query_extra": query_dict, "resultNum": -1})
                 return {'rollcalls': [], 'recordcount': 0, 'errormessage': 'Error during database query. Detailed error: '+mongo_error}

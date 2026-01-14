@@ -227,8 +227,6 @@ def augment_member_responses(sorted_res, api, max_results, distinct):
 
         # Ensure backwards compatibility of export files and safe encoding.
         if api in ["exportCSV", "exportORD"]:
-            if 'bioname' in augment_m:
-                augment_m['bioname'] = augment_m['bioname'].encode('utf-8')
             if "nominate" in augment_m:
                 for key, value in augment_m["nominate"].items():
                     if key == 'log_likelihood':

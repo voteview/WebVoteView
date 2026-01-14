@@ -233,9 +233,8 @@ def display_congress(chamber="senate", congress_num=-1, tab_view=""):
             tab_view = ""
             congress_num = max_congress
 
-    # Hack to ensure 116th shows because senate hasn't voted yet.
-    if congress_num == -1 and chamber == "senate":
-        congress_num = 116
+    if congress_num == -1:
+        congress_num = max_congress
 
     # Get meta args for NOMINATE
     meta = meta_lookup()
@@ -454,7 +453,7 @@ def display_rollcall(rollcall_id=""):
     # Make derived quantities we care about.
     def suffix_gen(n):
         """ Helper to quickly convert number n -> ordinal suffix nth """
-        subscript = (n / 10 % 10 != 1) * (n % 10 < 4) * n % 10
+        subscript = (n // 10 % 10 != 1) * (n % 10 < 4) * n % 10
         return "%d%s" % (n, "tsnrhtdd"[subscript::4])
 
     plot_title = "Plot Vote: %s Congress > %s > %s" % (
@@ -678,6 +677,7 @@ def assemble_member_votes(icpsr=0, qtext="", skip=0):
         output = bottle.template(
             "views/error", error_message=person_response["errormessage"])
         bottle.response.headers["nextId"] = 0
+        return output
 
     votes = []
 

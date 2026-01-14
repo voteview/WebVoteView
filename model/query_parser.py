@@ -577,7 +577,7 @@ def meta_process_freeform(query_out, depth=0, debug=0):
                 query_dict = res
             else:
                 query_dict["$and"] = []
-                for item in query_dict:
+                for item in query_out:
                     res, need_return_score, error_message = meta_process_freeform(item, depth + 1, debug)
                     if isinstance(res, int) and res == -1:
                         return [-1, 0, error_message]

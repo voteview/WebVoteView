@@ -6,16 +6,17 @@ import os
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # Maximum congress from JSON file.
-if os.path.join(BASE_DIR, "../static/config.json"):
-    MAX_CONGRESS = json.load(open(
-        os.path.join(BASE_DIR, "../static/config.json"), "r"))["max_congress"]
+CONFIG_PATH = os.path.join(BASE_DIR, "../static/config.json")
+if os.path.isfile(CONFIG_PATH):
+    MAX_CONGRESS = json.load(open(CONFIG_PATH, "r"))["max_congress"]
 else:
     MAX_CONGRESS = 117
 
 # Are we a development server?
+SERVER_PATH = os.path.join(BASE_DIR, "../server.txt")
 SERVER_TYPE = (0
-               if not os.path.isfile(os.path.join(BASE_DIR, "../server.txt"))
-               else int(open("server.txt", "r").read().strip()))
+               if not os.path.isfile(SERVER_PATH)
+               else int(open(SERVER_PATH, "r").read().strip()))
 
 # Authentication and API data
 AUTH_DATA = (json.load(open(os.path.join(BASE_DIR, "auth.json"), "r")) if

@@ -260,8 +260,7 @@ def assemble_person_meta(person, keith=0):
                               "dim1" in person["nominate"] and
                               person["nominate"]["dim2"] is not None else 0)
 
-    # Served in another capacity?
-    if "altPeople" in person:
+    if "alt_people" in person:
         person["alt_text"] = process_alts(person)
 
     return person
@@ -302,11 +301,11 @@ def process_alts(person):
         return "%s%s%s (%s)" % (temporal_text, party_link, chamber_text,
                                 years_text)
 
-    if "altPeople" not in person or not person["altPeople"]:
+    if "alt_people" not in person or not person["alt_people"]:
         return ""
 
     return ", ".join(
-        [process_each_alt(x, person) for x in person["altPeople"]])
+        [process_each_alt(x, person) for x in person["alt_people"]])
 
 
 def process_service_text(person):

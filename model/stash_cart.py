@@ -279,7 +279,7 @@ def shareable_link(stash_id, text, base_url):
     elif len(internal_text) < 4:
         error_messages.append(
             "Error: Link must be at least 4 characters long.")
-    if any([x.lower() in internal_text for x in config["swear_data"]]):
+    if any([x.lower() in internal_text for x in config["swear"]]):
         error_messages.append(
             "Error: Link name contains inappropriate term. Links are "
             "public-facing and must not contain swears or abusive words.")

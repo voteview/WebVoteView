@@ -2,7 +2,7 @@
 % rebase('base.tpl', title=plot_title, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
 % include('header.tpl')
 
-% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 
 <div id="holdHatching">
 </div>
