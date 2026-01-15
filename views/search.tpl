@@ -1,8 +1,8 @@
 % STATIC_URL = "/static/"
 % rebase("base.tpl", title="Search", extra_js=["/static/js/libs/clipboard.min.js", "/static/js/libs/moment.js", "/static/js/libs/bootstrap-datetimepicker.min.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/palette.js"], extra_css=["bootstrap-slider.css", "search.css", "bootstrap-datetimepicker.css"])
-% MAX_CONGRESS = 117
+% MAX_CONGRESS = 119
 % include('header.tpl')
-% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 % setdefault('args', {})
 % setdefault('search_string', "")
 <div class="container">

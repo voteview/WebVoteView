@@ -209,7 +209,7 @@ def address_to_lat_long(request, address_string):
                         "States.<br/><br/> For more information about "
                         "historical delegates from %s, please read "
                         "<a href=\"%s\">this Wikipedia article</a><br/><br/>"
-                        (country_name, map_link)}
+                        % (country_name, map_link)}
 
         if country_name != "United States":
             return {"status": 1,
