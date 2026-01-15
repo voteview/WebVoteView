@@ -417,6 +417,34 @@ def assemble_member_search(query_string, next_id):
     return result_members, count_members, flags
 
 
+def facet_date(query_string, bottle):
+    """ Builds the date facet for the query dispatcher. """
+
+    try:
+        from_date = bottle.request.params.get("fromDate")
+        to_date = bottle.request.params.get("toDate")
+
+        if from_date:
+            from_date = from_date.strip()
+        if to_date:
+            to_date = to_date.strip()
+
+        if (query_string is None or query_string == "") and (from_date or to_date):
+            query_string = ""
+
+        if from_date or to_date:
+            if from_date and not to_date:
+                query_string = query_string + " startdate:" + from_date
+            elif to_date and not from_date:
+                query_string = query_string + " enddate:" + to_date
+            elif from_date and to_date:
+                query_string = query_string + " startdate:" + from_date + " enddate:" + to_date
+    except Exception:
+        pass
+
+    return query_string
+
+
 def facet_congress(query_string, bottle):
     """ Builds the congress facet for the query dispatcher. """
     try:
@@ -517,11 +545,8 @@ def facet_codes(query_string, bottle):
 def assemble_rollcall_search(query_string, next_id, bottle):
     """ Dispatches a search using the rollcall facets. """
 
-    # Date facet
-    startdate = default_value(bottle.request.params.fromDate)
-    enddate = default_value(bottle.request.params.toDate)
-
-    # Build the facets directly in the search
+    # Build the facets: modify query_string directly
+    query_string = facet_date(query_string, bottle)
     query_string = facet_congress(query_string, bottle)
     query_string = facet_support(query_string, bottle)
     query_string = facet_keyvote(query_string, bottle)
@@ -546,7 +571,7 @@ def assemble_rollcall_search(query_string, next_id, bottle):
     icpsr = default_value(bottle.request.params.icpsr)
     jsapi = 1
     row_limit = 50
-    res = query(query_string, startdate, enddate, chamber,
+    res = query(query_string, None, None, chamber,
                 icpsr=icpsr, row_limit=row_limit,
                 jsapi=jsapi, sort_dir=sort_dir,
                 sort_skip=next_id, sort_score=sort_score,
