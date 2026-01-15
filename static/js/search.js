@@ -483,6 +483,24 @@ function updateRequest()
 	}
 }
 
+// Sort request - like updateRequest but preserves sort values
+function sortRequest()
+{
+	fixSupportGroup();
+	if(!globalQueueRequests)
+	{
+		globalQueueRequests = 1;
+		nextId = "";
+		requestQueue = setTimeout(getRollcalls, 200);
+	}
+	else
+	{
+		clearTimeout(requestQueue);
+		nextID = "";
+		requestQueue = setTimeout(getRollcalls, 200);
+	}
+}
+
 function stripJunkFromSearch(text)
 {
 	return encodeURIComponent(text.replace("/"," ").replace(/<(?:.|\n)*?>/gm, ''));

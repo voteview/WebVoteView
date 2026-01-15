@@ -357,9 +357,9 @@
 						</div>
 						<div class="col-md-6" id="sortBy">
 							<strong>Sort by </strong>
-							<div id="relevanceAppear"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);updateRequest();return false;">Relevance</a> /</div>
-							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);updateRequest();return false;">Newest</a> /
-							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);updateRequest();return false;">Oldest</a>
+							<div id="relevanceAppear"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);sortRequest();return false;">Relevance</a> /</div>
+							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);sortRequest();return false;">Newest</a> /
+							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);sortRequest();return false;">Oldest</a>
 						</div>
 					</div>
 				</div>
