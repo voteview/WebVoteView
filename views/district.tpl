@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 % from model.config import config
 % rebase('base.tpl', title='District View', extra_css=['map.css', 'scatter.css'])
 % include('header.tpl')

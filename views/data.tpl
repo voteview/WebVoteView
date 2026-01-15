@@ -54,7 +54,7 @@
 		% for i in range(max_congress, 0, -1):
 		% min_year = 1787 + (2 * i)
 		% max_year = min_year + 2
-		% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+		% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 		<option value="{{str(i).zfill(3)}}">{{rcSuffix(i)}} ({{min_year}} - {{max_year}})</option>
 		% end
 	</select>

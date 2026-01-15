@@ -237,7 +237,7 @@ def assemble_fancy_member_search(query_string, state_meta, time_periods):
             match_state_delegation(query_string, state_meta, time_periods))
 
     # ICPSR of user
-    elif (len(query_string.split()) == 1 and str.isdecimal() and
+    elif (len(query_string.split()) == 1 and query_string.isdecimal() and
           int(query_string)):
         member_search = member_lookup({"icpsr": int(query_string)}, 5,
                                       distinct=1, api="Web_FP_Search")
