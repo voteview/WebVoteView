@@ -5,15 +5,11 @@ from datetime import date
 import sys
 import traceback
 import time
-import pymongo
 import model.log_quota
 import model.query_parser
 from model.date_helper import fix_date
 from model.download_votes import waterfall_text, waterfall_question
-from model.config import config
-
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name"]]
+from model.config import config, db
 
 SCORE_THRESHOLD = (config["auth"]["scoreThreshold"]
                    if "scoreThreshold" in config["auth"]

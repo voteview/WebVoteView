@@ -2,6 +2,7 @@
 
 import json
 import os
+import pymongo
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -73,3 +74,13 @@ config = {  # pylint: disable=C0103
     "slides": SLIDES,
     "transition_alert": 0
 }
+
+# Shared MongoDB client with connection pooling
+mongo_client = pymongo.MongoClient(
+    host=config["db_host"],
+    port=config["db_port"],
+    maxPoolSize=50,
+    minPoolSize=5
+)
+db = mongo_client[config["db_name"]]
+db_geog = mongo_client[config["db_name_geog"]]

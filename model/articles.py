@@ -1,9 +1,5 @@
 """ Functions involved in the display of blog articles. """
-import pymongo
-from model.config import config
-
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name"]]
+from model.config import db
 
 def get_article_meta(slug):
     """ Return article metadata by slug. """

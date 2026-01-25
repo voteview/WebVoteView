@@ -1,16 +1,12 @@
 """ Helper methods to search members. """
 
 import os
-import pymongo
 from model.state_helper import (state_name_to_abbrev, get_state_name,
                                 state_icpsr)
 from model.search_parties import (party_name, party_noun,
                                   party_color, short_name)
 from model.slugify import slugify
-from model.config import config
-
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name"]]
+from model.config import db
 
 
 def cqlabel(state_abbrev, district_code):
@@ -282,7 +278,7 @@ def member_lookup(query_dict, max_results=50, distinct=0, api="Web"):
                                ('congress', -1)])
     # If it's an ORD file, sort in this specific order and confirm an index.
     elif api == "exportORD":
-        db.voteview_members.ensure_index(
+        db.voteview_members.create_index(
             [('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)],
             name="ordIndex")
         sorted_res = res.sort(

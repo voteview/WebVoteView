@@ -1,13 +1,9 @@
 """ Helper functions to search or lookup party information. """
 
 from __future__ import print_function
-import pymongo
-from model.config import config
+from model.config import db
 
 cache = {}
-
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name"]]
 
 
 def party_lookup_id(query_dict, api):

@@ -3,12 +3,8 @@
 from __future__ import print_function
 import uuid
 import time
-import pymongo
 from model.search_votes import query
-from model.config import config
-
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name"]]
+from model.config import config, db
 
 
 def initialize_cart():
@@ -172,7 +168,7 @@ def empty_cart(stash_id):
         return({'id': '',
                 'errorMessages': ["Invalid ID. Cart does not exist."]})
 
-    db.stash.remove({'id': stash_id}, 1)
+    db.stash.delete_one({'id': stash_id})
     return initialize_cart()
 
 

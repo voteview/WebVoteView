@@ -4,14 +4,9 @@ which is handled in write_excel instead.)
 """
 
 from __future__ import print_function
-import pymongo
-from model.config import config
+from model.config import db
 from model.download_votes import download_votes_api
 from model.write_excel import WriteExcel
-
-# Connection
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name"]]
 
 
 def download_excel(ids):

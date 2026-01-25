@@ -5,14 +5,11 @@ import math
 import requests
 # Shut up the stupid SSL warning crap
 import requests.packages.urllib3
-import pymongo
-from model.config import config
+from model.config import config, db_geog as db
 from model.log_quota import check_quota, add_quota, log_search
 from model.state_helper import state_name_to_abbrev
 
 requests.packages.urllib3.disable_warnings()
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name_geog"]]
 
 
 def lat_long_warnings(result, address_string, state_name):

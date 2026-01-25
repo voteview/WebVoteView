@@ -5,11 +5,7 @@ from __future__ import print_function
 from datetime import date
 import re
 from time import strptime
-import pymongo
-from model.config import config
-
-client = pymongo.MongoClient(host=config["db_host"], port=config["db_port"])
-db = client[config["db_name"]]
+from model.config import db
 
 field_types = {
     "codes": "codes", "codes.Clausen": "code", "codes.Peltzman": "code",
