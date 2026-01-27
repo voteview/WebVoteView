@@ -188,10 +188,12 @@ def data():
     max_congress = config["max_congress"]
     data_articles = list_articles("data")
     current_year = datetime.datetime.now().year
+    slides = generate_slides()
     output = bottle.template("views/data",
                              max_congress=max_congress,
                              articles=data_articles,
-                             year=current_year)
+                             year=current_year,
+                             slides=slides)
     return output
 
 
