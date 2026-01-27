@@ -23,3 +23,13 @@ def list_articles(tag_category):
         store_results.append(row)
 
     return store_results
+
+
+def list_all_articles():
+    """ List all non-hidden articles. """
+    rows = db.voteview_articles.find(
+        {"hidden": {"$ne": 1}},
+        {"_id": 0}
+    ).sort("title", 1)
+
+    return list(rows)

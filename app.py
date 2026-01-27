@@ -16,7 +16,7 @@ from model.email_contact import send_email, newsletter_subscribe
 from model.search_members import (member_lookup, get_members_by_congress,
                                   get_members_by_party,
                                   district_member_lookups)
-from model.articles import get_article_meta, list_articles
+from model.articles import get_article_meta, list_articles, list_all_articles
 from model.search_meta import meta_lookup
 from model.bio_data import (congress_to_year,
                             assemble_person_meta,
@@ -186,12 +186,12 @@ def quota():
 def data():
     """ Load the data page -- need to populate the maximum congress. """
     max_congress = config["max_congress"]
-    data_articles = list_articles("data")
+    all_articles = list_all_articles()
     current_year = datetime.datetime.now().year
     slides = generate_slides()
     output = bottle.template("views/data",
                              max_congress=max_congress,
-                             articles=data_articles,
+                             articles=all_articles,
                              year=current_year,
                              slides=slides)
     return output
