@@ -75,18 +75,29 @@ config = {  # pylint: disable=C0103
     "transition_alert": 0
 }
 
-# Shared MongoDB client with connection pooling and optimized settings
+# Shared MongoDB client with connection pooling and optimized settings for fast reads
 mongo_client = pymongo.MongoClient(
     host=config["db_host"],
     port=config["db_port"],
-    maxPoolSize=50,
-    minPoolSize=10,  # Increased min pool for faster first requests
-    serverSelectionTimeoutMS=5000,  # Fail fast on connection issues
+    # Connection pool settings
+    maxPoolSize=100,  # Increased for higher concurrency
+    minPoolSize=20,   # More pre-warmed connections for instant availability
+    maxIdleTimeMS=60000,  # Keep connections alive for 60s
+    # Timeout settings
+    serverSelectionTimeoutMS=5000,
     connectTimeoutMS=5000,
     socketTimeoutMS=30000,
     waitQueueTimeoutMS=5000,
+    # Retry settings for resilience
     retryWrites=True,
     retryReads=True,
+    # Read optimization settings
+    readPreference='primaryPreferred',  # Read from primary, fallback to secondary
+    readconcernlevel='local',  # Fastest read concern
+    # Network compression for faster data transfer
+    compressors=['zstd', 'snappy', 'zlib'],
+    # Direct connection for single-server deployments (faster)
+    directConnection=True if config["db_host"] == "localhost" else False,
 )
 db = mongo_client[config["db_name"]]
 db_geog = mongo_client[config["db_name_geog"]]
