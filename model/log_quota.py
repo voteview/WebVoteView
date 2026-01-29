@@ -107,12 +107,14 @@ def check_quota(request):
 
 
 def add_quota(request, score):
-    """ Add a cost to user's quota """
+    """
+    Add a cost to user's quota using atomic upsert operation.
+    This is more efficient than find_one + update_one (single round trip).
+    """
     session = generate_session_id(request)
-    result = db.api_quota.find_one({"session": session},
-                                   {"score": 1, "_id": 0})
-    if result:
-        db.api_quota.update_one({"session": session},
-                                {"$set": {"score": result["score"] + score}})
-    else:
-        db.api_quota.insert_one({"session": session, "score": score})
+    # Use $inc with upsert for atomic operation - single DB round trip
+    db.api_quota.update_one(
+        {"session": session},
+        {"$inc": {"score": score}},
+        upsert=True
+    )

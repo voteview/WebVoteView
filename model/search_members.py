@@ -6,7 +6,7 @@ from model.state_helper import (state_name_to_abbrev, get_state_name,
 from model.search_parties import (party_name, party_noun,
                                   party_color, short_name)
 from model.slugify import slugify
-from model.config import db
+from model.config import db, config
 
 
 def cqlabel(state_abbrev, district_code):
@@ -258,29 +258,36 @@ def member_lookup(query_dict, max_results=50, distinct=0, api="Web"):
     field_set = get_field_set(api, search_query)
     print(field_set)
     
-    # We now send a query and see if it would get us any responses:
+    # We now send a query and see if it would get us any responses.
+    # Optimization: Use limit(1) to check for existence instead of full count_documents
+    # This is much faster when we only need to know if results exist.
     res = db.voteview_members.find(search_query, field_set)
-    response_count = db.voteview_members.count_documents(search_query)
+
+    # Quick existence check - try to get first doc only
+    check_cursor = db.voteview_members.find(search_query, {"_id": 1}).limit(1)
+    has_results = len(list(check_cursor)) > 0
 
     # One possibility: No results from a Mongo name search, let's try a regex.
-    if "$text" in search_query and not response_count:
+    if "$text" in search_query and not has_results:
         del search_query["$text"]
         del field_set["score"]
         search_query["bioname"] = {'$regex': query_dict["name"],
                                    '$options': 'i'}
         res = db.voteview_members.find(search_query, field_set)
-        response_count = db.voteview_members.count_documents(search_query)
+        check_cursor = db.voteview_members.find(search_query, {"_id": 1}).limit(1)
+        has_results = len(list(check_cursor)) > 0
+
+    # response_count is used to check if we should augment results
+    response_count = 1 if has_results else 0
         
     # If there's a text mongo search, sort by Mongo score.
     if "$text" in search_query:
         sorted_res = res.sort([('score', {'$meta': 'textScore'}),
                                ('icpsr', -1),
                                ('congress', -1)])
-    # If it's an ORD file, sort in this specific order and confirm an index.
+    # If it's an ORD file, sort in this specific order.
+    # Index is pre-created at startup in config.py for optimal performance.
     elif api == "exportORD":
-        db.voteview_members.create_index(
-            [('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)],
-            name="ordIndex")
         sorted_res = res.sort(
             [('state_abbrev', 1), ('district_code', 1), ('icpsr', 1)])
     else:
