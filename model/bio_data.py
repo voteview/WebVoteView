@@ -287,13 +287,19 @@ def process_alts(person):
             if alt["years_all"][0][0] >= person["years_all"][-1][0]
             else "Previously served as ")
 
-        party_link = "<a href=\"/person/%s\">%s</a>" % (
-            str(alt["icpsr"]).zfill(6), alt["party_noun"])
-
-        chamber_text = (
-            " in the %s" % alt["chamber"]
-            if person["chamber"] == "President"
-            else "")
+        if alt["chamber"] == "President":
+            party_link = "<a href=\"/person/%s\">President</a>" % (
+                str(alt["icpsr"]).zfill(6))
+            chamber_text = " as a %s" % alt["party_noun"]
+        elif person["chamber"] == "President":
+            temporal_text = temporal_text.replace("served as ", "served in the ")
+            party_link = "<a href=\"/person/%s\">%s</a>" % (
+                str(alt["icpsr"]).zfill(6), alt["chamber"])
+            chamber_text = " as a %s" % alt["party_noun"]
+        else:
+            party_link = "<a href=\"/person/%s\">%s</a>" % (
+                str(alt["icpsr"]).zfill(6), alt["party_noun"])
+            chamber_text = ""
 
         years_ranges = ["%s-%s" % (z[0], z[1]) for z in alt["years_all"]]
         years_text = ", ".join(years_ranges)
