@@ -180,7 +180,7 @@ def query(qtext, startdate=None, enddate=None, chamber=None,
             pass
 
     if icpsr is not None:
-        query_dict["votes.id"] = icpsr
+        query_dict["votes.icpsr"] = icpsr
 
     # Get results
     if not ids_only:

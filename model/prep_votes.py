@@ -36,9 +36,12 @@ def prep_votes(vote_query, person):
             # Now we need to extract the actual vote.
             vote_extracted = next((
                 v for v in individual_vote["votes"] if
-                v["icpsr"] == person["icpsr"]), None)
+                int(v["icpsr"]) == int(person["icpsr"])), None)
 
             if not vote_extracted or "vote" not in vote_extracted:
+                votes[i]["myVote"] = "Abs"
+                votes[i]["partyLabelVote"] = "N/A"
+                votes[i]["pVSum"] = 0
                 continue
 
             # Fill in vote and probability if one is known.

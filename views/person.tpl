@@ -1,5 +1,5 @@
 % STATIC_URL = "/static/"
-% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
+% rcSuffix = lambda n: "%d%s" % (int(n),"tsnrhtdd"[(int(n)//10%10!=1)*(int(n)%10<4)*int(n)%10::4])
 % if isinstance(twitter_card, dict) and "title" in twitter_card:
 % 	page_title = twitter_card["title"].replace("Voteview.com: ","")+": "+twitter_card["body"]
 % else:
@@ -50,7 +50,7 @@
 				<select id="congSelector">
 				% 	person["congresses_all"].reverse()
 				%	for congress_run in person["congresses_all"]:
-				%		for congress in range(congress_run[1], congress_run[0] - 1, -1):
+				%		for congress in range(int(congress_run[1]), int(congress_run[0]) - 1, -1):
 					<option value="{{congress}}">{{person["congress_labels"][congress]}}</option>
 				% 		end
 				% 	end

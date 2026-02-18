@@ -199,6 +199,25 @@ def augment_member_responses(sorted_res, api, max_results, distinct):
 
         # Make a copy of the row for augmentation
         augment_m = member
+        # MongoDB 3.2 stored these as ints; after cross-version
+        # dump/restore they may arrive as floats. Cast them back.
+        int_fields = [
+            "icpsr", "congress", "district_code", "born", "died",
+            "party_code", "occupancy", "last_means",
+            "nvotes_abs", "nvotes_against_party",
+            "nvotes_party_split", "nvotes_yea_nay", "nvotes_year_nay",
+        ]
+        for field in int_fields:
+            if field in augment_m and isinstance(augment_m[field], float):
+                augment_m[field] = int(augment_m[field])
+        if "nominate" in augment_m and isinstance(augment_m["nominate"], dict):
+            for k in ["total_number_of_votes", "conditional"]:
+                if k in augment_m["nominate"] and isinstance(augment_m["nominate"][k], float) and augment_m["nominate"][k] == int(augment_m["nominate"][k]):
+                    augment_m["nominate"][k] = int(augment_m["nominate"][k])
+        if "congresses" in augment_m:
+            augment_m["congresses"] = [
+                [int(x) for x in pair] for pair in augment_m["congresses"]
+            ]
         if "state_abbrev" in augment_m:
             augment_m["state"] = get_state_name(augment_m["state_abbrev"])
         if api == "exportORD":

@@ -27,7 +27,7 @@
 	<h1 id="brand">
 		<span class="printOnly">UCLA Presents </span>
 		% if config["server"]:
-		<a href="/"><span class="dev_header">voteview.com beta 3 (isaac 1) PLAYGROUND SERVER</span></a>
+		<a href="/"><span class="dev_header">voteview.com beta 3 (isaac 1) in dev mode!</span></a>
 		% else:
 		<a href="/">voteview.com</a> <small>beta 3</small>
 		% end
@@ -44,4 +44,15 @@
 	</div>
   </div>
   % end
+</div>
+
+<!-- Anouncing the migration to Python 3 -->
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="alert alert-info" role="alert">
+		     Welcome!  We have just updated Voteview's aging codebase.  In the process, we have fixed some nagging issues and
+		     improved performance. If you notice anything that used to work that no longer does, please let us know.
+		</div>
+	</div>
 </div>

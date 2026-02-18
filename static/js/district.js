@@ -429,6 +429,17 @@ function doMembers(lat, lng)
 		success: (data, status, xhr) => {
 			$("#loadProgress").fadeOut();
 
+			// Check for API errors
+			if (data["status"]) {
+				$("#warnings").html("");
+				const errorDiv = $("<div></div>")
+					.addClass("alert alert-danger")
+					.html(`<strong>Error:</strong> ${data["error_message"]}`);
+				errorDiv.appendTo($("#warnings"));
+				$("#warnings").fadeIn();
+				return;
+			}
+
 			// Build the initial header and the plot
 			if (data["resCurr"] != undefined && data["resCurr"].length) {
 				$("#resultsMembers").html("");

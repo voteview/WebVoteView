@@ -193,7 +193,7 @@ def assemble_person_meta(person, keith=0):
     person["congresses_all"] = person["congresses"]
     person["congress_labels"] = {}
     for congress_chunk in person["congresses_all"]:
-        for cong in range(congress_chunk[0], congress_chunk[1] + 1):
+        for cong in range(int(congress_chunk[0]), int(congress_chunk[1]) + 1):
             person["congress_labels"][cong] = (
                 "%sth Congress (%s-%s)" %
                 (cong, congress_to_year(cong, 0),
@@ -288,7 +288,7 @@ def process_alts(person):
             else "Previously served as ")
 
         party_link = "<a href=\"/person/%s\">%s</a>" % (
-            str(alt["icpsr"].zfill(6)), alt["party_noun"])
+            str(alt["icpsr"]).zfill(6), alt["party_noun"])
 
         chamber_text = (
             " in the %s" % alt["chamber"]
