@@ -505,7 +505,7 @@ q
 								.node()
 								.getBBox()["width"];
 							var currCong = Math.ceil(
-								117 * d3MouseCoords[0] / (d3CanvasWidth));
+								max * d3MouseCoords[0] / (d3CanvasWidth));
 							var dUse = d["values"][currCong - 1];
 						}
 						else // We only have one congress, we're good to go.
