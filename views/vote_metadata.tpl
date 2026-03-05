@@ -72,15 +72,15 @@
 				% preview_chunk = rollcall["cg_summary"][:500].rsplit(" ", 1)[0]
 				% extended_chunk = rollcall["cg_summary"][len(preview_chunk):]
 				<p class="clearfix">
-					<strong>Bill summary: </strong>{{preview_chunk}}
+					<strong>Bill summary: </strong>{{!preview_chunk}}
 					<a href="#" id="descriptionExtender" onClick="javascript:$('#extendedDescription').show();$(this).hide();return false;">(...show more)</a>
 					<span id="extendedDescription">
-						{{ extended_chunk }}<br/><br/>
+						{{! extended_chunk}}<br/><br/>
 						<a href="#" onClick="javascript:$('#extendedDescription').hide();$('#descriptionExtender').show();return false;">Click to hide full description.</a>
 					</span>
 				</p>
 			% else:
-				<p class="clearfix"><strong>Bill summary:</strong> {{ rollcall["cg_summary"] }}</p>
+				<p class="clearfix"><strong>Bill summary:</strong> {{! rollcall["cg_summary"] }}</p>
 			% end
 			% end
 
