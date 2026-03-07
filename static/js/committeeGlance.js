@@ -71,6 +71,12 @@ function renderTable(committees) {
 		return;
 	}
 
+	// Find max members for scaling the composition bar
+	var maxMembers = 0;
+	committees.forEach(function(c) {
+		if (c.current_members > maxMembers) maxMembers = c.current_members;
+	});
+
 	var table = $('<table></table>').attr('id', 'committeeTable').addClass('table');
 
 	// Header
@@ -80,7 +86,7 @@ function renderTable(committees) {
 	$('<th></th>').html('Chamber').addClass('col-md-1').appendTo(headerRow);
 	$('<th></th>').html('Congresses').addClass('col-md-2').appendTo(headerRow);
 	$('<th></th>').html('Members').addClass('col-md-1').appendTo(headerRow);
-	$('<th></th>').html('Activity').addClass('col-md-5').appendTo(headerRow);
+	$('<th></th>').html('Party Composition').addClass('col-md-5').appendTo(headerRow);
 	headerRow.appendTo(thead);
 	thead.appendTo(table);
 
@@ -103,8 +109,7 @@ function renderTable(committees) {
 		nameCell.appendTo(row);
 
 		// Chamber
-		var chamberLabel = c.chamber;
-		$('<td></td>').html(chamberLabel)
+		$('<td></td>').html(c.chamber)
 			.addClass('col-md-1')
 			.appendTo(row);
 
@@ -122,31 +127,57 @@ function renderTable(committees) {
 			.addClass('col-md-2')
 			.appendTo(row);
 
-		// Members (current or last known)
+		// Members
 		$('<td></td>').html(isActive ? c.current_members : '&mdash;')
 			.attr('data-sort-value', c.current_members || 0)
 			.addClass('col-md-1')
 			.appendTo(row);
 
-		// Activity timeline bar
-		var leftPad = Math.round(100 * (c.min_congress - 1) / congressNum) + '%';
-		var width = Math.max(1, Math.round(100 * (c.max_congress - c.min_congress + 1) / congressNum)) + '%';
+		// Party composition stacked bar
+		var compCell = $('<td></td>').addClass('col-md-5').attr('data-sort-value', i);
+		if (isActive && c.current_party_breakdown && c.current_members > 0) {
+			var pb = c.current_party_breakdown;
+			var dems = pb['100'] || 0;
+			var reps = pb['200'] || 0;
+			var other = c.current_members - dems - reps;
+			var totalWidth = Math.round(200 * c.current_members / maxMembers);
 
-		var barColor = c.chamber === 'House' ? '#0571b0' :
-		               c.chamber === 'Senate' ? '#ca0020' :
-		               '#7b3294';
-		if (!isActive) barColor = '#999';
+			var barContainer = $('<div></div>')
+				.css({'display': 'inline-flex', 'height': '16px', 'border-radius': '2px', 'overflow': 'hidden'});
 
-		var timelineCell = $('<td></td>').addClass('col-md-5').attr('data-sort-value', i);
-		var timelineBar = $('<div></div>')
-			.css('margin-left', leftPad)
-			.css('width', width)
-			.css('height', '16px')
-			.css('background-color', barColor)
-			.css('border-radius', '2px')
-			.css('opacity', isActive ? 1.0 : 0.5);
-		timelineBar.appendTo(timelineCell);
-		timelineCell.appendTo(row);
+			if (dems > 0) {
+				$('<div></div>')
+					.css({'width': Math.round(totalWidth * dems / c.current_members) + 'px',
+						'background-color': '#0571b0'})
+					.attr('title', 'Democrat: ' + dems)
+					.appendTo(barContainer);
+			}
+			if (reps > 0) {
+				$('<div></div>')
+					.css({'width': Math.round(totalWidth * reps / c.current_members) + 'px',
+						'background-color': '#ca0020'})
+					.attr('title', 'Republican: ' + reps)
+					.appendTo(barContainer);
+			}
+			if (other > 0) {
+				$('<div></div>')
+					.css({'width': Math.max(2, Math.round(totalWidth * other / c.current_members)) + 'px',
+						'background-color': '#404040'})
+					.attr('title', 'Other: ' + other)
+					.appendTo(barContainer);
+			}
+
+			barContainer.appendTo(compCell);
+
+			// Counts label
+			$('<span></span>')
+				.css({'margin-left': '8px', 'font-size': '11px', 'color': '#888'})
+				.html(dems + 'D / ' + reps + 'R' + (other > 0 ? ' / ' + other + 'O' : ''))
+				.appendTo(compCell);
+		} else {
+			compCell.html('&mdash;');
+		}
+		compCell.appendTo(row);
 
 		row.click(function() {
 			window.location = '/committees/' + $(this).attr('data-slug');

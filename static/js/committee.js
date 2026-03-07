@@ -12,6 +12,7 @@ function getGetOrdinal(n) {
 var dimChart, sizeChart;
 var committeeData = null;
 var currentSort = 'role';
+var opacityTimer;
 
 function partyColor(partyCode) {
 	if (partyCode === 100) return colorSchemes['blue'][0];   // Democrat
@@ -29,6 +30,11 @@ function partyName(partyCode) {
 	if (partyCode === 100) return 'Democrat';
 	if (partyCode === 200) return 'Republican';
 	return 'Other';
+}
+
+function icpsrToImage(icpsr) {
+	if (!icpsr) return 'silhouette.png';
+	return String(icpsr).padStart(6, '0') + '.jpg';
 }
 
 function buildPage(error, data, congMedians) {
@@ -73,7 +79,16 @@ function buildIdeologyChart(congresses, congMedians) {
 	var scatterData = [];
 	var lineData = [];
 
+	// Build a lookup for tooltip: congress -> {committeeMedian, congressMedian, nMembers}
+	var congressLookup = {};
+
 	congresses.forEach(function(c) {
+		congressLookup[c.congress] = {
+			committeeMedian: c.grandMedian,
+			congressMedian: c.congressMedian,
+			nMembers: c.nMembers
+		};
+
 		if (c.grandMedian !== null && c.grandMedian !== undefined) {
 			lineData.push({
 				congress: c.congress,
@@ -83,7 +98,6 @@ function buildIdeologyChart(congresses, congMedians) {
 		}
 
 		if (c.grandSet) {
-			// We don't have per-member party in grandSet, so use them as generic points
 			c.grandSet.forEach(function(score) {
 				scatterData.push({
 					x: c.congress,
@@ -104,6 +118,13 @@ function buildIdeologyChart(congresses, congMedians) {
 	// Chart dimensions
 	var chartWidth = Math.min(1140, Math.max(900, Math.round($('#wbv-header').width() * 0.92)));
 	var chartHeight = Math.max(280, Math.round(chartWidth / 2.9));
+
+	// Tooltip
+	var baseToolTip = d3.select('body')
+		.append('div')
+		.attr('class', 'd3-tip')
+		.attr('id', 'committeeTooltip')
+		.style('visibility', 'hidden');
 
 	// Build using DC.js
 	var ndx = crossfilter(lineData);
@@ -154,14 +175,53 @@ function buildIdeologyChart(congresses, congMedians) {
 		.on('postRender', function() {
 			d3.select('#dim-chart svg').select('g.sub')
 				.selectAll('path.symbol').attr('opacity', '0.4');
+
+			// Add mouseover tooltip to the chart area
+			var chartBody = d3.select('#dim-chart svg');
+			var margins = dimChart.margins();
+			var innerWidth = chartWidth - margins.left - margins.right;
+
+			// Invisible overlay rect for mouseover
+			var overlay = chartBody.select('g').append('rect')
+				.attr('class', 'overlay')
+				.attr('transform', 'translate(' + margins.left + ',' + margins.top + ')')
+				.attr('width', innerWidth)
+				.attr('height', chartHeight - margins.top - margins.bottom)
+				.style('fill', 'none')
+				.style('pointer-events', 'all');
+
+			overlay.on('mousemove', function() {
+				var coords = d3.mouse(this);
+				var xScale = dimChart.x();
+				var congress = Math.round(xScale.invert(coords[0]));
+				var info = congressLookup[congress];
+				if (!info) {
+					baseToolTip.style('visibility', 'hidden');
+					return;
+				}
+
+				clearTimeout(opacityTimer);
+				var year = 1787 + 2 * congress;
+				var html = '<p>' + getGetOrdinal(congress) + ' Congress (' + year + '-' + (year + 1) + ')</p>';
+				html += '<p><em>Committee Median</em>: ' + (info.committeeMedian != null ? info.committeeMedian.toFixed(3) : 'N/A') + '</p>';
+				html += '<p><em>Congress Median</em>: ' + (info.congressMedian != null ? info.congressMedian.toFixed(3) : 'N/A') + '</p>';
+				html += '<p><em>Members</em>: ' + info.nMembers + '</p>';
+
+				baseToolTip.html(html);
+				baseToolTip.style('visibility', 'visible')
+					.style('top', (event.pageY + 20) + 'px')
+					.style('left', (event.pageX - 80) + 'px');
+			})
+			.on('mouseout', function() {
+				opacityTimer = setTimeout(function() {
+					baseToolTip.style('visibility', 'hidden');
+				}, 100);
+			});
 		})
 		.xAxisLabel('Year', 40)
 		.yAxisLabel('Ideology')
 		.xAxis().tickValues(xTickValues)
 			.tickFormat(function(v) { return (1787 + 2 * v) + 1; });
-
-	// Add legend
-	var svgEl = d3.select('#dim-chart');
 
 	dc.renderAll();
 
@@ -370,12 +430,10 @@ function renderRoster(roster) {
 
 			var linkBox = $('<a></a>').attr('href', m.icpsr ? '/person/' + m.icpsr : '#').attr('class', 'nohover');
 
-			// Image
-			if (m.image_url) {
-				$('<img />').addClass('pull-left bio memberPad10')
-					.attr('src', '/static/img/bios/' + m.image_url)
-					.appendTo(linkBox);
-			}
+			// Image — construct from ICPSR like the party page does
+			$('<img />').addClass('pull-left bio memberPad10')
+				.attr('src', '/static/img/bios/' + icpsrToImage(m.icpsr))
+				.appendTo(linkBox);
 
 			// Bio text
 			var bioText = '<strong>' + m.bioname + '</strong><br/>';
