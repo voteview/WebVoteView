@@ -39,12 +39,13 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="roster_header">
-					<h4>Roster</h4>
-					(Sort by
-					<a href="#" onclick="javascript:resort('name');return false;">Name</a>,
-					<a href="#" onclick="javascript:resort('state');return false;">State</a>,
-					<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-					<a href="#" onclick="javascript:resort('role');return false;">Role</a>)
+				<h4>Roster</h4>
+				<span id="roster-congress-label" style="color: #888;"></span><br/>
+				(Sort by
+				<a href="#" onclick="javascript:resort('name');return false;">Name</a>,
+				<a href="#" onclick="javascript:resort('state');return false;">State</a>,
+				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
+				<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
 				</div>
 				<ul id="memberList" class="party_members clearfix"></ul>
 			</div>

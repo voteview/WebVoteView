@@ -332,6 +332,84 @@ def committees(committee="all", cong_start=-1):
     return output
 
 
+@app.route("/api/getmembersbycommittee")
+def getmembersbycommittee():
+    """ Get members of a committee for a given congress. """
+    from model.config import db
+    from model.bio_data import congress_to_year
+    from model.search_parties import party_noun
+
+    short_name = default_value(bottle.request.params.short_name, "")
+    chamber = default_value(bottle.request.params.chamber, "")
+    try:
+        congress = int(default_value(bottle.request.params.congress, 0))
+    except Exception:
+        congress = 0
+
+    if not short_name or not chamber or not congress:
+        return {"error": "Missing parameters"}
+
+    doc = db.voteview_committees.find_one({
+        "short_name": short_name,
+        "chamber": chamber,
+        "congress": congress
+    })
+
+    if not doc:
+        return {"error": "Committee not found", "results": []}
+
+    results = []
+    for m in doc.get("members", []):
+        icpsr = m.get("icpsr")
+        member_info = {
+            "icpsr": icpsr,
+            "bioname": m.get("bioname", ""),
+            "state_abbrev": m.get("state_abbrev", ""),
+            "party_code": m.get("party_code"),
+            "role": m.get("role", "Member"),
+            "rank": m.get("rank", 0),
+        }
+
+        # Party noun (matches search_members.py:231)
+        if member_info["party_code"]:
+            try:
+                member_info["party_noun"] = party_noun(
+                    member_info["party_code"])
+            except Exception:
+                member_info["party_noun"] = ""
+
+        if icpsr:
+            # Enrich from voteview_members (matches search_members.py pattern)
+            vm = db.voteview_members.find_one(
+                {"icpsr": icpsr, "congress": congress},
+                {"nominate.dim1": 1, "congresses": 1, "chamber": 1,
+                 "state_abbrev": 1}
+            )
+            if vm:
+                nom = vm.get("nominate", {})
+                member_info["nominate"] = {"dim1": nom.get("dim1")}
+                # min_elected: matches party tab (app.py getmembersbyparty)
+                congresses_field = vm.get("congresses", [])
+                if congresses_field:
+                    member_info["min_elected"] = congress_to_year(
+                        int(congresses_field[0][0]), 0)
+                member_info["chamber"] = vm.get("chamber", "")
+                if not member_info["state_abbrev"]:
+                    member_info["state_abbrev"] = vm.get(
+                        "state_abbrev", "")
+
+            # image_url: matches search_members.py:237-241
+            if os.path.isfile("static/img/bios/%s.jpg"
+                              % str(icpsr).zfill(6)):
+                member_info["image_url"] = str(icpsr).zfill(6) + ".jpg"
+            else:
+                member_info["image_url"] = "silhouette.png"
+
+        results.append(member_info)
+
+    return {"results": results, "congress": congress}
+
+
 @app.route("/api/getloyalty")
 def getloyalty(party_code="", cong_number=""):
     """ Get party loyalty for a given party-congress. """
