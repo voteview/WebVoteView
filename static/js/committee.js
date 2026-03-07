@@ -9,7 +9,7 @@ function getGetOrdinal(n) {
 	return n + (s[(v-20)%10] || s[v] || s[0]);
 }
 
-var dimChart;
+var dimChart, sizeChart;
 var committeeData = null;
 var congressLookup = {};
 var currentSort = 'name';
@@ -53,6 +53,13 @@ function buildPage(error, data, congMedians) {
 	addIdeologyTooltip();
 	postRenderIdeologyChart();
 
+	// Size chart legend (HTML, below chart)
+	var sLegend = $('<div></div>').css({'margin-top': '2px', 'font-size': '12px', 'color': '#666'});
+	sLegend.append('<span style="display:inline-block;width:12px;height:12px;background:#0571b0;margin-right:4px;vertical-align:middle;"></span> Democrat &nbsp;&nbsp;');
+	sLegend.append('<span style="display:inline-block;width:12px;height:12px;background:#ca0020;margin-right:4px;vertical-align:middle;"></span> Republican &nbsp;&nbsp;');
+	sLegend.append('<span style="display:inline-block;width:12px;height:12px;background:#404040;margin-right:4px;vertical-align:middle;"></span> Other');
+	$('#size-chart').append(sLegend);
+
 	// Load roster for latest congress via API (matches party tab pattern)
 	var latestCong = congresses[congresses.length - 1];
 	if (latestCong) {
@@ -88,9 +95,8 @@ function switchCongress(congress) {
 }
 
 function highlightBar(congress) {
-	d3.select('#size-chart svg').selectAll('.bar-group').each(function(d) {
-		d3.select(this).selectAll('rect')
-			.attr('opacity', d.congress === congress ? 1.0 : 0.5);
+	d3.select('#size-chart svg').selectAll('rect.bar').each(function(d) {
+		d3.select(this).attr('opacity', d.x === congress ? 1.0 : 0.5);
 	});
 }
 
@@ -319,23 +325,23 @@ function buildIdeologyChart(congresses, congMedians) {
 	var scatterGroup = scatterDim.group();
 
 	var xTickValues = [];
-	for (var t = 6; t < maxCong; t += 10) { xTickValues.push(t); }
-	if (maxCong - xTickValues[xTickValues.length - 1] > 5) {
+	for (var t = 6; t < maxCongress; t += 10) { xTickValues.push(t); }
+	if (maxCongress - xTickValues[xTickValues.length - 1] > 5) {
 		xTickValues.push(xTickValues[xTickValues.length - 1] + 5);
 	}
 
 	dimChart = dc.compositeChart('#dim-chart');
 
 	dimChart
-		.width(chartWidth)
+		.width(1160)
 		.height(chartHeight)
 		.dimension(congressDim)
 		.brushOn(false)
 		.shareTitle(false)
 		.renderTitle(false)
-		.x(d3.scale.linear().domain([Math.max(1, minCong - 1), maxCong + 1]))
+		.x(d3.scale.linear().domain([0, maxCongress + 1]))
 		.y(d3.scale.linear().domain([-1.0, 1.0]))
-		.margins({top: 10, right: 20, bottom: 40, left: 60})
+		.margins({top: 0, left: 50, bottom: 50, right: 50})
 		.compose([
 			dc.scatterPlot(dimChart)
 				.group(scatterGroup)
@@ -390,12 +396,7 @@ function postRenderIdeologyChart() {
 }
 
 function buildSizeChart(congresses) {
-	var chartWidth = Math.min(1140, Math.max(900, Math.round($('#wbv-header').width() * 0.92)));
-	var chartHeight = 180;
-	var margins = {top: 10, right: 20, bottom: 40, left: 60};
-	var innerWidth = chartWidth - margins.left - margins.right;
-	var innerHeight = chartHeight - margins.top - margins.bottom;
-
+	// Prepare data for DC.js stacked barChart (matches party.js:189-210 style)
 	var barData = congresses.map(function(c) {
 		var pb = c.partyBreakdown || {};
 		var dem = pb['100'] || 0;
@@ -410,117 +411,47 @@ function buildSizeChart(congresses) {
 
 	if (barData.length === 0) return;
 
-	var minCong = barData[0].congress;
-	var maxCong = barData[barData.length - 1].congress;
 	var maxMembers = d3.max(barData, function(d) { return d.dem + d.rep + d.other; });
 
-	var svg = d3.select('#size-chart').append('svg')
-		.attr('width', chartWidth)
-		.attr('height', chartHeight);
+	var ndx = crossfilter(barData);
+	var congressDim = ndx.dimension(function(d) { return d.congress; });
+	var demGroup = congressDim.group().reduceSum(function(d) { return d.dem; });
+	var repGroup = congressDim.group().reduceSum(function(d) { return d.rep; });
+	var otherGroup = congressDim.group().reduceSum(function(d) { return d.other; });
 
-	var g = svg.append('g')
-		.attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
-
-	var x = d3.scale.linear()
-		.domain([Math.max(1, minCong - 1), maxCong + 1])
-		.range([0, innerWidth]);
-
-	var y = d3.scale.linear()
-		.domain([0, maxMembers + 2])
-		.range([innerHeight, 0]);
-
-	var barWidth = Math.max(1, Math.floor(innerWidth / (maxCong - minCong + 3)) - 1);
-
-	// Draw stacked bars (clickable, like party tab: party.js:199-203)
-	var bars = g.selectAll('.bar-group')
-		.data(barData)
-		.enter()
-		.append('g')
-		.attr('class', 'bar-group')
-		.attr('transform', function(d) {
-			return 'translate(' + (x(d.congress) - barWidth / 2) + ',0)';
-		})
-		.style('cursor', 'pointer')
-		.on('click', function(d) {
-			switchCongress(d.congress);
-		});
-
-	// Democrat (bottom, blue)
-	bars.append('rect')
-		.attr('y', function(d) { return y(d.dem); })
-		.attr('width', barWidth)
-		.attr('height', function(d) { return innerHeight - y(d.dem); })
-		.attr('fill', '#0571b0');
-
-	// Republican (stacked above dem, red)
-	bars.append('rect')
-		.attr('y', function(d) { return y(d.dem + d.rep); })
-		.attr('width', barWidth)
-		.attr('height', function(d) { return y(d.dem) - y(d.dem + d.rep); })
-		.attr('fill', '#ca0020');
-
-	// Other (stacked on top, grey)
-	bars.filter(function(d) { return d.other > 0; })
-		.append('rect')
-		.attr('y', function(d) { return y(d.dem + d.rep + d.other); })
-		.attr('width', barWidth)
-		.attr('height', function(d) { return y(d.dem + d.rep) - y(d.dem + d.rep + d.other); })
-		.attr('fill', '#404040');
-
-	// X axis
+	// X-axis ticks (matches party tab)
 	var xTickValues = [];
-	for (var t = 6; t < maxCong; t += 10) { xTickValues.push(t); }
-	if (maxCong - xTickValues[xTickValues.length - 1] > 5) {
+	for (var t = 6; t < maxCongress; t += 10) { xTickValues.push(t); }
+	if (maxCongress - xTickValues[xTickValues.length - 1] > 5) {
 		xTickValues.push(xTickValues[xTickValues.length - 1] + 5);
 	}
 
-	g.append('g')
-		.attr('class', 'x axis')
-		.attr('transform', 'translate(0,' + innerHeight + ')')
-		.call(d3.svg.axis().scale(x).orient('bottom')
-			.tickValues(xTickValues)
-			.tickFormat(function(v) { return (1787 + 2 * v) + 1; }));
+	sizeChart = dc.barChart('#size-chart');
 
-	g.append('g')
-		.attr('class', 'y axis')
-		.call(d3.svg.axis().scale(y).orient('left')
-			.ticks(5).tickFormat(d3.format('d')));
+	sizeChart
+		.width(1160)
+		.height(180)
+		.dimension(congressDim)
+		.group(demGroup, 'Democrat')
+		.stack(repGroup, 'Republican')
+		.stack(otherGroup, 'Other')
+		.ordinalColors(['#0571b0', '#ca0020', '#404040'])
+		.brushOn(false)
+		.renderTitle(false)
+		.x(d3.scale.linear().domain([0, maxCongress + 1]))
+		.y(d3.scale.linear().domain([0, maxMembers + 2]))
+		.on('renderlet.click', function(chart) {
+			chart.selectAll('rect.bar').on('click.custom', function(d) {
+				switchCongress(d.x);
+			});
+		})
+		.margins({top: 0, left: 50, bottom: 50, right: 50})
+		.xAxisLabel('Year').yAxisLabel('Members')
+		.xAxis().tickValues(xTickValues).tickFormat(function(v) {
+			return (1787 + 2 * v) + 1;
+		});
 
-	// Axis labels
-	svg.append('text')
-		.attr('transform', 'translate(' + (chartWidth / 2) + ',' + (chartHeight - 2) + ')')
-		.style('text-anchor', 'middle')
-		.style('font-size', '12px')
-		.text('Year');
-
-	svg.append('text')
-		.attr('transform', 'translate(15,' + (margins.top + innerHeight / 2) + ') rotate(-90)')
-		.style('text-anchor', 'middle')
-		.style('font-size', '12px')
-		.text('Members');
-
-	// Legend
-	var legendG = svg.append('g')
-		.attr('transform', 'translate(' + (margins.left + 10) + ',' + (margins.top + 2) + ')');
-
-	var legendItems = [
-		{color: '#0571b0', label: 'Democrat'},
-		{color: '#ca0020', label: 'Republican'},
-		{color: '#404040', label: 'Other'}
-	];
-	legendItems.forEach(function(item, i) {
-		legendG.append('rect')
-			.attr('x', i * 100)
-			.attr('width', 12)
-			.attr('height', 12)
-			.attr('fill', item.color);
-		legendG.append('text')
-			.attr('x', i * 100 + 16)
-			.attr('y', 10)
-			.style('font-size', '11px')
-			.style('fill', '#666')
-			.text(item.label);
-	});
+	sizeChart.yAxis().ticks(5).tickFormat(d3.format('d'));
 }
 
 // Load data
