@@ -22,9 +22,7 @@
 
 		<div class="row pad_bottom">
 			<div class="col-md-12">
-				<h4>Ideology Over Time
-					<small><a class="reset" href="javascript:dimChart.filterAll();dc.redrawAll();">reset</a></small>
-				</h4>
+				<h4>Ideology Over Time</h4>
 				<div id="dim-chart"></div>
 			</div>
 		</div>
