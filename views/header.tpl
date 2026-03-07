@@ -16,6 +16,8 @@
 
         <li><a href="/parties/all">party</a></li>
 
+        <li><a href="/committees/all">committee</a></li>
+
         <li><a href="/district">geography</a></li>
 
         <li><a href="/data">data</a></li>

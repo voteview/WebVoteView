@@ -29,6 +29,7 @@ static/img/scans/**/*.sgm
 static/articles/
 static/json
 static/partyjson
+static/committeejson
 static/controljson
 static/carousel
 model/email/newsletter_list.json

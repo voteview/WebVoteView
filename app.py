@@ -305,6 +305,33 @@ def parties(party="all", cong_start=-1):
     return output
 
 
+@app.route("/committees")
+@app.route("/committees/<committee>")
+@app.route("/committees/<committee>/<cong_start>")
+def committees(committee="all", cong_start=-1):
+    """ Show committees overview or individual committee page. """
+    max_congress = config["max_congress"]
+
+    if committee == "all":
+        output = bottle.template("views/committees_glance",
+                                 max_congress=max_congress)
+        return output
+
+    if isinstance(cong_start, str):
+        try:
+            cong_start = int(cong_start)
+        except Exception:
+            cong_start = -1
+    if cong_start == -1:
+        cong_start = int(max_congress)
+
+    output = bottle.template("views/committees",
+                             committee=committee,
+                             cong_start=cong_start,
+                             max_congress=max_congress)
+    return output
+
+
 @app.route("/api/getloyalty")
 def getloyalty(party_code="", cong_number=""):
     """ Get party loyalty for a given party-congress. """
