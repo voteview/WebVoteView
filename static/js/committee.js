@@ -9,14 +9,15 @@ function getGetOrdinal(n) {
 	return n + (s[(v-20)%10] || s[v] || s[0]);
 }
 
-var dimChart, sizeChart;
+var dimChart;
 var committeeData = null;
+var congressLookup = {};
 var currentSort = 'role';
 var opacityTimer;
 
 function partyColor(partyCode) {
-	if (partyCode === 100) return colorSchemes['blue'][0];   // Democrat
-	if (partyCode === 200) return colorSchemes['red'][0];    // Republican
+	if (partyCode === 100) return colorSchemes['blue'][0];
+	if (partyCode === 200) return colorSchemes['red'][0];
 	return colorSchemes['grey'][0];
 }
 
@@ -58,10 +59,13 @@ function buildPage(error, data, congMedians) {
 		$('#name-variants').html('Also known as: ' + data.name_variants.join(', '));
 	}
 
-	// Build charts (dc.renderAll called after both are set up)
+	// Build charts
 	buildIdeologyChart(congresses, congMedians);
 	buildSizeChart(congresses);
 	dc.renderAll();
+
+	// Add ideology chart tooltip AFTER dc.renderAll so overlay sits on top
+	addIdeologyTooltip();
 	postRenderIdeologyChart();
 
 	// Build roster for current congress
@@ -74,13 +78,59 @@ function buildPage(error, data, congMedians) {
 	$('#content').fadeIn();
 }
 
+function addIdeologyTooltip() {
+	if (!dimChart) return;
+	var baseToolTip = d3.select('#committeeTooltip');
+	if (!baseToolTip.node()) return;
+
+	var svg = d3.select('#dim-chart svg');
+	if (!svg.node()) return;
+
+	var margins = dimChart.margins();
+	var innerWidth = dimChart.width() - margins.left - margins.right;
+	var innerHeight = dimChart.height() - margins.top - margins.bottom;
+
+	// Append overlay rect directly to SVG (last child = on top of everything)
+	var overlay = svg.append('rect')
+		.attr('x', margins.left)
+		.attr('y', margins.top)
+		.attr('width', innerWidth)
+		.attr('height', innerHeight)
+		.style('fill', 'none')
+		.style('pointer-events', 'all');
+
+	overlay.on('mousemove', function() {
+		var mousePos = d3.mouse(this);
+		var xScale = dimChart.x();
+		var congress = Math.round(xScale.invert(mousePos[0] - margins.left));
+		var info = congressLookup[congress];
+		if (!info) {
+			baseToolTip.style('visibility', 'hidden');
+			return;
+		}
+
+		clearTimeout(opacityTimer);
+		var year = 1787 + 2 * congress;
+		var html = '<p><strong>' + getGetOrdinal(congress) + ' Congress</strong> (' + year + '-' + (year + 1) + ')</p>';
+		html += '<p><em>Committee Median Ideology</em>: ' + (info.committeeMedian != null ? (Math.round(info.committeeMedian * 100) / 100) : 'N/A') + '</p>';
+		html += '<p><em>Congress Median</em>: ' + (info.congressMedian != null ? (Math.round(info.congressMedian * 100) / 100) : 'N/A') + '</p>';
+		html += '<p><em>Members</em>: ' + info.nMembers + '</p>';
+
+		baseToolTip.html(html);
+		baseToolTip.style('visibility', 'visible')
+			.style('top', (d3.event.pageY + 20) + 'px')
+			.style('left', (d3.event.pageX - 80) + 'px');
+	})
+	.on('mouseout', function() {
+		opacityTimer = setTimeout(function() {
+			baseToolTip.style('visibility', 'hidden');
+		}, 100);
+	});
+}
+
 function buildIdeologyChart(congresses, congMedians) {
-	// Prepare scatter data: each member score as a point
 	var scatterData = [];
 	var lineData = [];
-
-	// Build a lookup for tooltip: congress -> {committeeMedian, congressMedian, nMembers}
-	var congressLookup = {};
 
 	congresses.forEach(function(c) {
 		congressLookup[c.congress] = {
@@ -115,12 +165,11 @@ function buildIdeologyChart(congresses, congMedians) {
 	var minCong = congresses[0].congress;
 	var maxCong = congresses[congresses.length - 1].congress;
 
-	// Chart dimensions
 	var chartWidth = Math.min(1140, Math.max(900, Math.round($('#wbv-header').width() * 0.92)));
 	var chartHeight = Math.max(280, Math.round(chartWidth / 2.9));
 
-	// Tooltip
-	var baseToolTip = d3.select('body')
+	// Tooltip div (referenced later by addIdeologyTooltip)
+	d3.select('body')
 		.append('div')
 		.attr('class', 'd3-tip')
 		.attr('id', 'committeeTooltip')
@@ -132,12 +181,10 @@ function buildIdeologyChart(congresses, congMedians) {
 	var committeeMedianGroup = congressDim.group().reduceSum(function(d) { return d.committeeMedian; });
 	var congressMedianGroup = congressDim.group().reduceSum(function(d) { return d.congressMedian; });
 
-	// Scatter
 	var scatterNdx = crossfilter(scatterData);
 	var scatterDim = scatterNdx.dimension(function(d) { return [d.x, d.y]; });
 	var scatterGroup = scatterDim.group();
 
-	// X-axis ticks every 10 congresses
 	var xTickValues = [];
 	for (var t = 6; t < maxCong; t += 10) { xTickValues.push(t); }
 	if (maxCong - xTickValues[xTickValues.length - 1] > 5) {
@@ -175,54 +222,11 @@ function buildIdeologyChart(congresses, congMedians) {
 		.on('postRender', function() {
 			d3.select('#dim-chart svg').select('g.sub')
 				.selectAll('path.symbol').attr('opacity', '0.4');
-
-			// Add mouseover tooltip to the chart area
-			var chartBody = d3.select('#dim-chart svg');
-			var margins = dimChart.margins();
-			var innerWidth = chartWidth - margins.left - margins.right;
-
-			// Invisible overlay rect for mouseover
-			var overlay = chartBody.select('g').append('rect')
-				.attr('class', 'overlay')
-				.attr('transform', 'translate(' + margins.left + ',' + margins.top + ')')
-				.attr('width', innerWidth)
-				.attr('height', chartHeight - margins.top - margins.bottom)
-				.style('fill', 'none')
-				.style('pointer-events', 'all');
-
-			overlay.on('mousemove', function() {
-				var coords = d3.mouse(this);
-				var xScale = dimChart.x();
-				var congress = Math.round(xScale.invert(coords[0]));
-				var info = congressLookup[congress];
-				if (!info) {
-					baseToolTip.style('visibility', 'hidden');
-					return;
-				}
-
-				clearTimeout(opacityTimer);
-				var year = 1787 + 2 * congress;
-				var html = '<p><strong>' + getGetOrdinal(congress) + ' Congress</strong> (' + year + '-' + (year + 1) + ')</p>';
-				html += '<p><em>Committee Median Ideology</em>: ' + (info.committeeMedian != null ? (Math.round(info.committeeMedian * 100) / 100) : 'N/A') + '</p>';
-				html += '<p><em>Congress Median</em>: ' + (info.congressMedian != null ? (Math.round(info.congressMedian * 100) / 100) : 'N/A') + '</p>';
-				html += '<p><em>Members</em>: ' + info.nMembers + '</p>';
-
-				baseToolTip.html(html);
-				baseToolTip.style('visibility', 'visible')
-					.style('top', (d3.event.pageY + 20) + 'px')
-					.style('left', (d3.event.pageX - 80) + 'px');
-			})
-			.on('mouseout', function() {
-				opacityTimer = setTimeout(function() {
-					baseToolTip.style('visibility', 'hidden');
-				}, 100);
-			});
 		})
 		.xAxisLabel('Year', 40)
 		.yAxisLabel('Ideology')
 		.xAxis().tickValues(xTickValues)
 			.tickFormat(function(v) { return (1787 + 2 * v) + 1; });
-
 }
 
 function postRenderIdeologyChart() {
@@ -256,50 +260,131 @@ function postRenderIdeologyChart() {
 
 function buildSizeChart(congresses) {
 	var chartWidth = Math.min(1140, Math.max(900, Math.round($('#wbv-header').width() * 0.92)));
+	var chartHeight = 180;
+	var margins = {top: 10, right: 20, bottom: 40, left: 60};
+	var innerWidth = chartWidth - margins.left - margins.right;
+	var innerHeight = chartHeight - margins.top - margins.bottom;
 
-	// Use DC.js barChart to match party page style
 	var barData = congresses.map(function(c) {
-		return { congress: c.congress, nMembers: c.nMembers };
+		var pb = c.partyBreakdown || {};
+		var dem = pb['100'] || 0;
+		var rep = pb['200'] || 0;
+		return {
+			congress: c.congress,
+			dem: dem,
+			rep: rep,
+			other: Math.max(0, c.nMembers - dem - rep)
+		};
 	});
 
 	if (barData.length === 0) return;
 
 	var minCong = barData[0].congress;
 	var maxCong = barData[barData.length - 1].congress;
-	var maxMembers = d3.max(barData, function(d) { return d.nMembers; });
+	var maxMembers = d3.max(barData, function(d) { return d.dem + d.rep + d.other; });
 
-	var ndx = crossfilter(barData);
-	var congressDim = ndx.dimension(function(d) { return d.congress; });
-	var membersGroup = congressDim.group().reduceSum(function(d) { return d.nMembers; });
+	var svg = d3.select('#size-chart').append('svg')
+		.attr('width', chartWidth)
+		.attr('height', chartHeight);
 
+	var g = svg.append('g')
+		.attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+
+	var x = d3.scale.linear()
+		.domain([Math.max(1, minCong - 1), maxCong + 1])
+		.range([0, innerWidth]);
+
+	var y = d3.scale.linear()
+		.domain([0, maxMembers + 2])
+		.range([innerHeight, 0]);
+
+	var barWidth = Math.max(1, Math.floor(innerWidth / (maxCong - minCong + 3)) - 1);
+
+	// Draw stacked bars
+	var bars = g.selectAll('.bar-group')
+		.data(barData)
+		.enter()
+		.append('g')
+		.attr('transform', function(d) {
+			return 'translate(' + (x(d.congress) - barWidth / 2) + ',0)';
+		});
+
+	// Democrat (bottom, blue)
+	bars.append('rect')
+		.attr('y', function(d) { return y(d.dem); })
+		.attr('width', barWidth)
+		.attr('height', function(d) { return innerHeight - y(d.dem); })
+		.attr('fill', '#0571b0');
+
+	// Republican (stacked above dem, red)
+	bars.append('rect')
+		.attr('y', function(d) { return y(d.dem + d.rep); })
+		.attr('width', barWidth)
+		.attr('height', function(d) { return y(d.dem) - y(d.dem + d.rep); })
+		.attr('fill', '#ca0020');
+
+	// Other (stacked on top, grey)
+	bars.filter(function(d) { return d.other > 0; })
+		.append('rect')
+		.attr('y', function(d) { return y(d.dem + d.rep + d.other); })
+		.attr('width', barWidth)
+		.attr('height', function(d) { return y(d.dem + d.rep) - y(d.dem + d.rep + d.other); })
+		.attr('fill', '#404040');
+
+	// X axis
 	var xTickValues = [];
 	for (var t = 6; t < maxCong; t += 10) { xTickValues.push(t); }
 	if (maxCong - xTickValues[xTickValues.length - 1] > 5) {
 		xTickValues.push(xTickValues[xTickValues.length - 1] + 5);
 	}
 
-	// Determine primary party color for bar
-	var chamberColor = committeeData.chamber === 'House' ? '#0571b0' :
-		committeeData.chamber === 'Senate' ? '#ca0020' : '#7b3294';
+	g.append('g')
+		.attr('class', 'x axis')
+		.attr('transform', 'translate(0,' + innerHeight + ')')
+		.call(d3.svg.axis().scale(x).orient('bottom')
+			.tickValues(xTickValues)
+			.tickFormat(function(v) { return (1787 + 2 * v) + 1; }));
 
-	sizeChart = dc.barChart('#size-chart');
-	sizeChart
-		.width(chartWidth)
-		.height(180)
-		.dimension(congressDim)
-		.group(membersGroup)
-		.elasticX(true)
-		.brushOn(false)
-		.colors([chamberColor])
-		.x(d3.scale.linear().domain([Math.max(0, minCong - 1), maxCong + 1]))
-		.y(d3.scale.linear().domain([0, maxMembers + 1]))
-		.margins({top: 0, left: 50, bottom: 50, right: 50})
-		.xAxisLabel('Year').yAxisLabel('Members')
-		.xAxis().tickValues(xTickValues).tickFormat(function(v) {
-			return (1787 + 2 * v) + 1;
-		});
+	g.append('g')
+		.attr('class', 'y axis')
+		.call(d3.svg.axis().scale(y).orient('left')
+			.ticks(5).tickFormat(d3.format('d')));
 
-	sizeChart.yAxis().ticks(5).tickFormat(d3.format('d'));
+	// Axis labels
+	svg.append('text')
+		.attr('transform', 'translate(' + (chartWidth / 2) + ',' + (chartHeight - 2) + ')')
+		.style('text-anchor', 'middle')
+		.style('font-size', '12px')
+		.text('Year');
+
+	svg.append('text')
+		.attr('transform', 'translate(15,' + (margins.top + innerHeight / 2) + ') rotate(-90)')
+		.style('text-anchor', 'middle')
+		.style('font-size', '12px')
+		.text('Members');
+
+	// Legend
+	var legendG = svg.append('g')
+		.attr('transform', 'translate(' + (margins.left + 10) + ',' + (margins.top + 2) + ')');
+
+	var legendItems = [
+		{color: '#0571b0', label: 'Democrat'},
+		{color: '#ca0020', label: 'Republican'},
+		{color: '#404040', label: 'Other'}
+	];
+	legendItems.forEach(function(item, i) {
+		legendG.append('rect')
+			.attr('x', i * 100)
+			.attr('width', 12)
+			.attr('height', 12)
+			.attr('fill', item.color);
+		legendG.append('text')
+			.attr('x', i * 100 + 16)
+			.attr('y', 10)
+			.style('font-size', '11px')
+			.style('fill', '#666')
+			.text(item.label);
+	});
 }
 
 function resort(sortB) {
@@ -358,12 +443,10 @@ function renderRoster(roster) {
 
 			var linkBox = $('<a></a>').attr('href', m.icpsr ? '/person/' + m.icpsr : '#').attr('class', 'nohover');
 
-			// Image — construct from ICPSR like the party page does
 			$('<img />').addClass('pull-left bio memberPad10')
 				.attr('src', '/static/img/bios/' + icpsrToImage(m.icpsr))
 				.appendTo(linkBox);
 
-			// Bio text — match party page: Name, State, Chamber, Role/NOMINATE
 			var fullState = (typeof stateMap !== 'undefined' && stateMap[m.state_abbrev]) ?
 				stateMap[m.state_abbrev] : (m.state_abbrev || '');
 			var bioText = '<strong>' + m.bioname + '</strong><br/>';
@@ -371,8 +454,8 @@ function renderRoster(roster) {
 			bioText += chamberLabel + '<br/>';
 			if (m.role && m.role !== 'Member') {
 				bioText += '<em>' + m.role + '</em>';
-			} else if (m.nominate != null) {
-				bioText += 'NOMINATE: ' + m.nominate.toFixed(3);
+			} else if (m.min_elected != null) {
+				bioText += 'Elected ' + m.min_elected;
 			}
 
 			$('<span></span>').html(bioText).appendTo(linkBox);
