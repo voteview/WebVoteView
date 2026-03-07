@@ -359,8 +359,14 @@ def getmembersbycommittee():
         return {"error": "Committee not found", "results": []}
 
     results = []
+    seen_icpsr = set()
     for m in doc.get("members", []):
         icpsr = m.get("icpsr")
+        # Deduplicate by icpsr (data may have duplicates from name merging)
+        if icpsr and icpsr in seen_icpsr:
+            continue
+        if icpsr:
+            seen_icpsr.add(icpsr)
         member_info = {
             "icpsr": icpsr,
             "bioname": m.get("bioname", ""),
