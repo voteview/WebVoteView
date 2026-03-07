@@ -54,10 +54,13 @@
 
 <script language="javascript">
 	var committee_param = "{{ committee }}";
+	var mapParties = 1;
 	var congressNum = {{cong_start}};
 	var maxCongress = {{max_congress}};
+	var chamber_param = "both";
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/stateMeta.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
