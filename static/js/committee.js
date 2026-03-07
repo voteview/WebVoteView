@@ -202,15 +202,15 @@ function buildIdeologyChart(congresses, congMedians) {
 
 				clearTimeout(opacityTimer);
 				var year = 1787 + 2 * congress;
-				var html = '<p>' + getGetOrdinal(congress) + ' Congress (' + year + '-' + (year + 1) + ')</p>';
-				html += '<p><em>Committee Median</em>: ' + (info.committeeMedian != null ? info.committeeMedian.toFixed(3) : 'N/A') + '</p>';
-				html += '<p><em>Congress Median</em>: ' + (info.congressMedian != null ? info.congressMedian.toFixed(3) : 'N/A') + '</p>';
+				var html = '<p><strong>' + getGetOrdinal(congress) + ' Congress</strong> (' + year + '-' + (year + 1) + ')</p>';
+				html += '<p><em>Committee Median Ideology</em>: ' + (info.committeeMedian != null ? (Math.round(info.committeeMedian * 100) / 100) : 'N/A') + '</p>';
+				html += '<p><em>Congress Median</em>: ' + (info.congressMedian != null ? (Math.round(info.congressMedian * 100) / 100) : 'N/A') + '</p>';
 				html += '<p><em>Members</em>: ' + info.nMembers + '</p>';
 
 				baseToolTip.html(html);
 				baseToolTip.style('visibility', 'visible')
-					.style('top', (event.pageY + 20) + 'px')
-					.style('left', (event.pageX - 80) + 'px');
+					.style('top', (d3.event.pageY + 20) + 'px')
+					.style('left', (d3.event.pageX - 80) + 'px');
 			})
 			.on('mouseout', function() {
 				opacityTimer = setTimeout(function() {
