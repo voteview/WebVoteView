@@ -22,7 +22,9 @@ var baseToolTip = d3.select('body')
 	.append('div')
 	.attr('class', 'd3-tip')
 	.attr('id', 'committeeTooltip')
-	.style('visibility', 'hidden');
+	.style('visibility', 'hidden')
+	.style('position', 'absolute')
+	.style('z-index', '200');
 
 function partyName(partyCode) {
 	if (partyCode === 100) return 'Democrat';
