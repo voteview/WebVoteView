@@ -10,6 +10,7 @@ function getGetOrdinal(n) {
 }
 
 var allCommittees = [];
+var selectedGlanceCongress = congressNum;
 
 function generateCommitteeList(committees) {
 	allCommittees = committees;
@@ -32,6 +33,18 @@ function generateCommitteeList(committees) {
 		applyFilters();
 	});
 
+	// Wire up congress selector
+	$('#congress-go').click(function() {
+		var val = parseInt($('#congress-selector').val());
+		if (!isNaN(val) && val >= 1 && val <= congressNum) {
+			selectedGlanceCongress = val;
+			applyFilters();
+		}
+	});
+	$('#congress-selector').on('keypress', function(e) {
+		if (e.which === 13) { $('#congress-go').click(); }
+	});
+
 	$("#loading-container").delay(200).slideUp(100);
 	$("#content").fadeIn();
 }
@@ -40,24 +53,30 @@ function applyFilters() {
 	var chamber = $('#chamber-filter button.active').attr('data-chamber');
 	var search = $('#committee-search').val().toLowerCase().trim();
 	var activeOnly = $('#show-active-only').is(':checked');
+	var isHistorical = selectedGlanceCongress < congressNum;
 
 	var filtered = allCommittees.filter(function(c) {
 		if (chamber !== 'all' && c.chamber !== chamber) return false;
 		if (search && c.short_name.toLowerCase().indexOf(search) === -1) return false;
-		if (activeOnly && c.max_congress < congressNum) return false;
+		// "Active" means active as of the selected congress
+		if (activeOnly && (c.min_congress > selectedGlanceCongress || c.max_congress < selectedGlanceCongress)) return false;
+		if (!activeOnly && isHistorical) {
+			// Still filter to committees that existed by the selected congress
+			// (don't show committees that started after)
+		}
 		return true;
 	});
 
-	renderTable(filtered);
+	renderTable(filtered, isHistorical);
 }
 
-function renderTable(committees) {
+function renderTable(committees, isHistorical) {
 	$('#committees_list').empty();
 
-	// Sort: active first (by max_congress desc), then by short_name
+	// Sort: active (relative to selected congress) first, then by short_name
 	committees.sort(function(a, b) {
-		var aActive = a.max_congress >= congressNum ? 1 : 0;
-		var bActive = b.max_congress >= congressNum ? 1 : 0;
+		var aActive = (a.min_congress <= selectedGlanceCongress && a.max_congress >= selectedGlanceCongress) ? 1 : 0;
+		var bActive = (b.min_congress <= selectedGlanceCongress && b.max_congress >= selectedGlanceCongress) ? 1 : 0;
 		if (bActive !== aActive) return bActive - aActive;
 		// Among active: sort by name
 		if (aActive) return a.short_name.localeCompare(b.short_name);
@@ -94,7 +113,7 @@ function renderTable(committees) {
 
 	for (var i = 0; i < committees.length; i++) {
 		var c = committees[i];
-		var isActive = c.max_congress >= congressNum;
+		var isActive = c.min_congress <= selectedGlanceCongress && c.max_congress >= selectedGlanceCongress;
 
 		var row = $('<tr></tr>')
 			.addClass('row committee_row')
@@ -127,15 +146,16 @@ function renderTable(committees) {
 			.addClass('col-md-2')
 			.appendTo(row);
 
-		// Members
-		$('<td></td>').html(isActive ? c.current_members : '&mdash;')
-			.attr('data-sort-value', c.current_members || 0)
+		// Members — only show current data when viewing current congress
+		var showCurrentData = isActive && !isHistorical;
+		$('<td></td>').html(showCurrentData ? c.current_members : '&mdash;')
+			.attr('data-sort-value', showCurrentData ? (c.current_members || 0) : 0)
 			.addClass('col-md-1')
 			.appendTo(row);
 
 		// Party composition stacked bar
 		var compCell = $('<td></td>').addClass('col-md-5').attr('data-sort-value', i);
-		if (isActive && c.current_party_breakdown && c.current_members > 0) {
+		if (showCurrentData && c.current_party_breakdown && c.current_members > 0) {
 			var pb = c.current_party_breakdown;
 			var dems = pb['100'] || 0;
 			var reps = pb['200'] || 0;

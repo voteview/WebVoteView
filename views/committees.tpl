@@ -17,6 +17,7 @@
 					<span id="committee-name">Loading...</span>
 				</h3>
 				<p id="name-variants" style="color: #888;"></p>
+				<div id="succession-links" style="color: #555;"></div>
 			</div>
 		</div>
 
@@ -38,12 +39,22 @@
 			<div class="col-md-12">
 				<div class="roster_header">
 				<h4>Roster</h4>
-				<span id="roster-congress-label" style="color: #888;"></span><br/>
+				<span id="roster-congress-label" style="color: #888;"></span>
+				<span class="congressControl" style="margin-left: 15px;">
+					<strong>Jump to Year:</strong>
+					<input type="text" id="yearNum" style="width: 60px;">
+					<input type="button" onclick="javascript:switchCongressFromYear($('#yearNum').val());" value="Switch">
+					&nbsp;&nbsp;
+					<strong>Jump to Congress:</strong>
+					<input type="text" id="congNum" style="width: 50px;">
+					<input type="button" onclick="javascript:switchCongress($('#congNum').val());" value="Switch">
+				</span>
+				<br/>
 				(Sort by
 				<a href="#" onclick="javascript:resort('name');return false;">Name</a>,
 				<a href="#" onclick="javascript:resort('state');return false;">State</a>,
 				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-				<a href="#" onclick="javascript:resort('elected');return false;">Seniority</a>)
+				<a href="#" onclick="javascript:resort('elected');return false;">Committee Rank</a>)
 				</div>
 				<ul id="memberList" class="party_members clearfix"></ul>
 			</div>

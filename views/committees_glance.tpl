@@ -31,6 +31,11 @@
 					<label style="margin-left: 15px; font-weight: normal;">
 						<input type="checkbox" id="show-active-only" checked> Active committees only
 					</label>
+					<span style="margin-left: 15px;">
+						<strong>Congress:</strong>
+						<input type="number" id="congress-selector" style="width: 60px;" value="{{max_congress}}" min="1" max="{{max_congress}}">
+						<input type="button" id="congress-go" value="Go">
+					</span>
 				</div>
 
 			</div>
