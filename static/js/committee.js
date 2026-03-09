@@ -73,7 +73,13 @@ function buildPage(error, data, congMedians) {
 	document.title = 'Voteview | ' + chamberLabel + ' ' + data.short_name;
 
 	if (data.name_variants && data.name_variants.length > 0) {
-		$('#name-variants').html('Also known as: ' + data.name_variants.join(', '));
+		var variantHtml = data.name_variants.map(function(v) {
+			if (typeof v === 'string') return v;  // backwards compat
+			var minYear = 1787 + 2 * v.min_congress + 1;
+			var maxYear = 1787 + 2 * v.max_congress + 1;
+			return v.name + ' <span style="color:#aaa;">(' + minYear + '\u2013' + maxYear + ')</span>';
+		}).join(', ');
+		$('#name-variants').html('Also known as: ' + variantHtml);
 	}
 
 	// Predecessor/successor links
