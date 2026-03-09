@@ -350,7 +350,7 @@ function addIdeologyTooltips() {
 }
 
 // Resolve party color scheme name to hex colors [primary, light]
-function partyColors(colorName) {
+function partyColorScheme(colorName) {
 	var scheme = colorSchemes[colorName] || colorSchemes['grey'];
 	return {primary: scheme[0], light: scheme[1]};
 }
@@ -369,8 +369,8 @@ function buildIdeologyChart(congresses, congMedians) {
 			break;
 		}
 	}
-	var libHex = partyColors(libColor);
-	var conHex = partyColors(conColor);
+	var libHex = partyColorScheme(libColor);
+	var conHex = partyColorScheme(conColor);
 
 	// Store for legend/tooltip
 	committeePartyInfo = {
@@ -522,8 +522,8 @@ function buildSizeChart(congresses) {
 	if (!p1Code) { p1Code = '100'; p1Name = 'Democrat'; p1Color = 'blue'; }
 	if (!p2Code) { p2Code = '200'; p2Name = 'Republican'; p2Color = 'red'; }
 
-	var p1Hex = partyColors(p1Color).primary;
-	var p2Hex = partyColors(p2Color).primary;
+	var p1Hex = partyColorScheme(p1Color).primary;
+	var p2Hex = partyColorScheme(p2Color).primary;
 
 	// Store for size chart legend
 	committeePartyInfo = committeePartyInfo || {};
