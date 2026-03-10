@@ -10,10 +10,20 @@ function getGetOrdinal(n) {
 }
 
 var allCommittees = [];
+var committeeHistory = {};
+var partyCodeInfo = {};
 var selectedGlanceCongress = congressNum;
 
-function generateCommitteeList(committees) {
+function partyAbbrev(name) {
+	if (name === 'Democrat' || name === 'Democrat-Republican') return 'D';
+	if (name === 'Republican') return 'R';
+	return name.substring(0, 4).trim();
+}
+
+function generateCommitteeList(committees, history) {
 	allCommittees = committees;
+	committeeHistory = history.committees;
+	partyCodeInfo = history.party_codes;
 	applyFilters();
 
 	// Wire up chamber filter buttons
@@ -23,26 +33,13 @@ function generateCommitteeList(committees) {
 		applyFilters();
 	});
 
-	// Wire up search
-	$('#committee-search').on('input', function() {
-		applyFilters();
-	});
-
-	// Wire up active-only checkbox
-	$('#show-active-only').change(function() {
-		applyFilters();
-	});
-
 	// Wire up congress selector
-	$('#congress-go').click(function() {
-		var val = parseInt($('#congress-selector').val());
+	$('#congress-selector').change(function() {
+		var val = parseInt($(this).val());
 		if (!isNaN(val) && val >= 1 && val <= congressNum) {
 			selectedGlanceCongress = val;
 			applyFilters();
 		}
-	});
-	$('#congress-selector').on('keypress', function(e) {
-		if (e.which === 13) { $('#congress-go').click(); }
 	});
 
 	$("#loading-container").delay(200).slideUp(100);
@@ -51,37 +48,22 @@ function generateCommitteeList(committees) {
 
 function applyFilters() {
 	var chamber = $('#chamber-filter button.active').attr('data-chamber');
-	var search = $('#committee-search').val().toLowerCase().trim();
-	var activeOnly = $('#show-active-only').is(':checked');
-	var isHistorical = selectedGlanceCongress < congressNum;
 
 	var filtered = allCommittees.filter(function(c) {
 		if (chamber !== 'all' && c.chamber !== chamber) return false;
-		if (search && c.short_name.toLowerCase().indexOf(search) === -1) return false;
-		// "Active" means active as of the selected congress
-		if (activeOnly && (c.min_congress > selectedGlanceCongress || c.max_congress < selectedGlanceCongress)) return false;
-		if (!activeOnly && isHistorical) {
-			// Still filter to committees that existed by the selected congress
-			// (don't show committees that started after)
-		}
+		// Only show committees active in the selected congress
+		if (c.min_congress > selectedGlanceCongress || c.max_congress < selectedGlanceCongress) return false;
 		return true;
 	});
 
-	renderTable(filtered, isHistorical);
+	renderTable(filtered);
 }
 
-function renderTable(committees, isHistorical) {
+function renderTable(committees) {
 	$('#committees_list').empty();
 
-	// Sort: active (relative to selected congress) first, then by short_name
+	// Sort alphabetically by name (all shown committees are active in selected congress)
 	committees.sort(function(a, b) {
-		var aActive = (a.min_congress <= selectedGlanceCongress && a.max_congress >= selectedGlanceCongress) ? 1 : 0;
-		var bActive = (b.min_congress <= selectedGlanceCongress && b.max_congress >= selectedGlanceCongress) ? 1 : 0;
-		if (bActive !== aActive) return bActive - aActive;
-		// Among active: sort by name
-		if (aActive) return a.short_name.localeCompare(b.short_name);
-		// Among defunct: sort by max_congress desc, then name
-		if (b.max_congress !== a.max_congress) return b.max_congress - a.max_congress;
 		return a.short_name.localeCompare(b.short_name);
 	});
 
@@ -90,10 +72,13 @@ function renderTable(committees, isHistorical) {
 		return;
 	}
 
-	// Find max members for scaling the composition bar
+	// Gather per-congress member counts for scaling the composition bar
 	var maxMembers = 0;
 	committees.forEach(function(c) {
-		if (c.current_members > maxMembers) maxMembers = c.current_members;
+		var hist = committeeHistory[c.slug];
+		var entry = hist && hist[String(selectedGlanceCongress)];
+		var n = entry ? entry.n : 0;
+		if (n > maxMembers) maxMembers = n;
 	});
 
 	var table = $('<table></table>').attr('id', 'committeeTable').addClass('table');
@@ -113,7 +98,12 @@ function renderTable(committees, isHistorical) {
 
 	for (var i = 0; i < committees.length; i++) {
 		var c = committees[i];
-		var isActive = c.min_congress <= selectedGlanceCongress && c.max_congress >= selectedGlanceCongress;
+
+		// Look up historical data for selected congress
+		var hist = committeeHistory[c.slug];
+		var entry = hist && hist[String(selectedGlanceCongress)];
+		var nMembers = entry ? entry.n : null;
+		var partyBreakdown = entry ? entry.pb : null;
 
 		var row = $('<tr></tr>')
 			.addClass('row committee_row')
@@ -136,7 +126,7 @@ function renderTable(committees, isHistorical) {
 		var congLabel;
 		if (c.min_congress === c.max_congress) {
 			congLabel = getGetOrdinal(c.min_congress);
-		} else if (isActive) {
+		} else if (c.max_congress >= congressNum) {
 			congLabel = getGetOrdinal(c.min_congress) + ' onward';
 		} else {
 			congLabel = getGetOrdinal(c.min_congress) + '-' + getGetOrdinal(c.max_congress);
@@ -146,53 +136,53 @@ function renderTable(committees, isHistorical) {
 			.addClass('col-md-2')
 			.appendTo(row);
 
-		// Members — only show current data when viewing current congress
-		var showCurrentData = isActive && !isHistorical;
-		$('<td></td>').html(showCurrentData ? c.current_members : '&mdash;')
-			.attr('data-sort-value', showCurrentData ? (c.current_members || 0) : 0)
+		// Members
+		$('<td></td>').html(nMembers !== null ? nMembers : '&mdash;')
+			.attr('data-sort-value', nMembers !== null ? nMembers : 0)
 			.addClass('col-md-1')
 			.appendTo(row);
 
 		// Party composition stacked bar
 		var compCell = $('<td></td>').addClass('col-md-5').attr('data-sort-value', i);
-		if (showCurrentData && c.current_party_breakdown && c.current_members > 0) {
-			var pb = c.current_party_breakdown;
-			var dems = pb['100'] || 0;
-			var reps = pb['200'] || 0;
-			var other = c.current_members - dems - reps;
-			var totalWidth = Math.round(200 * c.current_members / maxMembers);
+		if (nMembers && partyBreakdown && maxMembers > 0) {
+			var pb = partyBreakdown;
+			var totalWidth = Math.round(200 * nMembers / maxMembers);
+
+			// Build sorted list of parties: known parties by count desc, then unknowns
+			var parties = [];
+			var knownTotal = 0;
+			Object.keys(pb).forEach(function(code) {
+				var count = pb[code] || 0;
+				if (!count) return;
+				var info = partyCodeInfo[String(code)];
+				parties.push({
+					code: code,
+					count: count,
+					name: info ? info.name : 'Other',
+					hex: info ? info.hex : '#404040'
+				});
+				knownTotal += count;
+			});
+			parties.sort(function(a, b) { return b.count - a.count; });
 
 			var barContainer = $('<div></div>')
 				.css({'display': 'inline-flex', 'height': '16px', 'border-radius': '2px', 'overflow': 'hidden'});
 
-			if (dems > 0) {
+			var labelParts = [];
+			parties.forEach(function(p) {
+				var w = Math.max(2, Math.round(totalWidth * p.count / nMembers));
 				$('<div></div>')
-					.css({'width': Math.round(totalWidth * dems / c.current_members) + 'px',
-						'background-color': '#0571b0'})
-					.attr('title', 'Democrat: ' + dems)
+					.css({'width': w + 'px', 'background-color': p.hex})
+					.attr('title', p.name + ': ' + p.count)
 					.appendTo(barContainer);
-			}
-			if (reps > 0) {
-				$('<div></div>')
-					.css({'width': Math.round(totalWidth * reps / c.current_members) + 'px',
-						'background-color': '#ca0020'})
-					.attr('title', 'Republican: ' + reps)
-					.appendTo(barContainer);
-			}
-			if (other > 0) {
-				$('<div></div>')
-					.css({'width': Math.max(2, Math.round(totalWidth * other / c.current_members)) + 'px',
-						'background-color': '#404040'})
-					.attr('title', 'Other: ' + other)
-					.appendTo(barContainer);
-			}
+				labelParts.push(p.count + partyAbbrev(p.name));
+			});
 
 			barContainer.appendTo(compCell);
 
-			// Counts label
 			$('<span></span>')
 				.css({'margin-left': '8px', 'font-size': '11px', 'color': '#888'})
-				.html(dems + 'D / ' + reps + 'R' + (other > 0 ? ' / ' + other + 'O' : ''))
+				.html(labelParts.join(' / '))
 				.appendTo(compCell);
 		} else {
 			compCell.html('&mdash;');
@@ -230,11 +220,12 @@ function renderTable(committees, isHistorical) {
 // Load data
 var q = queue()
 	.defer(d3.json, '/static/committeejson/committees.json')
-	.await(function(error, committees) {
+	.defer(d3.json, '/static/committees_history.json')
+	.await(function(error, committees, history) {
 		if (error) {
 			$('#loading-container').html('<h3>Error loading committee data.</h3>');
 			console.error(error);
 			return;
 		}
-		generateCommitteeList(committees);
+		generateCommitteeList(committees, history);
 	});

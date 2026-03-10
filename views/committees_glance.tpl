@@ -1,4 +1,5 @@
 % STATIC_URL = "/static/"
+% rcSuffix = lambda n: "%d%s" % (int(n),"tsnrhtdd"[(int(n)//10%10!=1)*(int(n)%10<4)*int(n)%10::4])
 % rebase('base.tpl', title='Committees at a Glance', extra_css=['map.css'], extra_js=["/static/js/libs/jquery.tablesorter.min.js"])
 % include('header.tpl')
 <div class="container">
@@ -24,17 +25,14 @@
 						<button type="button" class="btn btn-sm btn-default" data-chamber="Senate">Senate</button>
 						<button type="button" class="btn btn-sm btn-default" data-chamber="Joint">Joint</button>
 					</div>
-					<div style="display: inline-block;">
-						<input type="text" id="committee-search" class="form-control input-sm"
-							placeholder="Search committees..." style="width: 250px; display: inline-block;">
-					</div>
-					<label style="margin-left: 15px; font-weight: normal;">
-						<input type="checkbox" id="show-active-only" checked> Active committees only
-					</label>
-					<span style="margin-left: 15px;">
-						<strong>Congress:</strong>
-						<input type="number" id="congress-selector" style="width: 60px;" value="{{max_congress}}" min="1" max="{{max_congress}}">
-						<input type="button" id="congress-go" value="Go">
+	<span style="margin-left: 15px;">
+						<select id="congress-selector" class="form-control input-sm" style="width: 260px; display: inline-block;">
+						% for cong in range(max_congress, 0, -1):
+						%   start_year = 1787 + 2*cong
+						%   end_year = 1789 + 2*cong
+							<option value="{{cong}}"{{' selected="selected"' if cong == max_congress else ''}}>{{rcSuffix(cong)}} Congress ({{start_year}}-{{end_year}})</option>
+						% end
+						</select>
 					</span>
 				</div>
 
