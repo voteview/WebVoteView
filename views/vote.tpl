@@ -41,6 +41,8 @@
 						<img src="/static/img/help.png" class="noteText left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ note_text }}">
 					%end
 
+					<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click on any number of states or districts to filter the vote list to members from those areas. To clear the selection, click the &times; at the bottom of the page.">
+
 				</h4>
 
 				<span id="map-chart"> <!-- This span tells DC where to put the map -->
@@ -66,6 +68,7 @@
 					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
 				</span>
+				<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click and drag on the plot to draw a box around the members you want to focus on. Once the box is established, you can drag it around to explore different subsets of members. By drawing a very small box and dragging it across the plot, you can identify individual members one at a time. To clear the selection, click the &times; at the bottom of the page.">
 			</h4>
 
 			<div id="scatter-container">
@@ -96,6 +99,7 @@
 					<img src="/static/img/xls.png" class="xlsButton"
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS.">
 				</a>
+				<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click on one or more bars to focus the vote list on just those vote types. To clear the selection, click the &times; at the bottom of the page.">
 			</h4>
 			<div id="party-chart">
 				<span id="suppressVoteChartControls"><span class="filter"></span></span>

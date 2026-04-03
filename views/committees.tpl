@@ -1,6 +1,13 @@
 % STATIC_URL = "/static/"
 % rebase('base.tpl', title='Committee', extra_css=['map.css'], extra_js=[])
 % include('header.tpl')
+<div class="row">
+	<div class="col-md-12">
+		<div class="alert alert-info" role="alert">
+			We are pleased to now track House and Senate committees and their members over time. We rely on the great work of David Cannon, Garison Nelson, Charles Stewart, and Jonathan Woon to provide this information for the 1st through the 105th congresses. We welcome your feedback, suggestions, and corrections.
+		</div>
+	</div>
+</div>
 <div class="container">
 
 	<div id="loading-container">
@@ -30,7 +37,7 @@
 
 		<div class="row pad_bottom">
 			<div class="col-md-12">
-				<h4>Committee Size Over Time</h4>
+				<h4>Committee Size Over Time &nbsp;<img src="{{ STATIC_URL }}img/help.png" class="noteText noprint" id="size-chart-help" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-placement="right" data-html="true" title="Click on a bar to focus the roster and ideology view on that Congress."></h4>
 				<div id="size-chart"></div>
 			</div>
 		</div>
@@ -62,7 +69,41 @@
 	</div>
 </div>
 
+<div id="committee-credit-content" style="display:none">
+	<p>Committee assignments for the 1st to 105th Congresses are based on the following data collections:</p>
+	<p>David Canon, Garrison Nelson, and Charles Stewart. <em>Historical Congressional Standing Committees, 1st to 79th Congresses, 1789&ndash;1947.</em></p>
+	<p>Garrison Nelson. <em>Committees in the U.S. Congress, 1947&ndash;1992.</em></p>
+	<p>Charles Stewart III and Jonathan Woon. <em>Congressional Committee Assignments, 103rd to 105th Congresses, 1993&ndash;1998.</em></p>
+	<p>These datasets are available for download from Charles Stewart's Congressional Data <a href="https://web.mit.edu/cstewart/www/data/data_page.html" target="_blank">webpage</a>.</p>
+</div>
+<p style="text-align:right; margin-top:8px; padding-right:15px;">
+	<small><a href="#" id="committee-credit-link">Data Credits</a></small>
+</p>
+
 <script language="javascript">
+	$(document).ready(function() {
+		$('#committee-credit-link').popover({
+			html: true,
+			trigger: 'manual',
+			placement: 'top',
+			container: 'body',
+			content: function() { return $('#committee-credit-content').html(); }
+		}).on('mouseenter', function() {
+			var _this = this;
+			$(this).popover('show');
+			$('.popover').on('mouseleave', function() {
+				$(_this).popover('hide');
+			});
+		}).on('mouseleave', function() {
+			var _this = this;
+			setTimeout(function() {
+				if (!$('.popover:hover').length) {
+					$(_this).popover('hide');
+				}
+			}, 100);
+		});
+	});
+
 	var committee_param = "{{ committee }}";
 	var mapParties = 1;
 	var congressNum = {{cong_start}};

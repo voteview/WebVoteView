@@ -137,11 +137,11 @@ function buildPage(error, data, congMedians) {
 	d3.selectAll('#dim-chart .x.axis-label, #dim-chart .y.axis-label').style('font-size', '13px');
 	d3.selectAll('#size-chart .x.axis-label, #size-chart .y.axis-label').style('font-size', '13px');
 
-	// Size chart legend (uses dynamic party colors/names)
+	// Size chart legend (uses dynamic party colors/names; updated per selected congress)
 	var sp = committeePartyInfo || {};
 	var sLegend = $('<div></div>').css({'margin-top': '2px', 'font-size': '12px', 'color': '#666'});
-	sLegend.append('<span style="display:inline-block;width:12px;height:12px;background:' + (sp.p1Primary || '#0571b0') + ';margin-right:4px;vertical-align:middle;"></span> ' + (sp.p1Name || 'Party 1') + ' &nbsp;&nbsp;');
-	sLegend.append('<span style="display:inline-block;width:12px;height:12px;background:' + (sp.p2Primary || '#ca0020') + ';margin-right:4px;vertical-align:middle;"></span> ' + (sp.p2Name || 'Party 2') + ' &nbsp;&nbsp;');
+	sLegend.append('<span id="size-legend-p1-swatch" style="display:inline-block;width:12px;height:12px;background:' + (sp.p1Primary || '#0571b0') + ';margin-right:4px;vertical-align:middle;"></span><span id="size-legend-p1-label">' + (sp.p1Name || 'Party 1') + '</span> &nbsp;&nbsp;');
+	sLegend.append('<span id="size-legend-p2-swatch" style="display:inline-block;width:12px;height:12px;background:' + (sp.p2Primary || '#ca0020') + ';margin-right:4px;vertical-align:middle;"></span><span id="size-legend-p2-label">' + (sp.p2Name || 'Party 2') + '</span> &nbsp;&nbsp;');
 	sLegend.append('<span style="display:inline-block;width:12px;height:12px;background:#404040;margin-right:4px;vertical-align:middle;"></span> Other');
 	$('#size-chart').append(sLegend);
 
@@ -157,8 +157,23 @@ function buildPage(error, data, congMedians) {
 		switchCongress(latestCong.congress);
 	}
 
+	$('#size-chart-help').tooltip();
+
 	$('#loading-container').delay(200).slideUp(100);
 	$('#content').fadeIn();
+}
+
+function updateSizeLegend(congress) {
+	if (!committeeData) return;
+	var c = null;
+	committeeData.congresses.forEach(function(d) { if (d.congress === congress) c = d; });
+	if (!c) return;
+	var p1Hex = partyColorScheme(c.party1Color || 'blue').primary;
+	var p2Hex = partyColorScheme(c.party2Color || 'red').primary;
+	$('#size-legend-p1-swatch').css('background', p1Hex);
+	$('#size-legend-p1-label').text(c.party1Name || 'Party 1');
+	$('#size-legend-p2-swatch').css('background', p2Hex);
+	$('#size-legend-p2-label').text(c.party2Name || 'Party 2');
 }
 
 function switchCongress(congress) {
@@ -166,6 +181,7 @@ function switchCongress(congress) {
 	if (isNaN(congress)) return;
 	selectedCongress = congress;
 	highlightBar(congress);
+	updateSizeLegend(congress);
 
 	var year = 1787 + 2 * congress;
 	$('#roster-congress-label').html(
