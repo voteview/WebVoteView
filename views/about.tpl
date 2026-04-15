@@ -69,19 +69,21 @@
 					<strong>Directors Emeritus:</strong>
 					<p class="padded_left">
 						<a href="http://spia.uga.edu/faculty-member/keith-poole/">Keith T. Poole</a><br/>
-						Philip H. Alston, Jr. Distinguished Professor, University of Georgia<br/>
+						Philip H. Alston, Jr. Distinguished Professor Emeritus, University of Georgia<br/>
 						Professor Emeritus, University of California San Diego
 					<p>
 					<p class="padded_left">
 						Howard Rosenthal (In Memoriam)<br/>
-						Professor of Politics, New York University<br/>
+						Professor of Politics, Emeritus, New York University<br/>
 						Roger Williams Straus Professor of Social Sciences, Emeritus, Princeton University.
 					</p>
 				</li>
 
 				<li>
-					<strong>Lead Developer, Voteview.com:</strong>
-					<a href="mailto:barneychen@ucla.edu">Barney Chen</a>, University of California Los Angeles
+					<strong>Current Lead Developer:</strong>
+					<p class="padded_left">
+						<a href="mailto:barneychen@ucla.edu">Barney Chen</a>, University of California Los Angeles
+					</p>
 				</li>
 				<li>
 					<strong>Founding Developer Leads:</strong>
@@ -94,10 +96,10 @@
 				<li>
 					<strong>Past Contributors:</strong>
 					Erik Hanson,
+					William Lewis,
 					<a href="https://gps.ucsd.edu/faculty-directory/felipe-nunes.html">Felipe Nunes</a>,
 					<a href="http://fabiosouto.me/">Fabio Souto</a>,
-					Jonah Wood,
-					William Lewis
+					Jonah Wood
 				</li>
 			</ul>
 
