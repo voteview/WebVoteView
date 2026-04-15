@@ -73,29 +73,31 @@
 						Professor Emeritus, University of California San Diego
 					<p>
 					<p class="padded_left">
-						<a href="http://as.nyu.edu/politics/directory.howard-l-rosenthal.html">Howard Rosenthal</a><br/>
+						Howard Rosenthal (In Memoriam)<br/>
 						Professor of Politics, New York University<br/>
 						Roger Williams Straus Professor of Social Sciences, Emeritus, Princeton University.
 					</p>
 				</li>
 
 				<li>
-					<strong>Lead Database Developer, Voteview.com:</strong>
-					<a href="https://github.com/adamboche">Adam Boche</a>, University of California Los Angeles
-				</li>
-				<li>
 					<strong>Lead Developer, Voteview.com:</strong>
-					<a href="https://rudkin.ca/">Aaron Rudkin</a>, University of California Los Angeles
+					<a href="mailto:barneychen@ucla.edu">Barney Chen</a>, University of California Los Angeles
 				</li>
 				<li>
-					<strong>Lead Developer:</strong>
-					<a href="http://lukesonnet.github.io/">Luke Sonnet</a>, University of California Los Angeles
+					<strong>Founding Developer Leads:</strong>
+					<p class="padded_left">
+						<a href="https://github.com/adamboche">Adam Boche</a>, Lead Database Developer &mdash; University of California Los Angeles<br/>
+						<a href="https://rudkin.ca/">Aaron Rudkin</a>, Lead Developer &mdash; University of California Los Angeles<br/>
+						<a href="http://lukesonnet.github.io/">Luke Sonnet</a>, Lead Developer &mdash; University of California Los Angeles
+					</p>
 				</li>
 				<li>
 					<strong>Past Contributors:</strong>
 					Erik Hanson,
 					<a href="https://gps.ucsd.edu/faculty-directory/felipe-nunes.html">Felipe Nunes</a>,
-					<a href="http://fabiosouto.me/">Fabio Souto</a>
+					<a href="http://fabiosouto.me/">Fabio Souto</a>,
+					Jonah Wood,
+					William Lewis
 				</li>
 			</ul>
 
