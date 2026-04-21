@@ -27,7 +27,7 @@ def waterfall_text(rollcall):
                  "vote_title", "vote_question_text", "amendment_author",
                  "dtl_desc", "description", "short_description"]
 
-    return next((rollcall[w] for w in waterfall if w in rollcall),
+    return next((rollcall[w] for w in waterfall if rollcall.get(w)),
                 "Vote %s" % rollcall["id"])
 
 
