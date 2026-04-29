@@ -99,7 +99,7 @@
 			    </td>
 			    <td align="right">{{vote["yea_count"]}}-{{vote["nay_count"]}}</td>
                             <td>
-				<a href="/rollcall/{{ vote["id"] }}"><img src="/static/img/graph.png" class="viewVote" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
+				<a href="/rollcall/{{ vote["id"] }}" aria-label="View vote details"><img src="/static/img/graph.png" alt="" class="viewVote" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
 			    </td>
                         </tr>
 			% lastDate = vote["date"]

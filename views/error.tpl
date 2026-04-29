@@ -8,7 +8,7 @@
 			<p> {{ error_message }}</p>
 
 			<p>If you believe you are seeing this page in error, please <a href="/about">contact us</a> for troubleshooting support.</p>
-			<p><a href="javascript:history.go(-1);">Click here to go back to the last page you were on.</a></p>
+			<p><button type="button" class="link-button" onclick="javascript:history.go(-1);">Click here to go back to the last page you were on.</button></p>
 		</div>
 	</div>
 </div>

@@ -78,7 +78,7 @@ function buildPage(error, data, congMedians) {
 			if (typeof v === 'string') return v;  // backwards compat
 			var minYear = 1787 + 2 * v.min_congress + 1;
 			var maxYear = 1787 + 2 * v.max_congress + 1;
-			return v.name + ' <span style="color:#aaa;">(' + minYear + '\u2013' + maxYear + ')</span>';
+			return v.name + ' <span style="color:#595959;">(' + minYear + '\u2013' + maxYear + ')</span>';
 		}).join(', ');
 		$('#name-variants').html('Also known as: ' + variantHtml);
 	}
@@ -88,7 +88,7 @@ function buildPage(error, data, congMedians) {
 		var predHtml = 'Replaced: ';
 		predHtml += data.predecessors.map(function(p) {
 			var link = '<a href="/committees/' + p.slug + '">' + p.short_name + '</a>';
-			return p.note ? link + ' <span style="color:#888;">(' + p.note + ')</span>' : link;
+			return p.note ? link + ' <span style="color:#595959;">(' + p.note + ')</span>' : link;
 		}).join(', ');
 		$('#succession-links').append('<p>' + predHtml + '</p>');
 	}
@@ -96,7 +96,7 @@ function buildPage(error, data, congMedians) {
 		var succHtml = 'Replaced by: ';
 		succHtml += data.successors.map(function(s) {
 			var link = '<a href="/committees/' + s.slug + '">' + s.short_name + '</a>';
-			return s.note ? link + ' <span style="color:#888;">(' + s.note + ')</span>' : link;
+			return s.note ? link + ' <span style="color:#595959;">(' + s.note + ')</span>' : link;
 		}).join(', ');
 		$('#succession-links').append('<p>' + succHtml + '</p>');
 	}
@@ -297,7 +297,10 @@ function constructPlot(member) {
 	var linkBox = $('<a></a>').attr('href', member.icpsr ? '/person/' + member.icpsr : '#').attr('class', 'nohover');
 	var imgUrl = member.image_url || 'silhouette.png';
 	$('<img />').addClass('pull-left').addClass('bio').addClass('memberPad10')
-		.attr('src', '/static/img/bios/' + imgUrl).appendTo(linkBox);
+		.attr('src', '/static/img/bios/' + imgUrl)
+		.attr('alt', '')
+		.attr('aria-hidden', 'true')
+		.appendTo(linkBox);
 
 	var bioTextInner = '<strong>' + member.bioname + '</strong><br/>';
 	if (member.party_noun) bioTextInner += member.party_noun + '<br/>';
@@ -467,7 +470,7 @@ function buildIdeologyChart(congresses, congMedians) {
 	});
 
 	if (lineData.length === 0) {
-		$('#dim-chart').html('<p style="color:#888;">No ideology data available.</p>');
+		$('#dim-chart').html('<p style="color:#595959;">No ideology data available.</p>');
 		return;
 	}
 

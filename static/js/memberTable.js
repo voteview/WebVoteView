@@ -160,7 +160,9 @@ function constructPlot(member, margins, format_data=["name", "party", "state", "
 					.attr("id",member["icpsr"]).click(function(){window.location='/person/'+member["icpsr"]+"/"+member["seo_name"];});
 	var linkBox = $("<a></a>").attr("href","/person/"+member["icpsr"]+"/"+member["seo_name"]).attr("class","nohover");
 	var imgBox = $("<img />").addClass("pull-left").addClass("bio").addClass(imageClass)
-				.attr("src", "/static/img/bios/" + member["image_url"]);
+				.attr("src", "/static/img/bios/" + member["image_url"])
+				.attr("alt", "")
+				.attr("aria-hidden", "true");
 
 	var bioTextInner = "";
 	if(format_data.includes("name")) { bioTextInner += "<strong>" + memberNameFinal + "</strong><br/>"; }

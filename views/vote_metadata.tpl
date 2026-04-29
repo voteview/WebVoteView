@@ -73,10 +73,10 @@
 				% extended_chunk = rollcall["cg_summary"][len(preview_chunk):]
 				<p class="clearfix">
 					<strong>Bill summary: </strong>{{!preview_chunk}}
-					<a href="#" id="descriptionExtender" onClick="javascript:$('#extendedDescription').show();$(this).hide();return false;">(...show more)</a>
+					<button type="button" class="link-button" id="descriptionExtender" onClick="javascript:$('#extendedDescription').show();$(this).hide();return false;" aria-expanded="false" aria-controls="extendedDescription">(...show more)</button>
 					<span id="extendedDescription">
 						{{! extended_chunk}}<br/><br/>
-						<a href="#" onClick="javascript:$('#extendedDescription').hide();$('#descriptionExtender').show();return false;">Click to hide full description.</a>
+						<button type="button" class="link-button" onClick="javascript:$('#extendedDescription').hide();$('#descriptionExtender').show();return false;">Click to hide full description.</button>
 					</span>
 				</p>
 			% else:

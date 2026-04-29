@@ -17,10 +17,10 @@
 					% end
 
 					% if "image" in slides[i]:
-						<img src="/static/img/carousel/{{slides[i]["image"]}}">
+						<img src="/static/img/carousel/{{slides[i]["image"]}}" alt="{{slides[i].get("title", "")}}">
 					% end
 					% if "video" in slides[i]:
-						<video autoplay loop><source src="/static/img/carousel/{{slides[i]["video"]}}" type="video/mp4"></video>
+						<video autoplay loop muted aria-label="{{slides[i].get("title", "")}}"><source src="/static/img/carousel/{{slides[i]["video"]}}" type="video/mp4"></video>
 					% end
 						<div class="carousel-caption">
 							<h3>{{slides[i]["title"]}}</h3>

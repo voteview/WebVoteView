@@ -12,7 +12,7 @@
 
 	<div id="loading-container">
 		<h3>Now loading. . .&nbsp;&nbsp;
-			<img src="{{ STATIC_URL }}img/loading.gif" />
+			<img src="{{ STATIC_URL }}img/loading.gif" alt="" role="presentation" />
 		</h3>
 	</div>
 
@@ -23,7 +23,7 @@
 					<abbr title="Committees"><a href="/committees/all">Committees</a></abbr> &gt;
 					<span id="committee-name">Loading...</span>
 				</h3>
-				<p id="name-variants" style="color: #888;"></p>
+				<p id="name-variants" style="color: #595959;"></p>
 				<div id="succession-links" style="color: #555;"></div>
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 
 		<div class="row pad_bottom">
 			<div class="col-md-12">
-				<h4>Committee Size Over Time &nbsp;<img src="{{ STATIC_URL }}img/help.png" class="noteText noprint" id="size-chart-help" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-placement="right" data-html="true" title="Click on a bar to focus the roster and ideology view on that Congress."></h4>
+				<h4>Committee Size Over Time &nbsp;<img src="{{ STATIC_URL }}img/help.png" alt="Help: click a bar to focus the roster and ideology view on that Congress." class="noteText noprint" id="size-chart-help" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-placement="right" data-html="true" title="Click on a bar to focus the roster and ideology view on that Congress."></h4>
 				<div id="size-chart"></div>
 			</div>
 		</div>
@@ -46,22 +46,22 @@
 			<div class="col-md-12">
 				<div class="roster_header">
 				<h4>Roster</h4>
-				<span id="roster-congress-label" style="color: #888;"></span>
+				<span id="roster-congress-label" style="color: #595959;"></span>
 				<span class="congressControl" style="margin-left: 15px;">
-					<strong>Jump to Year:</strong>
-					<input type="text" id="yearNum" style="width: 60px;">
-					<input type="button" onclick="javascript:switchCongressFromYear($('#yearNum').val());" value="Switch">
+					<label for="yearNum"><strong>Jump to Year:</strong></label>
+					<input type="text" id="yearNum" style="width: 60px;" inputmode="numeric">
+					<input type="button" onclick="javascript:switchCongressFromYear($('#yearNum').val());" value="Switch" aria-label="Switch to Congress for the entered year">
 					&nbsp;&nbsp;
-					<strong>Jump to Congress:</strong>
-					<input type="text" id="congNum" style="width: 50px;">
-					<input type="button" onclick="javascript:switchCongress($('#congNum').val());" value="Switch">
+					<label for="congNum"><strong>Jump to Congress:</strong></label>
+					<input type="text" id="congNum" style="width: 50px;" inputmode="numeric">
+					<input type="button" onclick="javascript:switchCongress($('#congNum').val());" value="Switch" aria-label="Switch to entered Congress number">
 				</span>
 				<br/>
 				(Sort by
-				<a href="#" onclick="javascript:resort('name');return false;">Name</a>,
-				<a href="#" onclick="javascript:resort('state');return false;">State</a>,
-				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-				<a href="#" onclick="javascript:resort('elected');return false;">Committee Rank</a>)
+				<button type="button" class="link-button" onclick="javascript:resort('name');return false;">Name</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('state');return false;">State</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('nominate');return false;">Ideology</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('elected');return false;">Committee Rank</button>)
 				</div>
 				<ul id="memberList" class="party_members clearfix"></ul>
 			</div>
@@ -77,7 +77,7 @@
 	<p>These datasets are available for download from Charles Stewart's Congressional Data <a href="https://web.mit.edu/cstewart/www/data/data_page.html" target="_blank">webpage</a>.</p>
 </div>
 <p style="text-align:right; margin-top:8px; padding-right:15px;">
-	<small><a href="#" id="committee-credit-link">Data Credits</a></small>
+	<small><button type="button" class="link-button" id="committee-credit-link">Data Credits</button></small>
 </p>
 
 <script language="javascript">

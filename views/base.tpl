@@ -19,7 +19,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta name="description" content="View, map, and investigate congressional votes throughout history, classify legislators as liberal or conservatives." />
 	% if config["server"]:
-	<meta name=”robots” content=”noindex,nofollow,noarchive,nosnippet,noodp,noydir" />
+	<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noodp,noydir" />
 	% end
 <style>
 /* Temporarily inlining fonts locally while I investigate a bug. */
@@ -78,15 +78,18 @@
 		</script>
 	</div>
 	% end
+	<a href="#main-content" class="skip-link">Skip to main content</a>
+	<main id="main-content" tabindex="-1">
         {{!base}}
+	</main>
 
 
-	<div id="footer">
+	<footer id="footer" role="contentinfo">
 		<div class="container">
 			<span></span>
-			<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png"></a>
+			<a href="http://www.polisci.ucla.edu"><img src="{{ STATIC_URL }}img/UCLA.png" alt="UCLA Department of Political Science"></a>
 		</div>
-	</div>
+	</footer>
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/bootstrap.min.js"></script>
     </body>
 </html>

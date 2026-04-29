@@ -5,7 +5,7 @@
 
 	<div id="loading-container">
 		<h3>Now loading. . .&nbsp;&nbsp;
-			<img src="{{ STATIC_URL }}img/loading.gif" />
+			<img src="{{ STATIC_URL }}img/loading.gif" alt="" role="presentation" />
 		</h3>
 	</div>
 

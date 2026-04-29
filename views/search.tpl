@@ -22,13 +22,16 @@
 			<form id="faceted-search-form" action="." method="post" class="form-horizontal">
 
 				<div id="search-bar-container" class="col-md-12">
+					<label for="searchTextInput" class="visually-hidden">Search vote text, member names, or parties</label>
 					<div class="input-group">
 						<input name="q" type="text" class="form-control" id="searchTextInput" placeholder="Enter a search term (vote text, member names, parties, or advanced search.)" value="{{search_string}}">
 						<div class="input-group-btn">
-							<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+							<button id="submit-search-string" type="submit" class="btn btn-primary" aria-label="Search">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button>
 						</div>
 						<span class="advancedSearch">
-							<a href="#" onclick="javascript:toggleAdvancedSearch(0);return false;">advanced search</a>
+							<button type="button" class="link-button" onclick="javascript:toggleAdvancedSearch(0);return false;">advanced search</button>
 						</span>
 					</div>
 					<div id="suggestContainer">
@@ -357,16 +360,16 @@
 						</div>
 						<div class="col-md-6" id="sortBy">
 							<strong>Sort by </strong>
-							<div id="relevanceAppear"><a id="relevanceSort" href="#" onclick="javascript:$('#sortScore').val(1);sortRequest();return false;">Relevance</a> /</div>
-							<a id="newestSort" href="#" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);sortRequest();return false;">Newest</a> /
-							<a id="oldestSort" href="#" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);sortRequest();return false;">Oldest</a>
+							<div id="relevanceAppear"><button type="button" class="link-button" id="relevanceSort" onclick="javascript:$('#sortScore').val(1);sortRequest();return false;">Relevance</button> /</div>
+							<button type="button" class="link-button" id="newestSort" onclick="javascript:$('#sortD').val(-1);$('#sortScore').val(0);sortRequest();return false;">Newest</button> /
+							<button type="button" class="link-button" id="oldestSort" onclick="javascript:$('#sortD').val(1);$('#sortScore').val(0);sortRequest();return false;">Oldest</button>
 						</div>
 					</div>
 				</div>
 				<form id="download-rollcalls-form" action="/api/download_excel" method="post">
 					<div id="results-list">
 					</div>
-					<a id="next-page" href="#" class="btn btn-block btn-primary btn-lg">Load more</a>
+					<button type="button" id="next-page" class="btn btn-block btn-primary btn-lg">Load more</button>
 				</form>
 			</div>
 		</div>
@@ -384,42 +387,42 @@
 				<span id="newResults"><big><strong id="newCount">0</strong></big> new results from <span class="searchText"></span><br/>&nbsp;</span>
 			</div>
 			<div id="addAll" class="footerBig">
-				<a href="#" onClick="javascript:addAllVotes();return false;">Add all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a> <br/>
-				<a href="#" onClick="javascript:delAllVotes();return false;">Delete all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></a>
+				<button type="button" class="link-button" onClick="javascript:addAllVotes();return false;">Add all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></button> <br/>
+				<button type="button" class="link-button" onClick="javascript:delAllVotes();return false;">Delete all <big><strong class="searchResultNum">0</strong></big> results from <span class="searchText">all votes</span></button>
 			</div>
-			<div id="emptyCartIcon" class="footerIcon" onClick="javascript:emptyCart();">
+			<button type="button" id="emptyCartIcon" class="footerIcon" onClick="javascript:emptyCart();" aria-label="Empty saved votes">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Empty Saved Votes" data-container="body"></span>
-			</div>
-			<div id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(1);">
+			</button>
+			<button type="button" id="downloadVotesIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(1);" aria-label="Download saved votes">
 				<span class="glyphicon glyphicon-save" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Download Saved Votes" data-container="body"></span>
-			</div>
-			<div id="createLinkIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(2);">
+			</button>
+			<button type="button" id="createLinkIcon" class="footerIcon" onClick="javascript:$('#stashCartBar').carousel(2);" aria-label="Get shareable link">
 				<span class="glyphicon glyphicon-link" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Get Shareable Link" data-container="body"></span>
-			</div>
+			</button>
 		</div>
 		<div class="item">
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('#stashCartBar').carousel(0);">
+			<button type="button" class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('#stashCartBar').carousel(0);" aria-label="Back to saved votes">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-			</div>
+			</button>
 			<div class="footerIcon" id="exportXLS">
-				<a href="#" onClick="javascript:exportXLS();return false;">Download to Excel</a>
+				<button type="button" class="link-button" onClick="javascript:exportXLS();return false;">Download to Excel</button>
 			</div>
 			<div class="footerIcon" id="exportJSON">
-				<a href="#" onClick="javascript:exportJSON();return false;">Download to JSON</a>
+				<button type="button" class="link-button" onClick="javascript:exportJSON();return false;">Download to JSON</button>
 			</div>
-			<div class="footerIcon">
-				<span onClick="javascript:loadSavedVotes();" class="glyphicon glyphicon-upload" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Load Votes into Search" data-container="body"></span>
-			</div>
+			<button type="button" class="footerIcon" onClick="javascript:loadSavedVotes();" aria-label="Load votes into search">
+				<span class="glyphicon glyphicon-upload" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Load Votes into Search" data-container="body"></span>
+			</button>
 			<div class="footerBig" id="errorTooManyVotes">
 				You can only save stashes of 250 votes or less.<br/>If you would like to download our entire vote database, <a href="/data/">Click here</a>.
 			</div>
 		</div>
 		<div class="item">
-			<div class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('#stashCartBar').carousel(0);">
+			<button type="button" class="footerIcon" data-toggle="tooltip" data-placement="top" title="Back to Stash Cart" onClick="javascript:$('#stashCartBar').carousel(0);" aria-label="Back to saved votes">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-			</div>
+			</button>
 			<div class="footerBig">
-				Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes: <br/>
+				<label for="shareLinkText">Create a permanent link for <big><strong id="totalVoteNumber">0</strong></big> votes:</label><br/>
 				<span id="shareTextInput">{{ base_url }}s/
 					<input id="shareLinkText" type="text" placeholder="type-short-name" >
 					<input type="submit" value="Create" onClick="javascript:shareLink();javascript:clipboardCopyHack(document.getElementById('shareTextInput'))">
@@ -432,10 +435,12 @@
 		</div>
 	</div>
 </div>
-<img id="stashCartClose" onClick="javacript:closeStashCart();" src="/static/img/close.png">
-<div id="stashCartIcon" onClick="javascript:openStashCart();">
+<button type="button" id="stashCartClose" onClick="javascript:closeStashCart();return false;" aria-label="Close saved votes">
+	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+</button>
+<button type="button" id="stashCartIcon" onClick="javascript:openStashCart();" aria-label="Open saved votes">
          <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Saved Votes"></span>
-</div>
+</button>
 
 <script>
 	// Pass query string arguments back into faceted search.

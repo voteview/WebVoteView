@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <img src="{{ STATIC_URL }}img/bios/{{person["bio_image"]}}" class="memberBioImage">
+            <img src="{{ STATIC_URL }}img/bios/{{person["bio_image"]}}" alt="Photo of {{person["bioname"]}}" class="memberBioImage">
         </div>
 
         <div class="col-md-5">
@@ -41,12 +41,13 @@
 	    	% end
 
 	    	% if "twitter" in person and len(person["twitter"]):
-			<h5><img src="/static/img/twitter.png" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank">@{{person["twitter"]}}</a></h5>
+			<h5><img src="/static/img/twitter.png" alt="Twitter:" title="Twitter:"> <a href="http://www.twitter.com/{{person["twitter"]}}" target="_blank" rel="noopener">@{{person["twitter"]}}</a></h5>
 	    	% end
         </div>
 
 		<div class="col-md-5">
 			<h5 class="congSelector">
+				<label for="congSelector" class="visually-hidden">Select Congress</label>
 				<select id="congSelector">
 				% 	person["congresses_all"].reverse()
 				%	for congress_run in person["congresses_all"]:
@@ -59,9 +60,9 @@
 			</h5>
 
 			% if person["plotIdeology"]:
-			<ul class="nav nav-tabs">
-				<li role="presentation" class="active"><a href="#" data-toggle="ideologyHolder">Ideology</a></li>
-				<li role="presentation"><a href="#" data-toggle="loyaltyTable">Attendance and Loyalty</a></li>
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#ideologyHolder" role="tab" aria-controls="ideologyHolder" aria-selected="true" data-toggle="ideologyHolder">Ideology</a></li>
+				<li role="presentation"><a href="#loyaltyTable" role="tab" aria-controls="loyaltyTable" aria-selected="false" data-toggle="loyaltyTable">Attendance and Loyalty</a></li>
 			</ul>
 			% end
 
@@ -136,9 +137,12 @@
 					<span class="glyphicon glyphicon-upload"></span>
 				</button>
 			</div>
-			<input type="text" id="memberSearchBox" class="form-control">
+			<label for="memberSearchBox" class="visually-hidden">Search this member's votes</label>
+			<input type="text" id="memberSearchBox" class="form-control" placeholder="Search this member's votes">
 			<div class="input-group-btn">
-				<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+				<button id="submit-search-string" type="submit" class="btn btn-primary" aria-label="Search">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
 			</div>
 		</div>
 
@@ -149,10 +153,10 @@
 		<div id="memberVotesTable">
 		</div>
 		<div class="pull-right">
-			<a id="nextVotes" href="#" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</a>
+			<button type="button" id="nextVotes" class="btn btn-block btn-primary btn-large" onClick="javascript:nextPageSearch();return false;">Next page</button>
 		</div>
-		<div id="loadIndicator" class="member_vote_load">
-			<img src="/static/img/loading.gif">
+		<div id="loadIndicator" class="member_vote_load" aria-live="polite" aria-busy="true">
+			<img src="/static/img/loading.gif" alt="" role="presentation">
 		</div>
         </div>
     </div>

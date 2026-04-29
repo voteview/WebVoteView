@@ -14,7 +14,7 @@
 		<div class="col-md-12">
 			<h4>
 				Loading graphics...
-				<img src="/static/img/loading.gif" class="loading_throbber">
+				<img src="/static/img/loading.gif" alt="" role="presentation" class="loading_throbber">
 			</h4>
 		</div>
 	</div>
@@ -32,27 +32,32 @@
 				<h4>
 					Member Vote Map
 
-					<span class="glyphicon glyphicon-save noprint"
+					<button type="button" class="glyphicon glyphicon-save noprint link-button"
 					      onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
+					      aria-label="Save map as PNG"
 					      data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
-					</span>
+					</button>
 
 					%if note_text:
-						<img src="/static/img/help.png" class="noteText left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ note_text }}">
+						<img src="/static/img/help.png" alt="Note" class="noteText left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ note_text }}">
 					%end
 
-					<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click on any number of states or districts to filter the vote list to members from those areas. To clear the selection, click the &times; at the bottom of the page.">
+					<img src="/static/img/help.png" alt="Help: click states or districts to filter members." class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click on any number of states or districts to filter the vote list to members from those areas. To clear the selection, click the &times; at the bottom of the page.">
 
 				</h4>
 
 				<span id="map-chart"> <!-- This span tells DC where to put the map -->
-					<button id="zoomIn" class="glyphicon glyphicon-plus noprint" onClick="javascript:doZoom(1);return false;"></button>
-					<button id="zoomOut" class="glyphicon glyphicon-minus noprint" onClick="javascript:doZoom(-1);return false;"></button>
+					<button id="zoomIn" type="button" class="glyphicon glyphicon-plus noprint" onClick="javascript:doZoom(1);return false;" aria-label="Zoom in"></button>
+					<button id="zoomOut" type="button" class="glyphicon glyphicon-minus noprint" onClick="javascript:doZoom(-1);return false;" aria-label="Zoom out"></button>
 
+					<label for="ex1" class="visually-hidden">Pan map vertically</label>
 					<input id="ex1" data-slider-id="panY" type="text" data-slider-min="0" data-slider-max="500" data-slider-step="1"
-							data-slider-orientation="vertical" data-slider-tooltip="hide" data-slider-handle="custom">
+							data-slider-orientation="vertical" data-slider-tooltip="hide" data-slider-handle="custom"
+							aria-label="Pan map vertically">
+					<label for="ex2" class="visually-hidden">Pan map horizontally</label>
 					<input id="ex2" data-slider-id="panX" type="text" data-slider-min="0" data-slider-max="810"
-							data-slider-step="1" data-slider-tooltip="hide" data-slider-handle="custom">
+							data-slider-step="1" data-slider-tooltip="hide" data-slider-handle="custom"
+							aria-label="Pan map horizontally">
 					<span id="suppressMapControls"><span class="filter"></span></span>
 				</span>
 
@@ -64,11 +69,12 @@
 
 			<!-- Nominate graph -->
 			<h4>Vote Ideological Breakdown
-				<span class="glyphicon glyphicon-save noprint nominateSave"
+				<button type="button" class="glyphicon glyphicon-save noprint nominateSave link-button"
 					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
+					aria-label="Save plot as PNG"
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
-				</span>
-				<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click and drag on the plot to draw a box around the members you want to focus on. Once the box is established, you can drag it around to explore different subsets of members. By drawing a very small box and dragging it across the plot, you can identify individual members one at a time. To clear the selection, click the &times; at the bottom of the page.">
+				</button>
+				<img src="/static/img/help.png" alt="Help: click and drag on the plot to focus on selected members." class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click and drag on the plot to draw a box around the members you want to focus on. Once the box is established, you can drag it around to explore different subsets of members. By drawing a very small box and dragging it across the plot, you can identify individual members one at a time. To clear the selection, click the &times; at the bottom of the page.">
 			</h4>
 
 			<div id="scatter-container">
@@ -90,16 +96,16 @@
 
 		<div class="col-md-2 noprint" id="vote_chart_float">
 			<h4>Votes
-				<a href="/api/download?rollcall_id={{rollcall["id"]}}">
-					<span class="glyphicon glyphicon-save saveButton"
+				<a href="/api/download?rollcall_id={{rollcall["id"]}}" aria-label="Download vote data as JSON">
+					<span class="glyphicon glyphicon-save saveButton" aria-hidden="true"
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as JSON.">
 					</span>
 				</a>
 				<a href="/api/download_excel?ids={{rollcall["id"]}}">
-					<img src="/static/img/xls.png" class="xlsButton"
+					<img src="/static/img/xls.png" alt="Download as XLS" class="xlsButton"
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS.">
 				</a>
-				<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click on one or more bars to focus the vote list on just those vote types. To clear the selection, click the &times; at the bottom of the page.">
+				<img src="/static/img/help.png" alt="Help: click bars to focus the vote list." class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click on one or more bars to focus the vote list on just those vote types. To clear the selection, click the &times; at the bottom of the page.">
 			</h4>
 			<div id="party-chart">
 				<span id="suppressVoteChartControls"><span class="filter"></span></span>
@@ -113,11 +119,11 @@
 				<div class="voteHeader">Votes</div>
 				<div class="noprint sortHeader">
 					(Sort by
-					<a href="#" onclick="javascript:outVotes('party');return false;">Party</a>,
-					<a href="#" onclick="javascript:outVotes('state');return false;">State</a>,
-					<a href="#" onclick="javascript:outVotes('vote');return false;">Vote</a>,
-					<a href="#" onclick="javascript:outVotes('x');return false;">Ideology</a>,
-					<a href="#" onclick="javascript:outVotes('prob');return false;">Vote Probability</a>)
+					<button type="button" class="link-button" onclick="javascript:outVotes('party');return false;">Party</button>,
+					<button type="button" class="link-button" onclick="javascript:outVotes('state');return false;">State</button>,
+					<button type="button" class="link-button" onclick="javascript:outVotes('vote');return false;">Vote</button>,
+					<button type="button" class="link-button" onclick="javascript:outVotes('x');return false;">Ideology</button>,
+					<button type="button" class="link-button" onclick="javascript:outVotes('prob');return false;">Vote Probability</button>)
 				</div>
 			</div>
 			<div id="voteList"></div>
@@ -133,9 +139,11 @@
 	<span id="vote-chart-controls"> including <span class="filter"></span></span>
 	<span id="nominate-chart-controls"> with NOMINATE scores within <span class="filter"></span></span>.
 	<span id="sparse-selection"></span>
-	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
+	<button type="button" class="reset link-button" onclick="javascript:doFullFilterReset();return false;">Remove Filter</button>
 </div>
-<img id="selectionFilterClose" onClick="javacript:doFullFilterReset();" src="/static/img/close.png">
+<button type="button" id="selectionFilterClose" onClick="javascript:doFullFilterReset();return false;" aria-label="Close selection filter">
+	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+</button>
 
 <script type="text/javascript">
 // Pass these variables from server-side script to the JS that expects they are set.

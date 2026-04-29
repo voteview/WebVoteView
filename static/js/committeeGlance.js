@@ -181,7 +181,7 @@ function renderTable(committees) {
 			barContainer.appendTo(compCell);
 
 			$('<span></span>')
-				.css({'margin-left': '8px', 'font-size': '11px', 'color': '#888'})
+				.css({'margin-left': '8px', 'font-size': '11px', 'color': '#595959'})
 				.html(labelParts.join(' / '))
 				.appendTo(compCell);
 		} else {

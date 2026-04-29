@@ -13,7 +13,7 @@
 
 	<div id="loading-container">
 		<h3>Now loading. . .&nbsp;&nbsp;
-			<img src="{{ STATIC_URL }}img/loading.gif" />
+			<img src="{{ STATIC_URL }}img/loading.gif" alt="" role="presentation" />
 		</h3>
 	</div>
 
@@ -33,6 +33,7 @@
 						<button type="button" class="btn btn-sm btn-default" data-chamber="Joint">Joint</button>
 					</div>
 	<span style="margin-left: 15px;">
+						<label for="congress-selector" class="visually-hidden">Select Congress</label>
 						<select id="congress-selector" class="form-control input-sm" style="width: 260px; display: inline-block;">
 						% for cong in range(max_congress, 0, -1):
 						%   start_year = 1787 + 2*cong
@@ -61,7 +62,7 @@
 	<p>These datasets are available for download from Charles Stewart's Congressional Data <a href="https://web.mit.edu/cstewart/www/data/data_page.html" target="_blank">webpage</a>.</p>
 </div>
 <p style="text-align:right; margin-top:8px; padding-right:15px;">
-	<small><a href="#" id="committee-credit-link">Data Credits</a></small>
+	<small><button type="button" class="link-button" id="committee-credit-link">Data Credits</button></small>
 </p>
 
 <script language="javascript">
