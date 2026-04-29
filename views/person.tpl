@@ -32,7 +32,7 @@
 			{{ !person["service_text"] }}
 			% end
 
-		% if "alt_text" in person:
+		% if person.get("alt_text"):
 		<h5>{{ !person["alt_text"] }}</h5>
 		% end
 
@@ -133,8 +133,9 @@
 				<button type="button"
 					class="btn btn-primary hide_button_default" id="loadStash"
 					onClick="javascript:loadSavedVotes();return false;"
+					aria-label="Load saved votes into search"
 					data-toggle="tooltip" data-placement="top" title="Load Saved Votes into Search">
-					<span class="glyphicon glyphicon-upload"></span>
+					<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
 				</button>
 			</div>
 			<label for="memberSearchBox" class="visually-hidden">Search this member's votes</label>

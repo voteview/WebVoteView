@@ -248,13 +248,14 @@ def assemble_person_meta(person, keith=0):
 
     if person["state"] != "President":
         person["stateText"] = (
-            " of %s <img src=\"/static/img/states/%s.png\" "
-            "class=\"member_flag\">" % (person["state"],
-                                        person["state_abbrev"]))
+            " of %s <img src=\"/static/img/states/%s.png\" alt=\"\" "
+            "aria-hidden=\"true\" class=\"member_flag\">" % (person["state"],
+                                                              person["state_abbrev"]))
     else:
         person["stateText"] = (
             ", President of the United States "
-            "<img src=\"/static/img/states/US.png\" class=\"member_flag\">")
+            "<img src=\"/static/img/states/US.png\" alt=\"\" "
+            "aria-hidden=\"true\" class=\"member_flag\">")
 
     person["plotIdeology"] = (1 if "nominate" in person and
                               "dim1" in person["nominate"] and

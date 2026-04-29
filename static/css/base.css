@@ -696,8 +696,11 @@ h5.congSelector small { padding-left: 10px; }
 
 /* Search results */
 .keyvote { margin-right: 10px; }
-.viewVote { font-size: 22px; margin-right: 16px; vertical-align: middle; }
-.exportVote { font-size: 22px; vertical-align: middle; cursor: pointer; }
+/* Sizing for both <img> and <span class="glyphicon"> uses of these classes:
+   the <img> in member_votes.tpl needs width; the glyphicon span in
+   search_results.tpl needs font-size. */
+.viewVote { width: 24px; font-size: 22px; margin-right: 16px; vertical-align: middle; }
+.exportVote { width: 24px; font-size: 22px; vertical-align: middle; cursor: pointer; }
 button.link-button .exportVote { color: #005587; }
 .voteBody { cursor: pointer; }
 .debugText { font-size: 8px; }
