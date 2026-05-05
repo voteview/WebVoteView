@@ -54,7 +54,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="alert alert-info" role="alert">
-		     Welcome!  We have just updated Voteview's aging codebase.  In the process, we have fixed some nagging issues and
+		     Welcome!  We have just updated Voteview's aging codebase.  In the process, we have fixed some nagging issues, added a few new features, and
 		     improved performance. If you notice anything that used to work that no longer does, please let us know.
 		</div>
 	</div>
