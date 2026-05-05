@@ -158,6 +158,7 @@
 		</div>
 		<div id="loadIndicator" class="member_vote_load" aria-live="polite" aria-busy="true">
 			<img src="/static/img/loading.gif" alt="" role="presentation">
+			<span id="loadIndicatorText">Sorting votes</span>
 		</div>
         </div>
     </div>

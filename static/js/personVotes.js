@@ -1,3 +1,6 @@
+var currentSortCol = 0;
+var currentSortDir = -1;
+
 function loadSavedVotes()
 {
 	if(cookieId.length)
@@ -18,7 +21,8 @@ function nextPageSearch()
 	// If we've got no search results, everything should be hidden -- if we're
 	// loading the next page, just show a throbber.
 	if(!globalNextId) $("#memberVotesTable").animate({opacity: 0});
-	else $("#loadIndicator").fadeIn();
+	$("#loadIndicatorText").text(currentSortCol ? "Sorting votes" : "Loading votes");
+	$("#loadIndicator").fadeIn();
 
 	// If we're getting the next page, iterate the page again
 	if(globalNextId) { globalNextId++; }
@@ -27,7 +31,9 @@ function nextPageSearch()
 	const assembleURL = `\
 		/api/getMemberVotesAssemble?icpsr=${memberICPSR}\
 		&qtext=${$("#memberSearchBox").val()}\
-		&skip=${globalNextId}`;
+		&skip=${globalNextId}\
+		&sortCol=${currentSortCol}\
+		&sortDir=${currentSortDir}`;
 
 	// Make the call
 	$.ajax(assembleURL, {
@@ -44,8 +50,11 @@ function nextPageSearch()
 			if (!globalNextId) $("#memberVotesTable").animate({ opacity: 1 });
 
 			// Do we append or overwrite the results
-			if (globalNextId == 0) { $('#memberVotesTable').html(d); }
-			else { $('#voteDataTable > tbody').append(d); }
+			if (globalNextId == 0) {
+				$('#memberVotesTable').html(d);
+			} else {
+				$('#voteDataTable > tbody').append(d);
+			}
 
 			// Note the information for pagination -- if there's no next,
 			// we don't need it.
@@ -53,21 +62,40 @@ function nextPageSearch()
 			if (globalNextId == 0) { $("#nextVotes").fadeOut(); }
 			else { $("#nextVotes").fadeIn(); }
 
-			// Setup the tooltip JS on the newly created nodes we dumped in
-			// and setup the variables data.
-			$('[data-toggle="tooltip"]').tooltip();
-			$("#loadIndicator").hide();
-			$("#voteDataTable").tablesorter({
-				headerTemplate: "{content}",
-				headers: {
-					4: { sortInitialOrder: 'desc', sorter: 'probFunc' },
-					5: { sorter: 'splitFunc' }
+			// Bind header click handler + collapse duplicate dates
+			// synchronously so the table looks correct as soon as it paints.
+			$('#voteDataTable thead th').not('[data-sorter="false"]').off('click.serverSort').on('click.serverSort', function(e) {
+				e.stopImmediatePropagation();
+				const colIndex = $(this).index();
+				if (colIndex === currentSortCol) {
+					currentSortDir = -currentSortDir;
+				} else {
+					currentSortCol = colIndex;
+					currentSortDir = -1;
 				}
+				globalNextId = 0;
+				nextPageSearch();
 			});
-			$("#voteDataTable").bind("tablesorter-ready", () => {
+			if (currentSortCol === 0) hideDates();
+
+			// Hide the spinner now and defer the expensive tablesorter init +
+			// per-element tooltip binding — for 700+ votes those scan every
+			// cell and add seconds before the browser can paint.
+			$("#loadIndicator").hide();
+			setTimeout(() => {
+				$("#voteDataTable").tablesorter({
+					headerTemplate: "{content}",
+					headers: {
+						4: { sortInitialOrder: 'desc', sorter: 'probFunc' },
+						5: { sorter: 'splitFunc' }
+					}
+				});
+				$("#voteDataTable").bind("tablesorter-ready", () => {
+					$('[data-toggle="tooltip"]').tooltip();
+				});
 				$('[data-toggle="tooltip"]').tooltip();
-			});
-			$("#voteDataTable").bind("sortEnd", hideDates);
+				if (currentSortCol === 0) $("#voteDataTable").bind("sortEnd", hideDates);
+			}, 0);
 		}
 	});
 	return;
