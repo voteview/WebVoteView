@@ -1,5 +1,4 @@
-% devserver=int(open("./server.txt","r").read().strip())
-% transition_alert = 0
+% from model.config import config
 <div class="container">
   <div id="wbv-header" class="row">
     <div class="col-md-12">
@@ -17,7 +16,9 @@
 
         <li><a href="/parties/all">party</a></li>
 
-        <li><a href="/district">geography</a></li>   
+        <li><a href="/committees/all">committee</a></li>
+
+        <li><a href="/district">geography</a></li>
 
         <li><a href="/data">data</a></li>
 
@@ -27,31 +28,33 @@
 
 	<h1 id="brand">
 		<span class="printOnly">UCLA Presents </span>
-		% if devserver:
-		<a href="/"><span class="dev_header">voteview.com beta DEV SERVER</span></a>
+		% if config["server"]:
+		<a href="/"><span class="dev_header">voteview.com beta 3 (isaac 1) in dev mode!</span></a>
 		% else:
-		<a href="/">voteview.com</a> <small>beta</small>
+		<a href="/">voteview.com</a> <small>beta 3</small>
 		% end
 	</h1>
     </div>
   </div>
-  % if transition_alert:
+  % if config["transition_alert"]:
   <div class="row">
 	<div class="col-md-12">
 		<div class="alert alert-info" role="alert">
-			<strong>Attention:</strong> During the transition to the new Congress, some data may be missing, incomplete, or provisional. 
-			We expect scores to propagate over the next 1-2 weeks. If you would like to be alerted when data for the new Congress is fully propagated, please <a href="https://voteview.com/about">sign up for our update newsletter.</a>
+			<strong>Attention:</strong> During the transition to the new Congress, some data may be missing, incomplete, or provisional.
+			We expect scores to propagate over the next 1-2 weeks. If you would like to be alerted when data for the new Congress is fully propagated, please <a href="https://vanguard.voteview.com/about">sign up for our update newsletter.</a>
 		</div>
 	</div>
   </div>
   % end
-  % if False:
-  <div class="row">
+</div>
+
+<!-- Anouncing the migration to Python 3 -->
+
+<div class="row">
 	<div class="col-md-12">
 		<div class="alert alert-info" role="alert">
-			<strong>Attention:</strong> Data from the 118th Congress is coming soon! 
+		     Welcome!  We have just updated Voteview's aging codebase.  In the process, we have fixed some nagging issues and
+		     improved performance. If you notice anything that used to work that no longer does, please let us know.
 		</div>
 	</div>
-  </div>
-  % end
 </div>

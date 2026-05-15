@@ -9,25 +9,31 @@ function submitForm()
 		type: "POST",
 		url: "/api/contact",
 		data: $('#contact-form').serialize(),
-		beforeSend:function(){return;},
-		success: function(res, status, xhr)
-		{
-			if(res["success"])
-			{
-				var div = $("<div></div>").attr({"class": "alert alert-success"}).html("Thank you for contacting us. We will get back to you as soon as possible.");
+		beforeSend: function() { return; },
+		success: (res, status, xhr) => {
+			// Why is res["success"] needed? Because res["success"] is the API
+			// return, while success above is the AJAX return.
+			if (res["success"]) {
+				let div = $("<div></div>")
+					.attr({ "class": "alert alert-success" })
+					.html(
+						"Thank you for contacting us. We will get back to \
+						 you as soon as possible.");
 				$("#result_contact > div").remove();
 				div.appendTo($("#result_contact"));
 				$("#result_contact").fadeIn();
 				$("#contact-form").slideUp();
+				return;
 			}
-			else
-			{
-				var div = $("<div></div>").attr({"class": "alert alert-danger"}).html(res["error"])
-				$("#result_contact > div").remove();
-				div.appendTo($("#result_contact"));
-				$("#result_contact").fadeIn();
-			}
-		}});
+
+			let div = $("<div></div>")
+				.attr({ "class": "alert alert-danger" })
+				.html(res["error"]);
+			$("#result_contact > div").remove();
+			div.appendTo($("#result_contact"));
+			$("#result_contact").fadeIn();
+		}
+	});
 }
 
 function newsletterSignup()
@@ -36,22 +42,26 @@ function newsletterSignup()
 		type: "POST",
 		url: "/api/newsletter",
 		data: $('#update-form').serialize(),
-		success: function(res, status, xhr)
-		{
-			if(res["success"])
-			{
-				var div = $("<div></div>").attr({"class": "alert alert-success"}).html("Your email address has been " + res["verb"] + " our newsletter list.");
+		success: (res, status, xhr) => {
+			if (res["success"]) {
+				let div = $("<div></div>")
+					.attr({ "class": "alert alert-success" })
+					.html(
+						`Your email address has been ${res["verb"]} our \
+						 newsletter list.`);
 				$("#result_newsletter > div").remove();
 				div.appendTo($("#result_newsletter"));
 				$("#result_newsletter").fadeIn();
 				$("#update-form").slideUp();
+				return;
 			}
-			else
-			{
-				var div = $("<div></div>").attr({"class": "alert alert-danger"}).html(res["error"])
-				$("#result_newsletter > div").remove();
-				div.appendTo($("#result_newsletter"));
-				$("#result_newsletter").fadeIn();
-			}
-		}});
+
+			var div = $("<div></div>")
+				.attr({ "class": "alert alert-danger" })
+				.html(res["error"]);
+			$("#result_newsletter > div").remove();
+			div.appendTo($("#result_newsletter"));
+			$("#result_newsletter").fadeIn();
+		}
+	});
 }

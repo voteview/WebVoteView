@@ -1,4 +1,3 @@
-% devserver=int(open("./server.txt","r").read().strip())
 % STATIC_URL = "/static/"
 % setdefault('title','UCLA')
 % setdefault('extra_css','')
@@ -7,18 +6,19 @@
 % setdefault('body_class', '')
 % setdefault('twitter_card', '')
 % import random
+% from model.config import config
 % cache_breaker = random.randint(10000, 99999)
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF8">
-        <title>{{"DEV SERVER" if devserver==1 else "Voteview"}} | {{ title }}</title>
+        <title>{{"DEV SERVER" if config["server"] == 1 else "Voteview"}} | {{ title }}</title>
         <meta http-equiv="X-UA-Compatible" content="chrome=IE7" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta name="description" content="View, map, and investigate congressional votes throughout history, classify legislators as liberal or conservatives." />
-	% if devserver:
+	% if config["server"]:
 	<meta name=”robots” content=”noindex,nofollow,noarchive,nosnippet,noodp,noydir" />
 	% end
 <style>
@@ -42,7 +42,7 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/custombootstrap.css" media="screen, projection, print"/>
         <link href="{{ STATIC_URL }}css/dc.css?t={{cache_breaker}}" media="all" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css?t={{cache_breaker}}" media="screen, projection, print"/>
-        
+
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/libs/js.cookie.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/footer.js"></script>
@@ -65,7 +65,7 @@
 	% end
 
     </head>
-	% if not devserver:
+	% if not config["server"]:
     <body id="{{ body_id }}" class="{{ body_class }}">
 	% else:
     <body id="{{ body_id }}" class="{{ body_class }} devbody">
@@ -90,4 +90,3 @@
         <script type="text/javascript" src="{{ STATIC_URL }}js/libs/bootstrap.min.js"></script>
     </body>
 </html>
-

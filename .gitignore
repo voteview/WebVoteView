@@ -2,6 +2,7 @@
 git-synchronize
 model/auth.json
 model/swearFilter.json
+model/swear_filter.json
 static/db
 static/dumpNom
 static/deprecated
@@ -28,6 +29,9 @@ static/img/scans/**/*.sgm
 static/articles/
 static/json
 static/partyjson
+static/committeejson
 static/controljson
 static/carousel
 model/email/newsletter_list.json
+.DS_Store
+.vscode

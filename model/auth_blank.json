@@ -1,0 +1,13 @@
+{
+	"sendgrid": "",
+	"contact": "",
+	"recaptcha": "",
+	"recaptchaPublic": "",
+	"geocodeAPI": "",
+	"scoreThreshold": 0,
+	"scoreMultThreshold": 0,
+	"quotaLogSalt": "",
+	"quotaLimit": 1000,
+	"whitelistIPs": [],
+	"blacklistIPs": []
+}

@@ -449,6 +449,8 @@ span.party_header { padding-right: 20px; }
 #alertPartiesGlance { margin-bottom: 20px; }
 #closeAlert { float: right; text-decoration: none; }
 .party_row td { padding-top: 2px; padding-bottom: 2px; cursor: pointer; }
+.committee_row td { padding-top: 4px; padding-bottom: 4px; cursor: pointer; }
+.committee_row:hover td { background-color: #f5f5f5; }
 
 .box_red { background-color: #ca0020 !important; }
 .box_orange { background-color: #e66101 !important; }

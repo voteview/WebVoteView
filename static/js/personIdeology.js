@@ -136,16 +136,17 @@ function fillLoyaltyDrawHist(error, data)
 
 		// Log NOMINATE scores into arrays as appropriate.
 		congressNom.push(d.nominate.dim1);
-		if(d.party_code == memberPartyCode && d.chamber.toLowerCase() == chamber)
+		var inChamber = d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President';
+		if(d.party_code == memberPartyCode && inChamber)
 		{
 			partyNom.push(d.nominate.dim1);
 			chamberNom.push(d.nominate.dim1);
 			partyChamberNom.push(d.nominate.dim1);
 		}
 		else if(d.party_code == memberPartyCode) partyNom.push(d.nominate.dim1);
-		else if(d.chamber.toLowerCase() == chamber) chamberNom.push(d.nominate.dim1);
+		else if(inChamber) chamberNom.push(d.nominate.dim1);
 
-		if(d.chamber.toLowerCase() == chamber || chamber == 'president' || chamberTrue == 'President') {
+		if(inChamber) {
 			chamberVotes.push([d.nvotes_yea_nay, d.nvotes_against_party, d.nvotes_abs]);
 		}
 
@@ -217,6 +218,10 @@ function fillLoyaltyDrawHist(error, data)
 	var ndx = crossfilter(chamberNom);
 	var oneDimDimension = ndx.dimension(function(d) { return d; });
 	var oneDimGroup = oneDimDimension.group(function(d) { return Math.floor(d*numBins); });
+
+	// Clear any previously registered chart so dc.renderAll() doesn't conflict.
+	dc.deregisterAllCharts();
+	d3.select("#nominateHist").html("");
 
 	// Build the histogram
 	var nominateHist = dc.barChart("#nominateHist");
