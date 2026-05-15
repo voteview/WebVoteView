@@ -73,10 +73,22 @@
 			    </td>
 			    <td>{{vote["partyLabelVote"]}}</td>
 			    <td>
+				% modifier = vote.get("myVoteModifier", "")
+				% modifierTitles = {"paired": "Paired vote: An absent member arranged with an opposing colleague to cancel each other out. Recorded but not counted in the official total.", "announced": "Announced vote: An absent member's publicly stated position. Recorded but not counted in the official total.", "president": "Presidential position; does not count toward the outcome or official vote total."}
+				% modifierLetters = {"paired": "p", "announced": "a", "president": "*"}
+				% modifierTitle = modifierTitles.get(modifier, "")
+				% modifierLetter = modifierLetters.get(modifier, "")
 				% if vote["partyLabelVote"]!="N/A" and vote["partyLabelVote"]!="Tie" and vote["myVote"]!="Abs" and vote["myVote"]!=vote["partyLabelVote"]:
 					<span class="unlikely_vote">{{vote["myVote"]}}</span>
 				% else:
 					{{vote["myVote"]}}
+				% end
+				% if modifier:
+					% if modifier == "president":
+						<sup class="vote_modifier_mark vote_modifier_mark_president" data-toggle="tooltip" data-placement="top" title="{{modifierTitle}}" aria-label="{{modifierTitle}}">{{modifierLetter}}</sup>
+					% else:
+						<sup class="vote_modifier_mark" data-toggle="tooltip" data-placement="top" title="{{modifierTitle}}" aria-label="{{modifierTitle}}"><em>{{modifierLetter}}</em></sup>
+					% end
 				% end
 			    </td>
 			    % if not "myProb" in vote:

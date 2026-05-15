@@ -46,6 +46,8 @@ def prep_votes(vote_query, person):
 
             # Fill in vote and probability if one is known.
             votes[i]["myVote"] = vote_extracted["vote"]
+            if vote_extracted.get("vote_modifier"):
+                votes[i]["myVoteModifier"] = vote_extracted["vote_modifier"]
             if "prob" in vote_extracted:
                 votes[i]["myProb"] = vote_extracted["prob"]
         except Exception:

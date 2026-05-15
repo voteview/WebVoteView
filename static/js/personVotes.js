@@ -1,3 +1,6 @@
+var currentSortCol = 0;
+var currentSortDir = -1;
+
 function loadSavedVotes()
 {
 	if(cookieId.length)
@@ -27,7 +30,9 @@ function nextPageSearch()
 	const assembleURL = `\
 		/api/getMemberVotesAssemble?icpsr=${memberICPSR}\
 		&qtext=${$("#memberSearchBox").val()}\
-		&skip=${globalNextId}`;
+		&skip=${globalNextId}\
+		&sortCol=${currentSortCol}\
+		&sortDir=${currentSortDir}`;
 
 	// Make the call
 	$.ajax(assembleURL, {
@@ -44,8 +49,11 @@ function nextPageSearch()
 			if (!globalNextId) $("#memberVotesTable").animate({ opacity: 1 });
 
 			// Do we append or overwrite the results
-			if (globalNextId == 0) { $('#memberVotesTable').html(d); }
-			else { $('#voteDataTable > tbody').append(d); }
+			if (globalNextId == 0) {
+				$('#memberVotesTable').html(d);
+			} else {
+				$('#voteDataTable > tbody').append(d);
+			}
 
 			// Note the information for pagination -- if there's no next,
 			// we don't need it.
@@ -67,7 +75,25 @@ function nextPageSearch()
 			$("#voteDataTable").bind("tablesorter-ready", () => {
 				$('[data-toggle="tooltip"]').tooltip();
 			});
-			$("#voteDataTable").bind("sortEnd", hideDates);
+
+			// Intercept header clicks to trigger server-side sort instead
+			$('#voteDataTable thead th').not('[data-sorter="false"]').off('click.serverSort').on('click.serverSort', function(e) {
+				e.stopImmediatePropagation();
+				const colIndex = $(this).index();
+				if (colIndex === currentSortCol) {
+					currentSortDir = -currentSortDir;
+				} else {
+					currentSortCol = colIndex;
+					currentSortDir = -1;
+				}
+				globalNextId = 0;
+				nextPageSearch();
+			});
+
+			if (currentSortCol === 0) {
+				$("#voteDataTable").bind("sortEnd", hideDates);
+				hideDates();
+			}
 		}
 	});
 	return;

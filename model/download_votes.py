@@ -80,12 +80,31 @@ def _get_pairedvote(vote_id):
     return 1 if vote_id in [2, 5] else 0
 
 
+def _get_vote_modifier(vote_id):
+    """
+    Map vote ids to a textual modifier flagging paired or announced votes.
+    ICPSR cast codes: 1=Yea, 2=Paired Yea, 3=Announced Yea,
+    4=Announced Nay, 5=Paired Nay, 6=Nay. So paired = {2,5} and
+    announced = {3,4}.
+    """
+    if vote_id in [2, 5]:
+        return "paired"
+    if vote_id in [3, 4]:
+        return "announced"
+    return ""
+
+
 def process_voter_web(new_v, member_map):
     """ Augment a single voter for a web-based API. """
 
     # Map cast code to text.
     new_v["vote"] = _get_yeanayabs(new_v["cast_code"])
     new_v["paired_flag"] = _get_pairedvote(new_v["cast_code"])
+    new_v["vote_modifier"] = _get_vote_modifier(new_v["cast_code"])
+    # Presidential "votes" are recorded positions, not roll-call votes.
+    # Tag them so the UI can show they don't count toward the total.
+    if member_map.get("state_abbrev") == "USA":
+        new_v["vote_modifier"] = "president"
     # We are not returning cast code.
     del new_v["cast_code"]
 
