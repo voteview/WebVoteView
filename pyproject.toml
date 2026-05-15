@@ -17,7 +17,7 @@ six = "^1.17.0"
 Unidecode = "^1.4.0"
 numpy = "^2.4.1"
 python-Levenshtein = "^0.27.3"
-uWSGI = "^2.0.31"
+uWSGI = ">=2.0.31,<3.0.0"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^7.3.0"
