@@ -32,6 +32,17 @@
 			{{ !person["service_text"] }}
 			% end
 
+			% if person.get("career_votes_cast", 0) > 0:
+			<h5 class="careerVotesCast">
+				Total roll-call votes cast: {{ "{:,}".format(person["career_votes_cast"]) }}
+				<span class="glyphicon glyphicon-info-sign text-muted"
+				      data-toggle="tooltip" data-placement="top"
+				      title="Total roll-call votes cast across this member's career, excluding abstentions and other non-yea/nay votes."
+				      aria-label="Total roll-call votes cast across this member's career, excluding abstentions and other non-yea/nay votes."
+				      tabindex="0"></span>
+			</h5>
+			% end
+
 		% if person.get("alt_text"):
 		<h5>{{ !person["alt_text"] }}</h5>
 		% end
@@ -158,6 +169,7 @@
 		</div>
 		<div id="loadIndicator" class="member_vote_load" aria-live="polite" aria-busy="true">
 			<img src="/static/img/loading.gif" alt="" role="presentation">
+			<span id="loadIndicatorText">Sorting votes</span>
 		</div>
         </div>
     </div>
@@ -169,6 +181,7 @@
 var memberICPSR = {{person["icpsr"]}};
 var congressNum = {{person["congress"]}};
 var globalNextId = 0;
+$(function(){ $('[data-toggle="tooltip"]').tooltip(); });
 </script>
 % if person["plotIdeology"]:
 <script>

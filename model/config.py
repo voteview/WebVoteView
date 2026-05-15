@@ -143,6 +143,14 @@ def _ensure_indexes():
             name="dateChRnIndex",
             background=True
         )
+        # Compound index for "votes by member, sorted by date" — without this,
+        # the planner sometimes picks dateChRnIndex and scans every rollcall
+        # to find one member's 700 matches.
+        db.voteview_rollcalls.create_index(
+            [('votes.icpsr', 1), ('date_chamber_rollnumber', -1)],
+            name="voterDateIndex",
+            background=True
+        )
         # Index for quota session lookups
         db.api_quota.create_index(
             [('session', 1)],

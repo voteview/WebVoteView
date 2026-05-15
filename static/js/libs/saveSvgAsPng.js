@@ -218,13 +218,13 @@
       scale = 1,
       responsive = false,
     } = options || {};
-
+    
     return inlineImages(el).then(() => {
       let clone = el.cloneNode(true);
       const {backgroundColor = 'transparent'} = options || {};
       clone.style.backgroundColor = backgroundColor;
       const {width, height} = getDimensions(el, clone, w, h);
-
+      
       if (el.tagName !== 'svg') {
         if (el.getBBox) {
           clone.setAttribute('transform', clone.getAttribute('transform').replace(/translate\(.*?\)/, ''));
@@ -237,8 +237,11 @@
         }
       }
 
+	//left = el.viewBox.baseVal['x'];
+      xtop = +el.viewBox.baseVal['y'];
+      xleft = +el.viewBox.baseVal['x'];	
       clone.setAttribute('version', '1.1');
-      clone.setAttribute('viewBox', [left, top, width, height].join(' '));
+      clone.setAttribute('viewBox', [xleft, xtop, width, height].join(' '));
       if (!clone.getAttribute('xmlns')) clone.setAttributeNS(xmlns, 'xmlns', 'http://www.w3.org/2000/svg');
       if (!clone.getAttribute('xmlns:xlink')) clone.setAttributeNS(xmlns, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
 
@@ -294,16 +297,23 @@
     const convertToPng = ({src, width, height}) => {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
-      const pixelRatio = window.devicePixelRatio || 1;
+      pixelRatio = window.devicePixelRatio || 1;
 
-      canvas.width = width * pixelRatio;
-      canvas.height = height * pixelRatio;
+      //  A little JBL hackery to get panned/zoomed maps to png correctly	
+      xwidth = el.getAttribute("width");
+      xheight = el.getAttribute("height");
+      canvas.width = xwidth * pixelRatio;
+      pixelRatio = pixelRatio *  (xwidth / width);
+      canvas.height = height * pixelRatio ;
+      // End hackery
+
       canvas.style.width = `${canvas.width}px`;
-      canvas.style.height = `${canvas.height}px`;
+      canvas.style.height = `${canvas.height}px`;	
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
+
       if (canvg) canvg(canvas, src);
-      else context.drawImage(src, 0, 0);
+        else context.drawImage(src, 0, 0);
 
       let png;
       try {

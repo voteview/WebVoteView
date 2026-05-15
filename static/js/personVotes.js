@@ -21,7 +21,8 @@ function nextPageSearch()
 	// If we've got no search results, everything should be hidden -- if we're
 	// loading the next page, just show a throbber.
 	if(!globalNextId) $("#memberVotesTable").animate({opacity: 0});
-	else $("#loadIndicator").fadeIn();
+	$("#loadIndicatorText").text(currentSortCol ? "Sorting votes" : "Loading votes");
+	$("#loadIndicator").fadeIn();
 
 	// If we're getting the next page, iterate the page again
 	if(globalNextId) { globalNextId++; }
@@ -61,22 +62,8 @@ function nextPageSearch()
 			if (globalNextId == 0) { $("#nextVotes").fadeOut(); }
 			else { $("#nextVotes").fadeIn(); }
 
-			// Setup the tooltip JS on the newly created nodes we dumped in
-			// and setup the variables data.
-			$('[data-toggle="tooltip"]').tooltip();
-			$("#loadIndicator").hide();
-			$("#voteDataTable").tablesorter({
-				headerTemplate: "{content}",
-				headers: {
-					4: { sortInitialOrder: 'desc', sorter: 'probFunc' },
-					5: { sorter: 'splitFunc' }
-				}
-			});
-			$("#voteDataTable").bind("tablesorter-ready", () => {
-				$('[data-toggle="tooltip"]').tooltip();
-			});
-
-			// Intercept header clicks to trigger server-side sort instead
+			// Bind header click handler + collapse duplicate dates
+			// synchronously so the table looks correct as soon as it paints.
 			$('#voteDataTable thead th').not('[data-sorter="false"]').off('click.serverSort').on('click.serverSort', function(e) {
 				e.stopImmediatePropagation();
 				const colIndex = $(this).index();
@@ -89,11 +76,26 @@ function nextPageSearch()
 				globalNextId = 0;
 				nextPageSearch();
 			});
+			if (currentSortCol === 0) hideDates();
 
-			if (currentSortCol === 0) {
-				$("#voteDataTable").bind("sortEnd", hideDates);
-				hideDates();
-			}
+			// Hide the spinner now and defer the expensive tablesorter init +
+			// per-element tooltip binding — for 700+ votes those scan every
+			// cell and add seconds before the browser can paint.
+			$("#loadIndicator").hide();
+			setTimeout(() => {
+				$("#voteDataTable").tablesorter({
+					headerTemplate: "{content}",
+					headers: {
+						4: { sortInitialOrder: 'desc', sorter: 'probFunc' },
+						5: { sorter: 'splitFunc' }
+					}
+				});
+				$("#voteDataTable").bind("tablesorter-ready", () => {
+					$('[data-toggle="tooltip"]').tooltip();
+				});
+				$('[data-toggle="tooltip"]').tooltip();
+				if (currentSortCol === 0) $("#voteDataTable").bind("sortEnd", hideDates);
+			}, 0);
 		}
 	});
 	return;

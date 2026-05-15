@@ -690,7 +690,20 @@ h5.congSelector small { padding-left: 10px; }
 .member_flag { width: 20px; vertical-align: middle; }
 .personSearch { padding-top: 10px; padding-bottom: 10px; clear: both; }
 .loadVotes { float: right; padding-top: 12px; min-width: 400px; width: 400px; }
-.member_vote_load { float: right; margin-right: 25px; display: none; }
+.member_vote_load {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1050;
+	padding: 14px 18px;
+	background: rgba(255, 255, 255, 0.95);
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	display: none;
+}
+.member_vote_load img { vertical-align: middle; }
+.member_vote_load #loadIndicatorText { margin-left: 10px; vertical-align: middle; font-weight: 500; }
 .hide_button_default { display: none; }
 .show_district_c { display: block; }
 .hide_district_c { display: none; }

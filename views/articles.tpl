@@ -1,4 +1,5 @@
 % rebase('base.tpl', title=meta["title"], extra_css=["rmd_default.css"], extra_js=["/static/js/libs/sourcembed.js", "/static/js/libs/highlight.js"])
+% from model.date_helper import format_article_date
 % include('header.tpl')
 
 <!-- from RMarkdown -->
@@ -20,6 +21,25 @@ if (window.hljs) {
 		</div>
 	</div>
 </div>
+
+% original_date_fmt = format_article_date(meta.get("original_date", ""))
+% if original_date_fmt:
+<script>
+(function() {
+	var origDate = {{! repr(original_date_fmt) }};
+	var dateEl = document.querySelector('h4.date');
+	if (!dateEl) { return; }
+	var updatedDate = (dateEl.textContent || '').trim();
+	if (!updatedDate || updatedDate === origDate) {
+		dateEl.textContent = 'Originally published: ' + origDate;
+	} else {
+		dateEl.innerHTML =
+			'Originally published: ' + origDate +
+			' &nbsp;&middot;&nbsp; Last updated: ' + updatedDate;
+	}
+})();
+</script>
+% end
 
 <!-- From Rmarkdown defaults -->
 <script>

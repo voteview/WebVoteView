@@ -21,7 +21,8 @@ from model.search_meta import meta_lookup
 from model.bio_data import (congress_to_year,
                             assemble_person_meta,
                             twitter_card)
-from model.prep_votes import prep_votes
+from model.prep_votes import (prep_votes, sort_votes_by_column,
+                              prep_person_votes_fast)
 from model.geo_lookup import (address_to_lat_long,
                               lat_long_to_districts,
                               lat_long_to_polygon)
@@ -777,10 +778,24 @@ def assemble_member_votes(icpsr=0, qtext="", skip=0):
     qtext = default_value(bottle.request.params.qtext, "")
     skip = default_value(bottle.request.params.skip, 0)
 
+    try:
+        sort_col = int(bottle.request.params.get("sortCol", 0))
+    except (ValueError, TypeError):
+        sort_col = 0
+    try:
+        sort_dir = int(bottle.request.params.get("sortDir", -1))
+    except (ValueError, TypeError):
+        sort_dir = -1
+
+    if sort_dir not in [-1, 1]:
+        sort_dir = -1
+    if sort_col not in [0, 2, 3, 4, 5]:
+        sort_col = 0
+
     if not icpsr:
         output = bottle.template(
             "views/error", error_message="No member specified.")
-        bottle.response.headers["nextId"] = 0
+        bottle.response.headers["Nextid"] = 0
         return output
 
     person_response = member_lookup({"icpsr": icpsr})
@@ -789,37 +804,48 @@ def assemble_member_votes(icpsr=0, qtext="", skip=0):
     else:
         output = bottle.template(
             "views/error", error_message=person_response["errormessage"])
-        bottle.response.headers["nextId"] = 0
+        bottle.response.headers["Nextid"] = 0
         return output
-
-    votes = []
 
     if qtext:
         qtext = qtext + " AND (voter: " + str(person_extracted["icpsr"]) + ")"
     else:
         qtext = "voter: " + str(person_extracted["icpsr"])
 
-    if skip:
-        vote_query = query(qtext, row_limit=25, jsapi=1,
-                           sort_skip=skip, request=bottle.request)
+    if sort_col != 0:
+        # query() handles freeform search syntax and returns date-sorted
+        # rollcall IDs; the compound voter+date index makes that fast. Then a
+        # single $elemMatch fetch projects only the voter's own entry, and we
+        # sort in Python.
+        vote_query = query(qtext, row_limit=5000, jsapi=1, ids_only=1,
+                           sort_dir=-1, request=bottle.request)
+        if "errormessage" in vote_query:
+            return bottle.template("views/error",
+                                   error_message=vote_query["errormessage"])
+        rollcall_ids = [v["id"] for v in vote_query.get("rollcalls", [])]
+        votes = prep_person_votes_fast(rollcall_ids, person_extracted)
+        votes = sort_votes_by_column(votes, sort_col, sort_dir)
+        next_id = 0
     else:
-        vote_query = query(qtext, row_limit=25, jsapi=1,
-                           request=bottle.request)
-
-    if "errormessage" in vote_query:
-        return bottle.template(
-            "views/error",
-            error_message=vote_query["errormessage"]
-        )
-
-    # Outsourced the vote assembly to a model for future API buildout.
-    votes = prep_votes(vote_query, person_extracted)
+        # Date sort: cursor-based pagination
+        if skip:
+            vote_query = query(qtext, row_limit=25, jsapi=1,
+                               sort_skip=skip, sort_dir=sort_dir,
+                               request=bottle.request)
+        else:
+            vote_query = query(qtext, row_limit=25, jsapi=1,
+                               sort_dir=sort_dir, request=bottle.request)
+        if "errormessage" in vote_query:
+            return bottle.template("views/error",
+                                   error_message=vote_query["errormessage"])
+        votes = prep_votes(vote_query, person_extracted)
+        next_id = vote_query["next_id"]
 
     output = bottle.template(
         "views/member_votes", person=person_extracted, votes=votes,
-        skip=skip, next_id=vote_query["next_id"])
+        skip=skip, next_id=next_id)
 
-    bottle.response.headers["nextId"] = vote_query["next_id"]
+    bottle.response.headers["Nextid"] = next_id
     return output
 
 
@@ -1039,6 +1065,12 @@ def stash_set_search():
         return {"errorMessage": "Invalid ID or search"}
 
     return model.stash_cart.set_search(search_id, search_text)
+
+@app.route("/github")
+@app.route("/github/<extd_q>")
+def github(extd_q=""):
+    bottle.redirect("https://github.com/voteview/%s" % extd_q)
+    return {}
 
 
 @app.route("/outdated")
