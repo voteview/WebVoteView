@@ -5,7 +5,7 @@
 <div class="container">
 	<div id="loading-container">
 		<h3>Loading members</h3>
-		<img src="{{ STATIC_URL }}img/loading.gif" />
+		<img src="{{ STATIC_URL }}img/loading.gif" alt="" role="presentation" />
 	</div>
 
 	<div id="content">
@@ -13,6 +13,7 @@
 			<div class="col-md-12">
 				<div id="header" class="congress_header">
 					<div id="congress_selector">
+						<label for="congSelector" class="visually-hidden">Select Congress</label>
 						<select id="congSelector">
 						% for i in range(max_congress, 0, -1):
 							<option value="{{i}}"{{!" SELECTED" if int(i) == int(congress) else ""}}>
@@ -21,9 +22,9 @@
 						% end
 						</select>
 						 &gt;
-						<abbr title="MemberType" id="memberLabel" onClick="javascript:rechamber();return false;">
+						<button type="button" class="link-button" id="memberLabel" onClick="javascript:rechamber();return false;" aria-label="Switch chamber">
 							{{member_label}}
-						</abbr>
+						</button>
 					</div>
 					<div id="partyComposition"></div>
 				</div>
@@ -59,13 +60,13 @@
 				<h4>Roster</h4>
 				% if not tabular_view:
 				(Sort by
-				<a href="#" onclick="javascript:resort('name');return false;">Name</a>,
-				<a href="#" onclick="javascript:resort('party');return false;">Party</a>,
-				<a href="#" onclick="javascript:resort('state');return false;">State</a>,
-				<a href="#" onclick="javascript:resort('nominate');return false;">Ideology</a>,
-				<a href="#" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</a> -- <a href="/congress/{{chamber}}/{{congress}}/text" id="textLink">Tabular View</a>)
+				<button type="button" class="link-button" onclick="javascript:resort('name');return false;">Name</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('party');return false;">Party</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('state');return false;">State</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('nominate');return false;">Ideology</button>,
+				<button type="button" class="link-button" id="sortChamber" onclick="javascript:resort('elected_{{chamber.lower()}}');return false;">Seniority</button> -- <a href="/congress/{{chamber}}/{{congress}}/text" id="textLink">Tabular View</a>)
 				<div id="filterName">
-					Filter Name: <input id="filter_name" type="text" placeholder="Don Young" oninput="javascript:delay_filter(); return false;">
+					<label for="filter_name">Filter Name:</label> <input id="filter_name" type="text" placeholder="Don Young" oninput="javascript:delay_filter(); return false;">
 				</div>
 				% else:
 				(<a href="/congress/{{chamber}}/{{congress}}" id="graphicLink">Graphical List View</a>)
@@ -90,9 +91,11 @@
 	<span id="data-count"><span id="votertype"></span> with </span>
 	<span id="nominate-chart-controls">NOMINATE scores within <span class="filter"></span>, </span>
 	<span id="name-controls">names matching "<span class="filter"></span>"</span>
-	<a class="reset" href="javascript:doFullFilterReset();">Remove Filter</a>
+	<button type="button" class="reset link-button" onclick="javascript:doFullFilterReset();return false;">Remove Filter</button>
 </div>
-<img id="selectionFilterClose" onClick="javascript:doFullFilterReset();" src="/static/img/close.png">
+<button type="button" id="selectionFilterClose" onClick="javascript:doFullFilterReset();return false;" aria-label="Close selection filter">
+	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+</button>
 
 <script language="javascript">
 var chamber_param = "{{ chamber }}";

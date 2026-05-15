@@ -10,7 +10,7 @@
 		<h3>Representing places through time</h3>
 
 		% if config["server"]:
-		<a href="#" onclick="javascript:$('#testData').css('overflow','auto').css('height','400px'); return false;">+</a>
+		<button type="button" class="link-button" onclick="javascript:$('#testData').css('overflow','auto').css('height','400px'); return false;" aria-label="Expand dev server test addresses">+</button>
 		Dev Server Test Addresses.
 		<ul class="notableExamples" id="testData">
 			<li>12040 Louise Ave, Los Angeles, CA</li>
@@ -99,20 +99,25 @@
 	</div>
 	<div class="row">
 		<form id="submit-address-form" action="." method="post">
-			<div class="col-md-1" class="address_marker">
-				<strong>Address:</strong>
+			<div class="col-md-1 address_marker">
+				<label for="addressInput"><strong>Address:</strong></label>
 			</div>
 			<div class="col-md-7">
 			<div class="input-group">
 				<div class="input-group-btn" id="locationButton">
-					<button id="submit-geolocation" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-map-marker"></span></button>
+					<button id="submit-geolocation" type="button" class="btn btn-primary" aria-label="Use my current location">
+						<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+					</button>
 				</div>
 				<input type="text" id="addressInput"
 					class="form-control" placeholder="Enter an address or ZIP code."
+					aria-label="Address or ZIP code"
 					value="{{!search if len(search) else ""}}">
 
 				<div class="input-group-btn">
-					<button id="submit-search-string" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+					<button id="submit-search-string" type="submit" class="btn btn-primary" aria-label="Search">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button>
 				</div>
 				<input type="hidden" id="cachedLat"> <input type="hidden" id="cachedLong">
 			</div>
@@ -128,7 +133,7 @@
 			<div id="resultsMembers"></div>
 		</div>
 		<div class="col-md-4" id="mapContainer">
-			<div id="google_map"</div>
+			<div id="google_map" role="application" aria-label="District map for the entered address"></div>
 			<br/>
 			<div id="perm_link_holder"></div>
 		</div>

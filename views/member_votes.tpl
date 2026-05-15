@@ -24,7 +24,7 @@
 		% end
 		    % lastDate = "0000-00-00"
                     % for vote in votes:
-                        <tr class="cursor" onclick="javascript:window.location='/rollcall/{{vote["id"]}}';">
+                        <tr>
 			    <td align="right">
 				% if lastDate != vote["date"]:
 				<span>{{fix_date(vote["date"], "%b %d, %Y")}}</span>
@@ -99,7 +99,10 @@
 			    </td>
 			    <td align="right">{{vote["yea_count"]}}-{{vote["nay_count"]}}</td>
                             <td>
-				<a href="/rollcall/{{ vote["id"] }}"><img src="/static/img/graph.png" class="viewVote" data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
+				<a href="/rollcall/{{ vote["id"] }}" aria-label="View vote details"
+				    data-toggle="tooltip" data-placement="bottom" title="View Vote">
+					<span class="glyphicon glyphicon-stats viewVote" aria-hidden="true"></span>
+				</a>
 			    </td>
                         </tr>
 			% lastDate = vote["date"]

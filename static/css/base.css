@@ -12,19 +12,82 @@
 	bottom: 0;
 }
 
-div#footer div {
+#footer div {
     height: 90px;
 }
 
-div#footer div span {
+#footer div span {
     display: inline-block;
     height: 100%;
     vertical-align: middle;
 }
 
-div#footer img {
+#footer img {
     height: 76px;
     vertical-align: middle;
+}
+
+/* WCAG 2.4.1: skip-to-content link, visible only on focus */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #003B5C;
+    color: #ffffff;
+    padding: 8px 16px;
+    z-index: 10000;
+    text-decoration: none;
+    font-weight: bold;
+}
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid #FFD100;
+}
+
+/* WCAG 2.4.7: ensure focus is always visible even where Bootstrap suppresses it */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid #005a9c;
+    outline-offset: 2px;
+}
+
+/* Visually hidden, available to screen readers (used for hidden labels) */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Style for in-text tooltip triggers (replaces ambiguous <u title>) */
+.tooltip-text {
+    border-bottom: 1px dotted #555;
+    cursor: help;
+}
+
+/* Style <button> as a plain inline link for in-text controls */
+button.link-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: #005587;
+    cursor: pointer;
+    font: inherit;
+    text-decoration: underline;
+}
+button.link-button:hover,
+button.link-button:focus {
+    color: #003B5C;
 }
 
 #scatter-container {
@@ -189,6 +252,13 @@ line.cutline {
 
 #brand a {
   text-decoration: none;
+}
+
+/* Darken the "beta 3" tag in the brand: Bootstrap defaults <h1 small> to
+   #777777, which is ~4.48:1 on white — fails WCAG AA for small text. */
+#brand small,
+#brand .small {
+  color: #595959;
 }
 
 .dc-table-label {
@@ -402,22 +472,19 @@ rect.brown { fill: #a6611a; }
 .columns2 { columns: 2; width: 50%; }
 .columns3 { columns: 3; width: 75%; }
 .columns4 { columns: 4; width: 100%; }
-div#mapTooltip span.meta { color: grey; font-size: 0.9em; }
+div#mapTooltip span.meta { color: #595959; font-size: 0.9em; }
 ul.voteTable li { padding-bottom: 3px; width:100%; }
 ul.voteTable li strong { text-decoration: underline; }
 ul.voteTable li span { background-color: white; padding-right: 5px; }
-ul.voteTable li span span.bullet { color: red; }
-ul.voteTable li span span.meta { color: grey; font-size: 0.9em; }
-ul.voteTable li span.sponsor { background-color: yellow; }
-ul.voteTable li span.paired { background-color: #EEEEEE; }
+ul.voteTable li span span.bullet { color: #CA0020; }
+ul.voteTable li span span.meta { color: #595959; font-size: 0.9em; }
+ul.voteTable li span.sponsor { background-color: #FFF9E6; }
 ul.voteTable li.voter { display: inline-block; }
 ul.voteTable li.dotted { }
-ul.voteTable li.paired { background-color: #EEEEEE; }
-ul.voteTable li.paired span { background-color: #EEEEEE; }
-ul.voteTable li.sponsor { background-color: yellow; }
-ul.voteTable li.sponsor span { background-color: yellow; }
+ul.voteTable li.sponsor { background-color: #FFF9E6; }
+ul.voteTable li.sponsor span { background-color: #FFF9E6; }
 ul.voteTable li span.vote { padding-right: 40px; float: right; }
-ul.voteTable li span.bullet { color: red; }
+ul.voteTable li span.bullet { color: #CA0020; }
 #voterTooltip { min-width: 320px; visibility: hidden; }
 #voterTooltip img { width: 80px; }
 #voterTooltip div.profile { padding-right: 10px; vertical-align: middle; height: 100%; min-height: 100px; }
@@ -506,7 +573,11 @@ span.party_header { padding-right: 20px; }
 #geoMap #map-chart #suppressMapControls { display: none; }
 #geoMap #warnParty { display: none; }
 #suppressNominateControls { display: none; }
-#selectionFilterClose { display: none; width:32px; cursor: pointer; }
+#selectionFilterClose { display: none; width:32px; height:32px; cursor: pointer; background: transparent; border: none; padding: 0; font-size: 32px; line-height: 1; }
+#selectionFilterClose .glyphicon { font-size: 32px; }
+#stashCartClose { background: transparent; border: none; padding: 0; font-size: 32px; line-height: 1; }
+#stashCartClose .glyphicon { font-size: 32px; }
+#stashCartIcon { background: transparent; border: none; padding: 0; }
 #selectionFilterBar { display: none; }
 #selectionFilterBar #map-chart-controls { display: none; }
 #selectionFilterBar #vote-chart-controls { display: none; }
@@ -533,7 +604,7 @@ span.party_header { padding-right: 20px; }
     width: 95% !important;
 }
 
-.dev_header { background-color: red; color: yellow; }
+.dev_header { background-color: #FFFF00; color: #000000; padding: 0 4px; }
 
 /* member_party_list */
 .member_flag { width: 20px; }
@@ -618,15 +689,32 @@ h5.congSelector small { padding-left: 10px; }
 .member_flag { width: 20px; vertical-align: middle; }
 .personSearch { padding-top: 10px; padding-bottom: 10px; clear: both; }
 .loadVotes { float: right; padding-top: 12px; min-width: 400px; width: 400px; }
-.member_vote_load { float: right; margin-right: 25px; display: none; }
+.member_vote_load {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1050;
+	padding: 14px 18px;
+	background: rgba(255, 255, 255, 0.95);
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	display: none;
+}
+.member_vote_load img { vertical-align: middle; }
+.member_vote_load #loadIndicatorText { margin-left: 10px; vertical-align: middle; font-weight: 500; }
 .hide_button_default { display: none; }
 .show_district_c { display: block; }
 .hide_district_c { display: none; }
 
 /* Search results */
 .keyvote { margin-right: 10px; }
-.viewVote { width: 24px; margin-right: 16px; vertical-align: middle; }
-.exportVote { width: 24px; vertical-align: middle; cursor: pointer; }
+/* Sizing for both <img> and <span class="glyphicon"> uses of these classes:
+   the <img> in member_votes.tpl needs width; the glyphicon span in
+   search_results.tpl needs font-size. */
+.viewVote { width: 24px; font-size: 22px; margin-right: 16px; vertical-align: middle; }
+.exportVote { width: 24px; font-size: 22px; vertical-align: middle; cursor: pointer; }
+button.link-button .exportVote { color: #005587; }
 .voteBody { cursor: pointer; }
 .debugText { font-size: 8px; }
 .advancedSearch { display: table-cell; width: 125px; vertical-align: middle; padding-left: 10px; font-size: 0.9em; }
@@ -656,3 +744,102 @@ h5.congSelector small { padding-left: 10px; }
 .namePad0 { margin-right: 0px; }
 
 .pad_bottom { margin-bottom: 50px; }
+
+/* WCAG 1.4.3 contrast: UCLA darker blue for links and headings.
+   #005587 on #ffffff = 7.06:1 contrast (passes AA + AAA for normal text).
+   The previous Bootstrap-default #3284bf was ~3.96:1 — failed AA. */
+a,
+a:link,
+a:visited {
+    color: #005587;
+}
+a:hover,
+a:focus {
+    color: #003B5C;
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #005587;
+}
+
+/* Restore inherited color where headings sit on a colored background
+   (panel headings, alerts, buttons) to avoid low contrast on blue/yellow/red fills. */
+.panel-heading,
+.panel-heading .panel-title,
+.panel-heading h1, .panel-heading h2, .panel-heading h3,
+.panel-heading h4, .panel-heading h5, .panel-heading h6,
+.alert h1, .alert h2, .alert h3, .alert h4, .alert h5, .alert h6,
+.btn h1, .btn h2, .btn h3, .btn h4, .btn h5, .btn h6,
+.carousel-caption h1, .carousel-caption h2, .carousel-caption h3,
+.carousel-caption h4, .carousel-caption h5, .carousel-caption h6 {
+    color: inherit;
+}
+
+/* Bootstrap utility-class link color used in a few spots. */
+.text-primary {
+    color: #005587;
+}
+a.text-primary:hover,
+a.text-primary:focus {
+    color: #003B5C;
+}
+
+/* Bootstrap primary button and panel heading: vendor stylesheet uses
+   #3284bf with white text, which is only ~3.59:1 (fails WCAG AA 4.5:1).
+   Override with UCLA darker blue #005587 (~7.06:1 — passes AA + AAA).
+   Selectors include a.btn-primary:link/:visited because the global a:link
+   rule (added for link contrast) would otherwise win on specificity and
+   recolor button text to the same blue as the background. */
+.btn-primary,
+a.btn-primary,
+a.btn-primary:link,
+a.btn-primary:visited {
+    color: #ffffff;
+    background-color: #005587;
+    border-color: #003B5C;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+a.btn-primary:hover,
+a.btn-primary:focus,
+a.btn-primary:active,
+.open > .dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: #003B5C;
+    border-color: #002C45;
+}
+.panel-primary {
+    border-color: #005587;
+}
+.panel-primary > .panel-heading {
+    background-color: #005587;
+    border-color: #005587;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #005587;
+}
+.panel-primary > .panel-heading .badge {
+    color: #005587;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #005587;
+}
+
+/* Member-card and party-card links use class="nohover" to suppress underline
+   styling. Bootstrap's vendor stylesheet sets these to #555555 — the same
+   color as body text, which fails WCAG 1.4.1 (link not visually distinguished
+   from surrounding text). Use the UCLA brand blue so member-name links read
+   as links. */
+a.nohover,
+a.nohover:link,
+a.nohover:visited {
+    color: #005587;
+}
+a.nohover:hover,
+a.nohover:focus,
+a.nohover:active {
+    color: #003B5C;
+}

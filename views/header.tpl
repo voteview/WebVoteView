@@ -2,13 +2,14 @@
 <div class="container">
   <div id="wbv-header" class="row">
     <div class="col-md-12">
-      <ul class="nav nav-pills pull-right noprint">
+      <nav aria-label="Primary" class="noprint">
+      <ul class="nav nav-pills pull-right">
 
         <li><a href="/">search</a></li>
 
-        <li>
-          <a data-toggle="dropdown" href="#">chamber</a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li class="dropdown">
+          <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" id="chamberDropdown">chamber <span class="caret" aria-hidden="true"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="chamberDropdown">
             <li><a href="/congress/senate">Senate</a></li>
             <li><a href="/congress/house">House of Representatives</a></li>
             </ul>
@@ -23,8 +24,8 @@
         <li><a href="/data">data</a></li>
 
         <li><a href="/about">about</a></li>
-	</li>
       </ul>
+      </nav>
 
 	<h1 id="brand">
 		<span class="printOnly">UCLA Presents </span>
@@ -53,7 +54,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="alert alert-info" role="alert">
-		     Welcome!  We have just updated Voteview's aging codebase.  In the process, we have fixed some nagging issues and
+		     Welcome!  We have just updated Voteview's aging codebase.  In the process, we have fixed some nagging issues, added a few new features, and
 		     improved performance. If you notice anything that used to work that no longer does, please let us know.
 		</div>
 	</div>

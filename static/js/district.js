@@ -109,7 +109,7 @@ function doGeolocation()
 				.html(
 					"<strong>Loading...</strong> Location matched, looking up \
 					 historical representatives... \
-					 <img src=\"/static/img/loading.gif\" \
+					 <img src=\"/static/img/loading.gif\" alt=\"\" role=\"presentation\" \
 					 class=\"loadDistrict\">");
 			doMembers(myLat, myLong);
 		}
@@ -135,7 +135,7 @@ function doGeolocation()
 			resetResults();
 			$("#loadProgress").show().html(
 				"<strong>Loading...</strong> Looking up your current location\
-				... <img src=\"/static/img/loading.gif\" \
+				... <img src=\"/static/img/loading.gif\" alt=\"\" role=\"presentation\" \
 				class=\"loadDistrict\">");
 			slowTimer = setTimeout(function() {
 				$("#loadProgress").html(
@@ -189,7 +189,7 @@ function latLongWrapper()
 		$("#loadProgress").show()
 			.html(
 				"<strong>Loading...</strong> Matching address to map \
-				coordinates... <img src=\"/static/img/loading.gif\" \
+				coordinates... <img src=\"/static/img/loading.gif\" alt=\"\" role=\"presentation\" \
 				class=\"loadDistrict\">");
 		window.history.pushState(
 			{"search": $("#addressInput").val()},
@@ -239,7 +239,7 @@ function doLatLong()
 				$("#loadProgress").html(
 					"<strong>Loading...</strong> Address matched, \
 					looking up historical representatives... \
-					<img src=\"/static/img/loading.gif\" \
+					<img src=\"/static/img/loading.gif\" alt=\"\" role=\"presentation\" \
 					class=\"loadDistrict\">");
 				console.log("Looking for members...");
 				doMembers(data["lat"], data["lng"]);
@@ -359,10 +359,14 @@ function buildResult(v, lastResult, tbody, myResults) {
 		.addClass("party")
 		.appendTo(tr);
 
-	// Add links to the person
+	// Add links to the person. The same person can appear in many rows
+	// (one per Congress they served). Give each link a unique aria-label
+	// so screen-reader users (and contrast/redundant-link audits) see them
+	// as distinct entries rather than duplicate links to the same URL.
 	$("<td></td>")
 		.html(
-			`<a href="/person/${v["icpsr"]}/${v["seo_name"]}">\
+			`<a href="/person/${v["icpsr"]}/${v["seo_name"]}" \
+			aria-label="${v["bioname"]}, ${getGetOrdinal(v["congress"])} Congress">\
 			${v["bioname"]}</a>`)
 		.appendTo(tr);
 

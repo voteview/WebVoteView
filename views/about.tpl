@@ -10,8 +10,8 @@
 			<p>
 				<strong>Voteview</strong> allows users to view every congressional roll call vote in American history
 				on a map of the United States and on a liberal-conservative ideological map including information
-				about the ideological positions of voting Senators and Representatives. The original <u title="The original Voteview derived from a simulation coded by Poole and Rosenthal in FORTRAN for the University of Pittsburgh Supercomputer Center. Voteview for DOS was coded in QuickBasic by Douglas Skiba.">Voteview of DOS</u> was
-				developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon University between 1989 and 1992. Poole and Rosenthal developed <u title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Windows.">Voteview for Windows</u> in 1993 at Princeton University and that work was continued by Boris Shor.
+				about the ideological positions of voting Senators and Representatives. The original <span class="tooltip-text" tabindex="0" data-toggle="tooltip" data-placement="top" title="The original Voteview derived from a simulation coded by Poole and Rosenthal in FORTRAN for the University of Pittsburgh Supercomputer Center. Voteview for DOS was coded in QuickBasic by Douglas Skiba.">Voteview of DOS</span> was
+				developed by Keith T. Poole and Howard Rosenthal at Carnegie-Mellon University between 1989 and 1992. Poole and Rosenthal developed <span class="tooltip-text" tabindex="0" data-toggle="tooltip" data-placement="top" title="Boris Shor continued to develop Voteview for Windows as it progressed from Windows 3.1 to XP. While still available on the legacy site, Voteview for Windows is incompatible with more recent releases of Windows.">Voteview for Windows</span> in 1993 at Princeton University and that work was continued by Boris Shor.
 				The legacy version of the website is available at <a href="https://legacy.voteview.com">legacy.voteview.com</a>.
 			</p>
 
@@ -129,10 +129,10 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group row" id="captcha_hide_submit">
+				<div class="form-group row" id="newsletter_submit_row">
 					<div class="col-sm-8">
-						<input class="btn btn-primary" type="submit" onclick="javascript: newsletterSignup(); return false;" />
-						<img class="loading_logo_hide" src="/static/img/loading.gif">
+						<input class="btn btn-primary" type="submit" value="Subscribe" onclick="javascript: newsletterSignup(); return false;" />
+						<img class="loading_logo_hide" src="/static/img/loading.gif" alt="" role="presentation">
 					</div>
 				</div>
 			</form>
@@ -154,8 +154,9 @@
 					<div class="col-sm-6"><input id="title" type="text" name="title" class="form-control" placeholder="e.g. Question about VoteView.com"></div>
 				</div>
 				<div class="form-group row">
-					<div class="col-sm-8">
-						<textarea class="form-control" rows="10" name="body" placeholder="Type your message here. Please allow 10 days for a response."></textarea>
+					<label for="body" class="col-sm-2 col-form-label">Message</label>
+					<div class="col-sm-6">
+						<textarea id="body" class="form-control" rows="10" name="body" placeholder="Type your message here. Please allow 10 days for a response."></textarea>
 					</div>
 				</div>
 
@@ -171,8 +172,8 @@
 
 				<div class="form-group row" id="captcha_hide_submit">
 					<div class="col-sm-8">
-						<input class="btn btn-primary" type="submit" onclick="javascript:showLoad(); grecaptcha.execute(); return false;" />
-						<img class="loading_logo_hide" src="/static/img/loading.gif">
+						<input class="btn btn-primary" type="submit" value="Send Message" onclick="javascript:showLoad(); grecaptcha.execute(); return false;" />
+						<img class="loading_logo_hide" src="/static/img/loading.gif" alt="" role="presentation">
 					</div>
 				</div>
 			</form>

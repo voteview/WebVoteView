@@ -249,7 +249,7 @@ function outVotes(groupBy)
 					else if(pp["flags"]=="voPivot") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Veto override."; }
 					if(globalData["rollcalls"][0]["sponsor"] != undefined && pp["icpsr"]==globalData["rollcalls"][0]["sponsor"]) { baseText += "<br/><br/><strong>Sponsor:</strong> This member sponsored the bill or amendment."; }
 
-					var profileImg = $("<img>").attr("src","/static/img/bios/"+pp["img"]);
+					var profileImg = $("<img>").attr("src","/static/img/bios/"+pp["img"]).attr("alt", "").attr("aria-hidden", "true");
 					var profileImgDiv = $("<div></div>").addClass("profile").addClass("pull-left");
 					var textChunk = $("<div></div>").addClass("text").html(baseText);
 					baseTipVoter.html("");

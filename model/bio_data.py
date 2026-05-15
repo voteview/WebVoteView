@@ -6,6 +6,7 @@ import datetime
 import os
 from model.search_members import member_lookup
 from model.loyalty import get_loyalty
+from model.config import db
 
 
 def get_bio_image(icpsr, default):
@@ -170,6 +171,18 @@ def generate_life_string(person):
     return ""
 
 
+def get_career_votes_cast(icpsrs):
+    """Sum yea/nay votes cast across every congress for these ICPSRs."""
+    if not icpsrs:
+        return 0
+    pipeline = [
+        {"$match": {"icpsr": {"$in": list(icpsrs)}}},
+        {"$group": {"_id": None, "total": {"$sum": "$nvotes_yea_nay"}}},
+    ]
+    result = list(db.voteview_members.aggregate(pipeline))
+    return int(result[0]["total"]) if result and result[0].get("total") else 0
+
+
 def assemble_person_meta(person, keith=0):
     """
     Augment a person result with relevant metadata, including
@@ -217,6 +230,10 @@ def assemble_person_meta(person, keith=0):
                                            person["alt_people"]]:
                 person["alt_people"].append(alt_person)
 
+    career_icpsrs = {person["icpsr"]}
+    career_icpsrs.update(alt["icpsr"] for alt in person.get("alt_people", []))
+    person["career_votes_cast"] = get_career_votes_cast(career_icpsrs)
+
     loyalty = get_loyalty(person["party_code"], person["congress"])
 
     person["party_loyalty"] = (
@@ -248,13 +265,14 @@ def assemble_person_meta(person, keith=0):
 
     if person["state"] != "President":
         person["stateText"] = (
-            " of %s <img src=\"/static/img/states/%s.png\" "
-            "class=\"member_flag\">" % (person["state"],
-                                        person["state_abbrev"]))
+            " of %s <img src=\"/static/img/states/%s.png\" alt=\"\" "
+            "aria-hidden=\"true\" class=\"member_flag\">" % (person["state"],
+                                                              person["state_abbrev"]))
     else:
         person["stateText"] = (
             ", President of the United States "
-            "<img src=\"/static/img/states/US.png\" class=\"member_flag\">")
+            "<img src=\"/static/img/states/US.png\" alt=\"\" "
+            "aria-hidden=\"true\" class=\"member_flag\">")
 
     person["plotIdeology"] = (1 if "nominate" in person and
                               "dim1" in person["nominate"] and

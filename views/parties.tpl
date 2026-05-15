@@ -4,7 +4,7 @@
 <div class="container">
 	<div id="loading-container">
 		<h3>Now loading. . .&nbsp;&nbsp;
-			<img src="{{ STATIC_URL }}img/loading.gif" />
+			<img src="{{ STATIC_URL }}img/loading.gif" alt="" role="presentation" />
 		</h3>
 	</div>
 
@@ -37,7 +37,7 @@
 			<div class="col-md-12">
 				<h4>
 					<span class="fullName">Party {{ party }}</span> ideology over time<small>
-					<a class="reset reset_party" href="javascript:dimChart.filterAll();dc.redrawAll();">reset</a></small>
+					<button type="button" class="reset reset_party link-button" onclick="javascript:dimChart.filterAll();dc.redrawAll();return false;">reset</button></small>
 				</h4>
 				<div id="dim-chart"></div>
 			</div>
@@ -47,9 +47,9 @@
 				<h4>
 					<span class="party_header"><span class="fullName">Party {{ party }}</span> geographic control over time</span>
 					<span class="congressControl">
-						<span id="playButton"
-							class="glyphicon glyphicon-play" onclick="javascript:playLoopInt();return false;"></span>
-						<span id="pauseButton" class="glyphicon glyphicon-pause" onclick="javascript:stopLoop();return false;"></span>
+						<button type="button" id="playButton"
+							class="glyphicon glyphicon-play" onclick="javascript:playLoopInt();return false;" aria-label="Play animation"></button>
+						<button type="button" id="pauseButton" class="glyphicon glyphicon-pause" onclick="javascript:stopLoop();return false;" aria-label="Pause animation"></button>
 						<span id="playHint">Animate</span>
 					</span>
 				</h4>
@@ -57,34 +57,35 @@
 		</div>
 		<div class="row slide_party">
 			<div class="col-md-12 full">
-				<input class="slider">
+				<label for="partyMapSlider" class="visually-hidden">Congress year</label>
+				<input id="partyMapSlider" class="slider" aria-label="Congress year">
 			</div>
 		</div>
 		<div class="row map_row">
 			<div class="col-md-10" id="party-map-chart"></div>
 			<div class="col-md-2">
-				<strong>Filter: Chamber Control</strong><br/>
-				<select onChange="javascript:toggleMapSupport(this.options[this.selectedIndex].value);">
+				<label for="chamberControlSelect"><strong>Filter: Chamber Control</strong></label><br/>
+				<select id="chamberControlSelect" onChange="javascript:toggleMapSupport(this.options[this.selectedIndex].value);">
 					<option value="both">Both</option>
 					<option value="senate">Senate Only</option>
 					<option value="house">House Only</option>
 				</select><br/><br/>
 
 				<span class="congressControl">
-					<strong>Jump to Year:</strong><br/>
-					<input type="text" id="yearNum">
-					<input type="button" onClick="javascript:switchCongress($('#yearNum').val());" value="Switch"><br/><br/>
+					<label for="yearNum"><strong>Jump to Year:</strong></label><br/>
+					<input type="text" id="yearNum" inputmode="numeric">
+					<input type="button" onClick="javascript:switchCongress($('#yearNum').val());" value="Switch" aria-label="Switch to Congress for the entered year"><br/><br/>
 
-					<strong>Jump to Congress:</strong><br/>
-					<input type="text" id="congNum">
-					<input type="button" onClick="javascript:switchCongress($('#congNum').val());" value="Switch"><br/><br/>
+					<label for="congNum"><strong>Jump to Congress:</strong></label><br/>
+					<input type="text" id="congNum" inputmode="numeric">
+					<input type="button" onClick="javascript:switchCongress($('#congNum').val());" value="Switch" aria-label="Switch to entered Congress number"><br/><br/>
 				</span>
 			</div>
 		</div>
 		% end
 		<div class="row">
 			<div class="col-md-12">
-				<h4><span class="pluralNoun"> {{ party }}</span> serving over time <small><a class="reset reset_party" href="javascript:timeChart.filterAll();dc.redrawAll();">reset</a></small></h4>
+				<h4><span class="pluralNoun"> {{ party }}</span> serving over time <small><button type="button" class="reset reset_party link-button" onclick="javascript:timeChart.filterAll();dc.redrawAll();return false;">reset</button></small></h4>
 				<div id="time-chart"></div>
 			</div>
 		</div>
@@ -94,10 +95,10 @@
 				<div class="roster_header">
 				<h4>Roster</h4>
 				(Sort by
-				<a href="#" onclick="javascript:resort('name', ['name', 'state', 'chamber', 'elected']);return false;">Name</a>,
-				<a href="#" onclick="javascript:resort('state', ['name', 'state', 'chamber', 'elected']);return false;">State</a>,
-				<a href="#" onclick="javascript:resort('nominate', ['name', 'state', 'chamber', 'elected']);return false;">Ideology</a>,
-				<a href="#" onclick="javascript:resort('elected', ['name', 'state', 'chamber', 'elected']);return false;">Seniority</a>)
+				<button type="button" class="link-button" onclick="javascript:resort('name', ['name', 'state', 'chamber', 'elected']);return false;">Name</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('state', ['name', 'state', 'chamber', 'elected']);return false;">State</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('nominate', ['name', 'state', 'chamber', 'elected']);return false;">Ideology</button>,
+				<button type="button" class="link-button" onclick="javascript:resort('elected', ['name', 'state', 'chamber', 'elected']);return false;">Seniority</button>)
 				</div>
 
 				<ul id="memberList" class="party_members clearfix"></ul>

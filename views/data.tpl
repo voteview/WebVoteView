@@ -113,18 +113,17 @@
 
   <div class="row">
     <div class="col-md-9">
-	<h3><a href="https://github.com/voteview"><img class="text_aligned_image" src="{{ STATIC_URL }}/img/github.png"></a> VoteView on Github</h3>
+	<h3><a href="https://github.com/voteview"><img class="text_aligned_image" src="{{ STATIC_URL }}/img/github.png" alt="">VoteView on Github</a></h3>
 	<p>
-		Most of the code associated with our website is available through our <a href="https://github.com/voteview">GitHub Organization.
-
-		<ul>
+		Most of the code associated with our website is available through our <a href="https://github.com/voteview">GitHub Organization</a>.
+	</p>
+	<ul>
 			<li><a href="https://github.com/voteview/WebVoteView">voteview.com site source</a></li>
 			<li><a href="https://github.com/JeffreyBLewis/congressional-district-boundaries">Congressional District Boundaries JSON data</a></li>
 			<li><a href="https://github.com/voteview/member_photos">Congressional member photos</a></li>
 			<li><a href="https://github.com/voteview/Rvoteview">Rvoteview R Package</a></li>
-			<li><a href="https://github.com/voteview/articles">Articles and tutorials</a></li>
-		</ul>
-	</p>
+		<li><a href="https://github.com/voteview/articles">Articles and tutorials</a></li>
+	</ul>
     </div>
   </div>
 

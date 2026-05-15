@@ -19,19 +19,20 @@
 			</strong>
 			on <abbr title="Date"><a href="/search/?fromDate={{rollcall["date"]}}&toDate={{rollcall["date"]}}">{{ rollcall["date_user"] }}</a></abbr>
 			<span class="pull-right">
-				<a href="/rollcall/{{ rollcall["id"] }}"><img src="/static/img/graph.png" class="viewVote"
-					data-toggle="tooltip" data-placement="bottom" title="View Vote"></a>
+				<a href="/rollcall/{{ rollcall["id"] }}" class="viewVoteLink" aria-hidden="true" tabindex="-1"
+					data-toggle="tooltip" data-placement="bottom" title="View Vote">
+					<span class="glyphicon glyphicon-stats viewVote" aria-hidden="true"></span>
+				</a>
 
-				<input type="checkbox" name="ids" value="{{ rollcall["id"] }}">
-				<img src="/static/img/export.png" class="exportVote"
-					data-toggle="tooltip" data-placement="bottom" title="Export Vote" onclick="javascript:checkBox('{{rollcall["id"]}}');">
+				<label class="visually-hidden" for="select_{{ rollcall["id"] }}">Select vote {{ rollcall["rollnumber"] }} for export</label>
+				<input type="checkbox" id="select_{{ rollcall["id"] }}" name="ids" value="{{ rollcall["id"] }}">
+				<button type="button" class="link-button" onclick="javascript:checkBox('{{rollcall["id"]}}');" aria-label="Toggle export selection"
+					data-toggle="tooltip" data-placement="bottom" title="Export Vote">
+					<span class="glyphicon glyphicon-export exportVote" aria-hidden="true"></span>
+				</button>
 			</span>
 		</div>
-		<a href="/rollcall/{{rollcall["id"]}}" class="nohover">
 		<div class="panel-body voteBody">
-		  <!-- onclick="javascript:window.location='/rollcall/{{ rollcall["id"] }}';"> -->
-
-
 			% if "bill_number" in rollcall:
 			<p><strong>Bill number</strong>: {{rollcall["bill_number"]}}</p>
 			% end
@@ -67,7 +68,6 @@
 				<p class="debugText"><em>Debug: {{round(rollcall["score"], 2)}}</em></p>
 			% end
 		</div>
-		</a>
 	</div>
 % end
 
