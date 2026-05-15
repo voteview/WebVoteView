@@ -33,7 +33,11 @@
 					Member Vote Map
 
 					<span class="glyphicon glyphicon-save noprint"
-					      onclick="javascript:resetZoom();saveSvgAsPng($('#map-chart > svg')[0],'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
+					      onclick="//javascript:resetZoom(); //Only needed if zoomed maps won't render properly in png (fixed)
+					               the_svg = $('#map-chart > svg')[0].cloneNode(true);
+						       the_defs = $('#holdHatching > svg > defs')[0].cloneNode(true);
+						       the_svg.appendChild(the_defs);
+					               saveSvgAsPng(the_svg, 'vote_map_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
 					      data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 					</span>
 
@@ -151,7 +155,7 @@ var nomBeta = {{ nom_beta }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.v1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/mapPanZoom.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>

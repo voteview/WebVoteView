@@ -808,7 +808,7 @@ def assemble_query_chunk(query_dict, query_field, query_words):
     elif field_type == "key_flags":
         if query_words == "1":
             query_dict["key_flags"] = {"$exists": 1}
-        elif query_words == "CQ":
+        elif query_words in ["wikipedia", "wp", "vv", "voteview", "CQ"]:
             query_dict["key_flags"] = {"$in": [query_words]}
 
     # CHAMBER type: Senate or House?
