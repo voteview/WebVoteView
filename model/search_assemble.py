@@ -298,7 +298,8 @@ def process_found_members(member_search, query_string, flags):
         if "bioguide_id" in member:
             if member["bioguide_id"] in seen_bioguide_ids:
                 continue
-            seen_bioguide_ids.append(member["bioguide_id"])
+            if member["chamber"] != "President":
+                seen_bioguide_ids.append(member["bioguide_id"])
 
         member_name = (member["bioname"]
                        if "bioname" in member and member["bioname"]
