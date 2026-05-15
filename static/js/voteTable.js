@@ -34,6 +34,7 @@ function outVotes(groupBy)
 		var voteSubset = {
 			"party": filteredVotes[i]["party"],
 			"vote": filteredVotes[i]["vote"],
+			"vote_modifier": filteredVotes[i]["vote_modifier"],
 			"state_abbrev": filteredVotes[i]["state_abbrev"],
 			"icpsr": filteredVotes[i]["icpsr"],
 			"x": parseFloat(filteredVotes[i]["x"]),
@@ -209,6 +210,18 @@ function outVotes(groupBy)
 			if(groupBy!="vote")
 			{
 				var p_vote = person["vote"].substr(0, 1);
+				if(person["vote_modifier"]) {
+					var modifierTitles = {"paired": "Paired vote: An absent member arranged with an opposing colleague to cancel each other out. Recorded but not counted in the official total.", "announced": "Announced vote: An absent member's publicly stated position. Recorded but not counted in the official total.", "president": "Presidential position; does not count toward the outcome or official vote total."};
+					var modifierLetters = {"paired": "p", "announced": "a", "president": "*"};
+					var modifierTitle = modifierTitles[person["vote_modifier"]] || "";
+					var modifierLetter = modifierLetters[person["vote_modifier"]] || "";
+					if(modifierLetter) {
+						var isPresident = person["vote_modifier"] == "president";
+						var letterMarkup = isPresident ? modifierLetter : `<em>${modifierLetter}</em>`;
+						var extraClass = isPresident ? " vote_modifier_mark_president" : "";
+						p_vote += `<sup class="vote_modifier_mark${extraClass}" data-toggle="tooltip" data-placement="top" data-container="body" title="${modifierTitle}" aria-label="${modifierTitle}">${letterMarkup}</sup>`;
+					}
+				}
 				var addVote = $("<span>" + p_vote + "</span>").addClass("vote");
 				if(person["prob"] != undefined &&
 					parseInt(person["prob"]) < 25 &&
@@ -221,7 +234,7 @@ function outVotes(groupBy)
 			// Use a closure to assign the current person's data to the tooltip.
 			(function(pp)
 			{
-				li.on("mouseover", function() {
+				span.on("mouseover", function() {
 					var baseText = `<strong><u>${pp["fullName"]}</u></strong> (${pp["party"].substr(0, 1)}-${pp["state_abbrev"]})<br/><br/>`;
 
 					if(!isNaN(pp["x"]))
@@ -242,6 +255,17 @@ function outVotes(groupBy)
 					{
 						baseText += "<strong>Voted "+pp["vote"]+"</strong>. ";
 						if(pp["prob"]!=undefined) { baseText += "Predicted probability of this vote: "+probText+"."; }
+					}
+					if(pp["vote_modifier"]) {
+						var ttLabels = {
+							"paired": ["Paired vote", "The member was absent but arranged with an opposing colleague to cancel each other out. Recorded but not counted in the official total."],
+							"announced": ["Announced vote", "The member was absent but publicly stated how they would have voted. Recorded but not counted in the official total."],
+							"president": ["Presidential position", "The president's recorded position. This vote does not count toward the outcome or official vote total."]
+						};
+						var ttEntry = ttLabels[pp["vote_modifier"]];
+						if(ttEntry) {
+							baseText += "<br/><br/><strong>" + ttEntry[0] + ":</strong> " + ttEntry[1];
+						}
 					}
 
 					if(pp["flags"]=="median") { baseText += "<br/><br/><strong>Pivotal Voter:</strong> Median Voter."; }
@@ -274,6 +298,9 @@ function outVotes(groupBy)
 					baseTipVoter.style("top", ($(this).offset().top + (tHV/2) - (eHV/2))+"px");
 				})
 				.on("mouseout",function() { baseTipVoter.style("visibility","hidden"); });
+				// Hide the big member tooltip when the cursor enters the right-floated
+				// vote span (which is a sibling of the name span, not a descendant).
+				addVote && addVote.on("mouseover", function() { baseTipVoter.style("visibility","hidden"); });
 			})(person);
 		}
 
@@ -304,4 +331,9 @@ function outVotes(groupBy)
 	}
 
 	$("#voteList").html(baseList);
+	$('#voteList [data-toggle="tooltip"]').tooltip();
+	$('#voteList .vote_modifier_mark').on('mouseover mouseout', function(e) {
+		e.stopPropagation();
+		baseTipVoter.style("visibility", "hidden");
+	});
 }

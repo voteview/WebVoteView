@@ -483,7 +483,8 @@ ul.voteTable li.voter { display: inline-block; }
 ul.voteTable li.dotted { }
 ul.voteTable li.sponsor { background-color: #FFF9E6; }
 ul.voteTable li.sponsor span { background-color: #FFF9E6; }
-ul.voteTable li span.vote { padding-right: 40px; float: right; }
+ul.voteTable li span.vote { padding-right: 40px; float: right; position: relative; }
+ul.voteTable li span.vote .vote_modifier_mark { position: absolute; top: 0.25em; margin-left: 0.05em; }
 ul.voteTable li span.bullet { color: #CA0020; }
 #voterTooltip { min-width: 320px; visibility: hidden; }
 #voterTooltip img { width: 80px; }
@@ -735,6 +736,9 @@ button.link-button .exportVote { color: #005587; }
 .vote_button { margin-left: 10px; }
 .unlikely_vote { color: red; }
 .abstention { color: #B3B3B3; }
+.vote_modifier_mark { cursor: help; font-size: 0.75em; vertical-align: 0.25em; }
+.vote_modifier_mark_president { vertical-align: 0em; }
+ul.voteTable li span.vote .vote_modifier_mark_president { top: 0.55em; }
 .hide_date { display: none; }
 
 /* Member boxes */
