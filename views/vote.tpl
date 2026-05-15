@@ -1,8 +1,8 @@
 % STATIC_URL = "/static/"
-% rebase('base.tpl', title=plotTitle, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
+% rebase('base.tpl', title=plot_title, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
 % include('header.tpl')
 
-% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n/10%10!=1)*(n%10<4)*n%10::4])
+% rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 
 <div id="holdHatching">
 </div>
@@ -41,9 +41,11 @@
 					      data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Map as PNG">
 					</span>
 
-					%if len(noteText):
-						<img src="/static/img/help.png" class="noteText left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ noteText }}">
+					%if note_text:
+						<img src="/static/img/help.png" class="noteText left-tooltip noprint" data-toggle="tooltip" data-position="bottom" data-html="true" title="{{ note_text }}">
 					%end
+
+					<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click on any number of states or districts to filter the vote list to members from those areas. To clear the selection, click the &times; at the bottom of the page.">
 
 				</h4>
 
@@ -70,6 +72,7 @@
 					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'dw_nominate_{{rollcall["chamber"][0]}}{{rollcall["congress"]}}{{str(rollcall["rollnumber"]).zfill(4)}}.png', {backgroundColor: 'white'});return false;"
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
 				</span>
+				<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click and drag on the plot to draw a box around the members you want to focus on. Once the box is established, you can drag it around to explore different subsets of members. By drawing a very small box and dragging it across the plot, you can identify individual members one at a time. To clear the selection, click the &times; at the bottom of the page.">
 			</h4>
 
 			<div id="scatter-container">
@@ -82,8 +85,8 @@
 			</div>
 
 			<div class="alert alert-warning nominateExplainer">
-				This chart describes how members voted on the rollcall. Members are placed according to their NOMINATE ideological scores. 
-				A cutting line divides the vote into those expected to vote "Yea" and those expected to vote "Nay". The shaded heatmap reflects 
+				This chart describes how members voted on the rollcall. Members are placed according to their NOMINATE ideological scores.
+				A cutting line divides the vote into those expected to vote "Yea" and those expected to vote "Nay". The shaded heatmap reflects
 				the expected probability of voting "Yea". You can select points or regions to subset the members listed above and below.
 			</div>
 		</div> <!-- Outside the first column onto the second column (the vote table). -->
@@ -96,10 +99,11 @@
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as JSON.">
 					</span>
 				</a>
-				<a href="/api/downloadXLS?ids={{rollcall["id"]}}">
+				<a href="/api/download_excel?ids={{rollcall["id"]}}">
 					<img src="/static/img/xls.png" class="xlsButton"
 						data-toggle="tooltip" data-position="bottom" data-html="true" title="Download vote data as XLS.">
 				</a>
+				<img src="/static/img/help.png" class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click on one or more bars to focus the vote list on just those vote types. To clear the selection, click the &times; at the bottom of the page.">
 			</h4>
 			<div id="party-chart">
 				<span id="suppressVoteChartControls"><span class="filter"></span></span>
@@ -126,7 +130,7 @@
 </div>
 
 <!-- The hidden filter bar code -->
-<div id="selectionFilterBar">
+<div id="selectionFilterBar" class="alert-warning">
 	<strong>Selected:</strong>
 	<span id="data-count"><span class="filter-count"></span> of <span class="total-count"></span> <span id="votertype"></span></span>
 	<span id="map-chart-controls"> from <span class="filter"></span></span>
@@ -142,9 +146,9 @@
 var chamber = "{{ rollcall["chamber"] }}";
 var congressNum = "{{ str(rollcall["congress"]).zfill(3) }}";
 var rcID = "{{ rollcall["id"] }}";
-var mapParties = {{ mapParties }};
+var mapParties = {{ map_parties }};
 var nomDWeight = {{ dimweight }};
-var nomBeta = {{ nomBeta }};
+var nomBeta = {{ nom_beta }};
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/sprintf.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>

@@ -1,19 +1,32 @@
-from searchParties import partyLookup
-from searchMeta import metaLookup
+""" Helpers to deal with party and congress level loyalty. """
 
-def getLoyalty(party_code, congress):
-    party_loyalty = partyLookup({"id": int(party_code)}, "Web_Members")
+from model.search_parties import party_lookup
+from model.search_meta import meta_lookup
 
+
+def get_loyalty(party_code, congress):
+    """ Returns a party-congress loyalty pair. """
+
+    if party_code is None or congress is None:
+        return {"status": 1,
+                "error_message": "Invalid party code or congress."}
+
+    party_loyalty = party_lookup({"id": int(party_code)}, "Web_Members")
     try:
         party_cong_loyalty = party_loyalty[str(congress)]
-    except:
+    except Exception:
         party_cong_loyalty = {"nvotes_yea_nay": 1, "nvotes_abs": 0, "nvotes_against_party": 0, "nvotes_party_split": 0}
 
-    global_loyalty = metaLookup("Web_Members")
+    global_loyalty = meta_lookup("Web_Members")
     try:
         global_cong_loyalty = global_loyalty["loyalty_counts"][str(congress)]
-    except:
+    except Exception:
         global_cong_loyalty = {"nvotes_yea_nay": 1, "nvotes_abs": 0, "nvotes_against_party": 0, "nvotes_party_split": 0}
 
-    return {"global": global_cong_loyalty, "party": party_cong_loyalty}
+    # Force people with no votes to have one vote to avoid division by zero.
+    if "nvotes_yea_nay" not in global_cong_loyalty or not global_cong_loyalty["nvotes_yea_nay"]:
+        global_cong_loyalty["nvotes_yea_nay"] = 1
+    if "nvotes_yea_nay" not in party_cong_loyalty or not party_cong_loyalty["nvotes_yea_nay"]:
+        party_cong_loyalty["nvotes_yea_nay"] = 1
 
+    return {"global": global_cong_loyalty, "party": party_cong_loyalty}

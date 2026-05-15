@@ -1,4 +1,4 @@
-% rebase('base.tpl',title='Error: Outdated Browser')
+% rebase('base.tpl', title='Error: Outdated Browser')
 % include('header.tpl')
 
 <div class="container">
@@ -20,4 +20,3 @@
 		</div>
 	</div>
 </div>
-
