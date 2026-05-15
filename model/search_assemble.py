@@ -507,12 +507,12 @@ def facet_keyvote(query_string, bottle):
     """ Builds the keyvote facet for the query dispatcher. """
 
     try:
-        keyvote = bottle.request.params.getall("keyvote")
+        keyvote = bottle.request.params["keyvote"]
         if keyvote:
             if not query_string:
                 query_string = ""
 
-            return query_string + " keyvote: 1"
+            return query_string + " keyvote: %s" % keyvote
     except Exception:
         pass
 
