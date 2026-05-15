@@ -1066,6 +1066,12 @@ def stash_set_search():
 
     return model.stash_cart.set_search(search_id, search_text)
 
+@app.route("/github")
+@app.route("/github/<extd_q>")
+def github(extd_q=""):
+    bottle.redirect("https://github.com/voteview/%s" % extd_q)
+    return {}
+
 
 @app.route("/outdated")
 def outdate():
