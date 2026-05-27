@@ -342,13 +342,107 @@ def getmembersbycommittee():
 
     short_name = default_value(bottle.request.params.short_name, "")
     chamber = default_value(bottle.request.params.chamber, "")
+    date_param = default_value(bottle.request.params.date, "")
     try:
         congress = int(default_value(bottle.request.params.congress, 0))
     except Exception:
         congress = 0
 
-    if not short_name or not chamber or not congress:
+    if not short_name or not chamber:
         return {"error": "Missing parameters"}
+    if not date_param and not congress:
+        return {"error": "Missing parameters"}
+
+    # Date-aware mode: filter members where appoint_date <= date < terminate_date
+    if date_param:
+        # Prefer the new flat (short_name, chamber) doc shape if present
+        doc = db.voteview_committees.find_one({
+            "short_name": short_name,
+            "chamber": chamber,
+            "congress": {"$exists": False}
+        })
+        all_members = []
+        if doc:
+            all_members = doc.get("members", [])
+        else:
+            # Fallback: aggregate across all per-Congress docs
+            cursor = db.voteview_committees.find({
+                "short_name": short_name,
+                "chamber": chamber
+            })
+            for d in cursor:
+                all_members.extend(d.get("members", []))
+
+        def in_window(m):
+            a = m.get("appoint_date")
+            t = m.get("terminate_date")
+            if not a:
+                return False
+            if a > date_param:
+                return False
+            if not t:
+                return True
+            return date_param < t
+
+        matched = [m for m in all_members if in_window(m)]
+
+        results = []
+        seen_icpsr = set()
+        for m in matched:
+            icpsr = m.get("icpsr")
+            if icpsr and icpsr in seen_icpsr:
+                continue
+            if icpsr:
+                seen_icpsr.add(icpsr)
+            member_info = {
+                "icpsr": icpsr,
+                "bioguide_id": m.get("bioguide_id"),
+                "bioname": m.get("bioname", ""),
+                "state_abbrev": m.get("state_abbrev") or m.get("state", ""),
+                "party_code": m.get("party_code"),
+                "role": m.get("role", "Member"),
+                "rank": m.get("rank", 0),
+                "appoint_date": m.get("appoint_date"),
+                "terminate_date": m.get("terminate_date"),
+                "congress": m.get("congress"),
+                "nominate_dim1": m.get("nominate_dim1"),
+                "nominate_dim2": m.get("nominate_dim2"),
+            }
+            if member_info["party_code"]:
+                try:
+                    member_info["party_noun"] = party_noun(
+                        member_info["party_code"])
+                except Exception:
+                    member_info["party_noun"] = ""
+            if icpsr:
+                lookup_cong = m.get("congress")
+                if lookup_cong:
+                    vm = db.voteview_members.find_one(
+                        {"icpsr": icpsr, "congress": lookup_cong},
+                        {"nominate.dim1": 1, "congresses": 1, "chamber": 1,
+                         "state_abbrev": 1}
+                    )
+                    if vm:
+                        nom = vm.get("nominate", {})
+                        if member_info.get("nominate_dim1") is None:
+                            member_info["nominate"] = {
+                                "dim1": nom.get("dim1")}
+                        congresses_field = vm.get("congresses", [])
+                        if congresses_field:
+                            member_info["min_elected"] = congress_to_year(
+                                int(congresses_field[0][0]), 0)
+                        member_info["chamber"] = vm.get("chamber", "")
+                        if not member_info["state_abbrev"]:
+                            member_info["state_abbrev"] = vm.get(
+                                "state_abbrev", "")
+                if os.path.isfile("static/img/bios/%s.jpg"
+                                  % str(icpsr).zfill(6)):
+                    member_info["image_url"] = str(icpsr).zfill(6) + ".jpg"
+                else:
+                    member_info["image_url"] = "silhouette.png"
+            results.append(member_info)
+
+        return {"results": results, "date": date_param}
 
     doc = db.voteview_committees.find_one({
         "short_name": short_name,
