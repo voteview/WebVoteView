@@ -31,6 +31,7 @@
 		<option value="rollcalls">Congressional Votes</option>
 		<option value="votes">Members' Votes</option>
 		<option value="parties">Congressional Parties</option>
+		<option value="committees">Committee Assignments</option>
 	</select>
 	</div>
 	</div>

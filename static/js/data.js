@@ -8,7 +8,8 @@ function updateDownloadLink()
 		"members": ["csv", "json", "dat"],
 		"parties": ["csv", "json"],
 		"votes": ["csv", "json", "ord"],
-		"rollcalls": ["csv", "json", "dat"]
+		"rollcalls": ["csv", "json", "dat"],
+		"committees": ["csv", "json"]
 	};
 
 	const long_desc = {
@@ -29,7 +30,14 @@ function updateDownloadLink()
 		 	 vote taken in the selected congresses and chambers. This is \
 		 	 information about the vote itself, not individual members \
 			 positions. Please select \"Member Votes\" for information about \
-			 individual member positions."
+			 individual member positions.",
+		"committees":
+			"Committee assignments by member, including appointment and \
+			 termination dates (where available). Files include appoint_date, \
+			 terminate_date, role, rank, party_code, state, and bioname columns. \
+			 House dates available with appointment-level precision through \
+			 Congress 117 from H.RES. parsing; Senate and Congresses 118+ use \
+			 Congress-start/end dates as a fallback."
 	};
 
 	// Fade out
