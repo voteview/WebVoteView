@@ -17,6 +17,8 @@ var currentSort = 'name';
 var opacityTimer;
 var resultCache = null;
 var selectedCongress = null;
+var currentRosterDate = null;
+var currentRoster = [];
 var eW = 0, eH = 0;
 
 var baseToolTip = d3.select('body')
@@ -65,8 +67,36 @@ function buildPage(error, data, congMedians) {
 		return;
 	}
 
+	// Normalize new schema: {committee: {...}, members: [...], congresses_aggregate: {N: {...}}, description, description_source}
+	// onto a flat shape compatible with existing chart code.
+	if (data.committee && (data.congresses_aggregate || data.members)) {
+		var meta = data.committee || {};
+		var aggregate = data.congresses_aggregate || {};
+		var congArray = Object.keys(aggregate).map(function(k) {
+			var entry = aggregate[k];
+			if (entry.congress == null) entry.congress = parseInt(k, 10);
+			return entry;
+		}).sort(function(a, b) { return a.congress - b.congress; });
+		Object.keys(meta).forEach(function(k) {
+			if (data[k] === undefined) data[k] = meta[k];
+		});
+		data.congresses = congArray;
+		data.aggregate = aggregate;
+	}
+
 	committeeData = data;
-	var congresses = data.congresses;
+	committeeData.aggregate = data.aggregate || data.congresses_aggregate || null;
+	committeeData.description = data.description || '';
+	committeeData.descriptionSource = data.description_source || null;
+	var congresses = data.congresses || [];
+
+	// Render committee jurisdiction description (new schema)
+	$('#committee-jurisdiction').text(committeeData.description || '');
+	if (committeeData.descriptionSource) {
+		$('#committee-jurisdiction-source').html('Source: <a href="' + committeeData.descriptionSource + '" target="_blank" rel="noopener">official jurisdiction</a>');
+	} else {
+		$('#committee-jurisdiction-source').empty();
+	}
 
 	var chamberLabel = data.chamber === 'Joint' ? 'Joint' :
 		data.chamber === 'House' ? 'House' : 'Senate';
@@ -145,16 +175,40 @@ function buildPage(error, data, congMedians) {
 	sLegend.append('<span style="display:inline-block;width:12px;height:12px;background:#404040;margin-right:4px;vertical-align:middle;"></span> Other');
 	$('#size-chart').append(sLegend);
 
-	// Wire congress selector inputs
-	$('#congNum').val(committeeMaxCong);
-	$('#yearNum').val(1787 + 2 * committeeMaxCong);
-	$('#congNum').attr({'min': committeeMinCong, 'max': committeeMaxCong});
-	$('#yearNum').attr({'min': 1787 + 2 * committeeMinCong, 'max': 1787 + 2 * committeeMaxCong});
+	// Initialize date slider (if member event-list is available)
+	var hasMembers = committeeData.members && committeeData.members.length > 0;
+	if (hasMembers && typeof noUiSlider !== 'undefined') {
+		var allDates = uniqueChangeDates(committeeData.members);
+		if (allDates.length > 0) {
+			var minDate = allDates[0];
+			var maxDate = allDates[allDates.length - 1];
+			var today = new Date().toISOString().substring(0, 10);
+			var defaultDate = (today >= minDate && today <= maxDate) ? today : maxDate;
 
-	// Load roster for latest congress via API
-	var latestCong = congresses[congresses.length - 1];
-	if (latestCong) {
-		switchCongress(latestCong.congress);
+			var slider = document.getElementById('roster-date-slider');
+			if (slider && !slider.noUiSlider) {
+				var minTs = dateToTimestamp(minDate);
+				var maxTs = dateToTimestamp(maxDate);
+				if (maxTs <= minTs) maxTs = minTs + 24 * 60 * 60 * 1000;
+				noUiSlider.create(slider, {
+					start: [dateToTimestamp(defaultDate)],
+					range: {min: minTs, max: maxTs},
+					step: 24 * 60 * 60 * 1000,
+					tooltips: {to: function(ts) { return timestampToDate(ts); }}
+				});
+				slider.noUiSlider.on('update', function(values) {
+					var ts = parseInt(values[0], 10);
+					switchToDate(timestampToDate(ts));
+				});
+			}
+			switchToDate(defaultDate);
+		}
+	} else {
+		// Legacy fallback: snap to the latest Congress in the aggregate
+		var latestCong = congresses[congresses.length - 1];
+		if (latestCong) {
+			switchCongress(latestCong.congress);
+		}
 	}
 
 	$('#size-chart-help').tooltip();
@@ -176,22 +230,99 @@ function updateSizeLegend(congress) {
 	$('#size-legend-p2-label').text(c.party2Name || 'Party 2');
 }
 
+function switchToDate(dateString) {
+	if (!dateString) return;
+	currentRosterDate = dateString;
+	var members = (committeeData && committeeData.members) ? committeeData.members : [];
+	var filtered = members.filter(function(m) {
+		if (!m.appoint_date) return false;
+		if (m.appoint_date > dateString) return false;
+		if (m.terminate_date == null || m.terminate_date === '') return true;
+		return dateString < m.terminate_date;
+	});
+	currentRoster = filtered;
+	resultCache = {results: filtered};
+	var congressForDate = dateToCongress(dateString);
+	selectedCongress = congressForDate;
+	$('#roster-congress-label').text('On ' + dateString + ' (' + getGetOrdinal(congressForDate) + ' Congress)');
+	$('#roster-date-readout').text(dateString);
+	highlightBar(congressForDate);
+	updateSizeLegend(congressForDate);
+	writeBioTable();
+}
+
+function dateToCongress(dateString) {
+	var year = parseInt(dateString.substring(0, 4), 10);
+	return Math.floor((year - 1789) / 2) + 1;
+}
+
+function congressToStartDate(N) {
+	return (1789 + 2 * (N - 1)) + '-01-03';
+}
+
+function uniqueChangeDates(members) {
+	var set = {};
+	members.forEach(function(m) {
+		if (m.appoint_date) set[m.appoint_date] = true;
+		if (m.terminate_date) set[m.terminate_date] = true;
+	});
+	return Object.keys(set).sort();
+}
+
+function dateToTimestamp(dateString) {
+	return new Date(dateString + 'T00:00:00Z').getTime();
+}
+
+function timestampToDate(ts) {
+	var d = new Date(ts);
+	return d.toISOString().substring(0, 10);
+}
+
+function stepRosterDate(direction) {
+	var members = (committeeData && committeeData.members) ? committeeData.members : [];
+	var changeDates = uniqueChangeDates(members);
+	if (changeDates.length === 0) return;
+	var idx = changeDates.indexOf(currentRosterDate);
+	if (idx === -1) {
+		idx = -1;
+		for (var i = 0; i < changeDates.length; i++) {
+			if (changeDates[i] > currentRosterDate) { idx = i; break; }
+		}
+		if (idx === -1) idx = changeDates.length;
+	}
+	var next = idx + direction;
+	if (next < 0) next = 0;
+	if (next >= changeDates.length) next = changeDates.length - 1;
+	switchToDate(changeDates[next]);
+	var slider = document.getElementById('roster-date-slider');
+	if (slider && slider.noUiSlider) {
+		slider.noUiSlider.set(dateToTimestamp(changeDates[next]));
+	}
+}
+
+// Backwards-compatibility shims for any external callers (e.g., size-chart bar clicks)
 function switchCongress(congress) {
 	congress = parseInt(congress);
 	if (isNaN(congress)) return;
+	// If we have an event-list members array, snap the slider to the start of that congress
+	if (committeeData && committeeData.members && committeeData.members.length > 0) {
+		var startDate = congressToStartDate(congress);
+		var slider = document.getElementById('roster-date-slider');
+		if (slider && slider.noUiSlider) {
+			slider.noUiSlider.set(dateToTimestamp(startDate));
+		} else {
+			switchToDate(startDate);
+		}
+		return;
+	}
+	// Legacy fallback (old JSON shape with no members array): hit the Congress-based API
 	selectedCongress = congress;
 	highlightBar(congress);
 	updateSizeLegend(congress);
-
 	var year = 1787 + 2 * congress;
 	$('#roster-congress-label').html(
 		getGetOrdinal(congress) + ' Congress (' + year + '-' + (year + 1) + ')'
 	);
-
-	// Sync congress selector inputs
-	$('#congNum').val(congress);
-	$('#yearNum').val(year);
-
 	$.ajax({
 		dataType: 'JSON',
 		url: '/api/getmembersbycommittee?short_name=' +
@@ -208,8 +339,7 @@ function switchCongress(congress) {
 function switchCongressFromYear(year) {
 	year = parseInt(year);
 	if (isNaN(year)) return;
-	var congress = Math.floor((year - 1787) / 2);
-	switchCongress(congress);
+	switchToDate(year + '-01-03');
 }
 
 function highlightBar(congress) {
@@ -234,19 +364,28 @@ function writeBioTable() {
 			return;
 		}
 
+		var nomDim1 = function(m) {
+			if (m.nominate && m.nominate.dim1 != null) return m.nominate.dim1;
+			if (m.nominate_dim1 != null) return m.nominate_dim1;
+			return undefined;
+		};
+		var stateAbbrev = function(m) {
+			return m.state_abbrev != null ? m.state_abbrev : (m.state || '');
+		};
 		if (currentSort === 'name') {
 			rC.sort(function(a, b) { return a.bioname > b.bioname ? 1 : -1; });
 		} else if (currentSort === 'state') {
 			rC.sort(function(a, b) {
-				return (a.state_abbrev === b.state_abbrev) ?
+				var sa = stateAbbrev(a), sb = stateAbbrev(b);
+				return (sa === sb) ?
 					(a.bioname > b.bioname ? 1 : -1) :
-					(a.state_abbrev > b.state_abbrev ? 1 : -1);
+					(sa > sb ? 1 : -1);
 			});
 		} else if (currentSort === 'nominate') {
 			rC.sort(function(a, b) {
-				return a.nominate == undefined ? 1 : b.nominate == undefined ? -1 :
-					a.nominate.dim1 == undefined ? 1 : b.nominate.dim1 == undefined ? -1 :
-					a.nominate.dim1 > b.nominate.dim1 ? 1 : -1;
+				var da = nomDim1(a), db = nomDim1(b);
+				return da == undefined ? 1 : db == undefined ? -1 :
+					da > db ? 1 : -1;
 			});
 		} else if (currentSort === 'elected') {
 			rC.sort(function(a, b) {
@@ -274,7 +413,7 @@ function writeBioTable() {
 		}
 
 		$.each(rC, function(k, v) {
-			if (currentSort === 'nominate' && v.nominate == undefined) return;
+			if (currentSort === 'nominate' && nomDim1(v) == undefined) return;
 			constructPlot(v);
 		});
 
@@ -305,8 +444,9 @@ function constructPlot(member) {
 	var bioTextInner = '<strong>' + member.bioname + '</strong><br/>';
 	if (member.party_noun) bioTextInner += member.party_noun + '<br/>';
 	else if (member.party_code) bioTextInner += partyName(member.party_code) + '<br/>';
-	var fullState = (typeof stateMap !== 'undefined' && stateMap[member.state_abbrev]) ?
-		stateMap[member.state_abbrev] : (member.state_abbrev || '');
+	var stateKey = member.state_abbrev != null ? member.state_abbrev : (member.state || '');
+	var fullState = (typeof stateMap !== 'undefined' && stateMap[stateKey]) ?
+		stateMap[stateKey] : (stateKey || '');
 	if (fullState) bioTextInner += fullState + '<br/>';
 	if (member.role && member.role !== 'Member') {
 		bioTextInner += member.role;
