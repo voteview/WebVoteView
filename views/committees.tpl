@@ -23,6 +23,8 @@
 					<abbr title="Committees"><a href="/committees/all">Committees</a></abbr> &gt;
 					<span id="committee-name">Loading...</span>
 				</h3>
+				<p class="committee-jurisdiction" id="committee-jurisdiction" style="color: #555; font-size: 0.95em; margin-top: 4px;"></p>
+				<p class="committee-jurisdiction-source" id="committee-jurisdiction-source" style="font-size: 0.85em; margin-top: 0;"></p>
 				<p id="name-variants" style="color: #595959;"></p>
 				<div id="succession-links" style="color: #555;"></div>
 			</div>
@@ -47,15 +49,14 @@
 				<div class="roster_header">
 				<h4>Roster</h4>
 				<span id="roster-congress-label" style="color: #595959;"></span>
-				<span class="congressControl" style="margin-left: 15px;">
-					<label for="yearNum"><strong>Jump to Year:</strong></label>
-					<input type="text" id="yearNum" style="width: 60px;" inputmode="numeric">
-					<input type="button" onclick="javascript:switchCongressFromYear($('#yearNum').val());" value="Switch" aria-label="Switch to Congress for the entered year">
-					&nbsp;&nbsp;
-					<label for="congNum"><strong>Jump to Congress:</strong></label>
-					<input type="text" id="congNum" style="width: 50px;" inputmode="numeric">
-					<input type="button" onclick="javascript:switchCongress($('#congNum').val());" value="Switch" aria-label="Switch to entered Congress number">
-				</span>
+				<div id="roster-date-slider-container" style="margin: 10px 0; max-width: 600px;">
+					<label for="roster-date-slider"><strong>Roster on date:</strong>
+						<span id="roster-date-readout" style="margin-left: 8px;"></span>
+					</label>
+					<div id="roster-date-slider" style="margin: 8px 0;"></div>
+					<button type="button" class="link-button" onclick="javascript:stepRosterDate(-1);return false;" aria-label="Previous change">&laquo; Prev change</button>
+					<button type="button" class="link-button" onclick="javascript:stepRosterDate(1);return false;" aria-label="Next change">Next change &raquo;</button>
+				</div>
 				<br/>
 				(Sort by
 				<button type="button" class="link-button" onclick="javascript:resort('name');return false;">Name</button>,
@@ -117,4 +118,6 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/queue.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
+<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/committee.js"></script>
