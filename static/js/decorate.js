@@ -13,6 +13,21 @@ function setScatterViewBox(chart) {
 	if (!svg || !svg.node() || svg.attr("viewBox")) return;
 	svg.attr("viewBox", "0 0 " + chart.width() + " " + chart.height())
 		.attr("preserveAspectRatio", "xMidYMid meet");
+
+	// #scatter-container has a fixed height (see base.css) as a fallback
+	// for browsers without aspect-ratio support. Once we know the chart's
+	// real width/height, size the container to match that ratio instead,
+	// so a narrow phone doesn't get a chart that's shrunk to fit its width
+	// while the container underneath stays at the fixed desktop height,
+	// leaving a large gap before whatever follows the chart on the page.
+	var container = document.getElementById("scatter-container");
+	if (container) {
+		// aspect-ratio has no effect unless height is allowed to be
+		// computed from it -- base.css sets a fixed height as a fallback,
+		// so it has to be relaxed to auto here for the ratio to apply.
+		container.style.height = "auto";
+		container.style.aspectRatio = chart.width() + " / " + chart.height();
+	}
 }
 
 /* 

@@ -93,7 +93,7 @@ button.link-button:focus {
 #scatter-container {
     width: 100%;
     max-width: 890px;
-    height: 425px;
+    height: 425px; /* Fallback for browsers predating aspect-ratio; see setScatterViewBox in decorate.js, which sets a precise aspect-ratio once the chart's real dimensions are known. */
     position: relative;
     overflow-x: auto;
 }
