@@ -597,7 +597,20 @@ function drawWidgets(error, data, geodata, usaboundaries)
 	  }
         });
 
-	$("#vote_chart_float").delay(500).stick_in_parent();
+	// Only stick the vote-count chart to the viewport when its column sits
+	// beside the vote list (Bootstrap's md breakpoint, >=992px). Below that
+	// the columns stack, so a "stuck" full-width chart would end up pinned
+	// on top of the vote list underneath it as the page scrolls.
+	function updateVoteChartSticky() {
+		var $float = $("#vote_chart_float");
+		if ($(window).width() >= 992) {
+			if (!$float.data("sticky_kit")) { $float.stick_in_parent(); }
+		} else if ($float.data("sticky_kit")) {
+			$float.trigger("sticky_kit:detach");
+		}
+	}
+	$(window).on("resize", updateVoteChartSticky);
+	setTimeout(updateVoteChartSticky, 500);
 }
 
 
