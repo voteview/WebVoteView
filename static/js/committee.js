@@ -19,6 +19,38 @@ var resultCache = null;
 var selectedCongress = null;
 var eW = 0, eH = 0;
 
+// Tooltips bound only to mouseover/mouseout/mousemove are invisible on
+// touch devices, and it's not safe to just add a tap alongside them --
+// touch devices synthesize a mouseover/mousemove/click sequence for a
+// tap, but unreliably (a synthetic mouseout can follow right after the
+// tap once whatever the tap triggers redraws the chart). These replace
+// the hover bindings entirely on coarse-pointer devices, driving the
+// tooltip from taps only. Split in two: bindTouchTap for an individual
+// element (drops its hover bindings, adds tap-to-show), bindTouchDismiss
+// once for a whole set of elements (one shared dismiss listener rather
+// than one per element, since this chart can have hundreds of points).
+function isCoarsePointer() {
+	return !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+}
+function bindTouchTap(selection, showFn) {
+	if (!isCoarsePointer()) return;
+	selection.on("mouseover", null).on("mouseout", null).on("mousemove", null);
+	selection.on("click.touchTooltip", function(d, i) {
+		d3.event.stopPropagation();
+		showFn.call(this, d, i);
+	});
+}
+function bindTouchDismiss(selection, hideFn) {
+	if (!isCoarsePointer()) return;
+	document.addEventListener("click", function(e) {
+		var tappedInside = false;
+		selection.each(function() {
+			if (this === e.target || this.contains(e.target)) { tappedInside = true; }
+		});
+		if (!tappedInside) { hideFn(); }
+	});
+}
+
 var baseToolTip = d3.select('body')
 	.append('div')
 	.attr('class', 'd3-tip')
@@ -335,6 +367,21 @@ function addIdeologyTooltips() {
 	lineTypes.push('congress', 'committee');
 	partyIndices.push(null, null);
 
+	// These don't depend on which point/line was hovered, so they're
+	// shared across every point instead of being redefined per-node below.
+	function hideIdeologyTooltip() {
+		opacityTimer = setTimeout(function() {
+			baseToolTip.style('visibility', 'hidden');
+		}, 100);
+	}
+	function positionIdeologyTooltip() {
+		clearTimeout(opacityTimer);
+		baseToolTip
+			.style('top', (d3.event.pageY + 32) + 'px')
+			.style('left', (d3.event.pageX -
+				(parseInt(eW.substr(0, eW.length - 2)) / 2)) + 'px');
+	}
+
 	var i = 0;
 	d3.select('#dim-chart svg').selectAll('g.sub').each(function() {
 		var lineType = lineTypes[i];
@@ -344,7 +391,8 @@ function addIdeologyTooltips() {
 			var tempFuncOverride = function(d) {
 				(function(lt, pidx, obj) {
 					d3.select(obj).attr('r', 10);
-					d3.select(obj).on('mouseover', function(d) {
+
+					function showIdeologyTooltip(d) {
 						var dUse;
 						if (d3.select(obj).attr('class') === 'line') {
 							var d3MouseCoords = d3.mouse(this);
@@ -366,19 +414,13 @@ function addIdeologyTooltips() {
 						eH = baseToolTip.style('height');
 						eW = baseToolTip.style('width');
 						baseToolTip.style('visibility', 'visible');
-					})
-					.on('mouseout', function() {
-						opacityTimer = setTimeout(function() {
-							baseToolTip.style('visibility', 'hidden');
-						}, 100);
-					})
-					.on('mousemove', function() {
-						clearTimeout(opacityTimer);
-						baseToolTip
-							.style('top', (d3.event.pageY + 32) + 'px')
-							.style('left', (d3.event.pageX -
-								(parseInt(eW.substr(0, eW.length - 2)) / 2)) + 'px');
-					});
+					}
+
+					d3.select(obj)
+						.on('mouseover', showIdeologyTooltip)
+						.on('mouseout', hideIdeologyTooltip)
+						.on('mousemove', positionIdeologyTooltip);
+					bindTouchTap(d3.select(obj), showIdeologyTooltip);
 				})(lineType, pIdx, this);
 			};
 
@@ -397,6 +439,11 @@ function addIdeologyTooltips() {
 
 		i++;
 	});
+	// One shared dismiss listener for every point/line above, instead of
+	// one per point.
+	bindTouchDismiss(
+		d3.selectAll("#dim-chart .dc-tooltip-list .dc-tooltip circle, #dim-chart .stack-list g.stack path.line"),
+		hideIdeologyTooltip);
 }
 
 // Resolve party color scheme name to hex colors [primary, light]
