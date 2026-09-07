@@ -196,15 +196,15 @@ button.link-button:focus {
 
 
 /* Maps and charts */
-.dc-chart {
-  max-width: 100%;
-  overflow-x: auto;
-}
 
-/* Scale the chart's own SVG to fit its container (viewBox is added at
-   render time, see the dc.renderlet hook in each chart's JS) rather than
-   just letting it overflow into a scrollbar. */
-.dc-chart > svg {
+/* Scale the scatter plot and map's own SVGs to fit their container
+   (viewBox is added at render time, see congress.js/voteCharts.js)
+   instead of overflowing it. Deliberately scoped to just these two --
+   applying this to every .dc-chart also shrank small sidebar charts
+   like #party-chart, which don't have a too-wide-for-mobile problem and
+   were previously rendered at native (legible) size regardless of their
+   column width. */
+#map-chart > svg {
   display: block;
   width: 100%;
   height: auto;

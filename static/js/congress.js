@@ -7,22 +7,6 @@ var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var baseTip = d3.select("body").append("div").attr("class", "d3-tip").style("visibility","hidden").attr("id","mapTooltip");
 var eW;
 
-// Give every DC.js chart's SVG a viewBox so CSS (.dc-chart > svg in
-// base.css) can scale it to fit its container instead of overflowing it.
-// dc.renderlet is a page-global hook: dc.renderAll()/dc.redrawAll() invoke
-// it as dc._renderlet(group), passing the chart-group name (not a chart),
-// so look the actual charts up via dc.chartRegistry, the same way dc.js
-// itself does internally.
-dc.renderlet(function(group) {
-	dc.chartRegistry.list(group).forEach(function(chart) {
-		if(!chart.svg) return;
-		var svg = chart.svg();
-		if(!svg || !svg.node() || svg.attr("viewBox")) return;
-		svg.attr("viewBox", "0 0 " + chart.width() + " " + chart.height())
-			.attr("preserveAspectRatio", "xMidYMid meet");
-	});
-});
-
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal suffix.
 function getGetOrdinal(n) {
     var s=["th","st","nd","rd"],
@@ -187,6 +171,7 @@ function nomPlot()
 	dc.filterAll();
 	dc.renderAll();
         decorateNominate(nominateScatterChart, resultCache);
+        setScatterViewBox(nominateScatterChart);
 
         // Make brush box appear on click
         var scb = nominateScatterChart.select(".brush");
