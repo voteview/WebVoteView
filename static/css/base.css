@@ -98,13 +98,20 @@ button.link-button:focus {
     overflow-x: auto;
 }
 
-#scatter-bg, 
+#scatter-bg,
 #scatter-chart {
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+}
+
+#scatter-chart > svg,
+#svg-bg {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
 #scatter-chart {
@@ -192,6 +199,15 @@ button.link-button:focus {
 .dc-chart {
   max-width: 100%;
   overflow-x: auto;
+}
+
+/* Scale the chart's own SVG to fit its container (viewBox is added at
+   render time, see the dc.renderlet hook in each chart's JS) rather than
+   just letting it overflow into a scrollbar. */
+.dc-chart > svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .dc-chart g.row text {
@@ -575,7 +591,7 @@ span.party_header { padding-right: 20px; }
 #geoMap h4 { float: left; clear: none; vertical-align: middle; }
 #geoMap .glyphicon-save { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; }
 #geoMap .noteText { margin-left: 5px; width: 22px; vertical-align: middle; }
-#geoMap #map-chart { display: inline-block; max-width: 100%; overflow-x: auto; margin-top: 10px; padding: 10px; vertical-align: bottom; }
+#geoMap #map-chart { display: inline-block; margin-top: 10px; padding: 10px; vertical-align: bottom; }
 #geoMap #map-chart #zoomIn { position: absolute; left: 25px; top: 40px; width: 30px; height: 30px; }
 #geoMap #map-chart #zoomOut { position: absolute; left: 25px; top: 80px; width: 30px; height: 30px; }
 #geoMap #map-chart #suppressMapControls { display: none; }

@@ -16,6 +16,16 @@ var mapTopo, stateTopo;
 var opacityTimer;
 var globalPartyName, globalPartyColorName;
 
+// Give every DC.js chart's SVG a viewBox so CSS (.dc-chart > svg in
+// base.css) can scale it to fit its container instead of overflowing it.
+dc.renderlet(function(chart) {
+	if(!chart.svg) return;
+	var svg = chart.svg();
+	if(!svg || !svg.node() || svg.attr("viewBox")) return;
+	svg.attr("viewBox", "0 0 " + chart.width() + " " + chart.height())
+		.attr("preserveAspectRatio", "xMidYMid meet");
+});
+
 function congYear(num) { return [1787 + 2 * num, 1788 + 2 * num]; }
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal
