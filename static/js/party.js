@@ -16,6 +16,45 @@ var mapTopo, stateTopo;
 var opacityTimer;
 var globalPartyName, globalPartyColorName;
 
+// Tooltips bound only to mouseover/mouseout/mousemove are invisible on
+// touch devices, and it's not safe to just add a tap alongside them --
+// touch devices synthesize a mouseover/mousemove/click sequence for a
+// tap, but unreliably (a synthetic mouseout can follow right after the
+// tap once whatever the tap triggers redraws the chart -- confirmed by
+// testing, see the vote map's version of this fix). These replace the
+// hover bindings entirely on coarse-pointer devices, driving the
+// tooltip from taps only. Split in two because some charts bind one
+// shared selection (use addTouchTooltip), while others bind a tooltip
+// individually per data point in a loop (call bindTouchTap for each
+// point as it's bound, then bindTouchDismiss once for the whole set of
+// points afterwards, so a tap doesn't add one document-wide dismiss
+// listener per point).
+function isCoarsePointer() {
+	return !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+}
+function bindTouchTap(selection, showFn) {
+	if (!isCoarsePointer()) return;
+	selection.on("mouseover", null).on("mouseout", null).on("mousemove", null);
+	selection.on("click.touchTooltip", function(d, i) {
+		d3.event.stopPropagation();
+		showFn.call(this, d, i);
+	});
+}
+function bindTouchDismiss(selection, hideFn) {
+	if (!isCoarsePointer()) return;
+	document.addEventListener("click", function(e) {
+		var tappedInside = false;
+		selection.each(function() {
+			if (this === e.target || this.contains(e.target)) { tappedInside = true; }
+		});
+		if (!tappedInside) { hideFn(); }
+	});
+}
+function addTouchTooltip(selection, showFn, hideFn) {
+	bindTouchTap(selection, showFn);
+	bindTouchDismiss(selection, hideFn);
+}
+
 function congYear(num) { return [1787 + 2 * num, 1788 + 2 * num]; }
 
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal
@@ -419,46 +458,52 @@ q
 				ensureLegend(c); })
 			.on('postRender',function(c)
 			{
-				c.svg() // Chart SVG
-					// Attach the listeners to every path (district) item in
-					// the SVG
-					.selectAll("path")
-					// When you mouseover, it's a new district, set up the
-					// tooltip and make it visible
-					.on('mouseover', function(d,i)
-					{
-						var districtSet = c.data();
-						var result = $.grep(c.data(), function(e) {
-							return e.key == d.id;
-						});
-						// Don't tooltip null results.
-						if(result[0] == undefined) baseToolTip.html("");
-						else baseToolTip.html(tooltipText(result[0]));
-						// We need these for centering the tooltip appropriately.
-						eH = baseToolTip.style("height");
-						eW = baseToolTip.style("width");
-						baseToolTip.style("visibility", "visible");
-					})
-					// If you mouse out of the districts, hide the tooltip
-					.on('mouseout', function() {
-						baseToolTip.style("visibility","hidden");
-					})
-					// If you move your mouse within the district, update the
-					// position of the tooltip.
-					.on('mousemove', function(d, i)
-					{
-						if(baseToolTip.html().length) {
-							baseToolTip.style("visibility", "visible");
-						}
-						else baseToolTip.style("visibility", "hidden");
-
-						baseToolTip
-							.style("top", `${event.pageY + 32}px`)
-							.style("left",
-									(event.pageX -
-										(parseInt(eW.substr(0, eW.length - 2)) /
-										2)) + "px");
+				// When you mouseover, it's a new district, set up the
+				// tooltip and make it visible
+				function showMapTooltip(d, i)
+				{
+					var districtSet = c.data();
+					var result = $.grep(c.data(), function(e) {
+						return e.key == d.id;
 					});
+					// Don't tooltip null results.
+					if(result[0] == undefined) baseToolTip.html("");
+					else baseToolTip.html(tooltipText(result[0]));
+					// We need these for centering the tooltip appropriately.
+					eH = baseToolTip.style("height");
+					eW = baseToolTip.style("width");
+					baseToolTip.style("visibility", "visible");
+					// On a tap there's no mousemove afterwards to position it.
+					if(d3.event && d3.event.type == "click") { positionMapTooltip(); }
+				}
+				// If you mouse out of the districts, hide the tooltip
+				function hideMapTooltip() {
+					baseToolTip.style("visibility","hidden");
+				}
+				// If you move your mouse within the district, update the
+				// position of the tooltip.
+				function positionMapTooltip(d, i)
+				{
+					if(baseToolTip.html().length) {
+						baseToolTip.style("visibility", "visible");
+					}
+					else baseToolTip.style("visibility", "hidden");
+
+					baseToolTip
+						.style("top", `${event.pageY + 32}px`)
+						.style("left",
+								(event.pageX -
+									(parseInt(eW.substr(0, eW.length - 2)) /
+									2)) + "px");
+				}
+
+				// Attach the listeners to every path (district) item in the SVG
+				var districtPaths = c.svg().selectAll("path");
+				districtPaths
+					.on('mouseover', showMapTooltip)
+					.on('mouseout', hideMapTooltip)
+					.on('mousemove', positionMapTooltip);
+				addTouchTooltip(districtPaths, showMapTooltip, hideMapTooltip);
 
 				// Toggle off states that are not valid, put the legend and the
 				// title label.
@@ -480,6 +525,24 @@ q
 
 		// Populating the tooltip for ideology
 		console.time("tooltip");
+
+		// These don't depend on which point/line was hovered, so they're
+		// shared across every point instead of being redefined per-node in
+		// the loop below.
+		function hideIdeologyTooltip() {
+			opacityTimer = setTimeout(
+				function(){
+					baseToolTip.style("visibility", "hidden");
+				}, 100);
+		}
+		function positionIdeologyTooltip()
+		{
+			clearTimeout(opacityTimer);
+			baseToolTip
+				.style("top", `${event.pageY + 32}px`)
+				.style("left", (event.pageX - (parseInt(eW.substr(0, eW.length - 2)) / 2)) + "px");
+		}
+
 		var i = 0;
 		d3.select("#dim-chart svg").selectAll("g.sub").each(function()
 		{
@@ -491,10 +554,11 @@ q
 					// scatterplot, not the line charts.
 					j = j - 1;
 					d3.select(obj).attr('r', 10);
-					d3.select(obj).on("mouseover", function(d)
+
+					// Thing that checks if this is a point mouseover or a line
+					// mouseover
+					function showIdeologyTooltip(d)
 					{
-						// Thing that checks if this is a point mouseover or a
-						// line mouseover
 						if(d3.select(obj).attr("class" )== "line")
 						{
 							// Need to detect pixel position to figure out which
@@ -533,20 +597,13 @@ q
 						eH = baseToolTip.style("height");
 						eW = baseToolTip.style("width");
 						baseToolTip.style("visibility", "visible");
-					})
-					.on("mouseout",function(){
-						opacityTimer = setTimeout(
-							function(){
-								baseToolTip.style("visibility", "hidden");
-							}, 100);
-					})
-					.on("mousemove",function()
-					{
-						clearTimeout(opacityTimer);
-						baseToolTip
-							.style("top", `${event.pageY + 32}px`)
-							.style("left", (event.pageX - (parseInt(eW.substr(0, eW.length - 2)) / 2)) + "px");
-					})
+					}
+
+					d3.select(obj)
+						.on("mouseover", showIdeologyTooltip)
+						.on("mouseout", hideIdeologyTooltip)
+						.on("mousemove", positionIdeologyTooltip);
+					bindTouchTap(d3.select(obj), showIdeologyTooltip);
 				})(i, this);
 			};
 
@@ -559,6 +616,12 @@ q
 
 			i++;
 		});
+		// One shared dismiss listener for every point/line above, instead of
+		// one per point -- there can be hundreds of points across all the
+		// party-median lines.
+		bindTouchDismiss(
+			d3.selectAll("#dim-chart .dc-tooltip-list .dc-tooltip circle, #dim-chart .stack-list g.stack path.line"),
+			hideIdeologyTooltip);
 		console.timeEnd("tooltip");
 
 		$("#loading-container").slideUp();
