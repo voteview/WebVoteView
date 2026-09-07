@@ -49,6 +49,19 @@ bottle.BaseTemplate.defaults['template'] = bottle.template
 bottle.TEMPLATE_PATH.append('/static/bookreader')
 bottle.TEMPLATE_PATH.append('/static/bookreader/BookReader')
 
+
+@app.hook('before_request')
+def enforce_quota():
+    """
+    Preventively reject over-quota/blacklisted requests to API endpoints
+    before they are processed, instead of only recording usage afterward.
+    """
+    if bottle.request.path.startswith("/api/"):
+        quota_status = model.log_quota.check_quota(bottle.request)
+        if quota_status.get("status"):
+            bottle.abort(429, quota_status.get(
+                "error_message", "Rate limit exceeded."))
+
 # Debug timing to improve speed
 time_labels = []
 time_nums = []
