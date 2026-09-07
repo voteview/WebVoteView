@@ -591,7 +591,7 @@ span.party_header { padding-right: 20px; }
 #geoMap h4 { float: left; clear: none; vertical-align: middle; }
 #geoMap .glyphicon-save { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; }
 #geoMap .noteText { margin-left: 5px; width: 22px; vertical-align: middle; }
-#geoMap #map-chart { display: inline-block; margin-top: 10px; padding: 10px; vertical-align: bottom; }
+#geoMap #map-chart { display: block; margin-top: 10px; padding: 10px; vertical-align: bottom; }
 #geoMap #map-chart #zoomIn { position: absolute; left: 25px; top: 40px; width: 30px; height: 30px; }
 #geoMap #map-chart #zoomOut { position: absolute; left: 25px; top: 80px; width: 30px; height: 30px; }
 #geoMap #map-chart #suppressMapControls { display: none; }

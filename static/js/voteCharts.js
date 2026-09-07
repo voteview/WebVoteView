@@ -14,12 +14,14 @@ var globalData;
 // base.css) can scale it to fit its container instead of overflowing it.
 // Skipped once a chart already has a viewBox, so this doesn't fight with
 // mapChart's own pan/zoom viewBox management in mapPanZoom.js.
-dc.renderlet(function(chart) {
-	if(!chart.svg) return;
-	var svg = chart.svg();
-	if(!svg || !svg.node() || svg.attr("viewBox")) return;
-	svg.attr("viewBox", "0 0 " + chart.width() + " " + chart.height())
-		.attr("preserveAspectRatio", "xMidYMid meet");
+dc.renderlet(function(group) {
+	dc.chartRegistry.list(group).forEach(function(chart) {
+		if(!chart.svg) return;
+		var svg = chart.svg();
+		if(!svg || !svg.node() || svg.attr("viewBox")) return;
+		svg.attr("viewBox", "0 0 " + chart.width() + " " + chart.height())
+			.attr("preserveAspectRatio", "xMidYMid meet");
+	});
 });
 
 // Makes the bootstrap tooltip run for votes from before states were contiguous.
