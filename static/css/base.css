@@ -587,6 +587,21 @@ span.party_header { padding-right: 20px; }
 .sortHeader { text-align:middle; padding-top: 3px; }
 .voteHeader { font-size: 19px; float: left; padding-right: 30px; text-align: middle; }
 #voteList { margin-top: 15px; width: 100%; min-width: 1100px; }
+
+/* voteTable.js picks 1-4 columns based on how many members are listed
+   (see .columns1-4 above), sized for desktop. Below the point where a
+   phone can't show even 2 of those columns at a readable width, force
+   a single column instead -- the alternative is a several-times-too-wide
+   layout that only reads normally after the user pinches out to see the
+   cut-off columns, which is what actually made the text look "tiny". */
+@media (max-width: 767px) {
+	#voteList { min-width: 0; }
+	.voteTable.columns2,
+	.voteTable.columns3,
+	.voteTable.columns4 {
+		columns: 1;
+	}
+}
 #vote_chart_float { position: static; padding-bottom: 20px; }
 #vote_chart_float .saveButton { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; color: black; }
 #vote_chart_float .xlsButton { margin-left: 5px; width: 22px; vertical-align: middle; }
