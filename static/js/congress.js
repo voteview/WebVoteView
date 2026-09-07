@@ -171,6 +171,7 @@ function nomPlot()
 	dc.filterAll();
 	dc.renderAll();
         decorateNominate(nominateScatterChart, resultCache);
+        setScatterViewBox(nominateScatterChart);
 
         // Make brush box appear on click
         var scb = nominateScatterChart.select(".brush");

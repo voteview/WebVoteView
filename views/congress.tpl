@@ -1,4 +1,6 @@
 % STATIC_URL = "/static/"
+% import random
+% cache_breaker = random.randint(10000, 99999)
 % rcSuffix = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 % rebase('base.tpl', title='Congress View', extra_css=['map.css', 'scatter.css'], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/jquery.tablesorter.min.js", "/static/js/libs/localStorage.js"])
 % include('header.tpl')
@@ -115,7 +117,7 @@ var tabular_view = 0;
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/d3.tip.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/congress.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/congress.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/memberTable.js?t={{cache_breaker}}"></script>

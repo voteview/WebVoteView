@@ -10,6 +10,34 @@ var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var globalPartyDimension = null;
 var globalData;
 
+// Give the map's SVG a viewBox matching its actual rendered content
+// (the union of all drawn path geometry) rather than mapChart's
+// configured width()/height() -- the geo projection doesn't exactly fill
+// that nominal canvas (it's inset a bit and slightly overflows the
+// right/bottom edges), so using width()/height() directly clipped the
+// map's right edge while leaving a blank margin on the left. Call this
+// once the map's paths are actually in the DOM.
+function setMapContentViewBox(chart, padding) {
+	var svg = chart.svg();
+	if (!svg || !svg.node() || svg.attr("viewBox")) return;
+	padding = (padding === undefined) ? 4 : padding;
+	var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+	svg.node().querySelectorAll("path").forEach(function(el) {
+		var b;
+		try { b = el.getBBox(); } catch(e) { return; }
+		if (b.width === 0 && b.height === 0) return;
+		minX = Math.min(minX, b.x);
+		minY = Math.min(minY, b.y);
+		maxX = Math.max(maxX, b.x + b.width);
+		maxY = Math.max(maxY, b.y + b.height);
+	});
+	if (!isFinite(minX)) return;
+	svg.attr("viewBox",
+		(minX - padding) + " " + (minY - padding) + " " +
+		(maxX - minX + 2 * padding) + " " + (maxY - minY + 2 * padding))
+		.attr("preserveAspectRatio", "xMidYMid meet");
+}
+
 // Makes the bootstrap tooltip run for votes from before states were contiguous.
 $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
 
@@ -565,7 +593,9 @@ function drawWidgets(error, data, geodata, usaboundaries)
 	// We are done defining everything, now let's just run our ancillary functions.
 	dc.renderAll();
 	d3.select("div#geoMap > span#map-chart > svg").select("g.layer0").select("g").select("path").attr("opacity", 0.3).attr("stroke", "#666666");
+	if(!failedMapLoad) setMapContentViewBox(mapChart);
         decorateNominate(nominateScatterChart, data);
+        setScatterViewBox(nominateScatterChart);
         addSponsorCircle(nominateScatterChart);
 	if(!failedMapLoad) mapChart.on("filtered", pollFilters);
 	votePartyChart.on("filtered", pollFilters);
@@ -626,5 +656,6 @@ function doFullFilterReset()
 	dc.redrawAll();
 	// Re-apply our decoration hack.
 	decorateNominate(nominateScatterChart, globalData);
+	setScatterViewBox(nominateScatterChart);
 	//updateVoteChart();
 }

@@ -1,4 +1,6 @@
 % STATIC_URL = "/static/"
+% import random
+% cache_breaker = random.randint(10000, 99999)
 % rebase('base.tpl', title=plot_title, extra_css=["map.css","scatter.css", "bootstrap-slider.css"], extra_js=["/static/js/libs/saveSvgAsPng.js", "/static/js/libs/bootstrap-slider.min.js", "/static/js/libs/sticky-kit.min.js", "/static/js/stateMeta.js"])
 % include('header.tpl')
 
@@ -130,7 +132,9 @@
 					<button type="button" class="link-button" onclick="javascript:outVotes('prob');return false;">Vote Probability</button>)
 				</div>
 			</div>
-			<div id="voteList"></div>
+			<div class="voteListScroll">
+				<div id="voteList"></div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -164,10 +168,10 @@ var nomBeta = {{ nom_beta }};
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/crossfilter.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/dc.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/libs/topojson.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/mapPanZoom.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/voteCharts.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/voteFilterbar.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/nominateHeatMap.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/mapPanZoom.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/decorate.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/colorMap.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/voteCharts.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/voteTable.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/voteFilterbar.js?t={{cache_breaker}}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/nominateHeatMap.js?t={{cache_breaker}}"></script>
