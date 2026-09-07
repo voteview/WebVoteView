@@ -91,9 +91,11 @@ button.link-button:focus {
 }
 
 #scatter-container {
-    width: 890px;
+    width: 100%;
+    max-width: 890px;
     height: 425px;
     position: relative;
+    overflow-x: auto;
 }
 
 #scatter-bg, 
@@ -187,6 +189,11 @@ button.link-button:focus {
 
 
 /* Maps and charts */
+.dc-chart {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .dc-chart g.row text {
   fill: black;
 }
@@ -269,11 +276,11 @@ line.cutline {
 
 .tooltip > .tooltip-inner { opacity: 0.9; }
 .tooltip > .tooltip-arrow { opacity: 0.9; }
-.left-tooltip + .tooltip > .tooltip-inner { text-align:left; min-width:400px;}
+.left-tooltip + .tooltip > .tooltip-inner { text-align:left; width:400px; max-width:calc(100vw - 40px); }
 
 #memberList
 {
-	min-width: 800px;
+	min-width: 0;
 }
 
 ul#memberList.geography
@@ -549,7 +556,7 @@ span.party_header { padding-right: 20px; }
 .roster_header { padding-bottom: 20px; }
 .roster_header h4 { display:inline; }
 #memberList { columns: auto 4; list-style-type: none; overflow: auto; width: 100%; margin-bottom: 60px; }
-#memberTextList { margin-bottom: 40px; }
+#memberTextList { margin-bottom: 40px; overflow-x: auto; }
 .save_icon { margin-left: 5px; font-size: 22px; vertical-align: middle; cursor: pointer; } 
 #scatter-container { margin: 0 auto 10px auto; }
 #filterName { float: right; }
@@ -568,7 +575,7 @@ span.party_header { padding-right: 20px; }
 #geoMap h4 { float: left; clear: none; vertical-align: middle; }
 #geoMap .glyphicon-save { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; }
 #geoMap .noteText { margin-left: 5px; width: 22px; vertical-align: middle; }
-#geoMap #map-chart { margin-top: 10px; padding: 10px; vertical-align: bottom; }
+#geoMap #map-chart { display: inline-block; max-width: 100%; overflow-x: auto; margin-top: 10px; padding: 10px; vertical-align: bottom; }
 #geoMap #map-chart #zoomIn { position: absolute; left: 25px; top: 40px; width: 30px; height: 30px; }
 #geoMap #map-chart #zoomOut { position: absolute; left: 25px; top: 80px; width: 30px; height: 30px; }
 #geoMap #map-chart #suppressMapControls { display: none; }
@@ -586,6 +593,7 @@ span.party_header { padding-right: 20px; }
 #selectionFilterBar #sparse-selection { display: none; }
 .sortHeader { text-align:middle; padding-top: 3px; }
 .voteHeader { font-size: 19px; float: left; padding-right: 30px; text-align: middle; }
+.voteListScroll { overflow-x: auto; }
 #voteList { margin-top: 15px; width: 100%; min-width: 1100px; }
 #vote_chart_float { position: static; padding-bottom: 20px; }
 #vote_chart_float .saveButton { margin-left: 5px; font-size: 18px; vertical-align: middle; cursor: pointer; color: black; }
@@ -689,7 +697,7 @@ h5.congSelector small { padding-left: 10px; }
 .bottomPad { padding-bottom: 20px; }
 .member_flag { width: 20px; vertical-align: middle; }
 .personSearch { padding-top: 10px; padding-bottom: 10px; clear: both; }
-.loadVotes { float: right; padding-top: 12px; min-width: 400px; width: 400px; }
+.loadVotes { float: right; padding-top: 12px; width: 400px; max-width: 100%; }
 .member_vote_load {
 	position: fixed;
 	top: 50%;
