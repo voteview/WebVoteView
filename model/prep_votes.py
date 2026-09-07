@@ -199,16 +199,15 @@ def sort_votes_by_column(votes, sort_col, sort_dir):
         votes.sort(key=lambda v: order.get(v.get("myVote", "Abs"), 1),
                    reverse=reverse)
     elif sort_col == 4:  # Vote Probability
-        # Votes without an estimated probability (abstentions on the member,
-        # lopsided votes where NOMINATE skips the estimate) always sink to the
-        # bottom, regardless of sort direction.
-        def prob_key(v):
-            prob = int(round(v["myProb"]))
-            return prob if v.get("myVote") == "Abs" else 1000 + prob
-        blanks = [v for v in votes if "myProb" not in v]
-        with_prob = [v for v in votes if "myProb" in v]
-        with_prob.sort(key=prob_key, reverse=reverse)
-        votes = with_prob + blanks
+        # Abstentions and votes without an estimated probability (lopsided
+        # votes where NOMINATE skips the estimate) always sink to the bottom,
+        # regardless of sort direction.
+        sunk = [v for v in votes
+                if v.get("myVote") == "Abs" or "myProb" not in v]
+        with_prob = [v for v in votes
+                     if v.get("myVote") != "Abs" and "myProb" in v]
+        with_prob.sort(key=lambda v: int(round(v["myProb"])), reverse=reverse)
+        votes = with_prob + sunk
     elif sort_col == 5:  # Result (yea / total ratio, mirrors splitFunc)
         def result_key(v):
             yea = v.get("yea_count") or 0

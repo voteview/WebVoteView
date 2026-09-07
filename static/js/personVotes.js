@@ -71,7 +71,10 @@ function nextPageSearch()
 					currentSortDir = -currentSortDir;
 				} else {
 					currentSortCol = colIndex;
-					currentSortDir = -1;
+					// Vote Probability defaults to ascending (lowest first) so
+					// the most surprising votes surface at the top; other
+					// columns keep descending as the first click.
+					currentSortDir = colIndex === 4 ? 1 : -1;
 				}
 				globalNextId = 0;
 				nextPageSearch();
