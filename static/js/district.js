@@ -14,6 +14,10 @@ let cachedCoords = [];
 let initialLoad = 0;
 let markerPos;
 
+function hideDistrictRowTooltip() {
+	$("#tooltipIdeology").css("visibility", "hidden");
+}
+
 // From stackoverflow response, who borrowed it from Shopify--simple ordinal
 // suffix.
 function getGetOrdinal(n) {
@@ -370,35 +374,40 @@ function buildResult(v, lastResult, tbody, myResults) {
 			${v["bioname"]}</a>`)
 		.appendTo(tr);
 
-	// Use a closure to pin tooltips onto each row.
-	((v) => {
-		tr.on("mouseover", () => {
-			console.log($(this).children(".ideology").offset().left);
-			$("#tooltipIdeology").html("");
-			const ideologyTooltip = `<strong>DW-NOMINATE</strong>: \
-				${v["nominate"]["dim1"]}<br/><small>Scores from \
-				-1 (Very Liberal) to 1 (Very Conservative)</small>`;
-			if (v["nominate"] != undefined) {
-				$("#tooltipIdeology").html(ideologyTooltip);
-			} else {
-				$("#tooltipIdeology")
-					.html("<strong>No Ideology Score</strong>");
-			}
+	// Pin a tooltip to this row. (Previously used $(this) inside an
+	// arrow function, which doesn't rebind `this` -- it referred to
+	// whatever `this` was outside, not the row, so .offset() threw and
+	// the tooltip never actually appeared. Use `tr` directly instead,
+	// which is already the correct row for this closure.)
+	function showDistrictRowTooltip() {
+		$("#tooltipIdeology").html("");
+		const ideologyTooltip = `<strong>DW-NOMINATE</strong>: \
+			${v["nominate"]["dim1"]}<br/><small>Scores from \
+			-1 (Very Liberal) to 1 (Very Conservative)</small>`;
+		if (v["nominate"] != undefined) {
+			$("#tooltipIdeology").html(ideologyTooltip);
+		} else {
+			$("#tooltipIdeology")
+				.html("<strong>No Ideology Score</strong>");
+		}
 
-			$("#tooltipIdeology").removeClass().addClass("d3-tip");
-			$("#tooltipIdeology")
-				.css("left",
-					 ($(this).children(".ideology").offset().left -
-					  $("#tooltipIdeology").width() - 25) + "px");
-			$("#tooltipIdeology")
-				.css("top", $(this).offset().top + "px");
-			$("#tooltipIdeology")
-				.css("visibility", "visible");
-		});
-		tr.on("mouseout", () => {
-			$("#tooltipIdeology").css("visibility", "hidden");
-		});
-	})(v);
+		$("#tooltipIdeology").removeClass().addClass("d3-tip");
+		$("#tooltipIdeology")
+			.css("left",
+				 (tr.children(".ideology").offset().left -
+				  $("#tooltipIdeology").width() - 25) + "px");
+		$("#tooltipIdeology")
+			.css("top", tr.offset().top + "px");
+		$("#tooltipIdeology")
+			.css("visibility", "visible");
+	}
+	// Touch has no hover, but doesn't need a tap-to-show alternative here
+	// the way the other tooltip sites do: this row is a full navigation
+	// link (see the click handler above), so a tap already takes a touch
+	// user to this member's own page -- with the same ideology score in
+	// fuller context -- before a tooltip could matter.
+	tr.on("mouseover", showDistrictRowTooltip);
+	tr.on("mouseout", hideDistrictRowTooltip);
 
 	tr.appendTo(tbody);
 
