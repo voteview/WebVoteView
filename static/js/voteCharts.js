@@ -10,6 +10,24 @@ var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var globalPartyDimension = null;
 var globalData;
 
+// Give every DC.js chart's SVG a viewBox so CSS (.dc-chart > svg in
+// base.css) can scale it to fit its container instead of overflowing it.
+// dc.renderlet is a page-global hook: dc.renderAll()/dc.redrawAll() invoke
+// it as dc._renderlet(group), passing the chart-group name (not a chart),
+// so look the actual charts up via dc.chartRegistry, the same way dc.js
+// itself does internally. The viewBox is only set once (skipped if one is
+// already present), so this doesn't fight with mapChart's own pan/zoom
+// viewBox management in mapPanZoom.js.
+dc.renderlet(function(group) {
+	dc.chartRegistry.list(group).forEach(function(chart) {
+		if(!chart.svg) return;
+		var svg = chart.svg();
+		if(!svg || !svg.node() || svg.attr("viewBox")) return;
+		svg.attr("viewBox", "0 0 " + chart.width() + " " + chart.height())
+			.attr("preserveAspectRatio", "xMidYMid meet");
+	});
+});
+
 // Makes the bootstrap tooltip run for votes from before states were contiguous.
 $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});
 

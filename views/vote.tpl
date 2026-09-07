@@ -130,7 +130,9 @@
 					<button type="button" class="link-button" onclick="javascript:outVotes('prob');return false;">Vote Probability</button>)
 				</div>
 			</div>
-			<div id="voteList"></div>
+			<div class="voteListScroll">
+				<div id="voteList"></div>
+			</div>
 		</div>
 	</div>
 </div>
