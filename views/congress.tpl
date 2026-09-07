@@ -42,6 +42,7 @@
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG"
 					onclick="javascript:saveSvgAsPng($('#scatter-chart > svg')[0],'plot_{{member_label}}_{{congress}}.png', {backgroundColor: 'white'}); return false;"
 					></span>
+				<button type="button" id="regionSelectToggle" class="link-button touch-only-control" aria-pressed="false">Select region</button>
 				</h4>
 
 				<div id="scatter-container">

@@ -173,12 +173,50 @@ function nomPlot()
         decorateNominate(nominateScatterChart, resultCache);
         setScatterViewBox(nominateScatterChart);
 
+        // "Select region" mode for touch: tap two opposite corners to draw
+        // a selection rectangle, since there's no reliable drag gesture on
+        // touch to draw one directly (tap-to-select-one-point below
+        // already works fine on touch, since a tap synthesizes a click
+        // event same as a mouse would produce).
+        var regionSelectMode = false;
+        var regionSelectFirstCorner = null;
+        var regionSelectToggle = document.getElementById("regionSelectToggle");
+        function setRegionSelectMode(on) {
+		regionSelectMode = on;
+		regionSelectFirstCorner = null;
+		if (regionSelectToggle) {
+			regionSelectToggle.setAttribute("aria-pressed", on ? "true" : "false");
+			regionSelectToggle.textContent = on ? "Tap first corner…" : "Select region";
+		}
+	}
+	if (regionSelectToggle) {
+		regionSelectToggle.addEventListener("click", function() {
+			setRegionSelectMode(!regionSelectMode);
+		});
+	}
+
         // Make brush box appear on click
         var scb = nominateScatterChart.select(".brush");
         scb.on('click', function(){
-  	  var extent = nominateScatterChart.brush().extent();
 	  var x = nominateScatterChart.x().invert(d3.mouse(this)[0]),
 	      y = nominateScatterChart.y().invert(d3.mouse(this)[1]);
+
+	  if (regionSelectMode) {
+		  if (!regionSelectFirstCorner) {
+			  regionSelectFirstCorner = [x, y];
+			  regionSelectToggle.textContent = "Tap opposite corner…";
+			  return;
+		  }
+		  var x1 = regionSelectFirstCorner[0], y1 = regionSelectFirstCorner[1];
+		  nominateScatterChart.brush().extent([
+			  [Math.min(x1, x), Math.min(y1, y)],
+			  [Math.max(x1, x), Math.max(y1, y)]
+		  ]).event(scb);
+		  setRegionSelectMode(false);
+		  return;
+	  }
+
+  	  var extent = nominateScatterChart.brush().extent();
 	  // Only draw box if there isn't one already there...
  	  if (extent[0][0]==extent[1][0] & extent[0][1]==extent[1][1]) {
 	      if (x*x + y*y <= 1) {

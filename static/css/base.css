@@ -573,7 +573,17 @@ span.party_header { padding-right: 20px; }
 .roster_header h4 { display:inline; }
 #memberList { columns: auto 4; list-style-type: none; overflow: auto; width: 100%; margin-bottom: 60px; }
 #memberTextList { margin-bottom: 40px; overflow-x: auto; }
-.save_icon { margin-left: 5px; font-size: 22px; vertical-align: middle; cursor: pointer; } 
+.save_icon { margin-left: 5px; font-size: 22px; vertical-align: middle; cursor: pointer; }
+
+/* Only touch devices need a "select region" toggle -- mouse/trackpad
+   users already draw a selection box by dragging. */
+.touch-only-control { display: none; }
+@media (pointer: coarse) {
+	.touch-only-control { display: inline-block; }
+}
+#regionSelectToggle { margin-left: 10px; font-size: 14px; }
+#regionSelectToggle[aria-pressed="true"] { font-weight: bold; text-decoration: underline; }
+
 #scatter-container { margin: 0 auto 10px auto; }
 #filterName { float: right; }
 .column1 { columns: 1 !important; width: 25% !important; }
