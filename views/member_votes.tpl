@@ -52,7 +52,7 @@
 				%	voteFieldsQ = ["vote_question", "question"]
 				%	for v in voteFieldsQ:
 				%		if v in vote and vote[v] is not None and len(vote[v]):
-							<em>{{vote[v]}}</em>
+							<br/><span class="text-muted">Question:</span> <em>{{vote[v]}}</em>
 				%			break
 				%		end
 				%	end
