@@ -81,6 +81,7 @@
 					data-toggle="tooltip" data-position="bottom" data-html="true" title="Save Plot as PNG">
 				</button>
 				<img src="/static/img/help.png" alt="Help: click and drag on the plot to focus on selected members." class="noteText left-tooltip noprint" style="width:16px;vertical-align:middle;cursor:default;" data-toggle="tooltip" data-position="bottom" data-html="true" title="Click and drag on the plot to draw a box around the members you want to focus on. Once the box is established, you can drag it around to explore different subsets of members. By drawing a very small box and dragging it across the plot, you can identify individual members one at a time. To clear the selection, click the &times; at the bottom of the page.">
+				<button type="button" id="regionSelectToggle" class="link-button touch-only-control" aria-pressed="false">Select region</button>
 			</h4>
 
 			<div id="scatter-container">
