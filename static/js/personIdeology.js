@@ -1,3 +1,26 @@
+// Tooltips bound only to mouseover/mouseout are invisible on touch
+// devices, and it's not safe to just add a tap alongside them -- touch
+// devices synthesize a mouseover/click sequence for a tap, but
+// unreliably (a synthetic mouseout can follow right after the tap once
+// whatever the tap triggers redraws the chart). This replaces the hover
+// bindings entirely on coarse-pointer devices, driving the tooltip from
+// taps only.
+function addTouchTooltip(selection, showFn, hideFn) {
+	if (!window.matchMedia || !window.matchMedia("(pointer: coarse)").matches) return;
+	selection.on("mouseover", null).on("mouseout", null).on("mousemove", null);
+	selection.on("click.touchTooltip", function(d, i) {
+		d3.event.stopPropagation();
+		showFn.call(this, d, i);
+	});
+	document.addEventListener("click", function(e) {
+		var tappedInside = false;
+		selection.each(function() {
+			if (this === e.target || this.contains(e.target)) { tappedInside = true; }
+		});
+		if (!tappedInside) { hideFn(); }
+	});
+}
+
 $("#congSelector").change(reloadIdeology);
 $(".nav-tabs > li > a").click(switchTab);
 
@@ -246,12 +269,14 @@ function fillLoyaltyDrawHist(error, data)
 	});
 
 	// Attach the tooltips.
+	function showBucketTooltip(d) { if(d.x==memberIdealBucket) { labelTip.attr('class','d3-tip animate').offset([-10,0]).show(d); }}
+	function hideBucketTooltip(d) { labelTip.attr('class','d3-tip').hide(); }
 	nominateHist.on("postRender", function(c){
-		c.svg()
-		.selectAll("rect")
-		.call(labelTip)
-		.on('mouseover', function(d) { if(d.x==memberIdealBucket) { labelTip.attr('class','d3-tip animate').offset([-10,0]).show(d); }}) 
-		.on('mouseout', function(d) { labelTip.attr('class','d3-tip').hide(); })
+		var histBars = c.svg().selectAll("rect").call(labelTip);
+		histBars
+		.on('mouseover', showBucketTooltip)
+		.on('mouseout', hideBucketTooltip);
+		addTouchTooltip(histBars, showBucketTooltip, hideBucketTooltip);
 	});
 
 	// Turn off y axis ticks, since they are not meaningful here.
