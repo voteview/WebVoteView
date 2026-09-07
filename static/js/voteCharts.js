@@ -10,6 +10,34 @@ var nominateScatterChart = dc.scatterPlot("#scatter-chart");
 var globalPartyDimension = null;
 var globalData;
 
+// Tooltips bound only to mouseover/mouseout/mousemove are invisible on
+// devices whose primary input has no hover (touch) -- and it's not safe
+// to just add a tap alongside them, either: touch devices synthesize a
+// mouseover/mousemove/click sequence for a tap, but unreliably. In
+// testing, a synthetic mouseout consistently followed right after the
+// tap (once the resulting filter change redraws the chart), which would
+// hide the tooltip the instant it appeared. So for coarse-pointer
+// devices this drops the hover bindings entirely and drives the tooltip
+// from taps only -- reusing the exact same show/hide functions already
+// bound to mouseover/mouseout, so content and positioning logic isn't
+// duplicated. Mouse/trackpad hover behavior (when this isn't called, or
+// on fine-pointer devices) is untouched.
+function addTouchTooltip(selection, showFn, hideFn) {
+	if (!window.matchMedia || !window.matchMedia("(pointer: coarse)").matches) return;
+	selection.on("mouseover", null).on("mouseout", null).on("mousemove", null);
+	selection.on("click.touchTooltip", function(d, i) {
+		d3.event.stopPropagation();
+		showFn.call(this, d, i);
+	});
+	document.addEventListener("click", function(e) {
+		var tappedInside = false;
+		selection.each(function() {
+			if (this === e.target || this.contains(e.target)) { tappedInside = true; }
+		});
+		if (!tappedInside) { hideFn(); }
+	});
+}
+
 // Give the map's SVG a viewBox matching its actual rendered content
 // (the union of all drawn path geometry) rather than mapChart's
 // configured width()/height() -- the geo projection doesn't exactly fill
@@ -551,42 +579,50 @@ function drawWidgets(error, data, geodata, usaboundaries)
 			})
 			.renderTitle(false) // No default tooltips if you mouse over the map.
 			.on("postRender", function(c){ // Attach the tooltip code.
-				c.svg() // Chart SVG
-					.selectAll("path") // Attach the listeners to every path (district) item in the SVG
-					.on('mouseover', function(d,i) // When you mouseover, it's a new district, set up the tooltip and make it visible
-					{
-						var districtSet = c.data();
-						var result = $.grep(c.data(), function(e){
-							return e.key == d.id;
-						});
-						if(result[0] == undefined)
-						{
-							if(checkUnincorporated(d.id, congressNum))
-							{
-								baseToolTip.html("<p><strong>Unincorporated Land</strong></p> This area was unincorporated at the time of the vote.");
-							}
-							else
-							{
-								if(d.id == undefined) { return; }
-								baseToolTip.html("<p><strong>"+d.id+"</strong></p> This district was vacant at the time of the vote.");
-							}
-						}
-						else { baseToolTip.html(tooltipText(result[0])); }
-						eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
-						eW = baseToolTip.style("width");
-						baseToolTip.style("transition", "opacity 0.15s linear");
-						baseToolTip.style("visibility", "visible").style("opacity", "1");
-					})
-					.on('mouseout', function()
-					{
-						baseToolTip.style("transition", "visibility 0s linear 0.15s,opacity 0.15s linear");
-						baseToolTip.style("opacity", "0").style("visibility", "hidden");
-					}) // If you mouse out of the districts, hide the tooltip
-					.on('mousemove', function(d, i){ // If you move your mouse within the district, update the position of the tooltip.
-						baseToolTip
-						.style("top", (event.pageY + 32) + "px")
-						.style("left", (event.pageX - (parseInt(eW.substr(0, eW.length - 2)) / 2)) + "px");
+				function showDistrictTooltip(d, i) // When you mouseover, it's a new district, set up the tooltip and make it visible
+				{
+					var districtSet = c.data();
+					var result = $.grep(c.data(), function(e){
+						return e.key == d.id;
 					});
+					if(result[0] == undefined)
+					{
+						if(checkUnincorporated(d.id, congressNum))
+						{
+							baseToolTip.html("<p><strong>Unincorporated Land</strong></p> This area was unincorporated at the time of the vote.");
+						}
+						else
+						{
+							if(d.id == undefined) { return; }
+							baseToolTip.html("<p><strong>"+d.id+"</strong></p> This district was vacant at the time of the vote.");
+						}
+					}
+					else { baseToolTip.html(tooltipText(result[0])); }
+					eH = baseToolTip.style("height"); // We need these for centering the tooltip appropriately.
+					eW = baseToolTip.style("width");
+					baseToolTip.style("transition", "opacity 0.15s linear");
+					baseToolTip.style("visibility", "visible").style("opacity", "1");
+					// On a tap (no mousemove to position it afterwards), center
+					// the tooltip under the tapped point instead of leaving it
+					// wherever it last was.
+					if(d3.event && d3.event.type == "click") { positionDistrictTooltip(); }
+				}
+				function hideDistrictTooltip()
+				{
+					baseToolTip.style("transition", "visibility 0s linear 0.15s,opacity 0.15s linear");
+					baseToolTip.style("opacity", "0").style("visibility", "hidden");
+				} // If you mouse out of the districts, hide the tooltip
+				function positionDistrictTooltip() { // If you move your mouse within the district, update the position of the tooltip.
+					baseToolTip
+					.style("top", (event.pageY + 32) + "px")
+					.style("left", (event.pageX - (parseInt(eW.substr(0, eW.length - 2)) / 2)) + "px");
+				}
+				var districtPaths = c.svg().selectAll("path"); // Attach the listeners to every path (district) item in the SVG
+				districtPaths
+					.on('mouseover', showDistrictTooltip)
+					.on('mouseout', hideDistrictTooltip)
+					.on('mousemove', positionDistrictTooltip);
+				addTouchTooltip(districtPaths, showDistrictTooltip, hideDistrictTooltip);
 			});
 	}
 
