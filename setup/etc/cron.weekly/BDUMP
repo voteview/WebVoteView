@@ -1,15 +1,56 @@
 #!/bin/bash
-DATE=`date +%Y-%m-%d`
-cd /tmp/
-rm -rf dump
-mongodump --db voteview -c voteview_rollcalls
-mongodump --db voteview -c voteview_members
-mongodump --db voteview -c voteview_parties
-mongodump --db voteview -c voteview_articles
-zip $DATE-voteview.zip dump/voteview/*
-# rm -rf dump
-mv $DATE-voteview.zip /var/www/voteview/static/db/
-cd /var/www/voteview/static/db/
-ls -tp | grep -v '/$' | tail -n +10 | xargs -I {} rm -- {}
-unlink current.zip
-ln -s $DATE-voteview.zip current.zip
+#
+# Weekly public database dump. Produces static/db/YYYY-MM-DD-voteview.zip and
+# repoints static/db/current.zip at it. Linked from /data as the "Complete
+# database" download, and listed by /past_data.
+#
+# Install: cp this to /etc/cron.weekly/BDUMP && chmod +x /etc/cron.weekly/BDUMP
+#
+# Nothing is published unless the dump and the zip both succeed, so a failed
+# run leaves the previous week's archive in place rather than replacing it
+# with a truncated one.
+
+set -euo pipefail
+
+DB="voteview"
+COLLECTIONS=(voteview_rollcalls voteview_members voteview_parties voteview_articles)
+DEST="/var/www/voteview/static/db"
+KEEP=10
+
+DATE=$(date +%Y-%m-%d)
+ARCHIVE="$DATE-$DB.zip"
+
+# Build in a private scratch dir and remove it on every exit path, success or
+# failure. mongodump output is ~3GB and is fully redundant with the zip.
+WORK=$(mktemp -d -t bdump-XXXXXXXX)
+trap 'rm -rf "$WORK"' EXIT
+
+# Keep the archive's internal layout as dump/<db>/*.bson so the contents can be
+# fed straight to mongorestore.
+cd "$WORK"
+for collection in "${COLLECTIONS[@]}"; do
+	mongodump --quiet --db "$DB" -c "$collection" --out dump
+done
+
+# A dump that produced no BSON at all means something went wrong quietly.
+if ! compgen -G "dump/$DB/*.bson" > /dev/null; then
+	echo "BDUMP: mongodump produced no collections, aborting" >&2
+	exit 1
+fi
+
+zip -q -r "$ARCHIVE" "dump/$DB"
+zip -qT "$ARCHIVE"
+
+# Publish. Land the archive on the destination filesystem under a temporary
+# name first so the final rename into place is atomic, then swap the symlink
+# the same way -- current.zip is never briefly missing or half-written.
+mv "$ARCHIVE" "$DEST/.$ARCHIVE.incoming"
+mv -f "$DEST/.$ARCHIVE.incoming" "$DEST/$ARCHIVE"
+
+ln -sfn "$ARCHIVE" "$DEST/.current.zip.incoming"
+mv -Tf "$DEST/.current.zip.incoming" "$DEST/current.zip"
+
+# Retain the newest $KEEP archives. The glob matches dated archives only, so
+# neither current.zip nor .gitkeep is ever a deletion candidate.
+cd "$DEST"
+ls -1t -- *-"$DB".zip | tail -n +$((KEEP + 1)) | xargs -r rm -f --
